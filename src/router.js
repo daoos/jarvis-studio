@@ -1,33 +1,46 @@
 import Vue from "vue";
 import Router from "vue-router";
-import Home from "./views/Home.vue";
+import paths from "./router/paths";
+import store from "./store";
 
 Vue.use(Router);
 
-export default new Router({
-  routes: [
-    {
-      path: "/",
-      name: "home",
-      component: Home
-    },
-    {
-      path: "/signin",
-      name: "signin",
-      meta: {
-        public: true
-      },
-      component: () =>
-        import(/* webpackChunkName: "signin" */ "@/views/Signin.vue")
-    },
-    {
-      path: "/about",
-      name: "about",
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () =>
-        import(/* webpackChunkName: "about" */ "@/views/About.vue")
-    }
-  ]
+const router = new Router({
+  base: process.env.BASE_URL,
+  mode: "history",
+  linkActiveClass: "active",
+  routes: paths
 });
+
+// router gards
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.authRequired)) {
+    // this route requires auth, check if logged in
+    // if not, redirect to login page.
+    console.log(store);
+    if (store.getters.isAuthenticated) {
+      next();
+    } else {
+      //waiting from auto login to check if a user was logged in the session
+      setTimeout(function() {
+        if (store.getters.isAuthenticated) {
+          next();
+        } else {
+          next({
+            path: "/signin",
+            query: { redirect: to.fullPath }
+          });
+        }
+      }, 2000);
+    }
+  } else {
+    next(); // make sure to always call next()!
+  }
+});
+
+// Stop the loading picto
+router.afterEach(() => {
+  //NProgress.done();
+});
+
+export default router;

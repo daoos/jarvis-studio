@@ -2,12 +2,10 @@
   <div id="appRoot">
     <template v-if="!$route.meta.public">
       <v-app id="jarvis-console" dark>
-        <v-toolbar
-          app
-          fixed
-          :clipped-left="$vuetify.breakpoint.lgAndUp"
-        >
-          <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
+        <v-toolbar app fixed :clipped-left="$vuetify.breakpoint.lgAndUp">
+          <v-toolbar-side-icon
+            @click.stop="drawer = !drawer"
+          ></v-toolbar-side-icon>
           <v-toolbar-title style="width: 240px" class="ml-0 pl-3">
             <span class="hidden-sm-and-down">JARVIS</span>
           </v-toolbar-title>
@@ -26,13 +24,40 @@
           <v-btn icon>
             <v-icon>notifications</v-icon>
           </v-btn>
-          <v-btn icon large>
-            <v-avatar size="32px" tile>
-              <img
-                src="https://cdn.vuetifyjs.com/images/logos/logo.svg"
-                alt="Vuetify"
+          <v-menu
+            offset-y
+            origin="center center"
+            :nudge-bottom="10"
+            transition="scale-transition"
+          >
+            <template v-slot:activator="{ on }">
+              <v-btn icon large v-on="on">
+                <v-avatar size="32px" v-if="isAuthenticated">
+                  <img :src="user.photoURL" :alt="user.displayName" />
+                </v-avatar>
+              </v-btn>
+            </template>
+            <v-list>
+              <v-list-tile
+                v-for="(item, index) in userSettingsItems"
+                :key="index"
+                :href="item.href"
+                @click="item.click"
+                :disabled="item.disabled"
+                :target="item.target"
+                rel="noopener"
               >
-            </v-avatar>
+                <v-list-tile-action v-if="item.icon">
+                  <v-icon>{{ item.icon }}</v-icon>
+                </v-list-tile-action>
+                <v-list-tile-content>
+                  <v-list-tile-title>{{ item.title }}</v-list-tile-title>
+                </v-list-tile-content>
+              </v-list-tile>
+            </v-list>
+          </v-menu>
+          <v-btn icon @click="handleFullScreen()">
+            <v-icon>fullscreen</v-icon>
           </v-btn>
         </v-toolbar>
         <v-navigation-drawer
@@ -42,7 +67,7 @@
           app
         >
           <v-list dense>
-            <v-list-tile @click="">
+            <v-list-tile @click="handleFullScreen">
               <v-list-tile-action>
                 <v-icon>dashboard</v-icon>
               </v-list-tile-action>
@@ -50,7 +75,7 @@
                 <v-list-tile-title>Dashboard</v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>
-            <v-list-tile @click="">
+            <v-list-tile @click="handleFullScreen">
               <v-list-tile-action>
                 <v-icon>settings</v-icon>
               </v-list-tile-action>
@@ -75,17 +100,48 @@
   </div>
 </template>
 <script>
-import HelloWorld from './components/HelloWorld'
+import { mapState } from "vuex";
+import Util from "@/util";
+import HelloWorld from "./components/HelloWorld";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
     HelloWorld
   },
-  data () {
-    return {
-      drawer: null
+  data: () => ({
+    drawer: null
+  }),
+  computed: {
+    ...mapState({
+      isAuthenticated: state => state.user.isAuthenticated,
+      user: state => state.user.user
+    }),
+    userSettingsItems() {
+      return [
+        {
+          title: "Settings",
+          href: "#",
+          icon: "account_circle",
+          click: e => {
+            this.$store.dispatch("userSignOut");
+          }
+        },
+        {
+          title: "Logout",
+          href: "#",
+          icon: "exit_to_app",
+          click: e => {
+            this.$store.dispatch("userSignOut");
+          }
+        }
+      ];
+    }
+  },
+  methods: {
+    handleFullScreen() {
+      Util.toggleFullScreen();
     }
   }
-}
+};
 </script>
