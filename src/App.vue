@@ -100,14 +100,13 @@
   </div>
 </template>
 <script>
+
 import { mapState } from "vuex";
 import Util from "@/util";
-import HelloWorld from "./components/HelloWorld";
 
 export default {
   name: "App",
   components: {
-    HelloWorld
   },
   data: () => ({
     drawer: null

@@ -17,11 +17,40 @@ export default [
       import(/* webpackChunkName: "signin" */ "@/views/Signin.vue")
   },
   {
-    path: "/about",
-    name: "about",
+    path: "/accounts",
+    name: "accounts",
+    meta: {
+      authRequired: true,
+      adminRequired: true
+    },
+    component: () =>
+      import(/* webpackChunkName: "accounts" */ "@/views/Accounts.vue")
+  },
+  {
+    path: "/dagruns",
+    name: "dagruns",
     meta: {
       authRequired: true
     },
-    component: () => import(/* webpackChunkName: "about" */ "@/views/About.vue")
+    component: () =>
+      import(/* webpackChunkName: "dagruns" */ "@/views/DagRuns.vue")
+  },
+  {
+    path: "/dagconfigurations",
+    name: "dagconfigurations",
+    meta: {
+      authRequired: true
+    },
+    component: () =>
+      import(/* webpackChunkName: "dagconfigurations" */ "@/views/DagConfigurations.vue")
+  },
+  {
+    path: "/mirrorgcsruns",
+    name: "mirrorgcsruns",
+    meta: {
+      authRequired: true
+    },
+    component: () =>
+      import(/* webpackChunkName: "mirrorgcsruns" */ "@/views/MirrorGcsRuns.vue")
   }
 ];

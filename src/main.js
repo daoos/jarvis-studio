@@ -2,21 +2,10 @@ import Vue from "vue";
 import "./plugins/vuetify";
 import App from "./App.vue";
 import router from "@/router";
-import store from "./store";
+import store from "@/store/index";
 import firebase from "firebase";
-import FirebaseConfig from "./firebase/config";
 
 Vue.config.productionTip = false;
-
-firebase.initializeApp(FirebaseConfig);
-
-firebase
-  .auth()
-  .setPersistence(firebase.auth.Auth.Persistence.SESSION)
-  .catch(function(error) {
-    // eslint-disable-next-line no-console
-    console.error(error.message);
-  });
 
 new Vue({
   router,
