@@ -5,7 +5,7 @@ export default [
     meta: {
       authRequired: true
     },
-    component: () => import(/* webpackChunkName: "about" */ "@/views/Home.vue")
+    component: () => import(/* webpackChunkName: "dagconfigurations" */ "@/views/DagConfigurations.vue")
   },
   {
     path: "/signin",

@@ -8,11 +8,7 @@ const gcpcloudfunctions = {
   // this object is your store module (will be added as '/myModule')
   // you can also add state/getters/mutations/actions
   state: {},
-  getters: {
-    data(state) {
-      return state.data;
-    }
-  },
+  getters: {},
   mutations: {},
   actions: {}
 };

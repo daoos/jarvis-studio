@@ -36,9 +36,15 @@ const userData = {
         .auth()
         .signInWithPopup(provider)
         .then(user => {
-          commit("setUser", user.user);
-          commit("setIsAuthenticated", true);
-          router.push("/");
+          if (user.user.email.split("@")[1] == "fashiondata.io") {
+            commit("setUser", user.user);
+            commit("setIsAuthenticated", true);
+            router.push("/");
+          } else {
+            commit("setUser", null);
+            commit("setIsAuthenticated", false);
+            router.push("/signin");
+          }
         })
         .catch(() => {
           commit("setUser", null);

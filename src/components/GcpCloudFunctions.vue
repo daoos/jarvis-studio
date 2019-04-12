@@ -1,7 +1,7 @@
 <template>
   <v-container grid-list-xl>
     <v-layout row wrap>
-      <h1>Gcp Cloud Functions:</h1>
+      <h1>Cloud Function Configurations:</h1>
       <v-flex xs12 offset-xs0>
         <v-card dark>
           <v-card-text>

@@ -67,20 +67,36 @@
           app
         >
           <v-list dense>
-            <v-list-tile @click="handleFullScreen">
+            <v-list-tile :to="{path: '/dagconfigurations'}">
               <v-list-tile-action>
-                <v-icon>dashboard</v-icon>
+                <v-icon>blur_linear</v-icon>
               </v-list-tile-action>
               <v-list-tile-content>
-                <v-list-tile-title>Dashboard</v-list-tile-title>
+                <v-list-tile-title>Dag Configurations</v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>
-            <v-list-tile @click="handleFullScreen">
+            <v-list-tile :to="{path: '/gcpcloudfunctions'}">
               <v-list-tile-action>
-                <v-icon>settings</v-icon>
+                <v-icon>settings_ethernet</v-icon>
               </v-list-tile-action>
               <v-list-tile-content>
-                <v-list-tile-title>Settings</v-list-tile-title>
+                <v-list-tile-title>Clound Function Configurations</v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
+            <v-list-tile :to="{path: '/mirrorgcsruns'}">
+              <v-list-tile-action>
+                <v-icon>swap_horiz</v-icon>
+              </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title>Mirror GCS Runs</v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
+            <v-list-tile :to="{path: '/dagruns'}">
+              <v-list-tile-action>
+                <v-icon>toys</v-icon>
+              </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title>Dag Runs</v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>
           </v-list>
