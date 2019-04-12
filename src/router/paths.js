@@ -27,6 +27,16 @@ export default [
       import(/* webpackChunkName: "accounts" */ "@/views/Accounts.vue")
   },
   {
+    path: "/gcpcloudfunctions",
+    name: "gcpcloudfunctions",
+    meta: {
+      authRequired: true,
+      adminRequired: true
+    },
+    component: () =>
+      import(/* webpackChunkName: "gcpcloudfunctions" */ "@/views/GcpCloudFunctions.vue")
+  },
+  {
     path: "/dagruns",
     name: "dagruns",
     meta: {

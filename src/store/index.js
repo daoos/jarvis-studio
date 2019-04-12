@@ -11,26 +11,21 @@ import VuexEasyFirestore from "vuex-easy-firestore";
 
 // Modules working with Vuex Easy Firestore
 import dagruns from "./dagruns";
-const dagrunsModule = VuexEasyFirestore([dagruns], {
-  logging: true,
-  FirebaseDependency: firebase
-});
 import dagconfigurations from "./dagconfigurations";
-const dagconfigurationsModule = VuexEasyFirestore([dagconfigurations], {
-  logging: true,
-  FirebaseDependency: firebase
-});
 import mirrorgcsruns from "./mirrorgcsruns";
-const mirrorgcsrunsModule = VuexEasyFirestore([mirrorgcsruns], {
-  logging: true,
-  FirebaseDependency: firebase
-});
+const easyFirestores = VuexEasyFirestore(
+  [dagruns, dagconfigurations, mirrorgcsruns],
+  {
+    logging: true,
+    FirebaseDependency: firebase
+  }
+);
 
 const storeData = {
   modules: {
     user: user
   },
-  plugins: [dagrunsModule, dagconfigurationsModule, mirrorgcsrunsModule]
+  plugins: [easyFirestores]
 };
 
 const store = new Vuex.Store(storeData);
@@ -40,7 +35,8 @@ initFirebase().catch(error => {
   // take user to a page stating an error occurred
   // (might be a connection error, or the app is open in another tab)
   router.push("/signin");
-  console.log(error);
+  // eslint-disable-next-line no-console
+  console.error(error);
 });
 
 export default store;

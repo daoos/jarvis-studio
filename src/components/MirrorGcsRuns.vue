@@ -1,13 +1,36 @@
 <template>
   <v-container grid-list-xl>
     <v-layout row wrap>
-      <h1>Mirror GCS Runs:</h1>
+      <div>
+        <h1>Mirror GCS Runs: {{ mirrorIdSelected }}</h1>
+      </div>
+      <v-spacer></v-spacer>
+      <v-menu offset-y right:true>
+        <template v-slot:activator="{ on }">
+          <v-btn
+            color="primary"
+            dark
+            v-on="on"
+          >
+            Select an account
+          </v-btn>
+        </template>
+        <v-list>
+          <v-list-tile
+            v-for="(mirrorItem, index) in mirrorIds"
+            :key="index"
+            @click="setAccount(mirrorItem.account)"
+          >
+            <v-list-tile-title>{{ mirrorItem.account }}</v-list-tile-title>
+          </v-list-tile>
+        </v-list>
+      </v-menu>
       <v-flex xs12 offset-xs0>
         <v-card dark>
-          <v-card-text>
+          <v-card-text >
             <vue-json-pretty
               :data="moduleJson"
-              :deep="5"
+              :deep="1"
               :show-double-quotes="true"
               :show-length="true"
               :show-line="false"
@@ -30,11 +53,22 @@ export default {
     VueJsonPretty
   },
   data: () => ({
-    json: {"status":200,"error":"","data":[{"news_id":51184,"title":"iPhone X Review: Innovative future with real black technology","source":"Netease phone"},{"news_id":51183,"title":"Traffic paradise: How to design streets for people and unmanned vehicles in the future?","source":"Netease smart"},{"news_id":51182,"title":"Teslamask's American Business Relations: The government does not pay billions to build factories","source":"AI Finance","members":["Daniel","Mike","John"]}]}
+    mirrorIds: [
+        { account: "mirror-fd-io-exc-jules-n-in" },
+        { account: "mirror-fd-io-exc-mip-in-all" },
+        { account: "mirror-fd-io-exc-pim-n-in" },
+        { account: "mirror-fd-io-exc-ysance-in-all" }
+      ],
+    mirrorIdSelected : null
   }),
-  created() {
-    //load the content of the module
-    store.dispatch("mirrorgcsruns/fetchAndAdd", {mirrorId: "mirror-fd-io-exc-jules-n-in"}).catch(console.error);
+  methods: {
+    setAccount: function (mirrorItem) {
+      // `this` fait référence à l'instance de Vue à l'intérieur de `methods`
+      store.dispatch('mirrorgcsruns/closeDBChannel', {clearModule: true});
+      this.$data.mirrorIdSelected = mirrorItem;
+      store.dispatch("mirrorgcsruns/fetchAndAdd", {mirrorId: this.$data.mirrorIdSelected}).catch(console.error);
+      console.log(store.state.mirrorgcsruns.data);
+    }
   },
   computed: {
     ...mapState({
@@ -42,7 +76,7 @@ export default {
       user: state => state.user.user
     }),
     moduleJson() {
-      return store.state.mirrorgcsruns.data;
+      return store.state.mirrorgcsruns.data
     }
   }
 };

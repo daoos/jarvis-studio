@@ -1,7 +1,7 @@
-const mirrorgcsruns = {
-  firestorePath: "{mirrorId}",
+const gcpcloudfunctions = {
+  firestorePath: "gcp-cloud-functions",
   firestoreRefType: "collection", // 'collection' or 'doc'
-  moduleName: "mirrorgcsruns",
+  moduleName: "gcpcloudfunctions",
   statePropName: "data",
   namespaced: true, // automatically added
 
@@ -17,4 +17,4 @@ const mirrorgcsruns = {
   actions: {}
 };
 
-export default mirrorgcsruns;
+export default gcpcloudfunctions;
