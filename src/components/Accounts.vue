@@ -34,17 +34,6 @@
           </v-card>
         </v-flex>
       </v-layout>
-        <v-btn
-          fab
-          bottom
-          right
-          color="blue"
-          dark
-          fixed
-          @click="dialog = !dialog"
-        >
-          <v-icon>add</v-icon>
-        </v-btn>
         <v-dialog v-model="dialog" width="800px">
           <v-card>
             <v-card-title

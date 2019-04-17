@@ -16,6 +16,7 @@ import mirrorgcsruns from "./mirrorgcsruns";
 import gcpcloudfunctions from "./gcpcloudfunctions";
 import accounts from "./accounts";
 import mirrorgcsconfigurations from "./mirrorgcsconfigurations";
+import mirrorExcGcsToGcsRuns from "./mirror-exc-gcs-to-gcs-runs";
 const easyFirestores = VuexEasyFirestore(
   [
     dagruns,
@@ -23,7 +24,8 @@ const easyFirestores = VuexEasyFirestore(
     mirrorgcsruns,
     gcpcloudfunctions,
     accounts,
-    mirrorgcsconfigurations
+    mirrorgcsconfigurations,
+    mirrorExcGcsToGcsRuns
   ],
   {
     logging: true,
