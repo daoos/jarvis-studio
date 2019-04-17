@@ -14,8 +14,17 @@ import dagruns from "./dagruns";
 import dagconfigurations from "./dagconfigurations";
 import mirrorgcsruns from "./mirrorgcsruns";
 import gcpcloudfunctions from "./gcpcloudfunctions";
+import accounts from "./accounts";
+import mirrorgcsconfigurations from "./mirrorgcsconfigurations";
 const easyFirestores = VuexEasyFirestore(
-  [dagruns, dagconfigurations, mirrorgcsruns, gcpcloudfunctions],
+  [
+    dagruns,
+    dagconfigurations,
+    mirrorgcsruns,
+    gcpcloudfunctions,
+    accounts,
+    mirrorgcsconfigurations
+  ],
   {
     logging: true,
     FirebaseDependency: firebase

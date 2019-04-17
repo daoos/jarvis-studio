@@ -7,7 +7,7 @@
           <v-card-text>
             <vue-json-pretty
               :data="moduleJson"
-              :deep="5"
+              :deep="1"
               :show-double-quotes="true"
               :show-length="true"
               :show-line="false"

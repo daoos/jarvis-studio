@@ -1,23 +1,105 @@
 <template>
-  <v-container grid-list-xl>
-    <v-layout row wrap>
+    <v-container grid-list-xl>
       <h1>Accounts:</h1>
-      <v-flex xs12 offset-xs0>
-        <v-card dark>
-          <v-card-text>
-            <vue-json-pretty
-              :data="moduleJson"
-              :deep="5"
-              :show-double-quotes="true"
-              :show-length="true"
-              :show-line="false"
+        <v-data-table
+          :headers="headers"
+          :items="accounts"
+          class="elevation-1"
+        >
+          <template v-slot:items="props">
+            <td>{{ props.item["account_name"] }}</td>
+            <td>{{ props.item["id"] }}</td>
+            <td>{{ props.item["dlk_gcp_id_project"] }}</td>
+            <td>{{ props.item["exc_gcp_id_project"]}}</td>
+          </template>
+          <template v-slot:no-data>
+            <v-alert :value="true" color="error" icon="warning">
+              Sorry, nothing to display here :(
+            </v-alert>
+          </template>
+        </v-data-table>
+        <v-layout row wrap>
+        <v-flex xs12 offset-xs0>
+          <v-card dark>
+            <v-card-text>
+              <vue-json-pretty
+                :data="accounts"
+                :deep="2"
+                :show-double-quotes="true"
+                :show-length="true"
+                :show-line="false"
+              >
+          </vue-json-pretty>
+            </v-card-text>
+          </v-card>
+        </v-flex>
+      </v-layout>
+        <v-btn
+          fab
+          bottom
+          right
+          color="blue"
+          dark
+          fixed
+          @click="dialog = !dialog"
+        >
+          <v-icon>add</v-icon>
+        </v-btn>
+        <v-dialog v-model="dialog" width="800px">
+          <v-card>
+            <v-card-title
+              class="black lighten-4 py-4 title"
             >
-        </vue-json-pretty>
-          </v-card-text>
-        </v-card>
-      </v-flex>
-    </v-layout>
-  </v-container>
+              Create Account
+            </v-card-title>
+            <v-container grid-list-sm class="pa-4">
+              <v-layout row wrap>
+                <v-flex xs6>
+                  <v-text-field
+                    prepend-icon="business"
+                    placeholder="Account Name"
+                  ></v-text-field>
+                </v-flex>
+                <v-flex xs6>
+                  <v-text-field
+                    prepend-icon="vpn_key"
+                    placeholder="Account ID"
+                  ></v-text-field>
+                </v-flex>
+                <v-flex xs6>
+                  <v-text-field
+                    prepend-icon="account_box"
+                    placeholder="Contact First Name"
+                  ></v-text-field>
+                </v-flex>
+                <v-flex xs6>
+                  <v-text-field
+                    placeholder="Contact Last Name"
+                  ></v-text-field>
+                </v-flex>
+                <v-flex xs12>
+                  <v-text-field
+                    prepend-icon="mail"
+                    placeholder="Email Contact Account"
+                  ></v-text-field>
+                </v-flex>
+                <v-flex xs12>
+                  <v-text-field
+                    prepend-icon="notes"
+                    placeholder="Notes"
+                  ></v-text-field>
+                </v-flex>
+              </v-layout>
+            </v-container>
+            <v-card-actions>
+              <v-btn flat color="primary">More</v-btn>
+              <v-spacer></v-spacer>
+              <v-btn flat color="primary" @click="dialog = false">Cancel</v-btn>
+              <v-btn flat @click="dialog = false">Save</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+      </v-container>
 </template>
 
 <script>
@@ -30,7 +112,32 @@ export default {
     VueJsonPretty
   },
   data: () => ({
-    json: {"status":200,"error":"","data":[{"news_id":51184,"title":"iPhone X Review: Innovative future with real black technology","source":"Netease phone"},{"news_id":51183,"title":"Traffic paradise: How to design streets for people and unmanned vehicles in the future?","source":"Netease smart"},{"news_id":51182,"title":"Teslamask's American Business Relations: The government does not pay billions to build factories","source":"AI Finance","members":["Daniel","Mike","John"]}]}
+    dialog: false,
+    headers: [
+          {
+            text: 'Account Name',
+            align: 'left',
+            sortable: true,
+            value: 'account_name'
+          },
+          { 
+            text: 'Account ID',
+            align: 'left',
+            sortable: true,
+            value: 'id' 
+          },
+          { 
+            text: 'Dlk Project ID',
+            align: 'left',
+            sortable: true,
+            value: 'dlk_gcp_id_project' },
+          { 
+            text: 'Exchange Project ID',
+            align: 'left',
+            sortable: true,
+            value: 'exc_gcp_id_project'
+          }
+        ]
   }),
   created() {
     //load the content of the module
@@ -41,8 +148,11 @@ export default {
       isAuthenticated: state => state.user.isAuthenticated,
       user: state => state.user.user
     }),
-    moduleJson() {
-      return store.state.accounts.data;
+    accounts() {
+      console.log("store.state.accounts.data");
+      console.log(store.state.accounts.data);
+      console.log(Object.values(store.state.accounts.data));
+      return Object.values(store.state.accounts.data);
     }
   }
 };

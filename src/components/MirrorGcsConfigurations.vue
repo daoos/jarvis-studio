@@ -1,7 +1,7 @@
 <template>
   <v-container grid-list-xl>
     <v-layout row wrap>
-      <h1>Cloud Function Configurations:</h1>
+      <h1>Mirror Gcs Configurations:</h1>
       <v-flex xs12 offset-xs0>
         <v-card dark>
           <v-card-text>
@@ -33,7 +33,10 @@ export default {
   }),
   created() {
     //load the content of the module
-    store.dispatch("gcpcloudfunctions/fetchAndAdd").catch(console.error);
+    const where = [ // an array of arrays
+      ['destination_bucket', 'array_contains', '*jules*'],
+    ]
+    store.dispatch("mirrorgcsconfigurations/fetchAndAdd", {where: [['destination_bucket', 'array-contains', 'mirror-fd-io-exc-jules-n-in']],}).catch(console.error);
   },
   computed: {
     ...mapState({
@@ -41,7 +44,7 @@ export default {
       user: state => state.user.user
     }),
     moduleJson() {
-      return store.state.gcpcloudfunctions.data;
+      return store.state.mirrorgcsconfigurations.data;
     }
   }
 };

@@ -5,7 +5,8 @@ export default [
     meta: {
       authRequired: true
     },
-    component: () => import(/* webpackChunkName: "dagconfigurations" */ "@/views/DagConfigurations.vue")
+    component: () =>
+      import(/* webpackChunkName: "dagconfigurations" */ "@/views/DagConfigurations.vue")
   },
   {
     path: "/signin",
@@ -62,5 +63,14 @@ export default [
     },
     component: () =>
       import(/* webpackChunkName: "mirrorgcsruns" */ "@/views/MirrorGcsRuns.vue")
+  },
+  {
+    path: "/mirrorgcsconfigurations",
+    name: "mirrorgcsconfigurations",
+    meta: {
+      authRequired: true
+    },
+    component: () =>
+      import(/* webpackChunkName: "mirrorgcsconfigurations" */ "@/views/MirrorGcsConfigurations.vue")
   }
 ];
