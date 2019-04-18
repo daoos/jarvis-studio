@@ -10,6 +10,8 @@
   "dependencies": {
     "core-js": "^2.6.5",
     "firebase": "^5.9.3",
+    "lodash": "^4.17.11",
+    "moment": "^2.24.0",
     "vue": "^2.6.6",
     "vue-json-pretty": "^1.6.0",
     "vue-router": "^3.0.1",

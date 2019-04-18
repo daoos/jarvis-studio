@@ -91,12 +91,12 @@
                 <v-list-tile-title>Mirror GCS Runs</v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>
-            <v-list-tile :to="{path: '/dagruns'}">
+            <v-list-tile :to="{path: '/mirrorexcgcstogbqruns'}">
               <v-list-tile-action>
-                <v-icon>toys</v-icon>
+                <v-icon>vertical_split</v-icon>
               </v-list-tile-action>
               <v-list-tile-content>
-                <v-list-tile-title>Dag Runs</v-list-tile-title>
+                <v-list-tile-title>GCS to GBQ Runs</v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>
           </v-list>
