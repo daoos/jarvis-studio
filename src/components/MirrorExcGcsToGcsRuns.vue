@@ -17,6 +17,7 @@
           :search="search"
           :loading="isFetchAndAdding"
           :expand="expand"
+          :pagination.sync="pagination"
           item-key="dag_run_id"
           class="elevation-5"
         >
@@ -111,6 +112,7 @@ export default {
     search: "",
     isFetchAndAdding: false,
     expand: false,
+    pagination : {'sortBy': 'dag_execution_date_formated', 'descending': true, 'rowsPerPage': 10},
     viewJson: false,
     viewedItem: {},
     headers: [
@@ -153,6 +155,7 @@ export default {
   created() {
     //load the content of the module
     this.$data.isFetchAndAdding = true;
+    
     store.dispatch("mirrorExcGcsToGcsRuns/fetchAndAdd", {limit: 0}).then(this.$data.isFetchAndAdding = false).catch(console.error);
   },
    methods: {
