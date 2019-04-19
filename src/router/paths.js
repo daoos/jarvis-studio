@@ -9,6 +9,14 @@ export default [
       import(/* webpackChunkName: "dagconfigurations" */ "@/views/DagConfigurations.vue")
   },
   {
+    path: "/home",
+    name: "homevue",
+    meta: {
+      authRequired: true
+    },
+    component: () => import(/* webpackChunkName: "home" */ "@/views/Home.vue")
+  },
+  {
     path: "/signin",
     name: "signin",
     meta: {

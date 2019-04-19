@@ -153,7 +153,7 @@ export default {
   created() {
     //load the content of the module
     this.$data.isFetchAndAdding = true;
-    store.dispatch("mirrorExcGcsToGbqRuns/fetchAndAdd").then(this.$data.isFetchAndAdding = false).catch(console.error);
+    store.dispatch("mirrorExcGcsToGbqRuns/fetchAndAdd", {limit: 0}).then(this.$data.isFetchAndAdding = false).catch(console.error);
   },
    methods: {
      viewItem (props,item) {
