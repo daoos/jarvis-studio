@@ -17,6 +17,8 @@ import accounts from "./accounts";
 import mirrorgcsconfigurations from "./mirrorgcsconfigurations";
 import mirrorExcGcsToGcsRuns from "./mirror-exc-gcs-to-gcs-runs";
 import mirrorExcGcsToGbqRuns from "./mirror-exc-gcs-to-gbq-runs";
+import filters from "./filters";
+
 const easyFirestores = VuexEasyFirestore(
   [
     dagruns,
@@ -35,7 +37,8 @@ const easyFirestores = VuexEasyFirestore(
 
 const storeData = {
   modules: {
-    user: user
+    user: user,
+    filters
   },
   plugins: [easyFirestores]
 };

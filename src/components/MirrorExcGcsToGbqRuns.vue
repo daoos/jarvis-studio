@@ -1,72 +1,77 @@
 <template>
   <v-container grid-list-xl>
-    <v-toolbar flat color="black">
-      <v-toolbar-title>Mirror Exc Gcs To Gbq Runs</v-toolbar-title>
-      <v-spacer></v-spacer>
-      <v-text-field
-        v-model="search"
-        append-icon="search"
-        label="Search"
-        single-line
-        hide-details
-      ></v-text-field>
-    </v-toolbar>
-    <v-data-table
-          :headers="headers"
-          :items="mirrorExcGcsToGbqRuns"
-          :search="search"
-          :loading="isFetchAndAdding"
-          :expand="expand"
-          :pagination.sync="pagination"
-          item-key="dag_run_id"
-          class="elevation-5"
-        >
-         <v-progress-linear v-slot:progress color="blue" indeterminate></v-progress-linear>
-          <template v-slot:items="props">
-            <td>{{ props.item["account"] }}</td>
-            <td>{{ props.item["environment"]}}</td>
-            <td>{{ props.item["gbq_table_refreshed"]}}</td>
-            <td>{{ props.item["gcs_triggering_file"]}}</td>
-            <td>{{ props.item["dag_execution_date_formated"] }}</td>
-            <td class="justify-center layout px-0">
-              <v-icon
-                small
-                class="mr-2"
-                @click="viewItem(props,props.item)"
-              >
-                remove_red_eye
-              </v-icon>
-              </td>
-          </template>
-          <template v-slot:expand="props">
-            <v-card flat>
-              <v-card-title>
-                <span class="headline">{{ viewedItem.gcs_triggering_file }}</span>
-                <v-spacer></v-spacer>
-                <v-btn color="warning" fab small dark outline>
+    <RunFiltersMenu></RunFiltersMenu>
+    <v-layout row wrap >
+      <v-flex xs12 offset-xs0>
+        <v-toolbar flat color="black">
+          <v-toolbar-title>Mirror Exc Gcs To Gbq Runs : {{ dateFilterApply }}</v-toolbar-title>
+          <v-spacer></v-spacer>
+          <v-text-field
+            v-model="search"
+            append-icon="search"
+            label="Search"
+            single-line
+            hide-details
+          ></v-text-field>
+        </v-toolbar>
+        <v-data-table
+              :headers="headers"
+              :items="mirrorExcGcsToGbqRuns"
+              :search="search"
+              :loading="isFetchAndAdding"
+              :expand="expand"
+              :pagination.sync="pagination"
+              item-key="dag_run_id"
+              class="elevation-5"
+            >
+            <v-progress-linear v-slot:progress color="blue" indeterminate></v-progress-linear>
+              <template v-slot:items="props">
+                <td>{{ props.item["account"] }}</td>
+                <td>{{ props.item["environment"]}}</td>
+                <td>{{ props.item["gbq_table_refreshed"]}}</td>
+                <td>{{ props.item["gcs_triggering_file"]}}</td>
+                <td>{{ props.item["dag_execution_date_formated"] }}</td>
+                <td class="justify-center layout px-0">
                   <v-icon
-                  @click="props.expanded = !props.expanded;"
+                    small
+                    class="mr-2"
+                    @click="viewItem(props,props.item)"
                   >
-                  close
+                    remove_red_eye
                   </v-icon>
-                </v-btn>
-              </v-card-title>
-              <v-card-text>
-                <vue-json-pretty
-                  :data="viewedItem"
-                  :deep="5"
-                  :show-double-quotes="true"
-                  :show-length="true"
-                  :show-line="false"
-                > 
-                </vue-json-pretty>
-              </v-card-text>
-            </v-card>
-          </template>
-          <v-alert v-slot:no-results :value="true" color="error" icon="warning">
-            Your search for "{{ search }}" found no results.
-          </v-alert>
-        </v-data-table>
+                  </td>
+              </template>
+              <template v-slot:expand="props">
+                <v-card flat>
+                  <v-card-title>
+                    <span class="headline">{{ viewedItem.gcs_triggering_file }}</span>
+                    <v-spacer></v-spacer>
+                    <v-btn color="warning" fab small dark outline>
+                      <v-icon
+                      @click="props.expanded = !props.expanded;"
+                      >
+                      close
+                      </v-icon>
+                    </v-btn>
+                  </v-card-title>
+                  <v-card-text>
+                    <vue-json-pretty
+                      :data="viewedItem"
+                      :deep="5"
+                      :show-double-quotes="true"
+                      :show-length="true"
+                      :show-line="false"
+                    > 
+                    </vue-json-pretty>
+                  </v-card-text>
+                </v-card>
+              </template>
+              <v-alert v-slot:no-results :value="true" color="error" icon="warning">
+                Your search for "{{ search }}" found no results.
+              </v-alert>
+            </v-data-table>
+          </v-flex>
+    </v-layout>
     <v-layout row wrap v-if="viewJson">
       <v-flex xs12 offset-xs0>
         <v-card dark class="elevation-10">
@@ -103,10 +108,12 @@ import VueJsonPretty from 'vue-json-pretty';
 import store from "@/store/index";
 import moment from "moment";
 import _ from "lodash";
+import RunFiltersMenu from "./widgets/filters/RunFiltersMenu.vue"
 
 export default {
   components: {
-    VueJsonPretty
+    VueJsonPretty,
+    RunFiltersMenu
   },
   data: () => ({
     search: "",
@@ -115,47 +122,48 @@ export default {
     pagination : {'sortBy': 'dag_execution_date_formated', 'descending': true, 'rowsPerPage': 10},
     viewJson: false,
     viewedItem: {},
+    chartNbDays: 1,
     headers: [
-          {
-            text: 'Account ID',
-            align: 'left',
-            sortable: true,
-            value: 'account'
-          },
-          { 
-            text: 'Environnement',
-            align: 'left',
-            sortable: true,
-            value: 'environment' 
-          },
-          { 
-            text: 'Destination Table',
-            align: 'left',
-            sortable: true,
-            value: 'gbq_table_refreshed' },
-          { 
-            text: 'Source file',
-            align: 'left',
-            sortable: true,
-            value: 'gcs_triggering_file'
-          },
-          { 
-            text: 'Execution Date',
-            align: 'left',
-            sortable: true,
-            value: 'dag_execution_date_formated' 
-          },
-          { text: 'Actions', 
-            align: 'center',
-            value: 'actions', 
-            sortable: false 
-          }
-        ]
+      {
+        text: 'Account ID',
+        align: 'left',
+        sortable: true,
+        value: 'account'
+      },
+      { 
+        text: 'Environnement',
+        align: 'left',
+        sortable: true,
+        value: 'environment' 
+      },
+      { 
+        text: 'Destination Table',
+        align: 'left',
+        sortable: true,
+        value: 'gbq_table_refreshed' },
+      { 
+        text: 'Source file',
+        align: 'left',
+        sortable: true,
+        value: 'gcs_triggering_file'
+      },
+      { 
+        text: 'Execution Date',
+        align: 'left',
+        sortable: true,
+        value: 'dag_execution_date_formated' 
+      },
+      { text: 'Actions', 
+        align: 'center',
+        value: 'actions', 
+        sortable: false 
+      }
+    ]
   }),
   created() {
     //load the content of the module
     this.$data.isFetchAndAdding = true;
-    store.dispatch("mirrorExcGcsToGbqRuns/fetchAndAdd", {limit: 0}).then(this.$data.isFetchAndAdding = false).catch(console.error);
+    store.dispatch("mirrorExcGcsToGbqRuns/fetchAndAdd",  {where: [['dag_execution_date', '>=', '2019-04-19']], limit: 0}).then(this.$data.isFetchAndAdding = false).catch(console.error);
   },
    methods: {
      viewItem (props,item) {
@@ -164,7 +172,7 @@ export default {
         this.viewedItem = Object.assign({}, item);
       },
       mirrorExcGcsToGbqRunsFormated() {
-        const dataArray = Object.values(store.state.mirrorExcGcsToGbqRuns.data)
+        const dataArray = Object.values(store.state.mirrorExcGcsToGbqRuns.data);
         var dataFormated = dataArray.map(function(data,index) {
           return {
             dag_execution_date_formated: moment(data.dag_execution_date).format('YYYY/MM/DD - HH:mm'),
@@ -173,15 +181,46 @@ export default {
         });
         const dataArrayFormated = _.merge(dataArray, dataFormated);
         return dataArrayFormated;
+      },
+      chartDataNbDays() {
+        const chartMinDate = moment().subtract(this.$data.chartNbDays, 'days').calendar();
+        console.log(chartMinDate);
+        const dataArrayNbDays = _.clone(store.state.mirrorExcGcsToGbqRuns.data);
+        var dataArrayNbDaysFiltered = Object.values(dataArrayNbDays).filter(function(data,chartMinDate) { return data.dag_execution_date > chartMinDate; }); 
+        console.log(dataArrayNbDaysFiltered);
+      },
+      applyDateFilter() {
+        console.log(this.$data.dateFilterSelected);
+
+        const chartMinDate = moment().subtract(this.$data.chartNbDays, 'days').calendar();
+        //load the content of the module
+        this.$data.isFetchAndAdding = true;
+        store.dispatch('mirrorExcGcsToGbqRuns/closeDBChannel', {clearModule: true});
+        store.dispatch("mirrorExcGcsToGbqRuns/fetchAndAdd",  {where: [['dag_execution_date', '>=', '2019-04-19']], limit: 0}).then(this.$data.isFetchAndAdding = false).catch(console.error);
+      },
+      applyDateFilter2 (dateFilterSelected) {
+        console.log(dateFilterSelected);
+        console.log(store);
+        store.commit("updateDateFilterSelected", dateFilterSelected);
       }
    },
   computed: {
     ...mapState({
       isAuthenticated: state => state.user.isAuthenticated,
-      user: state => state.user.user
+      user: state => state.user.user,
+      dateFilterSelected: state => state.filters.dateFilterSelected,
+      dateFilters: state => state.filters.dateFilters
     }),
     mirrorExcGcsToGbqRuns() {
       return this.mirrorExcGcsToGbqRunsFormated();
+    },
+    dateFilterApply() {
+      const dateFilterToApply = moment().utc().startOf("day").subtract(this.dateFilterSelected.nbDays, "days").toISOString();
+      //store.dispatch('mirrorExcGcsToGbqRuns/closeDBChannel', {clearModule: true});
+      console.log("Date to apply : " );
+      console.log(dateFilterToApply);
+      //store.dispatch("mirrorExcGcsToGbqRuns/fetchAndAdd",  {where: [['dag_execution_date', '>=', dateFilterToApply]], limit: 0}).then(this.$data.isFetchAndAdding = false).catch(console.error);
+      return dateFilterToApply;
     }
   }
 };

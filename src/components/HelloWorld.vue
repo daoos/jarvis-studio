@@ -1,5 +1,6 @@
 <template>
   <v-container>
+    <RunFiltersMenu></RunFiltersMenu>
     <v-layout text-xs-center wrap>
        <v-flex xs12>
           <BarChart
@@ -83,10 +84,12 @@
 
 <script>
 import BarChart from "./widgets/charts/BarChart.js"
+import RunFiltersMenu from "./widgets/filters/RunFiltersMenu.vue"
 
 export default {
   components: {
-    BarChart
+    BarChart,
+    RunFiltersMenu
   },
   data: () => ({
     chartData : {
