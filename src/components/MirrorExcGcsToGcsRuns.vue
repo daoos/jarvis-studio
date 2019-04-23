@@ -1,5 +1,6 @@
 <template>
   <v-container grid-list-xl>
+    <RunFiltersMenu></RunFiltersMenu>
      <v-toolbar flat color="black">
       <v-toolbar-title>Mirror Exc GCS To GCS Runs</v-toolbar-title>
       <v-spacer></v-spacer>
@@ -13,7 +14,7 @@
     </v-toolbar>
     <v-data-table
           :headers="headers"
-          :items="mirrorExcGcsToGcsRuns"
+          :items="mirrorExcGcsToGcsRunsFormated"
           :search="search"
           :loading="isFetchAndAdding"
           :expand="expand"
@@ -103,10 +104,12 @@ import VueJsonPretty from 'vue-json-pretty';
 import store from "@/store/index";
 import moment from "moment";
 import _ from "lodash";
+import RunFiltersMenu from "./widgets/filters/RunFiltersMenu.vue"
 
 export default {
   components: {
-    VueJsonPretty
+    VueJsonPretty,
+    RunFiltersMenu
   },
   data: () => ({
     search: "",
@@ -152,43 +155,63 @@ export default {
           }
         ]
   }),
-  created() {
-    //load the content of the module
-    this.$data.isFetchAndAdding = true;
-    
-    store.dispatch("mirrorExcGcsToGcsRuns/fetchAndAdd", {limit: 0}).then(this.$data.isFetchAndAdding = false).catch(console.error);
+  mounted() {
+      this.handleMounted();
   },
-   methods: {
-     viewItem (props,item) {
-        props.expanded = !props.expanded;
-        this.viewedIndex = this.mirrorExcGcsToGcsRuns.indexOf(item);
-        this.viewedItem = Object.assign({}, item);
-      },
-      mirrorExcGcsToGcsRunsFormated() {
-        const dataArray = Object.values(store.state.mirrorExcGcsToGcsRuns.data)
-        var dataFormated = dataArray.map(function(data,index) {
-          return {
-            dag_execution_date_formated: moment(data.dag_execution_date).format('YYYY/MM/DD - HH:mm'),
-            dag_execution_date_from_now: moment(data.dag_execution_date).fromNow()
-          };
-        });
-        const dataArrayFormated = _.merge(dataArray, dataFormated);
-        return dataArrayFormated;
-      }
+  methods: {
+    viewItem (props,item) {
+      props.expanded = !props.expanded;
+      this.viewedIndex = this.mirrorExcGcsToGcsRunsFormated.indexOf(item);
+      this.viewedItem = Object.assign({}, item);
+    },
+    async handleMounted() {
+      this.$data.fetchAndAddStatus = "Loading";
+      this.$data.moreToFetchAndAdd = false;
+      this.$data.isFetchAndAdding = true;
+      try {
+        store.dispatch('mirrorExcGcsToGcsRuns/closeDBChannel', {clearModule: true});
+        let fetchResult = await store.dispatch("mirrorExcGcsToGcsRuns/fetchAndAdd", {where: [["dag_execution_date", ">=", this.minDateFilter]], limit: 0});
+        if (fetchResult.done === true) {
+          this.$data.moreToFetchAndAdd = false;
+        } else {
+          this.$data.moreToFetchAndAdd = true;
+        }
+        this.$data.fetchAndAddStatus = 'Success';
+      } catch (e) {
+        this.$data.fetchAndAddStatus = 'Error';
+        this.$data.isFetchAndAdding = false;
+      };
+      this.$data.isFetchAndAdding = false;
+    },
    },
   computed: {
     ...mapState({
       isAuthenticated: state => state.user.isAuthenticated,
-      user: state => state.user.user
+      user: state => state.user.user,
+      mirrorExcGcsToGcsRuns: state => state.mirrorExcGcsToGcsRuns.data,
+      dateFilterSelected: state => state.filters.dateFilterSelected,
+      dateFilters: state => state.filters.dateFilters,
+      minDateFilter: state => state.filters.minDateFilter
     }),
-    mirrorExcGcsToGcsRunsArray() {
-      return Object.values(store.state.mirrorExcGcsToGcsRuns.data);
-    },
-    mirrorExcGcsToGcsRuns() {
-      return this.mirrorExcGcsToGcsRunsFormated();
+    mirrorExcGcsToGcsRunsFormated() {
+      const dataArray = Object.values(this.mirrorExcGcsToGcsRuns);
+      var dataFormated = dataArray.map(function(data,index) {
+        return {
+          dag_execution_date_formated: moment(data.dag_execution_date).format('YYYY/MM/DD - HH:mm'),
+          dag_execution_date_from_now: moment(data.dag_execution_date).fromNow()
+        };
+      });
+      const dataArrayFormated = _.merge(dataArray, dataFormated);
+      return dataArrayFormated;
     }
+  },
+  watch: {
+    dateFilterSelected(newValue, oldValue) {
+      this.handleMounted();
+    },
   }
 };
 </script>
 
 <style></style>
+

@@ -4,7 +4,7 @@
     <v-layout row wrap >
       <v-flex xs12 offset-xs0>
         <v-toolbar flat color="black">
-          <v-toolbar-title>Mirror Exc Gcs To Gbq Runs : {{ dateFilterApply }}</v-toolbar-title>
+          <v-toolbar-title>Mirror Exc Gcs To Gbq Runs :</v-toolbar-title>
           <v-spacer></v-spacer>
           <v-text-field
             v-model="search"
@@ -16,7 +16,7 @@
         </v-toolbar>
         <v-data-table
               :headers="headers"
-              :items="mirrorExcGcsToGbqRuns"
+              :items="mirrorExcGcsToGbqRunsFormated"
               :search="search"
               :loading="isFetchAndAdding"
               :expand="expand"
@@ -104,6 +104,7 @@
 
 <script>
 import { mapState } from "vuex";
+import { mapGetters } from 'vuex';
 import VueJsonPretty from 'vue-json-pretty';
 import store from "@/store/index";
 import moment from "moment";
@@ -118,6 +119,8 @@ export default {
   data: () => ({
     search: "",
     isFetchAndAdding: false,
+    fetchAndAddStatus: "Loading",
+    moreToFetchAndAdd: false,
     expand: false,
     pagination : {'sortBy': 'dag_execution_date_formated', 'descending': true, 'rowsPerPage': 10},
     viewJson: false,
@@ -160,68 +163,60 @@ export default {
       }
     ]
   }),
-  created() {
-    //load the content of the module
-    this.$data.isFetchAndAdding = true;
-    store.dispatch("mirrorExcGcsToGbqRuns/fetchAndAdd",  {where: [['dag_execution_date', '>=', '2019-04-19']], limit: 0}).then(this.$data.isFetchAndAdding = false).catch(console.error);
-  },
+    mounted() {
+      this.handleMounted();
+    },
    methods: {
      viewItem (props,item) {
         props.expanded = !props.expanded;
-        this.viewedIndex = this.mirrorExcGcsToGbqRuns.indexOf(item);
+        this.viewedIndex = this.mirrorExcGcsToGbqRunsFormated.indexOf(item);
         this.viewedItem = Object.assign({}, item);
       },
-      mirrorExcGcsToGbqRunsFormated() {
-        const dataArray = Object.values(store.state.mirrorExcGcsToGbqRuns.data);
-        var dataFormated = dataArray.map(function(data,index) {
-          return {
-            dag_execution_date_formated: moment(data.dag_execution_date).format('YYYY/MM/DD - HH:mm'),
-            dag_execution_date_from_now: moment(data.dag_execution_date).fromNow()
-          };
-        });
-        const dataArrayFormated = _.merge(dataArray, dataFormated);
-        return dataArrayFormated;
-      },
-      chartDataNbDays() {
-        const chartMinDate = moment().subtract(this.$data.chartNbDays, 'days').calendar();
-        console.log(chartMinDate);
-        const dataArrayNbDays = _.clone(store.state.mirrorExcGcsToGbqRuns.data);
-        var dataArrayNbDaysFiltered = Object.values(dataArrayNbDays).filter(function(data,chartMinDate) { return data.dag_execution_date > chartMinDate; }); 
-        console.log(dataArrayNbDaysFiltered);
-      },
-      applyDateFilter() {
-        console.log(this.$data.dateFilterSelected);
-
-        const chartMinDate = moment().subtract(this.$data.chartNbDays, 'days').calendar();
-        //load the content of the module
+      async handleMounted() {
+        this.$data.fetchAndAddStatus = "Loading";
+        this.$data.moreToFetchAndAdd = false;
         this.$data.isFetchAndAdding = true;
-        store.dispatch('mirrorExcGcsToGbqRuns/closeDBChannel', {clearModule: true});
-        store.dispatch("mirrorExcGcsToGbqRuns/fetchAndAdd",  {where: [['dag_execution_date', '>=', '2019-04-19']], limit: 0}).then(this.$data.isFetchAndAdding = false).catch(console.error);
-      },
-      applyDateFilter2 (dateFilterSelected) {
-        console.log(dateFilterSelected);
-        console.log(store);
-        store.commit("updateDateFilterSelected", dateFilterSelected);
-      }
+        try {
+          store.dispatch('mirrorExcGcsToGbqRuns/closeDBChannel', {clearModule: true});
+          let fetchResult = await store.dispatch("mirrorExcGcsToGbqRuns/fetchAndAdd", {where: [["dag_execution_date", ">=", this.minDateFilter]], limit: 0});
+          if (fetchResult.done === true) {
+            this.$data.moreToFetchAndAdd = false;
+          } else {
+            this.$data.moreToFetchAndAdd = true;
+          }
+          this.$data.fetchAndAddStatus = 'Success';
+        } catch (e) {
+          this.$data.fetchAndAddStatus = 'Error';
+          this.$data.isFetchAndAdding = false;
+        };
+        this.$data.isFetchAndAdding = false;
+    },
    },
   computed: {
     ...mapState({
       isAuthenticated: state => state.user.isAuthenticated,
       user: state => state.user.user,
+      mirrorExcGcsToGbqRuns: state => state.mirrorExcGcsToGbqRuns.data,
       dateFilterSelected: state => state.filters.dateFilterSelected,
-      dateFilters: state => state.filters.dateFilters
+      dateFilters: state => state.filters.dateFilters,
+      minDateFilter: state => state.filters.minDateFilter
     }),
-    mirrorExcGcsToGbqRuns() {
-      return this.mirrorExcGcsToGbqRunsFormated();
-    },
-    dateFilterApply() {
-      const dateFilterToApply = moment().utc().startOf("day").subtract(this.dateFilterSelected.nbDays, "days").toISOString();
-      //store.dispatch('mirrorExcGcsToGbqRuns/closeDBChannel', {clearModule: true});
-      console.log("Date to apply : " );
-      console.log(dateFilterToApply);
-      //store.dispatch("mirrorExcGcsToGbqRuns/fetchAndAdd",  {where: [['dag_execution_date', '>=', dateFilterToApply]], limit: 0}).then(this.$data.isFetchAndAdding = false).catch(console.error);
-      return dateFilterToApply;
+    mirrorExcGcsToGbqRunsFormated() {
+      const dataArray = Object.values(this.mirrorExcGcsToGbqRuns);
+      var dataFormated = dataArray.map(function(data,index) {
+        return {
+          dag_execution_date_formated: moment(data.dag_execution_date).format('YYYY/MM/DD - HH:mm'),
+          dag_execution_date_from_now: moment(data.dag_execution_date).fromNow()
+        };
+      });
+      const dataArrayFormated = _.merge(dataArray, dataFormated);
+      return dataArrayFormated;
     }
+  },
+  watch: {
+    dateFilterSelected(newValue, oldValue) {
+      this.handleMounted();
+    },
   }
 };
 </script>

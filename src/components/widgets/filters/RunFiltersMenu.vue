@@ -39,7 +39,7 @@ export default {
     },
    methods: {
       applyDateFilter (dateFilterSelected) {
-        store.commit("updateDateFilterSelected", dateFilterSelected);
+        store.dispatch("applyDateFilterSelected", dateFilterSelected);
       }
    },
   computed: {
