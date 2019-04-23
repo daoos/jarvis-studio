@@ -164,6 +164,7 @@ export default {
     ]
   }),
     mounted() {
+      console.log(this.periodFiltered);
       this.handleMounted();
     },
    methods: {
@@ -201,6 +202,9 @@ export default {
       dateFilters: state => state.filters.dateFilters,
       minDateFilter: state => state.filters.minDateFilter
     }),
+    ...mapGetters([  
+      "periodFiltered"
+    ]),
     mirrorExcGcsToGbqRunsFormated() {
       const dataArray = Object.values(this.mirrorExcGcsToGbqRuns);
       var dataFormated = dataArray.map(function(data,index) {

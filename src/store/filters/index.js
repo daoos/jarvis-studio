@@ -35,9 +35,26 @@ const filters = {
       commit("updateDateFilterSelected", dateFilterSelected);
       //Compute the minDate to apply from the DateFilterSelected
       commit("updateMinDateFilter", dateFilterSelected);
+      //Compute the date array from minDateFilter to Now to build chart
     }
   },
-  getters: {}
+  getters: {
+    periodFiltered(state) {
+      //Compute the date array from minDateFilter to Now to build chart
+      let periodFiltered = [];
+      var i;
+      for (i = 0; i <= state.dateFilterSelected.nbDays; i++) {
+        periodFiltered.push(
+          moment()
+            .utc()
+            .startOf("day")
+            .subtract(state.dateFilterSelected.nbDays - i, "days")
+            .toISOString()
+        );
+      }
+      return periodFiltered;
+    }
+  }
 };
 
 export default filters;
