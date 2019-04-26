@@ -15,7 +15,8 @@ const filters = {
       .utc()
       .startOf("day")
       .subtract(31, "days")
-      .toISOString()
+      .toISOString(),
+    accountFilterSelected: { account_name: "All", id: "000000" }
   },
   mutations: {
     updateDateFilterSelected(state, dateFilterSelected) {
@@ -27,6 +28,11 @@ const filters = {
         .startOf("day")
         .subtract(dateFilterSelected.nbDays, "days")
         .toISOString();
+    },
+    updateAccountFilterSelected(state, accountFilterSelected) {
+      state.accountFilterSelected.account_name =
+        accountFilterSelected.account_name;
+      state.accountFilterSelected.id = accountFilterSelected.id;
     }
   },
   actions: {
@@ -36,6 +42,9 @@ const filters = {
       //Compute the minDate to apply from the DateFilterSelected
       commit("updateMinDateFilter", dateFilterSelected);
       //Compute the date array from minDateFilter to Now to build chart
+    },
+    applyAccountFilterSelected({ commit }, accountFilterSelected) {
+      commit("updateAccountFilterSelected", accountFilterSelected);
     }
   },
   getters: {
@@ -53,6 +62,18 @@ const filters = {
         );
       }
       return periodFiltered;
+    },
+    whereFilter(state) {
+      let whereFilter = [];
+      if (state.minDateFilter != undefined) {
+        whereFilter.push(["dag_execution_date", ">=", state.minDateFilter]);
+      } else {
+        ["dag_execution_date", ">=", "2019-01-01T00:00:00.000Z"]
+      }
+      if (state.accountFilterSelected.id != "000000") {
+        whereFilter.push(["account", "==", state.accountFilterSelected.id]);
+      }
+      return whereFilter;
     }
   }
 };

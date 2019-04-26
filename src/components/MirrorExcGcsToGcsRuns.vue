@@ -1,5 +1,5 @@
 <template>
-  <v-container grid-list-xl>
+  <v-container grid-list-xl fluid>
     <RunFiltersMenu></RunFiltersMenu>
      <v-toolbar flat color="black">
       <v-toolbar-title>Mirror Exc GCS To GCS Runs</v-toolbar-title>
@@ -100,6 +100,7 @@
 
 <script>
 import { mapState } from "vuex";
+import { mapGetters } from 'vuex';
 import VueJsonPretty from 'vue-json-pretty';
 import store from "@/store/index";
 import moment from "moment";
@@ -165,12 +166,13 @@ export default {
       this.viewedItem = Object.assign({}, item);
     },
     async handleMounted() {
+      const where = this.whereFilter;
       this.$data.fetchAndAddStatus = "Loading";
       this.$data.moreToFetchAndAdd = false;
       this.$data.isFetchAndAdding = true;
       try {
         store.dispatch('mirrorExcGcsToGcsRuns/closeDBChannel', {clearModule: true});
-        let fetchResult = await store.dispatch("mirrorExcGcsToGcsRuns/fetchAndAdd", {where: [["dag_execution_date", ">=", this.minDateFilter],["account", '==', "000010"]], limit: 0});
+        let fetchResult = await store.dispatch("mirrorExcGcsToGcsRuns/fetchAndAdd", {where, limit: 0});
         if (fetchResult.done === true) {
           this.$data.moreToFetchAndAdd = false;
         } else {
@@ -193,6 +195,10 @@ export default {
       dateFilters: state => state.filters.dateFilters,
       minDateFilter: state => state.filters.minDateFilter
     }),
+    ...mapGetters([  
+      "periodFiltered",
+      "whereFilter"
+    ]),
     mirrorExcGcsToGcsRunsFormated() {
       const dataArray = Object.values(this.mirrorExcGcsToGcsRuns);
       var dataFormated = dataArray.map(function(data,index) {
@@ -206,7 +212,7 @@ export default {
     }
   },
   watch: {
-    dateFilterSelected(newValue, oldValue) {
+    whereFilter(newValue, oldValue) {
       this.handleMounted();
     },
   }

@@ -1,22 +1,25 @@
 <template>
     <v-layout row wrap>
-      <v-flex xs12 offset-xs0>
+      <v-flex>
         <v-toolbar
           flat
         >
           <v-toolbar-title>Filters</v-toolbar-title>
           <v-spacer></v-spacer>
           <v-toolbar-items class="hidden-sm-and-down">
-            <v-btn flat>{{dateFilterSelected.dateLabel}}</v-btn>
-            <v-flex xs12>
+          <v-flex xs12>
             <v-select
-            v-model="value"
-            :items="items"
-            prepend-icon="dns"
-            multiple
-            deletable-chips
-          ></v-select>
-          </v-flex>
+                @change="applyAccountFilter"
+                :items="accountArray"
+                item-text="account_name"
+                item-value="id"
+                :label="accountFilterSelected.account_name"
+                return-object
+                single-line
+                prepend-icon="business"
+              >
+            </v-select>
+            </v-flex>
           <v-flex xs12>
             <v-select
                 @change="applyDateFilter"
@@ -24,7 +27,6 @@
                 item-text="dateLabel"
                 item-value="nbDays"
                 :label="dateFilterSelected.dateLabel"
-                persistent-hint
                 return-object
                 single-line
                 prepend-icon="date_range"
@@ -47,14 +49,15 @@ export default {
     components: {
     },
     data: () => ({
-      items: ['foo', 'bar', 'fizz', 'buzz'],
-      value: ['foo', 'bar', 'fizz', 'buzz']
     }),
     created() {
     },
    methods: {
       applyDateFilter (dateFilterSelected) {
         store.dispatch("applyDateFilterSelected", dateFilterSelected);
+      },
+      applyAccountFilter (accountFilterSelected) {
+        store.dispatch("applyAccountFilterSelected", accountFilterSelected);
       }
    },
   computed: {
@@ -62,8 +65,15 @@ export default {
       isAuthenticated: state => state.user.isAuthenticated,
       user: state => state.user.user,
       dateFilterSelected: state => state.filters.dateFilterSelected,
-      dateFilters: state => state.filters.dateFilters
-    })
+      accountFilterSelected: state => state.filters.accountFilterSelected,
+      dateFilters: state => state.filters.dateFilters,
+      accounts: state => state.accounts.data
+    }),
+    accountArray() {
+      let accountArray = Object.values(this.accounts);
+      accountArray.push({account_name: "All", id: "000000"})
+      return accountArray;
+    }
   }
 };
 </script>

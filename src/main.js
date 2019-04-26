@@ -15,6 +15,8 @@ new Vue({
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
         this.$store.dispatch("autoSignIn", user);
+        //Load the Account into the Store/account module
+        this.$store.dispatch("accounts/fetchAndAdd", { limit: 0 });
       } else {
         this.$store.dispatch("userSignOut");
       }

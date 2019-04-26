@@ -164,7 +164,6 @@ export default {
     ]
   }),
     mounted() {
-      console.log(this.periodFiltered);
       this.handleMounted();
     },
    methods: {
@@ -174,17 +173,13 @@ export default {
         this.viewedItem = Object.assign({}, item);
       },
       async handleMounted() {
+        const where = this.whereFilter;
         this.$data.fetchAndAddStatus = "Loading";
         this.$data.moreToFetchAndAdd = false;
         this.$data.isFetchAndAdding = true;
         try {
           store.dispatch('mirrorExcGcsToGbqRuns/closeDBChannel', {clearModule: true});
-          const whereFilter = [ // an array of arrays
-            ["dag_execution_date", ">=", this.minDateFilter],
-            ["account", '==', "000010"],
-          ]
-          const orderByFilter = ["dag_execution_date"] // or more params
-          let fetchResult = await store.dispatch("mirrorExcGcsToGbqRuns/fetchAndAdd", {where: [["dag_execution_date", ">=", this.minDateFilter],["account", '==', "000020"]], limit: 0});
+          let fetchResult = await store.dispatch("mirrorExcGcsToGbqRuns/fetchAndAdd", {where, limit: 0});
           if (fetchResult.done === true) {
             this.$data.moreToFetchAndAdd = false;
           } else {
@@ -208,7 +203,8 @@ export default {
       minDateFilter: state => state.filters.minDateFilter
     }),
     ...mapGetters([  
-      "periodFiltered"
+      "periodFiltered",
+      "whereFilter"
     ]),
     mirrorExcGcsToGbqRunsFormated() {
       const dataArray = Object.values(this.mirrorExcGcsToGbqRuns);
@@ -223,9 +219,9 @@ export default {
     }
   },
   watch: {
-    dateFilterSelected(newValue, oldValue) {
+    whereFilter(newValue, oldValue) {
       this.handleMounted();
-    },
+    }
   }
 };
 </script>
