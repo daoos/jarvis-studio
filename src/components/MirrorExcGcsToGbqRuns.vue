@@ -1,8 +1,8 @@
 <template>
-  <v-container grid-list-xl>
+  <v-container grid-list-xl fluid>
     <RunFiltersMenu></RunFiltersMenu>
     <v-layout row wrap >
-      <v-flex xs12 offset-xs0>
+      <v-flex sm12>
         <v-toolbar flat color="black">
           <v-toolbar-title>Mirror Exc Gcs To Gbq Runs :</v-toolbar-title>
           <v-spacer></v-spacer>
@@ -179,7 +179,12 @@ export default {
         this.$data.isFetchAndAdding = true;
         try {
           store.dispatch('mirrorExcGcsToGbqRuns/closeDBChannel', {clearModule: true});
-          let fetchResult = await store.dispatch("mirrorExcGcsToGbqRuns/fetchAndAdd", {where: [["dag_execution_date", ">=", this.minDateFilter]], limit: 0});
+          const whereFilter = [ // an array of arrays
+            ["dag_execution_date", ">=", this.minDateFilter],
+            ["account", '==', "000010"],
+          ]
+          const orderByFilter = ["dag_execution_date"] // or more params
+          let fetchResult = await store.dispatch("mirrorExcGcsToGbqRuns/fetchAndAdd", {where: [["dag_execution_date", ">=", this.minDateFilter],["account", '==', "000020"]], limit: 0});
           if (fetchResult.done === true) {
             this.$data.moreToFetchAndAdd = false;
           } else {

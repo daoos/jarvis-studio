@@ -170,7 +170,7 @@ export default {
       this.$data.isFetchAndAdding = true;
       try {
         store.dispatch('mirrorExcGcsToGcsRuns/closeDBChannel', {clearModule: true});
-        let fetchResult = await store.dispatch("mirrorExcGcsToGcsRuns/fetchAndAdd", {where: [["dag_execution_date", ">=", this.minDateFilter]], limit: 0});
+        let fetchResult = await store.dispatch("mirrorExcGcsToGcsRuns/fetchAndAdd", {where: [["dag_execution_date", ">=", this.minDateFilter],["account", '==', "000010"]], limit: 0});
         if (fetchResult.done === true) {
           this.$data.moreToFetchAndAdd = false;
         } else {
