@@ -29,7 +29,7 @@
                 :label="envFilterSelected.envLabel"
                 return-object
                 single-line
-                prepend-icon="dns"
+                prepend-icon="settings"
               >
             </v-select>
             </v-flex>
