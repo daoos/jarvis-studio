@@ -20,6 +20,19 @@
               >
             </v-select>
             </v-flex>
+            <v-flex xs12>
+            <v-select
+                @change="applyEnvFilter"
+                :items="envFilters"
+                item-text="envLabel"
+                item-value="envId"
+                :label="envFilterSelected.envLabel"
+                return-object
+                single-line
+                prepend-icon="dns"
+              >
+            </v-select>
+            </v-flex>
           <v-flex xs12>
             <v-select
                 @change="applyDateFilter"
@@ -58,6 +71,9 @@ export default {
       },
       applyAccountFilter (accountFilterSelected) {
         store.dispatch("applyAccountFilterSelected", accountFilterSelected);
+      },
+      applyEnvFilter (envFilterSelected) {
+        store.dispatch("applyEnvFilterSelected", envFilterSelected);
       }
    },
   computed: {
@@ -66,12 +82,14 @@ export default {
       user: state => state.user.user,
       dateFilterSelected: state => state.filters.dateFilterSelected,
       accountFilterSelected: state => state.filters.accountFilterSelected,
+      envFilterSelected: state => state.filters.envFilterSelected,
       dateFilters: state => state.filters.dateFilters,
+      envFilters: state => state.filters.envFilters,
       accounts: state => state.accounts.data
     }),
     accountArray() {
       let accountArray = Object.values(this.accounts);
-      accountArray.push({account_name: "All", id: "000000"})
+      accountArray.push({account_name: "All Accounts", id: "000000"})
       return accountArray;
     }
   }

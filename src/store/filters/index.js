@@ -11,16 +11,26 @@ const filters = {
       { dateLabel: "Last 30 Days", nbDays: 31 },
       { dateLabel: "Last 90 Days", nbDays: 90 }
     ],
+    envFilterSelected: { envLabel: "All Env.", envId: "ALL" },
+    envFilters: [
+      { envLabel: "All Env.", envId: "ALL" },
+      { envLabel: "Production", envId: "PROD" },
+      { envLabel: "Test", envId: "TEST" },
+      { envLabel: "Development", envId: "DEV" }
+    ],
     minDateFilter: moment()
       .utc()
       .startOf("day")
       .subtract(31, "days")
       .toISOString(),
-    accountFilterSelected: { account_name: "All", id: "000000" }
+    accountFilterSelected: { account_name: "All Accounts", id: "000000" }
   },
   mutations: {
     updateDateFilterSelected(state, dateFilterSelected) {
       state.dateFilterSelected = dateFilterSelected;
+    },
+    updateEnvFilterSelected(state, envFilterSelected) {
+      state.envFilterSelected = envFilterSelected;
     },
     updateMinDateFilter(state, dateFilterSelected) {
       state.minDateFilter = moment()
@@ -41,10 +51,12 @@ const filters = {
       commit("updateDateFilterSelected", dateFilterSelected);
       //Compute the minDate to apply from the DateFilterSelected
       commit("updateMinDateFilter", dateFilterSelected);
-      //Compute the date array from minDateFilter to Now to build chart
     },
     applyAccountFilterSelected({ commit }, accountFilterSelected) {
       commit("updateAccountFilterSelected", accountFilterSelected);
+    },
+    applyEnvFilterSelected({ commit }, envFilterSelected) {
+      commit("updateEnvFilterSelected", envFilterSelected);
     }
   },
   getters: {
@@ -72,6 +84,9 @@ const filters = {
       }
       if (state.accountFilterSelected.id != "000000") {
         whereFilter.push(["account", "==", state.accountFilterSelected.id]);
+      }
+      if (state.envFilterSelected.envId != "ALL") {
+        whereFilter.push(["environment", "==", state.envFilterSelected.envId]);
       }
       return whereFilter;
     }
