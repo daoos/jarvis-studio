@@ -31,8 +31,12 @@
     </v-content>
   </v-app>
 </template>
+
 <script>
+
 export default {
+  components: {
+  },
   data: () => ({
     valid: false,
     loading: false,
