@@ -67,12 +67,12 @@
           app
         >
           <v-list dense>
-            <v-list-tile :to="{path: '/dagconfigurations'}">
+            <v-list-tile :to="{path: '/mirrorexcgcstogcsconf'}">
               <v-list-tile-action>
                 <v-icon>blur_linear</v-icon>
               </v-list-tile-action>
               <v-list-tile-content>
-                <v-list-tile-title>Dag Configurations</v-list-tile-title>
+                <v-list-tile-title>GCS to GCS Configurations</v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>
             <v-list-tile :to="{path: '/gcpcloudfunctions'}">

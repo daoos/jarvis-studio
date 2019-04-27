@@ -46,15 +46,6 @@ export default [
       import(/* webpackChunkName: "gcpcloudfunctions" */ "@/views/GcpCloudFunctions.vue")
   },
   {
-    path: "/dagruns",
-    name: "dagruns",
-    meta: {
-      authRequired: true
-    },
-    component: () =>
-      import(/* webpackChunkName: "dagruns" */ "@/views/DagRuns.vue")
-  },
-  {
     path: "/dagconfigurations",
     name: "dagconfigurations",
     meta: {
@@ -64,13 +55,13 @@ export default [
       import(/* webpackChunkName: "dagconfigurations" */ "@/views/DagConfigurations.vue")
   },
   {
-    path: "/mirrorgcsconfigurations",
-    name: "mirrorgcsconfigurations",
+    path: "/mirrorexcgcstogcsconf",
+    name: "mirrorExcGcsToGcsConf",
     meta: {
       authRequired: true
     },
     component: () =>
-      import(/* webpackChunkName: "mirrorgcsconfigurations" */ "@/views/MirrorGcsConfigurations.vue")
+      import(/* webpackChunkName: "mirrorexcgcstogcsconf" */ "@/views/MirrorExcGcsToGcsConf.vue")
   },
   {
     path: "/mirrorexcgcstogcsruns",

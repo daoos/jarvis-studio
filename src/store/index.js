@@ -16,6 +16,7 @@ import gcpcloudfunctions from "./gcpcloudfunctions";
 import accounts from "./accounts";
 import mirrorgcsconfigurations from "./mirrorgcsconfigurations";
 import mirrorExcGcsToGcsRuns from "./mirror-exc-gcs-to-gcs-runs";
+import mirrorExcGcsToGcsConf from "./mirror-exc-gcs-to-gcs-conf";
 import mirrorExcGcsToGbqRuns from "./mirror-exc-gcs-to-gbq-runs";
 import filters from "./filters";
 import vmLauncherRuns from "./vm-launcher-runs";
@@ -28,6 +29,7 @@ const easyFirestores = VuexEasyFirestore(
     accounts,
     mirrorgcsconfigurations,
     mirrorExcGcsToGcsRuns,
+    mirrorExcGcsToGcsConf,
     mirrorExcGcsToGbqRuns,
     vmLauncherRuns
   ],

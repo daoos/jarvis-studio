@@ -1,7 +1,7 @@
 <template>
   <v-container grid-list-xl>
     <v-layout row wrap>
-      <h1>Dag Runs:</h1>
+      <h1>GCS to GCS Configurations:</h1>
       <v-flex xs12 offset-xs0>
         <v-card dark>
           <v-card-text>
@@ -30,11 +30,10 @@ export default {
     VueJsonPretty
   },
   data: () => ({
-    json: {"status":200,"error":"","data":[{"news_id":51184,"title":"iPhone X Review: Innovative future with real black technology","source":"Netease phone"},{"news_id":51183,"title":"Traffic paradise: How to design streets for people and unmanned vehicles in the future?","source":"Netease smart"},{"news_id":51182,"title":"Teslamask's American Business Relations: The government does not pay billions to build factories","source":"AI Finance","members":["Daniel","Mike","John"]}]}
-  }),
+      }),
   created() {
     //load the content of the module
-    store.dispatch("dagruns/fetchAndAdd").catch(console.error);
+    store.dispatch("mirrorExcGcsToGcsConf/fetchAndAdd").catch(console.error);
   },
   computed: {
     ...mapState({
@@ -42,7 +41,7 @@ export default {
       user: state => state.user.user
     }),
     moduleJson() {
-      return store.state.dagruns.data;
+      return store.state.mirrorExcGcsToGcsConf.data;
     }
   }
 };
