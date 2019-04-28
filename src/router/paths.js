@@ -73,6 +73,15 @@ export default [
       import(/* webpackChunkName: "mirrorexcgcstogcsruns" */ "@/views/MirrorExcGcsToGcsRuns.vue")
   },
   {
+    path: "/mirrorexcgcstogbqconf",
+    name: "mirrorExcGcsToGbqConf",
+    meta: {
+      authRequired: true
+    },
+    component: () =>
+      import(/* webpackChunkName: "mirrorexcgcstogbqconf" */ "@/views/MirrorExcGcsToGbqConf.vue")
+  },
+  {
     path: "/mirrorexcgcstogbqruns",
     name: "mirrorExcGcsToGbqRuns",
     meta: {

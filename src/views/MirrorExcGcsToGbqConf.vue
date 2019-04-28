@@ -1,13 +1,13 @@
 <template>
-  <MirrorExcGcsToGbqRuns />
+  <MirrorExcGcsToGbqConf />
 </template>
 
 <script>
-import MirrorExcGcsToGbqRuns from "../components/MirrorExcGcsToGbqRuns";
+import MirrorExcGcsToGbqConf from "../components/MirrorExcGcsToGbqConf";
 
 export default {
   components: {
-    MirrorExcGcsToGbqRuns
+    MirrorExcGcsToGbqConf
   }
 };
 </script>

@@ -3,7 +3,7 @@ import _ from "lodash";
 
 const filters = {
   state: {
-    dateFilterSelected: { dateLabel: "Last 30 Days", nbDays: 31 },
+    dateFilterSelected: { dateLabel: "Last 7 Days", nbDays: 7 },
     dateFilters: [
       { dateLabel: "Today", nbDays: 0 },
       { dateLabel: "Yesterday", nbDays: 1 },
