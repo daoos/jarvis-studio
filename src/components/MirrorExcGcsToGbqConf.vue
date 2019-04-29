@@ -1,5 +1,6 @@
 <template>
-  <v-container grid-list-xl>
+  <v-container grid-list-xl fluid>
+    <FiltersMenu viewAccount viewEnvironnement></FiltersMenu>
     <v-layout row wrap>
       <h1>GCS to GBQ Configurations:</h1>
       <v-flex xs12 offset-xs0>
@@ -25,10 +26,12 @@ import { mapState } from "vuex";
 import { mapGetters } from "vuex";
 import VueJsonPretty from "vue-json-pretty";
 import store from "@/store/index";
+import FiltersMenu from "./widgets/filters/FiltersMenu.vue";
 
 export default {
   components: {
-    VueJsonPretty
+    VueJsonPretty,
+    FiltersMenu
   },
   data: () => ({}),
   mounted() {

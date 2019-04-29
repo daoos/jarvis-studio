@@ -5,7 +5,7 @@
         <v-toolbar-title>Filters</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-toolbar-items class="hidden-sm-and-down">
-          <v-flex xs12>
+          <v-flex xs12 v-if="viewAccount">
             <v-select
               @change="applyAccountFilter"
               :items="accountArray"
@@ -18,7 +18,7 @@
             >
             </v-select>
           </v-flex>
-          <v-flex xs12>
+          <v-flex xs12 v-if="viewEnvironnement">
             <v-select
               @change="applyEnvFilter"
               :items="envFilters"
@@ -31,7 +31,7 @@
             >
             </v-select>
           </v-flex>
-          <v-flex xs12>
+          <v-flex xs12 v-if="viewPeriode">
             <v-select
               @change="applyDateFilter"
               :items="dateFilters"
@@ -58,6 +58,11 @@ import _ from "lodash";
 
 export default {
   components: {},
+  props: {
+    viewAccount: Boolean,
+    viewEnvironnement: Boolean,
+    viewPeriode: Boolean
+  },
   data: () => ({}),
   created() {},
   methods: {

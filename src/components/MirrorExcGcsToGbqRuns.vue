@@ -1,6 +1,6 @@
 <template>
   <v-container grid-list-xl fluid>
-    <RunFiltersMenu></RunFiltersMenu>
+    <FiltersMenu viewAccount viewEnvironnement viewPeriode></FiltersMenu>
     <v-layout row wrap>
       <v-flex sm12>
         <v-toolbar flat color="black">
@@ -107,12 +107,12 @@ import VueJsonPretty from "vue-json-pretty";
 import store from "@/store/index";
 import moment from "moment";
 import _ from "lodash";
-import RunFiltersMenu from "./widgets/filters/RunFiltersMenu.vue";
+import FiltersMenu from "./widgets/filters/FiltersMenu.vue";
 
 export default {
   components: {
     VueJsonPretty,
-    RunFiltersMenu
+    FiltersMenu
   },
   data: () => ({
     search: "",
