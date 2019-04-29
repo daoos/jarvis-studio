@@ -6,7 +6,7 @@ export default [
       authRequired: true
     },
     component: () =>
-      import(/* webpackChunkName: "dagconfigurations" */ "@/views/DagConfigurations.vue")
+      import(/* webpackChunkName: "mirrorexcgcstogbqconf" */ "@/views/MirrorExcGcsToGbqConf.vue")
   },
   {
     path: "/home",
