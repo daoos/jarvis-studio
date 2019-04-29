@@ -5,7 +5,8 @@ import config from "./config";
 
 function initFirebase() {
   firebase.initializeApp(config);
-  firebase.auth()
+  firebase
+    .auth()
     .setPersistence(firebase.auth.Auth.Persistence.SESSION)
     .catch(function(error) {
       // eslint-disable-next-line no-console
@@ -13,7 +14,8 @@ function initFirebase() {
     });
 
   return new Promise((resolve, reject) => {
-    firebase.firestore()
+    firebase
+      .firestore()
       .enablePersistence()
       .then(resolve)
       .catch(err => {

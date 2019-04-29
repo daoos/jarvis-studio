@@ -1,7 +1,7 @@
-const mirrorExcGcsToGbqConfDetails = {
-  firestorePath: "mirror-exc-gcs-to-gbq-conf/{bucketId}/CONFIGURATION",
+const mirrorExcGcsToGbqConf = {
+  firestorePath: "mirror-exc-gcs-to-gbq-conf",
   firestoreRefType: "collection", // 'collection' or 'doc'
-  moduleName: "mirrorExcGcsToGbqConfDetails",
+  moduleName: "mirrorExcGcsToGbqConf",
   statePropName: "data",
   namespaced: true, // automatically added
 
@@ -13,4 +13,4 @@ const mirrorExcGcsToGbqConfDetails = {
   actions: {}
 };
 
-export default mirrorExcGcsToGbqConfDetails;
+export default mirrorExcGcsToGbqConf;

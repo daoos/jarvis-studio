@@ -12,7 +12,7 @@
               :show-length="true"
               :show-line="false"
             >
-        </vue-json-pretty>
+            </vue-json-pretty>
           </v-card-text>
         </v-card>
       </v-flex>
@@ -22,15 +22,14 @@
 
 <script>
 import { mapState } from "vuex";
-import VueJsonPretty from 'vue-json-pretty';
+import VueJsonPretty from "vue-json-pretty";
 import store from "@/store/index";
 
 export default {
   components: {
     VueJsonPretty
   },
-  data: () => ({
-  }),
+  data: () => ({}),
   created() {
     //load the content of the module
     store.dispatch("gcpcloudfunctions/fetchAndAdd").catch(console.error);

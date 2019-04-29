@@ -68,7 +68,7 @@
         >
           <v-list dense>
             <v-subheader>Configurations</v-subheader>
-            <v-list-tile :to="{path: '/mirrorexcgcstogcsconf'}">
+            <v-list-tile :to="{ path: '/mirrorexcgcstogcsconf' }">
               <v-list-tile-action>
                 <v-icon>swap_horiz</v-icon>
               </v-list-tile-action>
@@ -76,7 +76,7 @@
                 <v-list-tile-title>GCS to GCS Configurations</v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>
-            <v-list-tile :to="{path: '/mirrorexcgcstogbqconf'}">
+            <v-list-tile :to="{ path: '/mirrorexcgcstogbqconf' }">
               <v-list-tile-action>
                 <v-icon>vertical_split</v-icon>
               </v-list-tile-action>
@@ -86,7 +86,7 @@
             </v-list-tile>
             <v-divider></v-divider>
             <v-subheader>Runs</v-subheader>
-            <v-list-tile :to="{path: '/mirrorexcgcstogcsruns'}">
+            <v-list-tile :to="{ path: '/mirrorexcgcstogcsruns' }">
               <v-list-tile-action>
                 <v-icon>swap_horiz</v-icon>
               </v-list-tile-action>
@@ -94,7 +94,7 @@
                 <v-list-tile-title>GCS to GCS Runs</v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>
-            <v-list-tile :to="{path: '/mirrorexcgcstogbqruns'}">
+            <v-list-tile :to="{ path: '/mirrorexcgcstogbqruns' }">
               <v-list-tile-action>
                 <v-icon>vertical_split</v-icon>
               </v-list-tile-action>
@@ -102,7 +102,7 @@
                 <v-list-tile-title>GCS to GBQ Runs</v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>
-            <v-list-tile :to="{path: '/vmlauncherruns'}">
+            <v-list-tile :to="{ path: '/vmlauncherruns' }">
               <v-list-tile-action>
                 <v-icon>dns</v-icon>
               </v-list-tile-action>
@@ -112,7 +112,7 @@
             </v-list-tile>
             <v-divider></v-divider>
             <v-subheader>Settings</v-subheader>
-            <v-list-tile :to="{path: '/accounts'}">
+            <v-list-tile :to="{ path: '/accounts' }">
               <v-list-tile-action>
                 <v-icon>business</v-icon>
               </v-list-tile-action>
@@ -120,12 +120,14 @@
                 <v-list-tile-title>Accounts</v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>
-             <v-list-tile :to="{path: '/gcpcloudfunctions'}">
+            <v-list-tile :to="{ path: '/gcpcloudfunctions' }">
               <v-list-tile-action>
                 <v-icon>settings_ethernet</v-icon>
               </v-list-tile-action>
               <v-list-tile-content>
-                <v-list-tile-title>Clound Function Configurations</v-list-tile-title>
+                <v-list-tile-title
+                  >Clound Function Configurations</v-list-tile-title
+                >
               </v-list-tile-content>
             </v-list-tile>
           </v-list>
@@ -145,14 +147,12 @@
   </div>
 </template>
 <script>
-
 import { mapState } from "vuex";
 import Util from "@/util";
 
 export default {
   name: "App",
-  components: {
-  },
+  components: {},
   data: () => ({
     drawer: null
   }),

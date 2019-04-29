@@ -12,7 +12,7 @@
               :show-length="true"
               :show-line="false"
             >
-        </vue-json-pretty>
+            </vue-json-pretty>
           </v-card-text>
         </v-card>
       </v-flex>
@@ -22,21 +22,31 @@
 
 <script>
 import { mapState } from "vuex";
-import VueJsonPretty from 'vue-json-pretty';
+import VueJsonPretty from "vue-json-pretty";
 import store from "@/store/index";
 
 export default {
   components: {
     VueJsonPretty
   },
-  data: () => ({
-  }),
+  data: () => ({}),
   created() {
     //load the content of the module
-    const where = [ // an array of arrays
-      ['destination_bucket', 'array_contains', '*jules*'],
-    ]
-    store.dispatch("mirrorgcsconfigurations/fetchAndAdd", {where: [['destination_bucket', 'array-contains', 'mirror-fd-io-exc-jules-n-in']],}).catch(console.error);
+    const where = [
+      // an array of arrays
+      ["destination_bucket", "array_contains", "*jules*"]
+    ];
+    store
+      .dispatch("mirrorgcsconfigurations/fetchAndAdd", {
+        where: [
+          [
+            "destination_bucket",
+            "array-contains",
+            "mirror-fd-io-exc-jules-n-in"
+          ]
+        ]
+      })
+      .catch(console.error);
   },
   computed: {
     ...mapState({

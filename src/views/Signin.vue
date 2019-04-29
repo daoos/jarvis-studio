@@ -6,23 +6,23 @@
           <v-flex xs12 sm8 md4>
             <v-card class="elevation-12">
               <v-toolbar dark color="dark">
-                <v-toolbar-title >Hello JARVIS </v-toolbar-title>
+                <v-toolbar-title>Hello JARVIS </v-toolbar-title>
                 <v-icon>last_page</v-icon>
               </v-toolbar>
               <v-card-text>
-              <v-card-actions>
-                <v-btn
-                  block
-                  large
-                  color="white"
-                  outline
-                  @click="googleSignin"
-                  :loadingGoogleSignin="loadingGoogleSignin"
-                >
-                  <v-icon left dark>https</v-icon>
-                  Signin with google
-                </v-btn>
-              </v-card-actions>
+                <v-card-actions>
+                  <v-btn
+                    block
+                    large
+                    color="white"
+                    outline
+                    @click="googleSignin"
+                    :loadingGoogleSignin="loadingGoogleSignin"
+                  >
+                    <v-icon left dark>https</v-icon>
+                    Signin with google
+                  </v-btn>
+                </v-card-actions>
               </v-card-text>
             </v-card>
           </v-flex>
@@ -33,10 +33,8 @@
 </template>
 
 <script>
-
 export default {
-  components: {
-  },
+  components: {},
   data: () => ({
     valid: false,
     loading: false,

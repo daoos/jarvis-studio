@@ -2,12 +2,12 @@
   <v-container>
     <RunFiltersMenu></RunFiltersMenu>
     <v-layout text-xs-center wrap>
-       <v-flex xs12>
-          <BarChart
-            :chartData="chartData"
-            :chartOptions="chartOptions"
-            height=150
-          />
+      <v-flex xs12>
+        <BarChart
+          :chartData="chartData"
+          :chartOptions="chartOptions"
+          height="150"
+        />
       </v-flex>
       <v-flex xs12>
         <v-img
@@ -83,8 +83,8 @@
 </template>
 
 <script>
-import BarChart from "./widgets/charts/BarChart.js"
-import RunFiltersMenu from "./widgets/filters/RunFiltersMenu.vue"
+import BarChart from "./widgets/charts/BarChart.js";
+import RunFiltersMenu from "./widgets/filters/RunFiltersMenu.vue";
 
 export default {
   components: {
@@ -92,33 +92,24 @@ export default {
     RunFiltersMenu
   },
   data: () => ({
-    chartData : {
-        labels: [
-          "January",
-          "February",
-          "March",
-          "April",
-          "May",
-          "June",
-          "July"
-        ],
-        datasets: [
-          {
-            label: "Data One",
-            backgroundColor: "#FC2525",
-            data: [40, 39, 10, 40, 39, 80, 40]
-          },
-          {
-            label: "Data Two",
-            backgroundColor: "#05CBE1",
-            data: [60, 55, 32, 10, 2, 12, 53]
-          }
-        ]
-      },
-    chartOptions :{ responsive: true, maintainAspectRatio: false }
+    chartData: {
+      labels: ["January", "February", "March", "April", "May", "June", "July"],
+      datasets: [
+        {
+          label: "Data One",
+          backgroundColor: "#FC2525",
+          data: [40, 39, 10, 40, 39, 80, 40]
+        },
+        {
+          label: "Data Two",
+          backgroundColor: "#05CBE1",
+          data: [60, 55, 32, 10, 2, 12, 53]
+        }
+      ]
+    },
+    chartOptions: { responsive: true, maintainAspectRatio: false }
   })
 };
 </script>
 
-<style>
-</style>
+<style></style>

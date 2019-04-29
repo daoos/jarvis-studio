@@ -12,7 +12,7 @@
               :show-length="true"
               :show-line="false"
             >
-        </vue-json-pretty>
+            </vue-json-pretty>
           </v-card-text>
         </v-card>
       </v-flex>
@@ -22,27 +22,62 @@
 
 <script>
 import { mapState } from "vuex";
-import VueJsonPretty from 'vue-json-pretty';
+import { mapGetters } from "vuex";
+import VueJsonPretty from "vue-json-pretty";
 import store from "@/store/index";
 
 export default {
   components: {
     VueJsonPretty
   },
-  data: () => ({
-      }),
-  created() {
-    //load the content of the module
-    store.dispatch("mirrorExcGcsToGbqConf/fetchAndAdd").catch(console.error);
+  data: () => ({}),
+  mounted() {
+    this.getFirestoreData();
+  },
+  methods: {
+    async getFirestoreData() {
+      const where = this.whereConfFilter;
+      this.$data.fetchAndAddStatus = "Loading";
+      this.$data.moreToFetchAndAdd = false;
+      this.$data.isFetchAndAdding = true;
+      try {
+        store.dispatch("mirrorExcGcsToGbqConf/closeDBChannel", {
+          clearModule: true
+        });
+        let fetchResult = await store.dispatch(
+          "mirrorExcGcsToGbqConf/fetchAndAdd",
+          { where, limit: 0 }
+        );
+        if (fetchResult.done === true) {
+          this.$data.moreToFetchAndAdd = false;
+        } else {
+          this.$data.moreToFetchAndAdd = true;
+        }
+        this.$data.fetchAndAddStatus = "Success";
+      } catch (e) {
+        this.$data.fetchAndAddStatus = "Error";
+        this.$data.isFetchAndAdding = false;
+      }
+      this.$data.isFetchAndAdding = false;
+    }
   },
   computed: {
     ...mapState({
       isAuthenticated: state => state.user.isAuthenticated,
-      user: state => state.user.user
+      user: state => state.user.user,
+      mirrorExcGcsToGbqConf: state => state.mirrorExcGcsToGbqConf.data,
+      dateFilterSelected: state => state.filters.dateFilterSelected,
+      dateFilters: state => state.filters.dateFilters,
+      minDateFilter: state => state.filters.minDateFilter
     }),
+    ...mapGetters(["periodFiltered", "whereConfFilter"]),
     moduleJson() {
-      console.log(store.state.mirrorExcGcsToGbqConf.data);
       return store.state.mirrorExcGcsToGbqConf.data;
+    }
+  },
+  watch: {
+    whereConfFilter(newValue, oldValue) {
+      this.getFirestoreData();
     }
   }
 };

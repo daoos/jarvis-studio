@@ -75,20 +75,31 @@ const filters = {
       }
       return periodFiltered;
     },
-    whereFilter(state) {
-      let whereFilter = [];
+    whereRunsFilter(state) {
+      let whereRunsFilter = [];
       if (state.minDateFilter != undefined) {
-        whereFilter.push(["dag_execution_date", ">=", state.minDateFilter]);
+        whereRunsFilter.push(["dag_execution_date", ">=", state.minDateFilter]);
       } else {
-        ["dag_execution_date", ">=", "2019-01-01T00:00:00.000Z"]
+        ["dag_execution_date", ">=", "2019-01-01T00:00:00.000Z"];
       }
       if (state.accountFilterSelected.id != "000000") {
-        whereFilter.push(["account", "==", state.accountFilterSelected.id]);
+        whereRunsFilter.push(["account", "==", state.accountFilterSelected.id]);
       }
       if (state.envFilterSelected.envId != "ALL") {
-        whereFilter.push(["environment", "==", state.envFilterSelected.envId]);
+        whereRunsFilter.push([
+          "environment",
+          "==",
+          state.envFilterSelected.envId
+        ]);
       }
-      return whereFilter;
+      return whereRunsFilter;
+    },
+    whereConfFilter(state) {
+      let whereConfFilter = [];
+      if (state.accountFilterSelected.id != "000000") {
+        whereConfFilter.push(["account", "==", state.accountFilterSelected.id]);
+      }
+      return whereConfFilter;
     }
   }
 };

@@ -12,7 +12,7 @@
               :show-length="true"
               :show-line="false"
             >
-        </vue-json-pretty>
+            </vue-json-pretty>
           </v-card-text>
         </v-card>
       </v-flex>
@@ -22,15 +22,15 @@
 
 <script>
 import { mapState } from "vuex";
-import VueJsonPretty from 'vue-json-pretty';
+import { mapGetters } from "vuex";
+import VueJsonPretty from "vue-json-pretty";
 import store from "@/store/index";
 
 export default {
   components: {
     VueJsonPretty
   },
-  data: () => ({
-      }),
+  data: () => ({}),
   created() {
     //load the content of the module
     store.dispatch("mirrorExcGcsToGcsConf/fetchAndAdd").catch(console.error);
@@ -38,8 +38,13 @@ export default {
   computed: {
     ...mapState({
       isAuthenticated: state => state.user.isAuthenticated,
-      user: state => state.user.user
+      user: state => state.user.user,
+      mirrorExcGcsToGbqRuns: state => state.mirrorExcGcsToGbqRuns.data,
+      dateFilterSelected: state => state.filters.dateFilterSelected,
+      dateFilters: state => state.filters.dateFilters,
+      minDateFilter: state => state.filters.minDateFilter
     }),
+    ...mapGetters(["periodFiltered", "whereConfFilter"]),
     moduleJson() {
       return store.state.mirrorExcGcsToGcsConf.data;
     }
