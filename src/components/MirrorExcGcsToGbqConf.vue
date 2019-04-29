@@ -54,7 +54,33 @@ export default {
           this.$data.moreToFetchAndAdd = true;
         }
         this.$data.fetchAndAddStatus = "Success";
+
+        //Loop to the document at the 1st level to get the detail configuration in the CONFIGURATION collection of each document
+        let mirrorExcGcsToGbqConfDetails = [];
+        //Transform the mirrorExcGcsToGbqConf in Array to loop on
+        const mirrorExcGcsToGbqConfArray = Object.values(this.mirrorExcGcsToGbqConf);
+        //Loop on mirrorExcGcsToGbqConfArray to get the collection
+        for (var confDetailsId in mirrorExcGcsToGbqConfArray) {
+          try {
+            store.dispatch("mirrorExcGcsToGbqConfDetails/closeDBChannel", {
+              clearModule: true
+            });
+            let fetchResult = await store.dispatch(
+              "mirrorExcGcsToGbqConfDetails/fetchAndAdd",
+              { bucketId: mirrorExcGcsToGbqConfArray[confDetailsId].id, limit: 0 }
+            );
+            mirrorExcGcsToGbqConfDetails.push(fetchResult);
+            } catch (e) {
+              console.log("Firestore Error catched");
+              console.log(e);
+              this.$data.fetchAndAddStatus = "Error";
+              this.$data.isFetchAndAdding = false;
+            }
+        };
+        console.log(mirrorExcGcsToGbqConfDetails);
       } catch (e) {
+        console.log("Firestore Error catched");
+        console.log(e);
         this.$data.fetchAndAddStatus = "Error";
         this.$data.isFetchAndAdding = false;
       }
