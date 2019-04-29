@@ -31,15 +31,41 @@ export default {
     VueJsonPretty
   },
   data: () => ({}),
-  created() {
-    //load the content of the module
-    store.dispatch("mirrorExcGcsToGcsConf/fetchAndAdd").catch(console.error);
+  mounted() {
+    this.getFirestoreData();
+  },
+  methods: {
+    async getFirestoreData() {
+      const where = this.whereConfFilter;
+      this.$data.fetchAndAddStatus = "Loading";
+      this.$data.moreToFetchAndAdd = false;
+      this.$data.isFetchAndAdding = true;
+      try {
+        store.dispatch("mirrorExcGcsToGcsConf/closeDBChannel", {
+          clearModule: true
+        });
+        let fetchResult = await store.dispatch(
+          "mirrorExcGcsToGcsConf/fetchAndAdd",
+          { where, limit: 0 }
+        );
+        if (fetchResult.done === true) {
+          this.$data.moreToFetchAndAdd = false;
+        } else {
+          this.$data.moreToFetchAndAdd = true;
+        }
+        this.$data.fetchAndAddStatus = "Success";
+      } catch (e) {
+        this.$data.fetchAndAddStatus = "Error";
+        this.$data.isFetchAndAdding = false;
+      }
+      this.$data.isFetchAndAdding = false;
+    }
   },
   computed: {
     ...mapState({
       isAuthenticated: state => state.user.isAuthenticated,
       user: state => state.user.user,
-      mirrorExcGcsToGbqRuns: state => state.mirrorExcGcsToGbqRuns.data,
+      mirrorExcGcsToGcsConf: state => state.mirrorExcGcsToGcsConf.data,
       dateFilterSelected: state => state.filters.dateFilterSelected,
       dateFilters: state => state.filters.dateFilters,
       minDateFilter: state => state.filters.minDateFilter
@@ -47,6 +73,11 @@ export default {
     ...mapGetters(["periodFiltered", "whereConfFilter"]),
     moduleJson() {
       return store.state.mirrorExcGcsToGcsConf.data;
+    }
+  },
+  watch: {
+    whereConfFilter(newValue, oldValue) {
+      this.getFirestoreData();
     }
   }
 };
