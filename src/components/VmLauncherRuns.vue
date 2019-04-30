@@ -11,6 +11,14 @@
         single-line
         hide-details
       ></v-text-field>
+      <v-spacer></v-spacer>
+      <v-icon right dark @click="getFirestoreData" v-if="!isFetchAndAdding">refresh</v-icon>
+      <v-progress-circular
+      indeterminate
+      size=20
+      color="primary"
+      v-if="isFetchAndAdding"
+      ></v-progress-circular>
     </v-toolbar>
     <v-data-table
       :headers="headers"
@@ -166,7 +174,7 @@ export default {
     ]
   }),
   mounted() {
-    this.handleMounted();
+    this.getFirestoreData();
   },
   methods: {
     viewItem(props, item) {
@@ -177,7 +185,7 @@ export default {
     openAirflowDagRunUrl(item) {
       window.open(item.dag_execution_airflow_url, "_blank");
     },
-    async handleMounted() {
+    async getFirestoreData() {
       const where = this.whereRunsFilter;
       this.$data.fetchAndAddStatus = "Loading";
       this.$data.moreToFetchAndAdd = false;
@@ -235,7 +243,7 @@ export default {
   },
   watch: {
     whereRunsFilter(newValue, oldValue) {
-      this.handleMounted();
+      this.getFirestoreData();
     }
   }
 };

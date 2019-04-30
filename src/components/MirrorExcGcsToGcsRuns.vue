@@ -11,6 +11,14 @@
         single-line
         hide-details
       ></v-text-field>
+      <v-spacer></v-spacer>
+      <v-icon right dark @click="getFirestoreData" v-if="!isFetchAndAdding">refresh</v-icon>
+      <v-progress-circular
+      indeterminate
+      size=20
+      color="primary"
+      v-if="isFetchAndAdding"
+      ></v-progress-circular>
     </v-toolbar>
     <v-data-table
       :headers="headers"
