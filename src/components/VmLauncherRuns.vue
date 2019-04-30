@@ -223,6 +223,7 @@ export default {
           dag_execution_date_from_now: moment(
             data.dag_execution_date
           ).fromNow(),
+          //color for the status
           statusColor: Util.getStatusColor(data.status),
           //generate Airflow URL 
           dag_execution_airflow_url: Util.dagRunAirflowUrl(airflowRootUrl,data.dag_id,data.dag_run_id,data.dag_execution_date),
