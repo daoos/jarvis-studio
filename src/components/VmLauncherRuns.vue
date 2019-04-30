@@ -1,6 +1,6 @@
 <template>
   <v-container grid-list-xl fluid>
-    <FiltersMenu></FiltersMenu>
+    <FiltersMenu viewAccount viewEnvironnement viewPeriode></FiltersMenu>
     <v-toolbar flat color="black">
       <v-toolbar-title>VM Launcher Runs</v-toolbar-title>
       <v-spacer></v-spacer>
@@ -44,6 +44,9 @@
         <td class="justify-center layout px-0">
           <v-icon small class="mr-2" @click="viewItem(props, props.item)">
             remove_red_eye
+          </v-icon>
+          <v-icon class="mr-2" small @click="openAirflowDagRunUrl(props.item)">
+            open_in_new
           </v-icon>
         </td>
       </template>
@@ -109,6 +112,7 @@ import VueJsonPretty from "vue-json-pretty";
 import store from "@/store/index";
 import moment from "moment";
 import _ from "lodash";
+import Util from '@/util';
 import FiltersMenu from "./widgets/filters/FiltersMenu.vue";
 
 export default {
@@ -170,8 +174,11 @@ export default {
       this.viewedIndex = this.vmLauncherRunsFormated.indexOf(item);
       this.viewedItem = Object.assign({}, item);
     },
+    openAirflowDagRunUrl(item) {
+      window.open(item.dag_execution_airflow_url, "_blank");
+    },
     async handleMounted() {
-      const where = this.whereFilter;
+      const where = this.whereRunsFilter;
       this.$data.fetchAndAddStatus = "Loading";
       this.$data.moreToFetchAndAdd = false;
       this.$data.isFetchAndAdding = true;
@@ -198,30 +205,17 @@ export default {
     ...mapState({
       isAuthenticated: state => state.user.isAuthenticated,
       user: state => state.user.user,
+      settings: state => state.settings,
       vmLauncherRuns: state => state.vmLauncherRuns.data,
       dateFilterSelected: state => state.filters.dateFilterSelected,
       dateFilters: state => state.filters.dateFilters,
       minDateFilter: state => state.filters.minDateFilter
     }),
-    ...mapGetters(["periodFiltered", "whereFilter"]),
+    ...mapGetters(["periodFiltered", "whereRunsFilter"]),
     vmLauncherRunsFormated() {
       const dataArray = Object.values(this.vmLauncherRuns);
+      const airflowRootUrl = this.settings.airflowRootUrl;
       var dataFormated = dataArray.map(function(data, index) {
-        let statusColor = "blue";
-        switch (data.status) {
-          case "SUCCESS":
-            statusColor = "green";
-            break;
-          case "FAILED":
-            statusColor = "red";
-            break;
-          case "RUNNING":
-            statusColor = "light-blue";
-            break;
-          default:
-            statusColor = "orange";
-            break;
-        }
         return {
           dag_execution_date_formated: moment(data.dag_execution_date).format(
             "YYYY/MM/DD - HH:mm"
@@ -229,7 +223,9 @@ export default {
           dag_execution_date_from_now: moment(
             data.dag_execution_date
           ).fromNow(),
-          statusColor: statusColor
+          statusColor: Util.getStatusColor(data.status),
+          //generate Airflow URL 
+          dag_execution_airflow_url: Util.dagRunAirflowUrl(airflowRootUrl,data.dag_id,data.dag_run_id,data.dag_execution_date),
         };
       });
       const dataArrayFormated = _.merge(dataArray, dataFormated);
@@ -237,7 +233,7 @@ export default {
     }
   },
   watch: {
-    whereFilter(newValue, oldValue) {
+    whereRunsFilter(newValue, oldValue) {
       this.handleMounted();
     }
   }

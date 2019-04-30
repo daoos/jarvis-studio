@@ -32,10 +32,22 @@
         <td>{{ props.item["environment"] }}</td>
         <td>{{ props.item["source_bucket"] }}</td>
         <td>{{ props.item["gcs_triggering_file"] }}</td>
+        <td>
+          <v-chip
+            :color="props.item.statusColor"
+            text-color="white"
+            small
+            class="text-lowercase"
+            >{{ props.item["status"] }}</v-chip
+          >
+        </td>
         <td>{{ props.item["dag_execution_date_formated"] }}</td>
         <td class="justify-center layout px-0">
           <v-icon small class="mr-2" @click="viewItem(props, props.item)">
             remove_red_eye
+          </v-icon>
+          <v-icon class="mr-2" small @click="openAirflowDagRunUrl(props.item)">
+            open_in_new
           </v-icon>
         </td>
       </template>
@@ -101,6 +113,7 @@ import VueJsonPretty from "vue-json-pretty";
 import store from "@/store/index";
 import moment from "moment";
 import _ from "lodash";
+import Util from '@/util';
 import FiltersMenu from "./widgets/filters/FiltersMenu.vue";
 
 export default {
@@ -145,6 +158,12 @@ export default {
         value: "gcs_triggering_file"
       },
       {
+        text: "Status",
+        align: "left",
+        sortable: true,
+        value: "status"
+      },
+      {
         text: "Execution Date",
         align: "left",
         sortable: true,
@@ -161,6 +180,9 @@ export default {
       props.expanded = !props.expanded;
       this.viewedIndex = this.mirrorExcGcsToGcsRunsFormated.indexOf(item);
       this.viewedItem = Object.assign({}, item);
+    },
+    openAirflowDagRunUrl(item) {
+      window.open(item.dag_execution_airflow_url, "_blank");
     },
     async getFirestoreData() {
       const where = this.whereRunsFilter;
@@ -192,6 +214,7 @@ export default {
     ...mapState({
       isAuthenticated: state => state.user.isAuthenticated,
       user: state => state.user.user,
+      settings: state => state.settings,
       mirrorExcGcsToGcsRuns: state => state.mirrorExcGcsToGcsRuns.data,
       dateFilterSelected: state => state.filters.dateFilterSelected,
       dateFilters: state => state.filters.dateFilters,
@@ -200,12 +223,17 @@ export default {
     ...mapGetters(["periodFiltered", "whereRunsFilter"]),
     mirrorExcGcsToGcsRunsFormated() {
       const dataArray = Object.values(this.mirrorExcGcsToGcsRuns);
+      const airflowRootUrl = this.settings.airflowRootUrl;
       var dataFormated = dataArray.map(function(data, index) {
         return {
           dag_execution_date_formated: moment(data.dag_execution_date).format(
             "YYYY/MM/DD - HH:mm"
           ),
-          dag_execution_date_from_now: moment(data.dag_execution_date).fromNow()
+          dag_execution_date_from_now: moment(data.dag_execution_date).fromNow(),
+          //color for the status
+          statusColor: Util.getStatusColor(data.status),
+          //generate Airflow URL 
+          dag_execution_airflow_url: Util.dagRunAirflowUrl(airflowRootUrl,data.dag_id,data.dag_run_id,data.dag_execution_date)
         };
       });
       const dataArrayFormated = _.merge(dataArray, dataFormated);
