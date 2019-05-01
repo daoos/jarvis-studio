@@ -84,6 +84,14 @@
                 <v-list-tile-title>GCS to GBQ Configurations</v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>
+             <v-list-tile :to="{ path: '/viewgbqtogcsconf' }">
+              <v-list-tile-action>
+                <v-icon>file_copy</v-icon>
+              </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title>GBQ to GCS Configurations</v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
             <v-divider></v-divider>
             <v-subheader>Runs</v-subheader>
             <v-list-tile :to="{ path: '/mirrorexcgcstogcsruns' }">
