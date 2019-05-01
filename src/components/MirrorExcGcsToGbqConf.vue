@@ -47,6 +47,9 @@
               <v-icon small class="mr-2" @click="viewItem(props, props.item)">
                 remove_red_eye
               </v-icon>
+              <v-icon small class="mr-2" @click="deleteConfFromFirestore(props, props.item)">
+                delete_forever
+              </v-icon>
             </td>
           </template>
           <template v-slot:expand="props">
@@ -105,6 +108,54 @@
         </v-card>
       </v-flex>
     </v-layout>
+    <v-dialog v-model="dialogDeleteConf" max-width="400" >
+      <v-card light>
+        <v-card-title class="headline">Delete Configuration</v-card-title>
+        <v-card-text>
+          Do you really want to delete the configuration?
+          <h3 class="pt-3"><v-icon size=18>arrow_forward</v-icon>{{ confToDeleteFromFirestore.id }}</h3>
+        </v-card-text>
+        <v-card-actions>
+          <v-btn icon @click="showDetailConfToDelete = !showDetailConfToDelete">
+            <v-icon>{{ showDetailConfToDelete ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}</v-icon>
+          </v-btn>
+          <v-spacer></v-spacer>
+          <v-btn
+            color="grey"
+            flat="flat"
+            @click="cancelDeleteConfFromFirestore"
+          >
+            Cancel
+          </v-btn>
+          <v-btn
+            color="error"
+            @click="confirmeDeleteConfFromFirestore"
+          >
+            Delete
+          </v-btn>
+        </v-card-actions>
+        <v-slide-y-transition>
+          <v-card-text v-show="showDetailConfToDelete">
+            <vue-json-pretty
+                :data="confToDeleteFromFirestore"
+                :deep="5"
+                :show-double-quotes="true"
+                :show-length="true"
+                :show-line="false"
+              >
+              </vue-json-pretty>
+            </v-card-text>
+          </v-slide-y-transition>
+        </v-card>
+      </v-dialog>
+      <v-snackbar
+        v-model="showSnackbarDeleteConfSuccess"
+        color="success"
+        :timeout="1000"
+        auto-height
+      >
+        Configuration deleted with sucess
+      </v-snackbar>
   </v-container>
 </template>
 
@@ -134,7 +185,10 @@ export default {
     },
     viewJson: false,
     viewedItem: {},
-    chartNbDays: 1,
+    confToDeleteFromFirestore: {},
+    dialogDeleteConf: false,
+    showDetailConfToDelete: false,
+    showSnackbarDeleteConfSuccess: false,
     headers: [
       {
         text: "Account ID",
@@ -178,6 +232,21 @@ export default {
       this.viewedIndex = this.mirrorExcGcsToGbqConfAllDetailsArrayFlat.indexOf(item);
       this.viewedItem = Object.assign({}, item);
     },
+    deleteConfFromFirestore(props, item) {
+      this.confToDeleteFromFirestore = item;
+      this.dialogDeleteConf = true;
+    }, 
+    cancelDeleteConfFromFirestore() {
+      this.dialogDeleteConf = false;
+      this.confToDeleteFromFirestore = {};
+      this.showDetailConfToDelete = false;
+    },
+    confirmeDeleteConfFromFirestore() {
+      this.dialogDeleteConf = false;
+      store.dispatch('mirrorExcGcsToGbqConf/delete', this.confToDeleteFromFirestore.id).then(this.showSnackbarDeleteConfSuccess = true);
+      this.confToDeleteFromFirestore = {};
+      this.showDetailConfToDelete = false;
+    }, 
     async getFirestoreData() {
       this.mirrorExcGcsToGbqConfAllDetailsArray = [];
       const where = this.whereConfFilter;

@@ -103,19 +103,13 @@
         </v-card>
       </v-flex>
     </v-layout>
-    <v-dialog
-      v-model="dialogDeleteConf"
-      max-width="400"
-    >
+    <v-dialog v-model="dialogDeleteConf" max-width="400">
       <v-card light>
         <v-card-title class="headline">Delete Configuration</v-card-title>
-
         <v-card-text>
           Do you really want to delete the configuration?
-            <h3 class="pt-3"><v-icon size=18>arrow_forward</v-icon>{{ confToDeleteFromFirestore.id }}</h3>
-          
+          <h3 class="pt-3"><v-icon size=18>arrow_forward</v-icon>{{ confToDeleteFromFirestore.id }}</h3>
         </v-card-text>
-
         <v-card-actions>
           <v-btn icon @click="showDetailConfToDelete = !showDetailConfToDelete">
             <v-icon>{{ showDetailConfToDelete ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}</v-icon>
@@ -132,23 +126,31 @@
             color="error"
             @click="confirmeDeleteConfFromFirestore"
           >
-            DELETE
+            Delete
           </v-btn>
         </v-card-actions>
         <v-slide-y-transition>
           <v-card-text v-show="showDetailConfToDelete">
-           <vue-json-pretty
-              :data="confToDeleteFromFirestore"
-              :deep="5"
-              :show-double-quotes="true"
-              :show-length="true"
-              :show-line="false"
-            >
-            </vue-json-pretty>
-          </v-card-text>
-        </v-slide-y-transition>
-      </v-card>
-    </v-dialog>
+            <vue-json-pretty
+                :data="confToDeleteFromFirestore"
+                :deep="5"
+                :show-double-quotes="true"
+                :show-length="true"
+                :show-line="false"
+              >
+              </vue-json-pretty>
+            </v-card-text>
+          </v-slide-y-transition>
+        </v-card>
+      </v-dialog>
+      <v-snackbar
+        v-model="showSnackbarDeleteConfSuccess"
+        color="success"
+        :timeout="1000"
+        auto-height
+      >
+        Configuration deleted with sucess
+      </v-snackbar>
   </v-container>
 </template>
 
@@ -181,6 +183,7 @@ export default {
     confToDeleteFromFirestore: {},
     dialogDeleteConf: false,
     showDetailConfToDelete: false,
+    showSnackbarDeleteConfSuccess: true,
     headers: [
       {
         text: "Account ID",
