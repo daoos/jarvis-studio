@@ -176,9 +176,7 @@ export default {
     viewItem(props, item) {
       props.expanded = !props.expanded;
       this.viewedIndex = this.getGbqToGcsConfFormated.indexOf(item);
-      //this.viewedItem = Object.assign({}, item);
       this.viewedItem = item;
-      console.log(this.viewedItem);
     },
     async getFirestoreData() {
       const where = this.whereConfFilter;
