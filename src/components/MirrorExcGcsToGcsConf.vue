@@ -183,7 +183,7 @@ export default {
     confToDeleteFromFirestore: {},
     dialogDeleteConf: false,
     showDetailConfToDelete: false,
-    showSnackbarDeleteConfSuccess: true,
+    showSnackbarDeleteConfSuccess: false,
     headers: [
       {
         text: "Account ID",
@@ -244,7 +244,7 @@ export default {
     },
     confirmeDeleteConfFromFirestore() {
       this.dialogDeleteConf = false;
-      store.dispatch('mirrorExcGcsToGcsConf/delete', this.confToDeleteFromFirestore.id);
+      store.dispatch('mirrorExcGcsToGcsConf/delete', this.confToDeleteFromFirestore.id).then(this.showSnackbarDeleteConfSuccess = true);
       this.confToDeleteFromFirestore = {};
       this.showDetailConfToDelete = false;
     }, 
