@@ -102,6 +102,14 @@
                 <v-list-tile-title>GCS to GBQ Runs</v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>
+            <v-list-tile :to="{ path: '/viewgbqtogcsruns' }">
+              <v-list-tile-action>
+                <v-icon>file_copy</v-icon>
+              </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title>GBQ to GCS Runs</v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
             <v-list-tile :to="{ path: '/vmlauncherruns' }">
               <v-list-tile-action>
                 <v-icon>dns</v-icon>

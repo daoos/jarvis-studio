@@ -21,6 +21,7 @@ import mirrorExcGcsToGcsConf from "./mirror-exc-gcs-to-gcs-conf";
 import mirrorExcGcsToGbqRuns from "./mirror-exc-gcs-to-gbq-runs";
 import mirrorExcGcsToGbqConf from "./mirror-exc-gcs-to-gbq-conf";
 import mirrorExcGcsToGbqConfDetails from "./mirror-exc-gcs-to-gbq-conf-details";
+import getGbqToGcsRuns from "./get-gbq-to-gcs-runs";
 
 import filters from "./filters";
 import vmLauncherRuns from "./vm-launcher-runs";
@@ -37,6 +38,7 @@ const easyFirestores = VuexEasyFirestore(
     mirrorExcGcsToGbqRuns,
     mirrorExcGcsToGbqConf,
     mirrorExcGcsToGbqConfDetails,
+    getGbqToGcsRuns,
     vmLauncherRuns
   ],
   {
