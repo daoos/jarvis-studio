@@ -41,6 +41,7 @@ const easyFirestores = VuexEasyFirestore(
     mirrorExcGcsToGbqConfDetails,
     getGbqToGcsRuns,
     getGbqToGcsConf,
+    vmLauncherConf,
     vmLauncherRuns
   ],
   {

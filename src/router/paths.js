@@ -116,5 +116,14 @@ export default [
     },
     component: () =>
       import(/* webpackChunkName: "vmlauncherruns" */ "@/views/VmLauncherRuns.vue")
+  },
+  {
+    path: "/vmlauncherconf",
+    name: "vmLauncherConf",
+    meta: {
+      authRequired: true
+    },
+    component: () =>
+      import(/* webpackChunkName: "vmlauncherconf" */ "@/views/VmLauncherConf.vue")
   }
 ];
