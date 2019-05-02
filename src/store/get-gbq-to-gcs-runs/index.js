@@ -1,5 +1,5 @@
 const getGbqToGcsRuns = {
-  firestorePath: "gbq_to_gcs-runs",
+  firestorePath: "gbq-to-gcs-runs",
   firestoreRefType: "collection", // 'collection' or 'doc'
   moduleName: "getGbqToGcsRuns",
   statePropName: "data",
