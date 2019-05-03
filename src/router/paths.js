@@ -91,7 +91,16 @@ export default [
       import(/* webpackChunkName: "mirrorexcgcstogbqruns" */ "@/views/MirrorExcGcsToGbqRuns.vue")
   },
   {
-    path: "/viewgbqtogcsConf",
+    path: "/viewgbqtogbqconf",
+    name: "viewGbqToGbqConf",
+    meta: {
+      authRequired: true
+    },
+    component: () =>
+      import(/* webpackChunkName: "viewgbqtogbqconf" */ "@/views/ViewGbqToGbqConf.vue")
+  },
+  {
+    path: "/viewgbqtogcsconf",
     name: "viewGbqToGcsConf",
     meta: {
       authRequired: true
