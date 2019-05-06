@@ -155,7 +155,7 @@ export default {
         value: "default_bq_dataset"
       },
       {
-        text: " # Tasks",
+        text: "# Tasks",
         align: "left",
         sortable: true,
         value: "nb_tasks"

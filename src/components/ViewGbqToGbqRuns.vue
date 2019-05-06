@@ -62,7 +62,7 @@
       <template v-slot:expand="props">
         <v-card flat>
           <v-card-title>
-            <span class="headline">{{ viewedItem.gcs_triggering_file }}</span>
+            <span class="headline">{{ viewedItem.dag_id }}</span>
             <v-spacer></v-spacer>
             <v-btn color="warning" fab small dark outline>
               <v-icon @click="props.expanded = !props.expanded">
