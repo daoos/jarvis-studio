@@ -1,8 +1,8 @@
 <template>
   <v-container grid-list-xl fluid>
-    <FiltersMenu viewAccount viewEnvironnement></FiltersMenu>
+    <FiltersMenu viewAccount viewEnvironnement viewPeriode></FiltersMenu>
     <v-toolbar flat color="black">
-      <v-toolbar-title>GBQ To GBQ Conf</v-toolbar-title>
+      <v-toolbar-title>GBQ To GCS Runs</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-text-field
         v-model="search"
@@ -22,12 +22,12 @@
     </v-toolbar>
     <v-data-table
       :headers="headers"
-      :items="getGbqToGbqConfFormated"
+      :items="getGbqToGbqRunsFormated"
       :search="search"
       :loading="isFetchAndAdding"
       :expand="expand"
       :pagination.sync="pagination"
-      item-key="id"
+      item-key="dag_run_id"
       class="elevation-5"
     >
       <v-progress-linear
@@ -38,20 +38,31 @@
       <template v-slot:items="props">
         <td>{{ props.item["account"] }}</td>
         <td>{{ props.item["environment"] }}</td>
-        <td>{{ props.item["id"] }}</td>
-        <td>{{ props.item["configuration"]["default_bq_dataset"] }}</td>
-        <td>{{ props.item["nb_tasks"] }} </td>
-        <td>{{ props.item["configuration"]["dag_dependencies"]["activated"]  }}</td>
+        <td>{{ props.item["dag_id"] }}</td>
+        <td>{{ props.item["nb_tasks"] }}</td>
+        <td>
+          <v-chip
+            :color="props.item.statusColor"
+            text-color="white"
+            small
+            class="text-lowercase"
+            >{{ props.item["status"] }}</v-chip
+          >
+        </td>
+        <td>{{ props.item["dag_execution_date_formated"] }}</td>
         <td class="justify-center layout px-0">
           <v-icon small class="mr-2" @click="viewItem(props, props.item)">
             remove_red_eye
+          </v-icon>
+          <v-icon class="mr-2" small @click="openAirflowDagRunUrl(props.item)">
+            open_in_new
           </v-icon>
         </td>
       </template>
       <template v-slot:expand="props">
         <v-card flat>
           <v-card-title>
-            <span class="headline">{{ viewedItem.id }}</span>
+            <span class="headline">{{ viewedItem.gcs_triggering_file }}</span>
             <v-spacer></v-spacer>
             <v-btn color="warning" fab small dark outline>
               <v-icon @click="props.expanded = !props.expanded">
@@ -79,7 +90,7 @@
       <v-flex xs12 offset-xs0>
         <v-card dark class="elevation-10">
           <v-card-title>
-            <span class="headline">{{ id }}</span>
+            <span class="headline">{{ viewedItem.gcs_triggering_file }}</span>
             <v-spacer></v-spacer>
             <v-btn color="warning" fab small dark outline>
               <v-icon @click="viewJson = false">
@@ -123,7 +134,7 @@ export default {
     isFetchAndAdding: false,
     expand: false,
     pagination: {
-      sortBy: "table_name",
+      sortBy: "dag_execution_date_formated",
       descending: true,
       rowsPerPage: 10
     },
@@ -143,28 +154,28 @@ export default {
         value: "environment"
       },
       {
-        text: "Workflow Id",
+        text: "Workflow Id Bucket",
         align: "left",
         sortable: true,
         value: "dag_id"
       },
       {
-        text: "BQ Default Dataset",
-        align: "left",
-        sortable: true,
-        value: "default_bq_dataset"
-      },
-      {
-        text: " # Tasks",
+        text: "# Tasks",
         align: "left",
         sortable: true,
         value: "nb_tasks"
       },
       {
-        text: "With Dependencies",
+        text: "Status",
         align: "left",
         sortable: true,
-        value: "with_dependencies"
+        value: "status"
+      },
+      {
+        text: "Execution Date",
+        align: "left",
+        sortable: true,
+        value: "dag_execution_date_formated"
       },
       { text: "Actions", align: "center", value: "actions", sortable: false }
     ]
@@ -175,20 +186,24 @@ export default {
   methods: {
     viewItem(props, item) {
       props.expanded = !props.expanded;
-      this.viewedIndex = this.getGbqToGbqConfFormated.indexOf(item);
-      this.viewedItem = item;
+      this.viewedIndex = this.getGbqToGbqRunsFormated.indexOf(item);
+      this.viewedItem = Object.assign({}, item);
+    },
+    openAirflowDagRunUrl(item) {
+      window.open(item.dag_execution_airflow_url, "_blank");
     },
     async getFirestoreData() {
-      const where = this.whereConfFilter;
+      console.log("I'l jere");
+      const where = this.whereRunsFilter;
       this.$data.fetchAndAddStatus = "Loading";
       this.$data.moreToFetchAndAdd = false;
       this.$data.isFetchAndAdding = true;
       try {
-        store.dispatch("getGbqToGbqConf/closeDBChannel", {
+        store.dispatch("getGbqToGbqRuns/closeDBChannel", {
           clearModule: true
         });
         let fetchResult = await store.dispatch(
-          "getGbqToGbqConf/fetchAndAdd",
+          "getGbqToGbqRuns/fetchAndAdd",
           { where, limit: 0 }
         );
         if (fetchResult.done === true) {
@@ -209,15 +224,26 @@ export default {
       isAuthenticated: state => state.user.isAuthenticated,
       user: state => state.user.user,
       settings: state => state.settings,
-      getGbqToGbqConf: state => state.getGbqToGbqConf.data,
+      getGbqToGbqRuns: state => state.getGbqToGbqRuns.data,
+      dateFilterSelected: state => state.filters.dateFilterSelected,
+      dateFilters: state => state.filters.dateFilters,
+      minDateFilter: state => state.filters.minDateFilter
     }),
-    ...mapGetters(["periodFiltered", "whereConfFilter"]),
-    getGbqToGbqConfFormated() {
-      const dataArray = Object.values(this.getGbqToGbqConf);
-      //const airflowRootUrl = this.settings.airflowRootUrl;
+    ...mapGetters(["periodFiltered", "whereRunsFilter"]),
+    getGbqToGbqRunsFormated() {
+      const dataArray = Object.values(this.getGbqToGbqRuns);
+      const airflowRootUrl = this.settings.airflowRootUrl;
       var dataFormated = dataArray.map(function(data, index) {
         return {
-          nb_tasks: data.configuration.workflow.length,
+          nb_tasks: data.configuration_context.configuration.workflow.length,
+          dag_execution_date_formated: moment(data.dag_execution_date).format(
+            "YYYY/MM/DD - HH:mm"
+          ),
+          dag_execution_date_from_now: moment(data.dag_execution_date).fromNow(),
+          //color for the status
+          statusColor: Util.getStatusColor(data.status),
+          //generate Airflow URL 
+          dag_execution_airflow_url: Util.dagRunAirflowUrl(airflowRootUrl,data.dag_id,data.dag_run_id,data.dag_execution_date)
         };
       });
       const dataArrayFormated = _.merge(dataArray, dataFormated);
@@ -225,7 +251,7 @@ export default {
     }
   },
   watch: {
-    whereConfFilter(newValue, oldValue) {
+    whereRunsFilter(newValue, oldValue) {
       this.getFirestoreData();
     }
   }

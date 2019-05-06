@@ -68,7 +68,7 @@
         >
           <v-list dense>
             <v-subheader>Configurations</v-subheader>
-            <v-list-tile :to="{ path: '/mirrorexcgcstogcsconf' }">
+            <v-list-tile :to="{ path: '/mirrorexcgcstogcsconf' }"> 
               <v-list-tile-action>
                 <v-icon>swap_horiz</v-icon>
               </v-list-tile-action>
@@ -82,6 +82,14 @@
               </v-list-tile-action>
               <v-list-tile-content>
                 <v-list-tile-title>GCS to GBQ Configurations</v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
+             <v-list-tile :to="{ path: '/viewgbqtogbqconf' }">
+              <v-list-tile-action>
+                <v-icon>device_hub</v-icon>
+              </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title>GBQ to GBQ Configurations</v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>
              <v-list-tile :to="{ path: '/viewgbqtogcsconf' }">
@@ -116,6 +124,14 @@
               </v-list-tile-action>
               <v-list-tile-content>
                 <v-list-tile-title>GCS to GBQ Runs</v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
+            <v-list-tile :to="{ path: '/viewgbqtogbqruns' }">
+              <v-list-tile-action>
+                <v-icon>device_hub</v-icon>
+              </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title>GBQ to GBQ Runs</v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>
             <v-list-tile :to="{ path: '/viewgbqtogcsruns' }">

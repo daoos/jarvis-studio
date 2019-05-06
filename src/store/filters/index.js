@@ -15,7 +15,8 @@ const filters = {
     envFilters: [
       { envLabel: "All Env.", envId: "ALL" },
       { envLabel: "Production", envId: "PROD" },
-      { envLabel: "Test", envId: "TEST" },
+      { envLabel: "Pre-Production", envId: "PREPROD" },
+      { envLabel: "Staging", envId: "STAGING" },
       { envLabel: "Development", envId: "DEV" }
     ],
     minDateFilter: moment()
@@ -98,6 +99,13 @@ const filters = {
       let whereConfFilter = [];
       if (state.accountFilterSelected.id != "000000") {
         whereConfFilter.push(["account", "==", state.accountFilterSelected.id]);
+      }
+      if (state.envFilterSelected.envId != "ALL") {
+        whereConfFilter.push([
+          "environment",
+          "==",
+          state.envFilterSelected.envId
+        ]);
       }
       return whereConfFilter;
     }

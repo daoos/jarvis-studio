@@ -100,6 +100,15 @@ export default [
       import(/* webpackChunkName: "viewgbqtogbqconf" */ "@/views/ViewGbqToGbqConf.vue")
   },
   {
+    path: "/viewgbqtogbqruns",
+    name: "viewGbqToGbqRuns",
+    meta: {
+      authRequired: true
+    },
+    component: () =>
+      import(/* webpackChunkName: "viewgbqtogbqruns" */ "@/views/ViewGbqToGbqRuns.vue")
+  },
+  {
     path: "/viewgbqtogcsconf",
     name: "viewGbqToGcsConf",
     meta: {
