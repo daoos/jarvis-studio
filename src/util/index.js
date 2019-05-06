@@ -29,6 +29,25 @@ const getStatusColor = status => {
   return statusColor;
 };
 
+const getActiveConfColor = activated => {
+  let activeColor = "amber";
+  switch (activated) {
+    case true:
+      activeColor = "green";
+      break;
+    case false:
+      activeColor = "grey";
+      break;
+    case "RUNNING":
+      activeColor = "light-blue";
+      break;
+    default:
+      activeColor = "amber";
+      break;
+  }
+  return activeColor;
+};
+
 const randomElement = (arr = []) => {
   return arr[Math.floor(Math.random() * arr.length)];
 };
@@ -69,5 +88,6 @@ export default {
   toggleFullScreen,
   kebab,
   dagRunAirflowUrl,
-  getStatusColor
+  getStatusColor,
+  getActiveConfColor
 };

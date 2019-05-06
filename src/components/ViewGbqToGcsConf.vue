@@ -42,6 +42,9 @@
         <td>{{ props.item["gcp_project"] }}</td>
         <td>{{ props.item["gcs_dest_bucket"] }} </td>
         <td>{{ props.item["gcs_dest_prefix"] }}</td>
+        <td @click="changeActivatedStatus(props.item)">
+        <ActivatedStatusChip :activatedConfStatus=props.item.activated ></ActivatedStatusChip>
+        </td>
         <td class="justify-center layout px-0">
           <v-icon small class="mr-2" @click="viewItem(props, props.item)">
             remove_red_eye
@@ -112,11 +115,13 @@ import moment from "moment";
 import _ from "lodash";
 import Util from '@/util';
 import FiltersMenu from "./widgets/filters/FiltersMenu.vue";
+import ActivatedStatusChip from "./widgets/datatablewidgets/ActivatedStatusChip.vue"
 
 export default {
   components: {
     VueJsonPretty,
-    FiltersMenu
+    FiltersMenu,
+    ActivatedStatusChip
   },
   data: () => ({
     search: "",
@@ -166,6 +171,12 @@ export default {
         sortable: true,
         value: "gcs_dest_prefix"
       },
+      {
+        text: "Status",
+        align: "left",
+        sortable: true,
+        value: "activated"
+      },
       { text: "Actions", align: "center", value: "actions", sortable: false }
     ]
   }),
@@ -202,7 +213,26 @@ export default {
         this.$data.isFetchAndAdding = false;
       }
       this.$data.isFetchAndAdding = false;
-    }
+    },
+    changeActivatedStatus(item) {
+      console.log("hello")
+      let newActivatedStatus = false;
+      let id=item.id;
+
+      switch (item.activated) {
+        case true:
+        newActivatedStatus = false;
+        break;
+        case false:
+        newActivatedStatus = true;
+        break;
+        default:
+        newActivatedStatus = false;;
+        break;
+      }
+      //console.log(item)
+      store.dispatch('getGbqToGcsConf/patch', {id, activated: newActivatedStatus});
+    } 
   },
   computed: {
     ...mapState({
@@ -213,7 +243,15 @@ export default {
     }),
     ...mapGetters(["periodFiltered", "whereConfFilter"]),
     getGbqToGcsConfFormated() {
-      return Object.values(this.getGbqToGcsConf);;
+      const dataArray = Object.values(this.getGbqToGcsConf);
+      var dataFormated = dataArray.map(function(data, index) {
+        return {
+          //color for the activated status
+          activeConfColor: Util.getActiveConfColor(data.activated),
+        };
+      });
+      const dataArrayFormated = _.merge(dataArray, dataFormated);
+      return dataArrayFormated;
     }
   },
   watch: {
