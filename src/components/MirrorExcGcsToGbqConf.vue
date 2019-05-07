@@ -243,6 +243,7 @@ export default {
     },
     confirmeDeleteConfFromFirestore() {
       this.dialogDeleteConf = false;
+      this.showSnackbarDeleteConfSuccess = false;
       store.dispatch('mirrorExcGcsToGbqConf/delete', this.confToDeleteFromFirestore.id).then(this.showSnackbarDeleteConfSuccess = true);
       this.confToDeleteFromFirestore = {};
       this.showDetailConfToDelete = false;

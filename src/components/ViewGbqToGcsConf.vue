@@ -1,6 +1,14 @@
 <template>
   <v-container grid-list-xl fluid>
     <FiltersMenu viewAccount viewEnvironnement></FiltersMenu>
+    <v-alert
+      :value="alertParam.show"
+      :color="alertParam.color"
+      :icon="alertParam.icon"
+      :dismissible="alertParam.dismissible"
+    >
+      {{ alertParam.message }}
+    </v-alert>
     <v-toolbar flat color="black">
       <v-toolbar-title>GBQ To GCS Conf</v-toolbar-title>
       <v-spacer></v-spacer>
@@ -42,8 +50,8 @@
         <td>{{ props.item["gcp_project"] }}</td>
         <td>{{ props.item["gcs_dest_bucket"] }} </td>
         <td>{{ props.item["gcs_dest_prefix"] }}</td>
-        <td @click="changeActivatedStatus(props.item)">
-        <ActivatedStatusChip :activatedConfStatus=props.item.activated ></ActivatedStatusChip>
+        <td>
+        <ActivatedStatusChip @click.native="changeActivatedStatus(props.item)" :activatedConfStatus=props.item.activated ></ActivatedStatusChip>
         </td>
         <td class="justify-center layout px-0">
           <v-icon small class="mr-2" @click="viewItem(props, props.item)">
@@ -103,6 +111,20 @@
         </v-card>
       </v-flex>
     </v-layout>
+        <v-snackbar
+        v-model="snackbarParam.show"
+        :color="snackbarParam.color"
+        :timeout="2000"
+        auto-height
+        >
+        {{ snackbarParam.message }}
+         <v-btn
+        flat
+        @click="snackbarParam.show = false"
+      >
+        Close
+      </v-btn>
+    </v-snackbar>
   </v-container>
 </template>
 
@@ -121,11 +143,13 @@ export default {
   components: {
     VueJsonPretty,
     FiltersMenu,
-    ActivatedStatusChip
+    ActivatedStatusChip,
   },
   data: () => ({
     search: "",
     isFetchAndAdding: false,
+    fetchAndAddStatus: "Loading",
+    moreToFetchAndAdd: false,
     expand: false,
     pagination: {
       sortBy: "table_name",
@@ -134,6 +158,8 @@ export default {
     },
     viewJson: false,
     viewedItem: {},
+    snackbarParam: {message: "", show:false, color:"info"},
+    alertParam: {message: "", show:false, color:"info", dismissible:true},
     headers: [
       {
         text: "Account ID",
@@ -215,23 +241,34 @@ export default {
       this.$data.isFetchAndAdding = false;
     },
     changeActivatedStatus(item) {
-      console.log("hello")
-      let newActivatedStatus = false;
+      //init snackbar
+      this.snackbarParam.message = "";
+      this.snackbarParam.show = false;
+      this.snackbarParam.color = "info";
+      //init alert bar
+      this.alertParam.message = "";
+      this.alertParam.show = false;
+      this.alertParam.color = "info";
+      // The id of the conf to update
       let id=item.id;
-
       switch (item.activated) {
         case true:
-        newActivatedStatus = false;
+        this.snackbarParam.message = "Configuration disabled";
+        this.snackbarParam.color = Util.getActiveConfColor(false);
+        store.dispatch('getGbqToGcsConf/patch', {id, activated: false}).then(this.snackbarParam.show = true);
         break;
         case false:
-        newActivatedStatus = true;
+        this.snackbarParam.message = "Configuration activated";
+        this.snackbarParam.color = Util.getActiveConfColor(true);
+        store.dispatch('getGbqToGcsConf/patch', {id, activated: true}).then(this.snackbarParam.show = true);
         break;
         default:
-        newActivatedStatus = false;;
+        this.alertParam.color = "error";
+        this.alertParam.message = "The Activated attribute is not well set in the source configuration. Please update and deploy it again";
+        this.alertParam.show = "true";
+        this.alertParam.icon = "error"
         break;
       }
-      //console.log(item)
-      store.dispatch('getGbqToGcsConf/patch', {id, activated: newActivatedStatus});
     } 
   },
   computed: {

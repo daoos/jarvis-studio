@@ -133,6 +133,7 @@ export default {
     search: "",
     isFetchAndAdding: false,
     expand: false,
+
     pagination: {
       sortBy: "dag_execution_date_formated",
       descending: true,
