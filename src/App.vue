@@ -68,49 +68,49 @@
         >
           <v-list dense>
             <v-subheader>Configurations</v-subheader>
-            <v-list-tile :to="{ path: '/mirrorexcgcstogcsconf' }"> 
+            <v-list-tile :to="{ path: '/conf/gcstogcs' }"> 
               <v-list-tile-action>
                 <v-icon>swap_horiz</v-icon>
               </v-list-tile-action>
               <v-list-tile-content>
-                <v-list-tile-title>GCS to GCS Configurations</v-list-tile-title>
+                <v-list-tile-title>GCS to GCS</v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>
-            <v-list-tile :to="{ path: '/mirrorexcgcstogbqconf' }">
+            <v-list-tile :to="{ path: '/conf/gcstogbq' }">
               <v-list-tile-action>
                 <v-icon>vertical_split</v-icon>
               </v-list-tile-action>
               <v-list-tile-content>
-                <v-list-tile-title>GCS to GBQ Configurations</v-list-tile-title>
+                <v-list-tile-title>GCS to GBQ</v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>
-             <v-list-tile :to="{ path: '/viewgbqtogbqconf' }">
+             <v-list-tile :to="{ path: '/conf/gbqtogbq' }">
               <v-list-tile-action>
                 <v-icon>device_hub</v-icon>
               </v-list-tile-action>
               <v-list-tile-content>
-                <v-list-tile-title>GBQ to GBQ Configurations</v-list-tile-title>
+                <v-list-tile-title>GBQ to GBQ</v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>
-             <v-list-tile :to="{ path: '/viewgbqtogcsconf' }">
+             <v-list-tile :to="{ path: '/conf/gbqtogcs' }">
               <v-list-tile-action>
                 <v-icon>file_copy</v-icon>
               </v-list-tile-action>
               <v-list-tile-content>
-                <v-list-tile-title>GBQ to GCS Configurations</v-list-tile-title>
+                <v-list-tile-title>GBQ to GCS</v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>
-             <v-list-tile :to="{ path: '/vmlauncherconf' }">
+             <v-list-tile :to="{ path: '/conf/vmlauncher' }">
               <v-list-tile-action>
                 <v-icon>dns</v-icon>
               </v-list-tile-action>
               <v-list-tile-content>
-                <v-list-tile-title>VM Launcher Conf</v-list-tile-title>
+                <v-list-tile-title>VM Launcher</v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>
             <v-divider></v-divider>
             <v-subheader>Runs</v-subheader>
-            <v-list-tile :to="{ path: '/mirrorexcgcstogcsruns' }">
+            <v-list-tile :to="{ path: '/runs/gcstogcs' }">
               <v-list-tile-action>
                 <v-icon>swap_horiz</v-icon>
               </v-list-tile-action>
@@ -118,7 +118,7 @@
                 <v-list-tile-title>GCS to GCS Runs</v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>
-            <v-list-tile :to="{ path: '/mirrorexcgcstogbqruns' }">
+            <v-list-tile :to="{ path: '/runs/gcstogbq' }">
               <v-list-tile-action>
                 <v-icon>vertical_split</v-icon>
               </v-list-tile-action>
@@ -126,7 +126,7 @@
                 <v-list-tile-title>GCS to GBQ Runs</v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>
-            <v-list-tile :to="{ path: '/viewgbqtogbqruns' }">
+            <v-list-tile :to="{ path: '/runs/gbqtogbq' }">
               <v-list-tile-action>
                 <v-icon>device_hub</v-icon>
               </v-list-tile-action>
@@ -134,7 +134,7 @@
                 <v-list-tile-title>GBQ to GBQ Runs</v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>
-            <v-list-tile :to="{ path: '/viewgbqtogcsruns' }">
+            <v-list-tile :to="{ path: '/runs/gbqtogcs' }">
               <v-list-tile-action>
                 <v-icon>file_copy</v-icon>
               </v-list-tile-action>
@@ -142,7 +142,7 @@
                 <v-list-tile-title>GBQ to GCS Runs</v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>
-            <v-list-tile :to="{ path: '/vmlauncherruns' }">
+            <v-list-tile :to="{ path: '/runs/vmlauncher' }">
               <v-list-tile-action>
                 <v-icon>dns</v-icon>
               </v-list-tile-action>
@@ -152,7 +152,7 @@
             </v-list-tile>
             <v-divider></v-divider>
             <v-subheader>Settings</v-subheader>
-            <v-list-tile :to="{ path: '/accounts' }">
+            <v-list-tile :to="{ path: '/settings/accounts' }">
               <v-list-tile-action>
                 <v-icon>business</v-icon>
               </v-list-tile-action>
@@ -160,7 +160,7 @@
                 <v-list-tile-title>Accounts</v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>
-            <v-list-tile :to="{ path: '/gcpcloudfunctions' }">
+            <v-list-tile :to="{ path: '/settings/gcpcloudfunctions' }">
               <v-list-tile-action>
                 <v-icon>settings_ethernet</v-icon>
               </v-list-tile-action>

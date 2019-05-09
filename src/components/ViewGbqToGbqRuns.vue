@@ -51,8 +51,11 @@
         </td>
         <td>{{ props.item["dag_execution_date_formated"] }}</td>
         <td class="justify-center layout px-0">
-          <v-icon small class="mr-2" @click="viewItem(props, props.item)">
+          <v-icon small class="mr-2" @click="viewItem(props, props.item)" v-if="props.item.confCompliance">
             remove_red_eye
+          </v-icon>
+          <v-icon small class="mr-2" @click="viewItem(props, props.item)" color="orange darken-1" v-else>
+            warning
           </v-icon>
           <v-icon class="mr-2" small @click="openAirflowDagRunUrl(props.item)">
             open_in_new
@@ -193,7 +196,6 @@ export default {
       window.open(item.dag_execution_airflow_url, "_blank");
     },
     async getFirestoreData() {
-      console.log("I'l jere");
       const where = this.whereRunsFilter;
       this.$data.fetchAndAddStatus = "Loading";
       this.$data.moreToFetchAndAdd = false;
@@ -231,11 +233,28 @@ export default {
     }),
     ...mapGetters(["periodFiltered", "whereRunsFilter"]),
     getGbqToGbqRunsFormated() {
+      console.log("test");
       const dataArray = Object.values(this.getGbqToGbqRuns);
       const airflowRootUrl = this.settings.airflowRootUrl;
       var dataFormated = dataArray.map(function(data, index) {
+        // conCompliance is set to false if it detects a unexpected confuguration json format
+        // confComplianceError array stores the error messages when the conf seems not compliante
+        let confCompliance = true;
+        let confComplianceError = [];
+        //try to compute the nb tasks in the configuration
+        let nb_tasks = 0;
+        try {
+          console.log("in the try");
+          nb_tasks = data.configuration_context.configuration.workflow.length;
+        }
+        catch(error) {
+          confCompliance = false
+          confComplianceError.push(error);
+        }
         return {
-          nb_tasks: data.configuration_context.configuration.workflow.length,
+          confCompliance: confCompliance,
+          confComplianceError: confComplianceError,
+          nb_tasks: nb_tasks,
           dag_execution_date_formated: moment(data.dag_execution_date).format(
             "YYYY/MM/DD - HH:mm"
           ),
