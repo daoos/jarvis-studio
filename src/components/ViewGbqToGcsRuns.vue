@@ -54,6 +54,9 @@
           <v-icon small class="mr-2" @click="viewItem(props, props.item)">
             remove_red_eye
           </v-icon>
+          <v-icon small class="mr-2" @click="viewItem(props, props.item)">
+            remove_red_eye
+          </v-icon>
           <v-icon class="mr-2" small @click="openAirflowDagRunUrl(props.item)">
             open_in_new
           </v-icon>
