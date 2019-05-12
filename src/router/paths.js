@@ -88,43 +88,43 @@ export default [
     alias: "/runs/gcstogbq"
   },
   {
-    path: "/viewgbqtogbqconfs",
-    name: "viewGbqToGbqConfs",
+    path: "/gbqtogbqconfs",
+    name: "GbqToGbqConfs",
     meta: {
       authRequired: true
     },
     component: () =>
-      import(/* webpackChunkName: "viewgbqtogbqconfs" */ "@/views/ViewGbqToGbqConfs.vue"),
+      import(/* webpackChunkName: "gbqtogbqconfs" */ "@/views/GbqToGbqConfs.vue"),
     alias: "/conf/gbqtogbq"
   },
   {
-    path: "/viewgbqtogbqruns",
-    name: "viewGbqToGbqRuns",
+    path: "/gbqtogbqruns",
+    name: "GbqToGbqRuns",
     meta: {
       authRequired: true
     },
     component: () =>
-      import(/* webpackChunkName: "viewgbqtogbqruns" */ "@/views/ViewGbqToGbqRuns.vue"),
+      import(/* webpackChunkName: "gbqtogbqruns" */ "@/views/GbqToGbqRuns.vue"),
     alias: "/runs/gbqtogbq"
   },
   {
-    path: "/viewgbqtogcsconfs",
-    name: "viewGbqToGcsConfs",
+    path: "/gbqtogcsconfs",
+    name: "gbqToGcsConfs",
     meta: {
       authRequired: true
     },
     component: () =>
-      import(/* webpackChunkName: "viewgbqtogcsconfs" */ "@/views/ViewGbqToGcsConfs.vue"),
+      import(/* webpackChunkName: "gbqtogcsconfs" */ "@/views/GbqToGcsConfs.vue"),
     alias: "/conf/gbqtogcs"
   },
   {
-    path: "/viewgbqtogcsruns",
-    name: "viewGbqToGcsRuns",
+    path: "/gbqtogcsruns",
+    name: "gbqToGcsRuns",
     meta: {
       authRequired: true
     },
     component: () =>
-      import(/* webpackChunkName: "viewgbqtogcsruns" */ "@/views/ViewGbqToGcsRuns.vue"),
+      import(/* webpackChunkName: "gbqtogcsruns" */ "@/views/GbqToGcsRuns.vue"),
     alias: "/runs/gbqtogcs"
   },
   {
