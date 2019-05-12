@@ -1,9 +1,12 @@
-const getGbqToGbqConf = {
+const getGbqToGbqConfs = {
   firestorePath: "gbq-to-gbq-conf",
   firestoreRefType: "collection", // 'collection' or 'doc'
-  moduleName: "getGbqToGbqConf",
+  moduleName: "getGbqToGbqConfs",
   statePropName: "data",
   namespaced: true, // automatically added
+  sync: {
+    guard: ["created_at", "updated_at"], // array of keys
+  },
 
   // this object is your store module (will be added as '/myModule')
   // you can also add state/getters/mutations/actions
@@ -13,4 +16,4 @@ const getGbqToGbqConf = {
   actions: {}
 };
 
-export default getGbqToGbqConf;
+export default getGbqToGbqConfs;

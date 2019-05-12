@@ -10,42 +10,36 @@ Vue.use(Vuex);
 import VuexEasyFirestore from "vuex-easy-firestore";
 
 // Modules working with Vuex Easy Firestore
-import dagruns from "./dagruns";
-import dagconfigurations from "./dagconfigurations";
 import gcpcloudfunctions from "./gcpcloudfunctions";
 import accounts from "./accounts";
 import settings from "./settings";
-import mirrorgcsconfigurations from "./mirrorgcsconfigurations";
 import mirrorExcGcsToGcsRuns from "./mirror-exc-gcs-to-gcs-runs";
-import mirrorExcGcsToGcsConf from "./mirror-exc-gcs-to-gcs-conf";
+import mirrorExcGcsToGcsConfs from "./mirror-exc-gcs-to-gcs-confs";
 import mirrorExcGcsToGbqRuns from "./mirror-exc-gcs-to-gbq-runs";
-import mirrorExcGcsToGbqConf from "./mirror-exc-gcs-to-gbq-conf";
+import mirrorExcGcsToGbqConfs from "./mirror-exc-gcs-to-gbq-confs";
 import mirrorExcGcsToGbqConfDetails from "./mirror-exc-gcs-to-gbq-conf-details";
 import getGbqToGcsRuns from "./get-gbq-to-gcs-runs";
-import getGbqToGcsConf from "./get-gbq-to-gcs-conf";
-import getGbqToGbqConf from "./get-gbq-to-gbq-conf";
+import getGbqToGcsConfs from "./get-gbq-to-gcs-confs";
+import getGbqToGbqConfs from "./get-gbq-to-gbq-confs";
 import getGbqToGbqRuns from "./get-gbq-to-gbq-runs";
-import vmLauncherConf from "./vm-launcher-conf";
+import vmLauncherConfs from "./vm-launcher-confs";
 import vmLauncherRuns from "./vm-launcher-runs";
 import filters from "./filters";
 
 const easyFirestores = VuexEasyFirestore(
   [
-    dagruns,
-    dagconfigurations,
     gcpcloudfunctions,
     accounts,
-    mirrorgcsconfigurations,
     mirrorExcGcsToGcsRuns,
-    mirrorExcGcsToGcsConf,
+    mirrorExcGcsToGcsConfs,
     mirrorExcGcsToGbqRuns,
-    mirrorExcGcsToGbqConf,
+    mirrorExcGcsToGbqConfs,
     mirrorExcGcsToGbqConfDetails,
     getGbqToGcsRuns,
-    getGbqToGcsConf,
-    getGbqToGbqConf,
+    getGbqToGcsConfs,
+    getGbqToGbqConfs,
     getGbqToGbqRuns,
-    vmLauncherConf,
+    vmLauncherConfs,
     vmLauncherRuns
   ],
   {

@@ -30,7 +30,7 @@
     </v-toolbar>
     <v-data-table
       :headers="headers"
-      :items="getGbqToGcsConfFormated"
+      :items="getGbqToGcsConfsFormated"
       :search="search"
       :loading="isFetchAndAdding"
       :expand="expand"
@@ -212,7 +212,7 @@ export default {
   methods: {
     viewItem(props, item) {
       props.expanded = !props.expanded;
-      this.viewedIndex = this.getGbqToGcsConfFormated.indexOf(item);
+      this.viewedIndex = this.getGbqToGcsConfsFormated.indexOf(item);
       this.viewedItem = item;
     },
     async getFirestoreData() {
@@ -221,11 +221,11 @@ export default {
       this.$data.moreToFetchAndAdd = false;
       this.$data.isFetchAndAdding = true;
       try {
-        store.dispatch("getGbqToGcsConf/closeDBChannel", {
+        store.dispatch("getGbqToGcsConfs/closeDBChannel", {
           clearModule: true
         });
         let fetchResult = await store.dispatch(
-          "getGbqToGcsConf/fetchAndAdd",
+          "getGbqToGcsConfs/fetchAndAdd",
           { where, limit: 0 }
         );
         if (fetchResult.done === true) {
@@ -255,12 +255,12 @@ export default {
         case true:
         this.snackbarParam.message = "Configuration disabled";
         this.snackbarParam.color = Util.getActiveConfColor(false);
-        store.dispatch('getGbqToGcsConf/patch', {id, activated: false}).then(this.snackbarParam.show = true);
+        store.dispatch('getGbqToGcsConfs/patch', {id, activated: false}).then(this.snackbarParam.show = true);
         break;
         case false:
         this.snackbarParam.message = "Configuration activated";
         this.snackbarParam.color = Util.getActiveConfColor(true);
-        store.dispatch('getGbqToGcsConf/patch', {id, activated: true}).then(this.snackbarParam.show = true);
+        store.dispatch('getGbqToGcsConfs/patch', {id, activated: true}).then(this.snackbarParam.show = true);
         break;
         default:
         this.alertParam.color = "error";
@@ -276,11 +276,11 @@ export default {
       isAuthenticated: state => state.user.isAuthenticated,
       user: state => state.user.user,
       settings: state => state.settings,
-      getGbqToGcsConf: state => state.getGbqToGcsConf.data,
+      getGbqToGcsConfs: state => state.getGbqToGcsConfs.data,
     }),
     ...mapGetters(["periodFiltered", "whereConfFilter"]),
-    getGbqToGcsConfFormated() {
-      const dataArray = Object.values(this.getGbqToGcsConf);
+    getGbqToGcsConfsFormated() {
+      const dataArray = Object.values(this.getGbqToGcsConfs);
       var dataFormated = dataArray.map(function(data, index) {
         return {
           //color for the activated status

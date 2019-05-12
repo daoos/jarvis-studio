@@ -1,7 +1,7 @@
-const mirrorExcGcsToGcsConf = {
+const mirrorExcGcsToGcsConfs = {
   firestorePath: "mirror-exc-gcs-to-gcs-conf",
   firestoreRefType: "collection", // 'collection' or 'doc'
-  moduleName: "mirrorExcGcsToGcsConf",
+  moduleName: "mirrorExcGcsToGcsConfs",
   statePropName: "data",
   namespaced: true, // automatically added
 
@@ -13,4 +13,4 @@ const mirrorExcGcsToGcsConf = {
   actions: {}
 };
 
-export default mirrorExcGcsToGcsConf;
+export default mirrorExcGcsToGcsConfs;

@@ -6,7 +6,7 @@ export default [
       authRequired: true
     },
     component: () =>
-      import(/* webpackChunkName: "mirrorexcgcstogbqconf" */ "@/views/MirrorExcGcsToGcsConf.vue")
+      import(/* webpackChunkName: "mirrorexcgcstogbqconfs" */ "@/views/MirrorExcGcsToGcsConfs.vue")
   },
   {
     path: "/home",
@@ -48,13 +48,13 @@ export default [
     alias: "/settings/gcpcloudfunctions"
   },
   {
-    path: "/mirrorexcgcstogcsconf",
-    name: "mirrorExcGcsToGcsConf",
+    path: "/mirrorexcgcstogcsconfs",
+    name: "mirrorExcGcsToGcsConfs",
     meta: {
       authRequired: true
     },
     component: () =>
-      import(/* webpackChunkName: "mirrorexcgcstogcsconf" */ "@/views/MirrorExcGcsToGcsConf.vue"),
+      import(/* webpackChunkName: "mirrorexcgcstogcsconfs" */ "@/views/MirrorExcGcsToGcsConfs.vue"),
     alias: "/conf/gcstogcs"
   },
   {
@@ -68,13 +68,13 @@ export default [
     alias: "/runs/gcstogcs"
   },
   {
-    path: "/mirrorexcgcstogbqconf",
-    name: "mirrorExcGcsToGbqConf",
+    path: "/mirrorexcgcstogbqconfs",
+    name: "mirrorExcGcsToGbqConfs",
     meta: {
       authRequired: true
     },
     component: () =>
-      import(/* webpackChunkName: "mirrorexcgcstogbqconf" */ "@/views/MirrorExcGcsToGbqConf.vue"),
+      import(/* webpackChunkName: "mirrorexcgcstogbqconfs" */ "@/views/MirrorExcGcsToGbqConfs.vue"),
     alias: "/conf/gcstogbq"
   },
   {
@@ -88,13 +88,13 @@ export default [
     alias: "/runs/gcstogbq"
   },
   {
-    path: "/viewgbqtogbqconf",
-    name: "viewGbqToGbqConf",
+    path: "/viewgbqtogbqconfs",
+    name: "viewGbqToGbqConfs",
     meta: {
       authRequired: true
     },
     component: () =>
-      import(/* webpackChunkName: "viewgbqtogbqconf" */ "@/views/ViewGbqToGbqConf.vue"),
+      import(/* webpackChunkName: "viewgbqtogbqconfs" */ "@/views/ViewGbqToGbqConfs.vue"),
     alias: "/conf/gbqtogbq"
   },
   {
@@ -108,13 +108,13 @@ export default [
     alias: "/runs/gbqtogbq"
   },
   {
-    path: "/viewgbqtogcsconf",
-    name: "viewGbqToGcsConf",
+    path: "/viewgbqtogcsconfs",
+    name: "viewGbqToGcsConfs",
     meta: {
       authRequired: true
     },
     component: () =>
-      import(/* webpackChunkName: "viewgbqtogcsconf" */ "@/views/ViewGbqToGcsConf.vue"),
+      import(/* webpackChunkName: "viewgbqtogcsconfs" */ "@/views/ViewGbqToGcsConfs.vue"),
     alias: "/conf/gbqtogcs"
   },
   {
@@ -138,13 +138,13 @@ export default [
     alias: "/runs/vmlauncher"
   },
   {
-    path: "/vmlauncherconf",
-    name: "vmLauncherConf",
+    path: "/vmlauncherconfs",
+    name: "vmLauncherConfs",
     meta: {
       authRequired: true
     },
     component: () =>
-      import(/* webpackChunkName: "vmlauncherconf" */ "@/views/VmLauncherConf.vue"),
+      import(/* webpackChunkName: "vmlauncherconfs" */ "@/views/VmLauncherConfs.vue"),
     alias: "/conf/vmlauncher"
   }
 ];

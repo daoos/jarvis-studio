@@ -2,7 +2,7 @@
   <v-container grid-list-xl fluid>
     <FiltersMenu viewAccount viewEnvironnement></FiltersMenu>
     <v-toolbar flat color="black">
-      <v-toolbar-title>GBQ To GCS Conf</v-toolbar-title>
+      <v-toolbar-title>VM Launcher Conf</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-text-field
         v-model="search"
@@ -22,7 +22,7 @@
     </v-toolbar>
     <v-data-table
       :headers="headers"
-      :items="mirrorExcGcsToGcsConfFormated"
+      :items="vmLauncherConfsFormated"
       :search="search"
       :loading="isFetchAndAdding"
       :expand="expand"
@@ -38,10 +38,10 @@
       <template v-slot:items="props">
         <td>{{ props.item["account"] }}</td>
         <td>{{ props.item["environment"] }}</td>
-        <td>{{ props.item["id"] }}</td>
-        <td>{{ props.item["source_bucket"] }}</td>
-        <td>{{ props.item["nb_destination_buckets"] }} </td>
-        <td>{{ props.item["nb_filename_templates"] }}</td>
+        <td>{{ props.item["gcp_project_id"] }}</td>
+        <td>{{ props.item["gcp_source_repository"] }}</td>
+        <td>{{ props.item["gcs_file_exchange_bucket"] }} </td>
+        <td>{{ props.item["working_dir"] }}</td>
         <td class="justify-center layout px-0">
           <v-icon small class="mr-2" @click="viewItem(props, props.item)">
             remove_red_eye
@@ -198,28 +198,28 @@ export default {
         value: "environment"
       },
       {
-        text: "Configuration Id",
+        text: "GCP Project Id",
         align: "left",
         sortable: true,
-        value: "id"
+        value: "gcp_project_id"
       },
       {
-        text: "Source Bucket",
+        text: "GCP Source Repo",
         align: "left",
         sortable: true,
-        value: "source_bucket"
+        value: "gcp_source_repository"
       },
       {
-        text: "Nb Destination Buckets",
+        text: "Bucket Exchange",
         align: "left",
         sortable: true,
-        value: "nb_destination_buckets"
+        value: "gcs_file_exchange_bucket"
       },
       {
-        text: "Nb File Templates",
+        text: "Working Directory",
         align: "left",
         sortable: true,
-        value: "nb_filename_templates"
+        value: "working_dir"
       },
       { text: "Actions", align: "center", value: "actions", sortable: false }
     ]
@@ -230,7 +230,7 @@ export default {
   methods: {
     viewItem(props, item) {
       props.expanded = !props.expanded;
-      this.viewedIndex = this.mirrorExcGcsToGcsConfFormated.indexOf(item);
+      this.viewedIndex = this.vmLauncherConfsFormated.indexOf(item);
       this.viewedItem = item;
     },
     deleteConfFromFirestore(props, item) {
@@ -244,8 +244,7 @@ export default {
     },
     confirmeDeleteConfFromFirestore() {
       this.dialogDeleteConf = false;
-      this.showSnackbarDeleteConfSuccess = false;
-      store.dispatch('mirrorExcGcsToGcsConf/delete', this.confToDeleteFromFirestore.id).then(this.showSnackbarDeleteConfSuccess = true);
+      store.dispatch('vmLauncherConfs/delete', this.confToDeleteFromFirestore.id).then(this.showSnackbarDeleteConfSuccess = true);
       this.confToDeleteFromFirestore = {};
       this.showDetailConfToDelete = false;
     }, 
@@ -255,11 +254,11 @@ export default {
       this.$data.moreToFetchAndAdd = false;
       this.$data.isFetchAndAdding = true;
       try {
-        store.dispatch("mirrorExcGcsToGcsConf/closeDBChannel", {
+        store.dispatch("vmLauncherConfs/closeDBChannel", {
           clearModule: true
         });
         let fetchResult = await store.dispatch(
-          "mirrorExcGcsToGcsConf/fetchAndAdd",
+          "vmLauncherConfs/fetchAndAdd",
           { where, limit: 0 }
         );
         if (fetchResult.done === true) {
@@ -280,15 +279,14 @@ export default {
       isAuthenticated: state => state.user.isAuthenticated,
       user: state => state.user.user,
       settings: state => state.settings,
-      mirrorExcGcsToGcsConf: state => state.mirrorExcGcsToGcsConf.data,
+      vmLauncherConfs: state => state.vmLauncherConfs.data,
     }),
     ...mapGetters(["periodFiltered", "whereConfFilter"]),
-    mirrorExcGcsToGcsConfFormated() {
-      const dataArray = Object.values(this.mirrorExcGcsToGcsConf);
+    vmLauncherConfsFormated() {
+      const dataArray = Object.values(this.vmLauncherConfs);
       var dataFormated = dataArray.map(function(data, index) {
         return {
-          nb_destination_buckets: data.destination_bucket.length,
-          nb_filename_templates: data.filename_templates.length,
+          //Put here the new attributs to add to the object
         };
       });
       const dataArrayFormated = _.merge(dataArray, dataFormated);

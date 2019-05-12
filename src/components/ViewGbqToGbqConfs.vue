@@ -22,7 +22,7 @@
     </v-toolbar>
     <v-data-table
       :headers="headers"
-      :items="getGbqToGbqConfFormated"
+      :items="getGbqToGbqConfsFormated"
       :search="search"
       :loading="isFetchAndAdding"
       :expand="expand"
@@ -175,7 +175,7 @@ export default {
   methods: {
     viewItem(props, item) {
       props.expanded = !props.expanded;
-      this.viewedIndex = this.getGbqToGbqConfFormated.indexOf(item);
+      this.viewedIndex = this.getGbqToGbqConfsFormated.indexOf(item);
       this.viewedItem = item;
     },
     async getFirestoreData() {
@@ -184,11 +184,11 @@ export default {
       this.$data.moreToFetchAndAdd = false;
       this.$data.isFetchAndAdding = true;
       try {
-        store.dispatch("getGbqToGbqConf/closeDBChannel", {
+        store.dispatch("getGbqToGbqConfs/closeDBChannel", {
           clearModule: true
         });
         let fetchResult = await store.dispatch(
-          "getGbqToGbqConf/fetchAndAdd",
+          "getGbqToGbqConfs/fetchAndAdd",
           { where, limit: 0 }
         );
         if (fetchResult.done === true) {
@@ -209,11 +209,11 @@ export default {
       isAuthenticated: state => state.user.isAuthenticated,
       user: state => state.user.user,
       settings: state => state.settings,
-      getGbqToGbqConf: state => state.getGbqToGbqConf.data,
+      getGbqToGbqConfs: state => state.getGbqToGbqConfs.data,
     }),
     ...mapGetters(["periodFiltered", "whereConfFilter"]),
-    getGbqToGbqConfFormated() {
-      const dataArray = Object.values(this.getGbqToGbqConf);
+    getGbqToGbqConfsFormated() {
+      const dataArray = Object.values(this.getGbqToGbqConfs);
       //const airflowRootUrl = this.settings.airflowRootUrl;
       var dataFormated = dataArray.map(function(data, index) {
         return {

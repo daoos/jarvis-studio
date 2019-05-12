@@ -1,7 +1,7 @@
-const mirrorgcsconfigurations = {
-  firestorePath: "exc-dag-config",
+const vmLauncherConfs = {
+  firestorePath: "vm-launcher-conf",
   firestoreRefType: "collection", // 'collection' or 'doc'
-  moduleName: "mirrorgcsconfigurations",
+  moduleName: "vmLauncherConfs",
   statePropName: "data",
   namespaced: true, // automatically added
 
@@ -13,4 +13,4 @@ const mirrorgcsconfigurations = {
   actions: {}
 };
 
-export default mirrorgcsconfigurations;
+export default vmLauncherConfs;

@@ -24,7 +24,7 @@
         </v-toolbar>
         <v-data-table
           :headers="headers"
-          :items="mirrorExcGcsToGbqConfAllDetailsArrayFlat"
+          :items="mirrorExcGcsToGbqConfsAllDetailsArrayFlat"
           :search="search"
           :loading="isFetchAndAdding"
           :expand="expand"
@@ -172,7 +172,7 @@ export default {
     FiltersMenu
   },
   data: () => ({
-    mirrorExcGcsToGbqConfAllDetailsArray : [],
+    mirrorExcGcsToGbqConfsAllDetailsArray : [],
     search: "",
     isFetchAndAdding: false,
     fetchAndAddStatus: "Loading",
@@ -229,7 +229,7 @@ export default {
   methods: {
     viewItem(props, item) {
       props.expanded = !props.expanded;
-      this.viewedIndex = this.mirrorExcGcsToGbqConfAllDetailsArrayFlat.indexOf(item);
+      this.viewedIndex = this.mirrorExcGcsToGbqConfsAllDetailsArrayFlat.indexOf(item);
       this.viewedItem = Object.assign({}, item);
     },
     deleteConfFromFirestore(props, item) {
@@ -244,22 +244,22 @@ export default {
     confirmeDeleteConfFromFirestore() {
       this.dialogDeleteConf = false;
       this.showSnackbarDeleteConfSuccess = false;
-      store.dispatch('mirrorExcGcsToGbqConf/delete', this.confToDeleteFromFirestore.id).then(this.showSnackbarDeleteConfSuccess = true);
+      store.dispatch('mirrorExcGcsToGbqConfs/delete', this.confToDeleteFromFirestore.id).then(this.showSnackbarDeleteConfSuccess = true);
       this.confToDeleteFromFirestore = {};
       this.showDetailConfToDelete = false;
     }, 
     async getFirestoreData() {
-      this.mirrorExcGcsToGbqConfAllDetailsArray = [];
+      this.mirrorExcGcsToGbqConfsAllDetailsArray = [];
       const where = this.whereConfFilter;
       this.$data.fetchAndAddStatus = "Loading";
       this.$data.moreToFetchAndAdd = false;
       this.$data.isFetchAndAdding = true;
       try {
-        store.dispatch("mirrorExcGcsToGbqConf/closeDBChannel", {
+        store.dispatch("mirrorExcGcsToGbqConfs/closeDBChannel", {
           clearModule: true
         });
         let fetchResult = await store.dispatch(
-          "mirrorExcGcsToGbqConf/fetchAndAdd",
+          "mirrorExcGcsToGbqConfs/fetchAndAdd",
           { where, limit: 0 }
         );
         if (fetchResult.done === true) {
@@ -270,11 +270,11 @@ export default {
         this.$data.fetchAndAddStatus = "Success";
 
         //Loop to the document at the 1st level to get the detail configuration in the CONFIGURATION collection of each document
-        //Transform the mirrorExcGcsToGbqConf in Array to loop on
-        const mirrorExcGcsToGbqConfArray = Object.values(this.mirrorExcGcsToGbqConf);
-        //Loop on mirrorExcGcsToGbqConfArray to get the collection
-        for (var confDetailsId in mirrorExcGcsToGbqConfArray) {
-          let bucketId = mirrorExcGcsToGbqConfArray[confDetailsId].id
+        //Transform the mirrorExcGcsToGbqConfs in Array to loop on
+        const mirrorExcGcsToGbqConfsArray = Object.values(this.mirrorExcGcsToGbqConfs);
+        //Loop on mirrorExcGcsToGbqConfsArray to get the collection
+        for (var confDetailsId in mirrorExcGcsToGbqConfsArray) {
+          let bucketId = mirrorExcGcsToGbqConfsArray[confDetailsId].id
           try {
             store.dispatch("mirrorExcGcsToGbqConfDetails/closeDBChannel", {
               clearModule: true
@@ -292,7 +292,7 @@ export default {
               return Object.assign({key: key},val);
             });
             //Concat the fetched documents in the same Array
-            this.mirrorExcGcsToGbqConfAllDetailsArray.push(Object.values(mirrorExcGcsToGbqConfDetailsEnriched));
+            this.mirrorExcGcsToGbqConfsAllDetailsArray.push(Object.values(mirrorExcGcsToGbqConfDetailsEnriched));
             } catch (e) {
               console.log("Firestore Error catched");
               console.log(e);
@@ -313,15 +313,15 @@ export default {
     ...mapState({
       isAuthenticated: state => state.user.isAuthenticated,
       user: state => state.user.user,
-      mirrorExcGcsToGbqConf: state => state.mirrorExcGcsToGbqConf.data,
+      mirrorExcGcsToGbqConfs: state => state.mirrorExcGcsToGbqConfs.data,
       mirrorExcGcsToGbqConfDetails: state => state.mirrorExcGcsToGbqConfDetails.data,
       dateFilterSelected: state => state.filters.dateFilterSelected,
       dateFilters: state => state.filters.dateFilters,
       minDateFilter: state => state.filters.minDateFilter
     }),
     ...mapGetters(["periodFiltered", "whereConfFilter"]),
-    mirrorExcGcsToGbqConfAllDetailsArrayFlat() {
-      return this.mirrorExcGcsToGbqConfAllDetailsArray.flat();
+    mirrorExcGcsToGbqConfsAllDetailsArrayFlat() {
+      return this.mirrorExcGcsToGbqConfsAllDetailsArray.flat();
     }
   },
   watch: {
