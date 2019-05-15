@@ -68,6 +68,15 @@ export default [
     alias: "/runs/gcstogcs"
   },
   {
+    path: "/conf/gcstogcs/:confId",
+    name: "GcsToGcsConf",
+    meta: {
+      authRequired: true
+    },
+    component: () =>
+      import(/* webpackChunkName: "gcstogcsconf" */ "@/views/GcsToGcsConf.vue")
+  },
+  {
     path: "gcstogbqconfs",
     name: "GcsToGbqConfs",
     meta: {

@@ -38,7 +38,7 @@
       <template v-slot:items="props">
         <td>{{ props.item["account"] }}</td>
         <td>{{ props.item["environment"] }}</td>
-        <td>{{ props.item["id"] }}</td>
+        <td><router-link tag="button" :to="{ name: 'GcsToGcsConf', params: { confId: props.item.id }}"><v-chip label >{{ props.item["id"] }}</v-chip></router-link></td>
         <td>{{ props.item["source_bucket"] }}</td>
         <td>{{ props.item["nb_destination_buckets"] }} </td>
         <td>{{ props.item["nb_filename_templates"] }}</td>
@@ -178,6 +178,8 @@ export default {
       descending: true,
       rowsPerPage: 10
     },
+    fetchAndAddStatus: "",
+    moreToFetchAndAdd: false,
     viewJson: false,
     viewedItem: {},
     confToDeleteFromFirestore: {},
@@ -224,8 +226,8 @@ export default {
       { text: "Actions", align: "center", value: "actions", sortable: false }
     ]
   }),
-  mounted() {
-    this.getFirestoreData();
+  async mounted() {
+    await this.getFirestoreData();
   },
   methods: {
     viewItem(props, item) {
@@ -251,6 +253,7 @@ export default {
     }, 
     async getFirestoreData() {
       const where = this.whereConfFilter;
+      console.log(where);
       this.$data.fetchAndAddStatus = "Loading";
       this.$data.moreToFetchAndAdd = false;
       this.$data.isFetchAndAdding = true;
@@ -296,8 +299,8 @@ export default {
     }
   },
   watch: {
-    whereConfFilter(newValue, oldValue) {
-      this.getFirestoreData();
+    async whereConfFilter(newValue, oldValue) {
+      await this.getFirestoreData();
     }
   }
 };

@@ -175,7 +175,7 @@ export default {
     mirrorExcGcsToGbqConfsAllDetailsArray : [],
     search: "",
     isFetchAndAdding: false,
-    fetchAndAddStatus: "Loading",
+    fetchAndAddStatus: "",
     moreToFetchAndAdd: false,
     expand: false,
     pagination: {

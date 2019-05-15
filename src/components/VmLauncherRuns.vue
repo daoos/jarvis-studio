@@ -137,6 +137,8 @@ export default {
       descending: true,
       rowsPerPage: 10
     },
+    fetchAndAddStatus: "",
+    moreToFetchAndAdd: false,
     viewJson: false,
     viewedItem: {},
     headers: [

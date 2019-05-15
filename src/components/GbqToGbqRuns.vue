@@ -135,6 +135,8 @@ export default {
   data: () => ({
     search: "",
     isFetchAndAdding: false,
+    fetchAndAddStatus: "",
+    moreToFetchAndAdd: false,
     expand: false,
     pagination: {
       sortBy: "dag_execution_date_formated",

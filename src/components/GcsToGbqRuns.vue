@@ -138,7 +138,7 @@ export default {
   data: () => ({
     search: "",
     isFetchAndAdding: false,
-    fetchAndAddStatus: "Loading",
+    fetchAndAddStatus: "",
     moreToFetchAndAdd: false,
     expand: false,
     pagination: {

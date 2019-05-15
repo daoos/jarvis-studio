@@ -138,6 +138,8 @@ export default {
       descending: true,
       rowsPerPage: 10
     },
+    fetchAndAddStatus: "",
+    moreToFetchAndAdd: false,
     viewJson: false,
     viewedItem: {},
     headers: [
@@ -180,8 +182,8 @@ export default {
       { text: "Actions", align: "center", value: "actions", sortable: false }
     ]
   }),
-  mounted() {
-    this.getFirestoreData();
+  async mounted() {
+    await this.getFirestoreData();
   },
   methods: {
     viewItem(props, item) {
@@ -249,8 +251,8 @@ export default {
     }
   },
   watch: {
-    whereRunsFilter(newValue, oldValue) {
-      this.getFirestoreData();
+    async whereRunsFilter(newValue, oldValue) {
+      await this.getFirestoreData();
     }
   }
 };
