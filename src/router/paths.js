@@ -6,7 +6,7 @@ export default [
       authRequired: true
     },
     component: () =>
-      import(/* webpackChunkName: "mirrorexcgcstogbqconfs" */ "@/views/MirrorExcGcsToGcsConfs.vue")
+      import(/* webpackChunkName: "gcstogbqconfs" */ "@/views/GcsToGcsConfs.vue")
   },
   {
     path: "/home",
@@ -48,43 +48,43 @@ export default [
     alias: "/settings/gcpcloudfunctions"
   },
   {
-    path: "/mirrorexcgcstogcsconfs",
-    name: "mirrorExcGcsToGcsConfs",
+    path: "/gcstogcsconfs",
+    name: "GcsToGcsConfs",
     meta: {
       authRequired: true
     },
     component: () =>
-      import(/* webpackChunkName: "mirrorexcgcstogcsconfs" */ "@/views/MirrorExcGcsToGcsConfs.vue"),
+      import(/* webpackChunkName: "gcstogcsconfs" */ "@/views/GcsToGcsConfs.vue"),
     alias: "/conf/gcstogcs"
   },
   {
-    path: "/mirrorexcgcstogcsruns",
-    name: "mirrorExcGcsToGcsRuns",
+    path: "/gcstogcsruns",
+    name: "GcsToGcsRuns",
     meta: {
       authRequired: true
     },
     component: () =>
-      import(/* webpackChunkName: "mirrorexcgcstogcsruns" */ "@/views/MirrorExcGcsToGcsRuns.vue"),
+      import(/* webpackChunkName: "gcstogcsruns" */ "@/views/GcsToGcsRuns.vue"),
     alias: "/runs/gcstogcs"
   },
   {
-    path: "/mirrorexcgcstogbqconfs",
-    name: "mirrorExcGcsToGbqConfs",
+    path: "gcstogbqconfs",
+    name: "GcsToGbqConfs",
     meta: {
       authRequired: true
     },
     component: () =>
-      import(/* webpackChunkName: "mirrorexcgcstogbqconfs" */ "@/views/MirrorExcGcsToGbqConfs.vue"),
+      import(/* webpackChunkName: "gcstogbqconfs" */ "@/views/GcsToGbqConfs.vue"),
     alias: "/conf/gcstogbq"
   },
   {
-    path: "/mirrorexcgcstogbqruns",
-    name: "mirrorExcGcsToGbqRuns",
+    path: "/gcstogbqruns",
+    name: "GcsToGbqRuns",
     meta: {
       authRequired: true
     },
     component: () =>
-      import(/* webpackChunkName: "mirrorexcgcstogbqruns" */ "@/views/MirrorExcGcsToGbqRuns.vue"),
+      import(/* webpackChunkName: "gcstogbqruns" */ "@/views/GcsToGbqRuns.vue"),
     alias: "/runs/gcstogbq"
   },
   {
