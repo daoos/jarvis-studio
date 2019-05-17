@@ -1,8 +1,7 @@
 <template>
   <v-layout row wrap>
     <v-flex>
-      <v-toolbar flat>
-        <v-toolbar-title>Filters</v-toolbar-title>
+      <v-toolbar flat class="transparent">
         <v-spacer></v-spacer>
         <v-toolbar-items class="hidden-sm-and-down">
           <v-flex xs12 v-if="viewAccount">

@@ -1,7 +1,7 @@
 <template>
   <v-container grid-list-xl fluid>
     <FiltersMenu viewAccount viewEnvironnement></FiltersMenu>
-    <v-toolbar flat color="black">
+    <v-toolbar class="elevation-1" color="grey lighten-3">
       <v-toolbar-title>VM Launcher Conf</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-text-field
@@ -12,7 +12,7 @@
         hide-details
       ></v-text-field>
       <v-spacer></v-spacer>
-      <v-icon right dark @click="getFirestoreData" v-if="!isFetchAndAdding">refresh</v-icon>
+      <v-icon right @click="getFirestoreData" v-if="!isFetchAndAdding">refresh</v-icon>
       <v-progress-circular
       indeterminate
       size=20
@@ -28,7 +28,7 @@
       :expand="expand"
       :pagination.sync="pagination"
       item-key="id"
-      class="elevation-5"
+      class="elevation-1"
     >
       <v-progress-linear
         v-slot:progress

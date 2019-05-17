@@ -1,8 +1,8 @@
 <template>
   <div id="appRoot">
     <template v-if="!$route.meta.public">
-      <v-app id="jarvis-console" dark>
-        <v-toolbar app fixed :clipped-left="$vuetify.breakpoint.lgAndUp">
+      <v-app id="jarvis-console">
+        <v-toolbar flat dark app fixed :clipped-left="$vuetify.breakpoint.lgAndUp">
           <v-toolbar-side-icon
             @click.stop="drawer = !drawer"
           ></v-toolbar-side-icon>
@@ -65,9 +65,11 @@
           :clipped="$vuetify.breakpoint.lgAndUp"
           fixed
           app
+          floating
+          class="transparent pl-4"
         >
           <v-list dense>
-            <v-subheader>Configurations</v-subheader>
+            <v-subheader class="mt-4 subheading">Configurations</v-subheader>
             <v-list-tile :to="{ path: '/conf/gcstogcs' }"> 
               <v-list-tile-action>
                 <v-icon>swap_horiz</v-icon>
@@ -108,8 +110,8 @@
                 <v-list-tile-title>VM Launcher</v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>
-            <v-divider></v-divider>
-            <v-subheader>Runs</v-subheader>
+            <v-divider class="grey lighten-5"></v-divider>
+            <v-subheader class="mt-4 subheading" >Runs</v-subheader>
             <v-list-tile :to="{ path: '/runs/gcstogcs' }">
               <v-list-tile-action>
                 <v-icon>swap_horiz</v-icon>
@@ -150,8 +152,8 @@
                 <v-list-tile-title>VM Launcher Runs</v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>
-            <v-divider></v-divider>
-            <v-subheader>Settings</v-subheader>
+            <v-divider class="grey lighten-5"></v-divider>
+            <v-subheader class="mt-4 subheading">Settings</v-subheader>
             <v-list-tile :to="{ path: '/settings/accounts' }">
               <v-list-tile-action>
                 <v-icon>business</v-icon>

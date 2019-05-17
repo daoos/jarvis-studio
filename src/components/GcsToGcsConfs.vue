@@ -1,7 +1,7 @@
 <template>
   <v-container grid-list-xl fluid>
     <FiltersMenu viewAccount viewEnvironnement></FiltersMenu>
-    <v-toolbar flat color="black">
+    <v-toolbar class="elevation-1" color="grey lighten-3">
       <v-toolbar-title>GBQ To GCS Conf</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-text-field
@@ -12,7 +12,7 @@
         hide-details
       ></v-text-field>
       <v-spacer></v-spacer>
-      <v-icon right dark @click="getFirestoreData" v-if="!isFetchAndAdding">refresh</v-icon>
+      <v-icon right @click="getFirestoreData" v-if="!isFetchAndAdding">refresh</v-icon>
       <v-progress-circular
       indeterminate
       size=20
@@ -28,7 +28,7 @@
       :expand="expand"
       :pagination.sync="pagination"
       item-key="id"
-      class="elevation-5"
+      class="elevation-1"
     >
       <v-progress-linear
         v-slot:progress
@@ -56,7 +56,7 @@
           <v-card-title>
             <span class="headline">{{ viewedItem.id }}</span>
             <v-spacer></v-spacer>
-            <v-btn color="warning" fab small dark outline>
+            <v-btn color="warning" fab small outline>
               <v-icon @click="props.expanded = !props.expanded">
                 close
               </v-icon>
@@ -80,7 +80,7 @@
     </v-data-table>
     <v-layout row wrap v-if="viewJson">
       <v-flex xs12 offset-xs0>
-        <v-card dark class="elevation-10">
+        <v-card class="elevation-10">
           <v-card-title>
             <span class="headline">{{ viewedItem.id }}</span>
             <v-spacer></v-spacer>
