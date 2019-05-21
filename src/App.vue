@@ -2,7 +2,7 @@
   <div id="appRoot">
     <template v-if="!$route.meta.public">
       <v-app id="jarvis-console">
-        <v-toolbar flat dark app fixed :clipped-left="$vuetify.breakpoint.lgAndUp">
+        <v-toolbar flat dark  app fixed :clipped-left="$vuetify.breakpoint.lgAndUp">
           <v-toolbar-side-icon
             @click.stop="drawer = !drawer"
           ></v-toolbar-side-icon>
@@ -108,6 +108,14 @@
               </v-list-tile-action>
               <v-list-tile-content>
                 <v-list-tile-title>VM Launcher</v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
+            <v-list-tile :to="{ path: '/conf/workflow' }">
+              <v-list-tile-action>
+                <v-icon>power</v-icon>
+              </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title>Workflow</v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>
             <v-divider class="grey lighten-5"></v-divider>

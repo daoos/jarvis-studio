@@ -155,5 +155,14 @@ export default [
     component: () =>
       import(/* webpackChunkName: "vmlauncherconfs" */ "@/views/VmLauncherConfs.vue"),
     alias: "/conf/vmlauncher"
+  },
+  {
+    path: "/conf/workflow",
+    name: "WorkflowConfs",
+    meta: {
+      authRequired: true
+    },
+    component: () =>
+      import(/* webpackChunkName: "workflowconfs" */ "@/views/WorkflowConfs.vue")
   }
 ];
