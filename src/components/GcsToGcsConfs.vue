@@ -38,10 +38,13 @@
       <template v-slot:items="props">
         <td>{{ props.item["account"] }}</td>
         <td>{{ props.item["environment"] }}</td>
-        <td><router-link tag="button" :to="{ name: 'GcsToGcsConf', params: { confId: props.item.id }}"><v-chip label >{{ props.item["id"] }}</v-chip></router-link></td>
+        <td><router-link :to="{ name: 'GcsToGcsConf', params: { confId: props.item.id }}"><span class="font-weight-medium">{{ props.item["id"] }}</span></router-link></td>
         <td>{{ props.item["source_bucket"] }}</td>
         <td>{{ props.item["nb_destination_buckets"] }} </td>
         <td>{{ props.item["nb_filename_templates"] }}</td>
+        <td>
+          <ActivatedStatusChip @click.native="changeActivatedStatus(props.item,'mirrorExcGcsToGcsConfs')" :activatedConfStatus=props.item.activated ></ActivatedStatusChip>
+        </td>
         <td class="justify-center layout px-0">
           <v-icon small class="mr-2" @click="viewItem(props, props.item)">
             remove_red_eye
@@ -151,6 +154,20 @@
       >
         Configuration deleted with sucess
       </v-snackbar>
+      <v-snackbar
+        v-model="snackbarParam.show"
+        :color="snackbarParam.color"
+        :timeout="2000"
+        auto-height
+        >
+        {{ snackbarParam.message }}
+        <v-btn
+        flat
+        @click="snackbarParam.show = false"
+        >
+        Close
+      </v-btn>
+    </v-snackbar>
   </v-container>
 </template>
 
@@ -163,11 +180,15 @@ import moment from "moment";
 import _ from "lodash";
 import Util from '@/util';
 import FiltersMenu from "./widgets/filters/FiltersMenu.vue";
+import ActivatedStatusChip from "./widgets/datatablewidgets/ActivatedStatusChip.vue";
+import ConfsComponent from "@/mixins/confsComponent.js";
 
 export default {
+  mixins: [ConfsComponent],
   components: {
     VueJsonPretty,
-    FiltersMenu
+    FiltersMenu,
+    ActivatedStatusChip
   },
   data: () => ({
     search: "",
@@ -222,6 +243,12 @@ export default {
         align: "left",
         sortable: true,
         value: "nb_filename_templates"
+      },
+      {
+        text: "Status",
+        align: "left",
+        sortable: true,
+        value: "activated"
       },
       { text: "Actions", align: "center", value: "actions", sortable: false }
     ]

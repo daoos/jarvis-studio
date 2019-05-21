@@ -43,6 +43,9 @@
             <td>{{ props.item["table_name"] }}</td>
             <td>{{ props.item["gcp_project"] }}</td>
             <td>{{ props.item["gbq_dataset"] }}</td>
+            <td>
+              <ActivatedStatusChip @click.native="changeActivatedStatus(props.item,'mirrorExcGcsToGbqConfs')" :activatedConfStatus=props.item.activated ></ActivatedStatusChip>
+            </td>
             <td class="justify-center layout px-0">
               <v-icon small class="mr-2" @click="viewItem(props, props.item)">
                 remove_red_eye
@@ -156,6 +159,20 @@
       >
         Configuration deleted with sucess
       </v-snackbar>
+            <v-snackbar
+        v-model="snackbarParam.show"
+        :color="snackbarParam.color"
+        :timeout="2000"
+        auto-height
+        >
+        {{ snackbarParam.message }}
+         <v-btn
+        flat
+        @click="snackbarParam.show = false"
+      >
+        Close
+      </v-btn>
+    </v-snackbar>
   </v-container>
 </template>
 
@@ -165,11 +182,15 @@ import { mapGetters } from "vuex";
 import VueJsonPretty from "vue-json-pretty";
 import store from "@/store/index";
 import FiltersMenu from "./widgets/filters/FiltersMenu.vue";
+import ActivatedStatusChip from "./widgets/datatablewidgets/ActivatedStatusChip.vue";
+import ConfsComponent from "@/mixins/confsComponent.js";
 
 export default {
+  mixins: [ConfsComponent],
   components: {
     VueJsonPretty,
-    FiltersMenu
+    FiltersMenu,
+    ActivatedStatusChip
   },
   data: () => ({
     mirrorExcGcsToGbqConfsAllDetailsArray : [],
@@ -219,6 +240,12 @@ export default {
         align: "left",
         sortable: true,
         value: "gbq_dataset"
+      },
+      {
+        text: "Status",
+        align: "left",
+        sortable: true,
+        value: "activated"
       },
       { text: "Actions", align: "center", value: "actions", sortable: false }
     ]

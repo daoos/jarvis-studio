@@ -42,6 +42,9 @@
         <td>{{ props.item["configuration"]["default_bq_dataset"] }}</td>
         <td>{{ props.item["nb_tasks"] }} </td>
         <td>{{ props.item["configuration"]["dag_dependencies"]["activated"]  }}</td>
+        <td>
+          <ActivatedStatusChip @click.native="changeActivatedStatus(props.item,'getGbqToGbqConfs')" :activatedConfStatus=props.item.activated ></ActivatedStatusChip>
+        </td>
         <td class="justify-center layout px-0">
           <v-icon small class="mr-2" @click="viewItem(props, props.item)">
             remove_red_eye
@@ -100,6 +103,20 @@
         </v-card>
       </v-flex>
     </v-layout>
+    <v-snackbar
+      v-model="snackbarParam.show"
+      :color="snackbarParam.color"
+      :timeout="2000"
+      auto-height
+      >
+      {{ snackbarParam.message }}
+      <v-btn
+        flat
+        @click="snackbarParam.show = false"
+        >
+        Close
+      </v-btn>
+    </v-snackbar>
   </v-container>
 </template>
 
@@ -112,11 +129,15 @@ import moment from "moment";
 import _ from "lodash";
 import Util from '@/util';
 import FiltersMenu from "./widgets/filters/FiltersMenu.vue";
+import ActivatedStatusChip from "./widgets/datatablewidgets/ActivatedStatusChip.vue";
+import ConfsComponent from "@/mixins/confsComponent.js";
 
 export default {
+  mixins: [ConfsComponent],
   components: {
     VueJsonPretty,
-    FiltersMenu
+    FiltersMenu,
+    ActivatedStatusChip
   },
   data: () => ({
     search: "",
@@ -167,6 +188,12 @@ export default {
         align: "left",
         sortable: true,
         value: "with_dependencies"
+      },
+      {
+        text: "Status",
+        align: "left",
+        sortable: true,
+        value: "activated"
       },
       { text: "Actions", align: "center", value: "actions", sortable: false }
     ]

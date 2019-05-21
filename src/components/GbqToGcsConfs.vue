@@ -51,7 +51,7 @@
         <td>{{ props.item["gcs_dest_bucket"] }} </td>
         <td>{{ props.item["gcs_dest_prefix"] }}</td>
         <td>
-        <ActivatedStatusChip @click.native="changeActivatedStatus(props.item)" :activatedConfStatus=props.item.activated ></ActivatedStatusChip>
+        <ActivatedStatusChip @click.native="changeActivatedStatus(props.item,'getGbqToGcsConfs')" :activatedConfStatus=props.item.activated ></ActivatedStatusChip>
         </td>
         <td class="justify-center layout px-0">
           <v-icon small class="mr-2" @click="viewItem(props, props.item)">
@@ -111,7 +111,7 @@
         </v-card>
       </v-flex>
     </v-layout>
-        <v-snackbar
+      <v-snackbar
         v-model="snackbarParam.show"
         :color="snackbarParam.color"
         :timeout="2000"
@@ -135,11 +135,13 @@ import VueJsonPretty from "vue-json-pretty";
 import store from "@/store/index";
 import moment from "moment";
 import _ from "lodash";
-import Util from '@/util';
+import Util from "@/util";
 import FiltersMenu from "./widgets/filters/FiltersMenu.vue";
-import ActivatedStatusChip from "./widgets/datatablewidgets/ActivatedStatusChip.vue"
+import ActivatedStatusChip from "./widgets/datatablewidgets/ActivatedStatusChip.vue";
+import ConfsComponent from "@/mixins/confsComponent.js";
 
 export default {
+  mixins: [ConfsComponent],
   components: {
     VueJsonPretty,
     FiltersMenu,
@@ -158,8 +160,6 @@ export default {
     },
     viewJson: false,
     viewedItem: {},
-    snackbarParam: {message: "", show:false, color:"info"},
-    alertParam: {message: "", show:false, color:"info", dismissible:true},
     headers: [
       {
         text: "Account ID",
@@ -239,37 +239,7 @@ export default {
         this.$data.isFetchAndAdding = false;
       }
       this.$data.isFetchAndAdding = false;
-    },
-    changeActivatedStatus(item) {
-      //init snackbar
-      this.snackbarParam.message = "";
-      this.snackbarParam.show = false;
-      this.snackbarParam.color = "info";
-      //init alert bar
-      this.alertParam.message = "";
-      this.alertParam.show = false;
-      this.alertParam.color = "info";
-      // The id of the conf to update
-      let id=item.id;
-      switch (item.activated) {
-        case true:
-        this.snackbarParam.message = "Configuration disabled";
-        this.snackbarParam.color = Util.getActiveConfColor(false);
-        store.dispatch('getGbqToGcsConfs/patch', {id, activated: false}).then(this.snackbarParam.show = true);
-        break;
-        case false:
-        this.snackbarParam.message = "Configuration activated";
-        this.snackbarParam.color = Util.getActiveConfColor(true);
-        store.dispatch('getGbqToGcsConfs/patch', {id, activated: true}).then(this.snackbarParam.show = true);
-        break;
-        default:
-        this.alertParam.color = "error";
-        this.alertParam.message = "The Activated attribute is not well set in the source configuration. Please update and deploy it again";
-        this.alertParam.show = "true";
-        this.alertParam.icon = "error"
-        break;
-      }
-    } 
+    }
   },
   computed: {
     ...mapState({
