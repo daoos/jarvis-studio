@@ -2,7 +2,7 @@
   <v-container grid-list-xl fluid>
     <FiltersMenu viewAccount viewEnvironnement></FiltersMenu>
     <v-toolbar class="elevation-1" color="grey lighten-3">
-      <v-toolbar-title>GBQ To GCS Conf</v-toolbar-title>
+      <v-toolbar-title>Gcs To GCS Conf</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-text-field
         v-model="search"

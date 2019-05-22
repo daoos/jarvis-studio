@@ -25,6 +25,9 @@ import getGbqToGbqRuns from "./get-gbq-to-gbq-runs";
 import vmLauncherConfs from "./vm-launcher-confs";
 import vmLauncherRuns from "./vm-launcher-runs";
 import workflowConfs from "./workflow-confs";
+import workflowStatus from "./workflow-status";
+import dataModels from "./data-models";
+import dataTables from "./data-tables";
 import filters from "./filters";
 
 const easyFirestores = VuexEasyFirestore(
@@ -42,7 +45,10 @@ const easyFirestores = VuexEasyFirestore(
     getGbqToGbqRuns,
     vmLauncherConfs,
     vmLauncherRuns,
-    workflowConfs
+    workflowConfs,
+    workflowStatus,
+    dataModels,
+    dataTables
   ],
   {
     logging: true,

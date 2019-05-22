@@ -29,7 +29,7 @@
           :loading="isFetchAndAdding"
           :expand="expand"
           :pagination.sync="pagination"
-          item-key="dag_run_id"
+          item-key="id"
           class="elevation-1"
         >
           <v-progress-linear

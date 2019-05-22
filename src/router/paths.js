@@ -164,5 +164,14 @@ export default [
     },
     component: () =>
       import(/* webpackChunkName: "workflowconfs" */ "@/views/WorkflowConfs.vue")
+  },
+  {
+    path: "/status/workflow",
+    name: "WorkflowStatus",
+    meta: {
+      authRequired: true
+    },
+    component: () =>
+      import(/* webpackChunkName: "workflowstatus" */ "@/views/WorkflowStatus.vue")
   }
 ];

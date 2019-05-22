@@ -27,7 +27,7 @@
       :loading="isFetchAndAdding"
       :expand="expand"
       :pagination.sync="pagination"
-      item-key="dag_run_id"
+      item-key="id"
       class="elevation-5"
     >
       <v-progress-linear
@@ -193,6 +193,7 @@ export default {
       props.expanded = !props.expanded;
       this.viewedIndex = this.getGbqToGbqRunsFormated.indexOf(item);
       this.viewedItem = Object.assign({}, item);
+      console.log(this.viewedItem);
     },
     openAirflowDagRunUrl(item) {
       window.open(item.dag_execution_airflow_url, "_blank");
@@ -235,7 +236,6 @@ export default {
     }),
     ...mapGetters(["periodFiltered", "whereRunsFilter"]),
     getGbqToGbqRunsFormated() {
-      console.log("test");
       const dataArray = Object.values(this.getGbqToGbqRuns);
       const airflowRootUrl = this.settings.airflowRootUrl;
       var dataFormated = dataArray.map(function(data, index) {
@@ -246,7 +246,6 @@ export default {
         //try to compute the nb tasks in the configuration
         let nb_tasks = 0;
         try {
-          console.log("in the try");
           nb_tasks = data.configuration_context.configuration.workflow.length;
         }
         catch(error) {

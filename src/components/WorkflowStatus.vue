@@ -2,7 +2,7 @@
   <v-container grid-list-xl fluid>
     <FiltersMenu viewAccount viewEnvironnement viewPeriode></FiltersMenu>
     <v-toolbar class="elevation-1" color="grey lighten-3">
-      <v-toolbar-title>Mirror Exc GCS To GCS Runs</v-toolbar-title>
+      <v-toolbar-title>Workflow Status</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-text-field
         v-model="search"
@@ -22,7 +22,7 @@
     </v-toolbar>
     <v-data-table
       :headers="headers"
-      :items="mirrorExcGcsToGcsRunsFormated"
+      :items="workflowStatusFormated"
       :search="search"
       :loading="isFetchAndAdding"
       :expand="expand"
@@ -36,33 +36,31 @@
         indeterminate
       ></v-progress-linear>
       <template v-slot:items="props">
-        <td>{{ props.item["account"] }}</td>
-        <td>{{ props.item["environment"] }}</td>
-        <td>{{ props.item["source_bucket"] }}</td>
-        <td>{{ props.item["gcs_triggering_file"] }}</td>
+        <td>{{ props.item["id"] }}</td>
+        <td>{{ props.item["target_dag"] }}</td>
+        <td>{{ props.item["nb_triggering_jobs"] }}</td>
         <td>
-          <v-chip
-            :color="props.item.statusColor"
-            text-color="white"
-            small
-            class="text-lowercase"
-            >{{ props.item["status"] }}</v-chip
+          <v-progress-circular
+            :rotate="270"
+            :size="35"
+            :value="(props.item.nb_triggered_jobs/props.item.nb_triggering_jobs)*100"
+            color="green"
           >
+          {{ props.item.nb_triggered_jobs }}
+          </v-progress-circular>
         </td>
-        <td>{{ props.item["dag_execution_date_formated"] }}</td>
+        <td>{{ props.item["last_update_date_from_now"] }}</td>
+        <td>{{ props.item["last_fire_date_from_now"] }}</td>
         <td class="justify-center layout px-0">
           <v-icon small class="mr-2" @click="viewItem(props, props.item)">
             remove_red_eye
-          </v-icon>
-          <v-icon class="mr-2" small @click="openAirflowDagRunUrl(props.item)">
-            open_in_new
           </v-icon>
         </td>
       </template>
       <template v-slot:expand="props">
         <v-card flat>
           <v-card-title>
-            <span class="headline">{{ viewedItem.gcs_triggering_file }}</span>
+            <span class="headline">{{ viewedItem.id }}</span>
             <v-spacer></v-spacer>
             <v-btn color="warning" fab small dark outline>
               <v-icon @click="props.expanded = !props.expanded">
@@ -90,7 +88,7 @@
       <v-flex xs12 offset-xs0>
         <v-card dark class="elevation-10">
           <v-card-title>
-            <span class="headline">{{ viewedItem.gcs_triggering_file }}</span>
+            <span class="headline">{{ viewedItem.id }}</span>
             <v-spacer></v-spacer>
             <v-btn color="warning" fab small dark outline>
               <v-icon @click="viewJson = false">
@@ -144,40 +142,40 @@ export default {
     viewedItem: {},
     headers: [
       {
-        text: "Account ID",
+        text: "Workflow Id",
         align: "left",
         sortable: true,
-        value: "account"
+        value: "id"
       },
       {
-        text: "Environnement",
+        text: "Dag to fire",
         align: "left",
         sortable: true,
         value: "environment"
       },
       {
-        text: "Source Bucket",
+        text: "Triggering Jobs",
         align: "left",
         sortable: true,
-        value: "source_bucket"
+        value: "nb_triggering_jobs"
       },
       {
-        text: "File",
+        text: "Triggered Jobs",
         align: "left",
         sortable: true,
-        value: "gcs_triggering_file"
+        value: "nb_triggered_jobs"
       },
       {
-        text: "Status",
+        text: "Last triggering date",
         align: "left",
         sortable: true,
-        value: "status"
+        value: "last_update_date_from_now"
       },
       {
-        text: "Execution Date",
+        text: "Last fire Date",
         align: "left",
         sortable: true,
-        value: "dag_execution_date_formated"
+        value: "last_fire_date_from_now"
       },
       { text: "Actions", align: "center", value: "actions", sortable: false }
     ]
@@ -188,7 +186,7 @@ export default {
   methods: {
     viewItem(props, item) {
       props.expanded = !props.expanded;
-      this.viewedIndex = this.mirrorExcGcsToGcsRunsFormated.indexOf(item);
+      this.viewedIndex = this.workflowStatusFormated.indexOf(item);
       this.viewedItem = Object.assign({}, item);
     },
     openAirflowDagRunUrl(item) {
@@ -200,12 +198,12 @@ export default {
       this.$data.moreToFetchAndAdd = false;
       this.$data.isFetchAndAdding = true;
       try {
-        store.dispatch("mirrorExcGcsToGcsRuns/closeDBChannel", {
+        store.dispatch("workflowStatus/closeDBChannel", {
           clearModule: true
         });
         let fetchResult = await store.dispatch(
-          "mirrorExcGcsToGcsRuns/fetchAndAdd",
-          { where, limit: 0 }
+          "workflowStatus/fetchAndAdd",
+          { limit: 0 }
         );
         if (fetchResult.done === true) {
           this.$data.moreToFetchAndAdd = false;
@@ -225,25 +223,28 @@ export default {
       isAuthenticated: state => state.user.isAuthenticated,
       user: state => state.user.user,
       settings: state => state.settings,
-      mirrorExcGcsToGcsRuns: state => state.mirrorExcGcsToGcsRuns.data,
+      workflowStatus: state => state.workflowStatus.data,
       dateFilterSelected: state => state.filters.dateFilterSelected,
       dateFilters: state => state.filters.dateFilters,
       minDateFilter: state => state.filters.minDateFilter
     }),
     ...mapGetters(["periodFiltered", "whereRunsFilter"]),
-    mirrorExcGcsToGcsRunsFormated() {
-      const dataArray = Object.values(this.mirrorExcGcsToGcsRuns);
-      const airflowRootUrl = this.settings.airflowRootUrl;
+    workflowStatusFormated() {
+      const dataArray = Object.values(this.workflowStatus);
       var dataFormated = dataArray.map(function(data, index) {
         return {
-          dag_execution_date_formated: moment(data.dag_execution_date).format(
-            "YYYY/MM/DD - HH:mm"
-          ),
-          dag_execution_date_from_now: moment(data.dag_execution_date).fromNow(),
+          last_update_date_formated: moment(data.last_modified).format("YYYY/MM/DD - HH:mm"),
+          last_update_date_from_now: moment(data.last_modified).fromNow(),
+          last_fire_date_formated: moment(data.target_dag_last_executed).format("YYYY/MM/DD - HH:mm"),
+          last_fire_date_from_now: moment(data.target_dag_last_executed).fromNow(),
+          nb_triggering_jobs: Object.keys(data.jobs).length,
+          // Compute the number of jobs with a executed status == true
+          nb_triggered_jobs : Object.values(data.jobs).filter(function(d) { return d.executed == true; }).length
+          
           //color for the status
-          statusColor: Util.getStatusColor(data.status),
+          //statusColor: Util.getStatusColor(data.status),
           //generate Airflow URL 
-          dag_execution_airflow_url: Util.dagRunAirflowUrl(airflowRootUrl,data.dag_id,data.dag_run_id,data.dag_execution_date)
+          //TODO : GENERATE THE AIRFLOW URL TO THE JOBS ID
         };
       });
       const dataArrayFormated = _.merge(dataArray, dataFormated);

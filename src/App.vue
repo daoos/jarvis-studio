@@ -118,7 +118,7 @@
                 <v-list-tile-title>Workflow</v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>
-            <v-divider class="grey lighten-5"></v-divider>
+            <v-divider class="transparent"></v-divider>
             <v-subheader class="mt-4 subheading" >Runs</v-subheader>
             <v-list-tile :to="{ path: '/runs/gcstogcs' }">
               <v-list-tile-action>
@@ -160,7 +160,15 @@
                 <v-list-tile-title>VM Launcher Runs</v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>
-            <v-divider class="grey lighten-5"></v-divider>
+            <v-list-tile :to="{ path: '/status/workflow' }">
+              <v-list-tile-action>
+                <v-icon>power</v-icon>
+              </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title>Workflow Status</v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
+            <v-divider class="transparent"></v-divider>
             <v-subheader class="mt-4 subheading">Settings</v-subheader>
             <v-list-tile :to="{ path: '/settings/accounts' }">
               <v-list-tile-action>

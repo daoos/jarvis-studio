@@ -27,7 +27,7 @@
       :loading="isFetchAndAdding"
       :expand="expand"
       :pagination.sync="pagination"
-      item-key="dag_run_id"
+      item-key="id"
       class="elevation-1"
     >
       <v-progress-linear
@@ -51,9 +51,6 @@
         </td>
         <td>{{ props.item["dag_execution_date_formated"] }}</td>
         <td class="justify-center layout px-0">
-          <v-icon small class="mr-2" @click="viewItem(props, props.item)">
-            remove_red_eye
-          </v-icon>
           <v-icon small class="mr-2" @click="viewItem(props, props.item)">
             remove_red_eye
           </v-icon>

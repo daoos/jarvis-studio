@@ -39,6 +39,7 @@
         <td>{{ props.item["account"] }}</td>
         <td>{{ props.item["environment"] }}</td>
         <td>{{ props.item["id"] }}</td>
+        <td>{{ props.item["target_dag"] }}</td>
         <td>{{ props.item["nb_authorized_jobs"] }} </td>
         <td>
           <ActivatedStatusChip @click.native="changeActivatedStatus(props.item,'workflowConfs')" :activatedConfStatus=props.item.activated ></ActivatedStatusChip>
@@ -219,13 +220,19 @@ export default {
         value: "environment"
       },
       {
-        text: "Target Dag Id",
+        text: "Workflow Id",
         align: "left",
         sortable: true,
         value: "id"
       },
       {
-        text: "Nb Authorized Jobs",
+        text: "Dag to fire",
+        align: "left",
+        sortable: true,
+        value: "target_dag"
+      },
+      {
+        text: "Nb triggering Jobs",
         align: "left",
         sortable: true,
         value: "nb_authorized_jobs"
