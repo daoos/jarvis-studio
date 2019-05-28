@@ -69,6 +69,8 @@
           class="transparent pl-4"
         >
           <v-list dense>
+            <v-subheader class="mt-4 subheading">Data Models</v-subheader>
+            <v-divider class="transparent"></v-divider>
             <v-subheader class="mt-4 subheading">Configurations</v-subheader>
             <v-list-tile :to="{ path: '/conf/gcstogcs' }"> 
               <v-list-tile-action>
@@ -207,10 +209,13 @@
 <script>
 import { mapState } from "vuex";
 import Util from "@/util";
+//import DatamodelTreeview from "./components/widgets/datamodel/DatamodelTreeview";
+
 
 export default {
   name: "App",
-  components: {},
+  components: {
+  },
   data: () => ({
     drawer: null
   }),

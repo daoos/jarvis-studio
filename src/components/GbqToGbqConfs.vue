@@ -41,9 +41,8 @@
         <td>{{ props.item["id"] }}</td>
         <td>{{ props.item["configuration"]["default_bq_dataset"] }}</td>
         <td>{{ props.item["nb_tasks"] }} </td>
-        <td>{{ props.item["configuration"]["dag_dependencies"]["activated"]  }}</td>
         <td>
-          <ActivatedStatusChip @click.native="changeActivatedStatus(props.item,'getGbqToGbqConfs')" :activatedConfStatus=props.item.activated ></ActivatedStatusChip>
+          <ActivatedStatusChip @click.native="changeActivatedStatus(props.item,'getGbqToGbqConfs')" :activatedConfStatus=props.item.configuration.activated ></ActivatedStatusChip>
         </td>
         <td class="justify-center layout px-0">
           <v-icon small class="mr-2" @click="viewItem(props, props.item)">
@@ -182,12 +181,6 @@ export default {
         align: "left",
         sortable: true,
         value: "nb_tasks"
-      },
-      {
-        text: "With Dependencies",
-        align: "left",
-        sortable: true,
-        value: "with_dependencies"
       },
       {
         text: "Status",
