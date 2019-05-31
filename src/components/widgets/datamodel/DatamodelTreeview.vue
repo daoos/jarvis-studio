@@ -1,143 +1,112 @@
 <template>
-  <v-treeview
-    v-model="tree"
-    :items="items"
-    :load-children="getTables"
-    active-class="primary--text"
-    class="grey lighten-5"
-    item-key="treekey"
-    item-text="name"
-    open-on-click
-    :open.sync = "open"
-    :active.sync = "active"
-    activatable
-    return-object
-  >
-    <!-- <template v-slot:prepend="{ item, open }">
-      <v-icon  v-if="!item.file">
-        {{ open ? 'folder_open' : 'folder' }}
-      </v-icon>
-      <v-icon v-else>
-        {{ files[item.file] }}
-      </v-icon>
-    </template> -->
-  </v-treeview>
+      <v-flex xs5>
+        <v-treeview
+          :active.sync="active"
+          :items="items"
+          :load-children="fetchTables"
+          :open.sync="open"
+          activatable
+          active-class="primary--text"
+          class="grey lighten-5"
+          open-on-click
+          transition
+          @click="showTable(item)"
+        >
+          <template v-slot:prepend="{ item, active }">
+            <v-icon
+              v-if="!item.children"
+              :color="active ? 'primary' : ''"
+            >
+              table_chart
+            </v-icon>
+          </template>
+        </v-treeview>
+      </v-flex>
 </template>
 
 <script>
-    import { mapState } from "vuex";
-    import { mapGetters } from "vuex";
-    import VueJsonPretty from "vue-json-pretty";
-    import store from "@/store/index";
-    import moment from "moment";
-    import _ from "lodash";
-    import Util from '@/util';
+  import { mapState } from "vuex";
+  import { mapGetters } from "vuex";
+  import store from "@/store/index";
+  import moment from "moment";
+  import _ from "lodash";
+  import Util from '@/util';
 
   export default {
     data: () => ({
-        fetchAndAddStatus : "",
-        moreToFetchAndAdd : false,
-        isFetchAndAdding : false,
-      open: [],
-      tree: [],
+      fetchAndAddStatus : "",
+      moreToFetchAndAdd : false,
+      isFetchAndAdding : false,
       active: [],
-      tree: [],
-      items: [],
-      datatables: []
+      open: [],
+      items: [{id:"Loading", name:"Loading"}]
     }),
+
+    computed: {
+      ...mapState({
+        isAuthenticated: state => state.user.isAuthenticated,
+        user: state => state.user.user,
+        settings: state => state.settings,
+        dataModels: state => state.dataModels.data
+      }),
+    },
+
+    watch: {
+    },
     async mounted() {
-        await this.dataModelsFormated();
+      await this.getDataModel();
     },
     methods: {
-        async getDataModel() {
-        this.$data.fetchAndAddStatus = "Loading";
-        this.$data.moreToFetchAndAdd = false;
-        this.$data.isFetchAndAdding = true;
-        try {
-            store.dispatch("dataModels/closeDBChannel", {
-            clearModule: true
-            });
-            let fetchResult = await store.dispatch(
-            "dataModels/fetchAndAdd",
-            { limit: 0 }
-            );
-            if (fetchResult.done === true) {
-            this.$data.moreToFetchAndAdd = false;
-            } else {
-            this.$data.moreToFetchAndAdd = true;
-            }
-            this.$data.fetchAndAddStatus = "Success";
-        } catch (e) {
-            this.$data.fetchAndAddStatus = "Error";
-            this.$data.isFetchAndAdding = false;
-        }
-        this.$data.isFetchAndAdding = false;
-        },
-        async getTables (item) {
-            console.log("item : ", item)
-            // fetch Tables in the Dataset from Firestore
-            try {
-                store.dispatch("dataTables/closeDBChannel", { clearModule: true });
-                //firestorePath: "gbq-table-preview/{projectId}/{datasetId}",
-                let fetchResult = await store.dispatch(
-                    "dataTables/fetchAndAdd", {projectId: item.projectId, datasetId: item.id, limit: 0},
-                );
-                if (fetchResult.done === true) {
-                this.$data.moreToFetchAndAdd = false;
-                } else {
-                this.$data.moreToFetchAndAdd = true;
-                }
-                this.$data.fetchAndAddStatus = "Success";
-                this.$data.isFetchAndAdding = false;
-            } catch (e) {
-                this.$data.fetchAndAddStatus = "Error";
-                this.$data.isFetchAndAdding = false;
-            }
-            const dataTablesArray = Object.values(this.dataTables);
-            var dataTablesFormated = dataTablesArray.map(function(data, index) {
-                console.log("data",data);
-                return {
-                    name: data.id,
-                    treekey: data.id
-                }
-            });
-            const dataTablesArrayFormated = _.merge(dataTablesArray, dataTablesFormated);
-            console.log("active : ",this.active);
-            return item.children.push(...dataTablesArrayFormated);
-            //this.datatables = dataTablesArrayFormated;
-        },
-        async dataModelsFormated() {
-            await this.getDataModel();
-            const dataArray = Object.values(this.dataModels);
-            var dataFormated = dataArray.map(function(data, index) {
-                const projectId = data.id;
-                // format the sub_collections array to by compatible with the treeview componenent
-                let sub_collections_formated = [];
-                data.sub_collections.forEach(function(dataset) {
-                    // add name, project id (used to fetch dataTable Later), type (to select the icon in the treeview), empty children to trigger the fetchTables function when necessary
-                    sub_collections_formated.push({treekey:dataset, name:dataset, id:dataset, projectId:projectId , type:"dataset", children:[]});
-                });
-                return {
-                children: sub_collections_formated,
-                name: data.id,
-                treekey: data.id
-                };
-            });
-            const dataArrayFormated = _.merge(dataArray, dataFormated);
-            this.items = dataArrayFormated;
-        }
-    },
-    computed: {
-    ...mapState({
-      isAuthenticated: state => state.user.isAuthenticated,
-      user: state => state.user.user,
-      settings: state => state.settings,
-      dataModels: state => state.dataModels.data,
-      dataTables: state => state.dataTables.data
-    })
+      showTable(item) {
+        console.log("show item", item);
+      },
+      async getDataModel() {
+        return this.$store.dispatch('dataModels/fetchAndAdd', {limit: 0})
+        .then(fetchResult => {
+          if (fetchResult.done === true) {
+          }
+          console.log("fetchResult",fetchResult);
+          const dataModelsArray = Object.values(this.dataModels);
+          var dataModelsFormated = dataModelsArray.map(function(data, index) {
+              console.log("data",data);
+              const projectId = data.id;
+              // format the sub_collections array to by compatible with the treeview componenent
+              let sub_collections_formated = [];
+              data.sub_collections.forEach(function(dataset) {
+                // add name, project id (used to fetch dataTable Later), type (to select the icon in the treeview), empty children to trigger the fetchTables function when necessary
+                sub_collections_formated.push({id:dataset, name:dataset, projectId:projectId , type:"dataset", children:[]});
+              });
+              return {
+                  name: data.id,
+                  id: data.id,
+                  type: "Project",
+                  children: sub_collections_formated
+              }
+          });
+          console.log("dataModelsFormated",dataModelsFormated);
+          this.items = dataModelsFormated;
+        })
+        .catch(console.error);
+      },
+      async fetchTables (item) {
+        store.dispatch("dataTables/closeDBChannel", { clearModule: true });
+        return this.$store.dispatch('dataTables/fetch', {projectId: item.projectId, datasetId: item.id, limit: 0})
+        .then(querySnapshot => {
+          if (querySnapshot.done === true) {
+          }
+          var dataTablesFormated = querySnapshot.docs.map(function(data, index) {
+              return {
+                  id: data.id,
+                  name: data.id,
+                  type: "table"
+              }
+          });
+          item.children.push(...dataTablesFormated);
+        })
+        .catch(console.error);
+      },
     }
   }
-
 </script>
 
 <style>
