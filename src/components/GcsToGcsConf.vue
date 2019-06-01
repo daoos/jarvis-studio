@@ -155,7 +155,6 @@
             </vue-json-pretty>
           </v-card-text>
         </v-card>
-
       </v-flex>
     </v-layout>
   </v-container>             
@@ -169,13 +168,11 @@ import store from "@/store/index";
 import moment from "moment";
 import _ from "lodash";
 import Util from '@/util';
-import VFormBase from 'vuetify-form-base';
 
 
 export default {
   components: {
-    VueJsonPretty,
-    VFormBase
+    VueJsonPretty
   },
   data: () => ({
     conf: undefined,
@@ -194,21 +191,7 @@ export default {
     confToDeleteFromFirestore: {},
     dialogDeleteConf: false,
     showDetailConfToDelete: false,
-    showSnackbarDeleteConfSuccess: false,
-    myValue: {
-        name: 'Jumo',
-        password: '123456',
-        email: 'base@mail.com',
-        checkbox: true,
-        select: 'Jobs',
-      },   
-      mySchema: {
-        name: { type: 'text', label: 'Name' },
-        password: { type: 'password', label: 'Password' },
-        email: { type: 'email', label: 'Email' },
-        checkbox: { type: 'checkbox', label: 'Checkbox' },
-        select: { type: 'select', label: 'Select', items: ['Tesla', 'Jobs', 'Taleb'] }
-      }
+    showSnackbarDeleteConfSuccess: false
   }),
   async mounted() {
     await this.getConf();

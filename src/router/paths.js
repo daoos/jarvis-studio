@@ -173,5 +173,15 @@ export default [
     },
     component: () =>
       import(/* webpackChunkName: "workflowstatus" */ "@/views/WorkflowStatus.vue")
+  },
+  //Data Models
+  {
+    path: "/datamodel/:projectId/:datasetId/:tableId",
+    name: "DataTableDetails",
+    meta: {
+      authRequired: true
+    },
+    component: () =>
+      import(/* webpackChunkName: "datatabledetails" */ "@/views/DataTableDetails.vue")
   }
 ];

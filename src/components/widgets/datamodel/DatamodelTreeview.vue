@@ -10,7 +10,6 @@
           class="grey lighten-5"
           open-on-click
           transition
-          @click="showTable(item)"
         >
           <template v-slot:prepend="{ item, active }">
             <v-icon
@@ -52,29 +51,33 @@
     },
 
     watch: {
+      active: function (newActive, oldActive) {
+        if (!this.active.length) return undefined
+        const id = this.active[0]
+        const projectId = id.split("/")[0];
+        const datasetId = id.split("/")[1];
+        const tableId = id.split("/")[2];
+        this.$router.push({ name: 'DataTableDetails', params: { projectId: projectId, datasetId: datasetId, tableId: tableId } })
+      }
     },
     async mounted() {
       await this.getDataModel();
     },
     methods: {
-      showTable(item) {
-        console.log("show item", item);
-      },
       async getDataModel() {
         return this.$store.dispatch('dataModels/fetchAndAdd', {limit: 0})
         .then(fetchResult => {
           if (fetchResult.done === true) {
           }
-          console.log("fetchResult",fetchResult);
           const dataModelsArray = Object.values(this.dataModels);
           var dataModelsFormated = dataModelsArray.map(function(data, index) {
-              console.log("data",data);
               const projectId = data.id;
               // format the sub_collections array to by compatible with the treeview componenent
               let sub_collections_formated = [];
               data.sub_collections.forEach(function(dataset) {
                 // add name, project id (used to fetch dataTable Later), type (to select the icon in the treeview), empty children to trigger the fetchTables function when necessary
-                sub_collections_formated.push({id:dataset, name:dataset, projectId:projectId , type:"dataset", children:[]});
+                let id = projectId.concat("/",dataset);
+                sub_collections_formated.push({id:id, name:dataset, projectId:projectId , type:"dataset", children:[]});
               });
               return {
                   name: data.id,
@@ -83,20 +86,19 @@
                   children: sub_collections_formated
               }
           });
-          console.log("dataModelsFormated",dataModelsFormated);
           this.items = dataModelsFormated;
         })
         .catch(console.error);
       },
       async fetchTables (item) {
         store.dispatch("dataTables/closeDBChannel", { clearModule: true });
-        return this.$store.dispatch('dataTables/fetch', {projectId: item.projectId, datasetId: item.id, limit: 0})
+        return this.$store.dispatch('dataTables/fetch', {projectId: item.projectId, datasetId: item.name, limit: 0})
         .then(querySnapshot => {
           if (querySnapshot.done === true) {
           }
           var dataTablesFormated = querySnapshot.docs.map(function(data, index) {
               return {
-                  id: data.id,
+                  id: item.projectId.concat("/",item.name,"/",data.id),
                   name: data.id,
                   type: "table"
               }

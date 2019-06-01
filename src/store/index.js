@@ -12,6 +12,7 @@ import VuexEasyFirestore from "vuex-easy-firestore";
 // Modules working with Vuex Easy Firestore
 import gcpcloudfunctions from "./gcpcloudfunctions";
 import accounts from "./accounts";
+import schemas from "./schemas";
 import settings from "./settings";
 import mirrorExcGcsToGcsRuns from "./mirror-exc-gcs-to-gcs-runs";
 import mirrorExcGcsToGcsConfs from "./mirror-exc-gcs-to-gcs-confs";
@@ -28,12 +29,14 @@ import workflowConfs from "./workflow-confs";
 import workflowStatus from "./workflow-status";
 import dataModels from "./data-models";
 import dataTables from "./data-tables";
+import dataTableDetails from "./data-table-details";
 import filters from "./filters";
 
 const easyFirestores = VuexEasyFirestore(
   [
     gcpcloudfunctions,
     accounts,
+    schemas,
     mirrorExcGcsToGcsRuns,
     mirrorExcGcsToGcsConfs,
     mirrorExcGcsToGbqRuns,
@@ -48,7 +51,8 @@ const easyFirestores = VuexEasyFirestore(
     workflowConfs,
     workflowStatus,
     dataModels,
-    dataTables
+    dataTables,
+    dataTableDetails
   ],
   {
     logging: true,
