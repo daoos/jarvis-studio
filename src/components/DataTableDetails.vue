@@ -7,10 +7,17 @@
             <v-card-title>
                 <span class="display-1 font-weight-bold">{{ this.dataTableDetails.id}}</span>
                 <v-spacer></v-spacer>
-                <v-btn color="black" fab small dark outline>
-                <v-icon @click="getDataTableDetails()">
-                    refresh
-                </v-icon>
+                <v-tooltip bottom>
+                    <template v-slot:activator="{ on }">
+                        <span v-on="on">Last Update: {{ refreshedTimestamp.dateFromNow }}</span>
+                    </template>
+                    <span>{{refreshedTimestamp.dateFormated}}</span>
+                </v-tooltip>
+                <v-btn @click="getDataTableDetails()">
+                    Refresh
+                </v-btn>
+                <v-btn @click="queryInBigQuery()">
+                    Query
                 </v-btn>
             </v-card-title>
             <v-card-text>
@@ -302,6 +309,10 @@ export default {
       } catch (e) {
         this.$data.fetchAndAddStatus = "Error";
       }
+    },
+    queryInBigQuery() {
+      const win = window.open(this.bigqueryConsoleUrl, '_blank');
+       win.focus();
     }
   },
   computed: {
@@ -331,6 +342,16 @@ export default {
     },
     isTimePartitioned () {
         return this.dataTableDetails.timePartitioning !== undefined
+    },
+    bigqueryConsoleUrl () {
+        return "https://console.cloud.google.com/bigquery?project=".concat(this.projectId,"&p=",this.projectId,"&d=",this.datasetId,"&t=",this.tableId,"&page=dataset")
+    },
+    refreshedTimestamp () {
+        var dateFormated = moment(this.dataTableDetails.refreshed_timestamp).format("YYYY/MM/DD - HH:mm");
+        var dateFromNow = moment(this.dataTableDetails.refreshed_timestamp).fromNow();
+        const refreshedTimestamp = {dateFormated:dateFormated, dateFromNow:dateFromNow}
+        console.log(refreshedTimestamp);
+        return refreshedTimestamp
     }
   }
 };
