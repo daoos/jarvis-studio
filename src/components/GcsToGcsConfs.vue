@@ -1,9 +1,6 @@
 <template>
   <v-container grid-list-xl fluid>
-    <FiltersMenu viewAccount viewEnvironnement></FiltersMenu>
     <v-toolbar class="elevation-1" color="grey lighten-3">
-      <v-toolbar-title>Gcs To GCS Conf</v-toolbar-title>
-      <v-spacer></v-spacer>
       <v-text-field
         v-model="search"
         append-icon="search"
@@ -12,6 +9,7 @@
         hide-details
       ></v-text-field>
       <v-spacer></v-spacer>
+      <DataManagementFilters viewEnvironnement></DataManagementFilters>
       <v-icon right @click="getFirestoreData" v-if="!isFetchAndAdding">refresh</v-icon>
       <v-progress-circular
       indeterminate
@@ -179,15 +177,15 @@ import store from "@/store/index";
 import moment from "moment";
 import _ from "lodash";
 import Util from '@/util';
-import FiltersMenu from "./widgets/filters/FiltersMenu.vue";
 import ActivatedStatusChip from "./widgets/datatablewidgets/ActivatedStatusChip.vue";
 import ConfsComponent from "@/mixins/confsComponent.js";
+import DataManagementFilters from "./widgets/filters/DataManagementFilters";
 
 export default {
   mixins: [ConfsComponent],
   components: {
     VueJsonPretty,
-    FiltersMenu,
+    DataManagementFilters,
     ActivatedStatusChip
   },
   data: () => ({

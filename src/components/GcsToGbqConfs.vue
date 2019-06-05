@@ -1,11 +1,8 @@
 <template>
   <v-container grid-list-xl fluid>
-    <FiltersMenu viewAccount viewEnvironnement></FiltersMenu>
     <v-layout row wrap>
       <v-flex sm12>
         <v-toolbar class="elevation-1" color="grey lighten-3">
-          <v-toolbar-title>Mirror Exc Gcs To Gbq Configuration :</v-toolbar-title>
-          <v-spacer></v-spacer>
           <v-text-field
             v-model="search"
             append-icon="search"
@@ -14,6 +11,7 @@
             hide-details
           ></v-text-field>
           <v-spacer></v-spacer>
+          <DataManagementFilters viewEnvironnement></DataManagementFilters>
           <v-icon right @click="getFirestoreData" v-if="!isFetchAndAdding">refresh</v-icon>
           <v-progress-circular
           indeterminate
@@ -181,7 +179,7 @@ import { mapState } from "vuex";
 import { mapGetters } from "vuex";
 import VueJsonPretty from "vue-json-pretty";
 import store from "@/store/index";
-import FiltersMenu from "./widgets/filters/FiltersMenu.vue";
+import DataManagementFilters from "./widgets/filters/DataManagementFilters";
 import ActivatedStatusChip from "./widgets/datatablewidgets/ActivatedStatusChip.vue";
 import ConfsComponent from "@/mixins/confsComponent.js";
 
@@ -189,7 +187,7 @@ export default {
   mixins: [ConfsComponent],
   components: {
     VueJsonPretty,
-    FiltersMenu,
+    DataManagementFilters,
     ActivatedStatusChip
   },
   data: () => ({

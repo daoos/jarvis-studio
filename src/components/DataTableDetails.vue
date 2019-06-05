@@ -1,6 +1,11 @@
 <template>
+<div>
+  <DataModelHeader
+    :tableItems="tableItems"
+    :headerTitle="headerTitle"
+  ></DataModelHeader>
   <v-container grid-list-xl>
-        <v-layout row wrap v-if="!isFetchAndAdding">
+    <v-layout row wrap v-if="!isFetchAndAdding">
         <v-layout row wrap v-if="jsonIsValid">
         <v-flex xs12 offset-xs0>
             <v-card>
@@ -194,7 +199,8 @@
         <v-progress-linear :indeterminate="true"></v-progress-linear>
         </template>
     </v-layout>  
-  </v-container>             
+  </v-container>
+</div>        
 </template>
 
 <script>
@@ -206,6 +212,7 @@ import moment from "moment";
 import _ from "lodash";
 import Util from '@/util';
 import JsonSchemaIsInvalid from "./widgets/jsonvalidations/JsonSchemaIsInvalid.vue";
+import DataModelHeader from "./widgets/layout/DataModelHeader";
 // vue-good-table import the styles 
 import 'vue-good-table/dist/vue-good-table.css'
 import { VueGoodTable } from 'vue-good-table';
@@ -219,9 +226,11 @@ export default {
   components: {
     VueJsonPretty,
     VueGoodTable,
-    JsonSchemaIsInvalid
+    JsonSchemaIsInvalid,
+    DataModelHeader
   },
   data: () => ({
+    headerTitle : "Data Model",
     conf: undefined,
     search: "",
     isFetchAndAdding: true,
@@ -352,6 +361,25 @@ export default {
         const refreshedTimestamp = {dateFormated:dateFormated, dateFromNow:dateFromNow}
         console.log(refreshedTimestamp);
         return refreshedTimestamp
+    },
+    tableItems () {
+        return [
+            {
+            text: this.projectId,
+            disabled: true,
+            href: ''
+            },
+            {
+            text: this.datasetId,
+            disabled: true,
+            href: ''
+            },
+            {
+            text: this.tableId,
+            disabled: true,
+            href: ''
+            }
+        ]
     }
   }
 };

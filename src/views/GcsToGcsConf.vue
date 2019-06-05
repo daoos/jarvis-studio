@@ -1,13 +1,31 @@
 <template>
+<div>
+  <DataManagementHeader
+    :tabsItems="tabsItems"
+    :headerTitle="headerTitle"
+  ></DataManagementHeader>
   <GcsToGcsConf />
+</div>
 </template>
 
 <script>
 import GcsToGcsConf from "../components/GcsToGcsConf";
+import DataManagementHeader from "../components/widgets/layout/DataManagementHeader";
 
 export default {
   components: {
-    GcsToGcsConf
+    GcsToGcsConf,
+    DataManagementHeader
+  },
+  data() {
+    return {
+        headerTitle : "Storage to Storage",
+        tabsItems: [
+            {id: 1, title: 'Runs', link: '/runs/gcstogcs'},
+            {id: 2, title: 'Configurations', link: '/conf/gcstogcs'},
+            {id: 3, title: 'Documentation', link: ''}
+        ]
+    }
   }
 };
 </script>

@@ -1,203 +1,219 @@
 <template>
   <div id="appRoot">
-    <template v-if="!$route.meta.public">
-      <v-app id="jarvis-console">
-        <v-toolbar flat dark  app fixed :clipped-left="$vuetify.breakpoint.lgAndUp">
-          <v-toolbar-side-icon
-            @click.stop="drawer = !drawer"
-          ></v-toolbar-side-icon>
-          <v-toolbar-title style="width: 240px" class="ml-0 pl-3">
-            <span class="hidden-sm-and-down">JARVIS</span>
-          </v-toolbar-title>
-          <v-spacer></v-spacer>
-          <v-text-field
-            flat
-            solo-inverted
-            hide-details
-            prepend-inner-icon="search"
-            label="Search"
-            class="hidden-sm-and-down"
-          ></v-text-field>
-          <v-btn icon>
-            <v-icon>apps</v-icon>
-          </v-btn>
-          <v-btn icon>
-            <v-icon>notifications</v-icon>
-          </v-btn>
-          <v-menu
-            offset-y
-            origin="center center"
-            :nudge-bottom="10"
-            transition="scale-transition"
-          >
-            <template v-slot:activator="{ on }">
-              <v-btn icon large v-on="on">
-                <v-avatar size="32px" v-if="isAuthenticated">
-                  <img :src="user.photoURL" :alt="user.displayName" />
-                </v-avatar>
-              </v-btn>
-            </template>
-            <v-list>
-              <v-list-tile
-                v-for="(item, index) in userSettingsItems"
-                :key="index"
-                :href="item.href"
-                @click="item.click"
-                :disabled="item.disabled"
-                :target="item.target"
-                rel="noopener"
-              >
-                <v-list-tile-action v-if="item.icon">
-                  <v-icon>{{ item.icon }}</v-icon>
+  <template v-if="!$route.meta.public">
+  <v-app id="inspire">
+    <v-navigation-drawer
+      :clipped="drawer.clipped"
+      :fixed="drawer.fixed"
+      :permanent="drawer.permanent"
+      :mini-variant="drawer.mini"
+      v-model="drawer.open"
+      app
+      dark
+      class="menu"
+      width="300"
+    >
+      <v-toolbar flat class="transparent" dense>
+        <v-list class="pa-0" :class="{'list-border-bottom' : drawer.mini}">
+            <v-list-tile>
+                <v-list-tile-action v-if="!drawer.mini">
+                    <v-icon large color="complementary">toys</v-icon>
                 </v-list-tile-action>
-                <v-list-tile-content>
-                  <v-list-tile-title>{{ item.title }}</v-list-tile-title>
+                <v-list-tile-content v-if="!drawer.mini">
+                    <v-list-tile-title>
+                        <h2 v-text="appName"></h2>
+                    </v-list-tile-title>
                 </v-list-tile-content>
-              </v-list-tile>
-            </v-list>
-          </v-menu>
-          <v-btn icon @click="handleFullScreen()">
-            <v-icon>fullscreen</v-icon>
-          </v-btn>
-        </v-toolbar>
-        <v-navigation-drawer
-          v-model="drawer"
-          :clipped="$vuetify.breakpoint.lgAndUp"
-          fixed
-          app
-          floating
-          class="transparent pl-4"
+                <v-list-tile-action>
+                    <v-btn icon @click.stop="drawer.mini = !drawer.mini">
+                        <v-icon v-html="drawer.mini ? 'chevron_right' : 'chevron_left'"></v-icon>
+                    </v-btn>
+                </v-list-tile-action>
+            </v-list-tile>
+        </v-list>
+      </v-toolbar>
+      <v-divider></v-divider>
+        <v-tooltip right :disabled="!drawer.mini">
+            <v-toolbar flat class="transparent" dense slot="activator">
+                <v-list class="pa-0" :class="{'list-border-bottom' : drawer.mini}">
+                    <v-list-tile to="/" exact>
+                        <v-list-tile-action>
+                            <v-icon>home</v-icon>
+                        </v-list-tile-action>
+                        <v-list-tile-content>
+                            <v-list-tile-title>Project Overview</v-list-tile-title>
+                        </v-list-tile-content>
+                    </v-list-tile>
+                </v-list>
+            </v-toolbar>
+            <span>Project Overview</span>
+        </v-tooltip>
+      <v-divider></v-divider>
+      <v-divider></v-divider>
+      <v-list subheader :class="{'list-border-bottom' : drawer.mini}" v-if="!drawer.mini">
+          <v-subheader>DATA MODELS</v-subheader>
+          <DatamodelTreeview class="ml-1"></DatamodelTreeview>
+      </v-list>
+      <v-list subheader :class="{'list-border-bottom' : drawer.mini}"  v-else>
+        <v-tooltip>
+        <v-list-tile @click="drawer.mini = !drawer.mini">
+        <v-list-tile-action><v-icon>aspect_ratio</v-icon></v-list-tile-action>
+        <v-list-tile-content><v-list-tile-title>DATA MODELS</v-list-tile-title>
+        </v-list-tile-content>
+        </v-list-tile>
+        <span>DATA MODELS</span>
+        </v-tooltip>
+      </v-list>
+      <v-divider></v-divider>
+
+      <v-list subheader :class="{'list-border-bottom' : drawer.mini}">
+          <v-subheader>DATA MANAGEMENT</v-subheader>
+          <template v-for="item in analyticsItems" >
+              <v-tooltip right :disabled="!drawer.mini" :key="item.icon">
+                  <v-list-tile
+                          :key="item.icon"
+                          :to="item.link"
+                          exact
+                          slot="activator"
+                  >
+                      <v-list-tile-action>
+                          <v-icon v-html="item.icon"></v-icon>
+                      </v-list-tile-action>
+                      <v-list-tile-content>
+                          <v-list-tile-title v-text="item.title"></v-list-tile-title>
+                      </v-list-tile-content>
+                  </v-list-tile>
+                  <span v-text="item.title"></span>
+              </v-tooltip>
+          </template>
+          </v-list>
+          <v-divider></v-divider>
+          <v-list subheader :class="{'list-border-bottom' : drawer.mini}">
+          <v-subheader>SETTINGS</v-subheader>
+          <v-list-tile :to="{ path: '/settings/accounts' }">
+            <v-list-tile-action>
+              <v-icon>business</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-content>
+              <v-list-tile-title>Accounts</v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+          <v-list-tile :to="{ path: '/settings/gcpcloudfunctions' }">
+            <v-list-tile-action>
+              <v-icon>settings_ethernet</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-content>
+              <v-list-tile-title
+                >Clound Function Configurations</v-list-tile-title
+              >
+            </v-list-tile-content>
+          </v-list-tile>
+        </v-list>
+    </v-navigation-drawer>
+    
+    <v-toolbar
+      dark
+      app
+      color="primary"
+      flat
+      dense
+      :fixed="toolbar.fixed"
+      :clipped-left="toolbar.clippedLeft"
+    >
+      <v-toolbar-side-icon v-if="!$vuetify.breakpoint.lgAndUp"
+        @click.stop="toggleDrawer"
+      ></v-toolbar-side-icon>
+      <AccountSelector viewAccount ></AccountSelector>
+      <v-spacer></v-spacer> 
+      <SearchMenu viewSearch ></SearchMenu>
+      <v-tooltip bottom>
+        <v-btn icon @click.stop="rightDrawer = !rightDrawer" slot="activator">
+            <v-badge color="red" overlap>
+                <span slot="badge">2</span>
+                <v-icon>notifications</v-icon>
+            </v-badge>
+        </v-btn>
+        <span>2 unread notifications</span>
+      </v-tooltip>
+        <v-menu
+          offset-y
+          origin="center center"
+          :nudge-bottom="10"
+          transition="scale-transition"
         >
-          <v-list dense>
-            <v-subheader class="mt-4 subheading">Data Models</v-subheader>
-            <DatamodelTreeview></DatamodelTreeview>
-            <v-divider class="transparent"></v-divider>
-            <v-subheader class="mt-4 subheading">Configurations</v-subheader>
-            <v-list-tile :to="{ path: '/conf/gcstogcs' }"> 
-              <v-list-tile-action>
-                <v-icon>swap_horiz</v-icon>
+          <template v-slot:activator="{ on }">
+            <v-btn icon large v-on="on">
+              <v-avatar size="32px" v-if="isAuthenticated">
+                <img :src="user.photoURL" :alt="user.displayName" />
+              </v-avatar>
+            </v-btn>
+          </template>
+          <v-list>
+            <v-list-tile
+              v-for="(item, index) in userSettingsItems"
+              :key="index"
+              :href="item.href"
+              @click="item.click"
+              :disabled="item.disabled"
+              :target="item.target"
+              rel="noopener"
+            >
+              <v-list-tile-action v-if="item.icon">
+                <v-icon>{{ item.icon }}</v-icon>
               </v-list-tile-action>
               <v-list-tile-content>
-                <v-list-tile-title>GCS to GCS</v-list-tile-title>
-              </v-list-tile-content>
-            </v-list-tile>
-            <v-list-tile :to="{ path: '/conf/gcstogbq' }">
-              <v-list-tile-action>
-                <v-icon>vertical_split</v-icon>
-              </v-list-tile-action>
-              <v-list-tile-content>
-                <v-list-tile-title>GCS to GBQ</v-list-tile-title>
-              </v-list-tile-content>
-            </v-list-tile>
-             <v-list-tile :to="{ path: '/conf/gbqtogbq' }">
-              <v-list-tile-action>
-                <v-icon>device_hub</v-icon>
-              </v-list-tile-action>
-              <v-list-tile-content>
-                <v-list-tile-title>GBQ to GBQ</v-list-tile-title>
-              </v-list-tile-content>
-            </v-list-tile>
-             <v-list-tile :to="{ path: '/conf/gbqtogcs' }">
-              <v-list-tile-action>
-                <v-icon>file_copy</v-icon>
-              </v-list-tile-action>
-              <v-list-tile-content>
-                <v-list-tile-title>GBQ to GCS</v-list-tile-title>
-              </v-list-tile-content>
-            </v-list-tile>
-             <v-list-tile :to="{ path: '/conf/vmlauncher' }">
-              <v-list-tile-action>
-                <v-icon>dns</v-icon>
-              </v-list-tile-action>
-              <v-list-tile-content>
-                <v-list-tile-title>VM Launcher</v-list-tile-title>
-              </v-list-tile-content>
-            </v-list-tile>
-            <v-list-tile :to="{ path: '/conf/workflow' }">
-              <v-list-tile-action>
-                <v-icon>power</v-icon>
-              </v-list-tile-action>
-              <v-list-tile-content>
-                <v-list-tile-title>Workflow</v-list-tile-title>
-              </v-list-tile-content>
-            </v-list-tile>
-            <v-divider class="transparent"></v-divider>
-            <v-subheader class="mt-4 subheading" >Runs</v-subheader>
-            <v-list-tile :to="{ path: '/runs/gcstogcs' }">
-              <v-list-tile-action>
-                <v-icon>swap_horiz</v-icon>
-              </v-list-tile-action>
-              <v-list-tile-content>
-                <v-list-tile-title>GCS to GCS Runs</v-list-tile-title>
-              </v-list-tile-content>
-            </v-list-tile>
-            <v-list-tile :to="{ path: '/runs/gcstogbq' }">
-              <v-list-tile-action>
-                <v-icon>vertical_split</v-icon>
-              </v-list-tile-action>
-              <v-list-tile-content>
-                <v-list-tile-title>GCS to GBQ Runs</v-list-tile-title>
-              </v-list-tile-content>
-            </v-list-tile>
-            <v-list-tile :to="{ path: '/runs/gbqtogbq' }">
-              <v-list-tile-action>
-                <v-icon>device_hub</v-icon>
-              </v-list-tile-action>
-              <v-list-tile-content>
-                <v-list-tile-title>GBQ to GBQ Runs</v-list-tile-title>
-              </v-list-tile-content>
-            </v-list-tile>
-            <v-list-tile :to="{ path: '/runs/gbqtogcs' }">
-              <v-list-tile-action>
-                <v-icon>file_copy</v-icon>
-              </v-list-tile-action>
-              <v-list-tile-content>
-                <v-list-tile-title>GBQ to GCS Runs</v-list-tile-title>
-              </v-list-tile-content>
-            </v-list-tile>
-            <v-list-tile :to="{ path: '/runs/vmlauncher' }">
-              <v-list-tile-action>
-                <v-icon>dns</v-icon>
-              </v-list-tile-action>
-              <v-list-tile-content>
-                <v-list-tile-title>VM Launcher Runs</v-list-tile-title>
-              </v-list-tile-content>
-            </v-list-tile>
-            <v-list-tile :to="{ path: '/status/workflow' }">
-              <v-list-tile-action>
-                <v-icon>power</v-icon>
-              </v-list-tile-action>
-              <v-list-tile-content>
-                <v-list-tile-title>Workflow Status</v-list-tile-title>
-              </v-list-tile-content>
-            </v-list-tile>
-            <v-divider class="transparent"></v-divider>
-            <v-subheader class="mt-4 subheading">Settings</v-subheader>
-            <v-list-tile :to="{ path: '/settings/accounts' }">
-              <v-list-tile-action>
-                <v-icon>business</v-icon>
-              </v-list-tile-action>
-              <v-list-tile-content>
-                <v-list-tile-title>Accounts</v-list-tile-title>
-              </v-list-tile-content>
-            </v-list-tile>
-            <v-list-tile :to="{ path: '/settings/gcpcloudfunctions' }">
-              <v-list-tile-action>
-                <v-icon>settings_ethernet</v-icon>
-              </v-list-tile-action>
-              <v-list-tile-content>
-                <v-list-tile-title
-                  >Clound Function Configurations</v-list-tile-title
-                >
+                <v-list-tile-title>{{ item.title }}</v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>
           </v-list>
-        </v-navigation-drawer>
-        <v-content>
-          <router-view></router-view>
-        </v-content>
-      </v-app>
-    </template>
+        </v-menu>
+        <v-btn icon @click="handleFullScreen()">
+          <v-icon>fullscreen</v-icon>
+        </v-btn>
+    </v-toolbar>
+    <v-navigation-drawer
+            temporary
+            :right="true"
+            v-model="rightDrawer"
+            fixed
+            app
+    >
+      <v-toolbar flat prominent dark class="primary">
+          <v-toolbar-title>Notifications</v-toolbar-title>
+          <v-spacer></v-spacer>
+          <v-btn icon @click.stop="rightDrawer = false">
+              <v-icon>close</v-icon>
+          </v-btn>
+      </v-toolbar>
+      <v-list subheader dense>
+          <v-subheader>All notifications</v-subheader>
+          <v-list-tile @click="">
+              <v-list-tile-action>
+                  <v-icon>person_add</v-icon>
+              </v-list-tile-action>
+              <v-list-tile-title>
+                  12 new users registered
+              </v-list-tile-title>
+          </v-list-tile>
+          <v-divider></v-divider>
+          <v-list-tile @click="">
+              <v-list-tile-action>
+                  <v-icon>data_usage</v-icon>
+              </v-list-tile-action>
+              <v-list-tile-title>
+                  DB overloaded 80%
+              </v-list-tile-title>
+          </v-list-tile>
+      </v-list>
+    </v-navigation-drawer>
+    <v-content>
+      <router-view></router-view>
+    </v-content>
+    <v-footer app :fixed="footer.fixed" :clipped-left="footer.clippedLeft" dark class="menu">
+      <span class="caption mx-3">&copy; 2019, JARVIS by Fashion Data</span>
+    </v-footer>
+  </v-app>
+  </template>
     <template v-else>
       <transition>
         <keep-alive>
@@ -205,22 +221,90 @@
         </keep-alive>
       </transition>
     </template>
-  </div>
+</div>
 </template>
 <script>
 import { mapState } from "vuex";
 import Util from "@/util";
 import DatamodelTreeview from "./components/widgets/datamodel/DatamodelTreeview";
+import AccountSelector from "./components/widgets/filters/AccountSelector";
+import SearchMenu from "./components/widgets/filters/SearchMenu";
 
 
 export default {
   name: "App",
   components: {
+      AccountSelector,
+      SearchMenu,
       DatamodelTreeview
   },
   data: () => ({
-    drawer: null
+    appName: "JARVIS",
+    drawer: {
+      // sets the open status of the drawer
+      open: true,
+      // sets if the drawer is shown above (false) or below (true) the toolbar
+      clipped: false,
+      // sets if the drawer is CSS positioned as 'fixed'
+      fixed: true,
+      // sets if the drawer remains visible all the time (true) or not (false)
+      permanent: true,
+      // sets the drawer to the mini variant, showing only icons, of itself (true) 
+      // or showing the full drawer (false)
+      mini: false,
+      //A temporary drawer sits above its application and uses a scrim (overlay) 
+      //to darken the background
+      temporary: false,
+    },
+    toolbar: {
+      //
+      fixed: true,
+      // sets if the toolbar contents is leaving space for drawer (false) or not (true)
+      clippedLeft: false
+    },
+    footer: {
+      // sets the CSS position of the footer
+      fixed: true,
+      // sets if the footer is full width (true) or gives space to the drawer (false)
+      clippedLeft: true
+    },
+    rightDrawer: false,
+    analyticsItems: [
+                    {
+                        icon: 'swap_horiz',
+                        title: 'Storage to Storage',
+                        link: '/runs/gcstogcs'
+                    },
+                    {
+                        icon: 'vertical_split',
+                        title: 'Storage to Table',
+                        link: '/runs/gcstogbq'
+                    },
+                    {
+                        icon: 'device_hub',
+                        title: 'Tables to Tables',
+                        link: '/runs/gbqtogbq'
+                    },
+                    {
+                        icon: 'file_copy',
+                        title: 'Table to Storage',
+                        link: '/runs/gbqtogcs'
+                    },
+                    {
+                        icon: 'dns',
+                        title: 'VM Launcher',
+                        link: '/runs/vmlauncher'
+                    },
+                    {
+                        icon: 'power',
+                        title: 'Worklow',
+                        link: '/status/workflow'
+                    }
+  ]
   }),
+  mounted() {
+    this.makeDrawerResponsive ()
+  },
   computed: {
     ...mapState({
       isAuthenticated: state => state.user.isAuthenticated,
@@ -247,10 +331,74 @@ export default {
       ];
     }
   },
+  watch: {
+    "$vuetify.breakpoint.lgAndUp" (to, from) {
+      //adjust the responsive drawer
+      this.makeDrawerResponsive ();
+    }
+  },
   methods: {
+    // make drawer esponsive
+    makeDrawerResponsive () {
+      if (!this.$vuetify.breakpoint.lgAndUp) {
+        this.drawer.open = false;
+        this.drawer.permanent = false;
+        this.drawer.temporary = true;
+        this.drawer.clipped= false,
+        this.toolbar.clippedLeft = true;
+      } else {
+        this.drawer.open = true;
+        this.drawer.permanent = true;
+        this.drawer.temporary = false;
+        this.drawer.clipped= false,
+        this.toolbar.clippedLeft = false
+      }
+    },
+    // toggles the drawer variant (mini/full)
+    toggleMiniDrawer () {
+      this.drawer.mini = !this.drawer.mini
+    },
+    // toggles the drawer type (permanent vs temporary) or shows/hides the drawer
+    toggleDrawer () {
+      this.drawer.open = !this.drawer.open
+    },
+    // Handle Full Screen App
     handleFullScreen() {
       Util.toggleFullScreen();
     }
   }
 };
 </script>
+
+<style scoped lang="stylus">
+    @import '~vuetify/src/stylus/settings/_variables.styl'
+    .bottom-menu {
+        position: absolute;
+        width: 100%;
+        bottom: 0;
+    }
+    .searching {
+        overflow: hidden;
+        width: 208px;
+        padding-left: 8px;
+        transition: $primary-transition;
+    }
+    .searching--closed {
+        padding-left: 0;
+        width: 0;
+    }
+    .searching > * {
+        right: 8px;
+    }
+    .searching--closed > * {
+        display: none;
+    }
+    .hidden-searching {
+        @media $display-breakpoints.sm-and-down {
+            display: none !important;
+        }
+    }
+    .list-border-bottom {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    }
+</style>

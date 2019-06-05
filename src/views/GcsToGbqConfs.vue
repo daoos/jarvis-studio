@@ -1,13 +1,31 @@
 <template>
+<div>
+  <DataManagementHeader
+    :tabsItems="tabsItems"
+    :headerTitle="headerTitle"
+  ></DataManagementHeader>
   <GcsToGbqConfs />
+</div>
 </template>
 
 <script>
 import GcsToGbqConfs from "../components/GcsToGbqConfs";
+import DataManagementHeader from "../components/widgets/layout/DataManagementHeader";
 
 export default {
   components: {
-    GcsToGbqConfs
+    GcsToGbqConfs,
+    DataManagementHeader
+  },
+  data() {
+      return {
+          headerTitle : "Storage to Table",
+          tabsItems: [
+              {id: 1, title: 'Runs', link: '/runs/gcstogbq'},
+              {id: 2, title: 'Configurations', link: '/conf/gcstogbq'},
+              {id: 3, title: 'Documentation', link: ''}
+          ]
+      }
   }
 };
 </script>

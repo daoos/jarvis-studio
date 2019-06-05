@@ -1,13 +1,31 @@
 <template>
+<div>
+  <DataManagementHeader
+    :tabsItems="tabsItems"
+    :headerTitle="headerTitle"
+  ></DataManagementHeader>
   <VmLauncherConfs />
+</div>
 </template>
 
 <script>
 import VmLauncherConfs from "../components/VmLauncherConfs";
+import DataManagementHeader from "../components/widgets/layout/DataManagementHeader";
 
 export default {
   components: {
-    VmLauncherConfs
+    VmLauncherConfs,
+    DataManagementHeader
+  },
+  data() {
+      return {
+          headerTitle : "VM Launcher",
+          tabsItems: [
+              {id: 1, title: 'Runs', link: '/runs/vmlauncher'},
+              {id: 2, title: 'Configurations', link: '/conf/vmlauncher'},
+              {id: 3, title: 'Documentation', link: ''}
+          ]
+      }
   }
 };
 </script>

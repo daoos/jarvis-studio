@@ -7,7 +7,7 @@
           :open.sync="open"
           activatable
           active-class="primary--text"
-          class="grey lighten-5"
+          class="transparent"
           open-on-click
           transition
         >
