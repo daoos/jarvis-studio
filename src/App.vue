@@ -17,18 +17,18 @@
         <v-list class="pa-0" :class="{'list-border-bottom' : drawer.mini}">
             <v-list-tile>
                 <v-list-tile-action v-if="!drawer.mini">
-                    <v-icon large color="complementary">toys</v-icon>
+                    <v-icon large color="complementary">keyboard_arrow_right</v-icon>
                 </v-list-tile-action>
                 <v-list-tile-content v-if="!drawer.mini">
                     <v-list-tile-title>
                         <h2 v-text="appName"></h2>
                     </v-list-tile-title>
                 </v-list-tile-content>
-                <v-list-tile-action>
+                <!-- <v-list-tile-action>
                     <v-btn icon @click.stop="drawer.mini = !drawer.mini">
-                        <v-icon v-html="drawer.mini ? 'chevron_right' : 'chevron_left'"></v-icon>
+                        <v-icon v-html="drawer.mini ? 'keyboard_arrow_right' : 'keyboard_arrow_left'"></v-icon>
                     </v-btn>
-                </v-list-tile-action>
+                </v-list-tile-action> -->
             </v-list-tile>
         </v-list>
       </v-toolbar>
@@ -67,7 +67,7 @@
       <v-divider></v-divider>
 
       <v-list subheader :class="{'list-border-bottom' : drawer.mini}">
-          <v-subheader>DATA MANAGEMENT</v-subheader>
+          <v-subheader>DATA WORFLOWS</v-subheader>
           <template v-for="item in analyticsItems" >
               <v-tooltip right :disabled="!drawer.mini" :key="item.icon">
                   <v-list-tile
@@ -239,7 +239,7 @@ export default {
       DatamodelTreeview
   },
   data: () => ({
-    appName: "JARVIS",
+    appName: "JARVIS STUDIO",
     drawer: {
       // sets the open status of the drawer
       open: true,

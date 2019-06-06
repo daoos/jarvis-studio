@@ -6,7 +6,7 @@ export default [
       authRequired: true
     },
     component: () =>
-      import(/* webpackChunkName: "gcstogbqconfs" */ "@/views/GcsToGcsConfs.vue")
+      import(/* webpackChunkName: "gcstogbqconfs" */ "@/views/Home.vue")
   },
   {
     path: "/home",
