@@ -290,6 +290,8 @@ export default {
         }
         this.$data.fetchAndAddStatus = "Success";
       } catch (e) {
+        console.log("Firestore Error catched");
+        console.log(e);
         this.$data.fetchAndAddStatus = "Error";
         this.$data.isFetchAndAdding = false;
       }

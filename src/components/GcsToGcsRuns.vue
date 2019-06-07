@@ -9,7 +9,7 @@
         hide-details
       ></v-text-field>
       <v-spacer></v-spacer>
-      <DataManagementFilters viewEnvironnement viewPeriode></DataManagementFilters>
+      <DataManagementFilters viewEnvironnement viewPeriode viewRunStatus></DataManagementFilters>
       <v-icon @click="getFirestoreData" v-if="!isFetchAndAdding">refresh</v-icon>
       <v-progress-circular
       indeterminate
@@ -213,6 +213,8 @@ export default {
         }
         this.$data.fetchAndAddStatus = "Success";
       } catch (e) {
+        console.log("Firestore Error catched");
+        console.log(e);
         this.$data.fetchAndAddStatus = "Error";
         this.$data.isFetchAndAdding = false;
       }

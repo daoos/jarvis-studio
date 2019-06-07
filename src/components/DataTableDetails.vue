@@ -316,6 +316,8 @@ export default {
         await store.dispatch('dataTableDetails/fetchAndAdd', {projectId: this.projectId, datasetId: this.datasetId, tableId: this.tableId, limit: 0})
         this.$data.fetchAndAddStatus = "Success";
       } catch (e) {
+        console.log("Firestore Error catched");
+        console.log(e);
         this.$data.fetchAndAddStatus = "Error";
       }
     },

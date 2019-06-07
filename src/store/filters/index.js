@@ -19,6 +19,16 @@ const filters = {
       { envLabel: "Staging", envId: "STAGING" },
       { envLabel: "Development", envId: "DEV" }
     ],
+    runStatusFilterSelected: {
+      runStatusLabel: "All Status",
+      runStatusId: "ALL"
+    },
+    runStatusFilters: [
+      { runStatusLabel: "All Status", runStatusId: "ALL" },
+      { runStatusLabel: "Success", runStatusId: "SUCCESS" },
+      { runStatusLabel: "Failed", runStatusId: "FAILED" },
+      { runStatusLabel: "Running", runStatusId: "RUNNING" }
+    ],
     minDateFilter: moment()
       .utc()
       .startOf("day")
@@ -32,6 +42,9 @@ const filters = {
     },
     updateEnvFilterSelected(state, envFilterSelected) {
       state.envFilterSelected = envFilterSelected;
+    },
+    updateRunStatusFilterSelected(state, runStatusFilterSelected) {
+      state.runStatusFilterSelected = runStatusFilterSelected;
     },
     updateMinDateFilter(state, dateFilterSelected) {
       state.minDateFilter = moment()
@@ -58,6 +71,9 @@ const filters = {
     },
     applyEnvFilterSelected({ commit }, envFilterSelected) {
       commit("updateEnvFilterSelected", envFilterSelected);
+    },
+    applyRunStatusFilterSelected({ commit }, runStatusFilterSelected) {
+      commit("updateRunStatusFilterSelected", runStatusFilterSelected);
     }
   },
   getters: {
@@ -91,6 +107,13 @@ const filters = {
           "environment",
           "==",
           state.envFilterSelected.envId
+        ]);
+      }
+      if (state.runStatusFilterSelected.runStatusId != "ALL") {
+        whereRunsFilter.push([
+          "status",
+          "==",
+          state.runStatusFilterSelected.runStatusId
         ]);
       }
       return whereRunsFilter;

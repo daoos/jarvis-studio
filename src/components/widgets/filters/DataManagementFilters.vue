@@ -11,6 +11,17 @@
                 </v-list-tile>
             </v-list>
         </v-menu>
+        <v-menu :nudge-width="100" v-if="viewRunStatus" >
+            <v-toolbar-title slot="activator" class="pr-2">
+                <span class="body-2 contrast--text" >{{ runStatusFilterSelected.runStatusLabel }}</span>   
+                <v-icon class="contrast--text">arrow_drop_down</v-icon>
+            </v-toolbar-title>
+            <v-list light>
+                <v-list-tile v-for="runStatus in runStatusFilters" :key="runStatus.runStatusId" @click="applyRunStatusFilter(runStatus)">
+                    <v-list-tile-title v-text="runStatus.runStatusLabel"></v-list-tile-title>
+                </v-list-tile>
+            </v-list>
+        </v-menu>
         <v-menu :nudge-width="100" v-if="viewPeriode" >
           <v-toolbar-title slot="activator" class="pr-2">
               <span class="body-2 contrast--text" >{{ dateFilterSelected.dateLabel }}</span>   
@@ -33,13 +44,17 @@ export default {
   components: {},
   props: {
     viewEnvironnement: Boolean,
-    viewPeriode: Boolean
+    viewPeriode: Boolean,
+    viewRunStatus: Boolean
   },
   data: () => ({}),
   created() {},
   methods: {
     applyEnvFilter(envFilterSelected) {
       store.dispatch("applyEnvFilterSelected", envFilterSelected);
+    },
+    applyRunStatusFilter(runStatusSelected) {
+      store.dispatch("applyRunStatusFilterSelected", runStatusSelected);
     },
     applyDateFilter(dateFilterSelected) {
       store.dispatch("applyDateFilterSelected", dateFilterSelected);
@@ -51,6 +66,8 @@ export default {
       user: state => state.user.user,
       envFilterSelected: state => state.filters.envFilterSelected,
       envFilters: state => state.filters.envFilters,
+      runStatusFilterSelected: state => state.filters.runStatusFilterSelected,
+      runStatusFilters: state => state.filters.runStatusFilters,
       dateFilterSelected: state => state.filters.dateFilterSelected,
       dateFilters: state => state.filters.dateFilters
     })

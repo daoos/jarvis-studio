@@ -9,7 +9,7 @@
         hide-details
       ></v-text-field>
       <v-spacer></v-spacer>
-      <DataManagementFilters viewEnvironnement viewPeriode></DataManagementFilters>
+      <DataManagementFilters viewEnvironnement viewPeriode viewRunStatus></DataManagementFilters>
       <v-icon right @click="getFirestoreData" v-if="!isFetchAndAdding">refresh</v-icon>
       <v-progress-circular
       indeterminate
@@ -205,6 +205,7 @@ export default {
         store.dispatch("getGbqToGbqRuns/closeDBChannel", {
           clearModule: true
         });
+        console.log("where",where);
         let fetchResult = await store.dispatch(
           "getGbqToGbqRuns/fetchAndAdd",
           { where, limit: 0 }
@@ -216,6 +217,8 @@ export default {
         }
         this.$data.fetchAndAddStatus = "Success";
       } catch (e) {
+        console.log("Firestore Error catched");
+        console.log(e);
         this.$data.fetchAndAddStatus = "Error";
         this.$data.isFetchAndAdding = false;
       }

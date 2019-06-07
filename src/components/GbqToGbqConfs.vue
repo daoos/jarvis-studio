@@ -1,7 +1,6 @@
 <template>
   <v-container grid-list-xl fluid>
     <v-toolbar class="elevation-1" color="grey lighten-3">
-      <v-spacer></v-spacer>
       <v-text-field
         v-model="search"
         append-icon="search"
@@ -35,10 +34,10 @@
         indeterminate
       ></v-progress-linear>
       <template v-slot:items="props">
-        <td>{{ props.item["account"] }}</td>
-        <td>{{ props.item["environment"] }}</td>
-        <td>{{ props.item["id"] }}</td>
-        <td>{{ props.item["configuration"]["default_bq_dataset"] }}</td>
+        <td>{{ props.item.account }}</td>
+        <td>{{ props.item.environment }}</td>
+        <td>{{ props.item.id }}</td>
+        <td>{{ props.item.configuration.default_bq_dataset }}</td>
         <td>{{ props.item["nb_tasks"] }} </td>
         <td>
           <ActivatedStatusChip @click.native="changeActivatedStatus(props.item,'getGbqToGbqConfs')" :activatedConfStatus=props.item.configuration.activated ></ActivatedStatusChip>
@@ -167,13 +166,13 @@ export default {
         text: "Workflow Id",
         align: "left",
         sortable: true,
-        value: "dag_id"
+        value: "id"
       },
       {
         text: "BQ Default Dataset",
         align: "left",
         sortable: true,
-        value: "default_bq_dataset"
+        value: "configuration.default_bq_dataset"
       },
       {
         text: "# Tasks",
@@ -219,6 +218,8 @@ export default {
         }
         this.$data.fetchAndAddStatus = "Success";
       } catch (e) {
+        console.log("Firestore Error catched");
+        console.log(e);
         this.$data.fetchAndAddStatus = "Error";
         this.$data.isFetchAndAdding = false;
       }
@@ -239,6 +240,7 @@ export default {
       var dataFormated = dataArray.map(function(data, index) {
         return {
           nb_tasks: data.configuration.workflow.length,
+
         };
       });
       const dataArrayFormated = _.merge(dataArray, dataFormated);
