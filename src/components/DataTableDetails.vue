@@ -10,6 +10,11 @@
         <v-flex xs12 offset-xs0>
             <v-card>
             <v-card-title>
+                <v-icon
+                color="blue-grey lighten-3"
+                large
+                class="mr-3"
+                >table_chart</v-icon>
                 <span class="display-1 font-weight-bold">{{ this.dataTableDetails.id}}</span>
                 <v-spacer></v-spacer>
                 <v-tooltip bottom>
@@ -21,7 +26,7 @@
                 <v-btn @click="getDataTableDetails()">
                     Refresh
                 </v-btn>
-                <v-btn @click="queryInBigQuery()">
+                <v-btn @click="queryInBigQuery()" color="secondary">
                     Query
                 </v-btn>
             </v-card-title>
@@ -35,6 +40,7 @@
                     auto-grow
                     rows="1"
                     readonly
+                    outline
                     ></v-textarea>
                 </v-flex>
                 </v-layout>
@@ -43,7 +49,9 @@
                         <v-text-field
                         label="Account"
                         :value="dataTableDetails.account"
-                        class="title"
+                        class="title transparent"
+                        readonly
+                        outline
                         ></v-text-field>
                 </v-flex>
                 <v-flex xs3>
@@ -51,6 +59,8 @@
                     label="Project Id"
                     :value=this.projectId
                     class="title"
+                    readonly
+                    outline
                     ></v-text-field>
                 </v-flex>
                 <v-flex xs3 offset-xs1>
@@ -58,6 +68,8 @@
                     label="Dataset"
                     :value=this.datasetId
                     class="title"
+                    readonly
+                    outline
                     ></v-text-field>
                 </v-flex>
                     <v-flex xs3 offset-xs1>
@@ -65,6 +77,8 @@
                     label="Location"
                     :value="dataTableDetails.location"
                     class="title"
+                    readonly
+                    outline 
                     ></v-text-field>
                 </v-flex>
                 </v-layout>
@@ -74,6 +88,8 @@
                         label="Row Number"
                         :value="numRowsFormated"
                         class="title"
+                        readonly
+                        outline
                         ></v-text-field>
                 </v-flex>
                 <v-flex xs3>
@@ -81,6 +97,8 @@
                     label="Table Size"
                     :value="numBytesFormated"
                     class="title"
+                    readonly
+                    outline
                     ></v-text-field>
                 </v-flex>
                 <v-flex xs3 offset-xs1>
@@ -88,6 +106,8 @@
                     label="Table Type"
                     :value="dataTableDetails.kind"
                     class="title"
+                    readonly
+                    outline
                     ></v-text-field>
                 </v-flex>
                     <v-flex xs3 offset-xs1>
@@ -95,6 +115,8 @@
                     label="Time Partitioned"
                     :value="isTimePartitioned"
                     class="title"
+                    readonly
+                    outline
                     ></v-text-field>
                 </v-flex>
                 </v-layout>
@@ -118,6 +140,12 @@
                     href="#schema"
                 >
                     Schema
+                </v-tab>
+                <v-tab
+                    ripple
+                    href="#workflow"
+                >
+                    Workflow
                 </v-tab>
                 <v-tab
                     ripple
@@ -164,6 +192,18 @@
                             <span class="body-1">{{props.formattedRow[props.column.field]}}</span> 
                         </template>
                         </vue-good-table>
+                        </v-card-text>
+                    </v-card>
+                </v-tab-item>
+                <v-tab-item
+                    value="workflow"
+                >
+                    <v-card>
+                        <v-card-title>
+                            <span class="title">Workflow</span>
+                            <v-spacer></v-spacer>
+                        </v-card-title>
+                        <v-card-text>
                         </v-card-text>
                     </v-card>
                 </v-tab-item>
@@ -388,4 +428,8 @@ export default {
 
 </script>
 
-<style></style>
+<style>
+.v-input__slot {
+    border: none!important;
+}
+</style>

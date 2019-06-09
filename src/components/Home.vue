@@ -44,7 +44,7 @@
                             <v-layout row wrap>
                                 <v-flex xs12 sm6 md6 lg6 v-for="item in links" :key="item.id">
                                     <v-hover>
-                                        <v-card slot-scope="{ hover }" :class="`elevation-${hover ? 12 : 2}`">
+                                        <v-card slot-scope="{ hover }" :class="`elevation-${hover ? 12 : 2} rounded-card`">
                                             <v-img
                                                     src=""
                                                     aspect-ratio="2.75"
@@ -125,5 +125,8 @@
     .learn-more-btn {
         text-transform: initial;
         text-decoration: underline;
+    }
+    .rounded-card{
+    border-radius:8px;
     }
 </style>
