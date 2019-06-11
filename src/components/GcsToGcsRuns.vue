@@ -38,7 +38,7 @@
         <td>{{ props.item["account"] }}</td>
         <td>{{ props.item["environment"] }}</td>
         <td>{{ props.item["source_bucket"] }}</td>
-        <td>{{ props.item["gcs_triggering_file"] }}</td>
+        <td><router-link :to="{ name: 'StorageToStorageRun', params: { runId: props.item.id }}"><span class="font-weight-medium">{{ props.item["gcs_triggering_file"]}}</span></router-link></td>
         <td>
           <v-chip
             :color="props.item.statusColor"
@@ -52,7 +52,7 @@
         <td class="justify-center layout px-0">
           <v-icon small class="mr-2" @click="viewItem(props, props.item)">
             remove_red_eye
-          </v-icon>
+          </v-icon> 
           <v-icon class="mr-2" small @click="openAirflowDagRunUrl(props.item)">
             open_in_new
           </v-icon>

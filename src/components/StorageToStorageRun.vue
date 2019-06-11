@@ -1,5 +1,7 @@
 <template>
-  <StorageToStorageConfView :conf="conf" :isFetchAndAdding="isFetchAndAdding"></StorageToStorageConfView>       
+  <div v-if="run !== undefined">
+  <StorageToStorageConfView :conf="run.configuration_context" :isFetchAndAdding="isFetchAndAdding"></StorageToStorageConfView>
+  </div>     
 </template>
 
 <script>
@@ -19,46 +21,43 @@ export default {
     StorageToStorageConfView
   },
   data: () => ({
-    conf: undefined,
+    run: undefined,
     isFetchAndAdding: true,
     expand: false,
     fetchAndAddStatus: "",
     moreToFetchAndAdd: false,
-    viewJson: false,
-    viewedItem: {},
-    confToDeleteFromFirestore: {},
-    dialogDeleteConf: false,
-    showDetailConfToDelete: false,
-    showSnackbarDeleteConfSuccess: false
+    viewJson: false
   }),
   async mounted() {
-    await this.getConf();
+    await this.getRun();
   },
   methods: {
     goBack() {
       this.$router.go(-1)
     },
-    async getConf() {
+    async getRun() {
       this.$data.isFetchAndAdding = true;
-      //get the conf is not in mirrorExcGcsToGcsConfs 
-      if (this.mirrorExcGcsToGcsConfs[this.confId] == undefined) {
+      //get the conf is not in mirrorExcGcsToGcsRuns
+      if (this.mirrorExcGcsToGcsRuns[this.confId] == undefined) {
         await this.getFirestoreData();
         console.log();
       }
-      this.conf = this.mirrorExcGcsToGcsConfs[this.confId]
+      this.run = this.mirrorExcGcsToGcsRuns[this.runId]
       this.$data.isFetchAndAdding = false;
     },
     async getFirestoreData() {
-      const confId = this.confId;
+      const runId = this.runId;
       this.$data.fetchAndAddStatus = "Loading";
       this.$data.moreToFetchAndAdd = false;
       try {
-        await store.dispatch("mirrorExcGcsToGcsConfs/closeDBChannel", {
+        await store.dispatch("mirrorExcGcsToGcsRuns/closeDBChannel", {
           clearModule: true
         });
-        await store.dispatch("mirrorExcGcsToGcsConfs/fetchById",confId);
+        await store.dispatch("mirrorExcGcsToGcsRuns/fetchById",runId);
         this.$data.fetchAndAddStatus = "Success";
       } catch (e) {
+        console.log("Firestore Error catched");
+        console.log(e);
         this.$data.fetchAndAddStatus = "Error";
       }
     }
@@ -68,10 +67,10 @@ export default {
       isAuthenticated: state => state.user.isAuthenticated,
       user: state => state.user.user,
       settings: state => state.settings,
-      mirrorExcGcsToGcsConfs: state => state.mirrorExcGcsToGcsConfs.data
+      mirrorExcGcsToGcsRuns: state => state.mirrorExcGcsToGcsRuns.data
     }),
-    confId () {
-      return this.$route.params.confId ;
+    runId () {
+      return this.$route.params.runId ;
     }
   }
 };

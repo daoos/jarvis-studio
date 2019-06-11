@@ -77,6 +77,15 @@ export default [
       import(/* webpackChunkName: "gcstogcsconf" */ "@/views/GcsToGcsConf.vue")
   },
   {
+    path: "/storagetostorage/runs/:runId",
+    name: "StorageToStorageRun",
+    meta: {
+      authRequired: true
+    },
+    component: () =>
+      import(/* webpackChunkName: "storagetostoragerun" */ "@/views/StorageToStorageRun.vue")
+  },
+  {
     path: "gcstogbqconfs",
     name: "GcsToGbqConfs",
     meta: {

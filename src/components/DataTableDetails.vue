@@ -49,7 +49,7 @@
                         <v-text-field
                         label="Account"
                         :value="dataTableDetails.account"
-                        class="title transparent"
+                        class="title"
                         readonly
                         outline
                         ></v-text-field>
@@ -57,7 +57,7 @@
                 <v-flex xs3>
                     <v-text-field
                     label="Project Id"
-                    :value=this.projectId
+                    :value="this.projectId"
                     class="title"
                     readonly
                     outline
@@ -66,7 +66,7 @@
                 <v-flex xs3 offset-xs1>
                     <v-text-field
                     label="Dataset"
-                    :value=this.datasetId
+                    :value="this.datasetId"
                     class="title"
                     readonly
                     outline
@@ -149,6 +149,12 @@
                 </v-tab>
                 <v-tab
                     ripple
+                    href="#documentation"
+                >
+                    Documentation
+                </v-tab>
+                <v-tab
+                    ripple
                     href="#fulljson"
                 >
                     Full Json
@@ -200,10 +206,74 @@
                 >
                     <v-card>
                         <v-card-title>
-                            <span class="title">Workflow</span>
+                            <span class="title mt-2 ml-1">{{dataTableDetails.dag_id}}</span>
                             <v-spacer></v-spacer>
                         </v-card-title>
                         <v-card-text>
+                            <v-layout row>
+                                <v-flex>
+                                    <v-textarea
+                                    name="Description"
+                                    label="Description"
+                                    :value="dataTableDetails.short_description"
+                                    auto-grow
+                                    rows="1"
+                                    readonly
+                                    outline
+                                    ></v-textarea>
+                                </v-flex>
+                            </v-layout>
+                            <v-layout row>
+                                <v-flex xs5>
+                                    <v-text-field
+                                    label="Workflow Id"
+                                    :value="dataTableDetails.dag_id"
+                                    class="subtitle-1"
+                                    readonly
+                                    outline
+                                    ></v-text-field>
+                                </v-flex>
+                                <v-flex xs2>
+                                    <v-text-field
+                                    label="Workflow Type"
+                                    :value="dataTableDetails.dag_type"
+                                    class="subtitle-1"
+                                    readonly
+                                    outline
+                                    ></v-text-field>
+                                </v-flex>
+                                <v-flex xs3>
+                                    <v-text-field
+                                    label="Workflow Run Id"
+                                    :value="dataTableDetails.dag_run_id"
+                                    class="subtitle-1"
+                                    readonly
+                                    outline
+                                    ></v-text-field>
+                                </v-flex>
+                                <v-flex xs2>
+                                    <v-text-field
+                                    label="Last Modified"
+                                    :value="this.workflowLastModifiedTime"
+                                    class="subtitle-1"
+                                    readonly
+                                    outline 
+                                    ></v-text-field>
+                                </v-flex>
+                            </v-layout>
+                        </v-card-text>
+                    </v-card>
+                </v-tab-item>
+                <v-tab-item
+                    value="documentation"
+                >
+                    <v-card>
+                        <v-card-text>
+                            <v-layout row>
+                                <v-flex xs10 offset-xs0 ml-3>
+                                    <vue-markdown :source="dataTableDetails.doc_md"></vue-markdown>
+                                </v-flex>
+                            </v-layout>
                         </v-card-text>
                     </v-card>
                 </v-tab-item>
@@ -261,13 +331,16 @@ import Ajv from "ajv";
 // library to convert units (bite to Go ) and format number
 import * as convert from "convert-units";
 import * as numeral from "numeral";
+// librairy to vue markdown
+import VueMarkdown from "vue-markdown";
 
 export default {
   components: {
     VueJsonPretty,
     VueGoodTable,
     JsonSchemaIsInvalid,
-    DataModelHeader
+    DataModelHeader,
+    'vue-markdown': VueMarkdown
   },
   data: () => ({
     headerTitle : "Data Model",
@@ -325,7 +398,6 @@ export default {
     async getDataTableDetails() {
         this.$data.isFetchAndAdding = true;
         await this.getFirestoreData();
-        console.log("this.dataTableDetails",this.dataTableDetails);
         //Test the Json Schema 
         const ajv = new Ajv({ allErrors: true });
         //Get Schema to apply
@@ -401,8 +473,12 @@ export default {
         var dateFormated = moment(this.dataTableDetails.refreshed_timestamp).format("YYYY/MM/DD - HH:mm");
         var dateFromNow = moment(this.dataTableDetails.refreshed_timestamp).fromNow();
         const refreshedTimestamp = {dateFormated:dateFormated, dateFromNow:dateFromNow}
-        console.log(refreshedTimestamp);
         return refreshedTimestamp
+    },
+    workflowLastModifiedTime () {
+        console.log("lastModifiedTimeFormated")
+        var lastModifiedTimeFormated = moment(this.dataTableDetails.lastModifiedTime,"x").format("YYYY/MM/DD - HH:mm");
+        return lastModifiedTimeFormated
     },
     tableItems () {
         return [
@@ -430,6 +506,6 @@ export default {
 
 <style>
 .v-input__slot {
-    border: none!important;
+    border-style: none !important;
 }
 </style>

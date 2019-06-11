@@ -127,6 +127,6 @@
         text-decoration: underline;
     }
     .rounded-card{
-    border-radius:8px;
+    border-radius:5px;
     }
 </style>
