@@ -1,8 +1,90 @@
 <template>
-  <div v-if="run !== undefined">
-  <StorageToStorageConfView :conf="run.configuration_context" :isFetchAndAdding="isFetchAndAdding"></StorageToStorageConfView>
-  </div>     
-</template>
+  <v-container grid-list-xl>
+      <v-layout row wrap v-if="!isFetchAndAdding">
+          <v-layout row wrap v-if="jsonIsValid">
+          <v-flex xs12 offset-xs0>
+            <v-card>
+              <v-card-title>
+              </v-card-title>
+              <v-card-text>
+              </v-card-text>
+            </v-card>
+          </v-flex>
+        <v-flex xs12 offset-xs0>
+          <v-tabs
+              v-model="activeTab"
+              color="grey lighten-3"
+              slider-color="primary"
+          >
+              <v-tab
+                  ripple
+                  href="#dataoverview"
+              >
+                  Data Overview
+              </v-tab>
+              <v-tab
+                  ripple
+                  href="#schema"
+              >
+                  Schema
+              </v-tab>
+              <v-tab
+                  ripple
+                  href="#workflow"
+              >
+                  Workflow
+              </v-tab>
+              <v-tab
+                  ripple
+                  href="#documentation"
+              >
+                  Documentation
+              </v-tab>
+              <v-tab
+                  ripple
+                  href="#fulljson"
+              >
+                  Full Json
+              </v-tab>
+              <v-tab-item
+                value="dataoverview"
+              >
+                <v-card>
+                  <div v-if="run !== undefined">
+                    <StorageToStorageConfView :conf="run.configuration_context" :isFetchAndAdding="isFetchAndAdding"></StorageToStorageConfView>
+                  </div> 
+                    <v-card-title>
+                        <span class="title">Data Overview</span>
+                        <v-spacer></v-spacer>
+                    </v-card-title>
+                    <v-card-text>
+                        <vue-good-table
+                        :columns="this.dataTableOverviewColumns"
+                        :rows="this.dataTableOverviewRows"
+                        styleClass="vgt-table condensed striped"
+                    >
+                    <template slot="table-row" slot-scope="props">
+                        <span class="body-1">{{props.formattedRow[props.column.field]}}</span> 
+                    </template>
+                    </vue-good-table>
+                    </v-card-text>
+                </v-card>
+              </v-tab-item>
+            </v-tabs>
+           </v-flex>
+          </v-layout>
+        <v-layout row wrap v-else>
+          <JsonSchemaIsInvalid :jsonObject="this.dataTableDetails" :jsonObjectErrors="this.jsonObjectErrors"></JsonSchemaIsInvalid>
+        </v-layout>
+      </v-layout>
+      <v-layout row wrap v-else>
+        <template>
+        <v-progress-linear :indeterminate="true"></v-progress-linear>
+        </template>
+      </v-layout>  
+    </v-container>     
+</template>    
+
 
 <script>
 import { mapState } from "vuex";

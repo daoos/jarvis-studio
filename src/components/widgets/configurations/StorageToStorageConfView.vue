@@ -192,8 +192,10 @@ export default {
       let getConfId = "";
       if (this.conf.id !== undefined) {
         getConfId = this.conf.id;
-      } else {
+      } else if (this.conf.destination_bucket[0] !== undefined) {
         getConfId = this.conf.destination_bucket[0];
+      } else {
+        getConfId = "";
       }
       return getConfId
     }
