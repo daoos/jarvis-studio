@@ -9,13 +9,18 @@
         hide-details
       ></v-text-field>
       <v-spacer></v-spacer>
-      <DataManagementFilters viewEnvironnement viewPeriode></DataManagementFilters>
-      <v-icon right @click="getFirestoreData" v-if="!isFetchAndAdding">refresh</v-icon>
+      <DataManagementFilters
+        viewEnvironnement
+        viewPeriode
+      ></DataManagementFilters>
+      <v-icon right @click="getFirestoreData" v-if="!isFetchAndAdding"
+        >refresh</v-icon
+      >
       <v-progress-circular
-      indeterminate
-      size=20
-      color="primary"
-      v-if="isFetchAndAdding"
+        indeterminate
+        size="20"
+        color="primary"
+        v-if="isFetchAndAdding"
       ></v-progress-circular>
     </v-toolbar>
     <v-data-table
@@ -41,10 +46,13 @@
           <v-progress-circular
             :rotate="270"
             :size="35"
-            :value="(props.item.nb_triggered_jobs/props.item.nb_triggering_jobs)*100"
+            :value="
+              (props.item.nb_triggered_jobs / props.item.nb_triggering_jobs) *
+                100
+            "
             color="green"
           >
-          {{ props.item.nb_triggered_jobs }}
+            {{ props.item.nb_triggered_jobs }}
           </v-progress-circular>
         </td>
         <td>{{ props.item["last_update_date_from_now"] }}</td>
@@ -117,7 +125,7 @@ import VueJsonPretty from "vue-json-pretty";
 import store from "@/store/index";
 import moment from "moment";
 import _ from "lodash";
-import Util from '@/util';
+import Util from "@/util";
 import DataManagementFilters from "./widgets/filters/DataManagementFilters";
 
 export default {
@@ -199,10 +207,9 @@ export default {
         store.dispatch("workflowStatus/closeDBChannel", {
           clearModule: true
         });
-        let fetchResult = await store.dispatch(
-          "workflowStatus/fetchAndAdd",
-          { limit: 0 }
-        );
+        let fetchResult = await store.dispatch("workflowStatus/fetchAndAdd", {
+          limit: 0
+        });
         if (fetchResult.done === true) {
           this.$data.moreToFetchAndAdd = false;
         } else {
@@ -233,17 +240,25 @@ export default {
       const dataArray = Object.values(this.workflowStatus);
       var dataFormated = dataArray.map(function(data, index) {
         return {
-          last_update_date_formated: moment(data.last_modified).format("YYYY/MM/DD - HH:mm"),
+          last_update_date_formated: moment(data.last_modified).format(
+            "YYYY/MM/DD - HH:mm"
+          ),
           last_update_date_from_now: moment(data.last_modified).fromNow(),
-          last_fire_date_formated: moment(data.target_dag_last_executed).format("YYYY/MM/DD - HH:mm"),
-          last_fire_date_from_now: moment(data.target_dag_last_executed).fromNow(),
+          last_fire_date_formated: moment(data.target_dag_last_executed).format(
+            "YYYY/MM/DD - HH:mm"
+          ),
+          last_fire_date_from_now: moment(
+            data.target_dag_last_executed
+          ).fromNow(),
           nb_triggering_jobs: Object.keys(data.jobs).length,
           // Compute the number of jobs with a executed status == true
-          nb_triggered_jobs : Object.values(data.jobs).filter(function(d) { return d.executed == true; }).length
-          
+          nb_triggered_jobs: Object.values(data.jobs).filter(function(d) {
+            return d.executed == true;
+          }).length
+
           //color for the status
           //statusColor: Util.getStatusColor(data.status),
-          //generate Airflow URL 
+          //generate Airflow URL
           //TODO : GENERATE THE AIRFLOW URL TO THE JOBS ID
         };
       });

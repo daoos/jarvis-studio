@@ -12,12 +12,14 @@
           ></v-text-field>
           <v-spacer></v-spacer>
           <DataManagementFilters viewEnvironnement></DataManagementFilters>
-          <v-icon right @click="getFirestoreData" v-if="!isFetchAndAdding">refresh</v-icon>
+          <v-icon right @click="getFirestoreData" v-if="!isFetchAndAdding"
+            >refresh</v-icon
+          >
           <v-progress-circular
-          indeterminate
-          size=20
-          color="primary"
-          v-if="isFetchAndAdding"
+            indeterminate
+            size="20"
+            color="primary"
+            v-if="isFetchAndAdding"
           ></v-progress-circular>
         </v-toolbar>
         <v-data-table
@@ -42,13 +44,22 @@
             <td>{{ props.item["gcp_project"] }}</td>
             <td>{{ props.item["gbq_dataset"] }}</td>
             <td>
-              <ActivatedStatusChip @click.native="changeActivatedStatus(props.item,'mirrorExcGcsToGbqConfs')" :activatedConfStatus=props.item.activated ></ActivatedStatusChip>
+              <ActivatedStatusChip
+                @click.native="
+                  changeActivatedStatus(props.item, 'mirrorExcGcsToGbqConfs')
+                "
+                :activatedConfStatus="props.item.activated"
+              ></ActivatedStatusChip>
             </td>
             <td class="justify-center layout px-0">
               <v-icon small class="mr-2" @click="viewItem(props, props.item)">
                 remove_red_eye
               </v-icon>
-              <v-icon small class="mr-2" @click="deleteConfFromFirestore(props, props.item)">
+              <v-icon
+                small
+                class="mr-2"
+                @click="deleteConfFromFirestore(props, props.item)"
+              >
                 delete_forever
               </v-icon>
             </td>
@@ -56,9 +67,7 @@
           <template v-slot:expand="props">
             <v-card flat>
               <v-card-title>
-                <span class="headline">{{
-                  viewedItem.table_name
-                }}</span>
+                <span class="headline">{{ viewedItem.table_name }}</span>
                 <v-spacer></v-spacer>
                 <v-btn color="warning" fab small dark outline>
                   <v-icon @click="props.expanded = !props.expanded">
@@ -109,16 +118,23 @@
         </v-card>
       </v-flex>
     </v-layout>
-    <v-dialog v-model="dialogDeleteConf" max-width="400" >
+    <v-dialog v-model="dialogDeleteConf" max-width="400">
       <v-card light>
         <v-card-title class="headline">Delete Configuration</v-card-title>
         <v-card-text>
           Do you really want to delete the configuration?
-          <h3 class="pt-3"><v-icon size=18>arrow_forward</v-icon>{{ confToDeleteFromFirestore.id }}</h3>
+          <h3 class="pt-3">
+            <v-icon size="18">arrow_forward</v-icon
+            >{{ confToDeleteFromFirestore.id }}
+          </h3>
         </v-card-text>
         <v-card-actions>
           <v-btn icon @click="showDetailConfToDelete = !showDetailConfToDelete">
-            <v-icon>{{ showDetailConfToDelete ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}</v-icon>
+            <v-icon>{{
+              showDetailConfToDelete
+                ? "keyboard_arrow_up"
+                : "keyboard_arrow_down"
+            }}</v-icon>
           </v-btn>
           <v-spacer></v-spacer>
           <v-btn
@@ -128,46 +144,40 @@
           >
             Cancel
           </v-btn>
-          <v-btn
-            color="error"
-            @click="confirmeDeleteConfFromFirestore"
-          >
+          <v-btn color="error" @click="confirmeDeleteConfFromFirestore">
             Delete
           </v-btn>
         </v-card-actions>
         <v-slide-y-transition>
           <v-card-text v-show="showDetailConfToDelete">
             <vue-json-pretty
-                :data="confToDeleteFromFirestore"
-                :deep="5"
-                :show-double-quotes="true"
-                :show-length="true"
-                :show-line="false"
-              >
-              </vue-json-pretty>
-            </v-card-text>
-          </v-slide-y-transition>
-        </v-card>
-      </v-dialog>
-      <v-snackbar
-        v-model="showSnackbarDeleteConfSuccess"
-        color="success"
-        :timeout="1000"
-        auto-height
-      >
-        Configuration deleted with sucess
-      </v-snackbar>
-            <v-snackbar
-        v-model="snackbarParam.show"
-        :color="snackbarParam.color"
-        :timeout="2000"
-        auto-height
-        >
-        {{ snackbarParam.message }}
-         <v-btn
-        flat
-        @click="snackbarParam.show = false"
-      >
+              :data="confToDeleteFromFirestore"
+              :deep="5"
+              :show-double-quotes="true"
+              :show-length="true"
+              :show-line="false"
+            >
+            </vue-json-pretty>
+          </v-card-text>
+        </v-slide-y-transition>
+      </v-card>
+    </v-dialog>
+    <v-snackbar
+      v-model="showSnackbarDeleteConfSuccess"
+      color="success"
+      :timeout="1000"
+      auto-height
+    >
+      Configuration deleted with sucess
+    </v-snackbar>
+    <v-snackbar
+      v-model="snackbarParam.show"
+      :color="snackbarParam.color"
+      :timeout="2000"
+      auto-height
+    >
+      {{ snackbarParam.message }}
+      <v-btn flat @click="snackbarParam.show = false">
         Close
       </v-btn>
     </v-snackbar>
@@ -191,7 +201,7 @@ export default {
     ActivatedStatusChip
   },
   data: () => ({
-    mirrorExcGcsToGbqConfsAllDetailsArray : [],
+    mirrorExcGcsToGbqConfsAllDetailsArray: [],
     search: "",
     isFetchAndAdding: false,
     fetchAndAddStatus: "",
@@ -254,13 +264,15 @@ export default {
   methods: {
     viewItem(props, item) {
       props.expanded = !props.expanded;
-      this.viewedIndex = this.mirrorExcGcsToGbqConfsAllDetailsArrayFlat.indexOf(item);
+      this.viewedIndex = this.mirrorExcGcsToGbqConfsAllDetailsArrayFlat.indexOf(
+        item
+      );
       this.viewedItem = Object.assign({}, item);
     },
     deleteConfFromFirestore(props, item) {
       this.confToDeleteFromFirestore = item;
       this.dialogDeleteConf = true;
-    }, 
+    },
     cancelDeleteConfFromFirestore() {
       this.dialogDeleteConf = false;
       this.confToDeleteFromFirestore = {};
@@ -269,10 +281,15 @@ export default {
     confirmeDeleteConfFromFirestore() {
       this.dialogDeleteConf = false;
       this.showSnackbarDeleteConfSuccess = false;
-      store.dispatch('mirrorExcGcsToGbqConfs/delete', this.confToDeleteFromFirestore.id).then(this.showSnackbarDeleteConfSuccess = true);
+      store
+        .dispatch(
+          "mirrorExcGcsToGbqConfs/delete",
+          this.confToDeleteFromFirestore.id
+        )
+        .then((this.showSnackbarDeleteConfSuccess = true));
       this.confToDeleteFromFirestore = {};
       this.showDetailConfToDelete = false;
-    }, 
+    },
     async getFirestoreData() {
       this.mirrorExcGcsToGbqConfsAllDetailsArray = [];
       const where = this.whereConfFilter;
@@ -296,10 +313,12 @@ export default {
 
         //Loop to the document at the 1st level to get the detail configuration in the CONFIGURATION collection of each document
         //Transform the mirrorExcGcsToGbqConfs in Array to loop on
-        const mirrorExcGcsToGbqConfsArray = Object.values(this.mirrorExcGcsToGbqConfs);
+        const mirrorExcGcsToGbqConfsArray = Object.values(
+          this.mirrorExcGcsToGbqConfs
+        );
         //Loop on mirrorExcGcsToGbqConfsArray to get the collection
         for (var confDetailsId in mirrorExcGcsToGbqConfsArray) {
-          let bucketId = mirrorExcGcsToGbqConfsArray[confDetailsId].id
+          let bucketId = mirrorExcGcsToGbqConfsArray[confDetailsId].id;
           try {
             store.dispatch("mirrorExcGcsToGbqConfDetails/closeDBChannel", {
               clearModule: true
@@ -308,23 +327,35 @@ export default {
               "mirrorExcGcsToGbqConfDetails/fetchAndAdd",
               { bucketId: bucketId, limit: 0 }
             );
-            //Ad the bucket source to the doc configuration and an unique key 
-            let mirrorExcGcsToGbqConfDetailsEnriched = Object.values(this.mirrorExcGcsToGbqConfDetails).map(x => Object.assign({bucket_source:bucketId},x));
+            //Ad the bucket source to the doc configuration and an unique key
+            let mirrorExcGcsToGbqConfDetailsEnriched = Object.values(
+              this.mirrorExcGcsToGbqConfDetails
+            ).map(x => Object.assign({ bucket_source: bucketId }, x));
             //Ad an unique key to the doc configuration (bucket + input filder + table destination)
-            mirrorExcGcsToGbqConfDetailsEnriched = mirrorExcGcsToGbqConfDetailsEnriched.map((val, i, arr) => {
-              let key = "";
-              key = key.concat(val.bucket_source,"__",val.gcs_prefix,"__",val.table_name);
-              return Object.assign({key: key},val);
-            });
+            mirrorExcGcsToGbqConfDetailsEnriched = mirrorExcGcsToGbqConfDetailsEnriched.map(
+              (val, i, arr) => {
+                let key = "";
+                key = key.concat(
+                  val.bucket_source,
+                  "__",
+                  val.gcs_prefix,
+                  "__",
+                  val.table_name
+                );
+                return Object.assign({ key: key }, val);
+              }
+            );
             //Concat the fetched documents in the same Array
-            this.mirrorExcGcsToGbqConfsAllDetailsArray.push(Object.values(mirrorExcGcsToGbqConfDetailsEnriched));
-            } catch (e) {
-              console.log("Firestore Error catched");
-              console.log(e);
-              this.$data.fetchAndAddStatus = "Error";
-              this.$data.isFetchAndAdding = false;
-            }
-        };
+            this.mirrorExcGcsToGbqConfsAllDetailsArray.push(
+              Object.values(mirrorExcGcsToGbqConfDetailsEnriched)
+            );
+          } catch (e) {
+            console.log("Firestore Error catched");
+            console.log(e);
+            this.$data.fetchAndAddStatus = "Error";
+            this.$data.isFetchAndAdding = false;
+          }
+        }
       } catch (e) {
         console.log("Firestore Error catched");
         console.log(e);
@@ -339,7 +370,8 @@ export default {
       isAuthenticated: state => state.user.isAuthenticated,
       user: state => state.user.user,
       mirrorExcGcsToGbqConfs: state => state.mirrorExcGcsToGbqConfs.data,
-      mirrorExcGcsToGbqConfDetails: state => state.mirrorExcGcsToGbqConfDetails.data,
+      mirrorExcGcsToGbqConfDetails: state =>
+        state.mirrorExcGcsToGbqConfDetails.data,
       dateFilterSelected: state => state.filters.dateFilterSelected,
       dateFilters: state => state.filters.dateFilters,
       minDateFilter: state => state.filters.minDateFilter
@@ -357,5 +389,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

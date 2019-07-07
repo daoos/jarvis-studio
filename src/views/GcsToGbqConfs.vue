@@ -1,11 +1,11 @@
 <template>
-<div>
-  <DataManagementHeader
-    :tabsItems="tabsItems"
-    :headerTitle="headerTitle"
-  ></DataManagementHeader>
-  <GcsToGbqConfs />
-</div>
+  <div>
+    <DataManagementHeader
+      :tabsItems="tabsItems"
+      :headerTitle="headerTitle"
+    ></DataManagementHeader>
+    <GcsToGbqConfs />
+  </div>
 </template>
 
 <script>
@@ -18,14 +18,14 @@ export default {
     DataManagementHeader
   },
   data() {
-      return {
-          headerTitle : "Storage to Table",
-          tabsItems: [
-              {id: 1, title: 'Runs', link: '/runs/gcstogbq'},
-              {id: 2, title: 'Configurations', link: '/conf/gcstogbq'},
-              {id: 3, title: 'Documentation', link: ''}
-          ]
-      }
+    return {
+      headerTitle: "Storage to Table",
+      tabsItems: [
+        { id: 1, title: "Runs", link: "/runs/gcstogbq" },
+        { id: 2, title: "Configurations", link: "/conf/gcstogbq" },
+        { id: 3, title: "Documentation", link: "" }
+      ]
+    };
   }
 };
 </script>

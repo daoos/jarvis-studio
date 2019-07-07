@@ -10,12 +10,14 @@
       ></v-text-field>
       <v-spacer></v-spacer>
       <DataManagementFilters viewEnvironnement></DataManagementFilters>
-      <v-icon right @click="getFirestoreData" v-if="!isFetchAndAdding">refresh</v-icon>
+      <v-icon right @click="getFirestoreData" v-if="!isFetchAndAdding"
+        >refresh</v-icon
+      >
       <v-progress-circular
-      indeterminate
-      size=20
-      color="primary"
-      v-if="isFetchAndAdding"
+        indeterminate
+        size="20"
+        color="primary"
+        v-if="isFetchAndAdding"
       ></v-progress-circular>
     </v-toolbar>
     <v-data-table
@@ -38,15 +40,22 @@
         <td>{{ props.item["environment"] }}</td>
         <td>{{ props.item["id"] }}</td>
         <td>{{ props.item["target_dag"] }}</td>
-        <td>{{ props.item["nb_authorized_jobs"] }} </td>
+        <td>{{ props.item["nb_authorized_jobs"] }}</td>
         <td>
-          <ActivatedStatusChip @click.native="changeActivatedStatus(props.item,'workflowConfs')" :activatedConfStatus=props.item.activated ></ActivatedStatusChip>
+          <ActivatedStatusChip
+            @click.native="changeActivatedStatus(props.item, 'workflowConfs')"
+            :activatedConfStatus="props.item.activated"
+          ></ActivatedStatusChip>
         </td>
         <td class="justify-center layout px-0">
           <v-icon small class="mr-2" @click="viewItem(props, props.item)">
             remove_red_eye
           </v-icon>
-          <v-icon small class="mr-2" @click="deleteConfFromFirestore(props, props.item)">
+          <v-icon
+            small
+            class="mr-2"
+            @click="deleteConfFromFirestore(props, props.item)"
+          >
             delete_forever
           </v-icon>
         </td>
@@ -73,7 +82,7 @@
             </vue-json-pretty>
           </v-card-text>
         </v-card>
-      </template> 
+      </template>
       <v-alert v-slot:no-results :value="true" color="error" icon="warning">
         Your search for "{{ search }}" found no results.
       </v-alert>
@@ -108,11 +117,18 @@
         <v-card-title class="headline">Delete Configuration</v-card-title>
         <v-card-text>
           Do you really want to delete the configuration?
-          <h3 class="pt-3"><v-icon size=18>arrow_forward</v-icon>{{ confToDeleteFromFirestore.id }}</h3>
+          <h3 class="pt-3">
+            <v-icon size="18">arrow_forward</v-icon
+            >{{ confToDeleteFromFirestore.id }}
+          </h3>
         </v-card-text>
         <v-card-actions>
           <v-btn icon @click="showDetailConfToDelete = !showDetailConfToDelete">
-            <v-icon>{{ showDetailConfToDelete ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}</v-icon>
+            <v-icon>{{
+              showDetailConfToDelete
+                ? "keyboard_arrow_up"
+                : "keyboard_arrow_down"
+            }}</v-icon>
           </v-btn>
           <v-spacer></v-spacer>
           <v-btn
@@ -122,46 +138,40 @@
           >
             Cancel
           </v-btn>
-          <v-btn
-            color="error"
-            @click="confirmeDeleteConfFromFirestore"
-          >
+          <v-btn color="error" @click="confirmeDeleteConfFromFirestore">
             Delete
           </v-btn>
         </v-card-actions>
         <v-slide-y-transition>
           <v-card-text v-show="showDetailConfToDelete">
             <vue-json-pretty
-                :data="confToDeleteFromFirestore"
-                :deep="5"
-                :show-double-quotes="true"
-                :show-length="true"
-                :show-line="false"
-              >
-              </vue-json-pretty>
-            </v-card-text>
-          </v-slide-y-transition>
-        </v-card>
-      </v-dialog>
-      <v-snackbar
-        v-model="showSnackbarDeleteConfSuccess"
-        color="success"
-        :timeout="1000"
-        auto-height
-      >
-        Configuration deleted with sucess
-      </v-snackbar>
-      <v-snackbar
-        v-model="snackbarParam.show"
-        :color="snackbarParam.color"
-        :timeout="2000"
-        auto-height
-        >
-        {{ snackbarParam.message }}
-        <v-btn
-        flat
-        @click="snackbarParam.show = false"
-        >
+              :data="confToDeleteFromFirestore"
+              :deep="5"
+              :show-double-quotes="true"
+              :show-length="true"
+              :show-line="false"
+            >
+            </vue-json-pretty>
+          </v-card-text>
+        </v-slide-y-transition>
+      </v-card>
+    </v-dialog>
+    <v-snackbar
+      v-model="showSnackbarDeleteConfSuccess"
+      color="success"
+      :timeout="1000"
+      auto-height
+    >
+      Configuration deleted with sucess
+    </v-snackbar>
+    <v-snackbar
+      v-model="snackbarParam.show"
+      :color="snackbarParam.color"
+      :timeout="2000"
+      auto-height
+    >
+      {{ snackbarParam.message }}
+      <v-btn flat @click="snackbarParam.show = false">
         Close
       </v-btn>
     </v-snackbar>
@@ -175,7 +185,7 @@ import VueJsonPretty from "vue-json-pretty";
 import store from "@/store/index";
 import moment from "moment";
 import _ from "lodash";
-import Util from '@/util';
+import Util from "@/util";
 import ActivatedStatusChip from "./widgets/datatablewidgets/ActivatedStatusChip.vue";
 import ConfsComponent from "@/mixins/confsComponent.js";
 import DataManagementFilters from "./widgets/filters/DataManagementFilters";
@@ -256,7 +266,7 @@ export default {
     deleteConfFromFirestore(props, item) {
       this.confToDeleteFromFirestore = item;
       this.dialogDeleteConf = true;
-    }, 
+    },
     cancelDeleteConfFromFirestore() {
       this.dialogDeleteConf = false;
       this.confToDeleteFromFirestore = {};
@@ -265,10 +275,12 @@ export default {
     confirmeDeleteConfFromFirestore() {
       this.dialogDeleteConf = false;
       this.showSnackbarDeleteConfSuccess = false;
-      store.dispatch('workflowConfs/delete', this.confToDeleteFromFirestore.id).then(this.showSnackbarDeleteConfSuccess = true);
+      store
+        .dispatch("workflowConfs/delete", this.confToDeleteFromFirestore.id)
+        .then((this.showSnackbarDeleteConfSuccess = true));
       this.confToDeleteFromFirestore = {};
       this.showDetailConfToDelete = false;
-    }, 
+    },
     async getFirestoreData() {
       const where = this.whereConfFilter;
       console.log(where);
@@ -279,10 +291,10 @@ export default {
         store.dispatch("workflowConfs/closeDBChannel", {
           clearModule: true
         });
-        let fetchResult = await store.dispatch(
-          "workflowConfs/fetchAndAdd",
-          { where, limit: 0 }
-        );
+        let fetchResult = await store.dispatch("workflowConfs/fetchAndAdd", {
+          where,
+          limit: 0
+        });
         if (fetchResult.done === true) {
           this.$data.moreToFetchAndAdd = false;
         } else {
@@ -303,7 +315,7 @@ export default {
       isAuthenticated: state => state.user.isAuthenticated,
       user: state => state.user.user,
       settings: state => state.settings,
-      workflowConfs: state => state.workflowConfs.data,
+      workflowConfs: state => state.workflowConfs.data
     }),
     ...mapGetters(["periodFiltered", "whereConfFilter"]),
     workflowConfsFormated() {

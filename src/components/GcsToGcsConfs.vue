@@ -10,12 +10,14 @@
       ></v-text-field>
       <v-spacer></v-spacer>
       <DataManagementFilters viewEnvironnement></DataManagementFilters>
-      <v-icon right @click="getFirestoreData" v-if="!isFetchAndAdding">refresh</v-icon>
+      <v-icon right @click="getFirestoreData" v-if="!isFetchAndAdding"
+        >refresh</v-icon
+      >
       <v-progress-circular
-      indeterminate
-      size=20
-      color="primary"
-      v-if="isFetchAndAdding"
+        indeterminate
+        size="20"
+        color="primary"
+        v-if="isFetchAndAdding"
       ></v-progress-circular>
     </v-toolbar>
     <v-data-table
@@ -36,18 +38,34 @@
       <template v-slot:items="props">
         <td>{{ props.item["account"] }}</td>
         <td>{{ props.item["environment"] }}</td>
-        <td><router-link :to="{ name: 'GcsToGcsConf', params: { confId: props.item.id }}"><span class="font-weight-medium">{{ props.item["id"] }}</span></router-link></td>
+        <td>
+          <router-link
+            :to="{ name: 'GcsToGcsConf', params: { confId: props.item.id } }"
+            ><span class="font-weight-medium">{{
+              props.item["id"]
+            }}</span></router-link
+          >
+        </td>
         <td>{{ props.item["source_bucket"] }}</td>
-        <td>{{ props.item["nb_destination_buckets"] }} </td>
+        <td>{{ props.item["nb_destination_buckets"] }}</td>
         <td>{{ props.item["nb_filename_templates"] }}</td>
         <td>
-          <ActivatedStatusChip @click.native="changeActivatedStatus(props.item,'mirrorExcGcsToGcsConfs')" :activatedConfStatus=props.item.activated ></ActivatedStatusChip>
+          <ActivatedStatusChip
+            @click.native="
+              changeActivatedStatus(props.item, 'mirrorExcGcsToGcsConfs')
+            "
+            :activatedConfStatus="props.item.activated"
+          ></ActivatedStatusChip>
         </td>
         <td class="justify-center layout px-0">
           <v-icon small class="mr-2" @click="viewItem(props, props.item)">
             remove_red_eye
           </v-icon>
-          <v-icon small class="mr-2" @click="deleteConfFromFirestore(props, props.item)">
+          <v-icon
+            small
+            class="mr-2"
+            @click="deleteConfFromFirestore(props, props.item)"
+          >
             delete_forever
           </v-icon>
         </td>
@@ -74,7 +92,7 @@
             </vue-json-pretty>
           </v-card-text>
         </v-card>
-      </template> 
+      </template>
       <v-alert v-slot:no-results :value="true" color="error" icon="warning">
         Your search for "{{ search }}" found no results.
       </v-alert>
@@ -109,11 +127,18 @@
         <v-card-title class="headline">Delete Configuration</v-card-title>
         <v-card-text>
           Do you really want to delete the configuration?
-          <h3 class="pt-3"><v-icon size=18>arrow_forward</v-icon>{{ confToDeleteFromFirestore.id }}</h3>
+          <h3 class="pt-3">
+            <v-icon size="18">arrow_forward</v-icon
+            >{{ confToDeleteFromFirestore.id }}
+          </h3>
         </v-card-text>
         <v-card-actions>
           <v-btn icon @click="showDetailConfToDelete = !showDetailConfToDelete">
-            <v-icon>{{ showDetailConfToDelete ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}</v-icon>
+            <v-icon>{{
+              showDetailConfToDelete
+                ? "keyboard_arrow_up"
+                : "keyboard_arrow_down"
+            }}</v-icon>
           </v-btn>
           <v-spacer></v-spacer>
           <v-btn
@@ -123,46 +148,40 @@
           >
             Cancel
           </v-btn>
-          <v-btn
-            color="error"
-            @click="confirmeDeleteConfFromFirestore"
-          >
+          <v-btn color="error" @click="confirmeDeleteConfFromFirestore">
             Delete
           </v-btn>
         </v-card-actions>
         <v-slide-y-transition>
           <v-card-text v-show="showDetailConfToDelete">
             <vue-json-pretty
-                :data="confToDeleteFromFirestore"
-                :deep="5"
-                :show-double-quotes="true"
-                :show-length="true"
-                :show-line="false"
-              >
-              </vue-json-pretty>
-            </v-card-text>
-          </v-slide-y-transition>
-        </v-card>
-      </v-dialog>
-      <v-snackbar
-        v-model="showSnackbarDeleteConfSuccess"
-        color="success"
-        :timeout="1000"
-        auto-height
-      >
-        Configuration deleted with sucess
-      </v-snackbar>
-      <v-snackbar
-        v-model="snackbarParam.show"
-        :color="snackbarParam.color"
-        :timeout="2000"
-        auto-height
-        >
-        {{ snackbarParam.message }}
-        <v-btn
-        flat
-        @click="snackbarParam.show = false"
-        >
+              :data="confToDeleteFromFirestore"
+              :deep="5"
+              :show-double-quotes="true"
+              :show-length="true"
+              :show-line="false"
+            >
+            </vue-json-pretty>
+          </v-card-text>
+        </v-slide-y-transition>
+      </v-card>
+    </v-dialog>
+    <v-snackbar
+      v-model="showSnackbarDeleteConfSuccess"
+      color="success"
+      :timeout="1000"
+      auto-height
+    >
+      Configuration deleted with sucess
+    </v-snackbar>
+    <v-snackbar
+      v-model="snackbarParam.show"
+      :color="snackbarParam.color"
+      :timeout="2000"
+      auto-height
+    >
+      {{ snackbarParam.message }}
+      <v-btn flat @click="snackbarParam.show = false">
         Close
       </v-btn>
     </v-snackbar>
@@ -176,7 +195,7 @@ import VueJsonPretty from "vue-json-pretty";
 import store from "@/store/index";
 import moment from "moment";
 import _ from "lodash";
-import Util from '@/util';
+import Util from "@/util";
 import ActivatedStatusChip from "./widgets/datatablewidgets/ActivatedStatusChip.vue";
 import ConfsComponent from "@/mixins/confsComponent.js";
 import DataManagementFilters from "./widgets/filters/DataManagementFilters";
@@ -263,7 +282,7 @@ export default {
     deleteConfFromFirestore(props, item) {
       this.confToDeleteFromFirestore = item;
       this.dialogDeleteConf = true;
-    }, 
+    },
     cancelDeleteConfFromFirestore() {
       this.dialogDeleteConf = false;
       this.confToDeleteFromFirestore = {};
@@ -272,10 +291,15 @@ export default {
     confirmeDeleteConfFromFirestore() {
       this.dialogDeleteConf = false;
       this.showSnackbarDeleteConfSuccess = false;
-      store.dispatch('mirrorExcGcsToGcsConfs/delete', this.confToDeleteFromFirestore.id).then(this.showSnackbarDeleteConfSuccess = true);
+      store
+        .dispatch(
+          "mirrorExcGcsToGcsConfs/delete",
+          this.confToDeleteFromFirestore.id
+        )
+        .then((this.showSnackbarDeleteConfSuccess = true));
       this.confToDeleteFromFirestore = {};
       this.showDetailConfToDelete = false;
-    }, 
+    },
     async getFirestoreData() {
       const where = this.whereConfFilter;
       console.log(where);
@@ -310,7 +334,7 @@ export default {
       isAuthenticated: state => state.user.isAuthenticated,
       user: state => state.user.user,
       settings: state => state.settings,
-      mirrorExcGcsToGcsConfs: state => state.mirrorExcGcsToGcsConfs.data,
+      mirrorExcGcsToGcsConfs: state => state.mirrorExcGcsToGcsConfs.data
     }),
     ...mapGetters(["periodFiltered", "whereConfFilter"]),
     mirrorExcGcsToGcsConfsFormated() {
@@ -318,7 +342,7 @@ export default {
       var dataFormated = dataArray.map(function(data, index) {
         return {
           nb_destination_buckets: data.destination_bucket.length,
-          nb_filename_templates: data.filename_templates.length,
+          nb_filename_templates: data.filename_templates.length
         };
       });
       const dataArrayFormated = _.merge(dataArray, dataFormated);

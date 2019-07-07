@@ -9,13 +9,19 @@
         hide-details
       ></v-text-field>
       <v-spacer></v-spacer>
-      <DataManagementFilters viewEnvironnement viewPeriode viewRunStatus></DataManagementFilters>
-      <v-icon right @click="getFirestoreData" v-if="!isFetchAndAdding">refresh</v-icon>
+      <DataManagementFilters
+        viewEnvironnement
+        viewPeriode
+        viewRunStatus
+      ></DataManagementFilters>
+      <v-icon right @click="getFirestoreData" v-if="!isFetchAndAdding"
+        >refresh</v-icon
+      >
       <v-progress-circular
-      indeterminate
-      size=20
-      color="primary"
-      v-if="isFetchAndAdding"
+        indeterminate
+        size="20"
+        color="primary"
+        v-if="isFetchAndAdding"
       ></v-progress-circular>
     </v-toolbar>
     <v-data-table
@@ -118,7 +124,7 @@ import VueJsonPretty from "vue-json-pretty";
 import store from "@/store/index";
 import moment from "moment";
 import _ from "lodash";
-import Util from '@/util';
+import Util from "@/util";
 import DataManagementFilters from "./widgets/filters/DataManagementFilters";
 
 export default {
@@ -235,8 +241,13 @@ export default {
           ).fromNow(),
           //color for the status
           statusColor: Util.getStatusColor(data.status),
-          //generate Airflow URL 
-          dag_execution_airflow_url: Util.dagRunAirflowUrl(airflowRootUrl,data.dag_id,data.dag_run_id,data.dag_execution_date),
+          //generate Airflow URL
+          dag_execution_airflow_url: Util.dagRunAirflowUrl(
+            airflowRootUrl,
+            data.dag_id,
+            data.dag_run_id,
+            data.dag_execution_date
+          )
         };
       });
       const dataArrayFormated = _.merge(dataArray, dataFormated);

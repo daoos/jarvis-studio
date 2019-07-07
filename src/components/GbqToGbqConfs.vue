@@ -10,12 +10,14 @@
       ></v-text-field>
       <v-spacer></v-spacer>
       <DataManagementFilters viewEnvironnement></DataManagementFilters>
-      <v-icon right @click="getFirestoreData" v-if="!isFetchAndAdding">refresh</v-icon>
+      <v-icon right @click="getFirestoreData" v-if="!isFetchAndAdding"
+        >refresh</v-icon
+      >
       <v-progress-circular
-      indeterminate
-      size=20
-      color="primary"
-      v-if="isFetchAndAdding"
+        indeterminate
+        size="20"
+        color="primary"
+        v-if="isFetchAndAdding"
       ></v-progress-circular>
     </v-toolbar>
     <v-data-table
@@ -38,9 +40,14 @@
         <td>{{ props.item.environment }}</td>
         <td>{{ props.item.id }}</td>
         <td>{{ props.item.configuration.default_bq_dataset }}</td>
-        <td>{{ props.item["nb_tasks"] }} </td>
+        <td>{{ props.item["nb_tasks"] }}</td>
         <td>
-          <ActivatedStatusChip @click.native="changeActivatedStatus(props.item,'getGbqToGbqConfs')" :activatedConfStatus=props.item.configuration.activated ></ActivatedStatusChip>
+          <ActivatedStatusChip
+            @click.native="
+              changeActivatedStatus(props.item, 'getGbqToGbqConfs')
+            "
+            :activatedConfStatus="props.item.configuration.activated"
+          ></ActivatedStatusChip>
         </td>
         <td class="justify-center layout px-0">
           <v-icon small class="mr-2" @click="viewItem(props, props.item)">
@@ -105,12 +112,9 @@
       :color="snackbarParam.color"
       :timeout="2000"
       auto-height
-      >
+    >
       {{ snackbarParam.message }}
-      <v-btn
-        flat
-        @click="snackbarParam.show = false"
-        >
+      <v-btn flat @click="snackbarParam.show = false">
         Close
       </v-btn>
     </v-snackbar>
@@ -124,7 +128,7 @@ import VueJsonPretty from "vue-json-pretty";
 import store from "@/store/index";
 import moment from "moment";
 import _ from "lodash";
-import Util from '@/util';
+import Util from "@/util";
 import DataManagementFilters from "./widgets/filters/DataManagementFilters";
 import ActivatedStatusChip from "./widgets/datatablewidgets/ActivatedStatusChip.vue";
 import ConfsComponent from "@/mixins/confsComponent.js";
@@ -207,10 +211,10 @@ export default {
         store.dispatch("getGbqToGbqConfs/closeDBChannel", {
           clearModule: true
         });
-        let fetchResult = await store.dispatch(
-          "getGbqToGbqConfs/fetchAndAdd",
-          { where, limit: 0 }
-        );
+        let fetchResult = await store.dispatch("getGbqToGbqConfs/fetchAndAdd", {
+          where,
+          limit: 0
+        });
         if (fetchResult.done === true) {
           this.$data.moreToFetchAndAdd = false;
         } else {
@@ -231,7 +235,7 @@ export default {
       isAuthenticated: state => state.user.isAuthenticated,
       user: state => state.user.user,
       settings: state => state.settings,
-      getGbqToGbqConfs: state => state.getGbqToGbqConfs.data,
+      getGbqToGbqConfs: state => state.getGbqToGbqConfs.data
     }),
     ...mapGetters(["periodFiltered", "whereConfFilter"]),
     getGbqToGbqConfsFormated() {
@@ -239,8 +243,7 @@ export default {
       //const airflowRootUrl = this.settings.airflowRootUrl;
       var dataFormated = dataArray.map(function(data, index) {
         return {
-          nb_tasks: data.configuration.workflow.length,
-
+          nb_tasks: data.configuration.workflow.length
         };
       });
       const dataArrayFormated = _.merge(dataArray, dataFormated);

@@ -17,13 +17,15 @@
         hide-details
       ></v-text-field>
       <v-spacer></v-spacer>
-      <DataManagementFilters viewEnvironnement ></DataManagementFilters>
-      <v-icon right @click="getFirestoreData" v-if="!isFetchAndAdding">refresh</v-icon>
+      <DataManagementFilters viewEnvironnement></DataManagementFilters>
+      <v-icon right @click="getFirestoreData" v-if="!isFetchAndAdding"
+        >refresh</v-icon
+      >
       <v-progress-circular
-      indeterminate
-      size=20
-      color="primary"
-      v-if="isFetchAndAdding"
+        indeterminate
+        size="20"
+        color="primary"
+        v-if="isFetchAndAdding"
       ></v-progress-circular>
     </v-toolbar>
     <v-data-table
@@ -46,10 +48,15 @@
         <td>{{ props.item["environment"] }}</td>
         <td>{{ props.item["table_name"] }}</td>
         <td>{{ props.item["gcp_project"] }}</td>
-        <td>{{ props.item["gcs_dest_bucket"] }} </td>
+        <td>{{ props.item["gcs_dest_bucket"] }}</td>
         <td>{{ props.item["gcs_dest_prefix"] }}</td>
         <td>
-        <ActivatedStatusChip @click.native="changeActivatedStatus(props.item,'getGbqToGcsConfs')" :activatedConfStatus=props.item.activated ></ActivatedStatusChip>
+          <ActivatedStatusChip
+            @click.native="
+              changeActivatedStatus(props.item, 'getGbqToGcsConfs')
+            "
+            :activatedConfStatus="props.item.activated"
+          ></ActivatedStatusChip>
         </td>
         <td class="justify-center layout px-0">
           <v-icon small class="mr-2" @click="viewItem(props, props.item)">
@@ -109,17 +116,14 @@
         </v-card>
       </v-flex>
     </v-layout>
-      <v-snackbar
-        v-model="snackbarParam.show"
-        :color="snackbarParam.color"
-        :timeout="2000"
-        auto-height
-        >
-        {{ snackbarParam.message }}
-         <v-btn
-        flat
-        @click="snackbarParam.show = false"
-      >
+    <v-snackbar
+      v-model="snackbarParam.show"
+      :color="snackbarParam.color"
+      :timeout="2000"
+      auto-height
+    >
+      {{ snackbarParam.message }}
+      <v-btn flat @click="snackbarParam.show = false">
         Close
       </v-btn>
     </v-snackbar>
@@ -143,7 +147,7 @@ export default {
   components: {
     VueJsonPretty,
     DataManagementFilters,
-    ActivatedStatusChip,
+    ActivatedStatusChip
   },
   data: () => ({
     search: "",
@@ -222,10 +226,10 @@ export default {
         store.dispatch("getGbqToGcsConfs/closeDBChannel", {
           clearModule: true
         });
-        let fetchResult = await store.dispatch(
-          "getGbqToGcsConfs/fetchAndAdd",
-          { where, limit: 0 }
-        );
+        let fetchResult = await store.dispatch("getGbqToGcsConfs/fetchAndAdd", {
+          where,
+          limit: 0
+        });
         if (fetchResult.done === true) {
           this.$data.moreToFetchAndAdd = false;
         } else {
@@ -246,7 +250,7 @@ export default {
       isAuthenticated: state => state.user.isAuthenticated,
       user: state => state.user.user,
       settings: state => state.settings,
-      getGbqToGcsConfs: state => state.getGbqToGcsConfs.data,
+      getGbqToGcsConfs: state => state.getGbqToGcsConfs.data
     }),
     ...mapGetters(["periodFiltered", "whereConfFilter"]),
     getGbqToGcsConfsFormated() {
@@ -254,7 +258,7 @@ export default {
       var dataFormated = dataArray.map(function(data, index) {
         return {
           //color for the activated status
-          activeConfColor: Util.getActiveConfColor(data.activated),
+          activeConfColor: Util.getActiveConfColor(data.activated)
         };
       });
       const dataArrayFormated = _.merge(dataArray, dataFormated);

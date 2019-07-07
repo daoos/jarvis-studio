@@ -1,17 +1,19 @@
 <template>
-  <StorageToStorageConfView :conf="conf" :isFetchAndAdding="isFetchAndAdding"></StorageToStorageConfView>       
+  <StorageToStorageConfView
+    :conf="conf"
+    :isFetchAndAdding="isFetchAndAdding"
+  ></StorageToStorageConfView>
 </template>
 
 <script>
 import { mapState } from "vuex";
 import { mapGetters } from "vuex";
 import VueJsonPretty from "vue-json-pretty";
-import StorageToStorageConfView from "./widgets/configurations/StorageToStorageConfView"
+import StorageToStorageConfView from "./widgets/configurations/StorageToStorageConfView";
 import store from "@/store/index";
 import moment from "moment";
 import _ from "lodash";
-import Util from '@/util';
-
+import Util from "@/util";
 
 export default {
   components: {
@@ -36,16 +38,16 @@ export default {
   },
   methods: {
     goBack() {
-      this.$router.go(-1)
+      this.$router.go(-1);
     },
     async getConf() {
       this.$data.isFetchAndAdding = true;
-      //get the conf is not in mirrorExcGcsToGcsConfs 
+      //get the conf is not in mirrorExcGcsToGcsConfs
       if (this.mirrorExcGcsToGcsConfs[this.confId] == undefined) {
         await this.getFirestoreData();
         console.log();
       }
-      this.conf = this.mirrorExcGcsToGcsConfs[this.confId]
+      this.conf = this.mirrorExcGcsToGcsConfs[this.confId];
       this.$data.isFetchAndAdding = false;
     },
     async getFirestoreData() {
@@ -56,7 +58,7 @@ export default {
         await store.dispatch("mirrorExcGcsToGcsConfs/closeDBChannel", {
           clearModule: true
         });
-        await store.dispatch("mirrorExcGcsToGcsConfs/fetchById",confId);
+        await store.dispatch("mirrorExcGcsToGcsConfs/fetchById", confId);
         this.$data.fetchAndAddStatus = "Success";
       } catch (e) {
         this.$data.fetchAndAddStatus = "Error";
@@ -70,12 +72,11 @@ export default {
       settings: state => state.settings,
       mirrorExcGcsToGcsConfs: state => state.mirrorExcGcsToGcsConfs.data
     }),
-    confId () {
-      return this.$route.params.confId ;
+    confId() {
+      return this.$route.params.confId;
     }
   }
 };
-
 </script>
 
 <style></style>

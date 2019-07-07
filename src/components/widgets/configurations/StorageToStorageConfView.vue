@@ -1,6 +1,6 @@
 <template>
   <v-container grid-list-xl>
-      <v-layout row wrap v-if="!isFetchAndAdding">
+    <v-layout row wrap v-if="!isFetchAndAdding">
       <v-flex xs12 offset-xs0>
         <v-card>
           <v-card-title>
@@ -17,128 +17,57 @@
               <v-flex xs3>
                 <v-text-field
                   label="Account"
-                  :value=conf.account
+                  :value="conf.account"
                   class="title"
                 ></v-text-field>
               </v-flex>
               <v-flex xs3 offset-xs1>
                 <v-text-field
                   label="Environement"
-                  :value=conf.environment
+                  :value="conf.environment"
                   class="title"
                 ></v-text-field>
               </v-flex>
             </v-layout>
+            <ParametersTable
+              name="Source Storage"
+              description="Source Storage of the files to copy"
+              :columns="sourceStorageColumns"
+              :rows="sourceStorageRows"
+              vflexLength="xs9"
+              :lineNumbers="false"
+              :searchOptionsEnabled="false"
+            ></ParametersTable>
+            <ParametersTable
+              name="Destination Storage(s)"
+              description="Multi destination storages for the copied files"
+              :columns="destinationStorageColumns"
+              :rows="destinationStorageRows"
+              vflexLength="xs7"
+              :lineNumbers="false"
+              :searchOptionsEnabled="false"
+            ></ParametersTable>
+            <ParametersTable
+              name="File Name Template(s)"
+              description="Templates of the incomming files that should be copied to the destination storages. Do not put the date/timestamp prefix file in the template "
+              :columns="fileNameTemplateColumns"
+              :rows="fileNameTemplateRows"
+            ></ParametersTable>
           </v-card-text>
         </v-card>
       </v-flex>
       <v-flex xs12 offset-xs0>
-        <v-card>
-          <v-card-text>
-            <v-flex xs12 sm6>
-              <h2 class="black--text">Source</h2>
-            </v-flex>
-            <v-form>
-            <v-layout row wrap>
-            <v-flex xs12 sm4>
-              <v-text-field
-                append-outer-icon="label"
-                :value=conf.source_bucket
-                label="Bucket"
-                readonly
-                outline
-              ></v-text-field>
-            </v-flex>
-            <v-flex xs12 sm4>
-              <v-text-field
-                append-outer-icon="label"
-                :value=conf.source_gcs_prefix
-                label="Source Prefix"
-                readonly
-                outline
-              ></v-text-field>
-            </v-flex>
-                 <v-flex xs12 sm4>
-              <v-text-field
-                :value=conf.source_archive_prefix
-                label="Archive Prefix"
-                readonly
-                outline
-              ></v-text-field>
-            </v-flex>
-            </v-layout>
-            </v-form>
-          </v-card-text>
-          <v-card-text>
-            <v-flex xs12 sm6>
-              <h2>Destination(s)</h2>
-            </v-flex>
-            <v-form>
-            <v-layout row wrap>
-            <v-flex xs12 sm4>
-              <span v-for="item in conf.destination_bucket" :key="item">
-              <v-text-field
-                append-outer-icon="label"
-                :value=item
-                label="Bucket"
-                readonly
-                outline
-              ></v-text-field>
-              </span>
-            </v-flex>
-            <v-flex xs12 sm4>
-              <span v-for="item in conf.destination_gcs_prefix" :key="item">
-              <v-text-field
-                :value=item
-                label="Destination Prefix"
-                readonly
-                outline
-              ></v-text-field>
-              </span>
-            </v-flex>
-            </v-layout>
-            </v-form>
-          </v-card-text>
-        </v-card>
-      </v-flex>
-      <v-flex xs12 offset-xs0>
-        <v-card>
-          <v-card-text>
-            <v-flex xs12 sm6>
-              <h2>File Name Template(s)</h2>
-            </v-flex>
-            <v-flex xs12 sm6 ml-4>
-              <v-layout row>
-                <v-list subheader>
-                  <v-list-tile
-                    v-for="item in conf.filename_templates"
-                    :key="item"
-                  >
-                    <v-list-tile-content>
-                      <v-list-tile-title v-html="item"></v-list-tile-title>
-                    </v-list-tile-content>
-                    <v-list-tile-action>
-                      <v-icon>info</v-icon>
-                    </v-list-tile-action>
-                  </v-list-tile>
-                </v-list>
-              </v-layout>
-            </v-flex>
-          </v-card-text>
-        </v-card>
-      </v-flex>
-      <v-flex xs12 offset-xs0>
-         <v-btn color="warning" fab small dark outline>
-              <v-icon @click="viewJson=!viewJson">
-                note
-              </v-icon>
-            </v-btn>
+        <v-btn color="warning" fab small dark outline>
+          <v-icon @click="viewJson = !viewJson">
+            note
+          </v-icon>
+        </v-btn>
         <v-card v-if="viewJson">
           <v-card-title>
             <span class="display-1 font-weight-bold">{{ conf.id }}</span>
             <v-spacer></v-spacer>
             <v-btn color="warning" fab small dark outline>
-              <v-icon @click="viewJson=!viewJson">
+              <v-icon @click="viewJson = !viewJson">
                 close
               </v-icon>
             </v-btn>
@@ -157,37 +86,84 @@
       </v-flex>
     </v-layout>
     <v-layout v-else>
-        <v-progress-linear :indeterminate="true"></v-progress-linear>
+      <v-progress-linear :indeterminate="true"></v-progress-linear>
     </v-layout>
-  </v-container>             
+  </v-container>
 </template>
 
 <script>
 import VueJsonPretty from "vue-json-pretty";
-import moment from "moment";
-import _ from "lodash";
-import Util from '@/util';
-
+import ParametersTable from "@/components/widgets/parameters/ParametersTable.vue";
 
 export default {
-    components: {
-        VueJsonPretty
-    },
-    props: {
-        conf: undefined,
-        isFetchAndAdding: true,
-    },
+  components: {
+    VueJsonPretty,
+    ParametersTable
+  },
+  props: {
+    conf: undefined,
+    isFetchAndAdding: true
+  },
   data: () => ({
     expand: false,
-    viewJson: false
+    viewJson: false,
+    fileNameTemplateColumns: [
+      {
+        label: "File Name Template",
+        field: "filename_template"
+      },
+      {
+        label: "File Name Description",
+        field: "filename_description"
+      }
+    ],
+    sourceStorageColumns: [
+      {
+        label: "Type",
+        field: "source_type",
+        width: "100px"
+      },
+      {
+        label: "Storage ID",
+        field: "source_storage_id",
+        width: "200px"
+      },
+      {
+        label: "Source Folder",
+        field: "source_input_folder",
+        width: "200px"
+      },
+      {
+        label: "Archive Folder",
+        field: "source_archive_folder",
+        width: "200px"
+      }
+    ],
+    destinationStorageColumns: [
+      {
+        label: "Type",
+        field: "destination_type",
+        width: "100px"
+      },
+      {
+        label: "Storage ID",
+        field: "destination_storage_id",
+        width: "200px"
+      },
+      {
+        label: "Destination Folder",
+        field: "destination_input_folder",
+        width: "230px"
+      }
+    ]
   }),
   methods: {
     goBack() {
-      this.$router.go(-1)
+      this.$router.go(-1);
     }
   },
   computed: {
-    getConfId () {
+    getConfId() {
       //Set a Conf Id to the first destination bucket in the Array when the Id of the Conf is not present in the payload
       let getConfId = "";
       if (this.conf.id !== undefined) {
@@ -197,11 +173,44 @@ export default {
       } else {
         getConfId = "";
       }
-      return getConfId
+      return getConfId;
+    },
+    fileNameTemplateRows() {
+      var filename_templates_rows = this.conf.filename_templates.map(function(
+        filename
+      ) {
+        return {
+          filename_template: filename,
+          filename_description: "No Description"
+        };
+      });
+      return filename_templates_rows;
+    },
+    sourceStorageRows() {
+      return [
+        {
+          source_type: "GCS",
+          source_storage_id: this.conf.source_bucket,
+          source_input_folder: this.conf.source_gcs_prefix,
+          source_archive_folder: this.conf.source_archive_prefix
+        }
+      ]
+    },
+    destinationStorageRows() {
+      //Combine the two array this.conf.destination_bucket and this.conf.destination_input_prefix into a array of json.
+      //Can't use map :(
+      var destinationStorageRows = [];
+      for (var i = 0; i < this.conf.destination_bucket.length; i++) {
+        destinationStorageRows.push({
+          destination_type: "GCS",
+          destination_storage_id: this.conf.destination_bucket[i],
+          destination_input_folder: this.conf.destination_gcs_prefix[i]
+        });
+      }
+      return destinationStorageRows;
     }
   }
 };
-
 </script>
 
 <style></style>

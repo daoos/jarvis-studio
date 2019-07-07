@@ -1,12 +1,9 @@
 <template>
-<div>
-    <DataManagementHeader
-      :tabsItems="tabsItems"
-      :headerTitle="headerTitle"
-    >
+  <div>
+    <DataManagementHeader :tabsItems="tabsItems" :headerTitle="headerTitle">
     </DataManagementHeader>
     <workflowStatus />
-</div>
+  </div>
 </template>
 
 <script>
@@ -19,14 +16,14 @@ export default {
     DataManagementHeader
   },
   data() {
-      return {
-          headerTitle : "Workflows",
-          tabsItems: [
-              {id: 1, title: 'Status', link: '/status/workflow'},
-              {id: 2, title: 'Configurations', link: '/conf/workflow'},
-              {id: 3, title: 'Documentation', link: ''}
-          ]
-      }
+    return {
+      headerTitle: "Workflows",
+      tabsItems: [
+        { id: 1, title: "Status", link: "/status/workflow" },
+        { id: 2, title: "Configurations", link: "/conf/workflow" },
+        { id: 3, title: "Documentation", link: "" }
+      ]
+    };
   }
 };
 </script>

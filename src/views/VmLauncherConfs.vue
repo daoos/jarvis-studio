@@ -1,11 +1,11 @@
 <template>
-<div>
-  <DataManagementHeader
-    :tabsItems="tabsItems"
-    :headerTitle="headerTitle"
-  ></DataManagementHeader>
-  <VmLauncherConfs />
-</div>
+  <div>
+    <DataManagementHeader
+      :tabsItems="tabsItems"
+      :headerTitle="headerTitle"
+    ></DataManagementHeader>
+    <VmLauncherConfs />
+  </div>
 </template>
 
 <script>
@@ -18,14 +18,14 @@ export default {
     DataManagementHeader
   },
   data() {
-      return {
-          headerTitle : "VM Launcher",
-          tabsItems: [
-              {id: 1, title: 'Runs', link: '/runs/vmlauncher'},
-              {id: 2, title: 'Configurations', link: '/conf/vmlauncher'},
-              {id: 3, title: 'Documentation', link: ''}
-          ]
-      }
+    return {
+      headerTitle: "VM Launcher",
+      tabsItems: [
+        { id: 1, title: "Runs", link: "/runs/vmlauncher" },
+        { id: 2, title: "Configurations", link: "/conf/vmlauncher" },
+        { id: 3, title: "Documentation", link: "" }
+      ]
+    };
   }
 };
 </script>

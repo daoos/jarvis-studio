@@ -9,13 +9,19 @@
         hide-details
       ></v-text-field>
       <v-spacer></v-spacer>
-      <DataManagementFilters viewEnvironnement viewPeriode viewRunStatus></DataManagementFilters>
-      <v-icon right @click="getFirestoreData" v-if="!isFetchAndAdding">refresh</v-icon>
+      <DataManagementFilters
+        viewEnvironnement
+        viewPeriode
+        viewRunStatus
+      ></DataManagementFilters>
+      <v-icon right @click="getFirestoreData" v-if="!isFetchAndAdding"
+        >refresh</v-icon
+      >
       <v-progress-circular
-      indeterminate
-      size=20
-      color="primary"
-      v-if="isFetchAndAdding"
+        indeterminate
+        size="20"
+        color="primary"
+        v-if="isFetchAndAdding"
       ></v-progress-circular>
     </v-toolbar>
     <v-data-table
@@ -49,12 +55,12 @@
         </td>
         <td>{{ props.item["dag_execution_date_formated"] }}</td>
         <td class="justify-center layout px-0">
-          <v-icon small class="mr-2" @click="viewItem(props, props.item)">
-            remove_red_eye
-          </v-icon>
-          <v-icon class="mr-2" small @click="openAirflowDagRunUrl(props.item)">
-            open_in_new
-          </v-icon>
+          <v-icon small class="mr-2" @click="viewItem(props, props.item)"
+            >remove_red_eye</v-icon
+          >
+          <v-icon class="mr-2" small @click="openAirflowDagRunUrl(props.item)"
+            >open_in_new</v-icon
+          >
         </td>
       </template>
       <template v-slot:expand="props">
@@ -63,9 +69,7 @@
             <span class="headline">{{ viewedItem.gcs_triggering_file }}</span>
             <v-spacer></v-spacer>
             <v-btn color="warning" fab small dark outline>
-              <v-icon @click="props.expanded = !props.expanded">
-                close
-              </v-icon>
+              <v-icon @click="props.expanded = !props.expanded">close</v-icon>
             </v-btn>
           </v-card-title>
           <v-card-text>
@@ -75,14 +79,13 @@
               :show-double-quotes="true"
               :show-length="true"
               :show-line="false"
-            >
-            </vue-json-pretty>
+            ></vue-json-pretty>
           </v-card-text>
         </v-card>
       </template>
-      <v-alert v-slot:no-results :value="true" color="error" icon="warning">
-        Your search for "{{ search }}" found no results.
-      </v-alert>
+      <v-alert v-slot:no-results :value="true" color="error" icon="warning"
+        >Your search for "{{ search }}" found no results.</v-alert
+      >
     </v-data-table>
     <v-layout row wrap v-if="viewJson">
       <v-flex xs12 offset-xs0>
@@ -91,9 +94,7 @@
             <span class="headline">{{ viewedItem.gcs_triggering_file }}</span>
             <v-spacer></v-spacer>
             <v-btn color="warning" fab small dark outline>
-              <v-icon @click="viewJson = false">
-                close
-              </v-icon>
+              <v-icon @click="viewJson = false">close</v-icon>
             </v-btn>
           </v-card-title>
           <v-card-text>
@@ -103,8 +104,7 @@
               :show-double-quotes="true"
               :show-length="true"
               :show-line="false"
-            >
-            </vue-json-pretty>
+            ></vue-json-pretty>
           </v-card-text>
         </v-card>
       </v-flex>
@@ -119,7 +119,7 @@ import VueJsonPretty from "vue-json-pretty";
 import store from "@/store/index";
 import moment from "moment";
 import _ from "lodash";
-import Util from '@/util';
+import Util from "@/util";
 import DataManagementFilters from "./widgets/filters/DataManagementFilters";
 
 export default {
@@ -201,10 +201,10 @@ export default {
         store.dispatch("getGbqToGcsRuns/closeDBChannel", {
           clearModule: true
         });
-        let fetchResult = await store.dispatch(
-          "getGbqToGcsRuns/fetchAndAdd",
-          { where, limit: 0 }
-        );
+        let fetchResult = await store.dispatch("getGbqToGcsRuns/fetchAndAdd", {
+          where,
+          limit: 0
+        });
         if (fetchResult.done === true) {
           this.$data.moreToFetchAndAdd = false;
         } else {
@@ -239,11 +239,18 @@ export default {
           dag_execution_date_formated: moment(data.dag_execution_date).format(
             "YYYY/MM/DD - HH:mm"
           ),
-          dag_execution_date_from_now: moment(data.dag_execution_date).fromNow(),
+          dag_execution_date_from_now: moment(
+            data.dag_execution_date
+          ).fromNow(),
           //color for the status
           statusColor: Util.getStatusColor(data.status),
-          //generate Airflow URL 
-          dag_execution_airflow_url: Util.dagRunAirflowUrl(airflowRootUrl,data.dag_id,data.dag_run_id,data.dag_execution_date)
+          //generate Airflow URL
+          dag_execution_airflow_url: Util.dagRunAirflowUrl(
+            airflowRootUrl,
+            data.dag_id,
+            data.dag_run_id,
+            data.dag_execution_date
+          )
         };
       });
       const dataArrayFormated = _.merge(dataArray, dataFormated);

@@ -9,14 +9,20 @@
         hide-details
       ></v-text-field>
       <v-spacer></v-spacer>
-      <DataManagementFilters viewEnvironnement viewPeriode viewRunStatus></DataManagementFilters>
-      <v-icon @click="getFirestoreData" v-if="!isFetchAndAdding">refresh</v-icon>
+      <DataManagementFilters
+        viewEnvironnement
+        viewPeriode
+        viewRunStatus
+      ></DataManagementFilters>
+      <v-icon @click="getFirestoreData" v-if="!isFetchAndAdding"
+        >refresh</v-icon
+      >
       <v-progress-circular
-      indeterminate
-      size=20
-      color="primary"
-      v-if="isFetchAndAdding"
-      class="pl-4"
+        indeterminate
+        size="20"
+        color="primary"
+        v-if="isFetchAndAdding"
+        class="pl-4"
       ></v-progress-circular>
     </v-toolbar>
     <v-data-table
@@ -38,7 +44,17 @@
         <td>{{ props.item["account"] }}</td>
         <td>{{ props.item["environment"] }}</td>
         <td>{{ props.item["source_bucket"] }}</td>
-        <td><router-link :to="{ name: 'StorageToStorageRun', params: { runId: props.item.id }}"><span class="font-weight-medium">{{ props.item["gcs_triggering_file"]}}</span></router-link></td>
+        <td>
+          <router-link
+            :to="{
+              name: 'StorageToStorageRun',
+              params: { runId: props.item.id }
+            }"
+            ><span class="font-weight-medium">{{
+              props.item["gcs_triggering_file"]
+            }}</span></router-link
+          >
+        </td>
         <td>
           <v-chip
             :color="props.item.statusColor"
@@ -52,7 +68,7 @@
         <td class="justify-center layout px-0">
           <v-icon small class="mr-2" @click="viewItem(props, props.item)">
             remove_red_eye
-          </v-icon> 
+          </v-icon>
           <v-icon class="mr-2" small @click="openAirflowDagRunUrl(props.item)">
             open_in_new
           </v-icon>
@@ -120,7 +136,7 @@ import VueJsonPretty from "vue-json-pretty";
 import store from "@/store/index";
 import moment from "moment";
 import _ from "lodash";
-import Util from '@/util';
+import Util from "@/util";
 import DataManagementFilters from "./widgets/filters/DataManagementFilters";
 
 export default {
@@ -240,11 +256,18 @@ export default {
           dag_execution_date_formated: moment(data.dag_execution_date).format(
             "YYYY/MM/DD - HH:mm"
           ),
-          dag_execution_date_from_now: moment(data.dag_execution_date).fromNow(),
+          dag_execution_date_from_now: moment(
+            data.dag_execution_date
+          ).fromNow(),
           //color for the status
           statusColor: Util.getStatusColor(data.status),
-          //generate Airflow URL 
-          dag_execution_airflow_url: Util.dagRunAirflowUrl(airflowRootUrl,data.dag_id,data.dag_run_id,data.dag_execution_date)
+          //generate Airflow URL
+          dag_execution_airflow_url: Util.dagRunAirflowUrl(
+            airflowRootUrl,
+            data.dag_id,
+            data.dag_run_id,
+            data.dag_execution_date
+          )
         };
       });
       const dataArrayFormated = _.merge(dataArray, dataFormated);
