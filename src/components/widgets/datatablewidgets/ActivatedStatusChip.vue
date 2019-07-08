@@ -2,8 +2,9 @@
   <v-chip
     :color="colorActivatedConfStatus"
     text-color="white"
-    small
-    class="text-lowercase"
+    :small="smallChip"
+    :class="chipTextClass"
+    :label="chipLabel"
     >{{ labelActivatedConfStatus }}</v-chip
   >
 </template>
@@ -14,7 +15,19 @@ import Util from "@/util";
 export default {
   components: {},
   props: {
-    activatedConfStatus: Boolean
+    activatedConfStatus: Boolean,
+    smallChip: {
+      type: Boolean,
+      default: true
+    },
+    chipLabel: {
+      type: Boolean,
+      default: false
+    },
+    chipTextClass: {
+      type: String,
+      default: "text-capitalize"
+    }
   },
   data: () => ({}),
   created() {},
@@ -24,19 +37,7 @@ export default {
       return Util.getActiveConfColor(this.activatedConfStatus);
     },
     labelActivatedConfStatus() {
-      let label = "";
-      switch (this.activatedConfStatus) {
-        case true:
-          label = "Activated";
-          break;
-        case false:
-          label = "Disabled";
-          break;
-        default:
-          label = "Not set";
-          break;
-      }
-      return label;
+      return Util.getActiveConfLabel(this.activatedConfStatus);
     }
   }
 };

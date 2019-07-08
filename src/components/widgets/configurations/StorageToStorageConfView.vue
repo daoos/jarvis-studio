@@ -4,33 +4,19 @@
       <v-flex xs12 offset-xs0>
         <v-card>
           <v-card-title>
-            <span class="display-1 font-weight-bold">{{ getConfId }}</span>
-            <v-spacer></v-spacer>
-            <v-btn color="black" fab small dark outline>
-              <v-icon @click="goBack()">
-                arrow_back
-              </v-icon>
-            </v-btn>
+            <HeaderConfView
+              :viewId="conf.id"
+              :activatedConfStatus="conf.activated"
+            />
           </v-card-title>
           <v-card-text>
-            <v-layout row>
-              <v-flex xs3>
-                <v-text-field
-                  label="Account"
-                  :value="conf.account"
-                  class="title"
-                ></v-text-field>
-              </v-flex>
-              <v-flex xs3 offset-xs1>
-                <v-text-field
-                  label="Environement"
-                  :value="conf.environment"
-                  class="title"
-                ></v-text-field>
-              </v-flex>
-            </v-layout>
+            <ParametersList
+              groupTitle="Context"
+              description="Context of the Storage to Storage configuration"
+              :paramItems="paramItems"
+            />
             <ParametersTable
-              name="Source Storage"
+              tableTitle="Source Storage"
               description="Source Storage of the files to copy"
               :columns="sourceStorageColumns"
               :rows="sourceStorageRows"
@@ -39,7 +25,7 @@
               :searchOptionsEnabled="false"
             ></ParametersTable>
             <ParametersTable
-              name="Destination Storage(s)"
+              tableTitle="Destination Storage(s)"
               description="Multi destination storages for the copied files"
               :columns="destinationStorageColumns"
               :rows="destinationStorageRows"
@@ -48,7 +34,7 @@
               :searchOptionsEnabled="false"
             ></ParametersTable>
             <ParametersTable
-              name="File Name Template(s)"
+              tableTitle="File Name Template(s)"
               description="Templates of the incomming files that should be copied to the destination storages. Do not put the date/timestamp prefix file in the template "
               :columns="fileNameTemplateColumns"
               :rows="fileNameTemplateRows"
@@ -94,15 +80,21 @@
 <script>
 import VueJsonPretty from "vue-json-pretty";
 import ParametersTable from "@/components/widgets/parameters/ParametersTable.vue";
-
+import HeaderConfView from "@/components/widgets/parameters/HeaderConfView.vue";
+import ParametersList from "@/components/widgets/parameters/ParametersList.vue";
 export default {
   components: {
     VueJsonPretty,
-    ParametersTable
+    ParametersTable,
+    HeaderConfView,
+    ParametersList
   },
   props: {
     conf: undefined,
-    isFetchAndAdding: true
+    isFetchAndAdding: {
+      type: Boolean,
+      default: true
+    }
   },
   data: () => ({
     expand: false,
@@ -194,7 +186,7 @@ export default {
           source_input_folder: this.conf.source_gcs_prefix,
           source_archive_folder: this.conf.source_archive_prefix
         }
-      ]
+      ];
     },
     destinationStorageRows() {
       //Combine the two array this.conf.destination_bucket and this.conf.destination_input_prefix into a array of json.
@@ -208,6 +200,16 @@ export default {
         });
       }
       return destinationStorageRows;
+    },
+    paramItems() {
+      return [
+        { id: "account", label: "Account", value: this.conf.account },
+        {
+          id: "environment",
+          label: "Environment",
+          value: this.conf.environment
+        }
+      ];
     }
   }
 };

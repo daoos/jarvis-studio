@@ -1,28 +1,29 @@
 <template>
-  <v-flex :[vflexLength]="true" :[vflexOffset]="true">
-    <h2 class="black--text pb-3">
-      {{ name }}
-      <v-tooltip right>
-        <template v-slot:activator="{ on }">
-          <v-icon color="blue-grey lighten-5" dark v-on="on">info</v-icon>
-        </template>
-        <span>{{ description }}</span>
-      </v-tooltip>
-    </h2>
-    <vue-good-table
-      :columns="columns"
-      :rows="rows"
-      :filterable="filterable"
-      :search-options="searchOptions"
-      styleClass="vgt-table striped condensed"
-      :line-numbers="lineNumbers"
-    >
+  <v-container fluid>
+    <v-flex :[vflexLength]="true" :[vflexOffset]="true">
+      <h2 class="black--text pb-3">
+        {{ tableTitle }}
+        <v-tooltip right>
+          <template v-slot:activator="{ on }">
+            <v-icon color="blue-grey lighten-5" dark v-on="on">info</v-icon>
+          </template>
+          <span>{{ description }}</span>
+        </v-tooltip>
+      </h2>
+      <vue-good-table
+        :columns="columns"
+        :rows="rows"
+        :filterable="filterable"
+        :search-options="searchOptions"
+        styleClass="vgt-table striped condensed"
+        :line-numbers="lineNumbers"
       >
-      <div slot="emptystate">
-        No information to display
-      </div>
-    </vue-good-table>
-  </v-flex>
+        <div slot="emptystate">
+          No information to display
+        </div>
+      </vue-good-table>
+    </v-flex>
+  </v-container>
 </template>
 
 <script>
@@ -46,9 +47,9 @@ export default {
       type: String,
       default: "offset-xs0"
     },
-    name: {
+    tableTitle: {
       type: String,
-      default: "Parameters Table Name"
+      default: "Parameters Table Title"
     },
     description: {
       type: String,

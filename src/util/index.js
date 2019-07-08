@@ -48,6 +48,22 @@ const getActiveConfColor = activated => {
   return activeColor;
 };
 
+const getActiveConfLabel = activated => {
+  let label = "";
+  switch (activated) {
+    case true:
+      label = "Activated";
+      break;
+    case false:
+      label = "Disabled";
+      break;
+    default:
+      label = "Not set";
+      break;
+  }
+  return label;
+};
+
 const randomElement = (arr = []) => {
   return arr[Math.floor(Math.random() * arr.length)];
 };
@@ -89,5 +105,6 @@ export default {
   kebab,
   dagRunAirflowUrl,
   getStatusColor,
-  getActiveConfColor
+  getActiveConfColor,
+  getActiveConfLabel
 };
