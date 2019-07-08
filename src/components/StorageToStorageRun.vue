@@ -1,7 +1,7 @@
 <template>
   <v-container grid-list-xl>
     <v-layout row wrap v-if="!isFetchAndAdding">
-      <v-layout row wrap v-if="jsonIsValid">
+      <v-layout row wrap>
         <v-flex xs12 offset-xs0>
           <v-card>
             <v-card-title> </v-card-title>
@@ -14,56 +14,25 @@
             color="grey lighten-3"
             slider-color="primary"
           >
-            <v-tab ripple href="#dataoverview">
-              Data Overview
+            <v-tab ripple href="#runconfiguration">
+              Run Configuration
             </v-tab>
-            <v-tab ripple href="#schema">
-              Schema
-            </v-tab>
-            <v-tab ripple href="#workflow">
-              Workflow
-            </v-tab>
-            <v-tab ripple href="#documentation">
-              Documentation
+            <v-tab ripple href="#logs">
+              Logs
             </v-tab>
             <v-tab ripple href="#fulljson">
               Full Json
             </v-tab>
-            <v-tab-item value="dataoverview">
-              <v-card>
-                <div v-if="run !== undefined">
-                  <StorageToStorageConfView
-                    :conf="run.configuration_context"
-                    :isFetchAndAdding="isFetchAndAdding"
-                  ></StorageToStorageConfView>
-                </div>
-                <v-card-title>
-                  <span class="title">Data Overview</span>
-                  <v-spacer></v-spacer>
-                </v-card-title>
-                <v-card-text>
-                  <vue-good-table
-                    :columns="this.dataTableOverviewColumns"
-                    :rows="this.dataTableOverviewRows"
-                    styleClass="vgt-table condensed striped"
-                  >
-                    <template slot="table-row" slot-scope="props">
-                      <span class="body-1">{{
-                        props.formattedRow[props.column.field]
-                      }}</span>
-                    </template>
-                  </vue-good-table>
-                </v-card-text>
-              </v-card>
+            <v-tab-item value="runconfiguration">
+              <div v-if="run !== undefined">
+                <StorageToStorageConfView
+                  :conf="run.configuration_context"
+                  :isFetchAndAdding="isFetchAndAdding"
+                ></StorageToStorageConfView>
+              </div>
             </v-tab-item>
           </v-tabs>
         </v-flex>
-      </v-layout>
-      <v-layout row wrap v-else>
-        <JsonSchemaIsInvalid
-          :jsonObject="this.dataTableDetails"
-          :jsonObjectErrors="this.jsonObjectErrors"
-        ></JsonSchemaIsInvalid>
       </v-layout>
     </v-layout>
     <v-layout row wrap v-else>
@@ -76,17 +45,12 @@
 
 <script>
 import { mapState } from "vuex";
-import { mapGetters } from "vuex";
 import VueJsonPretty from "vue-json-pretty";
 import StorageToStorageConfView from "./widgets/configurations/StorageToStorageConfView";
 import store from "@/store/index";
-import moment from "moment";
-import _ from "lodash";
-import Util from "@/util";
 
 export default {
   components: {
-    VueJsonPretty,
     StorageToStorageConfView
   },
   data: () => ({
@@ -95,7 +59,8 @@ export default {
     expand: false,
     fetchAndAddStatus: "",
     moreToFetchAndAdd: false,
-    viewJson: false
+    viewJson: false,
+    activeTab: null
   }),
   async mounted() {
     await this.getRun();

@@ -5,7 +5,7 @@
         <v-card>
           <v-card-title>
             <HeaderConfView
-              :viewId="conf.id"
+              :viewId="confId"
               :activatedConfStatus="conf.activated"
             />
           </v-card-title>
@@ -155,7 +155,7 @@ export default {
     }
   },
   computed: {
-    getConfId() {
+    confId() {
       //Set a Conf Id to the first destination bucket in the Array when the Id of the Conf is not present in the payload
       let getConfId = "";
       if (this.conf.id !== undefined) {
