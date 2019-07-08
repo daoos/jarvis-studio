@@ -15,7 +15,10 @@ import Util from "@/util";
 export default {
   components: {},
   props: {
-    activatedConfStatus: Boolean,
+    activatedConfStatus: {
+      type: Boolean,
+      default: undefined
+    },
     smallChip: {
       type: Boolean,
       default: true

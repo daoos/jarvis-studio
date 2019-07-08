@@ -2,10 +2,10 @@ import moment from "moment";
 
 const filters = {
   state: {
-    dateFilterSelected: { dateLabel: "Last 7 Days", nbDays: 7 },
+    dateFilterSelected: { dateLabel: "Last 2 Days", nbDays: 2 },
     dateFilters: [
       { dateLabel: "Today", nbDays: 0 },
-      { dateLabel: "Yesterday", nbDays: 1 },
+      { dateLabel: "Last 2 Days", nbDays: 1 },
       { dateLabel: "Last 7 Days", nbDays: 7 },
       { dateLabel: "Last 30 Days", nbDays: 31 },
       { dateLabel: "Last 90 Days", nbDays: 90 }

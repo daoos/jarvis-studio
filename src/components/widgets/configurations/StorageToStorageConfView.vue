@@ -1,90 +1,52 @@
 <template>
   <v-container grid-list-xl>
-    <v-layout row wrap v-if="!isFetchAndAdding">
+    <v-layout row wrap>
       <v-flex xs12 offset-xs0>
-        <v-card>
-          <v-card-title>
-            <HeaderConfView
-              :viewId="confId"
-              :activatedConfStatus="conf.activated"
-            />
-          </v-card-title>
-          <v-card-text>
-            <ParametersList
-              groupTitle="Context"
-              description="Context of the Storage to Storage configuration"
-              :paramItems="paramItems"
-            />
-            <ParametersTable
-              tableTitle="Source Storage"
-              description="Source Storage of the files to copy"
-              :columns="sourceStorageColumns"
-              :rows="sourceStorageRows"
-              vflexLength="xs9"
-              :lineNumbers="false"
-              :searchOptionsEnabled="false"
-            ></ParametersTable>
-            <ParametersTable
-              tableTitle="Destination Storage(s)"
-              description="Multi destination storages for the copied files"
-              :columns="destinationStorageColumns"
-              :rows="destinationStorageRows"
-              vflexLength="xs7"
-              :lineNumbers="false"
-              :searchOptionsEnabled="false"
-            ></ParametersTable>
-            <ParametersTable
-              tableTitle="File Name Template(s)"
-              description="Templates of the incomming files that should be copied to the destination storages. Do not put the date/timestamp prefix file in the template "
-              :columns="fileNameTemplateColumns"
-              :rows="fileNameTemplateRows"
-            ></ParametersTable>
-          </v-card-text>
-        </v-card>
+        <HeaderConfView
+          :viewId="confId"
+          :activatedConfStatus="conf.activated"
+          :activeHeader="activeHeader"
+        />
+        <ParametersList
+          groupTitle="Context"
+          description="Context of the Storage to Storage configuration"
+          :paramItems="paramItems"
+        />
+        <ParametersTable
+          tableTitle="Source Storage"
+          description="Source Storage of the files to copy"
+          :columns="sourceStorageColumns"
+          :rows="sourceStorageRows"
+          vflexLength="xs9"
+          :lineNumbers="false"
+          :searchOptionsEnabled="false"
+        ></ParametersTable>
+        <ParametersTable
+          tableTitle="Destination Storage(s)"
+          description="Multi destination storages for the copied files"
+          :columns="destinationStorageColumns"
+          :rows="destinationStorageRows"
+          vflexLength="xs7"
+          :lineNumbers="false"
+          :searchOptionsEnabled="false"
+        ></ParametersTable>
+        <ParametersTable
+          tableTitle="File Name Template(s)"
+          description="Templates of the incomming files that should be copied to the destination storages. Do not put the date/timestamp prefix file in the template "
+          :columns="fileNameTemplateColumns"
+          :rows="fileNameTemplateRows"
+        ></ParametersTable>
       </v-flex>
-      <v-flex xs12 offset-xs0>
-        <v-btn color="warning" fab small dark outline>
-          <v-icon @click="viewJson = !viewJson">
-            note
-          </v-icon>
-        </v-btn>
-        <v-card v-if="viewJson">
-          <v-card-title>
-            <span class="display-1 font-weight-bold">{{ conf.id }}</span>
-            <v-spacer></v-spacer>
-            <v-btn color="warning" fab small dark outline>
-              <v-icon @click="viewJson = !viewJson">
-                close
-              </v-icon>
-            </v-btn>
-          </v-card-title>
-          <v-card-text>
-            <vue-json-pretty
-              :data="conf"
-              :deep="5"
-              :show-double-quotes="true"
-              :show-length="true"
-              :show-line="false"
-            >
-            </vue-json-pretty>
-          </v-card-text>
-        </v-card>
-      </v-flex>
-    </v-layout>
-    <v-layout v-else>
-      <v-progress-linear :indeterminate="true"></v-progress-linear>
     </v-layout>
   </v-container>
 </template>
 
 <script>
-import VueJsonPretty from "vue-json-pretty";
 import ParametersTable from "@/components/widgets/parameters/ParametersTable.vue";
 import HeaderConfView from "@/components/widgets/parameters/HeaderConfView.vue";
 import ParametersList from "@/components/widgets/parameters/ParametersList.vue";
 export default {
   components: {
-    VueJsonPretty,
     ParametersTable,
     HeaderConfView,
     ParametersList
@@ -92,6 +54,10 @@ export default {
   props: {
     conf: undefined,
     isFetchAndAdding: {
+      type: Boolean,
+      default: true
+    },
+    activeHeader: {
       type: Boolean,
       default: true
     }

@@ -1,24 +1,54 @@
 <template>
-  <StorageToStorageConfView
-    :conf="conf"
-    :isFetchAndAdding="isFetchAndAdding"
-  ></StorageToStorageConfView>
+  <v-container grid-list-xl>
+    <v-layout row wrap v-if="!isFetchAndAdding">
+      <v-flex xs12 offset-xs0>
+        <v-tabs
+          v-model="activeTab"
+          color="grey lighten-3"
+          slider-color="primary"
+        >
+          <v-tab ripple href="#runconfiguration">
+            Overview
+          </v-tab>
+          <v-tab ripple href="#fulljson">
+            Full Json
+          </v-tab>
+          <v-tab ripple href="#conversation">
+            Conversation
+          </v-tab>
+          <v-tab-item value="runconfiguration">
+            <v-card>
+              <StorageToStorageConfView
+                :conf="conf"
+                :isFetchAndAdding="isFetchAndAdding"
+                :activeHeader="true"
+              ></StorageToStorageConfView>
+            </v-card>
+          </v-tab-item>
+          <v-tab-item value="fulljson">
+            <v-card>
+              <viewJson :json="conf" :jsonID="confId" />
+            </v-card>
+          </v-tab-item>
+        </v-tabs>
+      </v-flex>
+    </v-layout>
+    <v-layout v-else>
+      <v-progress-linear :indeterminate="true"></v-progress-linear>
+    </v-layout>
+  </v-container>
 </template>
 
 <script>
 import { mapState } from "vuex";
-import { mapGetters } from "vuex";
-import VueJsonPretty from "vue-json-pretty";
 import StorageToStorageConfView from "./widgets/configurations/StorageToStorageConfView";
+import viewJson from "@/components/widgets/parameters/viewJson.vue";
 import store from "@/store/index";
-import moment from "moment";
-import _ from "lodash";
-import Util from "@/util";
 
 export default {
   components: {
-    VueJsonPretty,
-    StorageToStorageConfView
+    StorageToStorageConfView,
+    viewJson
   },
   data: () => ({
     conf: undefined,
@@ -26,12 +56,12 @@ export default {
     expand: false,
     fetchAndAddStatus: "",
     moreToFetchAndAdd: false,
-    viewJson: false,
     viewedItem: {},
     confToDeleteFromFirestore: {},
     dialogDeleteConf: false,
     showDetailConfToDelete: false,
-    showSnackbarDeleteConfSuccess: false
+    showSnackbarDeleteConfSuccess: false,
+    activeTab: null
   }),
   async mounted() {
     await this.getConf();

@@ -15,21 +15,27 @@
             slider-color="primary"
           >
             <v-tab ripple href="#runconfiguration">
-              Run Configuration
-            </v-tab>
-            <v-tab ripple href="#logs">
-              Logs
+              Configuration
             </v-tab>
             <v-tab ripple href="#fulljson">
               Full Json
             </v-tab>
+            <v-tab ripple href="#conversation">
+              Conversation
+            </v-tab>
             <v-tab-item value="runconfiguration">
-              <div v-if="run !== undefined">
+              <v-card v-if="run !== undefined">
                 <StorageToStorageConfView
                   :conf="run.configuration_context"
                   :isFetchAndAdding="isFetchAndAdding"
+                  :activeHeader="false"
                 ></StorageToStorageConfView>
-              </div>
+              </v-card>
+            </v-tab-item>
+            <v-tab-item value="fulljson">
+              <v-card>
+                <viewJson :json="run" :jsonID="runId" />
+              </v-card>
             </v-tab-item>
           </v-tabs>
         </v-flex>
@@ -45,13 +51,14 @@
 
 <script>
 import { mapState } from "vuex";
-import VueJsonPretty from "vue-json-pretty";
 import StorageToStorageConfView from "./widgets/configurations/StorageToStorageConfView";
 import store from "@/store/index";
+import viewJson from "@/components/widgets/parameters/viewJson.vue";
 
 export default {
   components: {
-    StorageToStorageConfView
+    StorageToStorageConfView,
+    viewJson
   },
   data: () => ({
     run: undefined,
@@ -59,7 +66,6 @@ export default {
     expand: false,
     fetchAndAddStatus: "",
     moreToFetchAndAdd: false,
-    viewJson: false,
     activeTab: null
   }),
   async mounted() {
