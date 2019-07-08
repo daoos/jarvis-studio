@@ -2,10 +2,11 @@
   <v-container grid-list-xl>
     <v-layout row wrap>
       <v-flex xs12 offset-xs0>
-        <HeaderConfView
+        <HeaderDocView
           :viewId="confId"
           :activatedConfStatus="conf.activated"
           :activeHeader="activeHeader"
+          viewType="conf"
         />
         <ParametersList
           groupTitle="Context"
@@ -43,28 +44,22 @@
 
 <script>
 import ParametersTable from "@/components/widgets/parameters/ParametersTable.vue";
-import HeaderConfView from "@/components/widgets/parameters/HeaderConfView.vue";
+import HeaderDocView from "@/components/widgets/parameters/HeaderDocView.vue";
 import ParametersList from "@/components/widgets/parameters/ParametersList.vue";
 export default {
   components: {
     ParametersTable,
-    HeaderConfView,
+    HeaderDocView,
     ParametersList
   },
   props: {
     conf: undefined,
-    isFetchAndAdding: {
-      type: Boolean,
-      default: true
-    },
     activeHeader: {
       type: Boolean,
       default: true
     }
   },
   data: () => ({
-    expand: false,
-    viewJson: false,
     fileNameTemplateColumns: [
       {
         label: "File Name Template",

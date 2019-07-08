@@ -1,45 +1,48 @@
 <template>
   <v-container grid-list-xl>
     <v-layout row wrap v-if="!isFetchAndAdding">
-      <v-layout row wrap>
-        <v-flex xs12 offset-xs0>
-          <v-card>
-            <v-card-title> </v-card-title>
-            <v-card-text> </v-card-text>
-          </v-card>
-        </v-flex>
-        <v-flex xs12 offset-xs0>
-          <v-tabs
-            v-model="activeTab"
-            color="grey lighten-3"
-            slider-color="primary"
-          >
-            <v-tab ripple href="#runconfiguration">
-              Configuration
-            </v-tab>
-            <v-tab ripple href="#fulljson">
-              Full Json
-            </v-tab>
-            <v-tab ripple href="#conversation">
-              Conversation
-            </v-tab>
-            <v-tab-item value="runconfiguration">
-              <v-card v-if="run !== undefined">
-                <StorageToStorageConfView
-                  :conf="run.configuration_context"
-                  :isFetchAndAdding="isFetchAndAdding"
-                  :activeHeader="false"
-                ></StorageToStorageConfView>
-              </v-card>
-            </v-tab-item>
-            <v-tab-item value="fulljson">
-              <v-card>
-                <viewJson :json="run" :jsonID="runId" />
-              </v-card>
-            </v-tab-item>
-          </v-tabs>
-        </v-flex>
-      </v-layout>
+      <v-flex xs12 offset-xs0>
+        <v-tabs
+          v-model="activeTab"
+          color="grey lighten-3"
+          slider-color="primary"
+        >
+          <v-tab ripple href="#rundetails">
+            Overview
+          </v-tab>
+          <v-tab ripple href="#runconfiguration">
+            Configuration
+          </v-tab>
+          <v-tab ripple href="#fulljson">
+            Full Json
+          </v-tab>
+          <v-tab ripple href="#conversation">
+            Conversation
+          </v-tab>
+          <v-tab-item value="rundetails">
+            <v-card v-if="run !== undefined">
+              <StorageToStorageRunView
+                :run="run"
+                :runId="run.gcs_triggering_file"
+                :activeHeader="true"
+              ></StorageToStorageRunView>
+            </v-card>
+          </v-tab-item>
+          <v-tab-item value="runconfiguration">
+            <v-card v-if="run !== undefined">
+              <StorageToStorageConfView
+                :conf="run.configuration_context"
+                :activeHeader="false"
+              ></StorageToStorageConfView>
+            </v-card>
+          </v-tab-item>
+          <v-tab-item value="fulljson">
+            <v-card>
+              <viewJson :json="run" :jsonID="runId" />
+            </v-card>
+          </v-tab-item>
+        </v-tabs>
+      </v-flex>
     </v-layout>
     <v-layout row wrap v-else>
       <template>
@@ -52,18 +55,19 @@
 <script>
 import { mapState } from "vuex";
 import StorageToStorageConfView from "./widgets/configurations/StorageToStorageConfView";
+import StorageToStorageRunView from "./widgets/configurations/StorageToStorageRunView";
 import store from "@/store/index";
 import viewJson from "@/components/widgets/parameters/viewJson.vue";
 
 export default {
   components: {
     StorageToStorageConfView,
+    StorageToStorageRunView,
     viewJson
   },
   data: () => ({
     run: undefined,
     isFetchAndAdding: true,
-    expand: false,
     fetchAndAddStatus: "",
     moreToFetchAndAdd: false,
     activeTab: null

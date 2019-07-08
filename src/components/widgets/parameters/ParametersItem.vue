@@ -1,13 +1,10 @@
 <template>
   <v-layout row>
-    <v-flex xs2>
+    <v-flex xs3>
       <span class="subheading">{{ paramItem.label }}:</span>
     </v-flex>
-    <v-flex xs4>
+    <v-flex xs9>
       <span class="subheading font-weight-bold">{{ paramItem.value }}</span>
-    </v-flex>
-    <v-flex xs6>
-      <v-card flat> </v-card>
     </v-flex>
   </v-layout>
 </template>
