@@ -31,6 +31,7 @@ import dataModels from "./data-models";
 import dataTables from "./data-tables";
 import dataTableDetails from "./data-table-details";
 import filters from "./filters";
+import singleDoc from "./single-doc";
 
 const easyFirestores = VuexEasyFirestore(
   [
@@ -52,11 +53,13 @@ const easyFirestores = VuexEasyFirestore(
     workflowStatus,
     dataModels,
     dataTables,
-    dataTableDetails
+    dataTableDetails,
+    singleDoc
   ],
   {
     logging: true,
-    FirebaseDependency: firebase
+    FirebaseDependency: firebase,
+    preventInitialDocInsertion: true
   }
 );
 

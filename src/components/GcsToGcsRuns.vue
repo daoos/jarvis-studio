@@ -241,7 +241,6 @@ export default {
     ...mapState({
       isAuthenticated: state => state.user.isAuthenticated,
       user: state => state.user.user,
-      settings: state => state.settings,
       mirrorExcGcsToGcsRuns: state => state.mirrorExcGcsToGcsRuns.data,
       dateFilterSelected: state => state.filters.dateFilterSelected,
       dateFilters: state => state.filters.dateFilters,
@@ -250,7 +249,6 @@ export default {
     ...mapGetters(["periodFiltered", "whereRunsFilter"]),
     mirrorExcGcsToGcsRunsFormated() {
       const dataArray = Object.values(this.mirrorExcGcsToGcsRuns);
-      const airflowRootUrl = this.settings.airflowRootUrl;
       var dataFormated = dataArray.map(function(data, index) {
         return {
           dag_execution_date_formated: moment(data.dag_execution_date).format(
@@ -263,7 +261,6 @@ export default {
           statusColor: Util.getStatusColor(data.status),
           //generate Airflow URL
           dag_execution_airflow_url: Util.dagRunAirflowUrl(
-            airflowRootUrl,
             data.dag_id,
             data.dag_run_id,
             data.dag_execution_date

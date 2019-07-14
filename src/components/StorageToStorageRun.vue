@@ -3,7 +3,7 @@
     <v-layout row wrap v-if="!isFetchAndAdding">
       <v-flex xs12 offset-xs0>
         <v-tabs
-          v-model="activeTab"
+          activeTab: null
           color="grey lighten-3"
           slider-color="primary"
         >
@@ -55,7 +55,7 @@
 <script>
 import { mapState } from "vuex";
 import StorageToStorageConfView from "./widgets/configurations/StorageToStorageConfView";
-import StorageToStorageRunView from "./widgets/configurations/StorageToStorageRunView";
+import StorageToStorageRunView from "./widgets/runs/StorageToStorageRunView";
 import store from "@/store/index";
 import viewJson from "@/components/widgets/parameters/viewJson.vue";
 

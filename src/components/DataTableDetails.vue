@@ -169,23 +169,9 @@
               </v-tab-item>
               <v-tab-item value="schema">
                 <v-card>
-                  <v-card-title>
-                    <span class="title">Schema</span>
-                    <v-spacer></v-spacer>
-                  </v-card-title>
-                  <v-card-text>
-                    <vue-good-table
-                      :columns="this.schemaColumns"
-                      :rows="this.schemaRows"
-                      styleClass="vgt-table condensed striped"
-                    >
-                      <template slot="table-row" slot-scope="props">
-                        <span class="body-1">{{
-                          props.formattedRow[props.column.field]
-                        }}</span>
-                      </template>
-                    </vue-good-table>
-                  </v-card-text>
+                  <tableSchemaView
+                    :schemaRows="dataTableDetails.schema.fields"
+                  />
                 </v-card>
               </v-tab-item>
               <v-tab-item value="workflow">
@@ -308,6 +294,7 @@ import store from "@/store/index";
 import moment from "moment";
 import JsonSchemaIsInvalid from "./widgets/jsonvalidations/JsonSchemaIsInvalid.vue";
 import DataModelHeader from "./widgets/layout/DataModelHeader";
+import tableSchemaView from "@/components/widgets/configurations/TableSchemaView.vue";
 // vue-good-table import the styles
 import "vue-good-table/dist/vue-good-table.css";
 import { VueGoodTable } from "vue-good-table";
@@ -322,9 +309,10 @@ import VueMarkdown from "vue-markdown";
 export default {
   components: {
     VueJsonPretty,
-    VueGoodTable,
+    tableSchemaView,
     JsonSchemaIsInvalid,
     DataModelHeader,
+    VueGoodTable,
     "vue-markdown": VueMarkdown
   },
   data: () => ({

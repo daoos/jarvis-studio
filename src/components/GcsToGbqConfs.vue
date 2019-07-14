@@ -40,7 +40,17 @@
           <template v-slot:items="props">
             <td>{{ props.item["account"] }}</td>
             <td>{{ props.item["environment"] }}</td>
-            <td>{{ props.item["table_name"] }}</td>
+            <td>
+              <router-link
+                :to="{
+                  name: 'StorageToStorageConf',
+                  params: { pathId: props.item.key }
+                }"
+                ><span class="font-weight-medium">{{
+                  props.item["table_name"]
+                }}</span></router-link
+              >
+            </td>
             <td>{{ props.item["gcp_project"] }}</td>
             <td>{{ props.item["gbq_dataset"] }}</td>
             <td>
@@ -331,16 +341,16 @@ export default {
             let mirrorExcGcsToGbqConfDetailsEnriched = Object.values(
               this.mirrorExcGcsToGbqConfDetails
             ).map(x => Object.assign({ bucket_source: bucketId }, x));
-            //Ad an unique key to the doc configuration (bucket + input filder + table destination)
+            //Ad an unique key to the doc configuration (bucket + table destination + input folder)
             mirrorExcGcsToGbqConfDetailsEnriched = mirrorExcGcsToGbqConfDetailsEnriched.map(
               (val, i, arr) => {
                 let key = "";
                 key = key.concat(
                   val.bucket_source,
-                  "__",
-                  val.gcs_prefix,
-                  "__",
-                  val.table_name
+                  "/",
+                  val.id,
+                  "/",
+                  val.gcs_prefix
                 );
                 return Object.assign({ key: key }, val);
               }

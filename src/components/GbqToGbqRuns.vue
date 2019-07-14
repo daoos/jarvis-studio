@@ -246,7 +246,6 @@ export default {
     ...mapState({
       isAuthenticated: state => state.user.isAuthenticated,
       user: state => state.user.user,
-      settings: state => state.settings,
       getGbqToGbqRuns: state => state.getGbqToGbqRuns.data,
       dateFilterSelected: state => state.filters.dateFilterSelected,
       dateFilters: state => state.filters.dateFilters,
@@ -255,7 +254,6 @@ export default {
     ...mapGetters(["periodFiltered", "whereRunsFilter"]),
     getGbqToGbqRunsFormated() {
       const dataArray = Object.values(this.getGbqToGbqRuns);
-      const airflowRootUrl = this.settings.airflowRootUrl;
       var dataFormated = dataArray.map(function(data, index) {
         // conCompliance is set to false if it detects a unexpected confuguration json format
         // confComplianceError array stores the error messages when the conf seems not compliante
@@ -283,7 +281,6 @@ export default {
           statusColor: Util.getStatusColor(data.status),
           //generate Airflow URL
           dag_execution_airflow_url: Util.dagRunAirflowUrl(
-            airflowRootUrl,
             data.dag_id,
             data.dag_run_id,
             data.dag_execution_date

@@ -1,7 +1,5 @@
 const settings = {
-  state: {
-    airflowRootUrl: "https://v48232bfe51601b92-tp.appspot.com"
-  },
+  state: {},
   mutations: {},
   actions: {},
   getters: {}

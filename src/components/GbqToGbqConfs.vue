@@ -234,13 +234,11 @@ export default {
     ...mapState({
       isAuthenticated: state => state.user.isAuthenticated,
       user: state => state.user.user,
-      settings: state => state.settings,
       getGbqToGbqConfs: state => state.getGbqToGbqConfs.data
     }),
     ...mapGetters(["periodFiltered", "whereConfFilter"]),
     getGbqToGbqConfsFormated() {
       const dataArray = Object.values(this.getGbqToGbqConfs);
-      //const airflowRootUrl = this.settings.airflowRootUrl;
       var dataFormated = dataArray.map(function(data, index) {
         return {
           nb_tasks: data.configuration.workflow.length

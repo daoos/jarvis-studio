@@ -1,13 +1,25 @@
-const dagRunAirflowUrl = (airflowRootUrl, dag_id, run_id, execution_date) => {
-  return "".concat(
-    airflowRootUrl,
-    "/admin/airflow/graph?dag_id=",
-    encodeURIComponent(dag_id),
-    "&run_id=",
-    encodeURIComponent(run_id),
-    "&execution_date=",
-    encodeURIComponent(execution_date)
-  );
+const airflowRootUrl = "https://v48232bfe51601b92-tp.appspot.com";
+const firestoreStorageToTableConfsCollection = "mirror-exc-gcs-to-gbq-conf";
+const firestoreStorageToTableRunsCollection = "mirror-exc-gcs-to-gbq-runs";
+const firestoreStorageToStorageConfsCollection = "mirror-exc-gcs-to-gcs-conf";
+const firestoreStorageToStorageRunsCollection = "mirror-exc-gcs-to-gcs-runs";
+const firestoreTableToTableConfsCollection = "gbq-to-gbq-conf";
+const firestoreTableToTableRunsCollection = "gbq-to-gbq-runs";
+const firestoreTableToStorageConfsCollection = "gbq-to-gcs-conf";
+const firestoreTableToStorageRunsCollection = "gbq-to-gcs-runs";
+const firestoreWorkflowConfigurationsCollection = "workflow-configuration";
+const firestoreWorkflowStatusCollection = "workflow-configuration";
+
+const dagRunAirflowUrl = (dag_id, run_id, execution_date) => {
+  var dagIdEncoded = encodeURIComponent(dag_id);
+  var runIdEncoded = encodeURIComponent(run_id);
+  var executionDateEncoded = encodeURIComponent(execution_date);
+  var dagRunAirflowUrl = `${airflowRootUrl}/admin/airflow/graph?dag_id=${dagIdEncoded}&run_id=${runIdEncoded}&execution_date=${executionDateEncoded}`;
+  return dagRunAirflowUrl;
+};
+
+const storageToTableConfFirestorePath = (bucketIn, itemId) => {
+  return `/${firestoreStorageToTableConfsCollection}/${bucketIn}/CONFIGURATION/${itemId}`;
 };
 
 const getStatusColor = status => {
@@ -106,5 +118,15 @@ export default {
   dagRunAirflowUrl,
   getStatusColor,
   getActiveConfColor,
-  getActiveConfLabel
+  getActiveConfLabel,
+  storageToTableConfFirestorePath,
+  firestoreStorageToTableRunsCollection,
+  firestoreStorageToStorageConfsCollection,
+  firestoreStorageToStorageRunsCollection,
+  firestoreTableToTableConfsCollection,
+  firestoreTableToTableRunsCollection,
+  firestoreTableToStorageConfsCollection,
+  firestoreTableToStorageRunsCollection,
+  firestoreWorkflowConfigurationsCollection,
+  firestoreWorkflowStatusCollection
 };
