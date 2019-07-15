@@ -105,7 +105,7 @@ export default [
       import(/* webpackChunkName: "storagetotableconf" */ "@/views/StorageToTableConf.vue")
   },
   {
-    path: "/gcstogbqruns",
+    path: "/storagetotable/runs",
     name: "GcsToGbqRuns",
     meta: {
       authRequired: true
@@ -113,6 +113,15 @@ export default [
     component: () =>
       import(/* webpackChunkName: "gcstogbqruns" */ "@/views/GcsToGbqRuns.vue"),
     alias: "/runs/gcstogbq"
+  },
+  {
+    path: "/storagetotable/runs/:pathId",
+    name: "StorageToStorageRun",
+    meta: {
+      authRequired: true
+    },
+    component: () =>
+      import(/* webpackChunkName: "storagetotablerun" */ "@/views/StorageToTableRun.vue")
   },
   {
     path: "/gbqtogbqconfs",

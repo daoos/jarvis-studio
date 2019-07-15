@@ -304,7 +304,7 @@ export default {
       {
         icon: "vertical_split",
         title: "Storage to Table",
-        link: "/runs/gcstogbq"
+        link: "/storagetotable/runs"
       },
       {
         icon: "device_hub",

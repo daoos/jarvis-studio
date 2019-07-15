@@ -21,7 +21,7 @@ export default {
     return {
       headerTitle: "Storage to Table",
       tabsItems: [
-        { id: 1, title: "Runs", link: "/runs/gcstogbq" },
+        { id: 1, title: "Runs", link: "/storagetotable/runs" },
         { id: 2, title: "Configurations", link: "/storagetotable/confs" },
         { id: 3, title: "Documentation", link: "" }
       ]
