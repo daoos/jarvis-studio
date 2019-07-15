@@ -151,6 +151,11 @@ export default {
           id: "environment",
           label: "Environment",
           value: this.conf.environment
+        },
+        {
+          id: "filetemplate",
+          label: "File Name Template",
+          value: this.conf.id
         }
       ];
     },

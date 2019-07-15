@@ -4,17 +4,17 @@
       :tabsItems="tabsItems"
       :headerTitle="headerTitle"
     ></DataManagementHeader>
-    <StorageToTableConf />
+    <StorageToTableRun />
   </div>
 </template>
 
 <script>
-import StorageToTableConf from "../components/StorageToTableConf";
+import StorageToTableRun from "../components/StorageToTableRun";
 import DataManagementHeader from "../components/widgets/layout/DataManagementHeader";
 
 export default {
   components: {
-    StorageToTableConf,
+    StorageToTableRun,
     DataManagementHeader
   },
   data() {

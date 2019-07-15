@@ -22,6 +22,10 @@ const storageToTableConfFirestorePath = (bucketIn, itemId) => {
   return `/${firestoreStorageToTableConfsCollection}/${bucketIn}/CONFIGURATION/${itemId}`;
 };
 
+const storageToTableRunFirestorePath = itemId => {
+  return `/${firestoreStorageToTableRunsCollection}/${itemId}`;
+};
+
 const getStatusColor = status => {
   let statusColor = "blue";
   switch (status) {
@@ -128,5 +132,6 @@ export default {
   firestoreTableToStorageConfsCollection,
   firestoreTableToStorageRunsCollection,
   firestoreWorkflowConfigurationsCollection,
-  firestoreWorkflowStatusCollection
+  firestoreWorkflowStatusCollection,
+  storageToTableRunFirestorePath
 };

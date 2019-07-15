@@ -116,7 +116,7 @@ export default [
   },
   {
     path: "/storagetotable/runs/:pathId",
-    name: "StorageToStorageRun",
+    name: "StorageToTableRun",
     meta: {
       authRequired: true
     },

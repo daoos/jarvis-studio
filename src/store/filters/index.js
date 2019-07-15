@@ -2,7 +2,7 @@ import moment from "moment";
 
 const filters = {
   state: {
-    dateFilterSelected: { dateLabel: "Last 2 Days", nbDays: 2 },
+    dateFilterSelected: { dateLabel: "Last 2 Days", nbDays: 1 },
     dateFilters: [
       { dateLabel: "Today", nbDays: 0 },
       { dateLabel: "Last 2 Days", nbDays: 1 },
@@ -31,7 +31,7 @@ const filters = {
     minDateFilter: moment()
       .utc()
       .startOf("day")
-      .subtract(31, "days")
+      .subtract(1, "days")
       .toISOString(),
     accountFilterSelected: { account_name: "All Accounts", id: "000000" }
   },

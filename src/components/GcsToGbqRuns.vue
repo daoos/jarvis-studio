@@ -44,7 +44,17 @@
           <template v-slot:items="props">
             <td>{{ props.item["account"] }}</td>
             <td>{{ props.item["environment"] }}</td>
-            <td>{{ props.item["gbq_table_refreshed"] }}</td>
+            <td>
+              <router-link
+                :to="{
+                  name: 'StorageToTableRun',
+                  params: { pathId: props.item.id }
+                }"
+                ><span class="font-weight-medium">{{
+                  props.item["gbq_table_refreshed"]
+                }}</span></router-link
+              >
+            </td>
             <td>{{ props.item["gcs_triggering_file"] }}</td>
             <td>
               <v-chip
