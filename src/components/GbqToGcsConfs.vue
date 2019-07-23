@@ -8,7 +8,7 @@
     >
       {{ alertParam.message }}
     </v-alert>
-    <v-toolbar class="elevation-1" color="grey lighten-3">
+    <v-toolbar class="elevation-O" color="transparent">
       <v-text-field
         v-model="search"
         append-icon="search"
@@ -36,7 +36,6 @@
       :expand="expand"
       :pagination.sync="pagination"
       item-key="id"
-      class="elevation-1"
     >
       <v-progress-linear
         v-slot:progress

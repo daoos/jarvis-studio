@@ -1,6 +1,6 @@
 <template>
   <v-container grid-list-xl fluid>
-    <v-toolbar class="elevation-1" color="grey lighten-3">
+    <v-toolbar class="elevation-0" color="transparent">
       <v-text-field
         v-model="search"
         append-icon="search"
@@ -32,7 +32,7 @@
       :expand="expand"
       :pagination.sync="pagination"
       item-key="id"
-      class="elevation-5"
+      light
     >
       <v-progress-linear
         v-slot:progress

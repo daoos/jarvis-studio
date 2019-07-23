@@ -4,25 +4,25 @@
       :tabsItems="tabsItems"
       :headerTitle="headerTitle"
     ></DataManagementHeader>
-    <GbqToGbqConfs />
+    <TablesToTablesConf />
   </div>
 </template>
 
 <script>
-import GbqToGbqConfs from "../components/GbqToGbqConfs";
+import TablesToTablesConf from "../components/TablesToTablesConf";
 import DataManagementHeader from "../components/widgets/layout/DataManagementHeader";
 
 export default {
   components: {
-    GbqToGbqConfs,
+    TablesToTablesConf,
     DataManagementHeader
   },
   data() {
     return {
       headerTitle: "Tables to Tables",
       tabsItems: [
-        { id: 1, title: "Runs", link: "/runs/gbqtogbq" },
-        { id: 2, title: "Configurations", link: "/conf/gbqtogbq" },
+        { id: 1, title: "Runs", link: "/tablestotables/runs" },
+        { id: 2, title: "Configurations", link: "/tablestotables/confs" },
         { id: 3, title: "Documentation", link: "" }
       ]
     };

@@ -3,7 +3,7 @@
     <v-flex :[vflexLength]="true" :[vflexOffset]="true">
       <h2 class="black--text pb-3">
         {{ groupTitle }}
-        <v-tooltip right>
+        <v-tooltip right v-if="tooltip">
           <template v-slot:activator="{ on }">
             <v-icon color="blue-grey lighten-5" dark v-on="on">info</v-icon>
           </template>
@@ -15,6 +15,9 @@
         :paramItem="paramItem"
         :key="paramItem.id"
       ></ParametersItem>
+      <footer>
+        <slot name="footer"></slot>
+      </footer>
     </v-flex>
   </v-container>
 </template>
@@ -41,7 +44,11 @@ export default {
     },
     description: {
       type: String,
-      default: "Parameters Table Description"
+      default: "Parameters List Description"
+    },
+    tooltip: {
+      type: Boolean,
+      default: true
     },
     paramItems: {
       type: Array,

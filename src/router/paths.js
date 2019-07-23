@@ -124,23 +124,32 @@ export default [
       import(/* webpackChunkName: "storagetotablerun" */ "@/views/StorageToTableRun.vue")
   },
   {
-    path: "/gbqtogbqconfs",
-    name: "GbqToGbqConfs",
+    path: "/tablestotables/confs",
+    name: "TablesToTablesConfs",
     meta: {
       authRequired: true
     },
     component: () =>
-      import(/* webpackChunkName: "gbqtogbqconfs" */ "@/views/GbqToGbqConfs.vue"),
+      import(/* webpackChunkName: "tablestotablesconfs" */ "@/views/TablesToTablesConfs.vue"),
     alias: "/conf/gbqtogbq"
   },
   {
-    path: "/gbqtogbqruns",
-    name: "GbqToGbqRuns",
+    path: "/tablestotables/confs/:pathId",
+    name: "TablesToTablesConf",
     meta: {
       authRequired: true
     },
     component: () =>
-      import(/* webpackChunkName: "gbqtogbqruns" */ "@/views/GbqToGbqRuns.vue"),
+      import(/* webpackChunkName: "tablestotablesconf" */ "@/views/TablesToTablesConf.vue")
+  },
+  {
+    path: "/tablestotables/runs",
+    name: "TablesToTablesRuns",
+    meta: {
+      authRequired: true
+    },
+    component: () =>
+      import(/* webpackChunkName: "storagetotableconfs" */ "@/views/TablesToTablesRuns.vue"),
     alias: "/runs/gbqtogbq"
   },
   {

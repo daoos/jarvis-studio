@@ -3,8 +3,8 @@ const firestoreStorageToTableConfsCollection = "mirror-exc-gcs-to-gbq-conf";
 const firestoreStorageToTableRunsCollection = "mirror-exc-gcs-to-gbq-runs";
 const firestoreStorageToStorageConfsCollection = "mirror-exc-gcs-to-gcs-conf";
 const firestoreStorageToStorageRunsCollection = "mirror-exc-gcs-to-gcs-runs";
-const firestoreTableToTableConfsCollection = "gbq-to-gbq-conf";
-const firestoreTableToTableRunsCollection = "gbq-to-gbq-runs";
+const firestoretablestotablesConfsCollection = "gbq-to-gbq-conf";
+const firestoretablestotablesRunsCollection = "gbq-to-gbq-runs";
 const firestoreTableToStorageConfsCollection = "gbq-to-gcs-conf";
 const firestoreTableToStorageRunsCollection = "gbq-to-gcs-runs";
 const firestoreWorkflowConfigurationsCollection = "workflow-configuration";
@@ -24,6 +24,10 @@ const storageToTableConfFirestorePath = (bucketIn, itemId) => {
 
 const storageToTableRunFirestorePath = itemId => {
   return `/${firestoreStorageToTableRunsCollection}/${itemId}`;
+};
+
+const tablesToTablesConfFirestorePath = itemId => {
+  return `/${firestoretablestotablesConfsCollection}/${itemId}`;
 };
 
 const getStatusColor = status => {
@@ -124,14 +128,15 @@ export default {
   getActiveConfColor,
   getActiveConfLabel,
   storageToTableConfFirestorePath,
+  storageToTableRunFirestorePath,
+  tablesToTablesConfFirestorePath,
   firestoreStorageToTableRunsCollection,
   firestoreStorageToStorageConfsCollection,
   firestoreStorageToStorageRunsCollection,
-  firestoreTableToTableConfsCollection,
-  firestoreTableToTableRunsCollection,
+  firestoretablestotablesConfsCollection,
+  firestoretablestotablesRunsCollection,
   firestoreTableToStorageConfsCollection,
   firestoreTableToStorageRunsCollection,
   firestoreWorkflowConfigurationsCollection,
-  firestoreWorkflowStatusCollection,
-  storageToTableRunFirestorePath
+  firestoreWorkflowStatusCollection
 };

@@ -38,7 +38,17 @@
       <template v-slot:items="props">
         <td>{{ props.item.account }}</td>
         <td>{{ props.item.environment }}</td>
-        <td>{{ props.item.id }}</td>
+        <td>
+          <router-link
+            :to="{
+              name: 'TablesToTablesConf',
+              params: { pathId: props.item.id }
+            }"
+            ><span class="font-weight-medium">
+              {{ props.item.id }}</span
+            ></router-link
+          >
+        </td>
         <td>{{ props.item.configuration.default_bq_dataset }}</td>
         <td>{{ props.item["nb_tasks"] }}</td>
         <td>
@@ -241,7 +251,8 @@ export default {
       const dataArray = Object.values(this.getGbqToGbqConfs);
       var dataFormated = dataArray.map(function(data, index) {
         return {
-          nb_tasks: data.configuration.workflow.length
+          nb_tasks: data.configuration.workflow.length,
+          sqlArray: Object.entries(data.sql)
         };
       });
       const dataArrayFormated = _.merge(dataArray, dataFormated);

@@ -309,7 +309,7 @@ export default {
       {
         icon: "device_hub",
         title: "Tables to Tables",
-        link: "/runs/gbqtogbq"
+        link: "/tablestotables/runs"
       },
       {
         icon: "file_copy",
