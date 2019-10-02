@@ -5,8 +5,7 @@ export default [
     meta: {
       authRequired: true
     },
-    component: () =>
-      import(/* webpackChunkName: "gcstogbqconfs" */ "@/views/Home.vue")
+    component: () => import(/* webpackChunkName: "home" */ "@/views/Home.vue")
   },
   {
     path: "/home",
@@ -17,6 +16,15 @@ export default [
     component: () => import(/* webpackChunkName: "home" */ "@/views/Home.vue")
   },
   {
+    path: "/settings/user/profile",
+    name: "userProfile",
+    meta: {
+      authRequired: true
+    },
+    component: () =>
+      import(/* webpackChunkName: "userprofile" */ "@/views/UserProfile.vue")
+  },
+  {
     path: "/signin",
     name: "signin",
     meta: {
@@ -24,6 +32,24 @@ export default [
     },
     component: () =>
       import(/* webpackChunkName: "signin" */ "@/views/Signin.vue")
+  },
+  {
+    path: "/signinemail",
+    name: "signinEmail",
+    meta: {
+      public: true
+    },
+    component: () =>
+      import(/* webpackChunkName: "signinEmail" */ "@/views/SigninEmail.vue")
+  },
+  {
+    path: "/settings/users",
+    name: "users",
+    meta: {
+      authRequired: true,
+      adminRequired: true
+    },
+    component: () => import(/* webpackChunkName: "users" */ "@/views/Users.vue")
   },
   {
     path: "/accounts",
@@ -84,6 +110,24 @@ export default [
     },
     component: () =>
       import(/* webpackChunkName: "storagetostoragerun" */ "@/views/StorageToStorageRun.vue")
+  },
+  {
+    path: "/storagetostorage/confs",
+    name: "StorageToStorageConfs",
+    meta: {
+      authRequired: true
+    },
+    component: () =>
+      import(/* webpackChunkName: "storagetostorageruns" */ "@/views/StorageToStorageConfs.vue")
+  },
+  {
+    path: "/storagetostorage/runs",
+    name: "StorageToStorageRuns",
+    meta: {
+      authRequired: true
+    },
+    component: () =>
+      import(/* webpackChunkName: "storagetostorageruns" */ "@/views/StorageToStorageRuns.vue")
   },
   {
     path: "/storagetotable/confs",
@@ -151,6 +195,15 @@ export default [
     component: () =>
       import(/* webpackChunkName: "storagetotableconfs" */ "@/views/TablesToTablesRuns.vue"),
     alias: "/runs/gbqtogbq"
+  },
+  {
+    path: "/tablestotables/runs/:pathId",
+    name: "TablesToTablesRun",
+    meta: {
+      authRequired: true
+    },
+    component: () =>
+      import(/* webpackChunkName: "tablestotablesrun" */ "@/views/TablesToTablesRun.vue")
   },
   {
     path: "/gbqtogcsconfs",

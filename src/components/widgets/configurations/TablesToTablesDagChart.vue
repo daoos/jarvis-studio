@@ -42,6 +42,7 @@ export default {
   },
   methods: {
     buildDegGraph() {
+      console.log("task_dependencies", this.task_dependencies);
       this.chart.destroy();
       this.chart = new FlowChart({ direction: "LR" });
       let start = this.chart.addElement(this.dagId.concat("-start"), {

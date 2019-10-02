@@ -1,6 +1,6 @@
 <template>
   <v-container grid-list-xl fluid>
-    <v-toolbar class="elevation-0" color="transparent">
+    <v-toolbar class="elevation-1" color="grey lighten-3">
       <v-text-field
         v-model="search"
         append-icon="search"
@@ -9,11 +9,7 @@
         hide-details
       ></v-text-field>
       <v-spacer></v-spacer>
-      <DataManagementFilters
-        viewEnvironnement
-        viewPeriode
-        viewRunStatus
-      ></DataManagementFilters>
+      <DataManagementFilters viewEnvironnement></DataManagementFilters>
       <v-icon right @click="getFirestoreData" v-if="!isFetchAndAdding"
         >refresh</v-icon
       >
@@ -26,13 +22,13 @@
     </v-toolbar>
     <v-data-table
       :headers="headers"
-      :items="getGbqToGbqRunsFormated"
+      :items="storageToStorageConfsFormated"
       :search="search"
       :loading="isFetchAndAdding"
       :expand="expand"
       :pagination.sync="pagination"
       item-key="id"
-      light
+      class="elevation-1"
     >
       <v-progress-linear
         v-slot:progress
@@ -40,57 +36,34 @@
         indeterminate
       ></v-progress-linear>
       <template v-slot:items="props">
+        <td>{{ props.item["id"] }}</td>
         <td>{{ props.item["account"] }}</td>
         <td>{{ props.item["environment"] }}</td>
         <td>
-          <router-link
-            :to="{
-              name: 'TablesToTablesRun',
-              params: { pathId: props.item.id }
-            }"
-            ><span class="font-weight-medium">{{
-              props.item["dag_id"]
-            }}</span></router-link
-          >
+          <ActivatedStatusChip
+            @click.native="
+              changeActivatedStatus(props.item, 'storageToStorageConfs')
+            "
+            :activatedConfStatus="props.item.activated"
+          ></ActivatedStatusChip>
         </td>
-        <td>{{ props.item["nb_tasks"] }}</td>
-        <td>
-          <v-chip
-            :color="props.item.statusColor"
-            text-color="white"
-            small
-            class="text-lowercase"
-            >{{ props.item["status"] }}</v-chip
-          >
-        </td>
-        <td>{{ props.item["dag_execution_date_formated"] }}</td>
         <td class="justify-center layout px-0">
-          <v-icon
-            small
-            class="mr-2"
-            @click="viewItem(props, props.item)"
-            v-if="props.item.confCompliance"
-          >
+          <v-icon small class="mr-2" @click="viewItem(props, props.item)">
             remove_red_eye
           </v-icon>
           <v-icon
             small
             class="mr-2"
-            @click="viewItem(props, props.item)"
-            color="orange darken-1"
-            v-else
+            @click="deleteConfFromFirestore(props, props.item)"
           >
-            warning
-          </v-icon>
-          <v-icon class="mr-2" small @click="openAirflowDagRunUrl(props.item)">
-            open_in_new
+            delete_forever
           </v-icon>
         </td>
       </template>
       <template v-slot:expand="props">
         <v-card flat>
           <v-card-title>
-            <span class="headline">{{ viewedItem.dag_id }}</span>
+            <span class="headline">{{ viewedItem.id }}</span>
             <v-spacer></v-spacer>
             <v-btn color="warning" fab small dark outline>
               <v-icon @click="props.expanded = !props.expanded">
@@ -118,7 +91,7 @@
       <v-flex xs12 offset-xs0>
         <v-card dark class="elevation-10">
           <v-card-title>
-            <span class="headline">{{ viewedItem.gcs_triggering_file }}</span>
+            <span class="headline">{{ viewedItem.id }}</span>
             <v-spacer></v-spacer>
             <v-btn color="warning" fab small dark outline>
               <v-icon @click="viewJson = false">
@@ -139,6 +112,69 @@
         </v-card>
       </v-flex>
     </v-layout>
+    <v-dialog v-model="dialogDeleteConf" max-width="400">
+      <v-card light>
+        <v-card-title class="headline">Delete Configuration</v-card-title>
+        <v-card-text>
+          Do you really want to delete the configuration?
+          <h3 class="pt-3">
+            <v-icon size="18">arrow_forward</v-icon
+            >{{ confToDeleteFromFirestore.id }}
+          </h3>
+        </v-card-text>
+        <v-card-actions>
+          <v-btn icon @click="showDetailConfToDelete = !showDetailConfToDelete">
+            <v-icon>{{
+              showDetailConfToDelete
+                ? "keyboard_arrow_up"
+                : "keyboard_arrow_down"
+            }}</v-icon>
+          </v-btn>
+          <v-spacer></v-spacer>
+          <v-btn
+            color="grey"
+            flat="flat"
+            @click="cancelDeleteConfFromFirestore"
+          >
+            Cancel
+          </v-btn>
+          <v-btn color="error" @click="confirmeDeleteConfFromFirestore">
+            Delete
+          </v-btn>
+        </v-card-actions>
+        <v-slide-y-transition>
+          <v-card-text v-show="showDetailConfToDelete">
+            <vue-json-pretty
+              :data="confToDeleteFromFirestore"
+              :deep="5"
+              :show-double-quotes="true"
+              :show-length="true"
+              :show-line="false"
+            >
+            </vue-json-pretty>
+          </v-card-text>
+        </v-slide-y-transition>
+      </v-card>
+    </v-dialog>
+    <v-snackbar
+      v-model="showSnackbarDeleteConfSuccess"
+      color="success"
+      :timeout="1000"
+      auto-height
+    >
+      Configuration deleted with sucess
+    </v-snackbar>
+    <v-snackbar
+      v-model="snackbarParam.show"
+      :color="snackbarParam.color"
+      :timeout="2000"
+      auto-height
+    >
+      {{ snackbarParam.message }}
+      <v-btn flat @click="snackbarParam.show = false">
+        Close
+      </v-btn>
+    </v-snackbar>
   </v-container>
 </template>
 
@@ -151,26 +187,40 @@ import moment from "moment";
 import _ from "lodash";
 import Util from "@/util";
 import DataManagementFilters from "./widgets/filters/DataManagementFilters";
+import ActivatedStatusChip from "./widgets/datatablewidgets/ActivatedStatusChip.vue";
+import ConfsComponent from "@/mixins/confsComponent.js";
 
 export default {
+  mixins: [ConfsComponent],
   components: {
     VueJsonPretty,
-    DataManagementFilters
+    DataManagementFilters,
+    ActivatedStatusChip
   },
   data: () => ({
     search: "",
     isFetchAndAdding: false,
-    fetchAndAddStatus: "",
-    moreToFetchAndAdd: false,
     expand: false,
     pagination: {
-      sortBy: "dag_execution_date_formated",
+      sortBy: "id",
       descending: true,
       rowsPerPage: 10
     },
+    fetchAndAddStatus: "",
+    moreToFetchAndAdd: false,
     viewJson: false,
     viewedItem: {},
+    confToDeleteFromFirestore: {},
+    dialogDeleteConf: false,
+    showDetailConfToDelete: false,
+    showSnackbarDeleteConfSuccess: false,
     headers: [
+      {
+        text: "Id",
+        align: "left",
+        sortable: true,
+        value: "id"
+      },
       {
         text: "Account ID",
         align: "left",
@@ -184,28 +234,10 @@ export default {
         value: "environment"
       },
       {
-        text: "Workflow Id Bucket",
-        align: "left",
-        sortable: true,
-        value: "dag_id"
-      },
-      {
-        text: "# Tasks",
-        align: "left",
-        sortable: true,
-        value: "nb_tasks"
-      },
-      {
         text: "Status",
         align: "left",
         sortable: true,
-        value: "status"
-      },
-      {
-        text: "Execution Date",
-        align: "left",
-        sortable: true,
-        value: "dag_execution_date_formated"
+        value: "activated"
       },
       { text: "Actions", align: "center", value: "actions", sortable: false }
     ]
@@ -216,27 +248,42 @@ export default {
   methods: {
     viewItem(props, item) {
       props.expanded = !props.expanded;
-      this.viewedIndex = this.getGbqToGbqRunsFormated.indexOf(item);
-      this.viewedItem = Object.assign({}, item);
-      console.log(this.viewedItem);
+      this.viewedIndex = this.storageToStorageConfsFormated.indexOf(item);
+      this.viewedItem = item;
     },
-    openAirflowDagRunUrl(item) {
-      window.open(item.dag_execution_airflow_url, "_blank");
+    deleteConfFromFirestore(props, item) {
+      this.confToDeleteFromFirestore = item;
+      this.dialogDeleteConf = true;
+    },
+    cancelDeleteConfFromFirestore() {
+      this.dialogDeleteConf = false;
+      this.confToDeleteFromFirestore = {};
+      this.showDetailConfToDelete = false;
+    },
+    confirmeDeleteConfFromFirestore() {
+      this.dialogDeleteConf = false;
+      store
+        .dispatch("vmLauncherConfs/delete", this.confToDeleteFromFirestore.id)
+        .then((this.showSnackbarDeleteConfSuccess = true));
+      this.confToDeleteFromFirestore = {};
+      this.showDetailConfToDelete = false;
     },
     async getFirestoreData() {
-      const where = this.whereRunsFilter;
+      const where = this.whereConfFilter;
       this.$data.fetchAndAddStatus = "Loading";
       this.$data.moreToFetchAndAdd = false;
       this.$data.isFetchAndAdding = true;
       try {
-        store.dispatch("getGbqToGbqRuns/closeDBChannel", {
+        store.dispatch("storageToStorageConfs/closeDBChannel", {
           clearModule: true
         });
-        console.log("where", where);
-        let fetchResult = await store.dispatch("getGbqToGbqRuns/fetchAndAdd", {
-          where,
-          limit: 0
-        });
+        let fetchResult = await store.dispatch(
+          "storageToStorageConfs/fetchAndAdd",
+          {
+            where,
+            limit: 0
+          }
+        );
         if (fetchResult.done === true) {
           this.$data.moreToFetchAndAdd = false;
         } else {
@@ -256,45 +303,15 @@ export default {
     ...mapState({
       isAuthenticated: state => state.user.isAuthenticated,
       user: state => state.user.user,
-      getGbqToGbqRuns: state => state.getGbqToGbqRuns.data,
-      dateFilterSelected: state => state.filters.dateFilterSelected,
-      dateFilters: state => state.filters.dateFilters,
-      minDateFilter: state => state.filters.minDateFilter
+      settings: state => state.settings,
+      storageToStorageConfs: state => state.storageToStorageConfs.data
     }),
-    ...mapGetters(["periodFiltered", "whereRunsFilter"]),
-    getGbqToGbqRunsFormated() {
-      const dataArray = Object.values(this.getGbqToGbqRuns);
+    ...mapGetters(["periodFiltered", "whereConfFilter"]),
+    storageToStorageConfsFormated() {
+      const dataArray = Object.values(this.storageToStorageConfs);
       var dataFormated = dataArray.map(function(data, index) {
-        // conCompliance is set to false if it detects a unexpected configuration json format
-        // confComplianceError array stores the error messages when the conf seems not compliante
-        let confCompliance = true;
-        let confComplianceError = [];
-        //try to compute the nb tasks in the configuration
-        let nb_tasks = 0;
-        try {
-          nb_tasks = data.configuration_context.configuration.workflow.length;
-        } catch (error) {
-          confCompliance = false;
-          confComplianceError.push(error);
-        }
         return {
-          confCompliance: confCompliance,
-          confComplianceError: confComplianceError,
-          nb_tasks: nb_tasks,
-          dag_execution_date_formated: moment(data.dag_execution_date).format(
-            "YYYY/MM/DD - HH:mm"
-          ),
-          dag_execution_date_from_now: moment(
-            data.dag_execution_date
-          ).fromNow(),
-          //color for the status
-          statusColor: Util.getStatusColor(data.status),
-          //generate Airflow URL
-          dag_execution_airflow_url: Util.dagRunAirflowUrl(
-            data.dag_id,
-            data.dag_run_id,
-            data.dag_execution_date
-          )
+          //Put here the new attributs to add to the object
         };
       });
       const dataArrayFormated = _.merge(dataArray, dataFormated);
@@ -302,7 +319,7 @@ export default {
     }
   },
   watch: {
-    whereRunsFilter(newValue, oldValue) {
+    whereConfFilter(newValue, oldValue) {
       this.getFirestoreData();
     }
   }

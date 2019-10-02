@@ -1,8 +1,7 @@
-const singleDoc = {
-  firestorePath:
-    "/mirror-exc-gcs-to-gbq-conf/mirror-fd-io-exc-pim-n-in/CONFIGURATION/ventes",
+const tablesToTablesRun = {
+  firestorePath: "gbq-to-gbq-runs/{itemId}",
   firestoreRefType: "doc", // 'collection' or 'doc'
-  moduleName: "singleDoc",
+  moduleName: "tablesToTablesRun",
   statePropName: "data",
   namespaced: true, // automatically added
   sync: {
@@ -17,4 +16,4 @@ const singleDoc = {
   actions: {}
 };
 
-export default singleDoc;
+export default tablesToTablesRun;

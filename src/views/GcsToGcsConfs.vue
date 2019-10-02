@@ -19,7 +19,7 @@ export default {
   },
   data() {
     return {
-      headerTitle: "Storage to Storage",
+      headerTitle: "GCS to GCS",
       tabsItems: [
         { id: 1, title: "Runs", link: "/runs/gcstogcs" },
         { id: 2, title: "Configurations", link: "/conf/gcstogcs" },

@@ -4,25 +4,25 @@
       :tabsItems="tabsItems"
       :headerTitle="headerTitle"
     ></DataManagementHeader>
-    <GcsToGcsRuns />
+    <StorageToStorageConfs />
   </div>
 </template>
 
 <script>
-import GcsToGcsRuns from "../components/GcsToGcsRuns";
+import StorageToStorageConfs from "@/components/StorageToStorageConfs.vue";
 import DataManagementHeader from "../components/widgets/layout/DataManagementHeader";
 
 export default {
   components: {
-    GcsToGcsRuns,
+    StorageToStorageConfs,
     DataManagementHeader
   },
   data() {
     return {
-      headerTitle: "GCS to GCS",
+      headerTitle: "Storage to Storage V2",
       tabsItems: [
-        { id: 1, title: "Runs", link: "/runs/gcstogcs" },
-        { id: 2, title: "Configurations", link: "/conf/gcstogcs" },
+        { id: 1, title: "Runs", link: "/storagetostorage/runs" },
+        { id: 2, title: "Configurations", link: "/storagetostorage/confs" },
         { id: 3, title: "Documentation", link: "" }
       ]
     };

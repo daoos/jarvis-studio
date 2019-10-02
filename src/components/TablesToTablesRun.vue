@@ -7,8 +7,11 @@
           color="grey lighten-3"
           slider-color="primary"
         >
+          <v-tab ripple href="#rundetails">
+            Run Details
+          </v-tab>
           <v-tab ripple href="#confoverview">
-            Overview
+            Configuration
           </v-tab>
           <v-tab ripple href="#conftasks">
             Tasks
@@ -19,12 +22,21 @@
           <v-tab ripple href="#conversation">
             Conversation
           </v-tab>
+          <v-tab-item value="rundetails">
+            <v-card v-if="this.run !== undefined">
+              <TablesToTablesRunView
+                :run="this.run"
+                :runId="this.run.dag_id"
+                :activeHeader="true"
+              ></TablesToTablesRunView
+            ></v-card>
+          </v-tab-item>
           <v-tab-item value="confoverview">
             <v-card v-if="this.conf !== undefined">
               <tablesToTablesConfOverview
                 :conf="this.conf"
                 :confId="this.conf.configuration.dag_name"
-                :activeHeader="true"
+                :activeHeader="false"
               ></tablesToTablesConfOverview
             ></v-card>
           </v-tab-item>
@@ -39,7 +51,7 @@
           </v-tab-item>
           <v-tab-item value="fulljson">
             <v-card>
-              <viewJson :json="this.conf" :jsonID="this.conf.id" />
+              <viewJson :json="this.run" :jsonID="this.run.id" />
             </v-card>
           </v-tab-item>
         </v-tabs>
@@ -57,12 +69,14 @@
 import { mapState } from "vuex";
 import store from "@/store/index";
 import viewJson from "@/components/widgets/parameters/viewJson.vue";
+import TablesToTablesRunView from "@/components/widgets/runs/TablesToTablesRunView.vue";
 import tablesToTablesConfOverview from "@/components/widgets/configurations/TablesToTablesConfOverview.vue";
 import tablesToTalesConfTasksView from "@/components/widgets/configurations/TablesToTalesConfTasksView.vue";
 
 export default {
   components: {
     viewJson,
+    TablesToTablesRunView,
     tablesToTablesConfOverview,
     tablesToTalesConfTasksView
   },
@@ -78,11 +92,11 @@ export default {
   },
   methods: {
     async getFirestoreData() {
-      await store.dispatch("tablesToTablesConf/closeDBChannel", {
+      await store.dispatch("tablesToTablesRun/closeDBChannel", {
         clearModule: true
       });
       await store
-        .dispatch("tablesToTablesConf/fetchAndAdd", {
+        .dispatch("tablesToTablesRun/fetchAndAdd", {
           itemId: this.itemId
         })
         .catch(console.error);
@@ -90,7 +104,7 @@ export default {
   },
   computed: {
     ...mapState({
-      tablesToTablesConf: state => state.tablesToTablesConf.data
+      tablesToTablesRun: state => state.tablesToTablesRun.data
     }),
     itemId() {
       var itemId = this.$route.params.pathId;
@@ -98,8 +112,14 @@ export default {
     },
     conf() {
       //Add the bucket file source to the SingleDoc object
-      var conf = this.tablesToTablesConf;
+      var conf = this.tablesToTablesRun.configuration_context;
+      console.log("conf ", conf);
       return conf;
+    },
+    run() {
+      var run = this.tablesToTablesRun;
+      console.log("run ", run);
+      return run;
     }
   }
 };

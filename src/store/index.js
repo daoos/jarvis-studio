@@ -32,6 +32,12 @@ import dataTables from "./data-tables";
 import dataTableDetails from "./data-table-details";
 import filters from "./filters";
 import singleDoc from "./single-doc";
+import storageToStorageConfs from "./storage-to-storage-confs";
+import storageToStorageRuns from "./storage-to-storage-runs";
+import storageToTableConf from "@/store/storage-to-table-conf";
+import storageToTableRun from "@/store/storage-to-table-run";
+import tablesToTablesConf from "@/store/tables-to-tables-conf";
+import tablesToTablesRun from "@/store/tables-to-tables-run";
 
 const easyFirestores = VuexEasyFirestore(
   [
@@ -54,6 +60,12 @@ const easyFirestores = VuexEasyFirestore(
     dataModels,
     dataTables,
     dataTableDetails,
+    storageToStorageConfs,
+    storageToStorageRuns,
+    storageToTableConf,
+    storageToTableRun,
+    tablesToTablesConf,
+    tablesToTablesRun,
     singleDoc
   ],
   {
@@ -78,7 +90,7 @@ const store = new Vuex.Store(storeData);
 initFirebase().catch(error => {
   // take user to a page stating an error occurred
   // (might be a connection error, or the app is open in another tab)
-  router.push("/signin");
+  router.push("/signinEmail");
   // eslint-disable-next-line no-console
   console.error(error);
 });

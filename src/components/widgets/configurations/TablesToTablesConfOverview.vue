@@ -3,7 +3,7 @@
     <v-layout row wrap>
       <v-flex xs12 offset-xs0>
         <HeaderDocView
-          :viewId="this.conf.id"
+          :viewId="confId"
           :activatedConfStatus="conf.configuration.activated"
           :activeHeader="activeHeader"
           viewType="conf"
@@ -16,7 +16,7 @@
         />
         <TablesToTablesDagChart
           :task_dependencies="conf.configuration.task_dependencies"
-          :dagId="conf.id"
+          :dagId="confId"
         />
         <CreateUpdateConfOverview
           :creationDate="conf.creation_date"
@@ -30,7 +30,6 @@
 </template>
 
 <script>
-import ParametersTable from "@/components/widgets/parameters/ParametersTable.vue";
 import HeaderDocView from "@/components/widgets/parameters/HeaderDocView.vue";
 import ParametersList from "@/components/widgets/parameters/ParametersList.vue";
 import CreateUpdateConfOverview from "@/components/widgets/configurations/CreateUpdateConfOverview.vue";
@@ -40,7 +39,6 @@ export default {
   components: {
     HeaderDocView,
     ParametersList,
-    ParametersTable,
     CreateUpdateConfOverview,
     TablesToTablesDagChart
   },
@@ -49,6 +47,10 @@ export default {
     activeHeader: {
       type: Boolean,
       default: true
+    },
+    confId: {
+      type: String,
+      default: "Conf Id"
     }
   },
   data: () => ({
@@ -146,7 +148,7 @@ export default {
           id: "start_date",
           label: "Start Date",
           value: this.conf.configuration.start_date,
-          description: `Start date of the DAG. The format must be : "YYYY, MM, DD" Where : YYYY >= 1970 MM = [1, 12] DD = [1, 31]`
+          description: `Start date of the DAG. The format must be : "yyyy, MM, dd" Where : YYYY >= 1970 MM = [1, 12] DD = [1, 31]`
         },
         {
           id: "catchup",

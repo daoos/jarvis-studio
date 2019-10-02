@@ -44,9 +44,32 @@ export default {
       accounts: state => state.accounts.data
     }),
     accountArray() {
-      let accountArray = Object.values(this.accounts);
+      let accountArray = {};
+      // if (this.user.studioRoles == 5) {
+      //   accountArray = Object.values(this.accounts);
+      //   accountArray.push({ account_name: "All Accounts", id: "000000" });
+      // } else if (this.user.accounts.length > 0) {
+      //   for (const account of this.user.accounts) {
+      //     accountArray.push({ account_name: account, id: account });
+      //   }
+      // }
+      accountArray = Object.values(this.accounts);
       accountArray.push({ account_name: "All Accounts", id: "000000" });
       return accountArray;
+    },
+    //Set the selected account to the accounts attached to the user Custom Claim
+    accountFilterSelectedForUser() {
+      let accountFilterSelectedForUser = {};
+      if (this.user.studioRoles == 5) {
+        accountFilterSelectedForUser = this.accountFilterSelected;
+      }
+      if (this.user.accounts.length > 0) {
+        accountFilterSelectedForUser = {
+          account_name: this.user.accounts[0],
+          id: this.user.accounts[0]
+        };
+      }
+      return accountFilterSelectedForUser;
     }
   }
 };

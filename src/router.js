@@ -26,11 +26,11 @@ router.beforeEach((to, from, next) => {
           next();
         } else {
           next({
-            path: "/signin",
+            path: "/signinEmail",
             query: { redirect: to.fullPath }
           });
         }
-      }, 2000);
+      }, 1000);
     }
   } else {
     next(); // make sure to always call next()!

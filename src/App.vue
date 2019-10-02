@@ -106,6 +106,14 @@
           <v-divider></v-divider>
           <v-list subheader :class="{ 'list-border-bottom': drawer.mini }">
             <v-subheader>SETTINGS</v-subheader>
+            <v-list-tile :to="{ path: '/settings/users' }">
+              <v-list-tile-action>
+                <v-icon>supervised_user_circle</v-icon>
+              </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title>Users</v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
             <v-list-tile :to="{ path: '/settings/accounts' }">
               <v-list-tile-action>
                 <v-icon>business</v-icon>
@@ -120,7 +128,7 @@
               </v-list-tile-action>
               <v-list-tile-content>
                 <v-list-tile-title
-                  >Clound Function Configurations</v-list-tile-title
+                  >Cloud Function Configurations</v-list-tile-title
                 >
               </v-list-tile-content>
             </v-list-tile>
@@ -164,8 +172,14 @@
           >
             <template v-slot:activator="{ on }">
               <v-btn icon large v-on="on">
-                <v-avatar size="32px" v-if="isAuthenticated">
+                <v-avatar
+                  size="32px"
+                  v-if="isAuthenticated && user.photoURL != null"
+                >
                   <img :src="user.photoURL" :alt="user.displayName" />
+                </v-avatar>
+                <v-avatar size="32px" v-else>
+                  <v-icon dark>account_circle</v-icon>
                 </v-avatar>
               </v-btn>
             </template>
@@ -251,6 +265,7 @@
   </div>
 </template>
 <script>
+import router from "@/router";
 import { mapState } from "vuex";
 import Util from "@/util";
 import DatamodelTreeview from "./components/widgets/datamodel/DatamodelTreeview";
@@ -298,8 +313,13 @@ export default {
     analyticsItems: [
       {
         icon: "swap_horiz",
-        title: "Storage to Storage",
+        title: "GCS to GCS",
         link: "/runs/gcstogcs"
+      },
+      {
+        icon: "flare",
+        title: "Storage to Storage",
+        link: "/storagetostorage/runs"
       },
       {
         icon: "vertical_split",
@@ -339,11 +359,11 @@ export default {
     userSettingsItems() {
       return [
         {
-          title: "Settings",
+          title: "Profile",
           href: "#",
           icon: "account_circle",
           click: e => {
-            this.$store.dispatch("userSignOut");
+            router.push({ name: "userProfile" });
           }
         },
         {

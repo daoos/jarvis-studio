@@ -4,25 +4,25 @@
       :tabsItems="tabsItems"
       :headerTitle="headerTitle"
     ></DataManagementHeader>
-    <GcsToGcsRuns />
+    <TablesToTablesRun />
   </div>
 </template>
 
 <script>
-import GcsToGcsRuns from "../components/GcsToGcsRuns";
+import TablesToTablesRun from "../components/TablesToTablesRun";
 import DataManagementHeader from "../components/widgets/layout/DataManagementHeader";
 
 export default {
   components: {
-    GcsToGcsRuns,
+    TablesToTablesRun,
     DataManagementHeader
   },
   data() {
     return {
-      headerTitle: "GCS to GCS",
+      headerTitle: "Tables to Tables",
       tabsItems: [
-        { id: 1, title: "Runs", link: "/runs/gcstogcs" },
-        { id: 2, title: "Configurations", link: "/conf/gcstogcs" },
+        { id: 1, title: "Runs", link: "/tablestotables/runs" },
+        { id: 2, title: "Configurations", link: "/tablestotables/confs" },
         { id: 3, title: "Documentation", link: "" }
       ]
     };

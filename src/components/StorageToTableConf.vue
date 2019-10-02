@@ -52,7 +52,6 @@
 <script>
 import { mapState } from "vuex";
 import store from "@/store/index";
-import Util from "@/util";
 import viewJson from "@/components/widgets/parameters/viewJson.vue";
 import storageToTableConfOverview from "@/components/widgets/configurations/StorageToTableConfOverview.vue";
 import tableSchemaView from "@/components/widgets/configurations/TableSchemaView.vue";
@@ -75,32 +74,34 @@ export default {
   },
   methods: {
     async getFirestoreData() {
-      await store.dispatch("singleDoc/closeDBChannel", { clearModule: true });
+      await store.dispatch("storageToTableConf/closeDBChannel", {
+        clearModule: true
+      });
       await store
-        .dispatch("singleDoc/openDBChannel", {
-          singleDocPath: this.firestorePath
+        .dispatch("storageToTableConf/fetchAndAdd", {
+          sourceId: this.bucketIn,
+          itemId: this.itemId
         })
         .catch(console.error);
     }
   },
   computed: {
     ...mapState({
-      singleDoc: state => state.singleDoc.data
+      storageToTableConf: state => state.storageToTableConf.data
     }),
     itemId() {
       var itemId = this.$route.params.pathId.split("/")[1];
+      console.log("itemId : ", itemId);
       return itemId;
     },
     bucketIn() {
       var bucketIn = this.$route.params.pathId.split("/")[0];
+      console.log("bucketIn : ", bucketIn);
       return bucketIn;
-    },
-    firestorePath() {
-      return Util.storageToTableConfFirestorePath(this.bucketIn, this.itemId);
     },
     conf() {
       //Add the bucket file source to the SingleDoc object
-      var conf = this.singleDoc;
+      var conf = this.storageToTableConf;
       conf.source_bucket = this.bucketIn;
       return conf;
     }

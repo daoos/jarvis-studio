@@ -1,6 +1,6 @@
 <template>
   <v-container grid-list-xl fluid>
-    <v-toolbar class="elevation-0" color="transparent">
+    <v-toolbar class="elevation-1" color="grey lighten-3">
       <v-text-field
         v-model="search"
         append-icon="search"
@@ -26,13 +26,13 @@
     </v-toolbar>
     <v-data-table
       :headers="headers"
-      :items="getGbqToGbqRunsFormated"
+      :items="storageToStorageRunsFormated"
       :search="search"
       :loading="isFetchAndAdding"
       :expand="expand"
       :pagination.sync="pagination"
       item-key="id"
-      light
+      class="elevation-5"
     >
       <v-progress-linear
         v-slot:progress
@@ -42,18 +42,7 @@
       <template v-slot:items="props">
         <td>{{ props.item["account"] }}</td>
         <td>{{ props.item["environment"] }}</td>
-        <td>
-          <router-link
-            :to="{
-              name: 'TablesToTablesRun',
-              params: { pathId: props.item.id }
-            }"
-            ><span class="font-weight-medium">{{
-              props.item["dag_id"]
-            }}</span></router-link
-          >
-        </td>
-        <td>{{ props.item["nb_tasks"] }}</td>
+        <td>{{ props.item["configuration_id"] }}</td>
         <td>
           <v-chip
             :color="props.item.statusColor"
@@ -65,22 +54,8 @@
         </td>
         <td>{{ props.item["dag_execution_date_formated"] }}</td>
         <td class="justify-center layout px-0">
-          <v-icon
-            small
-            class="mr-2"
-            @click="viewItem(props, props.item)"
-            v-if="props.item.confCompliance"
-          >
+          <v-icon small class="mr-2" @click="viewItem(props, props.item)">
             remove_red_eye
-          </v-icon>
-          <v-icon
-            small
-            class="mr-2"
-            @click="viewItem(props, props.item)"
-            color="orange darken-1"
-            v-else
-          >
-            warning
           </v-icon>
           <v-icon class="mr-2" small @click="openAirflowDagRunUrl(props.item)">
             open_in_new
@@ -90,7 +65,7 @@
       <template v-slot:expand="props">
         <v-card flat>
           <v-card-title>
-            <span class="headline">{{ viewedItem.dag_id }}</span>
+            <span class="headline">{{ viewedItem.dag_run_id }}</span>
             <v-spacer></v-spacer>
             <v-btn color="warning" fab small dark outline>
               <v-icon @click="props.expanded = !props.expanded">
@@ -118,7 +93,7 @@
       <v-flex xs12 offset-xs0>
         <v-card dark class="elevation-10">
           <v-card-title>
-            <span class="headline">{{ viewedItem.gcs_triggering_file }}</span>
+            <span class="headline">{{ viewedItem.dag_run_id }}</span>
             <v-spacer></v-spacer>
             <v-btn color="warning" fab small dark outline>
               <v-icon @click="viewJson = false">
@@ -160,14 +135,14 @@ export default {
   data: () => ({
     search: "",
     isFetchAndAdding: false,
-    fetchAndAddStatus: "",
-    moreToFetchAndAdd: false,
     expand: false,
     pagination: {
       sortBy: "dag_execution_date_formated",
       descending: true,
       rowsPerPage: 10
     },
+    fetchAndAddStatus: "",
+    moreToFetchAndAdd: false,
     viewJson: false,
     viewedItem: {},
     headers: [
@@ -184,16 +159,10 @@ export default {
         value: "environment"
       },
       {
-        text: "Workflow Id Bucket",
+        text: "Conf Id",
         align: "left",
         sortable: true,
-        value: "dag_id"
-      },
-      {
-        text: "# Tasks",
-        align: "left",
-        sortable: true,
-        value: "nb_tasks"
+        value: "configuration_id"
       },
       {
         text: "Status",
@@ -216,9 +185,8 @@ export default {
   methods: {
     viewItem(props, item) {
       props.expanded = !props.expanded;
-      this.viewedIndex = this.getGbqToGbqRunsFormated.indexOf(item);
+      this.viewedIndex = this.storageToStorageRunsFormated.indexOf(item);
       this.viewedItem = Object.assign({}, item);
-      console.log(this.viewedItem);
     },
     openAirflowDagRunUrl(item) {
       window.open(item.dag_execution_airflow_url, "_blank");
@@ -229,14 +197,16 @@ export default {
       this.$data.moreToFetchAndAdd = false;
       this.$data.isFetchAndAdding = true;
       try {
-        store.dispatch("getGbqToGbqRuns/closeDBChannel", {
+        store.dispatch("storageToStorageRuns/closeDBChannel", {
           clearModule: true
         });
-        console.log("where", where);
-        let fetchResult = await store.dispatch("getGbqToGbqRuns/fetchAndAdd", {
-          where,
-          limit: 0
-        });
+        let fetchResult = await store.dispatch(
+          "storageToStorageRuns/fetchAndAdd",
+          {
+            where,
+            limit: 0
+          }
+        );
         if (fetchResult.done === true) {
           this.$data.moreToFetchAndAdd = false;
         } else {
@@ -256,31 +226,16 @@ export default {
     ...mapState({
       isAuthenticated: state => state.user.isAuthenticated,
       user: state => state.user.user,
-      getGbqToGbqRuns: state => state.getGbqToGbqRuns.data,
+      storageToStorageRuns: state => state.storageToStorageRuns.data,
       dateFilterSelected: state => state.filters.dateFilterSelected,
       dateFilters: state => state.filters.dateFilters,
       minDateFilter: state => state.filters.minDateFilter
     }),
     ...mapGetters(["periodFiltered", "whereRunsFilter"]),
-    getGbqToGbqRunsFormated() {
-      const dataArray = Object.values(this.getGbqToGbqRuns);
+    storageToStorageRunsFormated() {
+      const dataArray = Object.values(this.storageToStorageRuns);
       var dataFormated = dataArray.map(function(data, index) {
-        // conCompliance is set to false if it detects a unexpected configuration json format
-        // confComplianceError array stores the error messages when the conf seems not compliante
-        let confCompliance = true;
-        let confComplianceError = [];
-        //try to compute the nb tasks in the configuration
-        let nb_tasks = 0;
-        try {
-          nb_tasks = data.configuration_context.configuration.workflow.length;
-        } catch (error) {
-          confCompliance = false;
-          confComplianceError.push(error);
-        }
         return {
-          confCompliance: confCompliance,
-          confComplianceError: confComplianceError,
-          nb_tasks: nb_tasks,
           dag_execution_date_formated: moment(data.dag_execution_date).format(
             "YYYY/MM/DD - HH:mm"
           ),

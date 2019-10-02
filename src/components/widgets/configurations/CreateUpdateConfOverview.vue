@@ -39,8 +39,8 @@ export default {
           label: "Update Date",
           field: "updateDate",
           type: "date",
-          dateInputFormat: "YYYY-MM-DDTHH:mm:ss.SSSSSS", // expects 2018-03-16
-          dateOutputFormat: "YYYY-MM-DD HH:mm:ss" // outputs Mar 16th 2018
+          dateInputFormat: "yyyy-MM-dd'T'HH:mm:ss.SSSSSS", // expects 2018-03-16 yyyy-MM-dd'T'HH:mm:ss.SSSxxx
+          dateOutputFormat: "yyyy-MM-dd HH:mm:ss" // outputs Mar 16th 2018
         },
         {
           label: "Updated By",
@@ -50,8 +50,8 @@ export default {
           label: "Creation Date",
           field: "creationDate",
           type: "date",
-          dateInputFormat: "YYYY-MM-DDTHH:mm:ss.SSSSSS", // expects 2018-03-16
-          dateOutputFormat: "YYYY-MM-DD HH:mm:ss" // outputs Mar 16th 2018
+          dateInputFormat: "yyyy-MM-dd'T'HH:mm:ss.SSSSSS", // expects 2018-03-16
+          dateOutputFormat: "yyyy-MM-dd HH:mm:ss" // outputs Mar 16th 2018
         },
         {
           label: "Created By",

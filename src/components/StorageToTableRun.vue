@@ -23,7 +23,7 @@
             Conversation
           </v-tab>
           <v-tab-item value="rundetails">
-            <v-card v-if="this.conf !== undefined">
+            <v-card v-if="this.run !== undefined">
               <StorageToTableRunView
                 :run="this.run"
                 :runId="this.run.job_id"
@@ -64,7 +64,6 @@
 <script>
 import { mapState } from "vuex";
 import store from "@/store/index";
-import Util from "@/util";
 import viewJson from "@/components/widgets/parameters/viewJson.vue";
 import StorageToTableRunView from "@/components/widgets/runs/StorageToTableRunView.vue";
 import storageToTableConfOverview from "@/components/widgets/configurations/StorageToTableConfOverview.vue";
@@ -89,34 +88,33 @@ export default {
   },
   methods: {
     async getFirestoreData() {
-      await store.dispatch("singleDoc/closeDBChannel", { clearModule: true });
+      await store.dispatch("storageToTableRun/closeDBChannel", {
+        clearModule: true
+      });
       await store
-        .dispatch("singleDoc/openDBChannel", {
-          singleDocPath: this.firestorePath
+        .dispatch("storageToTableRun/fetchAndAdd", {
+          itemId: this.itemId
         })
         .catch(console.error);
     }
   },
   computed: {
     ...mapState({
-      singleDoc: state => state.singleDoc.data
+      storageToTableRun: state => state.storageToTableRun.data
     }),
     itemId() {
       var itemId = this.$route.params.pathId;
       return itemId;
     },
-    firestorePath() {
-      return Util.storageToTableRunFirestorePath(this.itemId);
-    },
     conf() {
-      //Add the bucket file source to the SingleDoc object
-      var conf = this.singleDoc.configuration_context;
-      conf.source_bucket = this.singleDoc.source_bucket;
-      conf.id = this.singleDoc.filename_template;
+      //Add the bucket file source to the storageToTableRun object
+      var conf = this.storageToTableRun.configuration_context;
+      conf.source_bucket = this.storageToTableRun.source_bucket;
+      conf.id = this.storageToTableRun.filename_template;
       return conf;
     },
     run() {
-      var run = this.singleDoc;
+      var run = this.storageToTableRun;
       return run;
     }
   }

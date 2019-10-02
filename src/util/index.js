@@ -1,5 +1,4 @@
 const airflowRootUrl = "https://v48232bfe51601b92-tp.appspot.com";
-const firestoreStorageToTableConfsCollection = "mirror-exc-gcs-to-gbq-conf";
 const firestoreStorageToTableRunsCollection = "mirror-exc-gcs-to-gbq-runs";
 const firestoreStorageToStorageConfsCollection = "mirror-exc-gcs-to-gcs-conf";
 const firestoreStorageToStorageRunsCollection = "mirror-exc-gcs-to-gcs-runs";
@@ -16,14 +15,6 @@ const dagRunAirflowUrl = (dag_id, run_id, execution_date) => {
   var executionDateEncoded = encodeURIComponent(execution_date);
   var dagRunAirflowUrl = `${airflowRootUrl}/admin/airflow/graph?dag_id=${dagIdEncoded}&run_id=${runIdEncoded}&execution_date=${executionDateEncoded}`;
   return dagRunAirflowUrl;
-};
-
-const storageToTableConfFirestorePath = (bucketIn, itemId) => {
-  return `/${firestoreStorageToTableConfsCollection}/${bucketIn}/CONFIGURATION/${itemId}`;
-};
-
-const storageToTableRunFirestorePath = itemId => {
-  return `/${firestoreStorageToTableRunsCollection}/${itemId}`;
 };
 
 const tablesToTablesConfFirestorePath = itemId => {
@@ -127,8 +118,6 @@ export default {
   getStatusColor,
   getActiveConfColor,
   getActiveConfLabel,
-  storageToTableConfFirestorePath,
-  storageToTableRunFirestorePath,
   tablesToTablesConfFirestorePath,
   firestoreStorageToTableRunsCollection,
   firestoreStorageToStorageConfsCollection,

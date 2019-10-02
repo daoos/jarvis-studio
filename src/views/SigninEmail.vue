@@ -17,6 +17,7 @@
                     label="Login"
                     id="Email"
                     type="email"
+                    v-model="model.email"
                     :rules="emailRules"
                     required
                     data-cy="signinEmailField"
@@ -29,8 +30,8 @@
                     id="password"
                     type="password"
                     v-model="model.password"
-                    required
                     :rules="passwordRules"
+                    required
                     data-cy="signinPasswordField"
                   >
                   </v-text-field>
@@ -92,10 +93,12 @@ export default {
     signin() {
       this.loading = true;
       if (this.$refs.form.validate()) {
+        console.log("email :", this.model.email);
         this.$store.dispatch("userSignin", {
           email: this.model.email,
           password: this.model.password
         });
+        this.loading = false;
       }
     }
   }

@@ -9,6 +9,31 @@ const userData = {
   mutations: {
     setUser(state, payload) {
       state.user = payload;
+      firebase
+        .auth()
+        .currentUser.getIdTokenResult()
+        .then(idTokenResult => {
+          if (
+            idTokenResult.claims == null ||
+            idTokenResult.claims.accounts == null
+          ) {
+            state.user.accounts = [];
+          } else {
+            state.user.accounts = idTokenResult.claims.accounts;
+          }
+          if (
+            idTokenResult.claims == null ||
+            idTokenResult.claims.studioRoles == null
+          ) {
+            state.user.studioRoles = 0;
+          } else {
+            state.user.studioRoles = idTokenResult.claims.studioRoles;
+          }
+          console.log("Final User : ", state.user);
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
     setIsAuthenticated(state, payload) {
       state.isAuthenticated = payload;
@@ -27,7 +52,7 @@ const userData = {
         .catch(() => {
           commit("setUser", null);
           commit("setIsAuthenticated", false);
-          router.push("/signin");
+          router.push("/signinEmail");
         });
     },
     userGoogleSignin({ commit }) {
@@ -36,20 +61,14 @@ const userData = {
         .auth()
         .signInWithPopup(provider)
         .then(user => {
-          if (user.user.email.split("@")[1] == "fashiondata.io") {
-            commit("setUser", user.user);
-            commit("setIsAuthenticated", true);
-            router.push("/");
-          } else {
-            commit("setUser", null);
-            commit("setIsAuthenticated", false);
-            router.push("/signin");
-          }
+          commit("setUser", user.user);
+          commit("setIsAuthenticated", true);
+          router.push("/");
         })
         .catch(() => {
           commit("setUser", null);
           commit("setIsAuthenticated", false);
-          router.push("/signin");
+          router.push("/signinEmail");
         });
     },
     userSignup({ commit }, { email, password }) {
@@ -64,7 +83,7 @@ const userData = {
         .catch(() => {
           commit("setUser", null);
           commit("setIsAuthenticated", false);
-          router.push("/signin");
+          router.push("/signinEmail");
         });
     },
     autoSignIn({ commit }, payload) {
@@ -72,19 +91,37 @@ const userData = {
       commit("setIsAuthenticated", true);
     },
     userSignOut({ commit }) {
+      router.push("/signinEmail");
       firebase
         .auth()
         .signOut()
         .then(() => {
           commit("setUser", null);
           commit("setIsAuthenticated", false);
-          router.push("/signin");
         })
         .catch(() => {
           commit("setUser", null);
           commit("setIsAuthenticated", false);
-          router.push("/signin");
         });
+    },
+    userAddAdminRole({ commit }, email) {
+      const addAdminRole = firebase.functions().httpsCallable("addAdminRole");
+      addAdminRole({
+        email: "romain.chaumais@fashiondata.io",
+        accounts: ["000010", "000020"]
+      }).then(result => {
+        console.log(result);
+      });
+    },
+    userAddSuperAdminRole({ commit }, email) {
+      const addSuperAdminRole = firebase
+        .functions()
+        .httpsCallable("addSuperAdminRole");
+      addSuperAdminRole({ email: "romain.chaumais@fashiondata.io" }).then(
+        result => {
+          console.log(result);
+        }
+      );
     }
   },
   getters: {

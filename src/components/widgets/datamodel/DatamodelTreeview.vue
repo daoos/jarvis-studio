@@ -99,13 +99,16 @@ export default {
     },
     async fetchTables(item) {
       store.dispatch("dataTables/closeDBChannel", { clearModule: true });
+      console.log("fetchTables for item ", item);
       return this.$store
-        .dispatch("dataTables/fetch", {
+        .dispatch("dataTables/fetchAndAdd", {
           projectId: item.projectId,
           datasetId: item.name,
           limit: 0
         })
         .then(querySnapshot => {
+          console.log("querySnapshot.docs", querySnapshot.docs);
+
           if (querySnapshot.done === true) {
           }
           var dataTablesFormated = querySnapshot.docs.map(function(
