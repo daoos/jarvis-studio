@@ -198,7 +198,7 @@ export default {
       this.$data.isFetchAndAdding = true;
       try {
         store.dispatch("vmLauncherRuns/closeDBChannel", { clearModule: true });
-        let fetchResult = await store.dispatch("vmLauncherRuns/fetchAndAdd", {
+        let fetchResult = await store.dispatch("vmLauncherRuns/openDBChannel", {
           where,
           limit: 0
         });
