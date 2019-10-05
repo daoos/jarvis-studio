@@ -69,6 +69,7 @@ export default {
     };
   },
   async mounted() {
+    this.isFetchAndAdding = true;
     await this.getFirestoreData();
     this.isFetchAndAdding = false;
   },
@@ -91,7 +92,6 @@ export default {
     }),
     itemId() {
       var itemId = this.$route.params.pathId.split("/")[1];
-      console.log("itemId : ", itemId);
       return itemId;
     },
     bucketIn() {

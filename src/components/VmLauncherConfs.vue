@@ -38,8 +38,7 @@
       <template v-slot:items="props">
         <td>{{ props.item["account"] }}</td>
         <td>{{ props.item["environment"] }}</td>
-        <td>{{ props.item["gcp_project_id"] }}</td>
-        <td>{{ props.item["gcp_source_repository"] }}</td>
+        <td>{{ props.item["id"] }}</td>
         <td>{{ props.item["gcs_file_exchange_bucket"] }}</td>
         <td>{{ props.item["working_dir"] }}</td>
         <td>
@@ -229,16 +228,10 @@ export default {
         value: "environment"
       },
       {
-        text: "GCP Project Id",
+        text: "ID Configuration",
         align: "left",
         sortable: true,
-        value: "gcp_project_id"
-      },
-      {
-        text: "GCP Source Repo",
-        align: "left",
-        sortable: true,
-        value: "gcp_source_repository"
+        value: "id"
       },
       {
         text: "Bucket Exchange",

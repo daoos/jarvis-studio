@@ -18,11 +18,11 @@
           </v-tab>
           <v-tab-item value="runconfiguration">
             <v-card>
-              <StorageToStorageConfView
+              <GcsToGcsConfView
                 :conf="conf"
                 :isFetchAndAdding="isFetchAndAdding"
                 :activeHeader="true"
-              ></StorageToStorageConfView>
+              ></GcsToGcsConfView>
             </v-card>
           </v-tab-item>
           <v-tab-item value="fulljson">
@@ -41,13 +41,13 @@
 
 <script>
 import { mapState } from "vuex";
-import StorageToStorageConfView from "./widgets/configurations/StorageToStorageConfView";
+import GcsToGcsConfView from "./widgets/configurations/GcsToGcsConfView";
 import viewJson from "@/components/widgets/parameters/viewJson.vue";
 import store from "@/store/index";
 
 export default {
   components: {
-    StorageToStorageConfView,
+    GcsToGcsConfView,
     viewJson
   },
   data: () => ({

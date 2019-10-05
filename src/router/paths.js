@@ -118,7 +118,16 @@ export default [
       authRequired: true
     },
     component: () =>
-      import(/* webpackChunkName: "storagetostorageruns" */ "@/views/StorageToStorageConfs.vue")
+      import(/* webpackChunkName: "storagetostorageconfs" */ "@/views/StorageToStorageConfs.vue")
+  },
+  {
+    path: "/storagetostorage/confs/:pathId",
+    name: "StorageToStorageConf",
+    meta: {
+      authRequired: true
+    },
+    component: () =>
+      import(/* webpackChunkName: "storagetostorageconf" */ "@/views/StorageToStorageConf.vue")
   },
   {
     path: "/storagetostorage/runs",
@@ -141,7 +150,7 @@ export default [
   },
   {
     path: "/storagetotable/confs/:pathId",
-    name: "StorageToStorageConf",
+    name: "StorageToTableConf",
     meta: {
       authRequired: true
     },

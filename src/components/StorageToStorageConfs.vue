@@ -36,9 +36,19 @@
         indeterminate
       ></v-progress-linear>
       <template v-slot:items="props">
-        <td>{{ props.item["id"] }}</td>
         <td>{{ props.item["account"] }}</td>
         <td>{{ props.item["environment"] }}</td>
+        <td>
+          <router-link
+            :to="{
+              name: 'StorageToStorageConf',
+              params: { pathId: props.item.id }
+            }"
+            ><span class="font-weight-medium">{{
+              props.item["id"]
+            }}</span></router-link
+          >
+        </td>
         <td>
           <ActivatedStatusChip
             @click.native="
@@ -216,12 +226,6 @@ export default {
     showSnackbarDeleteConfSuccess: false,
     headers: [
       {
-        text: "Id",
-        align: "left",
-        sortable: true,
-        value: "id"
-      },
-      {
         text: "Account ID",
         align: "left",
         sortable: true,
@@ -232,6 +236,12 @@ export default {
         align: "left",
         sortable: true,
         value: "environment"
+      },
+      {
+        text: "Id",
+        align: "left",
+        sortable: true,
+        value: "id"
       },
       {
         text: "Status",

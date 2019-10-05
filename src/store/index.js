@@ -33,6 +33,7 @@ import dataTableDetails from "./data-table-details";
 import filters from "./filters";
 import singleDoc from "./single-doc";
 import storageToStorageConfs from "./storage-to-storage-confs";
+import storageToStorageConf from "./storage-to-storage-conf";
 import storageToStorageRuns from "./storage-to-storage-runs";
 import storageToTableConf from "@/store/storage-to-table-conf";
 import storageToTableRun from "@/store/storage-to-table-run";
@@ -61,6 +62,7 @@ const easyFirestores = VuexEasyFirestore(
     dataTables,
     dataTableDetails,
     storageToStorageConfs,
+    storageToStorageConf,
     storageToStorageRuns,
     storageToTableConf,
     storageToTableRun,
