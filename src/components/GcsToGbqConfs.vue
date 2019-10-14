@@ -43,7 +43,7 @@
             <td>
               <router-link
                 :to="{
-                  name: 'StorageToStorageConf',
+                  name: 'StorageToTableConf',
                   params: { pathId: props.item.key }
                 }"
                 ><span class="font-weight-medium">{{

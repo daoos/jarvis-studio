@@ -49,6 +49,9 @@
             }}</span></router-link
           >
         </td>
+        <td>{{ props.item["source_type"] }}</td>
+        <td>{{ props.item["nb_destinations"] }}</td>
+        <td>{{ props.item["nb_filename_templates"] }}</td>
         <td>
           <ActivatedStatusChip
             @click.native="
@@ -111,7 +114,7 @@
           </v-card-title>
           <v-card-text>
             <vue-json-pretty
-              :data="viewedItem"
+              :data="storageToStorageConfs[viewedItem.id]"
               :deep="5"
               :show-double-quotes="true"
               :show-length="true"
@@ -238,10 +241,28 @@ export default {
         value: "environment"
       },
       {
-        text: "Id",
+        text: "Configuration Id",
         align: "left",
         sortable: true,
         value: "id"
+      },
+      {
+        text: "Source Type",
+        align: "left",
+        sortable: true,
+        value: "source_type"
+      },
+      {
+        text: "Nb Destinations",
+        align: "left",
+        sortable: true,
+        value: "nb_filename_templates"
+      },
+      {
+        text: "Nb File Templates",
+        align: "left",
+        sortable: true,
+        value: "nb_filename_templates"
       },
       {
         text: "Status",
@@ -320,8 +341,29 @@ export default {
     storageToStorageConfsFormated() {
       const dataArray = Object.values(this.storageToStorageConfs);
       var dataFormated = dataArray.map(function(data, index) {
+        let source_type = "";
+        let nb_destinations = "";
+        let nb_filename_templates = "";
+        if (data.source === undefined) {
+          source_type = "not set";
+        } else {
+          source_type = data.source.type;
+        }
+        if (data.destinations === undefined) {
+          nb_destinations = "error";
+        } else {
+          nb_destinations = data.destinations.length;
+        }
+        if (data.filename_templates === undefined) {
+          nb_filename_templates = "error";
+        } else {
+          nb_filename_templates = data.filename_templates.length;
+        }
         return {
           //Put here the new attributs to add to the object
+          source_type: source_type,
+          nb_destinations: nb_destinations,
+          nb_filename_templates: nb_filename_templates
         };
       });
       const dataArrayFormated = _.merge(dataArray, dataFormated);
