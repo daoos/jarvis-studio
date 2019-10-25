@@ -35,6 +35,7 @@ export default {
     chart: new FlowChart()
   }),
   mounted() {
+    console.log("Dag Chart monted");
     this.buildDegGraph();
   },
   beforeDestroy() {
@@ -130,9 +131,9 @@ export default {
         }
       }
 
-      start.on("click", function() {
-        console.log("click!");
-      });
+      // start.on("click", function() {
+      //   console.log("click!");
+      // });
     }
   },
   computed: {

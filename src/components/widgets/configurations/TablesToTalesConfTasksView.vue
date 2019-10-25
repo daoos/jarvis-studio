@@ -319,6 +319,22 @@ export default {
       }
     }
   },
+  methods: {
+    prepareSQL(sqlFile) {
+      let sql = "";
+      if (sqlFile._binaryString !== undefined) {
+        try {
+          sql = Base64.decode(sqlFile._binaryString);
+        } catch (error) {
+          sql = "No SQL Found";
+          console.log(error);
+        }
+      } else {
+        sql = sqlFile;
+      }
+      return sql;
+    }
+  },
   computed: {
     dagContext() {
       //make a deep copy of the dagConf
@@ -338,28 +354,12 @@ export default {
             break;
           case "sql":
             //extract the SQL filename to find the binary SQL present in the tasksSql Object
-            var sqlFile = tasksFull[i].id;
-            try {
-              tasksFull[i].sql = Base64.decode(
-                this.tasksSQL[sqlFile]._binaryString
-              );
-            } catch (error) {
-              tasksFull[i].sql = "No SQL Found";
-              console.log(error);
-            }
+            tasksFull[i].sql = this.prepareSQL(this.tasksSQL[tasksFull[i].id]);
             break;
           default:
             tasksFull[i].task_type = "sql";
             //extract the binary SQL present in the tasksSql Object
-            var sqlFile = tasksFull[i].id;
-            try {
-              tasksFull[i].sql = Base64.decode(
-                this.tasksSQL[sqlFile]._binaryString
-              );
-            } catch (error) {
-              tasksFull[i].sql = "No SQL Found";
-              console.log(error);
-            }
+            tasksFull[i].sql = this.prepareSQL(this.tasksSQL[tasksFull[i].id]);
         }
       }
       return tasksFull;

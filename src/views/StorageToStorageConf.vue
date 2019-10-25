@@ -4,17 +4,17 @@
       :tabsItems="tabsItems"
       :headerTitle="headerTitle"
     ></DataManagementHeader>
-    <GcsToGcsConf />
+    <StorageToStorageConf />
   </div>
 </template>
 
 <script>
-import GcsToGcsConf from "../components/GcsToGcsConf";
+import StorageToStorageConf from "../components/StorageToStorageConf";
 import DataManagementHeader from "../components/widgets/layout/DataManagementHeader";
 
 export default {
   components: {
-    GcsToGcsConf,
+    StorageToStorageConf,
     DataManagementHeader
   },
   data() {

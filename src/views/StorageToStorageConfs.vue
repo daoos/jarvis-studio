@@ -19,7 +19,7 @@ export default {
   },
   data() {
     return {
-      headerTitle: "Storage to Storage V2",
+      headerTitle: "Storage to Storage",
       tabsItems: [
         { id: 1, title: "Runs", link: "/storagetostorage/runs" },
         { id: 2, title: "Configurations", link: "/storagetostorage/confs" },

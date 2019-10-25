@@ -2,7 +2,7 @@
   <div>
     <v-layout row pl-5 pt-4 pr-5 v-if="activeHeader">
       <span
-        class="display-1 font-weight-black text-truncate complementary--text"
+        class="headline font-weight-black text-truncate complementary--text"
         >{{ viewId }}</span
       >
       <v-spacer></v-spacer>
@@ -25,7 +25,7 @@
       />
     </v-layout>
     <v-layout row pl-5 pt-4 pr-5 v-else>
-      <span class="display-1 font-weight-bold">{{ viewId }}</span>
+      <span class="headline font-weight-bold">{{ viewId }}</span>
     </v-layout>
     <v-layout pl-5 pr-5 pt-3 pb-3 v-if="description">
       <span class="subheading">{{ description }}</span>
