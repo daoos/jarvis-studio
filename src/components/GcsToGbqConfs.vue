@@ -329,6 +329,7 @@ export default {
         //Loop on mirrorExcGcsToGbqConfsArray to get the collection
         for (var confDetailsId in mirrorExcGcsToGbqConfsArray) {
           let bucketId = mirrorExcGcsToGbqConfsArray[confDetailsId].id;
+          console.log("bucketId", bucketId);
           try {
             store.dispatch("mirrorExcGcsToGbqConfDetails/closeDBChannel", {
               clearModule: true

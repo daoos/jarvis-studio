@@ -47,7 +47,7 @@
         <td>
           <router-link
             :to="{
-              name: 'StorageToStorageRun',
+              name: 'GcsToGcsRun',
               params: { runId: props.item.id }
             }"
             ><span class="font-weight-medium">{{

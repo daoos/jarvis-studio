@@ -4,22 +4,22 @@
       :tabsItems="tabsItems"
       :headerTitle="headerTitle"
     ></DataManagementHeader>
-    <GcsToGcsConf />
+    <GcsToGcsRun />
   </div>
 </template>
 
 <script>
-import GcsToGcsConf from "../components/GcsToGcsConf";
+import GcsToGcsRun from "../components/GcsToGcsRun";
 import DataManagementHeader from "../components/widgets/layout/DataManagementHeader";
 
 export default {
   components: {
-    GcsToGcsConf,
+    GcsToGcsRun,
     DataManagementHeader
   },
   data() {
     return {
-      headerTitle: "GCS to GCS",
+      headerTitle: "Gcs to Gcs",
       tabsItems: [
         { id: 1, title: "Runs", link: "/runs/gcstogcs" },
         { id: 2, title: "Configurations", link: "/conf/gcstogcs" },
