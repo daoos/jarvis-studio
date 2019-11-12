@@ -3,7 +3,7 @@
     <v-layout row wrap>
       <v-flex xs12 offset-xs0>
         <HeaderDocView
-          :viewId="confId"
+          :viewId="configurationId"
           :activatedConfStatus="conf.activated"
           :activeHeader="activeHeader"
           viewType="conf"
@@ -78,6 +78,10 @@ export default {
     activeHeader: {
       type: Boolean,
       default: true
+    },
+    configurationId: {
+      type: String,
+      default: "Configuration Id"
     }
   },
   data: () => ({
@@ -240,18 +244,6 @@ export default {
     }
   },
   computed: {
-    confId() {
-      //Set a Conf Id to the first destination bucket in the Array when the Id of the Conf is not present in the payload
-      let getConfId = "";
-      if (this.conf.id !== undefined) {
-        getConfId = this.conf.id;
-      } else if (this.conf.destination_bucket[0] !== undefined) {
-        getConfId = this.conf.destination_bucket[0];
-      } else {
-        getConfId = "";
-      }
-      return getConfId;
-    },
     fileNameTemplateRows() {
       return this.conf.filename_templates;
     },

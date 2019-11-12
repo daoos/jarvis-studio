@@ -13,24 +13,6 @@
           description="Details of the Storage to Storage run"
           :paramItems="paramItems"
         />
-        <ParametersTable
-          tableTitle="Source Storage"
-          description="Source Storage of the file to copy"
-          :columns="sourceStorageColumns"
-          :rows="sourceStorageRows"
-          vflexLength="xs9"
-          :lineNumbers="false"
-          :searchOptionsEnabled="false"
-        ></ParametersTable>
-        <ParametersTable
-          tableTitle="Destination Storage(s)"
-          description="Multi destination storages for the copied file"
-          :columns="destinationStorageColumns"
-          :rows="destinationStorageRows"
-          vflexLength="xs7"
-          :lineNumbers="false"
-          :searchOptionsEnabled="false"
-        ></ParametersTable>
       </v-flex>
     </v-layout>
   </v-container>
@@ -39,12 +21,10 @@
 <script>
 import HeaderDocView from "@/components/widgets/parameters/HeaderDocView.vue";
 import ParametersList from "@/components/widgets/parameters/ParametersList.vue";
-import ParametersTable from "@/components/widgets/parameters/ParametersTable.vue";
 export default {
   components: {
     HeaderDocView,
-    ParametersList,
-    ParametersTable
+    ParametersList
   },
   props: {
     run: {
@@ -60,47 +40,7 @@ export default {
       default: true
     }
   },
-  data: () => ({
-    sourceStorageColumns: [
-      {
-        label: "Type",
-        field: "source_type",
-        width: "100px"
-      },
-      {
-        label: "Storage ID",
-        field: "source_storage_id",
-        width: "200px"
-      },
-      {
-        label: "Source Folder",
-        field: "source_input_folder",
-        width: "200px"
-      },
-      {
-        label: "Archive Folder",
-        field: "source_archive_folder",
-        width: "200px"
-      }
-    ],
-    destinationStorageColumns: [
-      {
-        label: "Type",
-        field: "destination_type",
-        width: "100px"
-      },
-      {
-        label: "Storage ID",
-        field: "destination_storage_id",
-        width: "200px"
-      },
-      {
-        label: "Destination Folder",
-        field: "destination_input_folder",
-        width: "230px"
-      }
-    ]
-  }),
+  data: () => ({}),
   methods: {
     goBack() {
       this.$router.go(-1);
@@ -121,19 +61,19 @@ export default {
           value: this.run.matching_filename_template
         },
         {
-          id: "gcs_triggering_file",
+          id: "triggering_file",
           label: "File Triggered",
-          value: this.run.gcs_triggering_file
+          value: this.run.triggering_file
         },
         {
           id: "dag_id",
-          label: "Dag Id",
+          label: "Configuration Type",
           value: this.run.dag_id
         },
         {
-          id: "cloud_function_triggered",
-          label: "Cloud Function Triggered",
-          value: this.run.cloud_function_triggered
+          id: "source_storage",
+          label: "Source Storage",
+          value: this.run.source_storage
         },
         {
           id: "job_id",
@@ -151,36 +91,6 @@ export default {
           value: this.run.dag_run_id
         }
       ];
-    },
-    sourceStorageRows() {
-      return [
-        {
-          source_type: "GCS",
-          source_storage_id: this.run.configuration_context.source_bucket,
-          source_input_folder: this.run.configuration_context.source_gcs_prefix,
-          source_archive_folder: this.run.configuration_context
-            .source_archive_prefix
-        }
-      ];
-    },
-    destinationStorageRows() {
-      //Combine the two array this.run.destination_bucket and this.run.destination_input_prefix into a array of json.
-      //Can't use map :(
-      var destinationStorageRows = [];
-      for (
-        var i = 0;
-        i < this.run.configuration_context.destination_bucket.length;
-        i++
-      ) {
-        destinationStorageRows.push({
-          destination_type: "GCS",
-          destination_storage_id: this.run.configuration_context
-            .destination_bucket[i],
-          destination_input_folder: this.run.configuration_context
-            .destination_gcs_prefix[i]
-        });
-      }
-      return destinationStorageRows;
     }
   }
 };

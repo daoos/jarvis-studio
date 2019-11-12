@@ -21,8 +21,8 @@ export default {
     return {
       headerTitle: "Storage to Storage",
       tabsItems: [
-        { id: 1, title: "Runs", link: "/runs/gcstogcs" },
-        { id: 2, title: "Configurations", link: "/conf/gcstogcs" },
+        { id: 1, title: "Runs", link: "/storagetostorage/runs" },
+        { id: 2, title: "Configurations", link: "/storagetostorage/confs" },
         { id: 3, title: "Documentation", link: "" }
       ]
     };

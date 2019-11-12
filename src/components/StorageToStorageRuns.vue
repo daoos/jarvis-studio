@@ -44,6 +44,17 @@
         <td>{{ props.item["environment"] }}</td>
         <td>{{ props.item["configuration_id"] }}</td>
         <td>
+          <router-link
+            :to="{
+              name: 'StorageToStorageRun',
+              params: { runId: props.item.id }
+            }"
+            ><span class="font-weight-medium">{{
+              props.item["triggering_file"]
+            }}</span></router-link
+          >
+        </td>
+        <td>
           <v-chip
             :color="props.item.statusColor"
             text-color="white"
@@ -163,6 +174,12 @@ export default {
         align: "left",
         sortable: true,
         value: "configuration_id"
+      },
+      {
+        text: "Triggering File",
+        align: "left",
+        sortable: true,
+        value: "triggering_file"
       },
       {
         text: "Status",

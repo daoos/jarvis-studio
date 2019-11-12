@@ -20,6 +20,7 @@
             <v-card>
               <StorageToStorageConfView
                 :conf="conf"
+                :configurationId="conf.id"
                 :isFetchAndAdding="isFetchAndAdding"
                 :activeHeader="true"
               ></StorageToStorageConfView>
