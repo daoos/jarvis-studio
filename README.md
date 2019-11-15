@@ -1,4 +1,4 @@
-# jarvis-console-v2
+# jarvis-studio
 
 ## Project setup
 ```
