@@ -1,8 +1,8 @@
 import Vue from "vue";
-import "./plugins/vuetify";
 import App from "./App.vue";
 import router from "@/router";
 import store from "@/store/index";
+import vuetify from "./plugins/vuetify";
 import firebase from "firebase";
 
 Vue.config.productionTip = false;
@@ -10,6 +10,7 @@ Vue.config.productionTip = false;
 new Vue({
 	router,
 	store,
+	vuetify,
 	render: h => h(App),
 	created() {
 		firebase.auth().onAuthStateChanged(user => {
