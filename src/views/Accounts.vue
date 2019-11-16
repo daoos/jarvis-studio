@@ -1,13 +1,13 @@
 <template>
-  <Accounts />
+	<Accounts />
 </template>
 
 <script>
 import Accounts from "../components/Accounts";
 
 export default {
-  components: {
-    Accounts
-  }
+	components: {
+		Accounts
+	}
 };
 </script>

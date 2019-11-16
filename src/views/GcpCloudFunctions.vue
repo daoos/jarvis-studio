@@ -1,13 +1,13 @@
 <template>
-  <GcpCloudFunctions />
+	<GcpCloudFunctions />
 </template>
 
 <script>
 import GcpCloudFunctions from "../components/GcpCloudFunctions";
 
 export default {
-  components: {
-    GcpCloudFunctions
-  }
+	components: {
+		GcpCloudFunctions
+	}
 };
 </script>

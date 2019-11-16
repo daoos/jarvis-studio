@@ -1,156 +1,156 @@
 <template>
-  <v-container grid-list-xl fluid>
-    <v-toolbar class="elevation-0" color="transparent">
-      <v-text-field
-        v-model="search"
-        append-icon="search"
-        label="Search"
-        single-line
-        hide-details
-      ></v-text-field>
-      <v-spacer></v-spacer>
-      <v-dialog v-model="dialog" max-width="700px">
-        <template v-slot:activator="{ on }">
-          <v-btn color="primary" dark class="mb-2" v-on="on">New User</v-btn>
-        </template>
-        <v-card>
-          <v-card-title>
-            <span class="headline">{{ formTitle }}</span>
-          </v-card-title>
+	<v-container grid-list-xl fluid>
+		<v-toolbar class="elevation-0" color="transparent">
+			<v-text-field
+				v-model="search"
+				append-icon="search"
+				label="Search"
+				single-line
+				hide-details
+			></v-text-field>
+			<v-spacer></v-spacer>
+			<v-dialog v-model="dialog" max-width="700px">
+				<template v-slot:activator="{ on }">
+					<v-btn color="primary" dark class="mb-2" v-on="on">New User</v-btn>
+				</template>
+				<v-card>
+					<v-card-title>
+						<span class="headline">{{ formTitle }}</span>
+					</v-card-title>
 
-          <v-card-text>
-            <v-container grid-list-md>
-              <v-layout wrap>
-                <v-flex xs12 sm12 md12>
-                  <v-text-field
-                    v-model="editedUser.email"
-                    label="Email"
-                  ></v-text-field>
-                </v-flex>
-                <v-flex xs12 sm12 md12>
-                  <v-text-field
-                    v-model="editedUser.displayName"
-                    label="Display Name"
-                  ></v-text-field>
-                </v-flex>
-                <v-flex xs12 sm12 md12>
-                  <v-text-field
-                    v-model="editedUser.password"
-                    :append-icon="
-                      editedUser.showpassword ? 'visibility' : 'visibility_off'
-                    "
-                    :type="editedUser.showpassword ? 'text' : 'password'"
-                    name="password"
-                    label="Password"
-                    hint="At least 8 characters"
-                    counter
-                    @click:append="
-                      editedUser.showpassword = !editedUser.showpassword
-                    "
-                  ></v-text-field>
-                </v-flex>
-                <v-flex xs12 sm12 md12>
-                  <v-text-field
-                    v-model="editedUser.emailVerified"
-                    label="Email Verified"
-                  ></v-text-field>
-                </v-flex>
-                <v-flex xs12 sm12 md12>
-                  <v-text-field
-                    v-model="editedUser.disabled"
-                    label="Disabled"
-                  ></v-text-field>
-                  <v-select
-                    v-model="selectedAccounts"
-                    :items="accountsFormated"
-                    label="Accounts"
-                    multiple
-                    chips
-                    hint="Select the accounts to add to the user"
-                    persistent-hint
-                    item-text="account_name"
-                    item-value="id"
-                  ></v-select>
-                  <v-select
-                    v-model="selectedRoles"
-                    :items="studioRoles"
-                    label="Role"
-                    single-line
-                    hint="Select the role to add to the user"
-                    persistent-hint
-                    item-key="roleName"
-                    item-text="roleName"
-                    item-value="roleCode"
-                  ></v-select>
-                </v-flex>
-              </v-layout>
-            </v-container>
-          </v-card-text>
+					<v-card-text>
+						<v-container grid-list-md>
+							<v-layout wrap>
+								<v-flex xs12 sm12 md12>
+									<v-text-field
+										v-model="editedUser.email"
+										label="Email"
+									></v-text-field>
+								</v-flex>
+								<v-flex xs12 sm12 md12>
+									<v-text-field
+										v-model="editedUser.displayName"
+										label="Display Name"
+									></v-text-field>
+								</v-flex>
+								<v-flex xs12 sm12 md12>
+									<v-text-field
+										v-model="editedUser.password"
+										:append-icon="
+											editedUser.showpassword ? 'visibility' : 'visibility_off'
+										"
+										:type="editedUser.showpassword ? 'text' : 'password'"
+										name="password"
+										label="Password"
+										hint="At least 8 characters"
+										counter
+										@click:append="
+											editedUser.showpassword = !editedUser.showpassword
+										"
+									></v-text-field>
+								</v-flex>
+								<v-flex xs12 sm12 md12>
+									<v-text-field
+										v-model="editedUser.emailVerified"
+										label="Email Verified"
+									></v-text-field>
+								</v-flex>
+								<v-flex xs12 sm12 md12>
+									<v-text-field
+										v-model="editedUser.disabled"
+										label="Disabled"
+									></v-text-field>
+									<v-select
+										v-model="selectedAccounts"
+										:items="accountsFormated"
+										label="Accounts"
+										multiple
+										chips
+										hint="Select the accounts to add to the user"
+										persistent-hint
+										item-text="account_name"
+										item-value="id"
+									></v-select>
+									<v-select
+										v-model="selectedRoles"
+										:items="studioRoles"
+										label="Role"
+										single-line
+										hint="Select the role to add to the user"
+										persistent-hint
+										item-key="roleName"
+										item-text="roleName"
+										item-value="roleCode"
+									></v-select>
+								</v-flex>
+							</v-layout>
+						</v-container>
+					</v-card-text>
 
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" flat @click="close">Cancel</v-btn>
-            <v-btn color="blue darken-1" flat @click="createUser"
-              >Create User</v-btn
-            >
-            <v-btn color="blue darken-1" flat @click="addRolesAndAccounts"
-              >Update User</v-btn
-            >
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
-      <v-icon right @click="listAllUsers" v-if="!isFetchAndAdding"
-        >refresh</v-icon
-      >
-      <v-progress-circular
-        indeterminate
-        size="20"
-        color="primary"
-        v-if="isFetchAndAdding"
-      ></v-progress-circular>
-    </v-toolbar>
-    <v-data-table
-      :headers="headers"
-      :items="users"
-      class="elevation-1"
-      :search="search"
-      :loading="isFetchAndAdding"
-      :pagination.sync="pagination"
-      item-key="email"
-      light
-    >
-      <template v-slot:items="props">
-        <td>{{ props.item.email }}</td>
-        <td>{{ props.item.displayName }}</td>
-        <td>{{ props.item.emailVerified }}</td>
-        <td>{{ props.item.disabled }}</td>
-        <td>{{ props.item.nb_accounts }}</td>
-        <td>{{ props.item.studioRolesIndex }}</td>
-        <td class="justify-center layout px-0">
-          <v-icon small class="mr-2" @click="editUser(props.item)">
-            edit
-          </v-icon>
-          <v-icon small @click="deleteUser(props.item)">
-            delete
-          </v-icon>
-        </td>
-      </template>
-      <template v-slot:no-data>
-        <v-btn color="primary" @click="listAllUsers">Reset</v-btn>
-      </template>
-    </v-data-table>
-    <v-snackbar
-      v-model="snackbarParam.show"
-      :color="snackbarParam.color"
-      :timeout="2000"
-      auto-height
-    >
-      {{ snackbarParam.message }}
-      <v-btn flat @click="snackbarParam.show = false">
-        Close
-      </v-btn>
-    </v-snackbar>
-  </v-container>
+					<v-card-actions>
+						<v-spacer></v-spacer>
+						<v-btn color="blue darken-1" flat @click="close">Cancel</v-btn>
+						<v-btn color="blue darken-1" flat @click="createUser"
+							>Create User</v-btn
+						>
+						<v-btn color="blue darken-1" flat @click="addRolesAndAccounts"
+							>Update User</v-btn
+						>
+					</v-card-actions>
+				</v-card>
+			</v-dialog>
+			<v-icon right @click="listAllUsers" v-if="!isFetchAndAdding"
+				>refresh</v-icon
+			>
+			<v-progress-circular
+				indeterminate
+				size="20"
+				color="primary"
+				v-if="isFetchAndAdding"
+			></v-progress-circular>
+		</v-toolbar>
+		<v-data-table
+			:headers="headers"
+			:items="users"
+			class="elevation-1"
+			:search="search"
+			:loading="isFetchAndAdding"
+			:pagination.sync="pagination"
+			item-key="email"
+			light
+		>
+			<template v-slot:items="props">
+				<td>{{ props.item.email }}</td>
+				<td>{{ props.item.displayName }}</td>
+				<td>{{ props.item.emailVerified }}</td>
+				<td>{{ props.item.disabled }}</td>
+				<td>{{ props.item.nb_accounts }}</td>
+				<td>{{ props.item.studioRolesIndex }}</td>
+				<td class="justify-center layout px-0">
+					<v-icon small class="mr-2" @click="editUser(props.item)">
+						edit
+					</v-icon>
+					<v-icon small @click="deleteUser(props.item)">
+						delete
+					</v-icon>
+				</td>
+			</template>
+			<template v-slot:no-data>
+				<v-btn color="primary" @click="listAllUsers">Reset</v-btn>
+			</template>
+		</v-data-table>
+		<v-snackbar
+			v-model="snackbarParam.show"
+			:color="snackbarParam.color"
+			:timeout="2000"
+			auto-height
+		>
+			{{ snackbarParam.message }}
+			<v-btn flat @click="snackbarParam.show = false">
+				Close
+			</v-btn>
+		</v-snackbar>
+	</v-container>
 </template>
 
 <script>
@@ -164,217 +164,217 @@ import Util from "@/util";
 import ConfsComponent from "@/mixins/confsComponent.js";
 
 export default {
-  mixins: [ConfsComponent],
-  components: {},
-  data: () => ({
-    users: [],
-    selectedAccounts: [],
-    selectedRoles: 0,
-    dialog: false,
-    pagination: {
-      sortBy: "email",
-      descending: false,
-      rowsPerPage: 50
-    },
-    headers: [
-      {
-        text: "Email",
-        align: "left",
-        sortable: true,
-        value: "email"
-      },
-      {
-        text: "Display Name",
-        align: "left",
-        sortable: true,
-        value: "displayName"
-      },
-      { text: "Email Verified", value: "emailVerified" },
-      { text: "Disabled", value: "disabled" },
-      { text: "Nb Accounts", value: "nb_accounts" },
-      { text: "Roles", value: "studioRolesIndex" },
-      { text: "Actions", value: "action", sortable: false }
-    ],
-    editedUserIndex: -1,
-    editedUser: {
-      email: "",
-      displayName: "",
-      emailVerified: false,
-      disabled: false,
-      creationTime: Date.now(),
-      password: "",
-      showpassword: false,
-      rules: {
-        //required: value => !!value || "Required.",
-        min: v => v.length >= 8 || "Min 8 characters"
-      }
-    },
-    defaultUser: {
-      email: "",
-      displayName: "",
-      emailVerified: false,
-      disabled: false,
-      creationTime: Date.now(),
-      password: "",
-      showpassword: false,
-      rules: {
-        //required: value => !!value || "Required.",
-        min: v => v.length >= 8 || "Min 8 characters"
-      }
-    },
-    studioRoles: [
-      { roleName: "Member", roleCode: 0 },
-      { roleName: "Viewer", roleCode: 1 },
-      { roleName: "User", roleCode: 2 },
-      { roleName: "Writer", roleCode: 3 },
-      { roleName: "Admin", roleCode: 4 },
-      { roleName: "Super Admin", roleCode: 5 }
-    ],
-    search: "",
-    isFetchAndAdding: false,
-    snackbarParam: { message: "", show: false, color: "info" }
-  }),
-  mounted() {
-    this.listAllUsers();
-  },
-  methods: {
-    listAllUsers() {
-      this.isFetchAndAdding = true;
-      const listAllUsers = firebase.functions().httpsCallable("listAllUsers");
-      //list all email users
-      listAllUsers({}).then(users => {
-        for (let user of users.data.users) {
-          console.log(user);
-        }
-        // store the users list
-        const dataUsers = Object.values(users.data.users);
-        let usersFormated = users.data.users.map(function(data, index) {
-          let nb_accounts = 0;
-          try {
-            nb_accounts = data.customClaims.accounts.length;
-          } catch (error) {
-            nb_accounts = 0;
-          }
-          let studioRolesIndex = 0;
-          try {
-            studioRolesIndex = data.customClaims.studioRoles;
-          } catch (error) {
-            studioRolesIndex = 0;
-          }
-          return {
-            nb_accounts: nb_accounts,
-            studioRolesIndex: studioRolesIndex
-          };
-        });
-        this.users = _.merge(dataUsers, usersFormated);
-        console.log(this.users);
-        this.isFetchAndAdding = false;
-      });
-      console.log("accounts", this.accounts);
-    },
-    editUser(item) {
-      this.editedUserIndex = this.users.indexOf(item);
-      this.editedUser = Object.assign({}, item);
-      // if (
-      //   this.editedUser.customClaims == null ||
-      //   typeof this.editedUser.customClaims.accounts === "undefined" ||
-      //   this.editedUser.customClaims.accounts === null
-      // ) {
-      //   this.selectedAccounts = [];
-      // } else {
-      //   this.selectedAccounts = this.editedUser.customClaims.accounts;
-      // }
-      // if (
-      //   this.editedUser.customClaims == null ||
-      //   typeof this.editedUser.customClaims.studioRoles === "undefined" ||
-      //   this.editedUser.customClaims.studioRoles === null
-      // ) {
-      //   this.selectedRoles = 0;
-      // } else {
-      //   this.selectedRoles = this.editedUser.customClaims.studioRoles;
-      // }
-      this.dialog = true;
-    },
-    deleteUser(item) {
-      const index = this.users.indexOf(item);
-      confirm("Are you sure you want to delete this user?") &&
-        this.users.splice(index, 1);
-    },
-    close() {
-      this.dialog = false;
-      setTimeout(() => {
-        this.editedUser = Object.assign({}, this.defaultUser);
-        //this.editedUserIndex = -1;
-      }, 300);
-    },
-    save() {
-      if (this.editedUserIndex > -1) {
-        Object.assign(this.users[this.editedUserIndex], this.editedUser);
-      } else {
-        this.users.push(this.editedUser);
-      }
-      this.close();
-    },
-    createUser() {
-      if (this.editedUserIndex > -1) {
-        const createUser = firebase.functions().httpsCallable("createUser");
-        createUser({
-          email: this.editedUser.email,
-          displayName: this.editedUser.displayName,
-          emailVerified: this.editedUser.emailVerified,
-          photoURL:
-            "https://raw.githubusercontent.com/mkfeuhrer/JarvisBot/master/images/JarvisBot.gif",
-          password: this.editedUser.password,
-          disabled: this.editedUser.disabled,
-          accounts: this.selectedAccounts,
-          studioRoles: this.selectedRoles
-        }).then(result => {
-          console.log(result);
-          this.listAllUsers();
-        });
-      } else {
-        this.users.push(this.editedUser);
-      }
-      this.close();
-    },
-    addRolesAndAccounts() {
-      if (this.editedUserIndex > -1) {
-        const addRolesAndAccounts = firebase
-          .functions()
-          .httpsCallable("addRolesAndAccounts");
-        addRolesAndAccounts({
-          email: this.editedUser.email,
-          accounts: this.selectedAccounts,
-          studioRoles: this.selectedRoles
-        }).then(result => {
-          console.log(result);
-          this.listAllUsers();
-        });
-      } else {
-        this.users.push(this.editedUser);
-      }
-      this.close();
-    }
-  },
-  computed: {
-    ...mapState({
-      isAuthenticated: state => state.user.isAuthenticated,
-      user: state => state.user.user,
-      accounts: state => state.accounts.data
-    }),
-    ...mapGetters(["periodFiltered", "whereConfFilter"]),
-    formTitle() {
-      return this.editedUserIndex === -1 ? "New User" : "Edit User";
-    },
-    accountsFormated() {
-      return Object.values(this.accounts);
-    }
-  },
-  watch: {
-    dialog(val) {
-      val || this.close();
-    }
-  }
+	mixins: [ConfsComponent],
+	components: {},
+	data: () => ({
+		users: [],
+		selectedAccounts: [],
+		selectedRoles: 0,
+		dialog: false,
+		pagination: {
+			sortBy: "email",
+			descending: false,
+			rowsPerPage: 50
+		},
+		headers: [
+			{
+				text: "Email",
+				align: "left",
+				sortable: true,
+				value: "email"
+			},
+			{
+				text: "Display Name",
+				align: "left",
+				sortable: true,
+				value: "displayName"
+			},
+			{ text: "Email Verified", value: "emailVerified" },
+			{ text: "Disabled", value: "disabled" },
+			{ text: "Nb Accounts", value: "nb_accounts" },
+			{ text: "Roles", value: "studioRolesIndex" },
+			{ text: "Actions", value: "action", sortable: false }
+		],
+		editedUserIndex: -1,
+		editedUser: {
+			email: "",
+			displayName: "",
+			emailVerified: false,
+			disabled: false,
+			creationTime: Date.now(),
+			password: "",
+			showpassword: false,
+			rules: {
+				//required: value => !!value || "Required.",
+				min: v => v.length >= 8 || "Min 8 characters"
+			}
+		},
+		defaultUser: {
+			email: "",
+			displayName: "",
+			emailVerified: false,
+			disabled: false,
+			creationTime: Date.now(),
+			password: "",
+			showpassword: false,
+			rules: {
+				//required: value => !!value || "Required.",
+				min: v => v.length >= 8 || "Min 8 characters"
+			}
+		},
+		studioRoles: [
+			{ roleName: "Member", roleCode: 0 },
+			{ roleName: "Viewer", roleCode: 1 },
+			{ roleName: "User", roleCode: 2 },
+			{ roleName: "Writer", roleCode: 3 },
+			{ roleName: "Admin", roleCode: 4 },
+			{ roleName: "Super Admin", roleCode: 5 }
+		],
+		search: "",
+		isFetchAndAdding: false,
+		snackbarParam: { message: "", show: false, color: "info" }
+	}),
+	mounted() {
+		this.listAllUsers();
+	},
+	methods: {
+		listAllUsers() {
+			this.isFetchAndAdding = true;
+			const listAllUsers = firebase.functions().httpsCallable("listAllUsers");
+			//list all email users
+			listAllUsers({}).then(users => {
+				for (let user of users.data.users) {
+					console.log(user);
+				}
+				// store the users list
+				const dataUsers = Object.values(users.data.users);
+				let usersFormated = users.data.users.map(function(data, index) {
+					let nb_accounts = 0;
+					try {
+						nb_accounts = data.customClaims.accounts.length;
+					} catch (error) {
+						nb_accounts = 0;
+					}
+					let studioRolesIndex = 0;
+					try {
+						studioRolesIndex = data.customClaims.studioRoles;
+					} catch (error) {
+						studioRolesIndex = 0;
+					}
+					return {
+						nb_accounts: nb_accounts,
+						studioRolesIndex: studioRolesIndex
+					};
+				});
+				this.users = _.merge(dataUsers, usersFormated);
+				console.log(this.users);
+				this.isFetchAndAdding = false;
+			});
+			console.log("accounts", this.accounts);
+		},
+		editUser(item) {
+			this.editedUserIndex = this.users.indexOf(item);
+			this.editedUser = Object.assign({}, item);
+			// if (
+			//   this.editedUser.customClaims == null ||
+			//   typeof this.editedUser.customClaims.accounts === "undefined" ||
+			//   this.editedUser.customClaims.accounts === null
+			// ) {
+			//   this.selectedAccounts = [];
+			// } else {
+			//   this.selectedAccounts = this.editedUser.customClaims.accounts;
+			// }
+			// if (
+			//   this.editedUser.customClaims == null ||
+			//   typeof this.editedUser.customClaims.studioRoles === "undefined" ||
+			//   this.editedUser.customClaims.studioRoles === null
+			// ) {
+			//   this.selectedRoles = 0;
+			// } else {
+			//   this.selectedRoles = this.editedUser.customClaims.studioRoles;
+			// }
+			this.dialog = true;
+		},
+		deleteUser(item) {
+			const index = this.users.indexOf(item);
+			confirm("Are you sure you want to delete this user?") &&
+				this.users.splice(index, 1);
+		},
+		close() {
+			this.dialog = false;
+			setTimeout(() => {
+				this.editedUser = Object.assign({}, this.defaultUser);
+				//this.editedUserIndex = -1;
+			}, 300);
+		},
+		save() {
+			if (this.editedUserIndex > -1) {
+				Object.assign(this.users[this.editedUserIndex], this.editedUser);
+			} else {
+				this.users.push(this.editedUser);
+			}
+			this.close();
+		},
+		createUser() {
+			if (this.editedUserIndex > -1) {
+				const createUser = firebase.functions().httpsCallable("createUser");
+				createUser({
+					email: this.editedUser.email,
+					displayName: this.editedUser.displayName,
+					emailVerified: this.editedUser.emailVerified,
+					photoURL:
+						"https://raw.githubusercontent.com/mkfeuhrer/JarvisBot/master/images/JarvisBot.gif",
+					password: this.editedUser.password,
+					disabled: this.editedUser.disabled,
+					accounts: this.selectedAccounts,
+					studioRoles: this.selectedRoles
+				}).then(result => {
+					console.log(result);
+					this.listAllUsers();
+				});
+			} else {
+				this.users.push(this.editedUser);
+			}
+			this.close();
+		},
+		addRolesAndAccounts() {
+			if (this.editedUserIndex > -1) {
+				const addRolesAndAccounts = firebase
+					.functions()
+					.httpsCallable("addRolesAndAccounts");
+				addRolesAndAccounts({
+					email: this.editedUser.email,
+					accounts: this.selectedAccounts,
+					studioRoles: this.selectedRoles
+				}).then(result => {
+					console.log(result);
+					this.listAllUsers();
+				});
+			} else {
+				this.users.push(this.editedUser);
+			}
+			this.close();
+		}
+	},
+	computed: {
+		...mapState({
+			isAuthenticated: state => state.user.isAuthenticated,
+			user: state => state.user.user,
+			accounts: state => state.accounts.data
+		}),
+		...mapGetters(["periodFiltered", "whereConfFilter"]),
+		formTitle() {
+			return this.editedUserIndex === -1 ? "New User" : "Edit User";
+		},
+		accountsFormated() {
+			return Object.values(this.accounts);
+		}
+	},
+	watch: {
+		dialog(val) {
+			val || this.close();
+		}
+	}
 };
 </script>
 
