@@ -157,10 +157,7 @@
 import firebase from "firebase";
 import { mapState } from "vuex";
 import { mapGetters } from "vuex";
-import store from "@/store/index";
-import moment from "moment";
 import _ from "lodash";
-import Util from "@/util";
 import ConfsComponent from "@/mixins/confsComponent.js";
 
 export default {
@@ -248,7 +245,7 @@ export default {
 				}
 				// store the users list
 				const dataUsers = Object.values(users.data.users);
-				let usersFormated = users.data.users.map(function(data, index) {
+				let usersFormated = users.data.users.map(function(data) {
 					let nb_accounts = 0;
 					try {
 						nb_accounts = data.customClaims.accounts.length;

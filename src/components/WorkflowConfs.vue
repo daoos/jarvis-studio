@@ -183,9 +183,7 @@ import { mapState } from "vuex";
 import { mapGetters } from "vuex";
 import VueJsonPretty from "vue-json-pretty";
 import store from "@/store/index";
-import moment from "moment";
 import _ from "lodash";
-import Util from "@/util";
 import ActivatedStatusChip from "./widgets/datatablewidgets/ActivatedStatusChip.vue";
 import ConfsComponent from "@/mixins/confsComponent.js";
 import DataManagementFilters from "./widgets/filters/DataManagementFilters";
@@ -320,7 +318,7 @@ export default {
 		...mapGetters(["periodFiltered", "whereConfFilter"]),
 		workflowConfsFormated() {
 			const dataArray = Object.values(this.workflowConfs);
-			var dataFormated = dataArray.map(function(data, index) {
+			var dataFormated = dataArray.map(function(data) {
 				return {
 					nb_authorized_jobs: data.authorized_job_ids.length
 				};
@@ -330,7 +328,7 @@ export default {
 		}
 	},
 	watch: {
-		async whereConfFilter(newValue, oldValue) {
+		async whereConfFilter() {
 			await this.getFirestoreData();
 		}
 	}

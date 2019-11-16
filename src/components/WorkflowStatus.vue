@@ -125,7 +125,6 @@ import VueJsonPretty from "vue-json-pretty";
 import store from "@/store/index";
 import moment from "moment";
 import _ from "lodash";
-import Util from "@/util";
 import DataManagementFilters from "./widgets/filters/DataManagementFilters";
 
 export default {
@@ -199,7 +198,6 @@ export default {
 			window.open(item.dag_execution_airflow_url, "_blank");
 		},
 		async getFirestoreData() {
-			const where = this.whereRunsFilter;
 			this.$data.fetchAndAddStatus = "Loading";
 			this.$data.moreToFetchAndAdd = false;
 			this.$data.isFetchAndAdding = true;
@@ -238,7 +236,7 @@ export default {
 		...mapGetters(["periodFiltered", "whereRunsFilter"]),
 		workflowStatusFormated() {
 			const dataArray = Object.values(this.workflowStatus);
-			var dataFormated = dataArray.map(function(data, index) {
+			var dataFormated = dataArray.map(function(data) {
 				return {
 					last_update_date_formated: moment(data.last_modified).format(
 						"YYYY/MM/DD - HH:mm"
@@ -267,7 +265,7 @@ export default {
 		}
 	},
 	watch: {
-		async whereRunsFilter(newValue, oldValue) {
+		async whereRunsFilter() {
 			await this.getFirestoreData();
 		}
 	}

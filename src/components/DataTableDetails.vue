@@ -363,7 +363,7 @@ export default {
 		await this.getDataTableDetails();
 	},
 	watch: {
-		$route(to, from) {
+		$route() {
 			this.getDataTableDetails();
 		}
 	},
@@ -386,7 +386,7 @@ export default {
 					this.dataTableOverviewRows[0]
 				);
 				this.dataTableOverviewColumns = dataTableOverviewColumnsKey.map(
-					function(data, index) {
+					function(data) {
 						return {
 							label: data,
 							field: data

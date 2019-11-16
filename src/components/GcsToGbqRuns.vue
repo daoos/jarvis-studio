@@ -259,7 +259,7 @@ export default {
 		...mapGetters(["periodFiltered", "whereRunsFilter"]),
 		mirrorExcGcsToGbqRunsFormated() {
 			const dataArray = Object.values(this.mirrorExcGcsToGbqRuns);
-			var dataFormated = dataArray.map(function(data, index) {
+			var dataFormated = dataArray.map(function(data) {
 				return {
 					dag_execution_date_formated: moment(data.dag_execution_date).format(
 						"YYYY/MM/DD - HH:mm"
@@ -282,7 +282,7 @@ export default {
 		}
 	},
 	watch: {
-		whereRunsFilter(newValue, oldValue) {
+		whereRunsFilter() {
 			this.getFirestoreData();
 		}
 	}

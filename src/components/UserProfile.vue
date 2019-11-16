@@ -29,15 +29,10 @@
 <script>
 import { mapState } from "vuex";
 import { mapGetters } from "vuex";
-import store from "@/store/index";
-import ParametersTable from "@/components/widgets/parameters/ParametersTable.vue";
 import ParametersList from "@/components/widgets/parameters/ParametersList.vue";
 
 export default {
-	components: {
-		ParametersTable,
-		ParametersList
-	},
+	components: { ParametersList },
 	data() {
 		return {};
 	},

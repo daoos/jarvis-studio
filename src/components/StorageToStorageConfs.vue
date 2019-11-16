@@ -196,9 +196,7 @@ import { mapState } from "vuex";
 import { mapGetters } from "vuex";
 import VueJsonPretty from "vue-json-pretty";
 import store from "@/store/index";
-import moment from "moment";
 import _ from "lodash";
-import Util from "@/util";
 import DataManagementFilters from "./widgets/filters/DataManagementFilters";
 import ActivatedStatusChip from "./widgets/datatablewidgets/ActivatedStatusChip.vue";
 import ConfsComponent from "@/mixins/confsComponent.js";
@@ -340,7 +338,7 @@ export default {
 		...mapGetters(["periodFiltered", "whereConfFilter"]),
 		storageToStorageConfsFormated() {
 			const dataArray = Object.values(this.storageToStorageConfs);
-			var dataFormated = dataArray.map(function(data, index) {
+			var dataFormated = dataArray.map(function(data) {
 				let source_type = "";
 				let nb_destinations = "";
 				let nb_filename_templates = "";
@@ -371,7 +369,7 @@ export default {
 		}
 	},
 	watch: {
-		whereConfFilter(newValue, oldValue) {
+		whereConfFilter() {
 			this.getFirestoreData();
 		}
 	}

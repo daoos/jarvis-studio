@@ -22,11 +22,7 @@
 
 <script>
 import { mapState } from "vuex";
-import { mapGetters } from "vuex";
 import store from "@/store/index";
-import moment from "moment";
-import _ from "lodash";
-import Util from "@/util";
 
 export default {
 	data: () => ({
@@ -48,7 +44,7 @@ export default {
 	},
 
 	watch: {
-		active: function(newActive, oldActive) {
+		active: function() {
 			if (!this.active.length) return undefined;
 			const id = this.active[0];
 			const projectId = id.split("/")[0];
@@ -67,11 +63,9 @@ export default {
 		async getDataModel() {
 			return this.$store
 				.dispatch("dataModels/fetchAndAdd", { limit: 0 })
-				.then(fetchResult => {
-					if (fetchResult.done === true) {
-					}
+				.then(() => {
 					const dataModelsArray = Object.values(this.dataModels);
-					var dataModelsFormated = dataModelsArray.map(function(data, index) {
+					var dataModelsFormated = dataModelsArray.map(function(data) {
 						const projectId = data.id;
 						// format the sub_collections array to by compatible with the treeview componenent
 						let sub_collections_formated = [];
@@ -109,12 +103,7 @@ export default {
 				.then(querySnapshot => {
 					console.log("querySnapshot.docs", querySnapshot.docs);
 
-					if (querySnapshot.done === true) {
-					}
-					var dataTablesFormated = querySnapshot.docs.map(function(
-						data,
-						index
-					) {
+					var dataTablesFormated = querySnapshot.docs.map(function(data) {
 						return {
 							id: item.projectId.concat("/", item.name, "/", data.id),
 							name: data.id,

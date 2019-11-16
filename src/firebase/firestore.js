@@ -13,7 +13,7 @@ function initFirebase() {
 			console.error(error.message);
 		});
 
-	return new Promise((resolve, reject) => {
+	return new Promise(resolve => {
 		firebase
 			.firestore()
 			.enablePersistence()

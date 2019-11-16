@@ -136,9 +136,7 @@ import { mapState } from "vuex";
 import { mapGetters } from "vuex";
 import VueJsonPretty from "vue-json-pretty";
 import store from "@/store/index";
-import moment from "moment";
 import _ from "lodash";
-import Util from "@/util";
 import DataManagementFilters from "./widgets/filters/DataManagementFilters";
 import ActivatedStatusChip from "./widgets/datatablewidgets/ActivatedStatusChip.vue";
 import ConfsComponent from "@/mixins/confsComponent.js";
@@ -249,7 +247,7 @@ export default {
 		...mapGetters(["periodFiltered", "whereConfFilter"]),
 		getGbqToGbqConfsFormated() {
 			const dataArray = Object.values(this.getGbqToGbqConfs);
-			var dataFormated = dataArray.map(function(data, index) {
+			var dataFormated = dataArray.map(function(data) {
 				return {
 					nb_tasks: data.configuration.workflow.length,
 					sqlArray: Object.entries(data.sql)
@@ -260,7 +258,7 @@ export default {
 		}
 	},
 	watch: {
-		whereConfFilter(newValue, oldValue) {
+		whereConfFilter() {
 			this.getFirestoreData();
 		}
 	}

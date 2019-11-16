@@ -374,7 +374,7 @@ export default {
 						this.$store.dispatch("userSignOut");
 					}
 				}
-			]
+			];
 		}
 	},
 	watch: {

@@ -134,7 +134,6 @@ import { mapState } from "vuex";
 import { mapGetters } from "vuex";
 import VueJsonPretty from "vue-json-pretty";
 import store from "@/store/index";
-import moment from "moment";
 import _ from "lodash";
 import Util from "@/util";
 import DataManagementFilters from "./widgets/filters/DataManagementFilters";
@@ -254,7 +253,7 @@ export default {
 		...mapGetters(["periodFiltered", "whereConfFilter"]),
 		getGbqToGcsConfsFormated() {
 			const dataArray = Object.values(this.getGbqToGcsConfs);
-			var dataFormated = dataArray.map(function(data, index) {
+			var dataFormated = dataArray.map(function(data) {
 				return {
 					//color for the activated status
 					activeConfColor: Util.getActiveConfColor(data.activated)
@@ -265,7 +264,7 @@ export default {
 		}
 	},
 	watch: {
-		whereConfFilter(newValue, oldValue) {
+		whereConfFilter() {
 			this.getFirestoreData();
 		}
 	}

@@ -334,17 +334,17 @@ export default {
 						store.dispatch("mirrorExcGcsToGbqConfDetails/closeDBChannel", {
 							clearModule: true
 						});
-						let fetchResult = await store.dispatch(
-							"mirrorExcGcsToGbqConfDetails/fetchAndAdd",
-							{ bucketId: bucketId, limit: 0 }
-						);
+						// let fetchResult = await store.dispatch(
+						// 	"mirrorExcGcsToGbqConfDetails/fetchAndAdd",
+						// 	{ bucketId: bucketId, limit: 0 }
+						// );
 						//Ad the bucket source to the doc configuration and an unique key
 						let mirrorExcGcsToGbqConfDetailsEnriched = Object.values(
 							this.mirrorExcGcsToGbqConfDetails
 						).map(x => Object.assign({ bucket_source: bucketId }, x));
 						//Ad an unique key to the doc configuration (bucket + table destination + input folder)
 						mirrorExcGcsToGbqConfDetailsEnriched = mirrorExcGcsToGbqConfDetailsEnriched.map(
-							(val, i, arr) => {
+							val => {
 								let key = "";
 								key = key.concat(
 									val.bucket_source,
@@ -361,15 +361,13 @@ export default {
 							Object.values(mirrorExcGcsToGbqConfDetailsEnriched)
 						);
 					} catch (e) {
-						console.log("Firestore Error catched");
-						console.log(e);
+						console.error("Firestore Error catched", e);
 						this.$data.fetchAndAddStatus = "Error";
 						this.$data.isFetchAndAdding = false;
 					}
 				}
 			} catch (e) {
-				console.log("Firestore Error catched");
-				console.log(e);
+				console.error("Firestore Error catched:", e);
 				this.$data.fetchAndAddStatus = "Error";
 				this.$data.isFetchAndAdding = false;
 			}
@@ -393,7 +391,7 @@ export default {
 		}
 	},
 	watch: {
-		whereConfFilter(newValue, oldValue) {
+		whereConfFilter() {
 			this.getFirestoreData();
 		}
 	}
