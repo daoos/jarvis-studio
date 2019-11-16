@@ -1,5 +1,5 @@
 <template>
-	<v-layout align-center justify-end class="pr-5">
+	<v-row align="center" justify="end" class="pr-5">
 		<v-menu :nudge-width="100" v-if="viewEnvironnement">
 			<v-toolbar-title slot="activator" class="pr-2">
 				<span class="body-2 contrast--text">{{
@@ -53,7 +53,7 @@
 				</v-list-tile>
 			</v-list>
 		</v-menu>
-	</v-layout>
+	</v-row>
 </template>
 
 <script>

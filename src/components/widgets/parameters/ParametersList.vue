@@ -1,6 +1,6 @@
 <template>
 	<v-container fluid>
-		<v-flex :[vflexLength]="true" :[vflexOffset]="true">
+		<v-col :[vflexLength]="true" :[vflexOffset]="true">
 			<h2 class="black--text pb-3">
 				{{ groupTitle }}
 				<v-tooltip right v-if="tooltip">
@@ -18,7 +18,7 @@
 			<footer>
 				<slot name="footer"></slot>
 			</footer>
-		</v-flex>
+		</v-col>
 	</v-container>
 </template>
 

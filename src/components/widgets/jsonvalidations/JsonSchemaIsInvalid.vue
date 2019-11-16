@@ -1,7 +1,7 @@
 <template>
 	<v-container grid-list-xl>
-		<v-layout row wrap>
-			<v-flex xs12 offset-xs0>
+		<v-row>
+			<v-col cols="12" offset="0">
 				<v-card>
 					<v-card-title>
 						<span class="display-1 font-weight-bold">{{
@@ -13,8 +13,8 @@
 						}}</v-chip>
 					</v-card-title>
 				</v-card>
-			</v-flex>
-			<v-flex xs12 offset-xs0>
+			</v-col>
+			<v-col cols="12" offset="0">
 				<v-card>
 					<v-tabs
 						v-model="activeTab"
@@ -65,8 +65,8 @@
 						</v-tab-item>
 					</v-tabs>
 				</v-card>
-			</v-flex>
-		</v-layout>
+			</v-col>
+		</v-row>
 	</v-container>
 </template>
 

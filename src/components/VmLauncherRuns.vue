@@ -89,8 +89,8 @@
 				Your search for "{{ search }}" found no results.
 			</v-alert>
 		</v-data-table>
-		<v-layout row wrap v-if="viewJson">
-			<v-flex xs12 offset-xs0>
+		<v-row v-if="viewJson">
+			<v-col cols="12" offset="0">
 				<v-card dark class="elevation-10">
 					<v-card-title>
 						<span class="headline">{{ viewedItem.dag_run_id }}</span>
@@ -112,8 +112,8 @@
 						</vue-json-pretty>
 					</v-card-text>
 				</v-card>
-			</v-flex>
-		</v-layout>
+			</v-col>
+		</v-row>
 	</v-container>
 </template>
 

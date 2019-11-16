@@ -1,7 +1,7 @@
 <template>
 	<v-container grid-list-xl fluid>
-		<v-layout row wrap>
-			<v-flex sm12>
+		<v-row>
+			<v-col sm="12">
 				<v-toolbar class="elevation-1" color="grey lighten-3">
 					<v-text-field
 						v-model="search"
@@ -101,10 +101,10 @@
 						Your search for "{{ search }}" found no results.
 					</v-alert>
 				</v-data-table>
-			</v-flex>
-		</v-layout>
-		<v-layout row wrap v-if="viewJson">
-			<v-flex xs12 offset-xs0>
+			</v-col>
+		</v-row>
+		<v-row v-if="viewJson">
+			<v-col cols="12" offset="0">
 				<v-card dark class="elevation-10">
 					<v-card-title>
 						<span class="headline">{{ viewedItem.table_name }}</span>
@@ -126,8 +126,8 @@
 						</vue-json-pretty>
 					</v-card-text>
 				</v-card>
-			</v-flex>
-		</v-layout>
+			</v-col>
+		</v-row>
 		<v-dialog v-model="dialogDeleteConf" max-width="400">
 			<v-card light>
 				<v-card-title class="headline">Delete Configuration</v-card-title>

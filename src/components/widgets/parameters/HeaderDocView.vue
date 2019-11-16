@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<v-layout row pl-5 pt-4 pr-5 v-if="activeHeader">
+		<v-row class="pl-5 pt-4 pr-5" v-if="activeHeader">
 			<span
 				class="headline font-weight-black text-truncate complementary--text"
 				>{{ viewId }}</span
@@ -23,13 +23,13 @@
 				chipTextClass="text-uppercase"
 				:chipLabel="true"
 			/>
-		</v-layout>
-		<v-layout row pl-5 pt-4 pr-5 v-else>
+		</v-row>
+		<v-row class="pl-5 pt-4 pr-5" v-else>
 			<span class="headline font-weight-bold">{{ viewId }}</span>
-		</v-layout>
-		<v-layout pl-5 pr-5 pt-3 pb-3 v-if="description">
+		</v-row>
+		<v-row class="pl-5 pr-5 pt-3 pb-3" v-if="description">
 			<span class="subheading">{{ description }}</span>
-		</v-layout>
+		</v-row>
 	</div>
 </template>
 

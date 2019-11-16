@@ -1,5 +1,5 @@
 <template>
-	<v-layout align-center justify-end row fill-height v-if="viewSearch">
+	<v-row class="fill-height" align="center" justify="end" v-if="viewSearch">
 		<v-btn icon @click.native.stop="searchBegin">
 			<v-icon>search</v-icon>
 		</v-btn>
@@ -16,7 +16,7 @@
 				@blur="onBlur"
 			></v-text-field>
 		</div>
-	</v-layout>
+	</v-row>
 </template>
 
 <script>
@@ -69,35 +69,35 @@ export default {
 };
 </script>
 
-<style scoped lang="stylus">
-@import '~vuetify/src/stylus/settings/_variables.styl'
+<style scoped lang="scss">
+// @import '~vuetify/src/stylus/settings/_variables.styl'
 .bottom-menu {
-    position: absolute;
-    width: 100%;
-    bottom: 0;
+	position: absolute;
+	width: 100%;
+	bottom: 0;
 }
 .searching {
-    overflow: hidden;
-    width: 208px;
-    padding-left: 8px;
-    transition: $primary-transition;
+	overflow: hidden;
+	width: 208px;
+	padding-left: 8px;
+	transition: $primary-transition;
 }
 .searching--closed {
-    padding-left: 0;
-    width: 0;
+	padding-left: 0;
+	width: 0;
 }
 .searching > * {
-    right: 8px;
+	right: 8px;
 }
 .searching--closed > * {
-    display: none;
+	display: none;
 }
 .hidden-searching {
-    @media $display-breakpoints.sm-and-down {
-        display: none !important;
-    }
+	@media $display-breakpoints.sm-and-down {
+		display: none !important;
+	}
 }
 .list-border-bottom {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+	border-bottom: 1px solid rgba(255, 255, 255, 0.12);
 }
 </style>

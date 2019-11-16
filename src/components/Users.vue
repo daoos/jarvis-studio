@@ -20,20 +20,20 @@
 
 					<v-card-text>
 						<v-container grid-list-md>
-							<v-layout wrap>
-								<v-flex xs12 sm12 md12>
+							<v-row>
+								<v-col cols="12" sm="12" md="12">
 									<v-text-field
 										v-model="editedUser.email"
 										label="Email"
 									></v-text-field>
-								</v-flex>
-								<v-flex xs12 sm12 md12>
+								</v-col>
+								<v-col cols="12" sm="12" md="12">
 									<v-text-field
 										v-model="editedUser.displayName"
 										label="Display Name"
 									></v-text-field>
-								</v-flex>
-								<v-flex xs12 sm12 md12>
+								</v-col>
+								<v-col cols="12" sm="12" md="12">
 									<v-text-field
 										v-model="editedUser.password"
 										:append-icon="
@@ -48,14 +48,14 @@
 											editedUser.showpassword = !editedUser.showpassword
 										"
 									></v-text-field>
-								</v-flex>
-								<v-flex xs12 sm12 md12>
+								</v-col>
+								<v-col cols="12" sm="12" md="12">
 									<v-text-field
 										v-model="editedUser.emailVerified"
 										label="Email Verified"
 									></v-text-field>
-								</v-flex>
-								<v-flex xs12 sm12 md12>
+								</v-col>
+								<v-col cols="12" sm="12" md="12">
 									<v-text-field
 										v-model="editedUser.disabled"
 										label="Disabled"
@@ -82,8 +82,8 @@
 										item-text="roleName"
 										item-value="roleCode"
 									></v-select>
-								</v-flex>
-							</v-layout>
+								</v-col>
+							</v-row>
 						</v-container>
 					</v-card-text>
 

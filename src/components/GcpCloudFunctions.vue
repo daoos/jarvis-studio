@@ -1,8 +1,8 @@
 <template>
 	<v-container grid-list-xl>
-		<v-layout row wrap>
+		<v-row>
 			<h1>Cloud Function Configurations:</h1>
-			<v-flex xs12 offset-xs0>
+			<v-col cols="12" offset="0">
 				<v-card dark>
 					<v-card-text>
 						<vue-json-pretty
@@ -15,8 +15,8 @@
 						</vue-json-pretty>
 					</v-card-text>
 				</v-card>
-			</v-flex>
-		</v-layout>
+			</v-col>
+		</v-row>
 	</v-container>
 </template>
 

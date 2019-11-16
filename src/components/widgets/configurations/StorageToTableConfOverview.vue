@@ -1,7 +1,7 @@
 <template>
 	<v-container grid-list-xl>
-		<v-layout row wrap>
-			<v-flex xs12 offset-xs0>
+		<v-row>
+			<v-col cols="12" offset="0">
 				<HeaderDocView
 					:viewId="confId"
 					:activatedConfStatus="conf.activated"
@@ -48,8 +48,8 @@
 					:createdBy="conf.created_by"
 					:updatedBy="conf.updated_by"
 				/>
-			</v-flex>
-		</v-layout>
+			</v-col>
+		</v-row>
 	</v-container>
 </template>
 

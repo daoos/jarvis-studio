@@ -34,8 +34,9 @@ export default {
 };
 </script>
 
-<style lang="stylus" scoped>
-.disabled
-  color: black
-  pointer-events: none
+<style lang="scss" scoped>
+.disabled {
+	color: black;
+	pointer-events: none;
+}
 </style>

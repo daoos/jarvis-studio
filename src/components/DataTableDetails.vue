@@ -5,9 +5,9 @@
 			:headerTitle="headerTitle"
 		></DataModelHeader>
 		<v-container grid-list-xl>
-			<v-layout row wrap v-if="!isFetchAndAdding">
-				<v-layout row wrap v-if="jsonIsValid">
-					<v-flex xs12 offset-xs0>
+			<v-row v-if="!isFetchAndAdding">
+				<v-row v-if="jsonIsValid">
+					<v-col cols="12" offset="0">
 						<v-card>
 							<v-card-title>
 								<v-icon color="blue-grey lighten-3" large class="mr-3"
@@ -33,8 +33,8 @@
 								</v-btn>
 							</v-card-title>
 							<v-card-text>
-								<v-layout row>
-									<v-flex>
+								<v-row>
+									<v-col>
 										<v-textarea
 											name="Description"
 											label="Description"
@@ -44,10 +44,10 @@
 											readonly
 											outline
 										></v-textarea>
-									</v-flex>
-								</v-layout>
-								<v-layout row>
-									<v-flex xs3>
+									</v-col>
+								</v-row>
+								<v-row>
+									<v-col cols="3">
 										<v-text-field
 											label="Account"
 											:value="dataTableDetails.account"
@@ -55,8 +55,8 @@
 											readonly
 											outline
 										></v-text-field>
-									</v-flex>
-									<v-flex xs3>
+									</v-col>
+									<v-col cols="3">
 										<v-text-field
 											label="Project Id"
 											:value="this.projectId"
@@ -64,8 +64,8 @@
 											readonly
 											outline
 										></v-text-field>
-									</v-flex>
-									<v-flex xs3 offset-xs1>
+									</v-col>
+									<v-col cols="3" offset="1">
 										<v-text-field
 											label="Dataset"
 											:value="this.datasetId"
@@ -73,8 +73,8 @@
 											readonly
 											outline
 										></v-text-field>
-									</v-flex>
-									<v-flex xs3 offset-xs1>
+									</v-col>
+									<v-col cols="3" offset="1">
 										<v-text-field
 											label="Location"
 											:value="dataTableDetails.location"
@@ -82,10 +82,10 @@
 											readonly
 											outline
 										></v-text-field>
-									</v-flex>
-								</v-layout>
-								<v-layout row>
-									<v-flex xs3>
+									</v-col>
+								</v-row>
+								<v-row>
+									<v-col cols="3">
 										<v-text-field
 											label="Row Number"
 											:value="numRowsFormated"
@@ -93,8 +93,8 @@
 											readonly
 											outline
 										></v-text-field>
-									</v-flex>
-									<v-flex xs3>
+									</v-col>
+									<v-col cols="3">
 										<v-text-field
 											label="Table Size"
 											:value="numBytesFormated"
@@ -102,8 +102,8 @@
 											readonly
 											outline
 										></v-text-field>
-									</v-flex>
-									<v-flex xs3 offset-xs1>
+									</v-col>
+									<v-col cols="3" offset="1">
 										<v-text-field
 											label="Table Type"
 											:value="dataTableDetails.kind"
@@ -111,8 +111,8 @@
 											readonly
 											outline
 										></v-text-field>
-									</v-flex>
-									<v-flex xs3 offset-xs1>
+									</v-col>
+									<v-col cols="3" offset="1">
 										<v-text-field
 											label="Time Partitioned"
 											:value="isTimePartitioned"
@@ -120,12 +120,12 @@
 											readonly
 											outline
 										></v-text-field>
-									</v-flex>
-								</v-layout>
+									</v-col>
+								</v-row>
 							</v-card-text>
 						</v-card>
-					</v-flex>
-					<v-flex xs12 offset-xs0>
+					</v-col>
+					<v-col cols="12" offset="0">
 						<v-tabs
 							v-model="activeTab"
 							color="grey lighten-3"
@@ -183,8 +183,8 @@
 										<v-spacer></v-spacer>
 									</v-card-title>
 									<v-card-text>
-										<v-layout row>
-											<v-flex>
+										<v-row>
+											<v-col>
 												<v-textarea
 													name="Description"
 													label="Description"
@@ -194,10 +194,10 @@
 													readonly
 													outline
 												></v-textarea>
-											</v-flex>
-										</v-layout>
-										<v-layout row>
-											<v-flex xs5>
+											</v-col>
+										</v-row>
+										<v-row>
+											<v-col cols="5">
 												<v-text-field
 													label="Workflow Id"
 													:value="dataTableDetails.dag_id"
@@ -205,8 +205,8 @@
 													readonly
 													outline
 												></v-text-field>
-											</v-flex>
-											<v-flex xs2>
+											</v-col>
+											<v-col cols="2">
 												<v-text-field
 													label="Workflow Type"
 													:value="dataTableDetails.dag_type"
@@ -214,8 +214,8 @@
 													readonly
 													outline
 												></v-text-field>
-											</v-flex>
-											<v-flex xs3>
+											</v-col>
+											<v-col cols="3">
 												<v-text-field
 													label="Workflow Run Id"
 													:value="dataTableDetails.dag_run_id"
@@ -223,8 +223,8 @@
 													readonly
 													outline
 												></v-text-field>
-											</v-flex>
-											<v-flex xs2>
+											</v-col>
+											<v-col cols="2">
 												<v-text-field
 													label="Last Modified"
 													:value="this.workflowLastModifiedTime"
@@ -232,21 +232,21 @@
 													readonly
 													outline
 												></v-text-field>
-											</v-flex>
-										</v-layout>
+											</v-col>
+										</v-row>
 									</v-card-text>
 								</v-card>
 							</v-tab-item>
 							<v-tab-item value="documentation">
 								<v-card>
 									<v-card-text>
-										<v-layout row>
-											<v-flex xs10 offset-xs0 ml-3>
+										<v-row>
+											<v-col class="ml-3" cols="10" offset="0">
 												<vue-markdown
 													:source="dataTableDetails.doc_md"
 												></vue-markdown>
-											</v-flex>
-										</v-layout>
+											</v-col>
+										</v-row>
 									</v-card-text>
 								</v-card>
 							</v-tab-item>
@@ -269,20 +269,20 @@
 								</v-card>
 							</v-tab-item>
 						</v-tabs>
-					</v-flex>
-				</v-layout>
-				<v-layout row wrap v-else>
+					</v-col>
+				</v-row>
+				<v-row v-else>
 					<JsonSchemaIsInvalid
 						:jsonObject="this.dataTableDetails"
 						:jsonObjectErrors="this.jsonObjectErrors"
 					></JsonSchemaIsInvalid>
-				</v-layout>
-			</v-layout>
-			<v-layout row wrap v-else>
+				</v-row>
+			</v-row>
+			<v-row v-else>
 				<template>
 					<v-progress-linear :indeterminate="true"></v-progress-linear>
 				</template>
-			</v-layout>
+			</v-row>
 		</v-container>
 	</div>
 </template>

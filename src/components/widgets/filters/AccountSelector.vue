@@ -1,5 +1,5 @@
 <template>
-	<v-layout v-if="viewAccount">
+	<v-row v-if="viewAccount">
 		<v-menu :nudge-width="100" :class="true ? 'hidden-xs-only' : ''">
 			<v-toolbar-title slot="activator" class="pl-2">
 				<span class="body-2 contrast--text">{{
@@ -17,7 +17,7 @@
 				</v-list-tile>
 			</v-list>
 		</v-menu>
-	</v-layout>
+	</v-row>
 </template>
 
 <script>

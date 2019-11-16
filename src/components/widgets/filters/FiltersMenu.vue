@@ -1,10 +1,10 @@
 <template>
-	<v-layout row wrap>
-		<v-flex>
+	<v-row>
+		<v-col>
 			<v-toolbar flat class="transparent">
 				<v-spacer></v-spacer>
 				<v-toolbar-items class="hidden-sm-and-down">
-					<v-flex xs12 v-if="viewAccount">
+					<v-col cols="12" v-if="viewAccount">
 						<v-select
 							@change="applyAccountFilter"
 							:items="accountArray"
@@ -16,8 +16,8 @@
 							prepend-icon="business"
 						>
 						</v-select>
-					</v-flex>
-					<v-flex xs12 v-if="viewEnvironnement">
+					</v-col>
+					<v-col cols="12" v-if="viewEnvironnement">
 						<v-select
 							@change="applyEnvFilter"
 							:items="envFilters"
@@ -29,8 +29,8 @@
 							prepend-icon="settings"
 						>
 						</v-select>
-					</v-flex>
-					<v-flex xs12 v-if="viewPeriode">
+					</v-col>
+					<v-col cols="12" v-if="viewPeriode">
 						<v-select
 							@change="applyDateFilter"
 							:items="dateFilters"
@@ -42,11 +42,11 @@
 							prepend-icon="date_range"
 						>
 						</v-select>
-					</v-flex>
+					</v-col>
 				</v-toolbar-items>
 			</v-toolbar>
-		</v-flex>
-	</v-layout>
+		</v-col>
+	</v-row>
 </template>
 
 <script>

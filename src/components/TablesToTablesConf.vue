@@ -1,7 +1,7 @@
 <template>
 	<v-container grid-list-xl>
-		<v-layout row wrap v-if="!isFetchAndAdding">
-			<v-flex xs12 offset-xs0>
+		<v-row v-if="!isFetchAndAdding">
+			<v-col cols="12" offset="0">
 				<v-tabs
 					v-model="activeTab"
 					color="grey lighten-3"
@@ -43,13 +43,13 @@
 						</v-card>
 					</v-tab-item>
 				</v-tabs>
-			</v-flex>
-		</v-layout>
-		<v-layout row wrap v-else>
+			</v-col>
+		</v-row>
+		<v-row v-else>
 			<template>
 				<v-progress-linear :indeterminate="true"></v-progress-linear>
 			</template>
-		</v-layout>
+		</v-row>
 	</v-container>
 </template>
 

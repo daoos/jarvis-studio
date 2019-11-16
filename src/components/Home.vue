@@ -25,8 +25,8 @@
 		</v-toolbar>
 
 		<v-container>
-			<v-layout row>
-				<v-flex xs12 md8 offset-md2>
+			<v-row>
+				<v-col cols="12" md="8" offset-md="2">
 					<v-card flat class="card--flex-toolbar" color="transparent">
 						<v-container fluid grid-list-lg>
 							<!-- <v-layout row wrap>
@@ -34,8 +34,15 @@
                                     <h2 class="white--text">Discover Firebase</h2>
                                 </v-flex>
                             </v-layout> -->
-							<v-layout row wrap>
-								<v-flex xs12 sm6 md6 lg6 v-for="item in links" :key="item.id">
+							<v-row>
+								<v-col
+									cols="12"
+									sm="6"
+									md="6"
+									lg="6"
+									v-for="item in links"
+									:key="item.id"
+								>
 									<v-hover>
 										<v-card
 											slot-scope="{ hover }"
@@ -66,12 +73,12 @@
 											</v-card-actions>
 										</v-card>
 									</v-hover>
-								</v-flex>
-							</v-layout>
+								</v-col>
+							</v-row>
 						</v-container>
 					</v-card>
-				</v-flex>
-			</v-layout>
+				</v-col>
+			</v-row>
 		</v-container>
 	</div>
 </template>
