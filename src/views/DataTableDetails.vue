@@ -1,13 +1,13 @@
 <template>
-  <DataTableDetails />
+	<DataTableDetails />
 </template>
 
 <script>
 import DataTableDetails from "../components/DataTableDetails";
 
 export default {
-  components: {
-    DataTableDetails
-  }
+	components: {
+		DataTableDetails
+	}
 };
 </script>

@@ -1,22 +1,22 @@
 <template>
-  <v-layout align-center justify-end row fill-height v-if="viewSearch">
-    <v-btn icon @click.native.stop="searchBegin">
-      <v-icon>search</v-icon>
-    </v-btn>
-    <div :class="{ 'searching--closed': !searching }" class="searching">
-      <v-text-field
-        id="search"
-        v-model="search"
-        append-icon="close"
-        @click:append="searchEnd"
-        label="Search"
-        hide-details
-        single-line
-        color="white"
-        @blur="onBlur"
-      ></v-text-field>
-    </div>
-  </v-layout>
+	<v-layout align-center justify-end row fill-height v-if="viewSearch">
+		<v-btn icon @click.native.stop="searchBegin">
+			<v-icon>search</v-icon>
+		</v-btn>
+		<div :class="{ 'searching--closed': !searching }" class="searching">
+			<v-text-field
+				id="search"
+				v-model="search"
+				append-icon="close"
+				@click:append="searchEnd"
+				label="Search"
+				hide-details
+				single-line
+				color="white"
+				@blur="onBlur"
+			></v-text-field>
+		</div>
+	</v-layout>
 </template>
 
 <script>
@@ -24,48 +24,48 @@ import { mapState } from "vuex";
 import store from "@/store/index";
 
 export default {
-  components: {},
-  props: {
-    viewSearch: Boolean
-  },
-  data: () => ({
-    // Search bar variables
-    searching: false,
-    search: ""
-  }),
-  created() {},
-  methods: {
-    applyAccountFilter(accountFilterSelected) {
-      store.dispatch("applyAccountFilterSelected", accountFilterSelected);
-    },
-    // Method to manage the menu search bar
-    onBlur() {
-      this.searching = false;
-      this.search = "";
-    },
-    searchBegin() {
-      this.searching = true;
-      setTimeout(() => document.querySelector("#search").focus(), 50);
-    },
-    searchEnd() {
-      this.searching = false;
-      this.search = "";
-      document.querySelector("#search").blur();
-    }
-  },
-  computed: {
-    ...mapState({
-      isAuthenticated: state => state.user.isAuthenticated,
-      user: state => state.user.user,
-      accountFilterSelected: state => state.filters.accountFilterSelected,
-      accounts: state => state.accounts.data
-    }),
-    accountArray() {
-      let accountArray = Object.values(this.accounts);
-      accountArray.push({ account_name: "All Accounts", id: "000000" });
-      return accountArray;
-    }
-  }
+	components: {},
+	props: {
+		viewSearch: Boolean
+	},
+	data: () => ({
+		// Search bar variables
+		searching: false,
+		search: ""
+	}),
+	created() {},
+	methods: {
+		applyAccountFilter(accountFilterSelected) {
+			store.dispatch("applyAccountFilterSelected", accountFilterSelected);
+		},
+		// Method to manage the menu search bar
+		onBlur() {
+			this.searching = false;
+			this.search = "";
+		},
+		searchBegin() {
+			this.searching = true;
+			setTimeout(() => document.querySelector("#search").focus(), 50);
+		},
+		searchEnd() {
+			this.searching = false;
+			this.search = "";
+			document.querySelector("#search").blur();
+		}
+	},
+	computed: {
+		...mapState({
+			isAuthenticated: state => state.user.isAuthenticated,
+			user: state => state.user.user,
+			accountFilterSelected: state => state.filters.accountFilterSelected,
+			accounts: state => state.accounts.data
+		}),
+		accountArray() {
+			let accountArray = Object.values(this.accounts);
+			accountArray.push({ account_name: "All Accounts", id: "000000" });
+			return accountArray;
+		}
+	}
 };
 </script>
 

@@ -42,61 +42,61 @@ import tablesToTablesConf from "@/store/tables-to-tables-conf";
 import tablesToTablesRun from "@/store/tables-to-tables-run";
 
 const easyFirestores = VuexEasyFirestore(
-  [
-    gcpcloudfunctions,
-    accounts,
-    schemas,
-    mirrorExcGcsToGcsRuns,
-    mirrorExcGcsToGcsConfs,
-    mirrorExcGcsToGbqRuns,
-    mirrorExcGcsToGbqConfs,
-    mirrorExcGcsToGbqConfDetails,
-    getGbqToGcsRuns,
-    getGbqToGcsConfs,
-    getGbqToGbqConfs,
-    getGbqToGbqRuns,
-    vmLauncherConfs,
-    vmLauncherRuns,
-    workflowConfs,
-    workflowStatus,
-    dataModels,
-    dataTables,
-    dataTableDetails,
-    storageToStorageConfs,
-    storageToStorageConf,
-    storageToStorageRuns,
-    storageToStorageRun,
-    storageToTableConf,
-    storageToTableRun,
-    tablesToTablesConf,
-    tablesToTablesRun,
-    singleDoc
-  ],
-  {
-    logging: true,
-    FirebaseDependency: firebase,
-    preventInitialDocInsertion: true
-  }
+	[
+		gcpcloudfunctions,
+		accounts,
+		schemas,
+		mirrorExcGcsToGcsRuns,
+		mirrorExcGcsToGcsConfs,
+		mirrorExcGcsToGbqRuns,
+		mirrorExcGcsToGbqConfs,
+		mirrorExcGcsToGbqConfDetails,
+		getGbqToGcsRuns,
+		getGbqToGcsConfs,
+		getGbqToGbqConfs,
+		getGbqToGbqRuns,
+		vmLauncherConfs,
+		vmLauncherRuns,
+		workflowConfs,
+		workflowStatus,
+		dataModels,
+		dataTables,
+		dataTableDetails,
+		storageToStorageConfs,
+		storageToStorageConf,
+		storageToStorageRuns,
+		storageToStorageRun,
+		storageToTableConf,
+		storageToTableRun,
+		tablesToTablesConf,
+		tablesToTablesRun,
+		singleDoc
+	],
+	{
+		logging: true,
+		FirebaseDependency: firebase,
+		preventInitialDocInsertion: true
+	}
 );
 
 const storeData = {
-  modules: {
-    user,
-    filters,
-    settings
-  },
-  plugins: [easyFirestores]
+	modules: {
+		user,
+		filters,
+		settings
+	},
+	plugins: [easyFirestores]
 };
 
 const store = new Vuex.Store(storeData);
 
 // initFirebase
 initFirebase().catch(error => {
-  // take user to a page stating an error occurred
-  // (might be a connection error, or the app is open in another tab)
-  router.push("/signinEmail");
-  // eslint-disable-next-line no-console
-  console.error(error);
+	// take user to a page stating an error occurred
+	// (might be a connection error, or the app is open in another tab)
+	router.push("/signinEmail");
+	// eslint-disable-next-line no-console
+	console.error(error);
 });
 
 export default store;
