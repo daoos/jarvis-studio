@@ -56,7 +56,7 @@
 
 					<v-list v-if="!drawer.mini" subheader>
 						<v-subheader>DATA MODELS</v-subheader>
-						<DatamodelTreeview class="ml-1"></DatamodelTreeview>
+						<DatamodelTreeview></DatamodelTreeview>
 					</v-list>
 
 					<v-divider></v-divider>
@@ -136,7 +136,7 @@
 					dark
 					app
 					color="primary"
-					flat
+					elevate-on-scroll
 					dense
 					:fixed="toolbar.fixed"
 					:clipped-left="toolbar.clippedLeft"

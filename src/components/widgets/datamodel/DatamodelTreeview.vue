@@ -1,5 +1,5 @@
 <template>
-	<v-col cols="5">
+	<v-col>
 		<v-treeview
 			:active.sync="active"
 			:items="items"
