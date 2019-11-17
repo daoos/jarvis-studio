@@ -1,5 +1,5 @@
 <template>
-	<v-container grid-list-xl fluid>
+	<v-container fluid>
 		<v-row>
 			<v-col sm="12">
 				<v-toolbar class="elevation-1" color="grey lighten-3">

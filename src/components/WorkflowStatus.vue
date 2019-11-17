@@ -1,5 +1,5 @@
 <template>
-	<v-container grid-list-xl fluid>
+	<v-container fluid>
 		<v-toolbar class="elevation-1" color="grey lighten-3">
 			<v-text-field
 				v-model="search"

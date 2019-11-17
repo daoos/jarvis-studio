@@ -1,5 +1,5 @@
 <template>
-	<v-container grid-list-xl fluid>
+	<v-container fluid>
 		<v-alert
 			:value="alertParam.show"
 			:color="alertParam.color"

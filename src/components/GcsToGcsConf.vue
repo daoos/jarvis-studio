@@ -1,5 +1,5 @@
 <template>
-	<v-container grid-list-xl>
+	<v-container>
 		<v-row v-if="!isFetchAndAdding">
 			<v-col cols="12" offset="0">
 				<v-tabs

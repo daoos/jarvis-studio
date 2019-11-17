@@ -4,7 +4,7 @@
 			:tableItems="tableItems"
 			:headerTitle="headerTitle"
 		></DataModelHeader>
-		<v-container grid-list-xl>
+		<v-container>
 			<v-row v-if="!isFetchAndAdding">
 				<v-row v-if="jsonIsValid">
 					<v-col cols="12" offset="0">

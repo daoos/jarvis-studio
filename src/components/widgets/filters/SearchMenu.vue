@@ -1,5 +1,5 @@
 <template>
-	<v-row class="fill-height" align="center" justify="end" v-if="viewSearch">
+	<v-row class="fill-height" align="center" justify="end">
 		<v-btn icon @click.native.stop="searchBegin">
 			<v-icon>search</v-icon>
 		</v-btn>
@@ -25,9 +25,6 @@ import store from "@/store/index";
 
 export default {
 	components: {},
-	props: {
-		viewSearch: Boolean
-	},
 	data: () => ({
 		// Search bar variables
 		searching: false,
@@ -70,7 +67,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
-// @import '~vuetify/src/stylus/settings/_variables.styl'
+@import "~vuetify/src/components/VBtn/_variables.scss";
+
 .bottom-menu {
 	position: absolute;
 	width: 100%;
@@ -91,11 +89,6 @@ export default {
 }
 .searching--closed > * {
 	display: none;
-}
-.hidden-searching {
-	@media $display-breakpoints.sm-and-down {
-		display: none !important;
-	}
 }
 .list-border-bottom {
 	border-bottom: 1px solid rgba(255, 255, 255, 0.12);

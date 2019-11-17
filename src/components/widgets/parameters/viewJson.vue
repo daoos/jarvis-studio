@@ -1,5 +1,5 @@
 <template>
-	<v-container grid-list-xl>
+	<v-container>
 		<v-row class="pl-5 pt-4 pr-5">
 			<v-col cols="12" offset="0">
 				<span class="headline font-weight-bold">{{ jsonID }}</span>

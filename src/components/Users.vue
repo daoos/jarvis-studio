@@ -1,5 +1,5 @@
 <template>
-	<v-container grid-list-xl fluid>
+	<v-container fluid>
 		<v-toolbar class="elevation-0" color="transparent">
 			<v-text-field
 				v-model="search"
@@ -19,7 +19,7 @@
 					</v-card-title>
 
 					<v-card-text>
-						<v-container grid-list-md>
+						<v-container>
 							<v-row>
 								<v-col cols="12" sm="12" md="12">
 									<v-text-field

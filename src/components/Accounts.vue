@@ -1,5 +1,5 @@
 <template>
-	<v-container grid-list-xl>
+	<v-container>
 		<h1>Accounts:</h1>
 		<v-data-table :headers="headers" :items="accounts" class="elevation-1">
 			<template v-slot:items="props">
@@ -35,7 +35,7 @@
 				<v-card-title class="black lighten-4 py-4 title">
 					Create Account
 				</v-card-title>
-				<v-container grid-list-sm class="pa-4">
+				<v-container class="pa-4">
 					<v-row>
 						<v-col cols="6">
 							<v-text-field

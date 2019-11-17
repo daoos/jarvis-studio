@@ -8,13 +8,13 @@
 				<v-icon class="contrast--text">arrow_drop_down</v-icon>
 			</v-toolbar-title>
 			<v-list light>
-				<v-list-tile
+				<v-list-item
 					v-for="account in accountArray"
 					:key="account.id"
 					@click="applyAccountFilter(account)"
 				>
-					<v-list-tile-title v-text="account.account_name"></v-list-tile-title>
-				</v-list-tile>
+					<v-list-item-title v-text="account.account_name"></v-list-item-title>
+				</v-list-item>
 			</v-list>
 		</v-menu>
 	</v-row>

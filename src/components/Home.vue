@@ -28,7 +28,7 @@
 			<v-row>
 				<v-col cols="12" md="8" offset-md="2">
 					<v-card flat class="card--flex-toolbar" color="transparent">
-						<v-container fluid grid-list-lg>
+						<v-container fluid>
 							<!-- <v-layout row wrap>
                                 <v-flex xs12>
                                     <h2 class="white--text">Discover Firebase</h2>

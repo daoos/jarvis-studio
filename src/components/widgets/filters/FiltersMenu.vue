@@ -52,8 +52,6 @@
 <script>
 import { mapState } from "vuex";
 import store from "@/store/index";
-import moment from "moment";
-import _ from "lodash";
 
 export default {
 	components: {},

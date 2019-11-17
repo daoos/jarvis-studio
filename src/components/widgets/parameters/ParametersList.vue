@@ -1,6 +1,6 @@
 <template>
 	<v-container fluid>
-		<v-col :[vflexLength]="true" :[vflexOffset]="true">
+		<v-col>
 			<h2 class="black--text pb-3">
 				{{ groupTitle }}
 				<v-tooltip right v-if="tooltip">
