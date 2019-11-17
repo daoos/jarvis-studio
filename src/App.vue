@@ -13,17 +13,17 @@
 					class="menu"
 					width="300"
 				>
-					<v-toolbar flat class="transparent" dense>
-						<v-list class="pa-0" :class="{ 'list-border-bottom': drawer.mini }">
+					<v-toolbar v-if="!drawer.mini" flat class="transparent" dense>
+						<v-list class="pa-0">
 							<v-list-item>
-								<v-list-item-action v-if="!drawer.mini">
-									<v-icon large color="complementary"
-										>keyboard_arrow_right</v-icon
-									>
+								<v-list-item-action>
+									<v-icon large color="complementary">
+										keyboard_arrow_right
+									</v-icon>
 								</v-list-item-action>
-								<v-list-item-content v-if="!drawer.mini">
+								<v-list-item-content>
 									<v-list-item-title>
-										<h2 v-text="appName"></h2>
+										<h2>{{ appName }}</h2>
 									</v-list-item-title>
 								</v-list-item-content>
 								<!-- <v-list-item-action>
@@ -34,13 +34,12 @@
 							</v-list-item>
 						</v-list>
 					</v-toolbar>
-					<v-divider></v-divider>
-					<v-tooltip right :disabled="!drawer.mini">
+
+					<v-divider v-if="!drawer.mini"></v-divider>
+
+					<v-tooltip v-slot:activator="{ on }" :disabled="!drawer.mini" right>
 						<v-toolbar flat class="transparent" dense slot="activator">
-							<v-list
-								class="pa-0"
-								:class="{ 'list-border-bottom': drawer.mini }"
-							>
+							<v-list class="pa-0">
 								<v-list-item to="/" exact>
 									<v-list-item-action>
 										<v-icon>home</v-icon>
@@ -51,41 +50,26 @@
 								</v-list-item>
 							</v-list>
 						</v-toolbar>
-						<span>Project Overview</span>
 					</v-tooltip>
+
 					<v-divider></v-divider>
-					<v-divider></v-divider>
-					<v-list
-						subheader
-						:class="{ 'list-border-bottom': drawer.mini }"
-						v-if="!drawer.mini"
-					>
+
+					<v-list v-if="!drawer.mini" subheader>
 						<v-subheader>DATA MODELS</v-subheader>
 						<DatamodelTreeview class="ml-1"></DatamodelTreeview>
 					</v-list>
-					<v-list
-						subheader
-						:class="{ 'list-border-bottom': drawer.mini }"
-						v-else
-					>
-						<v-tooltip>
-							<v-list-item @click="drawer.mini = !drawer.mini">
-								<v-list-item-action
-									><v-icon>aspect_ratio</v-icon></v-list-item-action
-								>
-								<v-list-item-content
-									><v-list-item-title>DATA MODELS</v-list-item-title>
-								</v-list-item-content>
-							</v-list-item>
-							<span>DATA MODELS</span>
-						</v-tooltip>
-					</v-list>
+
 					<v-divider></v-divider>
 
-					<v-list subheader :class="{ 'list-border-bottom': drawer.mini }">
-						<v-subheader>DATA WORFLOWS</v-subheader>
+					<v-list subheader>
+						<v-subheader v-if="!drawer.mini">DATA WORFLOWS</v-subheader>
 						<template v-for="item in analyticsItems">
-							<v-tooltip right :disabled="!drawer.mini" :key="item.icon">
+							<v-tooltip
+								v-slot:activator="{ on }"
+								right
+								:disabled="!drawer.mini"
+								:key="item.icon"
+							>
 								<v-list-item
 									:key="item.icon"
 									:to="item.link"
@@ -96,16 +80,18 @@
 										<v-icon v-html="item.icon"></v-icon>
 									</v-list-item-action>
 									<v-list-item-content>
-										<v-list-item-title v-text="item.title"></v-list-item-title>
+										<v-list-item-title v-text="item.title" />
 									</v-list-item-content>
 								</v-list-item>
-								<span v-text="item.title"></span>
 							</v-tooltip>
 						</template>
 					</v-list>
+
 					<v-divider></v-divider>
-					<v-list subheader :class="{ 'list-border-bottom': drawer.mini }">
-						<v-subheader>SETTINGS</v-subheader>
+
+					<v-list subheader>
+						<v-subheader v-if="!drawer.mini">SETTINGS</v-subheader>
+
 						<v-list-item :to="{ path: '/settings/users' }">
 							<v-list-item-action>
 								<v-icon>supervised_user_circle</v-icon>
@@ -114,6 +100,7 @@
 								<v-list-item-title>Users</v-list-item-title>
 							</v-list-item-content>
 						</v-list-item>
+
 						<v-list-item :to="{ path: '/settings/accounts' }">
 							<v-list-item-action>
 								<v-icon>business</v-icon>
@@ -122,20 +109,30 @@
 								<v-list-item-title>Accounts</v-list-item-title>
 							</v-list-item-content>
 						</v-list-item>
+
 						<v-list-item :to="{ path: '/settings/gcpcloudfunctions' }">
 							<v-list-item-action>
 								<v-icon>settings_ethernet</v-icon>
 							</v-list-item-action>
 							<v-list-item-content>
-								<v-list-item-title
-									>Cloud Function Configurations</v-list-item-title
-								>
+								<v-list-item-title>
+									Cloud Function Configurations
+								</v-list-item-title>
+							</v-list-item-content>
+						</v-list-item>
+
+						<v-list-item @click="drawer.mini = !drawer.mini">
+							<v-list-item-action>
+								<v-icon>aspect_ratio</v-icon>
+							</v-list-item-action>
+							<v-list-item-content v-if="!drawer.mini">
+								<v-list-item-title>Reduce navigation</v-list-item-title>
 							</v-list-item-content>
 						</v-list-item>
 					</v-list>
 				</v-navigation-drawer>
 
-				<v-toolbar
+				<v-app-bar
 					dark
 					app
 					color="primary"
@@ -148,10 +145,10 @@
 						v-if="!$vuetify.breakpoint.lgAndUp"
 						@click.stop="toggleDrawer"
 					/>
-					<AccountSelector viewAccount></AccountSelector>
+					<AccountSelector v-if="$vuetify.breakpoint.smAndUp" />
 					<v-spacer></v-spacer>
 					<SearchMenu v-if="$vuetify.breakpoint.smAndUp"></SearchMenu>
-					<v-tooltip bottom>
+					<v-tooltip v-slot:activator="{ on }" bottom>
 						<v-btn
 							icon
 							@click.stop="rightDrawer = !rightDrawer"
@@ -162,7 +159,6 @@
 								<v-icon>notifications</v-icon>
 							</v-badge>
 						</v-btn>
-						<span>2 unread notifications</span>
 					</v-tooltip>
 					<v-menu
 						offset-y
@@ -205,7 +201,7 @@
 					<v-btn icon @click="handleFullScreen()">
 						<v-icon>fullscreen</v-icon>
 					</v-btn>
-				</v-toolbar>
+				</v-app-bar>
 				<v-navigation-drawer
 					temporary
 					:right="true"
@@ -230,7 +226,9 @@
 								12 new users registered
 							</v-list-item-title>
 						</v-list-item>
+
 						<v-divider></v-divider>
+
 						<v-list-item>
 							<v-list-item-action>
 								<v-icon>data_usage</v-icon>
@@ -437,8 +435,5 @@ export default {
 }
 .searching--closed > * {
 	display: none;
-}
-.list-border-bottom {
-	border-bottom: 1px solid rgba(255, 255, 255, 0.12);
 }
 </style>
