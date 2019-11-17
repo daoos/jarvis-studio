@@ -1,12 +1,12 @@
 <template>
 	<v-toolbar dense tabs color="primary" dark>
 		<v-toolbar-title class="pl-2 display-1">{{ headerTitle }}</v-toolbar-title>
-		<v-spacer></v-spacer>
 		<v-tabs
 			v-model="tabs"
-			color="transparent"
 			slider-color="white"
 			slot="extension"
+			color="transparent"
+			background-color="primary"
 		>
 			<v-tab
 				v-for="tabsItem in tabsItems"

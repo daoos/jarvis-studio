@@ -1,287 +1,297 @@
 <template>
 	<div>
-		<DataModelHeader
-			:tableItems="tableItems"
-			:headerTitle="headerTitle"
-		></DataModelHeader>
-		<v-container>
-			<v-row v-if="!isFetchAndAdding">
-				<v-row v-if="jsonIsValid">
-					<v-col cols="12" offset="0">
-						<v-card>
-							<v-card-title>
-								<v-icon color="blue-grey lighten-3" large class="mr-3"
-									>table_chart</v-icon
-								>
-								<span class="display-1 font-weight-bold">{{
-									this.dataTableDetails.id
-								}}</span>
-								<v-spacer></v-spacer>
-								<v-tooltip bottom>
-									<template v-slot:activator="{ on }">
-										<span v-on="on"
-											>Last Update: {{ refreshedTimestamp.dateFromNow }}</span
-										>
-									</template>
-									<span>{{ refreshedTimestamp.dateFormated }}</span>
-								</v-tooltip>
-								<v-btn @click="getDataTableDetails()">
-									Refresh
-								</v-btn>
-								<v-btn @click="queryInBigQuery()" color="secondary">
-									Query
-								</v-btn>
-							</v-card-title>
-							<v-card-text>
-								<v-row>
-									<v-col>
-										<v-textarea
-											name="Description"
-											label="Description"
-											:value="dataTableDetails.description"
-											auto-grow
-											rows="1"
-											readonly
-											outline
-										></v-textarea>
-									</v-col>
-								</v-row>
-								<v-row>
-									<v-col cols="3">
-										<v-text-field
-											label="Account"
-											:value="dataTableDetails.account"
-											class="title"
-											readonly
-											outline
-										></v-text-field>
-									</v-col>
-									<v-col cols="3">
-										<v-text-field
-											label="Project Id"
-											:value="this.projectId"
-											class="title"
-											readonly
-											outline
-										></v-text-field>
-									</v-col>
-									<v-col cols="3" offset="1">
-										<v-text-field
-											label="Dataset"
-											:value="this.datasetId"
-											class="title"
-											readonly
-											outline
-										></v-text-field>
-									</v-col>
-									<v-col cols="3" offset="1">
-										<v-text-field
-											label="Location"
-											:value="dataTableDetails.location"
-											class="title"
-											readonly
-											outline
-										></v-text-field>
-									</v-col>
-								</v-row>
-								<v-row>
-									<v-col cols="3">
-										<v-text-field
-											label="Row Number"
-											:value="numRowsFormated"
-											class="title"
-											readonly
-											outline
-										></v-text-field>
-									</v-col>
-									<v-col cols="3">
-										<v-text-field
-											label="Table Size"
-											:value="numBytesFormated"
-											class="title"
-											readonly
-											outline
-										></v-text-field>
-									</v-col>
-									<v-col cols="3" offset="1">
-										<v-text-field
-											label="Table Type"
-											:value="dataTableDetails.kind"
-											class="title"
-											readonly
-											outline
-										></v-text-field>
-									</v-col>
-									<v-col cols="3" offset="1">
-										<v-text-field
-											label="Time Partitioned"
-											:value="isTimePartitioned"
-											class="title"
-											readonly
-											outline
-										></v-text-field>
-									</v-col>
-								</v-row>
-							</v-card-text>
-						</v-card>
-					</v-col>
-					<v-col cols="12" offset="0">
-						<v-tabs
-							v-model="activeTab"
-							color="grey lighten-3"
-							slider-color="primary"
-						>
-							<v-tab ripple href="#dataoverview">
-								Data Overview
-							</v-tab>
-							<v-tab ripple href="#schema">
-								Schema
-							</v-tab>
-							<v-tab ripple href="#workflow">
-								Workflow
-							</v-tab>
-							<v-tab ripple href="#documentation">
-								Documentation
-							</v-tab>
-							<v-tab ripple href="#fulljson">
-								Full Json
-							</v-tab>
-							<v-tab-item value="dataoverview">
-								<v-card>
-									<v-card-title>
-										<span class="title">Data Overview</span>
-										<v-spacer></v-spacer>
-									</v-card-title>
-									<v-card-text>
-										<vue-good-table
-											:columns="this.dataTableOverviewColumns"
-											:rows="this.dataTableOverviewRows"
-											styleClass="vgt-table condensed striped"
-										>
-											<template slot="table-row" slot-scope="props">
-												<span class="body-1">{{
-													props.formattedRow[props.column.field]
-												}}</span>
+		<DataModelHeader :tableItems="tableItems" :headerTitle="headerTitle" />
+
+		<v-container class="grey lighten-5">
+			<v-row>
+				<template v-if="!isFetchAndAdding">
+					<template v-if="jsonIsValid">
+						<v-col cols="12" offset="0">
+							<v-card>
+								<v-card-title>
+									<v-icon color="blue-grey lighten-3" large class="mr-3">
+										table_chart
+									</v-icon>
+									<span class="display-1 font-weight-bold">
+										{{ this.dataTableDetails.id }}
+									</span>
+
+									<v-spacer></v-spacer>
+
+									<div class="card-title-right">
+										<v-tooltip bottom>
+											<template v-slot:activator="{ on }">
+												<span>
+													Last Update: {{ refreshedTimestamp.dateFromNow }}
+												</span>
 											</template>
-										</vue-good-table>
-									</v-card-text>
-								</v-card>
-							</v-tab-item>
-							<v-tab-item value="schema">
-								<v-card>
-									<tableSchemaView
-										:schemaRows="dataTableDetails.schema.fields"
-									/>
-								</v-card>
-							</v-tab-item>
-							<v-tab-item value="workflow">
-								<v-card>
-									<v-card-title>
-										<span class="title mt-2 ml-1">{{
-											dataTableDetails.dag_id
-										}}</span>
-										<v-spacer></v-spacer>
-									</v-card-title>
-									<v-card-text>
-										<v-row>
-											<v-col>
-												<v-textarea
-													name="Description"
-													label="Description"
-													:value="dataTableDetails.short_description"
-													auto-grow
-													rows="1"
-													readonly
-													outline
-												></v-textarea>
-											</v-col>
-										</v-row>
-										<v-row>
-											<v-col cols="5">
-												<v-text-field
-													label="Workflow Id"
-													:value="dataTableDetails.dag_id"
-													class="subtitle-1"
-													readonly
-													outline
-												></v-text-field>
-											</v-col>
-											<v-col cols="2">
-												<v-text-field
-													label="Workflow Type"
-													:value="dataTableDetails.dag_type"
-													class="subtitle-1"
-													readonly
-													outline
-												></v-text-field>
-											</v-col>
-											<v-col cols="3">
-												<v-text-field
-													label="Workflow Run Id"
-													:value="dataTableDetails.dag_run_id"
-													class="subtitle-1"
-													readonly
-													outline
-												></v-text-field>
-											</v-col>
-											<v-col cols="2">
-												<v-text-field
-													label="Last Modified"
-													:value="this.workflowLastModifiedTime"
-													class="subtitle-1"
-													readonly
-													outline
-												></v-text-field>
-											</v-col>
-										</v-row>
-									</v-card-text>
-								</v-card>
-							</v-tab-item>
-							<v-tab-item value="documentation">
-								<v-card>
-									<v-card-text>
-										<v-row>
-											<v-col class="ml-3" cols="10" offset="0">
-												<vue-markdown
-													:source="dataTableDetails.doc_md"
-												></vue-markdown>
-											</v-col>
-										</v-row>
-									</v-card-text>
-								</v-card>
-							</v-tab-item>
-							<v-tab-item value="fulljson">
-								<v-card>
-									<v-card-title>
-										<span class="title">Full Json</span>
-										<v-spacer></v-spacer>
-									</v-card-title>
-									<v-card-text>
-										<vue-json-pretty
-											:data="this.dataTableDetails"
-											:deep="5"
-											:show-double-quotes="true"
-											:show-length="true"
-											:show-line="false"
-										>
-										</vue-json-pretty>
-									</v-card-text>
-								</v-card>
-							</v-tab-item>
-						</v-tabs>
-					</v-col>
-				</v-row>
-				<v-row v-else>
+											<span>{{ refreshedTimestamp.dateFormated }}</span>
+										</v-tooltip>
+
+										<v-btn @click="getDataTableDetails()">Refresh</v-btn>
+										<v-btn @click="queryInBigQuery()" color="secondary">
+											Query
+										</v-btn>
+									</div>
+								</v-card-title>
+
+								<v-card-text>
+									<v-row>
+										<v-col>
+											<v-textarea
+												name="Description"
+												label="Description"
+												:value="dataTableDetails.description"
+												auto-grow
+												rows="1"
+												readonly
+												outline
+											></v-textarea>
+										</v-col>
+									</v-row>
+
+									<v-row>
+										<v-col cols="3">
+											<v-text-field
+												label="Account"
+												:value="dataTableDetails.account"
+												class="title"
+												readonly
+												outline
+											></v-text-field>
+										</v-col>
+
+										<v-col cols="3">
+											<v-text-field
+												label="Project Id"
+												:value="this.projectId"
+												class="title"
+												readonly
+												outline
+											></v-text-field>
+										</v-col>
+
+										<v-col cols="3">
+											<v-text-field
+												label="Dataset"
+												:value="this.datasetId"
+												class="title"
+												readonly
+												outline
+											></v-text-field>
+										</v-col>
+
+										<v-col cols="3">
+											<v-text-field
+												label="Location"
+												:value="dataTableDetails.location"
+												class="title"
+												readonly
+												outline
+											></v-text-field>
+										</v-col>
+									</v-row>
+
+									<v-row>
+										<v-col cols="3">
+											<v-text-field
+												label="Row Number"
+												:value="numRowsFormated"
+												class="title"
+												readonly
+												outline
+											></v-text-field>
+										</v-col>
+
+										<v-col cols="3">
+											<v-text-field
+												label="Table Size"
+												:value="numBytesFormated"
+												class="title"
+												readonly
+												outline
+											></v-text-field>
+										</v-col>
+
+										<v-col cols="3">
+											<v-text-field
+												label="Table Type"
+												:value="dataTableDetails.kind"
+												class="title"
+												readonly
+												outline
+											></v-text-field>
+										</v-col>
+
+										<v-col cols="3">
+											<v-text-field
+												label="Time Partitioned"
+												:value="isTimePartitioned"
+												class="title"
+												readonly
+												outline
+											/>
+										</v-col>
+									</v-row>
+								</v-card-text>
+							</v-card>
+						</v-col>
+
+						<v-col cols="12">
+							<v-tabs
+								v-model="activeTab"
+								color="grey lighten-3"
+								slider-color="primary"
+							>
+								<v-tab ripple href="#dataoverview">
+									Data Overview
+								</v-tab>
+								<v-tab ripple href="#schema">
+									Schema
+								</v-tab>
+								<v-tab ripple href="#workflow">
+									Workflow
+								</v-tab>
+								<v-tab ripple href="#documentation">
+									Documentation
+								</v-tab>
+								<v-tab ripple href="#fulljson">
+									Full Json
+								</v-tab>
+								<v-tab-item value="dataoverview">
+									<v-card>
+										<v-card-title>
+											<span class="title">Data Overview</span>
+											<v-spacer></v-spacer>
+										</v-card-title>
+										<v-card-text>
+											<vue-good-table
+												:columns="this.dataTableOverviewColumns"
+												:rows="this.dataTableOverviewRows"
+												styleClass="vgt-table condensed striped"
+											>
+												<template slot="table-row" slot-scope="props">
+													<span class="body-1">{{
+														props.formattedRow[props.column.field]
+													}}</span>
+												</template>
+											</vue-good-table>
+										</v-card-text>
+									</v-card>
+								</v-tab-item>
+								<v-tab-item value="schema">
+									<v-card>
+										<tableSchemaView
+											:schemaRows="dataTableDetails.schema.fields"
+										/>
+									</v-card>
+								</v-tab-item>
+								<v-tab-item value="workflow">
+									<v-card>
+										<v-card-title>
+											<span class="title mt-2 ml-1">{{
+												dataTableDetails.dag_id
+											}}</span>
+											<v-spacer></v-spacer>
+										</v-card-title>
+										<v-card-text>
+											<v-row>
+												<v-col>
+													<v-textarea
+														name="Description"
+														label="Description"
+														:value="dataTableDetails.short_description"
+														auto-grow
+														rows="1"
+														readonly
+														outline
+													></v-textarea>
+												</v-col>
+											</v-row>
+											<v-row>
+												<v-col cols="5">
+													<v-text-field
+														label="Workflow Id"
+														:value="dataTableDetails.dag_id"
+														class="subtitle-1"
+														readonly
+														outline
+													></v-text-field>
+												</v-col>
+												<v-col cols="2">
+													<v-text-field
+														label="Workflow Type"
+														:value="dataTableDetails.dag_type"
+														class="subtitle-1"
+														readonly
+														outline
+													></v-text-field>
+												</v-col>
+												<v-col cols="3">
+													<v-text-field
+														label="Workflow Run Id"
+														:value="dataTableDetails.dag_run_id"
+														class="subtitle-1"
+														readonly
+														outline
+													></v-text-field>
+												</v-col>
+												<v-col cols="2">
+													<v-text-field
+														label="Last Modified"
+														:value="this.workflowLastModifiedTime"
+														class="subtitle-1"
+														readonly
+														outline
+													></v-text-field>
+												</v-col>
+											</v-row>
+										</v-card-text>
+									</v-card>
+								</v-tab-item>
+								<v-tab-item value="documentation">
+									<v-card>
+										<v-card-text>
+											<v-row>
+												<v-col class="ml-3" cols="10" offset="0">
+													<vue-markdown
+														:source="dataTableDetails.doc_md"
+													></vue-markdown>
+												</v-col>
+											</v-row>
+										</v-card-text>
+									</v-card>
+								</v-tab-item>
+								<v-tab-item value="fulljson">
+									<v-card>
+										<v-card-title>
+											<span class="title">Full Json</span>
+											<v-spacer></v-spacer>
+										</v-card-title>
+										<v-card-text>
+											<vue-json-pretty
+												:data="this.dataTableDetails"
+												:deep="5"
+												:show-double-quotes="true"
+												:show-length="true"
+												:show-line="false"
+											>
+											</vue-json-pretty>
+										</v-card-text>
+									</v-card>
+								</v-tab-item>
+							</v-tabs>
+						</v-col>
+					</template>
+
 					<JsonSchemaIsInvalid
+						v-else
 						:jsonObject="this.dataTableDetails"
 						:jsonObjectErrors="this.jsonObjectErrors"
-					></JsonSchemaIsInvalid>
-				</v-row>
-			</v-row>
-			<v-row v-else>
-				<template>
-					<v-progress-linear :indeterminate="true"></v-progress-linear>
+					/>
 				</template>
+
+				<v-progress-linear v-else :indeterminate="true" />
 			</v-row>
 		</v-container>
 	</div>
@@ -512,8 +522,20 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
 .v-input__slot {
-	border-style: none !important;
+	&:before {
+		display: none;
+	}
+}
+
+.card-title-right {
+	& > * {
+		margin-right: 10px;
+
+		&:last-of-type {
+			margin-right: 0;
+		}
+	}
 }
 </style>
