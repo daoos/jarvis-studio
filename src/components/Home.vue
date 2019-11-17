@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<v-toolbar dense color="primary" dark extended extension-height="300" flat>
+		<v-toolbar dense color="primary" dark extended extension-height="300" text>
 			<v-toolbar-title class="mx-auto" slot="extension">
 				<h2>Welcome to Jarvis Studio</h2>
 				<span>Keep Calm and Ask for the Retail Data Butler.</span>
@@ -27,7 +27,7 @@
 		<v-container>
 			<v-row>
 				<v-col cols="12" md="8" offset-md="2">
-					<v-card flat class="card--flex-toolbar" color="transparent">
+					<v-card text class="card--flex-toolbar" color="transparent">
 						<v-container fluid>
 							<!-- <v-layout row wrap>
                                 <v-flex xs12>
@@ -65,11 +65,11 @@
 											</v-card-title>
 
 											<v-card-actions>
-												<v-btn flat color="primary" class="learn-more-btn">
+												<v-btn text color="primary" class="learn-more-btn">
 													Learn more
 												</v-btn>
 												<v-spacer></v-spacer>
-												<v-btn flat color="primary">Get started</v-btn>
+												<v-btn text color="primary">Get started</v-btn>
 											</v-card-actions>
 										</v-card>
 									</v-hover>

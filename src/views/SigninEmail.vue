@@ -39,8 +39,7 @@
 							</v-card-text>
 							<v-card-actions>
 								<v-btn
-									color="white"
-									outline
+									outlined
 									@click="googleSignin"
 									:loadingGoogleSignin="loadingGoogleSignin"
 								>
@@ -48,13 +47,9 @@
 									Signin with google
 								</v-btn>
 								<v-spacer></v-spacer>
-								<v-btn
-									color="dark"
-									:disabled="!valid"
-									@click="signin"
-									:loading="loading"
-									>Signin</v-btn
-								>
+								<v-btn :disabled="!valid" @click="signin" :loading="loading">
+									Signin
+								</v-btn>
 							</v-card-actions>
 						</v-card>
 					</v-col>

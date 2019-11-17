@@ -144,10 +144,10 @@
 					:fixed="toolbar.fixed"
 					:clipped-left="toolbar.clippedLeft"
 				>
-					<v-toolbar-side-icon
+					<v-app-bar-nav-icon
 						v-if="!$vuetify.breakpoint.lgAndUp"
 						@click.stop="toggleDrawer"
-					></v-toolbar-side-icon>
+					/>
 					<AccountSelector viewAccount></AccountSelector>
 					<v-spacer></v-spacer>
 					<SearchMenu v-if="$vuetify.breakpoint.smAndUp"></SearchMenu>
