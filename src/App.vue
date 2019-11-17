@@ -13,44 +13,40 @@
 					class="menu"
 					width="300"
 				>
-					<v-toolbar v-if="!drawer.mini" flat class="transparent" dense>
-						<v-list class="pa-0">
-							<v-list-item>
-								<v-list-item-action>
+					<v-list class="pa-0">
+						<v-list-item>
+							<v-list-item-content v-if="!drawer.mini">
+								<v-list-item-title>
+									<h2>{{ appName }}</h2>
+								</v-list-item-title>
+							</v-list-item-content>
+
+							<v-list-item-action>
+								<v-btn icon @click.stop="drawer.mini = !drawer.mini">
 									<v-icon large color="complementary">
-										keyboard_arrow_right
+										{{
+											drawer.mini
+												? "keyboard_arrow_right"
+												: "keyboard_arrow_left"
+										}}
 									</v-icon>
-								</v-list-item-action>
-								<v-list-item-content>
-									<v-list-item-title>
-										<h2>{{ appName }}</h2>
-									</v-list-item-title>
-								</v-list-item-content>
-								<!-- <v-list-item-action>
-                    <v-btn icon @click.stop="drawer.mini = !drawer.mini">
-                        <v-icon v-html="drawer.mini ? 'keyboard_arrow_right' : 'keyboard_arrow_left'"></v-icon>
-                    </v-btn>
-                </v-list-item-action> -->
-							</v-list-item>
-						</v-list>
-					</v-toolbar>
+								</v-btn>
+							</v-list-item-action>
+						</v-list-item>
+					</v-list>
 
 					<v-divider v-if="!drawer.mini"></v-divider>
 
-					<v-tooltip v-slot:activator="{ on }" :disabled="!drawer.mini" right>
-						<v-toolbar flat class="transparent" dense slot="activator">
-							<v-list class="pa-0">
-								<v-list-item to="/" exact>
-									<v-list-item-action>
-										<v-icon>home</v-icon>
-									</v-list-item-action>
-									<v-list-item-content>
-										<v-list-item-title>Project Overview</v-list-item-title>
-									</v-list-item-content>
-								</v-list-item>
-							</v-list>
-						</v-toolbar>
-					</v-tooltip>
+					<v-list class="pa-0">
+						<v-list-item to="/" exact>
+							<v-list-item-action>
+								<v-icon>home</v-icon>
+							</v-list-item-action>
+							<v-list-item-content>
+								<v-list-item-title>Project Overview</v-list-item-title>
+							</v-list-item-content>
+						</v-list-item>
+					</v-list>
 
 					<v-divider></v-divider>
 
@@ -127,15 +123,6 @@
 								<v-list-item-title>
 									Cloud Function Configurations
 								</v-list-item-title>
-							</v-list-item-content>
-						</v-list-item>
-
-						<v-list-item @click="drawer.mini = !drawer.mini">
-							<v-list-item-action>
-								<v-icon>aspect_ratio</v-icon>
-							</v-list-item-action>
-							<v-list-item-content v-if="!drawer.mini">
-								<v-list-item-title>Reduce navigation</v-list-item-title>
 							</v-list-item-content>
 						</v-list-item>
 					</v-list>
