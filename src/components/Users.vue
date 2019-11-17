@@ -240,9 +240,6 @@ export default {
 			const listAllUsers = firebase.functions().httpsCallable("listAllUsers");
 			//list all email users
 			listAllUsers({}).then(users => {
-				for (let user of users.data.users) {
-					console.log(user);
-				}
 				// store the users list
 				const dataUsers = Object.values(users.data.users);
 				let usersFormated = users.data.users.map(function(data) {
@@ -264,10 +261,8 @@ export default {
 					};
 				});
 				this.users = _.merge(dataUsers, usersFormated);
-				console.log(this.users);
 				this.isFetchAndAdding = false;
 			});
-			console.log("accounts", this.accounts);
 		},
 		editUser(item) {
 			this.editedUserIndex = this.users.indexOf(item);
@@ -325,8 +320,7 @@ export default {
 					disabled: this.editedUser.disabled,
 					accounts: this.selectedAccounts,
 					studioRoles: this.selectedRoles
-				}).then(result => {
-					console.log(result);
+				}).then(() => {
 					this.listAllUsers();
 				});
 			} else {
@@ -343,8 +337,7 @@ export default {
 					email: this.editedUser.email,
 					accounts: this.selectedAccounts,
 					studioRoles: this.selectedRoles
-				}).then(result => {
-					console.log(result);
+				}).then(() => {
 					this.listAllUsers();
 				});
 			} else {

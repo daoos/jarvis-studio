@@ -1,6 +1,5 @@
 <template>
 	<v-container>
-		<h1>Accounts:</h1>
 		<v-data-table :headers="headers" :items="accounts" class="elevation-1">
 			<template v-slot:items="props">
 				<td>{{ props.item["account_name"] }}</td>

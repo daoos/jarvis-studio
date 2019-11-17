@@ -1,7 +1,6 @@
 <template>
 	<v-container>
 		<v-row>
-			<h1>Cloud Function Configurations:</h1>
 			<v-col cols="12" offset="0">
 				<v-card dark>
 					<v-card-text>

@@ -92,6 +92,15 @@
 					<v-list subheader>
 						<v-subheader v-if="!drawer.mini">SETTINGS</v-subheader>
 
+						<v-list-item :to="{ path: '/settings/user/profile' }">
+							<v-list-item-action>
+								<v-icon>account_circle</v-icon>
+							</v-list-item-action>
+							<v-list-item-content>
+								<v-list-item-title>Profile</v-list-item-title>
+							</v-list-item-content>
+						</v-list-item>
+
 						<v-list-item :to="{ path: '/settings/users' }">
 							<v-list-item-action>
 								<v-icon>supervised_user_circle</v-icon>

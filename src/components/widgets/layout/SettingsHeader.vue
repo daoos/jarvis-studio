@@ -1,12 +1,12 @@
 <template>
-	<v-toolbar dense tabs color="primary" dark>
+	<v-toolbar dense tabs color="primary">
 		<v-toolbar-title class="pl-2 display-1">{{ headerTitle }}</v-toolbar-title>
-		<v-spacer></v-spacer>
+
 		<v-tabs
-			v-model="tabs"
-			color="transparent"
+			color="white"
 			slider-color="white"
 			slot="extension"
+			background-color="primary"
 		>
 			<v-tab
 				v-for="tabsItem in tabsItems"
@@ -21,7 +21,6 @@
 
 <script>
 export default {
-	components: {},
 	props: {
 		tabsItems: Array,
 		headerTitle: String
