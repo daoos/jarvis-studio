@@ -115,7 +115,8 @@
 			class="elevation-1"
 			:search="search"
 			:loading="isFetchAndAdding"
-			:pagination.sync="pagination"
+			:sort-by.sync="pagination.sortBy"
+			:sort-desc.sync="pagination.descending"
 			item-key="email"
 			light
 		>

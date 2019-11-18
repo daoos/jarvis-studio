@@ -2,11 +2,12 @@
 	<v-row align="center" justify="end" class="pr-5">
 		<v-menu :nudge-width="100" v-if="viewEnvironnement">
 			<v-toolbar-title slot="activator" class="pr-2">
-				<span class="body-2 contrast--text">{{
-					envFilterSelected.envLabel
-				}}</span>
+				<span class="body-2 contrast--text">
+					{{ envFilterSelected.envLabel }}
+				</span>
 				<v-icon class="contrast--text">arrow_drop_down</v-icon>
 			</v-toolbar-title>
+
 			<v-list light>
 				<v-list-item
 					v-for="environment in envFilters"
@@ -17,6 +18,7 @@
 				</v-list-item>
 			</v-list>
 		</v-menu>
+
 		<v-menu :nudge-width="100" v-if="viewRunStatus">
 			<v-toolbar-title slot="activator" class="pr-2">
 				<span class="body-2 contrast--text">{{
@@ -36,6 +38,7 @@
 				</v-list-item>
 			</v-list>
 		</v-menu>
+
 		<v-menu :nudge-width="100" v-if="viewPeriode">
 			<v-toolbar-title slot="activator" class="pr-2">
 				<span class="body-2 contrast--text">{{

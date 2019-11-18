@@ -29,7 +29,8 @@
 			:search="search"
 			:loading="isFetchAndAdding"
 			:expand="expand"
-			:pagination.sync="pagination"
+			:sort-by.sync="pagination.sortBy"
+			:sort-desc.sync="pagination.descending"
 			item-key="id"
 			class="elevation-1"
 		>
