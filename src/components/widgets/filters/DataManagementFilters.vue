@@ -1,58 +1,58 @@
 <template>
 	<v-row align="center" justify="end" class="pr-5">
-		<v-menu :nudge-width="100" v-if="viewEnvironnement">
-			<v-toolbar-title slot="activator" class="pr-2">
-				<span class="body-2 contrast--text">
+		<v-menu transition="slide-y-transition" bottom>
+			<template v-slot:activator="{ on }">
+				<v-btn small outlined v-on="on" class="mr-3">
 					{{ envFilterSelected.envLabel }}
-				</span>
-				<v-icon class="contrast--text">arrow_drop_down</v-icon>
-			</v-toolbar-title>
+					<v-icon>arrow_drop_down</v-icon>
+				</v-btn>
+			</template>
 
-			<v-list light>
+			<v-list>
 				<v-list-item
 					v-for="environment in envFilters"
 					:key="environment.envId"
 					@click="applyEnvFilter(environment)"
 				>
-					<v-list-item-title v-text="environment.envLabel"></v-list-item-title>
+					<v-list-item-title>{{ environment.envLabel }}</v-list-item-title>
 				</v-list-item>
 			</v-list>
 		</v-menu>
 
-		<v-menu :nudge-width="100" v-if="viewRunStatus">
-			<v-toolbar-title slot="activator" class="pr-2">
-				<span class="body-2 contrast--text">{{
-					runStatusFilterSelected.runStatusLabel
-				}}</span>
-				<v-icon class="contrast--text">arrow_drop_down</v-icon>
-			</v-toolbar-title>
-			<v-list light>
+		<v-menu transition="slide-y-transition" bottom>
+			<template v-slot:activator="{ on }">
+				<v-btn small outlined v-on="on" class="mr-3">
+					{{ runStatusFilterSelected.runStatusLabel }}
+					<v-icon>arrow_drop_down</v-icon>
+				</v-btn>
+			</template>
+
+			<v-list>
 				<v-list-item
 					v-for="runStatus in runStatusFilters"
 					:key="runStatus.runStatusId"
 					@click="applyRunStatusFilter(runStatus)"
 				>
-					<v-list-item-title
-						v-text="runStatus.runStatusLabel"
-					></v-list-item-title>
+					<v-list-item-title>{{ runStatus.runStatusLabel }}</v-list-item-title>
 				</v-list-item>
 			</v-list>
 		</v-menu>
 
-		<v-menu :nudge-width="100" v-if="viewPeriode">
-			<v-toolbar-title slot="activator" class="pr-2">
-				<span class="body-2 contrast--text">{{
-					dateFilterSelected.dateLabel
-				}}</span>
-				<v-icon class="contrast--text">arrow_drop_down</v-icon>
-			</v-toolbar-title>
-			<v-list light>
+		<v-menu transition="slide-y-transition" bottom>
+			<template v-slot:activator="{ on }">
+				<v-btn small outlined v-on="on">
+					{{ dateFilterSelected.dateLabel }}
+					<v-icon class="contrast--text">arrow_drop_down</v-icon>
+				</v-btn>
+			</template>
+
+			<v-list>
 				<v-list-item
 					v-for="date in dateFilters"
 					:key="date.nbDays"
 					@click="applyDateFilter(date)"
 				>
-					<v-list-item-title v-text="date.dateLabel"></v-list-item-title>
+					<v-list-item-title>{{ date.dateLabel }}</v-list-item-title>
 				</v-list-item>
 			</v-list>
 		</v-menu>

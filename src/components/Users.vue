@@ -144,7 +144,6 @@
 			v-model="snackbarParam.show"
 			:color="snackbarParam.color"
 			:timeout="2000"
-			auto-height
 		>
 			{{ snackbarParam.message }}
 			<v-btn flat @click="snackbarParam.show = false">
