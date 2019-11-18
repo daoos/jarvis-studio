@@ -9,23 +9,24 @@
 						label="Search"
 						single-line
 						hide-details
-					></v-text-field>
+					/>
+
 					<v-spacer></v-spacer>
-					<DataManagementFilters
-						viewEnvironnement
-						viewPeriode
-						viewRunStatus
-					></DataManagementFilters>
-					<v-icon right @click="getFirestoreData" v-if="!isFetchAndAdding"
-						>refresh</v-icon
-					>
+
+					<DataManagementFilters viewEnvironnement viewPeriode viewRunStatus />
+
+					<v-icon right @click="getFirestoreData" v-if="!isFetchAndAdding">
+						refresh
+					</v-icon>
+
 					<v-progress-circular
 						indeterminate
 						size="20"
 						color="primary"
 						v-if="isFetchAndAdding"
-					></v-progress-circular>
+					/>
 				</v-toolbar>
+
 				<v-data-table
 					:headers="headers"
 					:items="mirrorExcGcsToGbqRunsFormated"
@@ -37,11 +38,8 @@
 					item-key="id"
 					class="elevation-1"
 				>
-					<v-progress-linear
-						v-slot:progress
-						color="blue"
-						indeterminate
-					></v-progress-linear>
+					<v-progress-linear v-slot:progress color="blue" indeterminate />
+
 					<template v-slot:items="props">
 						<td>{{ props.item["account"] }}</td>
 						<td>{{ props.item["environment"] }}</td>

@@ -7,24 +7,25 @@
 				label="Search"
 				single-line
 				hide-details
-			></v-text-field>
+			/>
+
 			<v-spacer></v-spacer>
-			<DataManagementFilters
-				viewEnvironnement
-				viewPeriode
-				viewRunStatus
-			></DataManagementFilters>
-			<v-icon @click="getFirestoreData" v-if="!isFetchAndAdding"
-				>refresh</v-icon
-			>
+
+			<DataManagementFilters viewEnvironnement viewPeriode viewRunStatus />
+
+			<v-icon @click="getFirestoreData" v-if="!isFetchAndAdding">
+				refresh
+			</v-icon>
+
 			<v-progress-circular
 				indeterminate
 				size="20"
 				color="primary"
 				v-if="isFetchAndAdding"
 				class="pl-4"
-			></v-progress-circular>
+			/>
 		</v-toolbar>
+
 		<v-data-table
 			:headers="headers"
 			:items="mirrorExcGcsToGcsRunsFormated"
@@ -36,45 +37,62 @@
 			item-key="id"
 			class="elevation-1"
 		>
-			<v-progress-linear
-				v-slot:progress
-				color="blue"
-				indeterminate
-			></v-progress-linear>
-			<template v-slot:items="props">
-				<td>{{ props.item["account"] }}</td>
-				<td>{{ props.item["environment"] }}</td>
-				<td>{{ props.item["source_bucket"] }}</td>
-				<td>
-					<router-link
-						:to="{
-							name: 'GcsToGcsRun',
-							params: { runId: props.item.id }
-						}"
-						><span class="font-weight-medium">{{
-							props.item["gcs_triggering_file"]
-						}}</span></router-link
-					>
-				</td>
-				<td>
-					<v-chip
-						:color="props.item.statusColor"
-						text-color="white"
-						small
-						class="text-lowercase"
-						>{{ props.item["status"] }}</v-chip
-					>
-				</td>
-				<td>{{ props.item["dag_execution_date_formated"] }}</td>
-				<td class="justify-center layout px-0">
+			<v-progress-linear v-slot:progress color="blue" indeterminate />
+
+			<template v-slot:expanded-item="{ headers }">
+				<td :colspan="headers.length">Peek-a-boo!</td>
+			</template>
+
+			<template v-slot:item.account="{ item: { account } }">
+				{{ account }}
+			</template>
+
+			<template v-slot:item.environment="{ item: { environment } }">
+				{{ environment }}
+			</template>
+
+			<template v-slot:item.source_bucket="{ item: { source_bucket } }">
+				{{ source_bucket }}
+			</template>
+
+			<template
+				v-slot:item.gcs_triggering_file="{ item: { id, gcs_triggering_file } }"
+			>
+				<router-link :to="{ name: 'GcsToGcsRun', params: { runId: id } }">
+					{{ gcs_triggering_file }}
+				</router-link>
+			</template>
+
+			<template v-slot:item.status="{ item: { status, statusColor } }">
+				<v-chip
+					:color="statusColor"
+					text-color="white"
+					small
+					class="text-lowercase"
+				>
+					{{ status }}
+				</v-chip>
+			</template>
+
+			<template
+				v-slot:item.dag_execution_date_formated="{
+					item: { dag_execution_date_formated }
+				}"
+			>
+				{{ dag_execution_date_formated }}
+			</template>
+
+			<template v-slot:item.actions="props">
+				<div class="justify-center layout px-0">
 					<v-icon small class="mr-2" @click="viewItem(props, props.item)">
 						remove_red_eye
 					</v-icon>
-					<v-icon class="mr-2" small @click="openAirflowDagRunUrl(props.item)">
+					<v-icon small @click="openAirflowDagRunUrl(props.item)">
 						open_in_new
 					</v-icon>
-				</td>
+				</div>
 			</template>
+
 			<template v-slot:expand="props">
 				<v-card flat>
 					<v-card-title>
@@ -102,6 +120,7 @@
 				Your search for "{{ search }}" found no results.
 			</v-alert>
 		</v-data-table>
+
 		<v-row v-if="viewJson">
 			<v-col cols="12" offset="0">
 				<v-card dark class="elevation-10">
@@ -202,8 +221,10 @@ export default {
 		await this.getFirestoreData();
 	},
 	methods: {
-		viewItem(props, item) {
-			props.expanded = !props.expanded;
+		viewItem(item) {
+			console.log("1", item.expanded);
+			item.expanded = !item.expanded;
+			console.log("2-", item.expanded);
 			this.viewedIndex = this.mirrorExcGcsToGcsRunsFormated.indexOf(item);
 			this.viewedItem = Object.assign({}, item);
 		},
