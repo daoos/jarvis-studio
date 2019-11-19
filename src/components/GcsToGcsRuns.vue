@@ -31,17 +31,13 @@
 			:items="mirrorExcGcsToGcsRunsFormated"
 			:search="search"
 			:loading="isFetchAndAdding"
-			:expand="expand"
+			:expanded="expanded"
 			:sort-by.sync="pagination.sortBy"
 			:sort-desc.sync="pagination.descending"
 			item-key="id"
 			class="elevation-1"
 		>
 			<v-progress-linear v-slot:progress color="blue" indeterminate />
-
-			<template v-slot:expanded-item="{ headers }">
-				<td :colspan="headers.length">Peek-a-boo!</td>
-			</template>
 
 			<template v-slot:item.account="{ item: { account } }">
 				{{ account }}
@@ -82,70 +78,52 @@
 				{{ dag_execution_date_formated }}
 			</template>
 
-			<template v-slot:item.actions="props">
+			<template v-slot:item.actions="{ item }">
 				<div class="justify-center layout px-0">
-					<v-icon small class="mr-2" @click="viewItem(props, props.item)">
+					<v-icon small class="mr-2" @click="toggleExpand(item)">
 						remove_red_eye
 					</v-icon>
-					<v-icon small @click="openAirflowDagRunUrl(props.item)">
+
+					<v-icon small @click="openAirflowDagRunUrl(item)">
 						open_in_new
 					</v-icon>
 				</div>
 			</template>
 
-			<template v-slot:expand="props">
-				<v-card flat>
-					<v-card-title>
-						<span class="headline">{{ viewedItem.gcs_triggering_file }}</span>
-						<v-spacer></v-spacer>
-						<v-btn color="warning" fab small dark outline>
-							<v-icon @click="props.expanded = !props.expanded">
-								close
-							</v-icon>
-						</v-btn>
-					</v-card-title>
-					<v-card-text>
-						<vue-json-pretty
-							:data="viewedItem"
-							:deep="5"
-							:show-double-quotes="true"
-							:show-length="true"
-							:show-line="false"
-						>
-						</vue-json-pretty>
-					</v-card-text>
-				</v-card>
+			<template v-slot:expanded-item="{ headers }">
+				<td :colspan="headers.length" class="pa-0">
+					<v-card flat>
+						<v-card-title>
+							<span class="headline">{{ viewedItem.gcs_triggering_file }}</span>
+							<v-spacer></v-spacer>
+							<v-btn
+								color="warning"
+								fab
+								small
+								dark
+								outlined
+								@click="toggleExpand(viewedItem)"
+							>
+								<v-icon>close</v-icon>
+							</v-btn>
+						</v-card-title>
+						<v-card-text>
+							<vue-json-pretty
+								:data="viewedItem"
+								:deep="5"
+								:show-double-quotes="true"
+								:show-length="true"
+								:show-line="false"
+							>
+							</vue-json-pretty>
+						</v-card-text>
+					</v-card>
+				</td>
 			</template>
 			<v-alert v-slot:no-results :value="true" color="error" icon="warning">
 				Your search for "{{ search }}" found no results.
 			</v-alert>
 		</v-data-table>
-
-		<v-row v-if="viewJson">
-			<v-col cols="12" offset="0">
-				<v-card dark class="elevation-10">
-					<v-card-title>
-						<span class="headline">{{ viewedItem.gcs_triggering_file }}</span>
-						<v-spacer></v-spacer>
-						<v-btn color="warning" fab small dark outline>
-							<v-icon @click="viewJson = false">
-								close
-							</v-icon>
-						</v-btn>
-					</v-card-title>
-					<v-card-text>
-						<vue-json-pretty
-							:data="viewedItem"
-							:deep="5"
-							:show-double-quotes="true"
-							:show-length="true"
-							:show-line="false"
-						>
-						</vue-json-pretty>
-					</v-card-text>
-				</v-card>
-			</v-col>
-		</v-row>
 	</v-container>
 </template>
 
@@ -165,6 +143,7 @@ export default {
 		DataManagementFilters
 	},
 	data: () => ({
+		expanded: [],
 		search: "",
 		isFetchAndAdding: false,
 		expand: false,
@@ -221,12 +200,17 @@ export default {
 		await this.getFirestoreData();
 	},
 	methods: {
-		viewItem(item) {
-			console.log("1", item.expanded);
-			item.expanded = !item.expanded;
-			console.log("2-", item.expanded);
-			this.viewedIndex = this.mirrorExcGcsToGcsRunsFormated.indexOf(item);
-			this.viewedItem = Object.assign({}, item);
+		toggleExpand(item) {
+			const isAlreadyExpand =
+				this.expanded.filter(expandedItem => expandedItem.id === item.id)
+					.length === 1;
+
+			if (isAlreadyExpand) {
+				this.expanded = [];
+			} else {
+				this.expanded = [item];
+				this.viewedItem = item;
+			}
 		},
 		openAirflowDagRunUrl(item) {
 			window.open(item.dag_execution_airflow_url, "_blank");
@@ -299,5 +283,3 @@ export default {
 	}
 };
 </script>
-
-<style></style>
