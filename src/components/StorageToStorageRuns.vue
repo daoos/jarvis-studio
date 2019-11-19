@@ -7,125 +7,118 @@
 				label="Search"
 				single-line
 				hide-details
-			></v-text-field>
-			<v-spacer></v-spacer>
-			<DataManagementFilters
-				viewEnvironnement
-				viewPeriode
-				viewRunStatus
-			></DataManagementFilters>
+			/>
+
+			<v-spacer />
+
+			<DataManagementFilters viewEnvironnement viewPeriode viewRunStatus />
+
 			<v-icon right @click="getFirestoreData" v-if="!isFetchAndAdding"
 				>refresh</v-icon
 			>
+
 			<v-progress-circular
+				v-if="isFetchAndAdding"
 				indeterminate
 				size="20"
 				color="primary"
-				v-if="isFetchAndAdding"
-			></v-progress-circular>
+			/>
 		</v-toolbar>
+
 		<v-data-table
 			:headers="headers"
 			:items="storageToStorageRunsFormated"
 			:search="search"
 			:loading="isFetchAndAdding"
-			:expand="expand"
+			:expanded="expanded"
 			:sort-by.sync="pagination.sortBy"
 			:sort-desc.sync="pagination.descending"
 			item-key="id"
 			class="elevation-5"
 		>
-			<v-progress-linear
-				v-slot:progress
-				color="blue"
-				indeterminate
-			></v-progress-linear>
-			<template v-slot:items="props">
-				<td>{{ props.item["account"] }}</td>
-				<td>{{ props.item["environment"] }}</td>
-				<td>{{ props.item["configuration_id"] }}</td>
-				<td>
-					<router-link
-						:to="{
-							name: 'StorageToStorageRun',
-							params: { runId: props.item.id }
-						}"
-						><span class="font-weight-medium">{{
-							props.item["triggering_file"]
-						}}</span></router-link
-					>
-				</td>
-				<td>
-					<v-chip
-						:color="props.item.statusColor"
-						text-color="white"
-						small
-						class="text-lowercase"
-						>{{ props.item["status"] }}</v-chip
-					>
-				</td>
-				<td>{{ props.item["dag_execution_date_formated"] }}</td>
-				<td class="justify-center layout px-0">
-					<v-icon small class="mr-2" @click="viewItem(props, props.item)">
+			<v-progress-linear v-slot:progress color="blue" indeterminate />
+
+			<template v-slot:item.account="{ item: { account } }">
+				{{ account }}
+			</template>
+
+			<template v-slot:item.environment="{ item: { environment } }">
+				{{ environment }}
+			</template>
+
+			<template v-slot:item.configuration_id="{ item: { configuration_id } }">
+				{{ configuration_id }}
+			</template>
+
+			<template v-slot:item.triggering_file="{ item: { id, triggering_file } }">
+				<router-link
+					:to="{ name: 'StorageToStorageRun', params: { runId: id } }"
+				>
+					{{ triggering_file }}
+				</router-link>
+			</template>
+
+			<template v-slot:item.status="{ item: { status, statusColor } }">
+				<v-chip
+					:color="statusColor"
+					text-color="white"
+					small
+					class="text-lowercase"
+				>
+					{{ status }}
+				</v-chip>
+			</template>
+
+			<template
+				v-slot:item.dag_execution_date_formated="{
+					item: { dag_execution_date_formated }
+				}"
+			>
+				{{ dag_execution_date_formated }}
+			</template>
+
+			<template v-slot:item.actions="{ item }">
+				<div class="justify-center layout px-0">
+					<v-icon small class="mr-2" @click="toggleExpand(item)">
 						remove_red_eye
 					</v-icon>
-					<v-icon class="mr-2" small @click="openAirflowDagRunUrl(props.item)">
+
+					<v-icon small @click="openAirflowDagRunUrl(item)">
 						open_in_new
 					</v-icon>
+				</div>
+			</template>
+
+			<template v-slot:expanded-item="{ headers }">
+				<td :colspan="headers.length" class="pa-0">
+					<v-card flat>
+						<v-card-title>
+							<span class="headline">{{ viewedItem.dag_run_id }}</span>
+							<v-spacer></v-spacer>
+							<v-btn color="warning" fab small dark outlined>
+								<v-icon @click="props.expanded = !props.expanded">
+									close
+								</v-icon>
+							</v-btn>
+						</v-card-title>
+						<v-card-text>
+							<vue-json-pretty
+								:data="viewedItem"
+								:deep="5"
+								:show-double-quotes="true"
+								:show-length="true"
+								:show-line="false"
+							>
+							</vue-json-pretty>
+						</v-card-text>
+					</v-card>
 				</td>
 			</template>
-			<template v-slot:expand="props">
-				<v-card flat>
-					<v-card-title>
-						<span class="headline">{{ viewedItem.dag_run_id }}</span>
-						<v-spacer></v-spacer>
-						<v-btn color="warning" fab small dark outline>
-							<v-icon @click="props.expanded = !props.expanded">
-								close
-							</v-icon>
-						</v-btn>
-					</v-card-title>
-					<v-card-text>
-						<vue-json-pretty
-							:data="viewedItem"
-							:deep="5"
-							:show-double-quotes="true"
-							:show-length="true"
-							:show-line="false"
-						>
-						</vue-json-pretty>
-					</v-card-text>
-				</v-card>
-			</template>
+
 			<v-alert v-slot:no-results :value="true" color="error" icon="warning">
 				Your search for "{{ search }}" found no results.
 			</v-alert>
 		</v-data-table>
-		<v-row v-if="viewJson">
-			<v-col cols="12" offset="0">
-				<v-card dark class="elevation-10">
-					<v-card-title>
-						<span class="headline">{{ viewedItem.dag_run_id }}</span>
-						<v-spacer></v-spacer>
-						<v-btn color="warning" fab small dark outline>
-							<v-icon @click="viewJson = false">
-								close
-							</v-icon>
-						</v-btn>
-					</v-card-title>
-					<v-card-text>
-						<vue-json-pretty
-							:data="viewedItem"
-							:deep="5"
-							:show-double-quotes="true"
-							:show-length="true"
-							:show-line="false"
-						>
-						</vue-json-pretty>
-					</v-card-text>
-				</v-card>
-			</v-col>
-		</v-row>
 	</v-container>
 </template>
 
@@ -145,6 +138,7 @@ export default {
 		DataManagementFilters
 	},
 	data: () => ({
+		expanded: [],
 		search: "",
 		isFetchAndAdding: false,
 		expand: false,
@@ -201,10 +195,17 @@ export default {
 		this.getFirestoreData();
 	},
 	methods: {
-		viewItem(props, item) {
-			props.expanded = !props.expanded;
-			this.viewedIndex = this.storageToStorageRunsFormated.indexOf(item);
-			this.viewedItem = Object.assign({}, item);
+		toggleExpand(item) {
+			const isAlreadyExpand =
+				this.expanded.filter(expandedItem => expandedItem.id === item.id)
+					.length === 1;
+
+			if (isAlreadyExpand) {
+				this.expanded = [];
+			} else {
+				this.expanded = [item];
+				this.viewedItem = item;
+			}
 		},
 		openAirflowDagRunUrl(item) {
 			window.open(item.dag_execution_airflow_url, "_blank");

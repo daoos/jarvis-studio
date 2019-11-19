@@ -6,7 +6,7 @@
 				>{{ viewId }}</span
 			>
 			<v-spacer></v-spacer>
-			<v-btn flat color="grey" @click="goBack()">
+			<v-btn text color="grey" @click="goBack()">
 				Go Back
 			</v-btn>
 			<ActivatedStatusChip
