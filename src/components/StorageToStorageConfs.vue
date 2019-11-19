@@ -97,7 +97,7 @@
 							<span class="headline">{{ viewedItem.id }}</span>
 							<v-spacer></v-spacer>
 							<v-btn color="warning" fab small dark outline>
-								<v-icon @click="props.expanded = !props.expanded">
+								<v-icon @click="toggleExpand(viewedItem)">
 									close
 								</v-icon>
 							</v-btn>
