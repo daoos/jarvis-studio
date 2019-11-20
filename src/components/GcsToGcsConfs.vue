@@ -94,7 +94,7 @@
 						<v-card-title>
 							<span class="headline">{{ viewedItem.id }}</span>
 							<v-spacer></v-spacer>
-							<v-btn color="warning" fab small outline>
+							<v-btn color="warning" fab small outlined>
 								<v-icon @click="toggleExpand(viewedItem)">
 									close
 								</v-icon>
@@ -118,32 +118,6 @@
 				Your search for "{{ search }}" found no results.
 			</v-alert>
 		</v-data-table>
-
-		<v-row v-if="viewJson">
-			<v-col cols="12" offset="0">
-				<v-card class="elevation-10">
-					<v-card-title>
-						<span class="headline">{{ viewedItem.id }}</span>
-						<v-spacer></v-spacer>
-						<v-btn color="warning" fab small dark outline>
-							<v-icon @click="viewJson = false">
-								close
-							</v-icon>
-						</v-btn>
-					</v-card-title>
-					<v-card-text>
-						<vue-json-pretty
-							:data="viewedItem"
-							:deep="5"
-							:show-double-quotes="true"
-							:show-length="true"
-							:show-line="false"
-						>
-						</vue-json-pretty>
-					</v-card-text>
-				</v-card>
-			</v-col>
-		</v-row>
 
 		<v-dialog v-model="dialogDeleteConf" max-width="400">
 			<v-card light>

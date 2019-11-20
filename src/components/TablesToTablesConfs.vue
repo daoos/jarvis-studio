@@ -7,98 +7,119 @@
 				label="Search"
 				single-line
 				hide-details
-			></v-text-field>
-			<v-spacer></v-spacer>
-			<DataManagementFilters viewEnvironnement></DataManagementFilters>
+			/>
+
+			<v-spacer />
+
+			<DataManagementFilters viewEnvironnement />
+
 			<v-icon right @click="getFirestoreData" v-if="!isFetchAndAdding"
 				>refresh</v-icon
 			>
+
 			<v-progress-circular
 				indeterminate
 				size="20"
 				color="primary"
 				v-if="isFetchAndAdding"
-			></v-progress-circular>
+			/>
 		</v-toolbar>
+
 		<v-data-table
 			:headers="headers"
 			:items="getGbqToGbqConfsFormated"
 			:search="search"
 			:loading="isFetchAndAdding"
-			:expand="expand"
-			:pagination.sync="pagination"
+			:expanded="expanded"
+			:sort-by.sync="pagination.sortBy"
+			:sort-desc.sync="pagination.descending"
 			item-key="id"
 			class="elevation-1"
 		>
-			<v-progress-linear
-				v-slot:progress
-				color="blue"
-				indeterminate
-			></v-progress-linear>
-			<template v-slot:items="props">
-				<td>{{ props.item.account }}</td>
-				<td>{{ props.item.environment }}</td>
-				<td>
-					<router-link
-						:to="{
-							name: 'TablesToTablesConf',
-							params: { pathId: props.item.id }
-						}"
-						><span class="font-weight-medium">
-							{{ props.item.id }}</span
-						></router-link
-					>
-				</td>
-				<td>{{ props.item.configuration.default_bq_dataset }}</td>
-				<td>{{ props.item["nb_tasks"] }}</td>
-				<td>
-					<ActivatedStatusChip
-						@click.native="
-							changeActivatedStatus(props.item, 'getGbqToGbqConfs')
-						"
-						:activatedConfStatus="props.item.configuration.activated"
-					></ActivatedStatusChip>
-				</td>
-				<td class="justify-center layout px-0">
-					<v-icon small class="mr-2" @click="viewItem(props, props.item)">
-						remove_red_eye
-					</v-icon>
+			<v-progress-linear v-slot:progress color="blue" indeterminate />
+
+			<template v-slot:item.account="{ item: { account } }">
+				{{ account }}
+			</template>
+
+			<template v-slot:item.environment="{ item: { environment } }">
+				{{ environment }}
+			</template>
+
+			<template v-slot:item.id="{ item: { id } }">
+				<router-link
+					:to="{
+						name: 'TablesToTablesConf',
+						params: { pathId: id }
+					}"
+				>
+					<span class="font-weight-medium">{{ id }}</span>
+				</router-link>
+			</template>
+
+			<template
+				v-slot:item.configuration.default_bq_dataset="{
+					item: { configuration: { default_bq_dataset } }
+				}"
+			>
+				{{ default_bq_dataset }}
+			</template>
+
+			<template v-slot:item.nb_tasks="{ item: { nb_tasks } }">
+				{{ nb_tasks }}
+			</template>
+
+			<template v-slot:item.activated="{ item }">
+				<ActivatedStatusChip
+					@click.native="changeActivatedStatus(item, 'getGbqToGbqConfs')"
+					:activatedConfStatus="item.configuration.activated"
+				/>
+			</template>
+
+			<template v-slot:item.actions="{ item }">
+				<v-icon small @click="toggleExpand(item)">
+					remove_red_eye
+				</v-icon>
+			</template>
+
+			<template v-slot:expanded-item="{ headers }">
+				<td :colspan="headers.length" class="pa-0">
+					<v-card flat>
+						<v-card-title>
+							<span class="headline">{{ viewedItem.id }}</span>
+							<v-spacer></v-spacer>
+							<v-btn color="warning" fab small dark outlined>
+								<v-icon @click="toggleExpand(viewedItem)">
+									close
+								</v-icon>
+							</v-btn>
+						</v-card-title>
+						<v-card-text>
+							<vue-json-pretty
+								:data="viewedItem"
+								:deep="5"
+								:show-double-quotes="true"
+								:show-length="true"
+								:show-line="false"
+							>
+							</vue-json-pretty>
+						</v-card-text>
+					</v-card>
 				</td>
 			</template>
-			<template v-slot:expand="props">
-				<v-card flat>
-					<v-card-title>
-						<span class="headline">{{ viewedItem.id }}</span>
-						<v-spacer></v-spacer>
-						<v-btn color="warning" fab small dark outline>
-							<v-icon @click="props.expanded = !props.expanded">
-								close
-							</v-icon>
-						</v-btn>
-					</v-card-title>
-					<v-card-text>
-						<vue-json-pretty
-							:data="viewedItem"
-							:deep="5"
-							:show-double-quotes="true"
-							:show-length="true"
-							:show-line="false"
-						>
-						</vue-json-pretty>
-					</v-card-text>
-				</v-card>
-			</template>
+
 			<v-alert v-slot:no-results :value="true" color="error" icon="warning">
 				Your search for "{{ search }}" found no results.
 			</v-alert>
 		</v-data-table>
+
 		<v-row v-if="viewJson">
 			<v-col cols="12" offset="0">
 				<v-card dark class="elevation-10">
 					<v-card-title>
 						<span class="headline">{{ id }}</span>
 						<v-spacer></v-spacer>
-						<v-btn color="warning" fab small dark outline>
+						<v-btn color="warning" fab small dark outlined>
 							<v-icon @click="viewJson = false">
 								close
 							</v-icon>
@@ -117,11 +138,11 @@
 				</v-card>
 			</v-col>
 		</v-row>
+
 		<v-snackbar
 			v-model="snackbarParam.show"
 			:color="snackbarParam.color"
 			:timeout="2000"
-			auto-height
 		>
 			{{ snackbarParam.message }}
 			<v-btn flat @click="snackbarParam.show = false">
@@ -149,6 +170,7 @@ export default {
 		ActivatedStatusChip
 	},
 	data: () => ({
+		expanded: [],
 		search: "",
 		isFetchAndAdding: false,
 		fetchAndAddStatus: "",
@@ -205,10 +227,17 @@ export default {
 		this.getFirestoreData();
 	},
 	methods: {
-		viewItem(props, item) {
-			props.expanded = !props.expanded;
-			this.viewedIndex = this.getGbqToGbqConfsFormated.indexOf(item);
-			this.viewedItem = item;
+		toggleExpand(item) {
+			const isAlreadyExpand =
+				this.expanded.filter(expandedItem => expandedItem.id === item.id)
+					.length === 1;
+
+			if (isAlreadyExpand) {
+				this.expanded = [];
+			} else {
+				this.expanded = [item];
+				this.viewedItem = item;
+			}
 		},
 		async getFirestoreData() {
 			const where = this.whereConfFilter;
