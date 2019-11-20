@@ -1,3 +1,5 @@
+<!-- TODO: Update template -->
+
 <template>
 	<v-container fluid>
 		<v-row>
@@ -9,19 +11,24 @@
 						label="Search"
 						single-line
 						hide-details
-					></v-text-field>
-					<v-spacer></v-spacer>
-					<DataManagementFilters viewEnvironnement></DataManagementFilters>
+					/>
+
+					<v-spacer />
+
+					<DataManagementFilters viewEnvironnement />
+
 					<v-icon right @click="getFirestoreData" v-if="!isFetchAndAdding"
 						>refresh</v-icon
 					>
+
 					<v-progress-circular
 						indeterminate
 						size="20"
 						color="primary"
 						v-if="isFetchAndAdding"
-					></v-progress-circular>
+					/>
 				</v-toolbar>
+
 				<v-data-table
 					:headers="headers"
 					:items="mirrorExcGcsToGbqConfsAllDetailsArrayFlat"
@@ -32,11 +39,8 @@
 					item-key="key"
 					class="elevation-1"
 				>
-					<v-progress-linear
-						v-slot:progress
-						color="blue"
-						indeterminate
-					></v-progress-linear>
+					<v-progress-linear v-slot:progress color="blue" indeterminate />
+
 					<template v-slot:items="props">
 						<td>{{ props.item["account"] }}</td>
 						<td>{{ props.item["environment"] }}</td>
@@ -74,6 +78,7 @@
 							</v-icon>
 						</td>
 					</template>
+
 					<template v-slot:expand="props">
 						<v-card flat>
 							<v-card-title>
@@ -97,12 +102,14 @@
 							</v-card-text>
 						</v-card>
 					</template>
+
 					<v-alert v-slot:no-results :value="true" color="error" icon="warning">
 						Your search for "{{ search }}" found no results.
 					</v-alert>
 				</v-data-table>
 			</v-col>
 		</v-row>
+
 		<v-row v-if="viewJson">
 			<v-col cols="12" offset="0">
 				<v-card dark class="elevation-10">
@@ -128,6 +135,7 @@
 				</v-card>
 			</v-col>
 		</v-row>
+
 		<v-dialog v-model="dialogDeleteConf" max-width="400">
 			<v-card light>
 				<v-card-title class="headline">Delete Configuration</v-card-title>
@@ -172,6 +180,7 @@
 				</v-slide-y-transition>
 			</v-card>
 		</v-dialog>
+
 		<v-snackbar
 			v-model="showSnackbarDeleteConfSuccess"
 			color="success"
@@ -180,6 +189,7 @@
 		>
 			Configuration deleted with sucess
 		</v-snackbar>
+
 		<v-snackbar
 			v-model="snackbarParam.show"
 			:color="snackbarParam.color"
@@ -329,7 +339,6 @@ export default {
 				//Loop on mirrorExcGcsToGbqConfsArray to get the collection
 				for (var confDetailsId in mirrorExcGcsToGbqConfsArray) {
 					let bucketId = mirrorExcGcsToGbqConfsArray[confDetailsId].id;
-					console.log("bucketId", bucketId);
 					try {
 						store.dispatch("mirrorExcGcsToGbqConfDetails/closeDBChannel", {
 							clearModule: true
