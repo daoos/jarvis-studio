@@ -1,6 +1,6 @@
 <template>
 	<v-container fluid>
-		<v-flex :[vflexLength]="true" :[vflexOffset]="true">
+		<v-col>
 			<h2 class="black--text pb-3">
 				{{ tableTitle }}
 				<v-tooltip right>
@@ -22,7 +22,7 @@
 					No information to display
 				</div>
 			</vue-good-table>
-		</v-flex>
+		</v-col>
 	</v-container>
 </template>
 

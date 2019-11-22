@@ -9,7 +9,8 @@
 		>
 			<template v-slot:footer>
 				<v-toolbar flat color="transparent">
-					<v-spacer></v-spacer>
+					<v-spacer />
+
 					<v-dialog
 						v-model="dialogSql"
 						max-width="1000"
@@ -17,9 +18,9 @@
 						v-if="task.task_type === 'sql'"
 					>
 						<template v-slot:activator="{ on }">
-							<v-chip color="orange" text-color="white" v-on="on"
-								>VIEW SQL</v-chip
-							>
+							<v-chip color="orange" text-color="white" v-on="on" class="mr-2">
+								VIEW SQL
+							</v-chip>
 						</template>
 						<v-card>
 							<v-card-title class="headline grey lighten-2" primary-title>
@@ -41,6 +42,7 @@
 							</v-card-actions>
 						</v-card>
 					</v-dialog>
+
 					<v-dialog
 						v-model="dialogSchema"
 						max-width="1000"
@@ -48,9 +50,9 @@
 						v-if="task.task_type === 'create_gbq_table'"
 					>
 						<template v-slot:activator="{ on }">
-							<v-chip color="green" text-color="white" v-on="on"
-								>VIEW SCHEMA</v-chip
-							>
+							<v-chip color="green" text-color="white" v-on="on" class="mr-2">
+								VIEW SCHEMA
+							</v-chip>
 						</template>
 						<v-card>
 							<v-card-title class="headline grey lighten-2" primary-title>
@@ -68,11 +70,12 @@
 							</v-card-actions>
 						</v-card>
 					</v-dialog>
+
 					<v-dialog v-model="dialogLongDescription" width="1000">
 						<template v-slot:activator="{ on }">
-							<v-chip color="primary" text-color="white" v-on="on"
-								>LONG DESCRIPTION</v-chip
-							>
+							<v-chip color="primary" text-color="white" v-on="on">
+								LONG DESCRIPTION
+							</v-chip>
 						</template>
 						<v-card>
 							<v-card-title class="headline grey lighten-2" primary-title>

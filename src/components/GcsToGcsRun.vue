@@ -1,8 +1,8 @@
 <template>
-	<v-container grid-list-xl>
-		<v-layout row wrap v-if="!isFetchAndAdding">
-			<v-flex xs12 offset-xs0>
-				<v-tabs :activeTab="null" color="grey lighten-3" slider-color="primary">
+	<v-container>
+		<v-row v-if="!isFetchAndAdding">
+			<v-col cols="12" offset="0">
+				<v-tabs color="black" background-color="#E0E0E0" slider-color="primary">
 					<v-tab ripple href="#rundetails">
 						Overview
 					</v-tab>
@@ -38,13 +38,13 @@
 						</v-card>
 					</v-tab-item>
 				</v-tabs>
-			</v-flex>
-		</v-layout>
-		<v-layout row wrap v-else>
+			</v-col>
+		</v-row>
+		<v-row v-else>
 			<template>
 				<v-progress-linear :indeterminate="true"></v-progress-linear>
 			</template>
-		</v-layout>
+		</v-row>
 	</v-container>
 </template>
 

@@ -8,10 +8,16 @@
     "plugin:prettier/recommended",
     "@vue/prettier"
   ],
+  "plugins": [
+    "vuetify"
+  ],
   "parserOptions": {
     "parser": "babel-eslint"
   },
   "rules": {
-    "no-console": "off"
+    "no-console": "off",
+    "vuetify/no-deprecated-classes": "error",
+    "vuetify/grid-unknown-attributes": "error",
+    "vuetify/no-legacy-grid": "error"
   }
 }

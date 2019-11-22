@@ -1,6 +1,6 @@
 <template>
-	<v-layout row>
-		<v-flex xs3>
+	<v-row>
+		<v-col cols="3">
 			<span class="subheading">{{ paramItem.label }}:</span>
 			<v-tooltip right v-if="paramItem.description != undefined">
 				<template v-slot:activator="{ on }">
@@ -8,16 +8,16 @@
 				</template>
 				<span>{{ paramItem.description }}</span>
 			</v-tooltip>
-		</v-flex>
-		<v-flex xs9>
+		</v-col>
+		<v-col cols="9">
 			<span class="subheading font-weight-bold" v-if="paramItem.value">{{
 				paramItem.value
 			}}</span>
 			<span class="subheading font-weight-bold grey--text" v-else>{{
 				paramItem.default
 			}}</span>
-		</v-flex>
-	</v-layout>
+		</v-col>
+	</v-row>
 </template>
 
 <script>

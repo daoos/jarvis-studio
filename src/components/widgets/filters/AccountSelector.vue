@@ -1,23 +1,26 @@
 <template>
-	<v-layout v-if="viewAccount">
-		<v-menu :nudge-width="100" :class="true ? 'hidden-xs-only' : ''">
-			<v-toolbar-title slot="activator" class="pl-2">
-				<span class="body-2 contrast--text">{{
-					accountFilterSelected.account_name
-				}}</span>
-				<v-icon class="contrast--text">arrow_drop_down</v-icon>
-			</v-toolbar-title>
-			<v-list light>
-				<v-list-tile
+	<v-row>
+		<v-menu top offset-y>
+			<template v-slot:activator="{ on }">
+				<v-btn v-on="on" text>
+					<span class="body-2">
+						{{ accountFilterSelected.account_name }}
+					</span>
+					<v-icon>arrow_drop_down</v-icon>
+				</v-btn>
+			</template>
+
+			<v-list>
+				<v-list-item
 					v-for="account in accountArray"
 					:key="account.id"
 					@click="applyAccountFilter(account)"
 				>
-					<v-list-tile-title v-text="account.account_name"></v-list-tile-title>
-				</v-list-tile>
+					<v-list-item-title v-text="account.account_name"></v-list-item-title>
+				</v-list-item>
 			</v-list>
 		</v-menu>
-	</v-layout>
+	</v-row>
 </template>
 
 <script>
@@ -60,7 +63,7 @@ export default {
 		//Set the selected account to the accounts attached to the user Custom Claim
 		accountFilterSelectedForUser() {
 			let accountFilterSelectedForUser = {};
-			if (this.user.studioRoles == 5) {
+			if (this.user.studioRoles === 5) {
 				accountFilterSelectedForUser = this.accountFilterSelected;
 			}
 			if (this.user.accounts.length > 0) {

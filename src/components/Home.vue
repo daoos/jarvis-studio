@@ -1,77 +1,58 @@
 <template>
 	<div>
-		<v-toolbar dense color="primary" dark extended extension-height="300" flat>
+		<v-toolbar dense color="primary" dark extended extension-height="300" text>
 			<v-toolbar-title class="mx-auto" slot="extension">
 				<h2>Welcome to Jarvis Studio</h2>
 				<span>Keep Calm and Ask for the Retail Data Butler.</span>
-				<!--                 <v-layout row>
-                    <v-flex wrap>
-                        <v-btn outline large fab color="white" class="outine-2">
-                            <i class="fab fa-vuejs fa-3x"></i>
-                        </v-btn>
-                    </v-flex>
-                    <v-flex wrap>
-                        <v-btn outline large fab color="white" class="outine-2">
-                            <i class="fab fa-node fa-3x"></i>
-                        </v-btn>
-                    </v-flex>
-                    <v-flex wrap>
-                        <v-btn outline large fab color="white" class="outine-2">
-                            <i class="fab fa-laravel fa-2x"></i>
-                        </v-btn>
-                    </v-flex>
-                </v-layout> -->
 			</v-toolbar-title>
 		</v-toolbar>
 
 		<v-container>
-			<v-layout row>
-				<v-flex xs12 md8 offset-md2>
-					<v-card flat class="card--flex-toolbar" color="transparent">
-						<v-container fluid grid-list-lg>
-							<!-- <v-layout row wrap>
-                                <v-flex xs12>
-                                    <h2 class="white--text">Discover Firebase</h2>
-                                </v-flex>
-                            </v-layout> -->
-							<v-layout row wrap>
-								<v-flex xs12 sm6 md6 lg6 v-for="item in links" :key="item.id">
-									<v-hover>
-										<v-card
-											slot-scope="{ hover }"
-											:class="`elevation-${hover ? 12 : 2} rounded-card`"
-										>
-											<v-img
-												src=""
-												aspect-ratio="2.75"
-												height="25px"
-												:class="item.color"
-											></v-img>
+			<v-row>
+				<v-col cols="12" md="8" offset-md="2">
+					<v-container fluid>
+						<v-row>
+							<v-col
+								cols="12"
+								sm="6"
+								md="6"
+								lg="6"
+								v-for="item in links"
+								:key="item.id"
+							>
+								<v-hover>
+									<v-card
+										slot-scope="{ hover }"
+										:class="`elevation-${hover ? 12 : 2} rounded-card`"
+									>
+										<v-img
+											src=""
+											aspect-ratio="2.75"
+											height="25px"
+											:class="item.color"
+										></v-img>
 
-											<v-card-title primary-title>
-												<div>
-													<h3 class="headline mb-0">{{ item.title }}</h3>
-													<div>
-														{{ item.description }}
-													</div>
-												</div>
-											</v-card-title>
+										<v-card-title primary-title>
+											<div>
+												<h3 class="headline mb-0">{{ item.title }}</h3>
+												<p class="mb-0 subtitle-1">{{ item.description }}</p>
+											</div>
+										</v-card-title>
 
-											<v-card-actions>
-												<v-btn flat color="primary" class="learn-more-btn">
-													Learn more
-												</v-btn>
-												<v-spacer></v-spacer>
-												<v-btn flat color="primary">Get started</v-btn>
-											</v-card-actions>
-										</v-card>
-									</v-hover>
-								</v-flex>
-							</v-layout>
-						</v-container>
-					</v-card>
-				</v-flex>
-			</v-layout>
+										<v-card-actions>
+											<v-btn text color="primary" class="learn-more-btn">
+												Learn more
+											</v-btn>
+											<v-spacer></v-spacer>
+											<v-btn text color="primary">Get started</v-btn>
+										</v-card-actions>
+									</v-card>
+								</v-hover>
+							</v-col>
+						</v-row>
+					</v-container>
+				</v-col>
+			</v-row>
 		</v-container>
 	</div>
 </template>

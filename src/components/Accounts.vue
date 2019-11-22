@@ -1,6 +1,5 @@
 <template>
-	<v-container grid-list-xl>
-		<h1>Accounts:</h1>
+	<v-container>
 		<v-data-table :headers="headers" :items="accounts" class="elevation-1">
 			<template v-slot:items="props">
 				<td>{{ props.item["account_name"] }}</td>
@@ -14,8 +13,8 @@
 				</v-alert>
 			</template>
 		</v-data-table>
-		<v-layout row wrap>
-			<v-flex xs12 offset-xs0>
+		<v-row>
+			<v-col cols="12" offset="0">
 				<v-card dark>
 					<v-card-text>
 						<vue-json-pretty
@@ -28,49 +27,49 @@
 						</vue-json-pretty>
 					</v-card-text>
 				</v-card>
-			</v-flex>
-		</v-layout>
+			</v-col>
+		</v-row>
 		<v-dialog v-model="dialog" width="800px">
 			<v-card>
 				<v-card-title class="black lighten-4 py-4 title">
 					Create Account
 				</v-card-title>
-				<v-container grid-list-sm class="pa-4">
-					<v-layout row wrap>
-						<v-flex xs6>
+				<v-container class="pa-4">
+					<v-row>
+						<v-col cols="6">
 							<v-text-field
 								prepend-icon="business"
 								placeholder="Account Name"
 							></v-text-field>
-						</v-flex>
-						<v-flex xs6>
+						</v-col>
+						<v-col cols="6">
 							<v-text-field
 								prepend-icon="vpn_key"
 								placeholder="Account ID"
 							></v-text-field>
-						</v-flex>
-						<v-flex xs6>
+						</v-col>
+						<v-col cols="6">
 							<v-text-field
 								prepend-icon="account_box"
 								placeholder="Contact First Name"
 							></v-text-field>
-						</v-flex>
-						<v-flex xs6>
+						</v-col>
+						<v-col cols="6">
 							<v-text-field placeholder="Contact Last Name"></v-text-field>
-						</v-flex>
-						<v-flex xs12>
+						</v-col>
+						<v-col cols="12">
 							<v-text-field
 								prepend-icon="mail"
 								placeholder="Email Contact Account"
 							></v-text-field>
-						</v-flex>
-						<v-flex xs12>
+						</v-col>
+						<v-col cols="12">
 							<v-text-field
 								prepend-icon="notes"
 								placeholder="Notes"
 							></v-text-field>
-						</v-flex>
-					</v-layout>
+						</v-col>
+					</v-row>
 				</v-container>
 				<v-card-actions>
 					<v-btn flat color="primary">More</v-btn>

@@ -1,9 +1,9 @@
 <template>
-	<v-container grid-list-xl>
-		<v-layout row pl-5 pt-4 pr-5>
-			<v-flex xs12 offset-xs0>
+	<v-container>
+		<v-row class="pl-5 pt-4 pr-5">
+			<v-col cols="12" offset="0">
 				<span class="headline font-weight-bold">{{ jsonID }}</span>
-				<v-layout row pt-4 pb-4>
+				<v-row class="pt-4 pb-4">
 					<vue-json-pretty
 						:data="json"
 						:deep="deep"
@@ -12,9 +12,9 @@
 						:show-line="false"
 					>
 					</vue-json-pretty>
-				</v-layout>
-			</v-flex>
-		</v-layout>
+				</v-row>
+			</v-col>
+		</v-row>
 	</v-container>
 </template>
 

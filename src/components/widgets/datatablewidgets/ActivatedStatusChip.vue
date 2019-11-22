@@ -5,8 +5,8 @@
 		:small="smallChip"
 		:class="chipTextClass"
 		:label="chipLabel"
-		>{{ labelActivatedConfStatus }}</v-chip
-	>
+		>{{ labelActivatedConfStatus }}
+	</v-chip>
 </template>
 
 <script>

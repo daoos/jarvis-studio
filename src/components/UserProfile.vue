@@ -1,8 +1,8 @@
 <template>
 	<div>
 		<v-container>
-			<v-layout row>
-				<v-flex xs12 md8 offset-md2>
+			<v-row>
+				<v-col cols="12" md="8" offset-md="2">
 					<v-card flat>
 						<v-card-title primary-title>
 							<div>
@@ -20,8 +20,8 @@
 							:paramItems="userRolesAndAccounts"
 						/>
 					</v-card>
-				</v-flex>
-			</v-layout>
+				</v-col>
+			</v-row>
 		</v-container>
 	</div>
 </template>

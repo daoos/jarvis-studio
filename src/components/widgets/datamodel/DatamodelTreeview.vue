@@ -1,5 +1,5 @@
 <template>
-	<v-flex xs5>
+	<v-col>
 		<v-treeview
 			:active.sync="active"
 			:items="items"
@@ -17,7 +17,7 @@
 				</v-icon>
 			</template>
 		</v-treeview>
-	</v-flex>
+	</v-col>
 </template>
 
 <script>

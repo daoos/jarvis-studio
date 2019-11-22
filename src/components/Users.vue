@@ -1,5 +1,5 @@
 <template>
-	<v-container grid-list-xl fluid>
+	<v-container fluid>
 		<v-toolbar class="elevation-0" color="transparent">
 			<v-text-field
 				v-model="search"
@@ -19,21 +19,21 @@
 					</v-card-title>
 
 					<v-card-text>
-						<v-container grid-list-md>
-							<v-layout wrap>
-								<v-flex xs12 sm12 md12>
+						<v-container>
+							<v-row>
+								<v-col cols="12" sm="12" md="12">
 									<v-text-field
 										v-model="editedUser.email"
 										label="Email"
 									></v-text-field>
-								</v-flex>
-								<v-flex xs12 sm12 md12>
+								</v-col>
+								<v-col cols="12" sm="12" md="12">
 									<v-text-field
 										v-model="editedUser.displayName"
 										label="Display Name"
 									></v-text-field>
-								</v-flex>
-								<v-flex xs12 sm12 md12>
+								</v-col>
+								<v-col cols="12" sm="12" md="12">
 									<v-text-field
 										v-model="editedUser.password"
 										:append-icon="
@@ -48,14 +48,14 @@
 											editedUser.showpassword = !editedUser.showpassword
 										"
 									></v-text-field>
-								</v-flex>
-								<v-flex xs12 sm12 md12>
+								</v-col>
+								<v-col cols="12" sm="12" md="12">
 									<v-text-field
 										v-model="editedUser.emailVerified"
 										label="Email Verified"
 									></v-text-field>
-								</v-flex>
-								<v-flex xs12 sm12 md12>
+								</v-col>
+								<v-col cols="12" sm="12" md="12">
 									<v-text-field
 										v-model="editedUser.disabled"
 										label="Disabled"
@@ -82,8 +82,8 @@
 										item-text="roleName"
 										item-value="roleCode"
 									></v-select>
-								</v-flex>
-							</v-layout>
+								</v-col>
+							</v-row>
 						</v-container>
 					</v-card-text>
 
@@ -115,7 +115,8 @@
 			class="elevation-1"
 			:search="search"
 			:loading="isFetchAndAdding"
-			:pagination.sync="pagination"
+			:sort-by.sync="pagination.sortBy"
+			:sort-desc.sync="pagination.descending"
 			item-key="email"
 			light
 		>
@@ -143,7 +144,6 @@
 			v-model="snackbarParam.show"
 			:color="snackbarParam.color"
 			:timeout="2000"
-			auto-height
 		>
 			{{ snackbarParam.message }}
 			<v-btn flat @click="snackbarParam.show = false">
@@ -240,9 +240,6 @@ export default {
 			const listAllUsers = firebase.functions().httpsCallable("listAllUsers");
 			//list all email users
 			listAllUsers({}).then(users => {
-				for (let user of users.data.users) {
-					console.log(user);
-				}
 				// store the users list
 				const dataUsers = Object.values(users.data.users);
 				let usersFormated = users.data.users.map(function(data) {
@@ -264,10 +261,8 @@ export default {
 					};
 				});
 				this.users = _.merge(dataUsers, usersFormated);
-				console.log(this.users);
 				this.isFetchAndAdding = false;
 			});
-			console.log("accounts", this.accounts);
 		},
 		editUser(item) {
 			this.editedUserIndex = this.users.indexOf(item);
@@ -325,8 +320,7 @@ export default {
 					disabled: this.editedUser.disabled,
 					accounts: this.selectedAccounts,
 					studioRoles: this.selectedRoles
-				}).then(result => {
-					console.log(result);
+				}).then(() => {
 					this.listAllUsers();
 				});
 			} else {
@@ -343,8 +337,7 @@ export default {
 					email: this.editedUser.email,
 					accounts: this.selectedAccounts,
 					studioRoles: this.selectedRoles
-				}).then(result => {
-					console.log(result);
+				}).then(() => {
 					this.listAllUsers();
 				});
 			} else {

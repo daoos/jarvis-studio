@@ -1,9 +1,9 @@
 <template>
 	<v-app id="signin" dark>
 		<v-content>
-			<v-container fluid fill-height>
-				<v-layout align-center justify-center>
-					<v-flex xs12 sm8 md4>
+			<v-container class="fill-height" fluid>
+				<v-row align="center" justify="center">
+					<v-col cols="12" sm="8" md="4">
 						<v-card class="elevation-12">
 							<v-toolbar dark color="dark">
 								<v-toolbar-title>JARVIS Signin</v-toolbar-title>
@@ -39,8 +39,7 @@
 							</v-card-text>
 							<v-card-actions>
 								<v-btn
-									color="white"
-									outline
+									outlined
 									@click="googleSignin"
 									:loadingGoogleSignin="loadingGoogleSignin"
 								>
@@ -48,17 +47,13 @@
 									Signin with google
 								</v-btn>
 								<v-spacer></v-spacer>
-								<v-btn
-									color="dark"
-									:disabled="!valid"
-									@click="signin"
-									:loading="loading"
-									>Signin</v-btn
-								>
+								<v-btn :disabled="!valid" @click="signin" :loading="loading">
+									Signin
+								</v-btn>
 							</v-card-actions>
 						</v-card>
-					</v-flex>
-				</v-layout>
+					</v-col>
+				</v-row>
 			</v-container>
 		</v-content>
 	</v-app>

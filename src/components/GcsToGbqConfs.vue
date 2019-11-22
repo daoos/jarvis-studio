@@ -1,7 +1,7 @@
 <template>
-	<v-container grid-list-xl fluid>
-		<v-layout row wrap>
-			<v-flex sm12>
+	<v-container fluid>
+		<v-row>
+			<v-col sm="12">
 				<v-toolbar class="elevation-1" color="grey lighten-3">
 					<v-text-field
 						v-model="search"
@@ -9,125 +9,119 @@
 						label="Search"
 						single-line
 						hide-details
-					></v-text-field>
-					<v-spacer></v-spacer>
-					<DataManagementFilters viewEnvironnement></DataManagementFilters>
+					/>
+
+					<v-spacer />
+
+					<DataManagementFilters viewEnvironnement />
+
 					<v-icon right @click="getFirestoreData" v-if="!isFetchAndAdding"
 						>refresh</v-icon
 					>
+
 					<v-progress-circular
 						indeterminate
 						size="20"
 						color="primary"
 						v-if="isFetchAndAdding"
-					></v-progress-circular>
+					/>
 				</v-toolbar>
+
 				<v-data-table
 					:headers="headers"
 					:items="mirrorExcGcsToGbqConfsAllDetailsArrayFlat"
 					:search="search"
 					:loading="isFetchAndAdding"
-					:expand="expand"
-					:pagination.sync="pagination"
+					:expanded="expanded"
+					:sort-by.sync="pagination.sortBy"
+					:sort-desc.sync="pagination.descending"
 					item-key="key"
 					class="elevation-1"
 				>
-					<v-progress-linear
-						v-slot:progress
-						color="blue"
-						indeterminate
-					></v-progress-linear>
-					<template v-slot:items="props">
-						<td>{{ props.item["account"] }}</td>
-						<td>{{ props.item["environment"] }}</td>
-						<td>
-							<router-link
-								:to="{
-									name: 'StorageToTableConf',
-									params: { pathId: props.item.key }
-								}"
-								><span class="font-weight-medium">{{
-									props.item["table_name"]
-								}}</span></router-link
-							>
-						</td>
-						<td>{{ props.item["gcp_project"] }}</td>
-						<td>{{ props.item["gbq_dataset"] }}</td>
-						<td>
-							<ActivatedStatusChip
-								@click.native="
-									changeActivatedStatus(props.item, 'mirrorExcGcsToGbqConfs')
-								"
-								:activatedConfStatus="props.item.activated"
-							></ActivatedStatusChip>
-						</td>
-						<td class="justify-center layout px-0">
-							<v-icon small class="mr-2" @click="viewItem(props, props.item)">
-								remove_red_eye
-							</v-icon>
-							<v-icon
-								small
-								class="mr-2"
-								@click="deleteConfFromFirestore(props, props.item)"
-							>
-								delete_forever
-							</v-icon>
+					<v-progress-linear v-slot:progress color="blue" indeterminate />
+
+					<template v-slot:item.account="{ item: { account } }">
+						{{ account }}
+					</template>
+
+					<template v-slot:item.environment="{ item: { environment } }">
+						{{ environment }}
+					</template>
+
+					<template v-slot:item.table_name="{ item: { key, table_name } }">
+						<router-link
+							:to="{
+								name: 'StorageToTableConf',
+								params: { pathId: key }
+							}"
+						>
+							<span class="font-weight-medium">
+								{{ table_name }}
+							</span>
+						</router-link>
+					</template>
+
+					<template v-slot:item.gcp_project="{ item: { gcp_project } }">
+						{{ gcp_project }}
+					</template>
+
+					<template v-slot:item.gbq_dataset="{ item: { gbq_dataset } }">
+						{{ gbq_dataset }}
+					</template>
+
+					<template v-slot:item.activated="{ item }">
+						<ActivatedStatusChip
+							@click.native="
+								changeActivatedStatus(item, 'mirrorExcGcsToGbqConfs')
+							"
+							:activatedConfStatus="item.activated"
+						/>
+					</template>
+
+					<template v-slot:item.actions="{ item }">
+						<v-icon small class="mr-2" @click="toggleExpand(item)">
+							remove_red_eye
+						</v-icon>
+
+						<v-icon small @click="deleteConfFromFirestore(item)">
+							delete_forever
+						</v-icon>
+					</template>
+
+					<template v-slot:expanded-item="{ headers }">
+						<td :colspan="headers.length" class="pa-0">
+							<v-card flat>
+								<v-card-title>
+									<span class="headline">{{ viewedItem.table_name }}</span>
+									<v-spacer></v-spacer>
+									<v-btn color="warning" fab small dark outline>
+										<v-icon @click="toggleExpand(viewedItem)">
+											close
+										</v-icon>
+									</v-btn>
+								</v-card-title>
+
+								<v-card-text>
+									<vue-json-pretty
+										:data="viewedItem"
+										:deep="5"
+										:show-double-quotes="true"
+										:show-length="true"
+										:show-line="false"
+									>
+									</vue-json-pretty>
+								</v-card-text>
+							</v-card>
 						</td>
 					</template>
-					<template v-slot:expand="props">
-						<v-card flat>
-							<v-card-title>
-								<span class="headline">{{ viewedItem.table_name }}</span>
-								<v-spacer></v-spacer>
-								<v-btn color="warning" fab small dark outline>
-									<v-icon @click="props.expanded = !props.expanded">
-										close
-									</v-icon>
-								</v-btn>
-							</v-card-title>
-							<v-card-text>
-								<vue-json-pretty
-									:data="viewedItem"
-									:deep="5"
-									:show-double-quotes="true"
-									:show-length="true"
-									:show-line="false"
-								>
-								</vue-json-pretty>
-							</v-card-text>
-						</v-card>
-					</template>
+
 					<v-alert v-slot:no-results :value="true" color="error" icon="warning">
 						Your search for "{{ search }}" found no results.
 					</v-alert>
 				</v-data-table>
-			</v-flex>
-		</v-layout>
-		<v-layout row wrap v-if="viewJson">
-			<v-flex xs12 offset-xs0>
-				<v-card dark class="elevation-10">
-					<v-card-title>
-						<span class="headline">{{ viewedItem.table_name }}</span>
-						<v-spacer></v-spacer>
-						<v-btn color="warning" fab small dark outline>
-							<v-icon @click="viewJson = false">
-								close
-							</v-icon>
-						</v-btn>
-					</v-card-title>
-					<v-card-text>
-						<vue-json-pretty
-							:data="viewedItem"
-							:deep="5"
-							:show-double-quotes="true"
-							:show-length="true"
-							:show-line="false"
-						>
-						</vue-json-pretty>
-					</v-card-text>
-				</v-card>
-			</v-flex>
-		</v-layout>
+			</v-col>
+		</v-row>
+
 		<v-dialog v-model="dialogDeleteConf" max-width="400">
 			<v-card light>
 				<v-card-title class="headline">Delete Configuration</v-card-title>
@@ -172,19 +166,19 @@
 				</v-slide-y-transition>
 			</v-card>
 		</v-dialog>
+
 		<v-snackbar
 			v-model="showSnackbarDeleteConfSuccess"
 			color="success"
 			:timeout="1000"
-			auto-height
 		>
 			Configuration deleted with sucess
 		</v-snackbar>
+
 		<v-snackbar
 			v-model="snackbarParam.show"
 			:color="snackbarParam.color"
 			:timeout="2000"
-			auto-height
 		>
 			{{ snackbarParam.message }}
 			<v-btn flat @click="snackbarParam.show = false">
@@ -211,6 +205,7 @@ export default {
 		ActivatedStatusChip
 	},
 	data: () => ({
+		expanded: [],
 		mirrorExcGcsToGbqConfsAllDetailsArray: [],
 		search: "",
 		isFetchAndAdding: false,
@@ -272,14 +267,19 @@ export default {
 		this.getFirestoreData();
 	},
 	methods: {
-		viewItem(props, item) {
-			props.expanded = !props.expanded;
-			this.viewedIndex = this.mirrorExcGcsToGbqConfsAllDetailsArrayFlat.indexOf(
-				item
-			);
-			this.viewedItem = Object.assign({}, item);
+		toggleExpand(item) {
+			const isAlreadyExpand =
+				this.expanded.filter(expandedItem => expandedItem.id === item.id)
+					.length === 1;
+
+			if (isAlreadyExpand) {
+				this.expanded = [];
+			} else {
+				this.expanded = [item];
+				this.viewedItem = item;
+			}
 		},
-		deleteConfFromFirestore(props, item) {
+		deleteConfFromFirestore(item) {
 			this.confToDeleteFromFirestore = item;
 			this.dialogDeleteConf = true;
 		},
@@ -329,7 +329,6 @@ export default {
 				//Loop on mirrorExcGcsToGbqConfsArray to get the collection
 				for (var confDetailsId in mirrorExcGcsToGbqConfsArray) {
 					let bucketId = mirrorExcGcsToGbqConfsArray[confDetailsId].id;
-					console.log("bucketId", bucketId);
 					try {
 						store.dispatch("mirrorExcGcsToGbqConfDetails/closeDBChannel", {
 							clearModule: true

@@ -1,7 +1,7 @@
 <template>
-	<v-container grid-list-xl>
-		<v-layout row wrap>
-			<v-flex xs12 offset-xs0>
+	<v-container>
+		<v-row>
+			<v-col cols="12" offset="0">
 				<HeaderDocView
 					:viewId="run.gbq_table_refreshed"
 					:runStatus="run.status"
@@ -28,8 +28,8 @@
 					description="Details of the Storage to Table Run"
 					:paramItems="paramItems"
 				/>
-			</v-flex>
-		</v-layout>
+			</v-col>
+		</v-row>
 	</v-container>
 </template>
 
