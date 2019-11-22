@@ -2,7 +2,7 @@
 	<v-container>
 		<v-row v-if="!isFetchAndAdding">
 			<v-col cols="12" offset="0">
-				<v-tabs :activeTab="null" color="grey lighten-3" slider-color="primary">
+				<v-tabs color="black" background-color="#E0E0E0" slider-color="primary">
 					<v-tab ripple href="#rundetails">
 						Overview
 					</v-tab>

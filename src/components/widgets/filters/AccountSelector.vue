@@ -2,7 +2,7 @@
 	<v-row>
 		<v-menu top offset-y>
 			<template v-slot:activator="{ on }">
-				<v-btn v-on="on">
+				<v-btn v-on="on" text>
 					<span class="body-2">
 						{{ accountFilterSelected.account_name }}
 					</span>

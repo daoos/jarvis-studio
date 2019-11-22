@@ -4,7 +4,8 @@
 			<v-col cols="12" offset="0">
 				<v-tabs
 					v-model="activeTab"
-					color="grey lighten-3"
+					color="black"
+					background-color="#E0E0E0"
 					slider-color="primary"
 				>
 					<v-tab ripple href="#runconfiguration">
