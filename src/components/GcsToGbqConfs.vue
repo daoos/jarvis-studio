@@ -3,28 +3,15 @@
 		<v-row>
 			<v-col sm="12">
 				<v-toolbar class="elevation-1" color="grey lighten-3">
-					<v-text-field
-						v-model="search"
-						append-icon="search"
-						label="Search"
-						single-line
-						hide-details
-					/>
+					<v-text-field v-model="search" append-icon="search" label="Search" single-line hide-details />
 
 					<v-spacer />
 
 					<DataManagementFilters viewEnvironnement />
 
-					<v-icon right @click="getFirestoreData" v-if="!isFetchAndAdding"
-						>refresh</v-icon
-					>
+					<v-icon right @click="getFirestoreData" v-if="!isFetchAndAdding">refresh</v-icon>
 
-					<v-progress-circular
-						indeterminate
-						size="20"
-						color="primary"
-						v-if="isFetchAndAdding"
-					/>
+					<v-progress-circular indeterminate size="20" color="primary" v-if="isFetchAndAdding" />
 				</v-toolbar>
 
 				<v-data-table
@@ -71,9 +58,7 @@
 
 					<template v-slot:item.activated="{ item }">
 						<ActivatedStatusChip
-							@click.native="
-								changeActivatedStatus(item, 'mirrorExcGcsToGbqConfs')
-							"
+							@click.native="changeActivatedStatus(item, 'mirrorExcGcsToGbqConfs')"
 							:activatedConfStatus="item.activated"
 						/>
 					</template>
@@ -127,25 +112,14 @@
 				<v-card-title class="headline">Delete Configuration</v-card-title>
 				<v-card-text>
 					Do you really want to delete the configuration?
-					<h3 class="pt-3">
-						<v-icon size="18">arrow_forward</v-icon
-						>{{ confToDeleteFromFirestore.id }}
-					</h3>
+					<h3 class="pt-3"><v-icon size="18">arrow_forward</v-icon>{{ confToDeleteFromFirestore.id }}</h3>
 				</v-card-text>
 				<v-card-actions>
 					<v-btn icon @click="showDetailConfToDelete = !showDetailConfToDelete">
-						<v-icon>{{
-							showDetailConfToDelete
-								? "keyboard_arrow_up"
-								: "keyboard_arrow_down"
-						}}</v-icon>
+						<v-icon>{{ showDetailConfToDelete ? "keyboard_arrow_up" : "keyboard_arrow_down" }}</v-icon>
 					</v-btn>
 					<v-spacer></v-spacer>
-					<v-btn
-						color="grey"
-						flat="flat"
-						@click="cancelDeleteConfFromFirestore"
-					>
+					<v-btn color="grey" flat="flat" @click="cancelDeleteConfFromFirestore">
 						Cancel
 					</v-btn>
 					<v-btn color="error" @click="confirmeDeleteConfFromFirestore">
@@ -167,19 +141,11 @@
 			</v-card>
 		</v-dialog>
 
-		<v-snackbar
-			v-model="showSnackbarDeleteConfSuccess"
-			color="success"
-			:timeout="1000"
-		>
+		<v-snackbar v-model="showSnackbarDeleteConfSuccess" color="success" :timeout="1000">
 			Configuration deleted with sucess
 		</v-snackbar>
 
-		<v-snackbar
-			v-model="snackbarParam.show"
-			:color="snackbarParam.color"
-			:timeout="2000"
-		>
+		<v-snackbar v-model="snackbarParam.show" :color="snackbarParam.color" :timeout="2000">
 			{{ snackbarParam.message }}
 			<v-btn flat @click="snackbarParam.show = false">
 				Close
@@ -268,9 +234,7 @@ export default {
 	},
 	methods: {
 		toggleExpand(item) {
-			const isAlreadyExpand =
-				this.expanded.filter(expandedItem => expandedItem.id === item.id)
-					.length === 1;
+			const isAlreadyExpand = this.expanded.filter(expandedItem => expandedItem.id === item.id).length === 1;
 
 			if (isAlreadyExpand) {
 				this.expanded = [];
@@ -292,10 +256,7 @@ export default {
 			this.dialogDeleteConf = false;
 			this.showSnackbarDeleteConfSuccess = false;
 			store
-				.dispatch(
-					"mirrorExcGcsToGbqConfs/delete",
-					this.confToDeleteFromFirestore.id
-				)
+				.dispatch("mirrorExcGcsToGbqConfs/delete", this.confToDeleteFromFirestore.id)
 				.then((this.showSnackbarDeleteConfSuccess = true));
 			this.confToDeleteFromFirestore = {};
 			this.showDetailConfToDelete = false;
@@ -310,10 +271,7 @@ export default {
 				store.dispatch("mirrorExcGcsToGbqConfs/closeDBChannel", {
 					clearModule: true
 				});
-				let fetchResult = await store.dispatch(
-					"mirrorExcGcsToGbqConfs/fetchAndAdd",
-					{ where, limit: 0 }
-				);
+				let fetchResult = await store.dispatch("mirrorExcGcsToGbqConfs/fetchAndAdd", { where, limit: 0 });
 				if (fetchResult.done === true) {
 					this.$data.moreToFetchAndAdd = false;
 				} else {
@@ -323,9 +281,7 @@ export default {
 
 				//Loop to the document at the 1st level to get the detail configuration in the CONFIGURATION collection of each document
 				//Transform the mirrorExcGcsToGbqConfs in Array to loop on
-				const mirrorExcGcsToGbqConfsArray = Object.values(
-					this.mirrorExcGcsToGbqConfs
-				);
+				const mirrorExcGcsToGbqConfsArray = Object.values(this.mirrorExcGcsToGbqConfs);
 				//Loop on mirrorExcGcsToGbqConfsArray to get the collection
 				for (var confDetailsId in mirrorExcGcsToGbqConfsArray) {
 					let bucketId = mirrorExcGcsToGbqConfsArray[confDetailsId].id;
@@ -338,27 +294,17 @@ export default {
 						// 	{ bucketId: bucketId, limit: 0 }
 						// );
 						//Ad the bucket source to the doc configuration and an unique key
-						let mirrorExcGcsToGbqConfDetailsEnriched = Object.values(
-							this.mirrorExcGcsToGbqConfDetails
-						).map(x => Object.assign({ bucket_source: bucketId }, x));
+						let mirrorExcGcsToGbqConfDetailsEnriched = Object.values(this.mirrorExcGcsToGbqConfDetails).map(x =>
+							Object.assign({ bucket_source: bucketId }, x)
+						);
 						//Ad an unique key to the doc configuration (bucket + table destination + input folder)
-						mirrorExcGcsToGbqConfDetailsEnriched = mirrorExcGcsToGbqConfDetailsEnriched.map(
-							val => {
-								let key = "";
-								key = key.concat(
-									val.bucket_source,
-									"/",
-									val.id,
-									"/",
-									val.gcs_prefix
-								);
-								return Object.assign({ key: key }, val);
-							}
-						);
+						mirrorExcGcsToGbqConfDetailsEnriched = mirrorExcGcsToGbqConfDetailsEnriched.map(val => {
+							let key = "";
+							key = key.concat(val.bucket_source, "/", val.id, "/", val.gcs_prefix);
+							return Object.assign({ key: key }, val);
+						});
 						//Concat the fetched documents in the same Array
-						this.mirrorExcGcsToGbqConfsAllDetailsArray.push(
-							Object.values(mirrorExcGcsToGbqConfDetailsEnriched)
-						);
+						this.mirrorExcGcsToGbqConfsAllDetailsArray.push(Object.values(mirrorExcGcsToGbqConfDetailsEnriched));
 					} catch (e) {
 						console.error("Firestore Error catched", e);
 						this.$data.fetchAndAddStatus = "Error";
@@ -378,8 +324,7 @@ export default {
 			isAuthenticated: state => state.user.isAuthenticated,
 			user: state => state.user.user,
 			mirrorExcGcsToGbqConfs: state => state.mirrorExcGcsToGbqConfs.data,
-			mirrorExcGcsToGbqConfDetails: state =>
-				state.mirrorExcGcsToGbqConfDetails.data,
+			mirrorExcGcsToGbqConfDetails: state => state.mirrorExcGcsToGbqConfDetails.data,
 			dateFilterSelected: state => state.filters.dateFilterSelected,
 			dateFilters: state => state.filters.dateFilters,
 			minDateFilter: state => state.filters.minDateFilter

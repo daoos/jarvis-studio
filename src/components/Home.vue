@@ -12,25 +12,10 @@
 				<v-col cols="12" md="8" offset-md="2">
 					<v-container fluid>
 						<v-row>
-							<v-col
-								cols="12"
-								sm="6"
-								md="6"
-								lg="6"
-								v-for="item in links"
-								:key="item.id"
-							>
+							<v-col cols="12" sm="6" md="6" lg="6" v-for="item in links" :key="item.id">
 								<v-hover>
-									<v-card
-										slot-scope="{ hover }"
-										:class="`elevation-${hover ? 12 : 2} rounded-card`"
-									>
-										<v-img
-											src=""
-											aspect-ratio="2.75"
-											height="25px"
-											:class="item.color"
-										></v-img>
+									<v-card slot-scope="{ hover }" :class="`elevation-${hover ? 12 : 2} rounded-card`">
+										<v-img src="" aspect-ratio="2.75" height="25px" :class="item.color"></v-img>
 
 										<v-card-title primary-title>
 											<div>
@@ -65,29 +50,25 @@ export default {
 				{
 					id: "1",
 					title: "Data Models",
-					description:
-						"Get fast and detailed overview on all datasets and tables managed by Jarvis",
+					description: "Get fast and detailed overview on all datasets and tables managed by Jarvis",
 					color: "orange"
 				},
 				{
 					id: "2",
 					title: "Data Workflows",
-					description:
-						"Monitor data workflows executions, check configurations and execute jobs.",
+					description: "Monitor data workflows executions, check configurations and execute jobs.",
 					color: "teal"
 				},
 				{
 					id: "3",
 					title: "Data Quality",
-					description:
-						"Supervise data quality with simple tSQL queries and maintaining a high quality of information",
+					description: "Supervise data quality with simple tSQL queries and maintaining a high quality of information",
 					color: "blue"
 				},
 				{
 					id: "4",
 					title: "Data Visualization",
-					description:
-						"Access to Data Visualizations and Dashboards built on the top of the Data available in Jarvis",
+					description: "Access to Data Visualizations and Dashboards built on the top of the Data available in Jarvis",
 					color: "purple"
 				}
 			]

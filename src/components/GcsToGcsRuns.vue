@@ -1,13 +1,7 @@
 <template>
 	<v-container fluid>
 		<v-toolbar class="elevation-1" color="grey lighten-3">
-			<v-text-field
-				v-model="search"
-				append-icon="search"
-				label="Search"
-				single-line
-				hide-details
-			/>
+			<v-text-field v-model="search" append-icon="search" label="Search" single-line hide-details />
 
 			<v-spacer></v-spacer>
 
@@ -17,13 +11,7 @@
 				refresh
 			</v-icon>
 
-			<v-progress-circular
-				indeterminate
-				size="20"
-				color="primary"
-				v-if="isFetchAndAdding"
-				class="pl-4"
-			/>
+			<v-progress-circular indeterminate size="20" color="primary" v-if="isFetchAndAdding" class="pl-4" />
 		</v-toolbar>
 
 		<v-data-table
@@ -51,21 +39,14 @@
 				{{ source_bucket }}
 			</template>
 
-			<template
-				v-slot:item.gcs_triggering_file="{ item: { id, gcs_triggering_file } }"
-			>
+			<template v-slot:item.gcs_triggering_file="{ item: { id, gcs_triggering_file } }">
 				<router-link :to="{ name: 'GcsToGcsRun', params: { runId: id } }">
 					{{ gcs_triggering_file }}
 				</router-link>
 			</template>
 
 			<template v-slot:item.status="{ item: { status, statusColor } }">
-				<v-chip
-					:color="statusColor"
-					text-color="white"
-					small
-					class="text-lowercase"
-				>
+				<v-chip :color="statusColor" text-color="white" small class="text-lowercase">
 					{{ status }}
 				</v-chip>
 			</template>
@@ -96,14 +77,7 @@
 						<v-card-title>
 							<span class="headline">{{ viewedItem.gcs_triggering_file }}</span>
 							<v-spacer></v-spacer>
-							<v-btn
-								color="warning"
-								fab
-								small
-								dark
-								outlined
-								@click="toggleExpand(viewedItem)"
-							>
+							<v-btn color="warning" fab small dark outlined @click="toggleExpand(viewedItem)">
 								<v-icon>close</v-icon>
 							</v-btn>
 						</v-card-title>
@@ -201,9 +175,7 @@ export default {
 	},
 	methods: {
 		toggleExpand(item) {
-			const isAlreadyExpand =
-				this.expanded.filter(expandedItem => expandedItem.id === item.id)
-					.length === 1;
+			const isAlreadyExpand = this.expanded.filter(expandedItem => expandedItem.id === item.id).length === 1;
 
 			if (isAlreadyExpand) {
 				this.expanded = [];
@@ -224,10 +196,7 @@ export default {
 				store.dispatch("mirrorExcGcsToGcsRuns/closeDBChannel", {
 					clearModule: true
 				});
-				let fetchResult = await store.dispatch(
-					"mirrorExcGcsToGcsRuns/fetchAndAdd",
-					{ where, limit: 0 }
-				);
+				let fetchResult = await store.dispatch("mirrorExcGcsToGcsRuns/fetchAndAdd", { where, limit: 0 });
 				if (fetchResult.done === true) {
 					this.$data.moreToFetchAndAdd = false;
 				} else {
@@ -256,20 +225,12 @@ export default {
 			const dataArray = Object.values(this.mirrorExcGcsToGcsRuns);
 			var dataFormated = dataArray.map(function(data) {
 				return {
-					dag_execution_date_formated: moment(data.dag_execution_date).format(
-						"YYYY/MM/DD - HH:mm"
-					),
-					dag_execution_date_from_now: moment(
-						data.dag_execution_date
-					).fromNow(),
+					dag_execution_date_formated: moment(data.dag_execution_date).format("YYYY/MM/DD - HH:mm"),
+					dag_execution_date_from_now: moment(data.dag_execution_date).fromNow(),
 					//color for the status
 					statusColor: Util.getStatusColor(data.status),
 					//generate Airflow URL
-					dag_execution_airflow_url: Util.dagRunAirflowUrl(
-						data.dag_id,
-						data.dag_run_id,
-						data.dag_execution_date
-					)
+					dag_execution_airflow_url: Util.dagRunAirflowUrl(data.dag_id, data.dag_run_id, data.dag_execution_date)
 				};
 			});
 			const dataArrayFormated = _.merge(dataArray, dataFormated);

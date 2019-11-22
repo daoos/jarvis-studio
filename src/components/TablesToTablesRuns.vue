@@ -1,28 +1,15 @@
 <template>
 	<v-container fluid>
 		<v-toolbar class="elevation-0" color="transparent">
-			<v-text-field
-				v-model="search"
-				append-icon="search"
-				label="Search"
-				single-line
-				hide-details
-			/>
+			<v-text-field v-model="search" append-icon="search" label="Search" single-line hide-details />
 
 			<v-spacer />
 
 			<DataManagementFilters viewEnvironnement viewPeriode viewRunStatus />
 
-			<v-icon right @click="getFirestoreData" v-if="!isFetchAndAdding"
-				>refresh</v-icon
-			>
+			<v-icon right @click="getFirestoreData" v-if="!isFetchAndAdding">refresh</v-icon>
 
-			<v-progress-circular
-				indeterminate
-				size="20"
-				color="primary"
-				v-if="isFetchAndAdding"
-			/>
+			<v-progress-circular indeterminate size="20" color="primary" v-if="isFetchAndAdding" />
 		</v-toolbar>
 
 		<v-data-table
@@ -64,12 +51,7 @@
 			</template>
 
 			<template v-slot:item.status="{ item: { status, statusColor } }">
-				<v-chip
-					:color="statusColor"
-					text-color="white"
-					small
-					class="text-lowercase"
-				>
+				<v-chip :color="statusColor" text-color="white" small class="text-lowercase">
 					{{ status }}
 				</v-chip>
 			</template>
@@ -84,21 +66,10 @@
 
 			<template v-slot:item.actions="{ item }">
 				<div class="justify-center layout px-0">
-					<v-icon
-						small
-						class="mr-2"
-						@click="toggleExpand(item)"
-						v-if="item.confCompliance"
-					>
+					<v-icon small class="mr-2" @click="toggleExpand(item)" v-if="item.confCompliance">
 						remove_red_eye
 					</v-icon>
-					<v-icon
-						small
-						class="mr-2"
-						@click="toggleExpand(item)"
-						color="orange darken-1"
-						v-else
-					>
+					<v-icon small class="mr-2" @click="toggleExpand(item)" color="orange darken-1" v-else>
 						warning
 					</v-icon>
 					<v-icon class="mr-2" small @click="openAirflowDagRunUrl(item)">
@@ -214,9 +185,7 @@ export default {
 	},
 	methods: {
 		toggleExpand(item) {
-			const isAlreadyExpand =
-				this.expanded.filter(expandedItem => expandedItem.id === item.id)
-					.length === 1;
+			const isAlreadyExpand = this.expanded.filter(expandedItem => expandedItem.id === item.id).length === 1;
 
 			if (isAlreadyExpand) {
 				this.expanded = [];
@@ -284,20 +253,12 @@ export default {
 					confCompliance: confCompliance,
 					confComplianceError: confComplianceError,
 					nb_tasks: nb_tasks,
-					dag_execution_date_formated: moment(data.dag_execution_date).format(
-						"YYYY/MM/DD - HH:mm"
-					),
-					dag_execution_date_from_now: moment(
-						data.dag_execution_date
-					).fromNow(),
+					dag_execution_date_formated: moment(data.dag_execution_date).format("YYYY/MM/DD - HH:mm"),
+					dag_execution_date_from_now: moment(data.dag_execution_date).fromNow(),
 					//color for the status
 					statusColor: Util.getStatusColor(data.status),
 					//generate Airflow URL
-					dag_execution_airflow_url: Util.dagRunAirflowUrl(
-						data.dag_id,
-						data.dag_run_id,
-						data.dag_execution_date
-					)
+					dag_execution_airflow_url: Util.dagRunAirflowUrl(data.dag_id, data.dag_run_id, data.dag_execution_date)
 				};
 			});
 			const dataArrayFormated = _.merge(dataArray, dataFormated);

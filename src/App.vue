@@ -24,11 +24,7 @@
 							<v-list-item-action>
 								<v-btn icon @click.stop="drawer.mini = !drawer.mini">
 									<v-icon large color="complementary">
-										{{
-											drawer.mini
-												? "keyboard_arrow_right"
-												: "keyboard_arrow_left"
-										}}
+										{{ drawer.mini ? "keyboard_arrow_right" : "keyboard_arrow_left" }}
 									</v-icon>
 								</v-btn>
 							</v-list-item-action>
@@ -60,18 +56,8 @@
 					<v-list subheader>
 						<v-subheader v-if="!drawer.mini">DATA WORFLOWS</v-subheader>
 						<template v-for="item in analyticsItems">
-							<v-tooltip
-								v-slot:activator="{ on }"
-								right
-								:disabled="!drawer.mini"
-								:key="item.icon"
-							>
-								<v-list-item
-									:key="item.icon"
-									:to="item.link"
-									exact
-									slot="activator"
-								>
+							<v-tooltip v-slot:activator="{ on }" right :disabled="!drawer.mini" :key="item.icon">
+								<v-list-item :key="item.icon" :to="item.link" exact slot="activator">
 									<v-list-item-action>
 										<v-icon v-html="item.icon"></v-icon>
 									</v-list-item-action>
@@ -137,37 +123,22 @@
 					:fixed="toolbar.fixed"
 					:clipped-left="toolbar.clippedLeft"
 				>
-					<v-app-bar-nav-icon
-						v-if="!$vuetify.breakpoint.lgAndUp"
-						@click.stop="toggleDrawer"
-					/>
+					<v-app-bar-nav-icon v-if="!$vuetify.breakpoint.lgAndUp" @click.stop="toggleDrawer" />
 					<AccountSelector v-if="$vuetify.breakpoint.smAndUp" />
 					<v-spacer></v-spacer>
 					<SearchMenu v-if="$vuetify.breakpoint.smAndUp"></SearchMenu>
 					<v-tooltip v-slot:activator="{ on }" bottom>
-						<v-btn
-							icon
-							@click.stop="rightDrawer = !rightDrawer"
-							slot="activator"
-						>
+						<v-btn icon @click.stop="rightDrawer = !rightDrawer" slot="activator">
 							<v-badge color="red" overlap>
 								<span slot="badge">2</span>
 								<v-icon>notifications</v-icon>
 							</v-badge>
 						</v-btn>
 					</v-tooltip>
-					<v-menu
-						offset-y
-						origin="center center"
-						:nudge-bottom="10"
-						transition="scale-transition"
-					>
+					<v-menu offset-y origin="center center" :nudge-bottom="10" transition="scale-transition">
 						<template v-slot:activator="{ on }">
 							<v-btn icon large v-on="on">
-								<v-avatar
-									size="32px"
-									v-if="isAuthenticated && user.photoURL != null"
-								>
+								<v-avatar size="32px" v-if="isAuthenticated && user.photoURL != null">
 									<img :src="user.photoURL" :alt="user.displayName" />
 								</v-avatar>
 								<v-avatar size="32px" v-else>
@@ -198,13 +169,8 @@
 						<v-icon>fullscreen</v-icon>
 					</v-btn>
 				</v-app-bar>
-				<v-navigation-drawer
-					temporary
-					:right="true"
-					v-model="rightDrawer"
-					fixed
-					app
-				>
+
+				<v-navigation-drawer temporary :right="true" v-model="rightDrawer" fixed app>
 					<v-toolbar flat prominent dark class="primary">
 						<v-toolbar-title>Notifications</v-toolbar-title>
 						<v-spacer></v-spacer>
@@ -235,29 +201,26 @@
 						</v-list-item>
 					</v-list>
 				</v-navigation-drawer>
+
 				<v-content>
-					<router-view></router-view>
+					<!-- TODO: Add transition -->
+					<router-view />
 				</v-content>
-				<v-footer
-					app
-					:fixed="footer.fixed"
-					:clipped-left="footer.clippedLeft"
-					dark
-					class="menu"
-				>
+
+				<v-footer app :fixed="footer.fixed" :clipped-left="footer.clippedLeft" dark class="menu">
 					<span class="caption mx-3">&copy; 2019, JARVIS by Fashion Data</span>
 				</v-footer>
 			</v-app>
 		</template>
+
 		<template v-else>
-			<transition>
-				<keep-alive>
-					<router-view :key="$route.fullpath"></router-view>
-				</keep-alive>
-			</transition>
+			<keep-alive>
+				<router-view :key="$route.fullpath" />
+			</keep-alive>
 		</template>
 	</div>
 </template>
+
 <script>
 import router from "@/router";
 import { mapState } from "vuex";

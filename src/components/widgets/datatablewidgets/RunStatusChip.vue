@@ -1,12 +1,7 @@
 <template>
-	<v-chip
-		:color="colorRunStatus"
-		text-color="white"
-		:small="smallChip"
-		:class="chipTextClass"
-		:label="chipLabel"
-		>{{ runStatus }}</v-chip
-	>
+	<v-chip :color="colorRunStatus" text-color="white" :small="smallChip" :class="chipTextClass" :label="chipLabel">{{
+		runStatus
+	}}</v-chip>
 </template>
 
 <script>

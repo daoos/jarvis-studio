@@ -98,8 +98,7 @@ export default {
 							{
 								name: "loyalty_card_id",
 								type: "STRING",
-								description:
-									"Customer loyalty card linked to this ticket. null if no card."
+								description: "Customer loyalty card linked to this ticket. null if no card."
 							},
 							{
 								name: "customer_id",
@@ -180,8 +179,7 @@ export default {
 							{
 								name: "channel_code",
 								type: "STRING",
-								description:
-									"Sale channel code: MAG for physical store, WEB for e-commerce"
+								description: "Sale channel code: MAG for physical store, WEB for e-commerce"
 							},
 							{
 								name: "detailed_channel_id",
@@ -279,12 +277,9 @@ export default {
 					},
 					{
 						id: "product_theoretical_implantation",
-						short_description:
-							"Load PDA product_theoretical_implantation tables",
-						doc_md:
-							"000010_Load_PSA_to_PDA_product_theoretical_implantation.md",
-						sql_file:
-							"000010_Load_PSA_to_PDA_product_theoretical_implantation.sql",
+						short_description: "Load PDA product_theoretical_implantation tables",
+						doc_md: "000010_Load_PSA_to_PDA_product_theoretical_implantation.md",
+						sql_file: "000010_Load_PSA_to_PDA_product_theoretical_implantation.sql",
 						table_name: "product_theoretical_implantation"
 					},
 					{

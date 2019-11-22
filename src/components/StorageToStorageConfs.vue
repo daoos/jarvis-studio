@@ -1,28 +1,15 @@
 <template>
 	<v-container fluid>
 		<v-toolbar class="elevation-1" color="grey lighten-3">
-			<v-text-field
-				v-model="search"
-				append-icon="search"
-				label="Search"
-				single-line
-				hide-details
-			/>
+			<v-text-field v-model="search" append-icon="search" label="Search" single-line hide-details />
 
 			<v-spacer />
 
 			<DataManagementFilters viewEnvironnement />
 
-			<v-icon right @click="getFirestoreData" v-if="!isFetchAndAdding"
-				>refresh</v-icon
-			>
+			<v-icon right @click="getFirestoreData" v-if="!isFetchAndAdding">refresh</v-icon>
 
-			<v-progress-circular
-				indeterminate
-				size="20"
-				color="primary"
-				v-if="isFetchAndAdding"
-			/>
+			<v-progress-circular indeterminate size="20" color="primary" v-if="isFetchAndAdding" />
 		</v-toolbar>
 
 		<v-data-table
@@ -65,9 +52,7 @@
 				{{ nb_destinations }}
 			</template>
 
-			<template
-				v-slot:item.nb_filename_templates="{ item: { nb_filename_templates } }"
-			>
+			<template v-slot:item.nb_filename_templates="{ item: { nb_filename_templates } }">
 				{{ nb_filename_templates }}
 			</template>
 
@@ -126,18 +111,11 @@
 				<v-card-title class="headline">Delete Configuration</v-card-title>
 				<v-card-text>
 					Do you really want to delete the configuration?
-					<h3 class="pt-3">
-						<v-icon size="18">arrow_forward</v-icon
-						>{{ confToDeleteFromFirestore.id }}
-					</h3>
+					<h3 class="pt-3"><v-icon size="18">arrow_forward</v-icon>{{ confToDeleteFromFirestore.id }}</h3>
 				</v-card-text>
 				<v-card-actions>
 					<v-btn icon @click="showDetailConfToDelete = !showDetailConfToDelete">
-						<v-icon>{{
-							showDetailConfToDelete
-								? "keyboard_arrow_up"
-								: "keyboard_arrow_down"
-						}}</v-icon>
+						<v-icon>{{ showDetailConfToDelete ? "keyboard_arrow_up" : "keyboard_arrow_down" }}</v-icon>
 					</v-btn>
 					<v-spacer></v-spacer>
 					<v-btn color="grey" text @click="cancelDeleteConfFromFirestore">
@@ -162,19 +140,11 @@
 			</v-card>
 		</v-dialog>
 
-		<v-snackbar
-			v-model="showSnackbarDeleteConfSuccess"
-			color="success"
-			:timeout="1000"
-		>
+		<v-snackbar v-model="showSnackbarDeleteConfSuccess" color="success" :timeout="1000">
 			Configuration deleted with sucess
 		</v-snackbar>
 
-		<v-snackbar
-			v-model="snackbarParam.show"
-			:color="snackbarParam.color"
-			:timeout="2000"
-		>
+		<v-snackbar v-model="snackbarParam.show" :color="snackbarParam.color" :timeout="2000">
 			{{ snackbarParam.message }}
 			<v-btn text @click="snackbarParam.show = false">
 				Close
@@ -269,9 +239,7 @@ export default {
 	},
 	methods: {
 		toggleExpand(item) {
-			const isAlreadyExpand =
-				this.expanded.filter(expandedItem => expandedItem.id === item.id)
-					.length === 1;
+			const isAlreadyExpand = this.expanded.filter(expandedItem => expandedItem.id === item.id).length === 1;
 
 			if (isAlreadyExpand) {
 				this.expanded = [];
@@ -306,13 +274,10 @@ export default {
 				store.dispatch("storageToStorageConfs/closeDBChannel", {
 					clearModule: true
 				});
-				let fetchResult = await store.dispatch(
-					"storageToStorageConfs/fetchAndAdd",
-					{
-						where,
-						limit: 0
-					}
-				);
+				let fetchResult = await store.dispatch("storageToStorageConfs/fetchAndAdd", {
+					where,
+					limit: 0
+				});
 				if (fetchResult.done === true) {
 					this.$data.moreToFetchAndAdd = false;
 				} else {

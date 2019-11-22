@@ -38,11 +38,7 @@
 								</v-form>
 							</v-card-text>
 							<v-card-actions>
-								<v-btn
-									outlined
-									@click="googleSignin"
-									:loadingGoogleSignin="loadingGoogleSignin"
-								>
+								<v-btn outlined @click="googleSignin" :loadingGoogleSignin="loadingGoogleSignin">
 									<v-icon left dark>https</v-icon>
 									Signin with google
 								</v-btn>
@@ -68,10 +64,7 @@ export default {
 			email: "",
 			password: ""
 		},
-		emailRules: [
-			v => !!v || "E-mail is required",
-			v => /.+@.+/.test(v) || "E-mail must be valid"
-		],
+		emailRules: [v => !!v || "E-mail is required", v => /.+@.+/.test(v) || "E-mail must be valid"],
 		passwordRules: [
 			v => !!v || "Password is required",
 			v => v.length >= 6 || "Password must be greater than 6 characters"

@@ -10,13 +10,7 @@
 		</v-alert>
 
 		<v-toolbar class="elevation-O" color="transparent">
-			<v-text-field
-				v-model="search"
-				append-icon="search"
-				label="Search"
-				single-line
-				hide-details
-			/>
+			<v-text-field v-model="search" append-icon="search" label="Search" single-line hide-details />
 
 			<v-spacer />
 
@@ -26,12 +20,7 @@
 				refresh
 			</v-icon>
 
-			<v-progress-circular
-				indeterminate
-				size="20"
-				color="primary"
-				v-if="isFetchAndAdding"
-			/>
+			<v-progress-circular indeterminate size="20" color="primary" v-if="isFetchAndAdding" />
 		</v-toolbar>
 
 		<v-data-table
@@ -115,12 +104,7 @@
 			</v-alert>
 		</v-data-table>
 
-		<v-snackbar
-			v-model="snackbarParam.show"
-			:color="snackbarParam.color"
-			:timeout="2000"
-			auto-height
-		>
+		<v-snackbar v-model="snackbarParam.show" :color="snackbarParam.color" :timeout="2000" auto-height>
 			{{ snackbarParam.message }}
 			<v-btn flat @click="snackbarParam.show = false">
 				Close
@@ -212,9 +196,7 @@ export default {
 	},
 	methods: {
 		toggleExpand(item) {
-			const isAlreadyExpand =
-				this.expanded.filter(expandedItem => expandedItem.id === item.id)
-					.length === 1;
+			const isAlreadyExpand = this.expanded.filter(expandedItem => expandedItem.id === item.id).length === 1;
 
 			if (isAlreadyExpand) {
 				this.expanded = [];

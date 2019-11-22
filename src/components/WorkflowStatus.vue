@@ -1,13 +1,7 @@
 <template>
 	<v-container fluid>
 		<v-toolbar class="elevation-1" color="grey lighten-3">
-			<v-text-field
-				v-model="search"
-				append-icon="search"
-				label="Search"
-				single-line
-				hide-details
-			/>
+			<v-text-field v-model="search" append-icon="search" label="Search" single-line hide-details />
 
 			<v-spacer />
 
@@ -17,12 +11,7 @@
 				refresh
 			</v-icon>
 
-			<v-progress-circular
-				indeterminate
-				size="20"
-				color="primary"
-				v-if="isFetchAndAdding"
-			/>
+			<v-progress-circular indeterminate size="20" color="primary" v-if="isFetchAndAdding" />
 		</v-toolbar>
 
 		<v-data-table
@@ -47,9 +36,7 @@
 				{{ target_dag }}
 			</template>
 
-			<template
-				v-slot:item.nb_triggering_jobs="{ item: { nb_triggering_jobs } }"
-			>
+			<template v-slot:item.nb_triggering_jobs="{ item: { nb_triggering_jobs } }">
 				{{ nb_triggering_jobs }}
 			</template>
 
@@ -198,9 +185,7 @@ export default {
 	},
 	methods: {
 		toggleExpand(item) {
-			const isAlreadyExpand =
-				this.expanded.filter(expandedItem => expandedItem.id === item.id)
-					.length === 1;
+			const isAlreadyExpand = this.expanded.filter(expandedItem => expandedItem.id === item.id).length === 1;
 
 			if (isAlreadyExpand) {
 				this.expanded = [];
@@ -253,16 +238,10 @@ export default {
 			const dataArray = Object.values(this.workflowStatus);
 			var dataFormated = dataArray.map(function(data) {
 				return {
-					last_update_date_formated: moment(data.last_modified).format(
-						"YYYY/MM/DD - HH:mm"
-					),
+					last_update_date_formated: moment(data.last_modified).format("YYYY/MM/DD - HH:mm"),
 					last_update_date_from_now: moment(data.last_modified).fromNow(),
-					last_fire_date_formated: moment(data.target_dag_last_executed).format(
-						"YYYY/MM/DD - HH:mm"
-					),
-					last_fire_date_from_now: moment(
-						data.target_dag_last_executed
-					).fromNow(),
+					last_fire_date_formated: moment(data.target_dag_last_executed).format("YYYY/MM/DD - HH:mm"),
+					last_fire_date_from_now: moment(data.target_dag_last_executed).fromNow(),
 					nb_triggering_jobs: Object.keys(data.jobs).length,
 					// Compute the number of jobs with a executed status == true
 					nb_triggered_jobs: Object.values(data.jobs).filter(function(d) {

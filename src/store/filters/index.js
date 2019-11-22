@@ -53,8 +53,7 @@ const filters = {
 				.toISOString();
 		},
 		updateAccountFilterSelected(state, accountFilterSelected) {
-			state.accountFilterSelected.account_name =
-				accountFilterSelected.account_name;
+			state.accountFilterSelected.account_name = accountFilterSelected.account_name;
 			state.accountFilterSelected.id = accountFilterSelected.id;
 		}
 	},
@@ -102,18 +101,10 @@ const filters = {
 				whereRunsFilter.push(["account", "==", state.accountFilterSelected.id]);
 			}
 			if (state.envFilterSelected.envId != "ALL") {
-				whereRunsFilter.push([
-					"environment",
-					"==",
-					state.envFilterSelected.envId
-				]);
+				whereRunsFilter.push(["environment", "==", state.envFilterSelected.envId]);
 			}
 			if (state.runStatusFilterSelected.runStatusId != "ALL") {
-				whereRunsFilter.push([
-					"status",
-					"==",
-					state.runStatusFilterSelected.runStatusId
-				]);
+				whereRunsFilter.push(["status", "==", state.runStatusFilterSelected.runStatusId]);
 			}
 			return whereRunsFilter;
 		},
@@ -123,11 +114,7 @@ const filters = {
 				whereConfFilter.push(["account", "==", state.accountFilterSelected.id]);
 			}
 			if (state.envFilterSelected.envId != "ALL") {
-				whereConfFilter.push([
-					"environment",
-					"==",
-					state.envFilterSelected.envId
-				]);
+				whereConfFilter.push(["environment", "==", state.envFilterSelected.envId]);
 			}
 			return whereConfFilter;
 		}

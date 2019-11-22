@@ -10,12 +10,8 @@
 			</v-tooltip>
 		</v-col>
 		<v-col cols="9">
-			<span class="subheading font-weight-bold" v-if="paramItem.value">{{
-				paramItem.value
-			}}</span>
-			<span class="subheading font-weight-bold grey--text" v-else>{{
-				paramItem.default
-			}}</span>
+			<span class="subheading font-weight-bold" v-if="paramItem.value">{{ paramItem.value }}</span>
+			<span class="subheading font-weight-bold grey--text" v-else>{{ paramItem.default }}</span>
 		</v-col>
 	</v-row>
 </template>

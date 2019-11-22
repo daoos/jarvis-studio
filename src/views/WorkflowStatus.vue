@@ -1,7 +1,6 @@
 <template>
 	<div>
-		<DataManagementHeader :tabsItems="tabsItems" :headerTitle="headerTitle">
-		</DataManagementHeader>
+		<DataManagementHeader :tabsItems="tabsItems" :headerTitle="headerTitle"> </DataManagementHeader>
 		<workflowStatus />
 	</div>
 </template>

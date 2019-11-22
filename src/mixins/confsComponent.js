@@ -24,16 +24,12 @@ export default {
 				case true:
 					this.snackbarParam.message = "Configuration disabled";
 					this.snackbarParam.color = Util.getActiveConfColor(false);
-					store
-						.dispatch(collectionPath, { id, activated: false })
-						.then((this.snackbarParam.show = true));
+					store.dispatch(collectionPath, { id, activated: false }).then((this.snackbarParam.show = true));
 					break;
 				case false:
 					this.snackbarParam.message = "Configuration activated";
 					this.snackbarParam.color = Util.getActiveConfColor(true);
-					store
-						.dispatch(collectionPath, { id, activated: true })
-						.then((this.snackbarParam.show = true));
+					store.dispatch(collectionPath, { id, activated: true }).then((this.snackbarParam.show = true));
 					break;
 				default:
 					this.alertParam.color = "error";
