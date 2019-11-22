@@ -475,7 +475,7 @@ export default {
 				this.datasetId,
 				"&t=",
 				this.tableId,
-				"&page=dataset"
+				"&page=table"
 			);
 		},
 		refreshedTimestamp() {
