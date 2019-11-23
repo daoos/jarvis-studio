@@ -11,11 +11,7 @@
 			</template>
 
 			<v-list>
-				<v-list-item
-					v-for="account in accountArray"
-					:key="account.id"
-					@click="applyAccountFilter(account)"
-				>
+				<v-list-item v-for="account in accountArray" :key="account.id" @click="applyAccountFilter(account)">
 					<v-list-item-title v-text="account.account_name"></v-list-item-title>
 				</v-list-item>
 			</v-list>

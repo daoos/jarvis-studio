@@ -2,12 +2,7 @@
 	<v-container>
 		<v-row>
 			<v-col cols="12" offset="0">
-				<HeaderDocView
-					:viewId="runId"
-					:runStatus="run.status"
-					:activeHeader="activeHeader"
-					viewType="run"
-				/>
+				<HeaderDocView :viewId="runId" :runStatus="run.status" :activeHeader="activeHeader" viewType="run" />
 				<ParametersList
 					groupTitle="Context"
 					description="Context of the Storage to Table Run"

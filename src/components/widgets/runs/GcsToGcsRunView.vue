@@ -2,12 +2,7 @@
 	<v-container>
 		<v-row>
 			<v-col cols="12" offset="0">
-				<HeaderDocView
-					:viewId="runId"
-					:runStatus="run.status"
-					:activeHeader="activeHeader"
-					viewType="run"
-				/>
+				<HeaderDocView :viewId="runId" :runStatus="run.status" :activeHeader="activeHeader" viewType="run" />
 				<ParametersList
 					groupTitle="Run Details"
 					description="Details of the Storage to Storage run"
@@ -158,8 +153,7 @@ export default {
 					source_type: "GCS",
 					source_storage_id: this.run.configuration_context.source_bucket,
 					source_input_folder: this.run.configuration_context.source_gcs_prefix,
-					source_archive_folder: this.run.configuration_context
-						.source_archive_prefix
+					source_archive_folder: this.run.configuration_context.source_archive_prefix
 				}
 			];
 		},
@@ -167,17 +161,11 @@ export default {
 			//Combine the two array this.run.destination_bucket and this.run.destination_input_prefix into a array of json.
 			//Can't use map :(
 			var destinationStorageRows = [];
-			for (
-				var i = 0;
-				i < this.run.configuration_context.destination_bucket.length;
-				i++
-			) {
+			for (var i = 0; i < this.run.configuration_context.destination_bucket.length; i++) {
 				destinationStorageRows.push({
 					destination_type: "GCS",
-					destination_storage_id: this.run.configuration_context
-						.destination_bucket[i],
-					destination_input_folder: this.run.configuration_context
-						.destination_gcs_prefix[i]
+					destination_storage_id: this.run.configuration_context.destination_bucket[i],
+					destination_input_folder: this.run.configuration_context.destination_gcs_prefix[i]
 				});
 			}
 			return destinationStorageRows;

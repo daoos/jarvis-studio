@@ -21,9 +21,7 @@
 									<div class="card-title-right">
 										<v-tooltip bottom>
 											<template v-slot:activator="{ on }">
-												<span>
-													Last Update: {{ refreshedTimestamp.dateFromNow }}
-												</span>
+												<span> Last Update: {{ refreshedTimestamp.dateFromNow }} </span>
 											</template>
 											<span>{{ refreshedTimestamp.dateFormated }}</span>
 										</v-tooltip>
@@ -138,11 +136,7 @@
 						</v-col>
 
 						<v-col cols="12">
-							<v-tabs
-								v-model="activeTab"
-								color="grey lighten-3"
-								slider-color="primary"
-							>
+							<v-tabs v-model="activeTab" color="grey lighten-3" slider-color="primary">
 								<v-tab ripple href="#dataoverview">
 									Data Overview
 								</v-tab>
@@ -171,9 +165,7 @@
 												styleClass="vgt-table condensed striped"
 											>
 												<template slot="table-row" slot-scope="props">
-													<span class="body-1">{{
-														props.formattedRow[props.column.field]
-													}}</span>
+													<span class="body-1">{{ props.formattedRow[props.column.field] }}</span>
 												</template>
 											</vue-good-table>
 										</v-card-text>
@@ -181,17 +173,13 @@
 								</v-tab-item>
 								<v-tab-item value="schema">
 									<v-card>
-										<tableSchemaView
-											:schemaRows="dataTableDetails.schema.fields"
-										/>
+										<tableSchemaView :schemaRows="dataTableDetails.schema.fields" />
 									</v-card>
 								</v-tab-item>
 								<v-tab-item value="workflow">
 									<v-card>
 										<v-card-title>
-											<span class="title mt-2 ml-1">{{
-												dataTableDetails.dag_id
-											}}</span>
+											<span class="title mt-2 ml-1">{{ dataTableDetails.dag_id }}</span>
 											<v-spacer></v-spacer>
 										</v-card-title>
 										<v-card-text>
@@ -254,9 +242,7 @@
 										<v-card-text>
 											<v-row>
 												<v-col class="ml-3" cols="10" offset="0">
-													<vue-markdown
-														:source="dataTableDetails.doc_md"
-													></vue-markdown>
+													<vue-markdown :source="dataTableDetails.doc_md"></vue-markdown>
 												</v-col>
 											</v-row>
 										</v-card-text>
@@ -284,11 +270,7 @@
 						</v-col>
 					</template>
 
-					<JsonSchemaIsInvalid
-						v-else
-						:jsonObject="this.dataTableDetails"
-						:jsonObjectErrors="this.jsonObjectErrors"
-					/>
+					<JsonSchemaIsInvalid v-else :jsonObject="this.dataTableDetails" :jsonObjectErrors="this.jsonObjectErrors" />
 				</template>
 
 				<v-progress-linear v-else :indeterminate="true" />
@@ -384,25 +366,19 @@ export default {
 			//Test the Json Schema
 			const ajv = new Ajv({ allErrors: true });
 			//Get Schema to apply
-			const testJson = ajv.compile(
-				JSON.parse(this.schemas["gbq-table-preview-table"].schema)
-			);
+			const testJson = ajv.compile(JSON.parse(this.schemas["gbq-table-preview-table"].schema));
 			//Test Json Schema
 			this.jsonIsValid = testJson(this.dataTableDetails);
 			this.jsonObjectErrors = testJson.errors;
 			if (this.jsonIsValid) {
 				this.dataTableOverviewRows = Object.values(this.dataTableDetails.json);
-				const dataTableOverviewColumnsKey = Object.keys(
-					this.dataTableOverviewRows[0]
-				);
-				this.dataTableOverviewColumns = dataTableOverviewColumnsKey.map(
-					function(data) {
-						return {
-							label: data,
-							field: data
-						};
-					}
-				);
+				const dataTableOverviewColumnsKey = Object.keys(this.dataTableOverviewRows[0]);
+				this.dataTableOverviewColumns = dataTableOverviewColumnsKey.map(function(data) {
+					return {
+						label: data,
+						field: data
+					};
+				});
 				this.schemaRows = Object.values(this.dataTableDetails.schema.fields);
 			}
 			this.$data.isFetchAndAdding = false;
@@ -479,12 +455,8 @@ export default {
 			);
 		},
 		refreshedTimestamp() {
-			var dateFormated = moment(
-				this.dataTableDetails.refreshed_timestamp
-			).format("YYYY/MM/DD - HH:mm");
-			var dateFromNow = moment(
-				this.dataTableDetails.refreshed_timestamp
-			).fromNow();
+			var dateFormated = moment(this.dataTableDetails.refreshed_timestamp).format("YYYY/MM/DD - HH:mm");
+			var dateFromNow = moment(this.dataTableDetails.refreshed_timestamp).fromNow();
 			const refreshedTimestamp = {
 				dateFormated: dateFormated,
 				dateFromNow: dateFromNow
@@ -493,10 +465,7 @@ export default {
 		},
 		workflowLastModifiedTime() {
 			console.log("lastModifiedTimeFormated");
-			var lastModifiedTimeFormated = moment(
-				this.dataTableDetails.lastModifiedTime,
-				"x"
-			).format("YYYY/MM/DD - HH:mm");
+			var lastModifiedTimeFormated = moment(this.dataTableDetails.lastModifiedTime, "x").format("YYYY/MM/DD - HH:mm");
 			return lastModifiedTimeFormated;
 		},
 		tableItems() {

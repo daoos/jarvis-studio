@@ -2,12 +2,7 @@
 	<v-container>
 		<v-row v-if="!isFetchAndAdding">
 			<v-col cols="12" offset="0">
-				<v-tabs
-					v-model="activeTab"
-					color="black"
-					background-color="#E0E0E0"
-					slider-color="primary"
-				>
+				<v-tabs v-model="activeTab" color="black" background-color="#E0E0E0" slider-color="primary">
 					<v-tab ripple href="#runconfiguration">
 						Overview
 					</v-tab>

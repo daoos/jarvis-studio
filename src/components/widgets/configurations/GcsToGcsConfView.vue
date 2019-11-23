@@ -129,9 +129,7 @@ export default {
 			return getConfId;
 		},
 		fileNameTemplateRows() {
-			var filename_templates_rows = this.conf.filename_templates.map(function(
-				filename
-			) {
+			var filename_templates_rows = this.conf.filename_templates.map(function(filename) {
 				return {
 					filename_template: filename,
 					filename_description: "No Description"

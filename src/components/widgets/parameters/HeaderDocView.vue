@@ -1,10 +1,7 @@
 <template>
 	<div>
 		<v-row class="pl-5 pt-4 pr-5" v-if="activeHeader">
-			<span
-				class="headline font-weight-black text-truncate complementary--text"
-				>{{ viewId }}</span
-			>
+			<span class="headline font-weight-black text-truncate complementary--text">{{ viewId }}</span>
 			<v-spacer></v-spacer>
 			<v-btn text color="grey" @click="goBack()">
 				Go Back

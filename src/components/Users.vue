@@ -1,13 +1,7 @@
 <template>
 	<v-container fluid>
 		<v-toolbar class="elevation-0" color="transparent">
-			<v-text-field
-				v-model="search"
-				append-icon="search"
-				label="Search"
-				single-line
-				hide-details
-			></v-text-field>
+			<v-text-field v-model="search" append-icon="search" label="Search" single-line hide-details></v-text-field>
 			<v-spacer></v-spacer>
 			<v-dialog v-model="dialog" max-width="700px">
 				<template v-slot:activator="{ on }">
@@ -22,44 +16,28 @@
 						<v-container>
 							<v-row>
 								<v-col cols="12" sm="12" md="12">
-									<v-text-field
-										v-model="editedUser.email"
-										label="Email"
-									></v-text-field>
+									<v-text-field v-model="editedUser.email" label="Email"></v-text-field>
 								</v-col>
 								<v-col cols="12" sm="12" md="12">
-									<v-text-field
-										v-model="editedUser.displayName"
-										label="Display Name"
-									></v-text-field>
+									<v-text-field v-model="editedUser.displayName" label="Display Name"></v-text-field>
 								</v-col>
 								<v-col cols="12" sm="12" md="12">
 									<v-text-field
 										v-model="editedUser.password"
-										:append-icon="
-											editedUser.showpassword ? 'visibility' : 'visibility_off'
-										"
+										:append-icon="editedUser.showpassword ? 'visibility' : 'visibility_off'"
 										:type="editedUser.showpassword ? 'text' : 'password'"
 										name="password"
 										label="Password"
 										hint="At least 8 characters"
 										counter
-										@click:append="
-											editedUser.showpassword = !editedUser.showpassword
-										"
+										@click:append="editedUser.showpassword = !editedUser.showpassword"
 									></v-text-field>
 								</v-col>
 								<v-col cols="12" sm="12" md="12">
-									<v-text-field
-										v-model="editedUser.emailVerified"
-										label="Email Verified"
-									></v-text-field>
+									<v-text-field v-model="editedUser.emailVerified" label="Email Verified"></v-text-field>
 								</v-col>
 								<v-col cols="12" sm="12" md="12">
-									<v-text-field
-										v-model="editedUser.disabled"
-										label="Disabled"
-									></v-text-field>
+									<v-text-field v-model="editedUser.disabled" label="Disabled"></v-text-field>
 									<v-select
 										v-model="selectedAccounts"
 										:items="accountsFormated"
@@ -90,24 +68,13 @@
 					<v-card-actions>
 						<v-spacer></v-spacer>
 						<v-btn color="blue darken-1" flat @click="close">Cancel</v-btn>
-						<v-btn color="blue darken-1" flat @click="createUser"
-							>Create User</v-btn
-						>
-						<v-btn color="blue darken-1" flat @click="addRolesAndAccounts"
-							>Update User</v-btn
-						>
+						<v-btn color="blue darken-1" flat @click="createUser">Create User</v-btn>
+						<v-btn color="blue darken-1" flat @click="addRolesAndAccounts">Update User</v-btn>
 					</v-card-actions>
 				</v-card>
 			</v-dialog>
-			<v-icon right @click="listAllUsers" v-if="!isFetchAndAdding"
-				>refresh</v-icon
-			>
-			<v-progress-circular
-				indeterminate
-				size="20"
-				color="primary"
-				v-if="isFetchAndAdding"
-			></v-progress-circular>
+			<v-icon right @click="listAllUsers" v-if="!isFetchAndAdding">refresh</v-icon>
+			<v-progress-circular indeterminate size="20" color="primary" v-if="isFetchAndAdding"></v-progress-circular>
 		</v-toolbar>
 		<v-data-table
 			:headers="headers"
@@ -140,11 +107,7 @@
 				<v-btn color="primary" @click="listAllUsers">Reset</v-btn>
 			</template>
 		</v-data-table>
-		<v-snackbar
-			v-model="snackbarParam.show"
-			:color="snackbarParam.color"
-			:timeout="2000"
-		>
+		<v-snackbar v-model="snackbarParam.show" :color="snackbarParam.color" :timeout="2000">
 			{{ snackbarParam.message }}
 			<v-btn flat @click="snackbarParam.show = false">
 				Close
@@ -289,8 +252,7 @@ export default {
 		},
 		deleteUser(item) {
 			const index = this.users.indexOf(item);
-			confirm("Are you sure you want to delete this user?") &&
-				this.users.splice(index, 1);
+			confirm("Are you sure you want to delete this user?") && this.users.splice(index, 1);
 		},
 		close() {
 			this.dialog = false;
@@ -314,8 +276,7 @@ export default {
 					email: this.editedUser.email,
 					displayName: this.editedUser.displayName,
 					emailVerified: this.editedUser.emailVerified,
-					photoURL:
-						"https://raw.githubusercontent.com/mkfeuhrer/JarvisBot/master/images/JarvisBot.gif",
+					photoURL: "https://raw.githubusercontent.com/mkfeuhrer/JarvisBot/master/images/JarvisBot.gif",
 					password: this.editedUser.password,
 					disabled: this.editedUser.disabled,
 					accounts: this.selectedAccounts,
@@ -330,9 +291,7 @@ export default {
 		},
 		addRolesAndAccounts() {
 			if (this.editedUserIndex > -1) {
-				const addRolesAndAccounts = firebase
-					.functions()
-					.httpsCallable("addRolesAndAccounts");
+				const addRolesAndAccounts = firebase.functions().httpsCallable("addRolesAndAccounts");
 				addRolesAndAccounts({
 					email: this.editedUser.email,
 					accounts: this.selectedAccounts,

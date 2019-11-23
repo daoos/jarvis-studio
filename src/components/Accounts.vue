@@ -37,37 +37,22 @@
 				<v-container class="pa-4">
 					<v-row>
 						<v-col cols="6">
-							<v-text-field
-								prepend-icon="business"
-								placeholder="Account Name"
-							></v-text-field>
+							<v-text-field prepend-icon="business" placeholder="Account Name"></v-text-field>
 						</v-col>
 						<v-col cols="6">
-							<v-text-field
-								prepend-icon="vpn_key"
-								placeholder="Account ID"
-							></v-text-field>
+							<v-text-field prepend-icon="vpn_key" placeholder="Account ID"></v-text-field>
 						</v-col>
 						<v-col cols="6">
-							<v-text-field
-								prepend-icon="account_box"
-								placeholder="Contact First Name"
-							></v-text-field>
+							<v-text-field prepend-icon="account_box" placeholder="Contact First Name"></v-text-field>
 						</v-col>
 						<v-col cols="6">
 							<v-text-field placeholder="Contact Last Name"></v-text-field>
 						</v-col>
 						<v-col cols="12">
-							<v-text-field
-								prepend-icon="mail"
-								placeholder="Email Contact Account"
-							></v-text-field>
+							<v-text-field prepend-icon="mail" placeholder="Email Contact Account"></v-text-field>
 						</v-col>
 						<v-col cols="12">
-							<v-text-field
-								prepend-icon="notes"
-								placeholder="Notes"
-							></v-text-field>
+							<v-text-field prepend-icon="notes" placeholder="Notes"></v-text-field>
 						</v-col>
 					</v-row>
 				</v-container>

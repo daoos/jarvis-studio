@@ -1,6 +1,5 @@
 const singleDoc = {
-	firestorePath:
-		"/mirror-exc-gcs-to-gbq-conf/mirror-fd-io-exc-pim-n-in/CONFIGURATION/ventes",
+	firestorePath: "/mirror-exc-gcs-to-gbq-conf/mirror-fd-io-exc-pim-n-in/CONFIGURATION/ventes",
 	firestoreRefType: "doc", // 'collection' or 'doc'
 	moduleName: "singleDoc",
 	statePropName: "data",

@@ -195,8 +195,7 @@ export default {
 					label: "Ignore extra values",
 					value: this.conf.bq_load_job_ignore_unknown_values,
 					default: "false",
-					description:
-						"Ignore extra values not represented in the table schema."
+					description: "Ignore extra values not represented in the table schema."
 				},
 				{
 					id: "bq_load_job_max_bad_records",
@@ -216,8 +215,7 @@ export default {
 					label: "Schema Update Options",
 					value: this.conf.bq_load_job_schema_update_options,
 					default: "[ ]",
-					description:
-						"Specifies updates to the destination table schema to allow as a side effect of the load job."
+					description: "Specifies updates to the destination table schema to allow as a side effect of the load job."
 				},
 				{
 					id: "bq_load_job_null_marker",
@@ -231,8 +229,7 @@ export default {
 					label: "Allow quoted new lines",
 					value: this.conf.bq_load_job_allow_quoted_newlines,
 					default: "false",
-					description:
-						"Allow quoted data containing newline characters (CSV only)."
+					description: "Allow quoted data containing newline characters (CSV only)."
 				},
 				{
 					id: "bq_load_job_allow_jagged_rows",

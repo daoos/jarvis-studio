@@ -1,28 +1,15 @@
 <template>
 	<v-container fluid>
 		<v-toolbar class="elevation-1" color="grey lighten-3">
-			<v-text-field
-				v-model="search"
-				append-icon="search"
-				label="Search"
-				single-line
-				hide-details
-			/>
+			<v-text-field v-model="search" append-icon="search" label="Search" single-line hide-details />
 
 			<v-spacer />
 
 			<DataManagementFilters viewEnvironnement />
 
-			<v-icon right @click="getFirestoreData" v-if="!isFetchAndAdding"
-				>refresh</v-icon
-			>
+			<v-icon right @click="getFirestoreData" v-if="!isFetchAndAdding">refresh</v-icon>
 
-			<v-progress-circular
-				indeterminate
-				size="20"
-				color="primary"
-				v-if="isFetchAndAdding"
-			/>
+			<v-progress-circular indeterminate size="20" color="primary" v-if="isFetchAndAdding" />
 		</v-toolbar>
 
 		<v-data-table
@@ -139,11 +126,7 @@
 			</v-col>
 		</v-row>
 
-		<v-snackbar
-			v-model="snackbarParam.show"
-			:color="snackbarParam.color"
-			:timeout="2000"
-		>
+		<v-snackbar v-model="snackbarParam.show" :color="snackbarParam.color" :timeout="2000">
 			{{ snackbarParam.message }}
 			<v-btn flat @click="snackbarParam.show = false">
 				Close
@@ -228,9 +211,7 @@ export default {
 	},
 	methods: {
 		toggleExpand(item) {
-			const isAlreadyExpand =
-				this.expanded.filter(expandedItem => expandedItem.id === item.id)
-					.length === 1;
+			const isAlreadyExpand = this.expanded.filter(expandedItem => expandedItem.id === item.id).length === 1;
 
 			if (isAlreadyExpand) {
 				this.expanded = [];

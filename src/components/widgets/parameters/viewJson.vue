@@ -4,13 +4,7 @@
 			<v-col cols="12" offset="0">
 				<span class="headline font-weight-bold">{{ jsonID }}</span>
 				<v-row class="pt-4 pb-4">
-					<vue-json-pretty
-						:data="json"
-						:deep="deep"
-						:show-double-quotes="true"
-						:show-length="true"
-						:show-line="false"
-					>
+					<vue-json-pretty :data="json" :deep="deep" :show-double-quotes="true" :show-length="true" :show-line="false">
 					</vue-json-pretty>
 				</v-row>
 			</v-col>

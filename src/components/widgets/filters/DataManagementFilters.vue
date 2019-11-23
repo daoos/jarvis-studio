@@ -9,11 +9,7 @@
 			</template>
 
 			<v-list>
-				<v-list-item
-					v-for="environment in envFilters"
-					:key="environment.envId"
-					@click="applyEnvFilter(environment)"
-				>
+				<v-list-item v-for="environment in envFilters" :key="environment.envId" @click="applyEnvFilter(environment)">
 					<v-list-item-title>{{ environment.envLabel }}</v-list-item-title>
 				</v-list-item>
 			</v-list>
@@ -47,11 +43,7 @@
 			</template>
 
 			<v-list>
-				<v-list-item
-					v-for="date in dateFilters"
-					:key="date.nbDays"
-					@click="applyDateFilter(date)"
-				>
+				<v-list-item v-for="date in dateFilters" :key="date.nbDays" @click="applyDateFilter(date)">
 					<v-list-item-title>{{ date.dateLabel }}</v-list-item-title>
 				</v-list-item>
 			</v-list>

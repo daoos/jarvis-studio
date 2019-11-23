@@ -67,12 +67,9 @@ export default {
 							.split(",");
 						for (k = 0; k < taskParallArray.length; k++) {
 							dagParall.push(
-								this.chart.addElement(
-									k.toString().concat("-", j, "-", i, ":", taskParallArray[k]),
-									{
-										label: taskParallArray[k]
-									}
-								)
+								this.chart.addElement(k.toString().concat("-", j, "-", i, ":", taskParallArray[k]), {
+									label: taskParallArray[k]
+								})
 							);
 						}
 						dagBranch.push(dagParall);
@@ -93,12 +90,9 @@ export default {
 						}
 					} else {
 						dagBranch.push(
-							this.chart.addElement(
-								j.toString().concat("-", i, ":", tasksArray[j]),
-								{
-									label: tasksArray[j]
-								}
-							)
+							this.chart.addElement(j.toString().concat("-", i, ":", tasksArray[j]), {
+								label: tasksArray[j]
+							})
 						);
 						if (j > 0) {
 							let previous = j - 1;

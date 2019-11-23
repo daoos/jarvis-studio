@@ -310,23 +310,18 @@ export default {
 					case "gcs":
 						gcsDestinationStorageRows.push({
 							type: this.conf.destinations[i].type,
-							gcs_destination_bucket: this.conf.destinations[i]
-								.gcs_destination_bucket,
-							gcs_destination_prefix: this.conf.destinations[i]
-								.gcs_destination_prefix,
-							gcp_credentials_secret: this.conf.destinations[i]
-								.gcp_credentials_secret
+							gcs_destination_bucket: this.conf.destinations[i].gcs_destination_bucket,
+							gcs_destination_prefix: this.conf.destinations[i].gcs_destination_prefix,
+							gcp_credentials_secret: this.conf.destinations[i].gcp_credentials_secret
 						});
 						break;
 					case "s3":
 						s3DestinationStorageRows.push({
 							type: this.conf.destinations[i].type,
 							s3_bucket: this.conf.destinations[i].s3_bucket,
-							s3_destination_prefix: this.conf.destinations[i]
-								.s3_destination_prefix,
+							s3_destination_prefix: this.conf.destinations[i].s3_destination_prefix,
 							aws_access_key: this.conf.destinations[i].aws_access_key,
-							aws_access_key_secret: this.conf.destinations[i]
-								.aws_access_key_secret
+							aws_access_key_secret: this.conf.destinations[i].aws_access_key_secret
 						});
 						break;
 					case "sftp":
@@ -334,13 +329,10 @@ export default {
 							type: this.conf.destinations[i].type,
 							sftp_host: this.conf.destinations[i].sftp_host,
 							sftp_port: this.conf.destinations[i].sftp_port,
-							sftp_destination_dir: this.conf.destinations[i]
-								.sftp_destination_dir,
-							sftp_destination_dir_create: this.conf.destinations[i]
-								.sftp_destination_dir_create,
+							sftp_destination_dir: this.conf.destinations[i].sftp_destination_dir,
+							sftp_destination_dir_create: this.conf.destinations[i].sftp_destination_dir_create,
 							generate_top_file: this.conf.destinations[i].generate_top_file,
-							sftp_password_secret: this.conf.destinations[i]
-								.sftp_password_secret
+							sftp_password_secret: this.conf.destinations[i].sftp_password_secret
 						});
 						break;
 					default:

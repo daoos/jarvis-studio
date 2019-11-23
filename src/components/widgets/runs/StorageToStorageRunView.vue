@@ -2,12 +2,7 @@
 	<v-container>
 		<v-row>
 			<v-col cols="12" offset="0">
-				<HeaderDocView
-					:viewId="runId"
-					:runStatus="run.status"
-					:activeHeader="activeHeader"
-					viewType="run"
-				/>
+				<HeaderDocView :viewId="runId" :runStatus="run.status" :activeHeader="activeHeader" viewType="run" />
 				<ParametersList
 					groupTitle="Run Details"
 					description="Details of the Storage to Storage run"

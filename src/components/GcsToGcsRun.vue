@@ -17,19 +17,12 @@
 					</v-tab>
 					<v-tab-item value="rundetails">
 						<v-card v-if="run !== undefined">
-							<GcsToGcsRunView
-								:run="run"
-								:runId="run.gcs_triggering_file"
-								:activeHeader="true"
-							></GcsToGcsRunView>
+							<GcsToGcsRunView :run="run" :runId="run.gcs_triggering_file" :activeHeader="true"></GcsToGcsRunView>
 						</v-card>
 					</v-tab-item>
 					<v-tab-item value="runconfiguration">
 						<v-card v-if="run !== undefined">
-							<GcsToGcsConfView
-								:conf="run.configuration_context"
-								:activeHeader="false"
-							></GcsToGcsConfView>
+							<GcsToGcsConfView :conf="run.configuration_context" :activeHeader="false"></GcsToGcsConfView>
 						</v-card>
 					</v-tab-item>
 					<v-tab-item value="fulljson">

@@ -10,11 +10,7 @@
 					<span>{{ description }}</span>
 				</v-tooltip>
 			</h2>
-			<ParametersItem
-				v-for="paramItem in paramItems"
-				:paramItem="paramItem"
-				:key="paramItem.id"
-			></ParametersItem>
+			<ParametersItem v-for="paramItem in paramItems" :paramItem="paramItem" :key="paramItem.id"></ParametersItem>
 			<footer>
 				<slot name="footer"></slot>
 			</footer>
