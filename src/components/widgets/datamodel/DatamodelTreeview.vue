@@ -25,6 +25,7 @@ import { mapState } from "vuex";
 import store from "@/store/index";
 
 export default {
+	name: "data-model-tree-view",
 	data: () => ({
 		fetchAndAddStatus: "",
 		moreToFetchAndAdd: false,

@@ -16,6 +16,7 @@
   },
   "rules": {
     "no-console": "off",
+    "indent": ["error", "tab"],
     "vuetify/no-deprecated-classes": "error",
     "vuetify/grid-unknown-attributes": "error",
     "vuetify/no-legacy-grid": "error"
