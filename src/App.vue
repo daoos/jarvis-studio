@@ -39,10 +39,10 @@
 </template>
 
 <script>
-import AppBar from "./components/layout/AppBar";
-import FooterContent from "./components/layout/FooterContent";
-import NavigationContent from "./components/layout/NavigationContent";
-import NotificationContent from "./components/layout/NotificationContent";
+import AppBar from "./components/app/AppBar";
+import FooterContent from "./components/app/FooterContent";
+import NavigationContent from "./components/app/NavigationContent";
+import NotificationContent from "./components/app/NotificationContent";
 
 import router from "@/router";
 import { mapState } from "vuex";
