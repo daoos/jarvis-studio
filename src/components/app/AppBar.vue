@@ -20,10 +20,11 @@
 		<v-menu offset-y origin="center center" :nudge-bottom="10" transition="scale-transition">
 			<template v-slot:activator="{ on }">
 				<v-btn icon large v-on="on">
-					<v-avatar size="32px" v-if="isAuthenticated && user.photoURL != null">
+					<v-avatar v-if="isAuthenticated && user.photoURL != null" size="32px">
 						<img :src="user.photoURL" :alt="user.displayName" />
 					</v-avatar>
-					<v-avatar size="32px" v-else>
+
+					<v-avatar v-else size="32px">
 						<v-icon dark>account_circle</v-icon>
 					</v-avatar>
 				</v-btn>
@@ -34,12 +35,12 @@
 					v-for="(item, index) in userSettingsItems"
 					:key="index"
 					:href="item.href"
-					@click="item.click"
 					:disabled="item.disabled"
 					:target="item.target"
+					@click="item.click"
 					rel="noopener"
 				>
-					<v-list-item-action v-if="item.icon">
+					<v-list-item-action>
 						<v-icon>{{ item.icon }}</v-icon>
 					</v-list-item-action>
 
@@ -50,7 +51,7 @@
 			</v-list>
 		</v-menu>
 
-		<v-btn icon @click="handleFullScreen()">
+		<v-btn icon @click="toggleFullScreen">
 			<v-icon>fullscreen</v-icon>
 		</v-btn>
 	</v-app-bar>
@@ -61,42 +62,24 @@ import AccountSelector from "../widgets/filters/AccountSelector";
 import SearchMenu from "./sub-components/SearchMenu";
 
 import { mapState } from "vuex";
-import router from "@/router";
-import Util from "@/util";
+import { toggleFullScreen } from "@/util";
+
+import userSettingsItems from "../../navigation/user-settings-items";
 
 export default {
 	name: "app-bar",
 	components: { AccountSelector, SearchMenu },
+	data: () => ({
+		userSettingsItems: userSettingsItems
+	}),
 	methods: {
-		handleFullScreen() {
-			Util.toggleFullScreen();
-		}
+		toggleFullScreen: () => toggleFullScreen()
 	},
 	computed: {
 		...mapState({
 			isAuthenticated: state => state.user.isAuthenticated,
 			user: state => state.user.user
-		}),
-		userSettingsItems() {
-			return [
-				{
-					title: "Profile",
-					href: "#",
-					icon: "account_circle",
-					click: () => {
-						router.push({ name: "userProfile" });
-					}
-				},
-				{
-					title: "Logout",
-					href: "#",
-					icon: "exit_to_app",
-					click: () => {
-						this.$store.dispatch("userSignOut");
-					}
-				}
-			];
-		}
+		})
 	}
 };
 </script>
