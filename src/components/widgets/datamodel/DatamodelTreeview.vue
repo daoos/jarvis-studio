@@ -12,9 +12,7 @@
 			transition
 		>
 			<template v-slot:prepend="{ item, active }">
-				<v-icon v-if="!item.children" :color="active ? 'primary' : ''">
-					table_chart
-				</v-icon>
+				<v-icon v-if="!item.children" :color="active ? 'primary' : 'white'">table_chart</v-icon>
 			</template>
 		</v-treeview>
 	</v-col>
@@ -22,7 +20,7 @@
 
 <script>
 import { mapState } from "vuex";
-import store from "@/store/index";
+import store from "@/store";
 
 export default {
 	name: "data-model-tree-view",

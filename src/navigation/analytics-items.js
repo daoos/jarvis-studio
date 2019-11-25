@@ -1,4 +1,4 @@
-export const analyticsItems = [
+export default [
 	{
 		icon: "swap_horiz",
 		title: "GCS to GCS",
@@ -35,7 +35,3 @@ export const analyticsItems = [
 		link: "/status/workflow"
 	}
 ];
-
-export default {
-	analyticsItems
-};

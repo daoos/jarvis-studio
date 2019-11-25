@@ -8,17 +8,21 @@
 
 		<v-navigation-drawer
 			v-if="!$route.meta.public"
-			v-model="drawer.open"
-			:fixed="drawer.fixed"
-			:clipped="drawer.clipped"
-			:permanent="drawer.permanent"
-			:mini-variant="drawer.mini"
+			v-model="navigationDrawer.open"
+			:fixed="navigationDrawer.fixed"
+			:clipped="navigationDrawer.clipped"
+			:permanent="navigationDrawer.permanent"
+			:mini-variant="navigationDrawer.mini"
 			app
 			dark
 			class="menu"
 			width="300"
 		>
-			<navigation-content :drawer="drawer" :analytics-items="analyticsItems" />
+			<navigation-content
+				:drawer="navigationDrawer"
+				:analytics-items="analyticsItems"
+				:settings-items="settingsItems"
+			/>
 		</v-navigation-drawer>
 
 		<v-navigation-drawer v-if="!$route.meta.public" temporary :right="true" v-model="showNotifications" fixed app>
@@ -26,13 +30,14 @@
 		</v-navigation-drawer>
 
 		<v-content>
-			<keep-alive>
-				<!-- TODO: Add transition -->
-				<router-view :key="$route.fullpath" />
-			</keep-alive>
+			<transition name="fade">
+				<keep-alive>
+					<router-view :key="$route.fullpath" />
+				</keep-alive>
+			</transition>
 		</v-content>
 
-		<v-footer v-if="!$route.meta.public" app dark class="menu">
+		<v-footer v-if="!$route.meta.public" class="menu" app dark>
 			<footer-content />
 		</v-footer>
 	</v-app>
@@ -44,15 +49,15 @@ import FooterContent from "./components/app/FooterContent";
 import NavigationContent from "./components/app/NavigationContent";
 import NotificationContent from "./components/app/NotificationContent";
 
-import router from "@/router";
 import { mapState } from "vuex";
-import { analyticsItems } from "./paths";
+import analyticsItems from "./navigation/analytics-items";
+import settingsItems from "./navigation/settings-items";
 
 export default {
 	name: "app",
 	components: { AppBar, FooterContent, NavigationContent, NotificationContent },
 	data: () => ({
-		drawer: {
+		navigationDrawer: {
 			open: true,
 			clipped: false,
 			fixed: true,
@@ -61,62 +66,45 @@ export default {
 			temporary: false
 		},
 		showNotifications: false,
-		analyticsItems: analyticsItems
+		analyticsItems: analyticsItems,
+		settingsItems: settingsItems
 	}),
 	mounted() {
-		this.makeDrawerResponsive();
+		this.makeNavigationResponsive();
 	},
 	computed: {
 		...mapState({
 			isAuthenticated: state => state.user.isAuthenticated,
 			user: state => state.user.user
-		}),
-		userSettingsItems() {
-			return [
-				{
-					title: "Profile",
-					href: "#",
-					icon: "account_circle",
-					click: () => {
-						router.push({ name: "userProfile" });
-					}
-				},
-				{
-					title: "Logout",
-					href: "#",
-					icon: "exit_to_app",
-					click: () => {
-						this.$store.dispatch("userSignOut");
-					}
-				}
-			];
-		}
+		})
 	},
 	watch: {
-		"$vuetify.breakpoint.lgAndUp"() {
-			this.makeDrawerResponsive();
+		"$vuetify.breakpoint.lgAndUp"(isUp) {
+			this.makeNavigationResponsive(isUp);
 		}
 	},
 	methods: {
 		toggleNavigation() {
-			this.drawer.open = !this.drawer.open;
+			this.navigationDrawer.open = !this.navigationDrawer.open;
 		},
 		toggleNotifications() {
 			this.showNotifications = !this.showNotifications;
 		},
-		makeDrawerResponsive() {
-			if (!this.$vuetify.breakpoint.lgAndUp) {
-				this.drawer.open = false;
-				this.drawer.permanent = false;
-				this.drawer.temporary = true;
-				this.drawer.clipped = false;
+		makeNavigationResponsive(isUp) {
+			if (isUp) {
+				this.navigationDrawer.open = true;
+				this.navigationDrawer.permanent = true;
+				this.navigationDrawer.temporary = false;
 			} else {
-				this.drawer.open = true;
-				this.drawer.permanent = true;
-				this.drawer.temporary = false;
-				this.drawer.clipped = false;
+				this.navigationDrawer.open = false;
+				this.navigationDrawer.permanent = false;
+				this.navigationDrawer.temporary = true;
 			}
 		}
 	}
 };
 </script>
+
+<style lang="scss">
+@import "scss/transitions/fade";
+</style>

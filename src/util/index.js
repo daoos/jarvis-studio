@@ -83,7 +83,7 @@ const kebab = str => {
 	return (str || "").replace(/([a-z])([A-Z])/g, "$1-$2").toLowerCase();
 };
 
-const toggleFullScreen = () => {
+export const toggleFullScreen = () => {
 	let doc = window.document;
 	let docEl = doc.documentElement;
 
