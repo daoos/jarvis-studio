@@ -18,7 +18,7 @@
   },
   "rules": {
     "no-console": "off",
-    "indent": ["error", "tab"],
+    "indent": ["error", "tab", { "SwitchCase": 1 }],
     "prettier/prettier": "error",
     "vuetify/no-deprecated-classes": "error",
     "vuetify/grid-unknown-attributes": "error",
