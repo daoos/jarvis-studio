@@ -1,8 +1,8 @@
 const dagconfigurations = {
-	firestorePath: "dag-configuration",
-	firestoreRefType: "collection", // 'collection' or 'doc'
-	moduleName: "dagconfigurations",
-	statePropName: "data",
+	firestorePath: 'dag-configuration',
+	firestoreRefType: 'collection', // 'collection' or 'doc'
+	moduleName: 'dagconfigurations',
+	statePropName: 'data',
 	namespaced: true, // automatically added
 
 	// this object is your store module (will be added as '/myModule')

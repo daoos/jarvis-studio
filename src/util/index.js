@@ -1,13 +1,13 @@
-const airflowRootUrl = "https://v48232bfe51601b92-tp.appspot.com";
-const firestoreStorageToTableRunsCollection = "mirror-exc-gcs-to-gbq-runs";
-const firestoreStorageToStorageConfsCollection = "mirror-exc-gcs-to-gcs-conf";
-const firestoreStorageToStorageRunsCollection = "mirror-exc-gcs-to-gcs-runs";
-const firestoretablestotablesConfsCollection = "gbq-to-gbq-conf";
-const firestoretablestotablesRunsCollection = "gbq-to-gbq-runs";
-const firestoreTableToStorageConfsCollection = "gbq-to-gcs-conf";
-const firestoreTableToStorageRunsCollection = "gbq-to-gcs-runs";
-const firestoreWorkflowConfigurationsCollection = "workflow-configuration";
-const firestoreWorkflowStatusCollection = "workflow-configuration";
+const airflowRootUrl = 'https://v48232bfe51601b92-tp.appspot.com';
+const firestoreStorageToTableRunsCollection = 'mirror-exc-gcs-to-gbq-runs';
+const firestoreStorageToStorageConfsCollection = 'mirror-exc-gcs-to-gcs-conf';
+const firestoreStorageToStorageRunsCollection = 'mirror-exc-gcs-to-gcs-runs';
+const firestoretablestotablesConfsCollection = 'gbq-to-gbq-conf';
+const firestoretablestotablesRunsCollection = 'gbq-to-gbq-runs';
+const firestoreTableToStorageConfsCollection = 'gbq-to-gcs-conf';
+const firestoreTableToStorageRunsCollection = 'gbq-to-gcs-runs';
+const firestoreWorkflowConfigurationsCollection = 'workflow-configuration';
+const firestoreWorkflowStatusCollection = 'workflow-configuration';
 
 const dagRunAirflowUrl = (dag_id, run_id, execution_date) => {
 	var dagIdEncoded = encodeURIComponent(dag_id);
@@ -22,54 +22,54 @@ const tablesToTablesConfFirestorePath = itemId => {
 };
 
 const getStatusColor = status => {
-	let statusColor = "blue";
+	let statusColor = 'blue';
 	switch (status) {
-		case "SUCCESS":
-			statusColor = "green";
+		case 'SUCCESS':
+			statusColor = 'green';
 			break;
-		case "FAILED":
-			statusColor = "red";
+		case 'FAILED':
+			statusColor = 'red';
 			break;
-		case "RUNNING":
-			statusColor = "light-blue";
+		case 'RUNNING':
+			statusColor = 'light-blue';
 			break;
 		default:
-			statusColor = "orange";
+			statusColor = 'orange';
 			break;
 	}
 	return statusColor;
 };
 
 const getActiveConfColor = activated => {
-	let activeColor = "amber";
+	let activeColor = 'amber';
 	switch (activated) {
 		case true:
-			activeColor = "green";
+			activeColor = 'green';
 			break;
 		case false:
-			activeColor = "grey";
+			activeColor = 'grey';
 			break;
-		case "RUNNING":
-			activeColor = "light-blue";
+		case 'RUNNING':
+			activeColor = 'light-blue';
 			break;
 		default:
-			activeColor = "amber";
+			activeColor = 'amber';
 			break;
 	}
 	return activeColor;
 };
 
 const getActiveConfLabel = activated => {
-	let label = "";
+	let label = '';
 	switch (activated) {
 		case true:
-			label = "Activated";
+			label = 'Activated';
 			break;
 		case false:
-			label = "Disabled";
+			label = 'Disabled';
 			break;
 		default:
-			label = "Not set";
+			label = 'Not set';
 			break;
 	}
 	return label;
@@ -80,7 +80,7 @@ const randomElement = (arr = []) => {
 };
 
 const kebab = str => {
-	return (str || "").replace(/([a-z])([A-Z])/g, "$1-$2").toLowerCase();
+	return (str || '').replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
 };
 
 export const toggleFullScreen = () => {

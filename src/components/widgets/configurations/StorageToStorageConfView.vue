@@ -64,9 +64,9 @@
 </template>
 
 <script>
-import ParametersTable from "@/components/widgets/parameters/ParametersTable.vue";
-import HeaderDocView from "@/components/widgets/parameters/HeaderDocView.vue";
-import ParametersList from "@/components/widgets/parameters/ParametersList.vue";
+import ParametersTable from '@/components/widgets/parameters/ParametersTable.vue';
+import HeaderDocView from '@/components/widgets/parameters/HeaderDocView.vue';
+import ParametersList from '@/components/widgets/parameters/ParametersList.vue';
 export default {
 	components: {
 		ParametersTable,
@@ -81,160 +81,160 @@ export default {
 		},
 		configurationId: {
 			type: String,
-			default: "Configuration Id"
+			default: 'Configuration Id'
 		}
 	},
 	data: () => ({
 		fileNameTemplateColumns: [
 			{
-				label: "File Name Template",
-				field: "filename_template"
+				label: 'File Name Template',
+				field: 'filename_template'
 			},
 			{
-				label: "File Name Description",
-				field: "file_description"
+				label: 'File Name Description',
+				field: 'file_description'
 			}
 		],
 		gcsSourceStorageColumns: [
 			{
-				label: "Type",
-				field: "type",
-				width: "100px"
+				label: 'Type',
+				field: 'type',
+				width: '100px'
 			},
 			{
-				label: "Source Bucket",
-				field: "gcs_source_bucket",
-				width: "200px"
+				label: 'Source Bucket',
+				field: 'gcs_source_bucket',
+				width: '200px'
 			},
 			{
-				label: "Source Folder",
-				field: "gcs_source_prefix",
-				width: "200px"
+				label: 'Source Folder',
+				field: 'gcs_source_prefix',
+				width: '200px'
 			},
 			{
-				label: "Archive Folder",
-				field: "gcs_archive_prefix",
-				width: "200px"
+				label: 'Archive Folder',
+				field: 'gcs_archive_prefix',
+				width: '200px'
 			}
 		],
 		s3SourceStorageColumns: [
 			{
-				label: "Type",
-				field: "type",
-				width: "100px"
+				label: 'Type',
+				field: 'type',
+				width: '100px'
 			},
 			{
-				label: "AWS Access Key",
-				field: "aws_access_key",
-				width: "200px"
+				label: 'AWS Access Key',
+				field: 'aws_access_key',
+				width: '200px'
 			}
 		],
 		sftpSourceStorageColumns: [
 			{
-				label: "Type",
-				field: "type",
-				width: "100px"
+				label: 'Type',
+				field: 'type',
+				width: '100px'
 			},
 			{
-				label: "SFTP Host",
-				field: "sftp_host",
-				width: "200px"
+				label: 'SFTP Host',
+				field: 'sftp_host',
+				width: '200px'
 			},
 			{
-				label: "SFTP Port",
-				field: "sftp_port",
-				width: "50px"
+				label: 'SFTP Port',
+				field: 'sftp_port',
+				width: '50px'
 			},
 			{
-				label: "SFTP User",
-				field: "sftp_userid",
-				width: "200px"
+				label: 'SFTP User',
+				field: 'sftp_userid',
+				width: '200px'
 			},
 			{
-				label: "Source Directory",
-				field: "sftp_source_directory",
-				width: "200px"
+				label: 'Source Directory',
+				field: 'sftp_source_directory',
+				width: '200px'
 			},
 			{
-				label: "Source Filename",
-				field: "sftp_source_filename",
-				width: "200px"
+				label: 'Source Filename',
+				field: 'sftp_source_filename',
+				width: '200px'
 			}
 		],
 		gcsDestinationStorageColumns: [
 			{
-				label: "Type",
-				field: "type",
-				width: "100px"
+				label: 'Type',
+				field: 'type',
+				width: '100px'
 			},
 			{
-				label: "Destination Bucket",
-				field: "gcs_destination_bucket",
-				width: "200px"
+				label: 'Destination Bucket',
+				field: 'gcs_destination_bucket',
+				width: '200px'
 			},
 			{
-				label: "Destination Folder",
-				field: "gcs_destination_prefix",
-				width: "200px"
+				label: 'Destination Folder',
+				field: 'gcs_destination_prefix',
+				width: '200px'
 			}
 		],
 		s3DestinationStorageColumns: [
 			{
-				label: "Type",
-				field: "type",
-				width: "100px"
+				label: 'Type',
+				field: 'type',
+				width: '100px'
 			},
 			{
-				label: "Destination S3 bucket",
-				field: "s3_bucket",
-				width: "200px"
+				label: 'Destination S3 bucket',
+				field: 's3_bucket',
+				width: '200px'
 			},
 			{
-				label: "Destination Folder",
-				field: "s3_destination_prefix",
-				width: "200px"
+				label: 'Destination Folder',
+				field: 's3_destination_prefix',
+				width: '200px'
 			},
 			{
-				label: "AWS Access Key",
-				field: "aws_access_key",
-				width: "200px"
+				label: 'AWS Access Key',
+				field: 'aws_access_key',
+				width: '200px'
 			}
 		],
 		sftpDestinationStorageColumns: [
 			{
-				label: "Type",
-				field: "type",
-				width: "50px"
+				label: 'Type',
+				field: 'type',
+				width: '50px'
 			},
 			{
-				label: "Host",
-				field: "sftp_host",
-				width: "100px"
+				label: 'Host',
+				field: 'sftp_host',
+				width: '100px'
 			},
 			{
-				label: "Port",
-				field: "sftp_port",
-				width: "50px"
+				label: 'Port',
+				field: 'sftp_port',
+				width: '50px'
 			},
 			{
-				label: "User",
-				field: "sftp_userid",
-				width: "100px"
+				label: 'User',
+				field: 'sftp_userid',
+				width: '100px'
 			},
 			{
-				label: " Directory",
-				field: "sftp_destination_dir",
-				width: "100px"
+				label: ' Directory',
+				field: 'sftp_destination_dir',
+				width: '100px'
 			},
 			{
-				label: "Top File Name",
-				field: "generate_top_file",
-				width: "100px"
+				label: 'Top File Name',
+				field: 'generate_top_file',
+				width: '100px'
 			},
 			{
-				label: "Create Dir",
-				field: "sftp_destination_dir_create",
-				width: "100px"
+				label: 'Create Dir',
+				field: 'sftp_destination_dir_create',
+				width: '100px'
 			}
 		]
 	}),
@@ -250,13 +250,13 @@ export default {
 		sourceStorageColumns() {
 			let sourceStorageColumns = {};
 			switch (this.conf.source.type) {
-				case "gcs":
+				case 'gcs':
 					sourceStorageColumns = this.gcsSourceStorageColumns;
 					break;
-				case "s3":
+				case 's3':
 					sourceStorageColumns = this.s3SourceStorageColumns;
 					break;
-				case "sftp":
+				case 'sftp':
 					sourceStorageColumns = this.sftpSourceStorageColumns;
 					break;
 			}
@@ -267,7 +267,7 @@ export default {
 			let sourceStorageRows = [];
 			let sourceStorageRow = {};
 			switch (source_type) {
-				case "gcs":
+				case 'gcs':
 					// sourceStorage attribut for GCS bucket
 					sourceStorageRow.type = this.conf.source.type;
 					sourceStorageRow.gcs_source_bucket = this.conf.source.gcs_source_bucket;
@@ -276,14 +276,14 @@ export default {
 					sourceStorageRow.gcp_credentials_secret = this.conf.source.gcp_credentials_secret;
 					sourceStorageRows.push(sourceStorageRow);
 					break;
-				case "s3":
+				case 's3':
 					// sourceStorage attribut for S3 bucket
 					sourceStorageRow.type = this.conf.source.type;
 					sourceStorageRow.aws_access_key = this.conf.source.aws_access_key;
 					sourceStorageRow.aws_access_key_secret = this.conf.source.aws_access_key_secret;
 					sourceStorageRows.push(sourceStorageRow);
 					break;
-				case "sftp":
+				case 'sftp':
 					// sourceStorage attribut for sftp folder
 					sourceStorageRow.type = this.conf.source.type;
 					sourceStorageRow.sftp_source_filename = this.conf.source.sftp_source_filename;
@@ -307,7 +307,7 @@ export default {
 			let sftpDestinationStorageRows = [];
 			for (var i = 0; i < this.conf.destinations.length; i++) {
 				switch (this.conf.destinations[i].type) {
-					case "gcs":
+					case 'gcs':
 						gcsDestinationStorageRows.push({
 							type: this.conf.destinations[i].type,
 							gcs_destination_bucket: this.conf.destinations[i].gcs_destination_bucket,
@@ -315,7 +315,7 @@ export default {
 							gcp_credentials_secret: this.conf.destinations[i].gcp_credentials_secret
 						});
 						break;
-					case "s3":
+					case 's3':
 						s3DestinationStorageRows.push({
 							type: this.conf.destinations[i].type,
 							s3_bucket: this.conf.destinations[i].s3_bucket,
@@ -324,7 +324,7 @@ export default {
 							aws_access_key_secret: this.conf.destinations[i].aws_access_key_secret
 						});
 						break;
-					case "sftp":
+					case 'sftp':
 						sftpDestinationStorageRows.push({
 							type: this.conf.destinations[i].type,
 							sftp_host: this.conf.destinations[i].sftp_host,
@@ -346,10 +346,10 @@ export default {
 		},
 		paramItems() {
 			return [
-				{ id: "account", label: "Account", value: this.conf.account },
+				{ id: 'account', label: 'Account', value: this.conf.account },
 				{
-					id: "environment",
-					label: "Environment",
+					id: 'environment',
+					label: 'Environment',
 					value: this.conf.environment
 				}
 			];

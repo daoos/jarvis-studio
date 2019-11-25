@@ -40,13 +40,13 @@ export default {
 		loading: false,
 		loadingGoogleSignin: false,
 		model: {
-			email: "",
-			password: ""
+			email: '',
+			password: ''
 		},
-		emailRules: [v => !!v || "E-mail is required", v => /.+@.+/.test(v) || "E-mail must be valid"],
+		emailRules: [v => !!v || 'E-mail is required', v => /.+@.+/.test(v) || 'E-mail must be valid'],
 		passwordRules: [
-			v => !!v || "Password is required",
-			v => v.length >= 6 || "Password must be greater than 6 characters"
+			v => !!v || 'Password is required',
+			v => v.length >= 6 || 'Password must be greater than 6 characters'
 		]
 	}),
 	props: {
@@ -55,12 +55,12 @@ export default {
 	methods: {
 		googleSignin() {
 			this.loadingGoogleSignin = true;
-			this.$store.dispatch("userGoogleSignin");
+			this.$store.dispatch('userGoogleSignin');
 		},
 		signin() {
 			this.loading = true;
 			if (this.$refs.form.validate()) {
-				this.$store.dispatch("userSignin", {
+				this.$store.dispatch('userSignin', {
 					email: this.model.email,
 					password: this.model.password
 				});

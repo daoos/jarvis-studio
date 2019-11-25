@@ -1,8 +1,8 @@
 const gcpcloudfunctions = {
-	firestorePath: "gcp-cloud-functions",
-	firestoreRefType: "collection", // 'collection' or 'doc'
-	moduleName: "gcpcloudfunctions",
-	statePropName: "data",
+	firestorePath: 'gcp-cloud-functions',
+	firestoreRefType: 'collection', // 'collection' or 'doc'
+	moduleName: 'gcpcloudfunctions',
+	statePropName: 'data',
 	namespaced: true, // automatically added
 
 	// this object is your store module (will be added as '/myModule')

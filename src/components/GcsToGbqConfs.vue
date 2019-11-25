@@ -116,7 +116,7 @@
 				</v-card-text>
 				<v-card-actions>
 					<v-btn icon @click="showDetailConfToDelete = !showDetailConfToDelete">
-						<v-icon>{{ showDetailConfToDelete ? "keyboard_arrow_up" : "keyboard_arrow_down" }}</v-icon>
+						<v-icon>{{ showDetailConfToDelete ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}</v-icon>
 					</v-btn>
 					<v-spacer></v-spacer>
 					<v-btn color="grey" flat="flat" @click="cancelDeleteConfFromFirestore">
@@ -155,13 +155,13 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-import { mapGetters } from "vuex";
-import VueJsonPretty from "vue-json-pretty";
-import store from "@/store/index";
-import DataManagementFilters from "./widgets/filters/DataManagementFilters";
-import ActivatedStatusChip from "./widgets/datatablewidgets/ActivatedStatusChip.vue";
-import ConfsComponent from "@/mixins/confsComponent.js";
+import { mapState } from 'vuex';
+import { mapGetters } from 'vuex';
+import VueJsonPretty from 'vue-json-pretty';
+import store from '@/store/index';
+import DataManagementFilters from './widgets/filters/DataManagementFilters';
+import ActivatedStatusChip from './widgets/datatablewidgets/ActivatedStatusChip.vue';
+import ConfsComponent from '@/mixins/confsComponent.js';
 
 export default {
 	mixins: [ConfsComponent],
@@ -173,13 +173,13 @@ export default {
 	data: () => ({
 		expanded: [],
 		mirrorExcGcsToGbqConfsAllDetailsArray: [],
-		search: "",
+		search: '',
 		isFetchAndAdding: false,
-		fetchAndAddStatus: "",
+		fetchAndAddStatus: '',
 		moreToFetchAndAdd: false,
 		expand: false,
 		pagination: {
-			sortBy: "id",
+			sortBy: 'id',
 			descending: true,
 			rowsPerPage: 10
 		},
@@ -191,42 +191,42 @@ export default {
 		showSnackbarDeleteConfSuccess: false,
 		headers: [
 			{
-				text: "Account ID",
-				align: "left",
+				text: 'Account ID',
+				align: 'left',
 				sortable: true,
-				value: "account"
+				value: 'account'
 			},
 			{
-				text: "Environnement",
-				align: "left",
+				text: 'Environnement',
+				align: 'left',
 				sortable: true,
-				value: "environment"
+				value: 'environment'
 			},
 			{
-				text: "Destination Table",
-				align: "left",
+				text: 'Destination Table',
+				align: 'left',
 				sortable: true,
-				value: "table_name"
+				value: 'table_name'
 			},
 			{
-				text: "BQ Project ID",
-				align: "left",
+				text: 'BQ Project ID',
+				align: 'left',
 				sortable: true,
-				value: "gcp_project"
+				value: 'gcp_project'
 			},
 			{
-				text: "BQ Dataset",
-				align: "left",
+				text: 'BQ Dataset',
+				align: 'left',
 				sortable: true,
-				value: "gbq_dataset"
+				value: 'gbq_dataset'
 			},
 			{
-				text: "Status",
-				align: "left",
+				text: 'Status',
+				align: 'left',
 				sortable: true,
-				value: "activated"
+				value: 'activated'
 			},
-			{ text: "Actions", align: "center", value: "actions", sortable: false }
+			{ text: 'Actions', align: 'center', value: 'actions', sortable: false }
 		]
 	}),
 	mounted() {
@@ -256,7 +256,7 @@ export default {
 			this.dialogDeleteConf = false;
 			this.showSnackbarDeleteConfSuccess = false;
 			store
-				.dispatch("mirrorExcGcsToGbqConfs/delete", this.confToDeleteFromFirestore.id)
+				.dispatch('mirrorExcGcsToGbqConfs/delete', this.confToDeleteFromFirestore.id)
 				.then((this.showSnackbarDeleteConfSuccess = true));
 			this.confToDeleteFromFirestore = {};
 			this.showDetailConfToDelete = false;
@@ -264,20 +264,20 @@ export default {
 		async getFirestoreData() {
 			this.mirrorExcGcsToGbqConfsAllDetailsArray = [];
 			const where = this.whereConfFilter;
-			this.$data.fetchAndAddStatus = "Loading";
+			this.$data.fetchAndAddStatus = 'Loading';
 			this.$data.moreToFetchAndAdd = false;
 			this.$data.isFetchAndAdding = true;
 			try {
-				store.dispatch("mirrorExcGcsToGbqConfs/closeDBChannel", {
+				store.dispatch('mirrorExcGcsToGbqConfs/closeDBChannel', {
 					clearModule: true
 				});
-				let fetchResult = await store.dispatch("mirrorExcGcsToGbqConfs/fetchAndAdd", { where, limit: 0 });
+				let fetchResult = await store.dispatch('mirrorExcGcsToGbqConfs/fetchAndAdd', { where, limit: 0 });
 				if (fetchResult.done === true) {
 					this.$data.moreToFetchAndAdd = false;
 				} else {
 					this.$data.moreToFetchAndAdd = true;
 				}
-				this.$data.fetchAndAddStatus = "Success";
+				this.$data.fetchAndAddStatus = 'Success';
 
 				//Loop to the document at the 1st level to get the detail configuration in the CONFIGURATION collection of each document
 				//Transform the mirrorExcGcsToGbqConfs in Array to loop on
@@ -286,7 +286,7 @@ export default {
 				for (var confDetailsId in mirrorExcGcsToGbqConfsArray) {
 					let bucketId = mirrorExcGcsToGbqConfsArray[confDetailsId].id;
 					try {
-						store.dispatch("mirrorExcGcsToGbqConfDetails/closeDBChannel", {
+						store.dispatch('mirrorExcGcsToGbqConfDetails/closeDBChannel', {
 							clearModule: true
 						});
 						// let fetchResult = await store.dispatch(
@@ -299,21 +299,21 @@ export default {
 						);
 						//Ad an unique key to the doc configuration (bucket + table destination + input folder)
 						mirrorExcGcsToGbqConfDetailsEnriched = mirrorExcGcsToGbqConfDetailsEnriched.map(val => {
-							let key = "";
-							key = key.concat(val.bucket_source, "/", val.id, "/", val.gcs_prefix);
+							let key = '';
+							key = key.concat(val.bucket_source, '/', val.id, '/', val.gcs_prefix);
 							return Object.assign({ key: key }, val);
 						});
 						//Concat the fetched documents in the same Array
 						this.mirrorExcGcsToGbqConfsAllDetailsArray.push(Object.values(mirrorExcGcsToGbqConfDetailsEnriched));
 					} catch (e) {
-						console.error("Firestore Error catched", e);
-						this.$data.fetchAndAddStatus = "Error";
+						console.error('Firestore Error catched', e);
+						this.$data.fetchAndAddStatus = 'Error';
 						this.$data.isFetchAndAdding = false;
 					}
 				}
 			} catch (e) {
-				console.error("Firestore Error catched:", e);
-				this.$data.fetchAndAddStatus = "Error";
+				console.error('Firestore Error catched:', e);
+				this.$data.fetchAndAddStatus = 'Error';
 				this.$data.isFetchAndAdding = false;
 			}
 			this.$data.isFetchAndAdding = false;
@@ -329,7 +329,7 @@ export default {
 			dateFilters: state => state.filters.dateFilters,
 			minDateFilter: state => state.filters.minDateFilter
 		}),
-		...mapGetters(["periodFiltered", "whereConfFilter"]),
+		...mapGetters(['periodFiltered', 'whereConfFilter']),
 		mirrorExcGcsToGbqConfsAllDetailsArrayFlat() {
 			return this.mirrorExcGcsToGbqConfsAllDetailsArray.flat();
 		}

@@ -11,51 +11,51 @@
 </template>
 
 <script>
-import ParametersTable from "@/components/widgets/parameters/ParametersTable.vue";
+import ParametersTable from '@/components/widgets/parameters/ParametersTable.vue';
 export default {
 	components: { ParametersTable },
 	props: {
 		updateDate: {
 			type: String,
-			default: "2019-01-01T00:00:00.000000"
+			default: '2019-01-01T00:00:00.000000'
 		},
 		creationDate: {
 			type: String,
-			default: "2019-01-01T00:00:00.000000"
+			default: '2019-01-01T00:00:00.000000'
 		},
 		updatedBy: {
 			type: String,
-			default: "jarvis@fashiondata.io"
+			default: 'jarvis@fashiondata.io'
 		},
 		createdBy: {
 			type: String,
-			default: "jarvis@fashiondata.io"
+			default: 'jarvis@fashiondata.io'
 		}
 	},
 	data() {
 		return {
 			dateColumns: [
 				{
-					label: "Update Date",
-					field: "updateDate",
-					type: "date",
+					label: 'Update Date',
+					field: 'updateDate',
+					type: 'date',
 					dateInputFormat: "yyyy-MM-dd'T'HH:mm:ss.SSSSSS", // expects 2018-03-16 yyyy-MM-dd'T'HH:mm:ss.SSSxxx
-					dateOutputFormat: "yyyy-MM-dd HH:mm:ss" // outputs Mar 16th 2018
+					dateOutputFormat: 'yyyy-MM-dd HH:mm:ss' // outputs Mar 16th 2018
 				},
 				{
-					label: "Updated By",
-					field: "updatedBy"
+					label: 'Updated By',
+					field: 'updatedBy'
 				},
 				{
-					label: "Creation Date",
-					field: "creationDate",
-					type: "date",
+					label: 'Creation Date',
+					field: 'creationDate',
+					type: 'date',
 					dateInputFormat: "yyyy-MM-dd'T'HH:mm:ss.SSSSSS", // expects 2018-03-16
-					dateOutputFormat: "yyyy-MM-dd HH:mm:ss" // outputs Mar 16th 2018
+					dateOutputFormat: 'yyyy-MM-dd HH:mm:ss' // outputs Mar 16th 2018
 				},
 				{
-					label: "Created By",
-					field: "createdBy"
+					label: 'Created By',
+					field: 'createdBy'
 				}
 			]
 		};

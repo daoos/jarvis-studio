@@ -36,10 +36,10 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-import GcsToGcsConfView from "./widgets/configurations/GcsToGcsConfView";
-import viewJson from "@/components/widgets/parameters/viewJson.vue";
-import store from "@/store/index";
+import { mapState } from 'vuex';
+import GcsToGcsConfView from './widgets/configurations/GcsToGcsConfView';
+import viewJson from '@/components/widgets/parameters/viewJson.vue';
+import store from '@/store/index';
 
 export default {
 	components: {
@@ -50,7 +50,7 @@ export default {
 		conf: undefined,
 		isFetchAndAdding: true,
 		expand: false,
-		fetchAndAddStatus: "",
+		fetchAndAddStatus: '',
 		moreToFetchAndAdd: false,
 		viewedItem: {},
 		confToDeleteFromFirestore: {},
@@ -77,16 +77,16 @@ export default {
 		},
 		async getFirestoreData() {
 			const confId = this.confId;
-			this.$data.fetchAndAddStatus = "Loading";
+			this.$data.fetchAndAddStatus = 'Loading';
 			this.$data.moreToFetchAndAdd = false;
 			try {
-				await store.dispatch("mirrorExcGcsToGcsConfs/closeDBChannel", {
+				await store.dispatch('mirrorExcGcsToGcsConfs/closeDBChannel', {
 					clearModule: true
 				});
-				await store.dispatch("mirrorExcGcsToGcsConfs/fetchById", confId);
-				this.$data.fetchAndAddStatus = "Success";
+				await store.dispatch('mirrorExcGcsToGcsConfs/fetchById', confId);
+				this.$data.fetchAndAddStatus = 'Success';
 			} catch (e) {
-				this.$data.fetchAndAddStatus = "Error";
+				this.$data.fetchAndAddStatus = 'Error';
 			}
 		}
 	},

@@ -31,8 +31,8 @@
 </template>
 
 <script>
-import ActivatedStatusChip from "@/components/widgets/datatablewidgets/ActivatedStatusChip.vue";
-import RunStatusChip from "@/components/widgets/datatablewidgets/RunStatusChip.vue";
+import ActivatedStatusChip from '@/components/widgets/datatablewidgets/ActivatedStatusChip.vue';
+import RunStatusChip from '@/components/widgets/datatablewidgets/RunStatusChip.vue';
 
 export default {
 	components: {
@@ -45,11 +45,11 @@ export default {
 	props: {
 		viewType: {
 			type: String,
-			default: "conf"
+			default: 'conf'
 		},
 		viewId: {
 			type: String,
-			default: "View ID"
+			default: 'View ID'
 		},
 		activatedConfStatus: {
 			type: Boolean,

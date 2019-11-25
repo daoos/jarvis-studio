@@ -5,11 +5,11 @@
 </template>
 
 <script>
-import { VueFlowy, FlowChart } from "vue-flowy";
-import { PerfectScrollbar } from "vue2-perfect-scrollbar";
+import { VueFlowy, FlowChart } from 'vue-flowy';
+import { PerfectScrollbar } from 'vue2-perfect-scrollbar';
 
 export default {
-	name: "App",
+	name: 'App',
 
 	components: {
 		VueFlowy,
@@ -18,14 +18,14 @@ export default {
 	props: {
 		dagId: {
 			type: String,
-			default: "jarvisDag"
+			default: 'jarvisDag'
 		},
 		task_dependencies: {
 			type: Array,
 			default() {
 				return [
-					"sql_bda_ple_prp_products>>[sql_bda_ple_prp_sales, sql_bda_ple_prp_stocks, sql_bda_ple_prp_pdg]",
-					"sql_bda_ple_prp_stores>>sql_bda_ple_prp_web>>sql_bda_ple_prp_margin"
+					'sql_bda_ple_prp_products>>[sql_bda_ple_prp_sales, sql_bda_ple_prp_stocks, sql_bda_ple_prp_pdg]',
+					'sql_bda_ple_prp_stores>>sql_bda_ple_prp_web>>sql_bda_ple_prp_margin'
 				];
 			}
 		}
@@ -43,12 +43,12 @@ export default {
 	methods: {
 		buildDegGraph() {
 			this.chart.destroy();
-			this.chart = new FlowChart({ direction: "LR" });
-			let start = this.chart.addElement(this.dagId.concat("-start"), {
-				label: "Start"
+			this.chart = new FlowChart({ direction: 'LR' });
+			let start = this.chart.addElement(this.dagId.concat('-start'), {
+				label: 'Start'
 			});
-			let end = this.chart.addElement(this.dagId.concat("-end"), {
-				label: "End"
+			let end = this.chart.addElement(this.dagId.concat('-end'), {
+				label: 'End'
 			});
 			let i;
 			let j;
@@ -56,18 +56,18 @@ export default {
 			let m;
 
 			for (i = 0; i < this.dag.length; i++) {
-				let tasksArray = this.dag[i].split(">>");
+				let tasksArray = this.dag[i].split('>>');
 				let dagBranch = [];
 				for (j = 0; j < tasksArray.length; j++) {
-					if (tasksArray[j].indexOf("[") == 0) {
+					if (tasksArray[j].indexOf('[') == 0) {
 						let dagParall = [];
 						let taskParallArray = tasksArray[j]
-							.replace("[", "")
-							.replace("]", "")
-							.split(",");
+							.replace('[', '')
+							.replace(']', '')
+							.split(',');
 						for (k = 0; k < taskParallArray.length; k++) {
 							dagParall.push(
-								this.chart.addElement(k.toString().concat("-", j, "-", i, ":", taskParallArray[k]), {
+								this.chart.addElement(k.toString().concat('-', j, '-', i, ':', taskParallArray[k]), {
 									label: taskParallArray[k]
 								})
 							);
@@ -90,7 +90,7 @@ export default {
 						}
 					} else {
 						dagBranch.push(
-							this.chart.addElement(j.toString().concat("-", i, ":", tasksArray[j]), {
+							this.chart.addElement(j.toString().concat('-', i, ':', tasksArray[j]), {
 								label: tasksArray[j]
 							})
 						);
@@ -133,7 +133,7 @@ export default {
 			let dag = [];
 			let i;
 			for (i = 0; i < this.task_dependencies.length; i++) {
-				dag.push(this.task_dependencies[i].replace(/ /g, ""));
+				dag.push(this.task_dependencies[i].replace(/ /g, ''));
 			}
 			return dag;
 		}

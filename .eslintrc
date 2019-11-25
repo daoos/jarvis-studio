@@ -6,10 +6,12 @@
   "extends": [
     "plugin:vue/essential",
     "plugin:prettier/recommended",
-    "@vue/prettier"
+    "@vue/prettier",
+    "prettier"
   ],
   "plugins": [
-    "vuetify"
+    "vuetify",
+    "prettier"
   ],
   "parserOptions": {
     "parser": "babel-eslint"
@@ -17,6 +19,7 @@
   "rules": {
     "no-console": "off",
     "indent": ["error", "tab"],
+    "prettier/prettier": "error",
     "vuetify/no-deprecated-classes": "error",
     "vuetify/grid-unknown-attributes": "error",
     "vuetify/no-legacy-grid": "error"

@@ -34,8 +34,8 @@
 </template>
 
 <script>
-import HeaderDocView from "@/components/widgets/parameters/HeaderDocView.vue";
-import ParametersList from "@/components/widgets/parameters/ParametersList.vue";
+import HeaderDocView from '@/components/widgets/parameters/HeaderDocView.vue';
+import ParametersList from '@/components/widgets/parameters/ParametersList.vue';
 export default {
 	components: {
 		HeaderDocView,
@@ -48,7 +48,7 @@ export default {
 		},
 		runId: {
 			type: String,
-			default: "Run ID"
+			default: 'Run ID'
 		},
 		activeHeader: {
 			type: Boolean,
@@ -64,10 +64,10 @@ export default {
 	computed: {
 		paramContext() {
 			return [
-				{ id: "account", label: "Account", value: this.run.account },
+				{ id: 'account', label: 'Account', value: this.run.account },
 				{
-					id: "environment",
-					label: "Environnement",
+					id: 'environment',
+					label: 'Environnement',
 					value: this.run.environment
 				}
 			];
@@ -75,28 +75,28 @@ export default {
 		paramSource() {
 			return [
 				{
-					id: "storage_type",
-					label: "Storage Type",
-					value: "Google Cloud Storage"
+					id: 'storage_type',
+					label: 'Storage Type',
+					value: 'Google Cloud Storage'
 				},
 				{
-					id: "source_bucket",
-					label: "Source Storage ID",
+					id: 'source_bucket',
+					label: 'Source Storage ID',
 					value: this.run.source_bucket
 				},
 				{
-					id: "gcs_prefix",
-					label: "Source Folder",
+					id: 'gcs_prefix',
+					label: 'Source Folder',
 					value: this.run.gcs_prefix
 				},
 				{
-					id: "filename_template",
-					label: "Filename Matched",
+					id: 'filename_template',
+					label: 'Filename Matched',
 					value: this.run.filename_template
 				},
 				{
-					id: "gcs_triggering_file",
-					label: "File Triggered",
+					id: 'gcs_triggering_file',
+					label: 'File Triggered',
 					value: this.run.gcs_triggering_file
 				}
 			];
@@ -104,28 +104,28 @@ export default {
 		paramDestination() {
 			return [
 				{
-					id: "database_type",
-					label: "Database Type",
-					value: "Google Big Query"
+					id: 'database_type',
+					label: 'Database Type',
+					value: 'Google Big Query'
 				},
 				{
-					id: "gbq_project",
-					label: "GCP Project ID",
+					id: 'gbq_project',
+					label: 'GCP Project ID',
 					value: this.run.configuration_context.gcp_project
 				},
 				{
-					id: "gbq_dataset",
-					label: "Big Query Dataset",
+					id: 'gbq_dataset',
+					label: 'Big Query Dataset',
 					value: this.run.configuration_context.gbq_dataset
 				},
 				{
-					id: "gbq_destination_table",
-					label: "Destination Table",
+					id: 'gbq_destination_table',
+					label: 'Destination Table',
 					value: this.run.configuration_context.table_name
 				},
 				{
-					id: "gbq_table_refreshed",
-					label: "Table refreshed",
+					id: 'gbq_table_refreshed',
+					label: 'Table refreshed',
 					value: this.run.gbq_table_refreshed
 				}
 			];
@@ -133,23 +133,23 @@ export default {
 		paramItems() {
 			return [
 				{
-					id: "dag_id",
-					label: "Dag Id",
+					id: 'dag_id',
+					label: 'Dag Id',
 					value: this.run.dag_id
 				},
 				{
-					id: "job_id",
-					label: "Job Id",
+					id: 'job_id',
+					label: 'Job Id',
 					value: this.run.job_id
 				},
 				{
-					id: "dag_execution_date",
-					label: "Execution Date",
+					id: 'dag_execution_date',
+					label: 'Execution Date',
 					value: this.run.dag_execution_date
 				},
 				{
-					id: "dag_run_id",
-					label: "Dag Run Id",
+					id: 'dag_run_id',
+					label: 'Dag Run Id',
 					value: this.run.dag_run_id
 				}
 			];

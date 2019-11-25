@@ -6,8 +6,8 @@
 </template>
 
 <script>
-import GcsToGcsRun from "../components/GcsToGcsRun";
-import DataManagementHeader from "../components/widgets/layout/DataManagementHeader";
+import GcsToGcsRun from '../components/GcsToGcsRun';
+import DataManagementHeader from '../components/widgets/layout/DataManagementHeader';
 
 export default {
 	components: {
@@ -16,11 +16,11 @@ export default {
 	},
 	data() {
 		return {
-			headerTitle: "Gcs to Gcs",
+			headerTitle: 'Gcs to Gcs',
 			tabsItems: [
-				{ id: 1, title: "Runs", link: "/runs/gcstogcs" },
-				{ id: 2, title: "Configurations", link: "/conf/gcstogcs" },
-				{ id: 3, title: "Documentation", link: "" }
+				{ id: 1, title: 'Runs', link: '/runs/gcstogcs' },
+				{ id: 2, title: 'Configurations', link: '/conf/gcstogcs' },
+				{ id: 3, title: 'Documentation', link: '' }
 			]
 		};
 	}

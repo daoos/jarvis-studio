@@ -6,8 +6,8 @@
 </template>
 
 <script>
-import StorageToStorageRun from "../components/StorageToStorageRun";
-import DataManagementHeader from "../components/widgets/layout/DataManagementHeader";
+import StorageToStorageRun from '../components/StorageToStorageRun';
+import DataManagementHeader from '../components/widgets/layout/DataManagementHeader';
 
 export default {
 	components: {
@@ -16,11 +16,11 @@ export default {
 	},
 	data() {
 		return {
-			headerTitle: "Storage to Storage",
+			headerTitle: 'Storage to Storage',
 			tabsItems: [
-				{ id: 1, title: "Runs", link: "/storagetostorage/runs" },
-				{ id: 2, title: "Configurations", link: "/storagetostorage/confs" },
-				{ id: 3, title: "Documentation", link: "" }
+				{ id: 1, title: 'Runs', link: '/storagetostorage/runs' },
+				{ id: 2, title: 'Configurations', link: '/storagetostorage/confs' },
+				{ id: 3, title: 'Documentation', link: '' }
 			]
 		};
 	}

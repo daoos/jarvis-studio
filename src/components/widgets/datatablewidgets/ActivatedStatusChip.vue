@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import Util from "@/util";
+import Util from '@/util';
 
 export default {
 	components: {},
@@ -29,7 +29,7 @@ export default {
 		},
 		chipTextClass: {
 			type: String,
-			default: "text-capitalize"
+			default: 'text-capitalize'
 		}
 	},
 	data: () => ({}),

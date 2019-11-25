@@ -1,11 +1,11 @@
 const vmLauncherRuns = {
-	firestorePath: "vm-launcher-runs",
-	firestoreRefType: "collection", // 'collection' or 'doc'
-	moduleName: "vmLauncherRuns",
-	statePropName: "data",
+	firestorePath: 'vm-launcher-runs',
+	firestoreRefType: 'collection', // 'collection' or 'doc'
+	moduleName: 'vmLauncherRuns',
+	statePropName: 'data',
 	namespaced: true, // automatically added
 	sync: {
-		guard: ["created_at", "updated_at"] // array of keys
+		guard: ['created_at', 'updated_at'] // array of keys
 	},
 
 	// this object is your store module (will be added as '/myModule')

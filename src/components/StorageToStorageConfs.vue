@@ -115,7 +115,7 @@
 				</v-card-text>
 				<v-card-actions>
 					<v-btn icon @click="showDetailConfToDelete = !showDetailConfToDelete">
-						<v-icon>{{ showDetailConfToDelete ? "keyboard_arrow_up" : "keyboard_arrow_down" }}</v-icon>
+						<v-icon>{{ showDetailConfToDelete ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}</v-icon>
 					</v-btn>
 					<v-spacer></v-spacer>
 					<v-btn color="grey" text @click="cancelDeleteConfFromFirestore">
@@ -154,14 +154,14 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-import { mapGetters } from "vuex";
-import VueJsonPretty from "vue-json-pretty";
-import store from "@/store/index";
-import _ from "lodash";
-import DataManagementFilters from "./widgets/filters/DataManagementFilters";
-import ActivatedStatusChip from "./widgets/datatablewidgets/ActivatedStatusChip.vue";
-import ConfsComponent from "@/mixins/confsComponent.js";
+import { mapState } from 'vuex';
+import { mapGetters } from 'vuex';
+import VueJsonPretty from 'vue-json-pretty';
+import store from '@/store/index';
+import _ from 'lodash';
+import DataManagementFilters from './widgets/filters/DataManagementFilters';
+import ActivatedStatusChip from './widgets/datatablewidgets/ActivatedStatusChip.vue';
+import ConfsComponent from '@/mixins/confsComponent.js';
 
 export default {
 	mixins: [ConfsComponent],
@@ -172,15 +172,15 @@ export default {
 	},
 	data: () => ({
 		expanded: [],
-		search: "",
+		search: '',
 		isFetchAndAdding: false,
 		expand: false,
 		pagination: {
-			sortBy: "id",
+			sortBy: 'id',
 			descending: true,
 			rowsPerPage: 10
 		},
-		fetchAndAddStatus: "",
+		fetchAndAddStatus: '',
 		moreToFetchAndAdd: false,
 		viewJson: false,
 		viewedItem: {},
@@ -190,48 +190,48 @@ export default {
 		showSnackbarDeleteConfSuccess: false,
 		headers: [
 			{
-				text: "Account ID",
-				align: "left",
+				text: 'Account ID',
+				align: 'left',
 				sortable: true,
-				value: "account"
+				value: 'account'
 			},
 			{
-				text: "Environnement",
-				align: "left",
+				text: 'Environnement',
+				align: 'left',
 				sortable: true,
-				value: "environment"
+				value: 'environment'
 			},
 			{
-				text: "Configuration Id",
-				align: "left",
+				text: 'Configuration Id',
+				align: 'left',
 				sortable: true,
-				value: "id"
+				value: 'id'
 			},
 			{
-				text: "Source Type",
-				align: "left",
+				text: 'Source Type',
+				align: 'left',
 				sortable: true,
-				value: "source_type"
+				value: 'source_type'
 			},
 			{
-				text: "Nb Destinations",
-				align: "left",
+				text: 'Nb Destinations',
+				align: 'left',
 				sortable: true,
-				value: "nb_filename_templates"
+				value: 'nb_filename_templates'
 			},
 			{
-				text: "Nb File Templates",
-				align: "left",
+				text: 'Nb File Templates',
+				align: 'left',
 				sortable: true,
-				value: "nb_filename_templates"
+				value: 'nb_filename_templates'
 			},
 			{
-				text: "Status",
-				align: "left",
+				text: 'Status',
+				align: 'left',
 				sortable: true,
-				value: "activated"
+				value: 'activated'
 			},
-			{ text: "Actions", align: "center", value: "actions", sortable: false }
+			{ text: 'Actions', align: 'center', value: 'actions', sortable: false }
 		]
 	}),
 	mounted() {
@@ -260,21 +260,21 @@ export default {
 		confirmeDeleteConfFromFirestore() {
 			this.dialogDeleteConf = false;
 			store
-				.dispatch("vmLauncherConfs/delete", this.confToDeleteFromFirestore.id)
+				.dispatch('vmLauncherConfs/delete', this.confToDeleteFromFirestore.id)
 				.then((this.showSnackbarDeleteConfSuccess = true));
 			this.confToDeleteFromFirestore = {};
 			this.showDetailConfToDelete = false;
 		},
 		async getFirestoreData() {
 			const where = this.whereConfFilter;
-			this.$data.fetchAndAddStatus = "Loading";
+			this.$data.fetchAndAddStatus = 'Loading';
 			this.$data.moreToFetchAndAdd = false;
 			this.$data.isFetchAndAdding = true;
 			try {
-				store.dispatch("storageToStorageConfs/closeDBChannel", {
+				store.dispatch('storageToStorageConfs/closeDBChannel', {
 					clearModule: true
 				});
-				let fetchResult = await store.dispatch("storageToStorageConfs/fetchAndAdd", {
+				let fetchResult = await store.dispatch('storageToStorageConfs/fetchAndAdd', {
 					where,
 					limit: 0
 				});
@@ -283,11 +283,11 @@ export default {
 				} else {
 					this.$data.moreToFetchAndAdd = true;
 				}
-				this.$data.fetchAndAddStatus = "Success";
+				this.$data.fetchAndAddStatus = 'Success';
 			} catch (e) {
-				console.log("Firestore Error catched");
+				console.log('Firestore Error catched');
 				console.log(e);
-				this.$data.fetchAndAddStatus = "Error";
+				this.$data.fetchAndAddStatus = 'Error';
 				this.$data.isFetchAndAdding = false;
 			}
 			this.$data.isFetchAndAdding = false;
@@ -300,25 +300,25 @@ export default {
 			settings: state => state.settings,
 			storageToStorageConfs: state => state.storageToStorageConfs.data
 		}),
-		...mapGetters(["periodFiltered", "whereConfFilter"]),
+		...mapGetters(['periodFiltered', 'whereConfFilter']),
 		storageToStorageConfsFormated() {
 			const dataArray = Object.values(this.storageToStorageConfs);
 			var dataFormated = dataArray.map(function(data) {
-				let source_type = "";
-				let nb_destinations = "";
-				let nb_filename_templates = "";
+				let source_type = '';
+				let nb_destinations = '';
+				let nb_filename_templates = '';
 				if (data.source === undefined) {
-					source_type = "not set";
+					source_type = 'not set';
 				} else {
 					source_type = data.source.type;
 				}
 				if (data.destinations === undefined) {
-					nb_destinations = "error";
+					nb_destinations = 'error';
 				} else {
 					nb_destinations = data.destinations.length;
 				}
 				if (data.filename_templates === undefined) {
-					nb_filename_templates = "error";
+					nb_filename_templates = 'error';
 				} else {
 					nb_filename_templates = data.filename_templates.length;
 				}

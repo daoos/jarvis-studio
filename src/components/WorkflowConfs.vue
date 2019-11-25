@@ -106,7 +106,7 @@
 
 				<v-card-actions>
 					<v-btn icon @click="showDetailConfToDelete = !showDetailConfToDelete">
-						<v-icon>{{ showDetailConfToDelete ? "keyboard_arrow_up" : "keyboard_arrow_down" }}</v-icon>
+						<v-icon>{{ showDetailConfToDelete ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}</v-icon>
 					</v-btn>
 					<v-spacer></v-spacer>
 					<v-btn color="grey" text @click="cancelDeleteConfFromFirestore">
@@ -146,14 +146,14 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-import { mapGetters } from "vuex";
-import VueJsonPretty from "vue-json-pretty";
-import store from "@/store/index";
-import _ from "lodash";
-import ActivatedStatusChip from "./widgets/datatablewidgets/ActivatedStatusChip.vue";
-import ConfsComponent from "@/mixins/confsComponent.js";
-import DataManagementFilters from "./widgets/filters/DataManagementFilters";
+import { mapState } from 'vuex';
+import { mapGetters } from 'vuex';
+import VueJsonPretty from 'vue-json-pretty';
+import store from '@/store/index';
+import _ from 'lodash';
+import ActivatedStatusChip from './widgets/datatablewidgets/ActivatedStatusChip.vue';
+import ConfsComponent from '@/mixins/confsComponent.js';
+import DataManagementFilters from './widgets/filters/DataManagementFilters';
 
 export default {
 	mixins: [ConfsComponent],
@@ -164,15 +164,15 @@ export default {
 	},
 	data: () => ({
 		expanded: [],
-		search: "",
+		search: '',
 		isFetchAndAdding: false,
 		expand: false,
 		pagination: {
-			sortBy: "id",
+			sortBy: 'id',
 			descending: true,
 			rowsPerPage: 10
 		},
-		fetchAndAddStatus: "",
+		fetchAndAddStatus: '',
 		moreToFetchAndAdd: false,
 		viewJson: false,
 		viewedItem: {},
@@ -182,42 +182,42 @@ export default {
 		showSnackbarDeleteConfSuccess: false,
 		headers: [
 			{
-				text: "Account ID",
-				align: "left",
+				text: 'Account ID',
+				align: 'left',
 				sortable: true,
-				value: "account"
+				value: 'account'
 			},
 			{
-				text: "Environnement",
-				align: "left",
+				text: 'Environnement',
+				align: 'left',
 				sortable: true,
-				value: "environment"
+				value: 'environment'
 			},
 			{
-				text: "Workflow Id",
-				align: "left",
+				text: 'Workflow Id',
+				align: 'left',
 				sortable: true,
-				value: "id"
+				value: 'id'
 			},
 			{
-				text: "Dag to fire",
-				align: "left",
+				text: 'Dag to fire',
+				align: 'left',
 				sortable: true,
-				value: "target_dag"
+				value: 'target_dag'
 			},
 			{
-				text: "Nb triggering Jobs",
-				align: "left",
+				text: 'Nb triggering Jobs',
+				align: 'left',
 				sortable: true,
-				value: "nb_authorized_jobs"
+				value: 'nb_authorized_jobs'
 			},
 			{
-				text: "Status",
-				align: "left",
+				text: 'Status',
+				align: 'left',
 				sortable: true,
-				value: "activated"
+				value: 'activated'
 			},
-			{ text: "Actions", align: "center", value: "actions", sortable: false }
+			{ text: 'Actions', align: 'center', value: 'actions', sortable: false }
 		]
 	}),
 	async mounted() {
@@ -247,7 +247,7 @@ export default {
 			this.dialogDeleteConf = false;
 			this.showSnackbarDeleteConfSuccess = false;
 			store
-				.dispatch("workflowConfs/delete", this.confToDeleteFromFirestore.id)
+				.dispatch('workflowConfs/delete', this.confToDeleteFromFirestore.id)
 				.then((this.showSnackbarDeleteConfSuccess = true));
 			this.confToDeleteFromFirestore = {};
 			this.showDetailConfToDelete = false;
@@ -255,14 +255,14 @@ export default {
 		async getFirestoreData() {
 			const where = this.whereConfFilter;
 			console.log(where);
-			this.$data.fetchAndAddStatus = "Loading";
+			this.$data.fetchAndAddStatus = 'Loading';
 			this.$data.moreToFetchAndAdd = false;
 			this.$data.isFetchAndAdding = true;
 			try {
-				store.dispatch("workflowConfs/closeDBChannel", {
+				store.dispatch('workflowConfs/closeDBChannel', {
 					clearModule: true
 				});
-				let fetchResult = await store.dispatch("workflowConfs/fetchAndAdd", {
+				let fetchResult = await store.dispatch('workflowConfs/fetchAndAdd', {
 					where,
 					limit: 0
 				});
@@ -271,11 +271,11 @@ export default {
 				} else {
 					this.$data.moreToFetchAndAdd = true;
 				}
-				this.$data.fetchAndAddStatus = "Success";
+				this.$data.fetchAndAddStatus = 'Success';
 			} catch (e) {
-				console.log("Firestore Error catched");
+				console.log('Firestore Error catched');
 				console.log(e);
-				this.$data.fetchAndAddStatus = "Error";
+				this.$data.fetchAndAddStatus = 'Error';
 				this.$data.isFetchAndAdding = false;
 			}
 			this.$data.isFetchAndAdding = false;
@@ -288,7 +288,7 @@ export default {
 			settings: state => state.settings,
 			workflowConfs: state => state.workflowConfs.data
 		}),
-		...mapGetters(["periodFiltered", "whereConfFilter"]),
+		...mapGetters(['periodFiltered', 'whereConfFilter']),
 		workflowConfsFormated() {
 			const dataArray = Object.values(this.workflowConfs);
 			var dataFormated = dataArray.map(function(data) {

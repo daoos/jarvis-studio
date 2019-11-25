@@ -50,11 +50,11 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-import StorageToStorageConfView from "./widgets/configurations/StorageToStorageConfView";
-import StorageToStorageRunView from "./widgets/runs/StorageToStorageRunView";
-import store from "@/store/index";
-import viewJson from "@/components/widgets/parameters/viewJson.vue";
+import { mapState } from 'vuex';
+import StorageToStorageConfView from './widgets/configurations/StorageToStorageConfView';
+import StorageToStorageRunView from './widgets/runs/StorageToStorageRunView';
+import store from '@/store/index';
+import viewJson from '@/components/widgets/parameters/viewJson.vue';
 
 export default {
 	components: {
@@ -65,7 +65,7 @@ export default {
 	data: () => ({
 		run: undefined,
 		isFetchAndAdding: true,
-		fetchAndAddStatus: "",
+		fetchAndAddStatus: '',
 		moreToFetchAndAdd: false,
 		activeTab: null
 	}),
@@ -87,16 +87,16 @@ export default {
 		},
 		async getFirestoreData() {
 			const runId = this.runId;
-			this.$data.fetchAndAddStatus = "Loading";
+			this.$data.fetchAndAddStatus = 'Loading';
 			this.$data.moreToFetchAndAdd = false;
 			try {
-				await store.dispatch("storageToStorageRuns/closeDBChannel", {
+				await store.dispatch('storageToStorageRuns/closeDBChannel', {
 					clearModule: true
 				});
-				await store.dispatch("storageToStorageRuns/fetchById", runId);
-				this.$data.fetchAndAddStatus = "Success";
+				await store.dispatch('storageToStorageRuns/fetchById', runId);
+				this.$data.fetchAndAddStatus = 'Success';
 			} catch (e) {
-				this.$data.fetchAndAddStatus = "Error";
+				this.$data.fetchAndAddStatus = 'Error';
 				console.error(e);
 			}
 		}

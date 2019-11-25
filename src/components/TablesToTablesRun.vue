@@ -62,12 +62,12 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-import store from "@/store/index";
-import viewJson from "@/components/widgets/parameters/viewJson.vue";
-import TablesToTablesRunView from "@/components/widgets/runs/TablesToTablesRunView.vue";
-import tablesToTablesConfOverview from "@/components/widgets/configurations/TablesToTablesConfOverview.vue";
-import tablesToTalesConfTasksView from "@/components/widgets/configurations/TablesToTalesConfTasksView.vue";
+import { mapState } from 'vuex';
+import store from '@/store/index';
+import viewJson from '@/components/widgets/parameters/viewJson.vue';
+import TablesToTablesRunView from '@/components/widgets/runs/TablesToTablesRunView.vue';
+import tablesToTablesConfOverview from '@/components/widgets/configurations/TablesToTablesConfOverview.vue';
+import tablesToTalesConfTasksView from '@/components/widgets/configurations/TablesToTalesConfTasksView.vue';
 
 export default {
 	components: {
@@ -88,11 +88,11 @@ export default {
 	},
 	methods: {
 		async getFirestoreData() {
-			await store.dispatch("tablesToTablesRun/closeDBChannel", {
+			await store.dispatch('tablesToTablesRun/closeDBChannel', {
 				clearModule: true
 			});
 			await store
-				.dispatch("tablesToTablesRun/fetchAndAdd", {
+				.dispatch('tablesToTablesRun/fetchAndAdd', {
 					itemId: this.itemId
 				})
 				.catch(console.error);

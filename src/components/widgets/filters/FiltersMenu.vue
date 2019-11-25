@@ -50,8 +50,8 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-import store from "@/store/index";
+import { mapState } from 'vuex';
+import store from '@/store/index';
 
 export default {
 	components: {},
@@ -64,13 +64,13 @@ export default {
 	created() {},
 	methods: {
 		applyDateFilter(dateFilterSelected) {
-			store.dispatch("applyDateFilterSelected", dateFilterSelected);
+			store.dispatch('applyDateFilterSelected', dateFilterSelected);
 		},
 		applyAccountFilter(accountFilterSelected) {
-			store.dispatch("applyAccountFilterSelected", accountFilterSelected);
+			store.dispatch('applyAccountFilterSelected', accountFilterSelected);
 		},
 		applyEnvFilter(envFilterSelected) {
-			store.dispatch("applyEnvFilterSelected", envFilterSelected);
+			store.dispatch('applyEnvFilterSelected', envFilterSelected);
 		}
 	},
 	computed: {
@@ -86,7 +86,7 @@ export default {
 		}),
 		accountArray() {
 			let accountArray = Object.values(this.accounts);
-			accountArray.push({ account_name: "All Accounts", id: "000000" });
+			accountArray.push({ account_name: 'All Accounts', id: '000000' });
 			return accountArray;
 		}
 	}

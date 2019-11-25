@@ -20,9 +20,9 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-import VueJsonPretty from "vue-json-pretty";
-import store from "@/store/index";
+import { mapState } from 'vuex';
+import VueJsonPretty from 'vue-json-pretty';
+import store from '@/store/index';
 
 export default {
 	components: {
@@ -31,7 +31,7 @@ export default {
 	data: () => ({}),
 	created() {
 		//load the content of the module
-		store.dispatch("gcpcloudfunctions/fetchAndAdd").catch(console.error);
+		store.dispatch('gcpcloudfunctions/fetchAndAdd').catch(console.error);
 	},
 	computed: {
 		...mapState({

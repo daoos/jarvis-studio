@@ -6,7 +6,7 @@
 					<v-card-title>
 						<span class="display-1 font-weight-bold">{{ this.jsonObject.id }}</span>
 						<v-spacer></v-spacer>
-						<v-chip color="red" text-color="white">{{ this.jsonObjectErrors.length + " errors" }}</v-chip>
+						<v-chip color="red" text-color="white">{{ this.jsonObjectErrors.length + ' errors' }}</v-chip>
 					</v-card-title>
 				</v-card>
 			</v-col>
@@ -63,7 +63,7 @@
 </template>
 
 <script>
-import VueJsonPretty from "vue-json-pretty";
+import VueJsonPretty from 'vue-json-pretty';
 // https://jsonschema.net/
 
 export default {

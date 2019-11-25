@@ -16,14 +16,14 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-import store from "@/store";
+import { mapState } from 'vuex';
+import store from '@/store';
 
 export default {
-	name: "account-selector",
+	name: 'account-selector',
 	methods: {
 		applyAccountFilter(selectedAccount) {
-			store.dispatch("applyAccountFilterSelected", selectedAccount);
+			store.dispatch('applyAccountFilterSelected', selectedAccount);
 		}
 	},
 	computed: {
@@ -32,7 +32,7 @@ export default {
 			accounts: state => state.accounts.data
 		}),
 		accountArray() {
-			return [...Object.values(this.accounts), { account_name: "All Accounts", id: "000000" }];
+			return [...Object.values(this.accounts), { account_name: 'All Accounts', id: '000000' }];
 		}
 	}
 };

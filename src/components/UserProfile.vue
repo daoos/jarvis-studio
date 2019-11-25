@@ -27,9 +27,9 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-import { mapGetters } from "vuex";
-import ParametersList from "@/components/widgets/parameters/ParametersList.vue";
+import { mapState } from 'vuex';
+import { mapGetters } from 'vuex';
+import ParametersList from '@/components/widgets/parameters/ParametersList.vue';
 
 export default {
 	components: { ParametersList },
@@ -42,28 +42,28 @@ export default {
 			user: state => state.user.user,
 			accounts: state => state.accounts.data
 		}),
-		...mapGetters(["periodFiltered", "whereConfFilter"]),
+		...mapGetters(['periodFiltered', 'whereConfFilter']),
 		userIdentity() {
 			return [
-				{ id: "email", label: "Email", value: this.user.email },
+				{ id: 'email', label: 'Email', value: this.user.email },
 				{
-					id: "emailVerified",
-					label: "Email Verified",
+					id: 'emailVerified',
+					label: 'Email Verified',
 					value: this.user.emailVerified
 				},
 				{
-					id: "creationTime",
-					label: "Creation Time",
+					id: 'creationTime',
+					label: 'Creation Time',
 					value: this.user.metadata.creationTime
 				}
 			];
 		},
 		userRolesAndAccounts() {
 			return [
-				{ id: "studioRoles", label: "Role", value: this.user.studioRoles },
+				{ id: 'studioRoles', label: 'Role', value: this.user.studioRoles },
 				{
-					id: "userAccounts",
-					label: "User Accounts",
+					id: 'userAccounts',
+					label: 'User Accounts',
 					value: this.user.accounts
 				}
 			];

@@ -50,11 +50,11 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-import store from "@/store/index";
-import viewJson from "@/components/widgets/parameters/viewJson.vue";
-import tablesToTablesConfOverview from "@/components/widgets/configurations/TablesToTablesConfOverview.vue";
-import tablesToTalesConfTasksView from "@/components/widgets/configurations/TablesToTalesConfTasksView.vue";
+import { mapState } from 'vuex';
+import store from '@/store/index';
+import viewJson from '@/components/widgets/parameters/viewJson.vue';
+import tablesToTablesConfOverview from '@/components/widgets/configurations/TablesToTablesConfOverview.vue';
+import tablesToTalesConfTasksView from '@/components/widgets/configurations/TablesToTalesConfTasksView.vue';
 
 export default {
 	components: {
@@ -74,11 +74,11 @@ export default {
 	},
 	methods: {
 		async getFirestoreData() {
-			await store.dispatch("tablesToTablesConf/closeDBChannel", {
+			await store.dispatch('tablesToTablesConf/closeDBChannel', {
 				clearModule: true
 			});
 			await store
-				.dispatch("tablesToTablesConf/fetchAndAdd", {
+				.dispatch('tablesToTablesConf/fetchAndAdd', {
 					itemId: this.itemId
 				})
 				.catch(console.error);
