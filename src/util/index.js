@@ -24,18 +24,18 @@ const tablesToTablesConfFirestorePath = itemId => {
 const getStatusColor = status => {
 	let statusColor = "blue";
 	switch (status) {
-		case "SUCCESS":
-			statusColor = "green";
-			break;
-		case "FAILED":
-			statusColor = "red";
-			break;
-		case "RUNNING":
-			statusColor = "light-blue";
-			break;
-		default:
-			statusColor = "orange";
-			break;
+	case "SUCCESS":
+		statusColor = "green";
+		break;
+	case "FAILED":
+		statusColor = "red";
+		break;
+	case "RUNNING":
+		statusColor = "light-blue";
+		break;
+	default:
+		statusColor = "orange";
+		break;
 	}
 	return statusColor;
 };
@@ -43,18 +43,18 @@ const getStatusColor = status => {
 const getActiveConfColor = activated => {
 	let activeColor = "amber";
 	switch (activated) {
-		case true:
-			activeColor = "green";
-			break;
-		case false:
-			activeColor = "grey";
-			break;
-		case "RUNNING":
-			activeColor = "light-blue";
-			break;
-		default:
-			activeColor = "amber";
-			break;
+	case true:
+		activeColor = "green";
+		break;
+	case false:
+		activeColor = "grey";
+		break;
+	case "RUNNING":
+		activeColor = "light-blue";
+		break;
+	default:
+		activeColor = "amber";
+		break;
 	}
 	return activeColor;
 };
@@ -62,15 +62,15 @@ const getActiveConfColor = activated => {
 const getActiveConfLabel = activated => {
 	let label = "";
 	switch (activated) {
-		case true:
-			label = "Activated";
-			break;
-		case false:
-			label = "Disabled";
-			break;
-		default:
-			label = "Not set";
-			break;
+	case true:
+		label = "Activated";
+		break;
+	case false:
+		label = "Disabled";
+		break;
+	default:
+		label = "Not set";
+		break;
 	}
 	return label;
 };

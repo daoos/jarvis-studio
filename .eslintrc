@@ -1,12 +1,14 @@
+// configuration following this example : https://medium.com/@gogl.alex/how-to-properly-set-up-eslint-with-prettier-for-vue-or-nuxt-in-vscode-e42532099a9c
 {
   "root": true,
   "env": {
     "node": true
   },
   "extends": [
-    "plugin:vue/essential",
-    "plugin:prettier/recommended",
-    "@vue/prettier"
+    "plugin:vue/recommended",
+    "eslint:recommended",
+    "prettier/vue",
+    "plugin:prettier/recommended"
   ],
   "plugins": [
     "vuetify"
@@ -16,6 +18,9 @@
   },
   "rules": {
     "no-console": "off",
+    // "no-console": process.env.NODE_ENV === "production" ? "error" : "off",
+    // "no-debugger": process.env.NODE_ENV === "production" ? "error" : "off"
+    // "vue/component-name-in-template-casing": ["error", "PascalCase"],
     "indent": ["error", "tab"],
     "vuetify/no-deprecated-classes": "error",
     "vuetify/grid-unknown-attributes": "error",
