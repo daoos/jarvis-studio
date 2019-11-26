@@ -43,9 +43,9 @@
 </template>
 
 <script>
-import ParametersTable from "@/components/widgets/parameters/ParametersTable.vue";
-import HeaderDocView from "@/components/widgets/parameters/HeaderDocView.vue";
-import ParametersList from "@/components/widgets/parameters/ParametersList.vue";
+import ParametersTable from '@/components/widgets/parameters/ParametersTable.vue';
+import HeaderDocView from '@/components/widgets/parameters/HeaderDocView.vue';
+import ParametersList from '@/components/widgets/parameters/ParametersList.vue';
 export default {
 	components: {
 		ParametersTable,
@@ -62,51 +62,51 @@ export default {
 	data: () => ({
 		fileNameTemplateColumns: [
 			{
-				label: "File Name Template",
-				field: "filename_template"
+				label: 'File Name Template',
+				field: 'filename_template'
 			},
 			{
-				label: "File Name Description",
-				field: "filename_description"
+				label: 'File Name Description',
+				field: 'filename_description'
 			}
 		],
 		sourceStorageColumns: [
 			{
-				label: "Type",
-				field: "source_type",
-				width: "100px"
+				label: 'Type',
+				field: 'source_type',
+				width: '100px'
 			},
 			{
-				label: "Storage ID",
-				field: "source_storage_id",
-				width: "200px"
+				label: 'Storage ID',
+				field: 'source_storage_id',
+				width: '200px'
 			},
 			{
-				label: "Source Folder",
-				field: "source_input_folder",
-				width: "200px"
+				label: 'Source Folder',
+				field: 'source_input_folder',
+				width: '200px'
 			},
 			{
-				label: "Archive Folder",
-				field: "source_archive_folder",
-				width: "200px"
+				label: 'Archive Folder',
+				field: 'source_archive_folder',
+				width: '200px'
 			}
 		],
 		destinationStorageColumns: [
 			{
-				label: "Type",
-				field: "destination_type",
-				width: "100px"
+				label: 'Type',
+				field: 'destination_type',
+				width: '100px'
 			},
 			{
-				label: "Storage ID",
-				field: "destination_storage_id",
-				width: "200px"
+				label: 'Storage ID',
+				field: 'destination_storage_id',
+				width: '200px'
 			},
 			{
-				label: "Destination Folder",
-				field: "destination_input_folder",
-				width: "230px"
+				label: 'Destination Folder',
+				field: 'destination_input_folder',
+				width: '230px'
 			}
 		]
 	}),
@@ -118,13 +118,13 @@ export default {
 	computed: {
 		confId() {
 			//Set a Conf Id to the first destination bucket in the Array when the Id of the Conf is not present in the payload
-			let getConfId = "";
+			let getConfId = '';
 			if (this.conf.id !== undefined) {
 				getConfId = this.conf.id;
 			} else if (this.conf.destination_bucket[0] !== undefined) {
 				getConfId = this.conf.destination_bucket[0];
 			} else {
-				getConfId = "";
+				getConfId = '';
 			}
 			return getConfId;
 		},
@@ -132,7 +132,7 @@ export default {
 			var filename_templates_rows = this.conf.filename_templates.map(function(filename) {
 				return {
 					filename_template: filename,
-					filename_description: "No Description"
+					filename_description: 'No Description'
 				};
 			});
 			return filename_templates_rows;
@@ -140,7 +140,7 @@ export default {
 		sourceStorageRows() {
 			return [
 				{
-					source_type: "GCS",
+					source_type: 'GCS',
 					source_storage_id: this.conf.source_bucket,
 					source_input_folder: this.conf.source_gcs_prefix,
 					source_archive_folder: this.conf.source_archive_prefix
@@ -153,7 +153,7 @@ export default {
 			var destinationStorageRows = [];
 			for (var i = 0; i < this.conf.destination_bucket.length; i++) {
 				destinationStorageRows.push({
-					destination_type: "GCS",
+					destination_type: 'GCS',
 					destination_storage_id: this.conf.destination_bucket[i],
 					destination_input_folder: this.conf.destination_gcs_prefix[i]
 				});
@@ -162,10 +162,10 @@ export default {
 		},
 		paramItems() {
 			return [
-				{ id: "account", label: "Account", value: this.conf.account },
+				{ id: 'account', label: 'Account', value: this.conf.account },
 				{
-					id: "environment",
-					label: "Environment",
+					id: 'environment',
+					label: 'Environment',
 					value: this.conf.environment
 				}
 			];

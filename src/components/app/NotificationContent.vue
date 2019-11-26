@@ -35,6 +35,6 @@
 
 <script>
 export default {
-	name: "notification-content"
+	name: 'notification-content'
 };
 </script>

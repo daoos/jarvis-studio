@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import ParametersItem from "@/components/widgets/parameters/ParametersItem.vue";
+import ParametersItem from '@/components/widgets/parameters/ParametersItem.vue';
 
 export default {
 	components: {
@@ -28,19 +28,19 @@ export default {
 	props: {
 		vflexLength: {
 			type: String,
-			default: "xs12"
+			default: 'xs12'
 		},
 		vflexOffset: {
 			type: String,
-			default: "offset-xs0"
+			default: 'offset-xs0'
 		},
 		groupTitle: {
 			type: String,
-			default: "Parameters Group Title"
+			default: 'Parameters Group Title'
 		},
 		description: {
 			type: String,
-			default: "Parameters List Description"
+			default: 'Parameters List Description'
 		},
 		tooltip: {
 			type: Boolean,
@@ -50,8 +50,8 @@ export default {
 			type: Array,
 			default() {
 				return [
-					{ id: "account", label: "Account", value: "000020" },
-					{ id: "environment", label: "Environment", value: "PROD" }
+					{ id: 'account', label: 'Account', value: '000020' },
+					{ id: 'environment', label: 'Environment', value: 'PROD' }
 				];
 			}
 		}

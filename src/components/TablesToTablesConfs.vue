@@ -136,14 +136,14 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-import { mapGetters } from "vuex";
-import VueJsonPretty from "vue-json-pretty";
-import store from "@/store/index";
-import _ from "lodash";
-import DataManagementFilters from "./widgets/filters/DataManagementFilters";
-import ActivatedStatusChip from "./widgets/datatablewidgets/ActivatedStatusChip.vue";
-import ConfsComponent from "@/mixins/confsComponent.js";
+import { mapState } from 'vuex';
+import { mapGetters } from 'vuex';
+import VueJsonPretty from 'vue-json-pretty';
+import store from '@/store/index';
+import _ from 'lodash';
+import DataManagementFilters from './widgets/filters/DataManagementFilters';
+import ActivatedStatusChip from './widgets/datatablewidgets/ActivatedStatusChip.vue';
+import ConfsComponent from '@/mixins/confsComponent.js';
 
 export default {
 	mixins: [ConfsComponent],
@@ -154,13 +154,13 @@ export default {
 	},
 	data: () => ({
 		expanded: [],
-		search: "",
+		search: '',
 		isFetchAndAdding: false,
-		fetchAndAddStatus: "",
+		fetchAndAddStatus: '',
 		moreToFetchAndAdd: false,
 		expand: false,
 		pagination: {
-			sortBy: "table_name",
+			sortBy: 'table_name',
 			descending: true,
 			rowsPerPage: 10
 		},
@@ -168,42 +168,42 @@ export default {
 		viewedItem: {},
 		headers: [
 			{
-				text: "Account ID",
-				align: "left",
+				text: 'Account ID',
+				align: 'left',
 				sortable: true,
-				value: "account"
+				value: 'account'
 			},
 			{
-				text: "Environnement",
-				align: "left",
+				text: 'Environnement',
+				align: 'left',
 				sortable: true,
-				value: "environment"
+				value: 'environment'
 			},
 			{
-				text: "Workflow Id",
-				align: "left",
+				text: 'Workflow Id',
+				align: 'left',
 				sortable: true,
-				value: "id"
+				value: 'id'
 			},
 			{
-				text: "BQ Default Dataset",
-				align: "left",
+				text: 'BQ Default Dataset',
+				align: 'left',
 				sortable: true,
-				value: "configuration.default_bq_dataset"
+				value: 'configuration.default_bq_dataset'
 			},
 			{
-				text: "# Tasks",
-				align: "left",
+				text: '# Tasks',
+				align: 'left',
 				sortable: true,
-				value: "nb_tasks"
+				value: 'nb_tasks'
 			},
 			{
-				text: "Status",
-				align: "left",
+				text: 'Status',
+				align: 'left',
 				sortable: true,
-				value: "activated"
+				value: 'activated'
 			},
-			{ text: "Actions", align: "center", value: "actions", sortable: false }
+			{ text: 'Actions', align: 'center', value: 'actions', sortable: false }
 		]
 	}),
 	mounted() {
@@ -222,14 +222,14 @@ export default {
 		},
 		async getFirestoreData() {
 			const where = this.whereConfFilter;
-			this.$data.fetchAndAddStatus = "Loading";
+			this.$data.fetchAndAddStatus = 'Loading';
 			this.$data.moreToFetchAndAdd = false;
 			this.$data.isFetchAndAdding = true;
 			try {
-				store.dispatch("getGbqToGbqConfs/closeDBChannel", {
+				store.dispatch('getGbqToGbqConfs/closeDBChannel', {
 					clearModule: true
 				});
-				let fetchResult = await store.dispatch("getGbqToGbqConfs/fetchAndAdd", {
+				let fetchResult = await store.dispatch('getGbqToGbqConfs/fetchAndAdd', {
 					where,
 					limit: 0
 				});
@@ -238,11 +238,11 @@ export default {
 				} else {
 					this.$data.moreToFetchAndAdd = true;
 				}
-				this.$data.fetchAndAddStatus = "Success";
+				this.$data.fetchAndAddStatus = 'Success';
 			} catch (e) {
-				console.log("Firestore Error catched");
+				console.log('Firestore Error catched');
 				console.log(e);
-				this.$data.fetchAndAddStatus = "Error";
+				this.$data.fetchAndAddStatus = 'Error';
 				this.$data.isFetchAndAdding = false;
 			}
 			this.$data.isFetchAndAdding = false;
@@ -254,7 +254,7 @@ export default {
 			user: state => state.user.user,
 			getGbqToGbqConfs: state => state.getGbqToGbqConfs.data
 		}),
-		...mapGetters(["periodFiltered", "whereConfFilter"]),
+		...mapGetters(['periodFiltered', 'whereConfFilter']),
 		getGbqToGbqConfsFormated() {
 			const dataArray = Object.values(this.getGbqToGbqConfs);
 			var dataFormated = dataArray.map(function(data) {

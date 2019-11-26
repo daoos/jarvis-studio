@@ -6,8 +6,8 @@
 </template>
 
 <script>
-import GbqToGcsConfs from "../components/GbqToGcsConfs";
-import DataManagementHeader from "../components/widgets/layout/DataManagementHeader";
+import GbqToGcsConfs from '../components/GbqToGcsConfs';
+import DataManagementHeader from '../components/widgets/layout/DataManagementHeader';
 
 export default {
 	components: {
@@ -16,11 +16,11 @@ export default {
 	},
 	data() {
 		return {
-			headerTitle: "Table to Storage",
+			headerTitle: 'Table to Storage',
 			tabsItems: [
-				{ id: 1, title: "Runs", link: "/runs/gbqtogcs" },
-				{ id: 2, title: "Configurations", link: "/conf/gbqtogcs" },
-				{ id: 3, title: "Documentation", link: "" }
+				{ id: 1, title: 'Runs', link: '/runs/gbqtogcs' },
+				{ id: 2, title: 'Configurations', link: '/conf/gbqtogcs' },
+				{ id: 3, title: 'Documentation', link: '' }
 			]
 		};
 	}

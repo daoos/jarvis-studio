@@ -46,11 +46,11 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-import store from "@/store/index";
-import viewJson from "@/components/widgets/parameters/viewJson.vue";
-import storageToTableConfOverview from "@/components/widgets/configurations/StorageToTableConfOverview.vue";
-import tableSchemaView from "@/components/widgets/configurations/TableSchemaView.vue";
+import { mapState } from 'vuex';
+import store from '@/store/index';
+import viewJson from '@/components/widgets/parameters/viewJson.vue';
+import storageToTableConfOverview from '@/components/widgets/configurations/StorageToTableConfOverview.vue';
+import tableSchemaView from '@/components/widgets/configurations/TableSchemaView.vue';
 
 export default {
 	components: {
@@ -71,11 +71,11 @@ export default {
 	},
 	methods: {
 		async getFirestoreData() {
-			await store.dispatch("storageToTableConf/closeDBChannel", {
+			await store.dispatch('storageToTableConf/closeDBChannel', {
 				clearModule: true
 			});
 			await store
-				.dispatch("storageToTableConf/fetchAndAdd", {
+				.dispatch('storageToTableConf/fetchAndAdd', {
 					sourceId: this.bucketIn,
 					itemId: this.itemId
 				})
@@ -87,10 +87,10 @@ export default {
 			storageToTableConf: state => state.storageToTableConf.data
 		}),
 		itemId() {
-			return this.$route.params.pathId.split("/")[1];
+			return this.$route.params.pathId.split('/')[1];
 		},
 		bucketIn() {
-			return this.$route.params.pathId.split("/")[0];
+			return this.$route.params.pathId.split('/')[0];
 		},
 		conf() {
 			//Add the bucket file source to the SingleDoc object

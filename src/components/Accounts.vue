@@ -2,10 +2,10 @@
 	<v-container>
 		<v-data-table :headers="headers" :items="accounts" class="elevation-1">
 			<template v-slot:items="props">
-				<td>{{ props.item["account_name"] }}</td>
-				<td>{{ props.item["id"] }}</td>
-				<td>{{ props.item["dlk_gcp_id_project"] }}</td>
-				<td>{{ props.item["exc_gcp_id_project"] }}</td>
+				<td>{{ props.item['account_name'] }}</td>
+				<td>{{ props.item['id'] }}</td>
+				<td>{{ props.item['dlk_gcp_id_project'] }}</td>
+				<td>{{ props.item['exc_gcp_id_project'] }}</td>
 			</template>
 			<template v-slot:no-data>
 				<v-alert :value="true" color="error" icon="warning">
@@ -68,9 +68,9 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-import VueJsonPretty from "vue-json-pretty";
-import store from "@/store/index";
+import { mapState } from 'vuex';
+import VueJsonPretty from 'vue-json-pretty';
+import store from '@/store/index';
 
 export default {
 	components: {
@@ -80,34 +80,34 @@ export default {
 		dialog: false,
 		headers: [
 			{
-				text: "Account Name",
-				align: "left",
+				text: 'Account Name',
+				align: 'left',
 				sortable: true,
-				value: "account_name"
+				value: 'account_name'
 			},
 			{
-				text: "Account ID",
-				align: "left",
+				text: 'Account ID',
+				align: 'left',
 				sortable: true,
-				value: "id"
+				value: 'id'
 			},
 			{
-				text: "Dlk Project ID",
-				align: "left",
+				text: 'Dlk Project ID',
+				align: 'left',
 				sortable: true,
-				value: "dlk_gcp_id_project"
+				value: 'dlk_gcp_id_project'
 			},
 			{
-				text: "Exchange Project ID",
-				align: "left",
+				text: 'Exchange Project ID',
+				align: 'left',
 				sortable: true,
-				value: "exc_gcp_id_project"
+				value: 'exc_gcp_id_project'
 			}
 		]
 	}),
 	created() {
 		//load the content of the module
-		store.dispatch("accounts/fetchAndAdd").catch(console.error);
+		store.dispatch('accounts/fetchAndAdd').catch(console.error);
 	},
 	computed: {
 		...mapState({
@@ -115,7 +115,7 @@ export default {
 			user: state => state.user.user
 		}),
 		accounts() {
-			console.log("store.state.accounts.data");
+			console.log('store.state.accounts.data');
 			console.log(store.state.accounts.data);
 			console.log(Object.values(store.state.accounts.data));
 			return Object.values(store.state.accounts.data);

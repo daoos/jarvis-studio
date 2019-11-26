@@ -6,6 +6,6 @@
 
 <script>
 export default {
-	name: "footer-content"
+	name: 'footer-content'
 };
 </script>

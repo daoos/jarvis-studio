@@ -22,11 +22,11 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-import store from "@/store";
+import { mapState } from 'vuex';
+import store from '@/store';
 
 export default {
-	name: "data-model-tree-view",
+	name: 'data-model-tree-view',
 	data: () => ({
 		active: [],
 		open: [],
@@ -39,7 +39,7 @@ export default {
 	methods: {
 		getDataModel() {
 			this.$store
-				.dispatch("dataModels/fetchAndAdd", { limit: 0 })
+				.dispatch('dataModels/fetchAndAdd', { limit: 0 })
 				.then(() => {
 					const dataModelsValues = Object.values(this.dataModels);
 					const dataModelsFormatted = dataModelsValues.map(data => {
@@ -50,10 +50,10 @@ export default {
 							// add name, project id (used to fetch dataTable Later), type (to select the icon in the treeview),
 							// empty children to trigger the fetchTables function when necessary
 							subCollectionsFormatted.push({
-								id: projectId.concat("/", dataset),
+								id: projectId.concat('/', dataset),
 								name: dataset,
 								projectId: projectId,
-								type: "dataset",
+								type: 'dataset',
 								children: []
 							});
 						});
@@ -61,7 +61,7 @@ export default {
 						return {
 							name: data.id,
 							id: data.id,
-							type: "Project",
+							type: 'Project',
 							children: subCollectionsFormatted
 						};
 					});
@@ -72,19 +72,19 @@ export default {
 				.catch(console.error);
 		},
 		fetchTables(item) {
-			store.dispatch("dataTables/closeDBChannel", { clearModule: true });
+			store.dispatch('dataTables/closeDBChannel', { clearModule: true });
 
 			return this.$store
-				.dispatch("dataTables/fetchAndAdd", {
+				.dispatch('dataTables/fetchAndAdd', {
 					projectId: item.projectId,
 					datasetId: item.name,
 					limit: 0
 				})
 				.then(querySnapshot => {
 					const dataTablesFormatted = querySnapshot.docs.map(data => ({
-						id: item.projectId.concat("/", item.name, "/", data.id),
+						id: item.projectId.concat('/', item.name, '/', data.id),
 						name: data.id,
-						type: "table"
+						type: 'table'
 					}));
 
 					item.children.push(...dataTablesFormatted);
@@ -103,8 +103,8 @@ export default {
 
 			const id = this.active[0];
 			this.$router.push({
-				name: "DataTableDetails",
-				params: { projectId: id.split("/")[0], datasetId: id.split("/")[1], tableId: id.split("/")[2] }
+				name: 'DataTableDetails',
+				params: { projectId: id.split('/')[0], datasetId: id.split('/')[1], tableId: id.split('/')[2] }
 			});
 		}
 	}

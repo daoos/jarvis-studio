@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import GcpCloudFunctions from "../components/GcpCloudFunctions";
+import GcpCloudFunctions from '../components/GcpCloudFunctions';
 
 export default {
 	components: {

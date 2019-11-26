@@ -110,7 +110,7 @@
 
 				<v-card-actions>
 					<v-btn icon @click="showDetailConfToDelete = !showDetailConfToDelete">
-						<v-icon>{{ showDetailConfToDelete ? "keyboard_arrow_up" : "keyboard_arrow_down" }}</v-icon>
+						<v-icon>{{ showDetailConfToDelete ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}</v-icon>
 					</v-btn>
 
 					<v-spacer />
@@ -153,14 +153,14 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-import { mapGetters } from "vuex";
-import VueJsonPretty from "vue-json-pretty";
-import store from "@/store/index";
-import _ from "lodash";
-import DataManagementFilters from "./widgets/filters/DataManagementFilters";
-import ActivatedStatusChip from "./widgets/datatablewidgets/ActivatedStatusChip.vue";
-import ConfsComponent from "@/mixins/confsComponent.js";
+import { mapState } from 'vuex';
+import { mapGetters } from 'vuex';
+import VueJsonPretty from 'vue-json-pretty';
+import store from '@/store/index';
+import _ from 'lodash';
+import DataManagementFilters from './widgets/filters/DataManagementFilters';
+import ActivatedStatusChip from './widgets/datatablewidgets/ActivatedStatusChip.vue';
+import ConfsComponent from '@/mixins/confsComponent.js';
 
 export default {
 	mixins: [ConfsComponent],
@@ -171,15 +171,15 @@ export default {
 	},
 	data: () => ({
 		expanded: [],
-		search: "",
+		search: '',
 		isFetchAndAdding: false,
 		expand: false,
 		pagination: {
-			sortBy: "id",
+			sortBy: 'id',
 			descending: true,
 			rowsPerPage: 10
 		},
-		fetchAndAddStatus: "",
+		fetchAndAddStatus: '',
 		moreToFetchAndAdd: false,
 		viewJson: false,
 		viewedItem: {},
@@ -189,42 +189,42 @@ export default {
 		showSnackbarDeleteConfSuccess: false,
 		headers: [
 			{
-				text: "Account ID",
-				align: "left",
+				text: 'Account ID',
+				align: 'left',
 				sortable: true,
-				value: "account"
+				value: 'account'
 			},
 			{
-				text: "Environnement",
-				align: "left",
+				text: 'Environnement',
+				align: 'left',
 				sortable: true,
-				value: "environment"
+				value: 'environment'
 			},
 			{
-				text: "ID Configuration",
-				align: "left",
+				text: 'ID Configuration',
+				align: 'left',
 				sortable: true,
-				value: "id"
+				value: 'id'
 			},
 			{
-				text: "Bucket Exchange",
-				align: "left",
+				text: 'Bucket Exchange',
+				align: 'left',
 				sortable: true,
-				value: "gcs_file_exchange_bucket"
+				value: 'gcs_file_exchange_bucket'
 			},
 			{
-				text: "Working Directory",
-				align: "left",
+				text: 'Working Directory',
+				align: 'left',
 				sortable: true,
-				value: "working_dir"
+				value: 'working_dir'
 			},
 			{
-				text: "Status",
-				align: "left",
+				text: 'Status',
+				align: 'left',
 				sortable: true,
-				value: "activated"
+				value: 'activated'
 			},
-			{ text: "Actions", align: "center", value: "actions", sortable: false }
+			{ text: 'Actions', align: 'center', value: 'actions', sortable: false }
 		]
 	}),
 	mounted() {
@@ -253,21 +253,21 @@ export default {
 		confirmeDeleteConfFromFirestore() {
 			this.dialogDeleteConf = false;
 			store
-				.dispatch("vmLauncherConfs/delete", this.confToDeleteFromFirestore.id)
+				.dispatch('vmLauncherConfs/delete', this.confToDeleteFromFirestore.id)
 				.then((this.showSnackbarDeleteConfSuccess = true));
 			this.confToDeleteFromFirestore = {};
 			this.showDetailConfToDelete = false;
 		},
 		async getFirestoreData() {
 			const where = this.whereConfFilter;
-			this.$data.fetchAndAddStatus = "Loading";
+			this.$data.fetchAndAddStatus = 'Loading';
 			this.$data.moreToFetchAndAdd = false;
 			this.$data.isFetchAndAdding = true;
 			try {
-				store.dispatch("vmLauncherConfs/closeDBChannel", {
+				store.dispatch('vmLauncherConfs/closeDBChannel', {
 					clearModule: true
 				});
-				let fetchResult = await store.dispatch("vmLauncherConfs/fetchAndAdd", {
+				let fetchResult = await store.dispatch('vmLauncherConfs/fetchAndAdd', {
 					where,
 					limit: 0
 				});
@@ -276,11 +276,11 @@ export default {
 				} else {
 					this.$data.moreToFetchAndAdd = true;
 				}
-				this.$data.fetchAndAddStatus = "Success";
+				this.$data.fetchAndAddStatus = 'Success';
 			} catch (e) {
-				console.log("Firestore Error catched");
+				console.log('Firestore Error catched');
 				console.log(e);
-				this.$data.fetchAndAddStatus = "Error";
+				this.$data.fetchAndAddStatus = 'Error';
 				this.$data.isFetchAndAdding = false;
 			}
 			this.$data.isFetchAndAdding = false;
@@ -293,7 +293,7 @@ export default {
 			settings: state => state.settings,
 			vmLauncherConfs: state => state.vmLauncherConfs.data
 		}),
-		...mapGetters(["periodFiltered", "whereConfFilter"]),
+		...mapGetters(['periodFiltered', 'whereConfFilter']),
 		vmLauncherConfsFormated() {
 			const dataArray = Object.values(this.vmLauncherConfs);
 			var dataFormated = dataArray.map(function() {

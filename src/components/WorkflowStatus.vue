@@ -113,13 +113,13 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-import { mapGetters } from "vuex";
-import VueJsonPretty from "vue-json-pretty";
-import store from "@/store/index";
-import moment from "moment";
-import _ from "lodash";
-import DataManagementFilters from "./widgets/filters/DataManagementFilters";
+import { mapState } from 'vuex';
+import { mapGetters } from 'vuex';
+import VueJsonPretty from 'vue-json-pretty';
+import store from '@/store/index';
+import moment from 'moment';
+import _ from 'lodash';
+import DataManagementFilters from './widgets/filters/DataManagementFilters';
 
 export default {
 	components: {
@@ -128,56 +128,56 @@ export default {
 	},
 	data: () => ({
 		expanded: [],
-		search: "",
+		search: '',
 		isFetchAndAdding: false,
 		expand: false,
 		pagination: {
-			sortBy: "dag_execution_date_formated",
+			sortBy: 'dag_execution_date_formated',
 			descending: true,
 			rowsPerPage: 10
 		},
-		fetchAndAddStatus: "",
+		fetchAndAddStatus: '',
 		moreToFetchAndAdd: false,
 		viewJson: false,
 		viewedItem: {},
 		headers: [
 			{
-				text: "Workflow Id",
-				align: "left",
+				text: 'Workflow Id',
+				align: 'left',
 				sortable: true,
-				value: "id"
+				value: 'id'
 			},
 			{
-				text: "Dag to fire",
-				align: "left",
+				text: 'Dag to fire',
+				align: 'left',
 				sortable: true,
-				value: "environment"
+				value: 'environment'
 			},
 			{
-				text: "Triggering Jobs",
-				align: "left",
+				text: 'Triggering Jobs',
+				align: 'left',
 				sortable: true,
-				value: "nb_triggering_jobs"
+				value: 'nb_triggering_jobs'
 			},
 			{
-				text: "Triggered Jobs",
-				align: "left",
+				text: 'Triggered Jobs',
+				align: 'left',
 				sortable: true,
-				value: "nb_triggered_jobs"
+				value: 'nb_triggered_jobs'
 			},
 			{
-				text: "Last triggering date",
-				align: "left",
+				text: 'Last triggering date',
+				align: 'left',
 				sortable: true,
-				value: "last_update_date_from_now"
+				value: 'last_update_date_from_now'
 			},
 			{
-				text: "Last fire Date",
-				align: "left",
+				text: 'Last fire Date',
+				align: 'left',
 				sortable: true,
-				value: "last_fire_date_from_now"
+				value: 'last_fire_date_from_now'
 			},
-			{ text: "Actions", align: "center", value: "actions", sortable: false }
+			{ text: 'Actions', align: 'center', value: 'actions', sortable: false }
 		]
 	}),
 	async mounted() {
@@ -195,17 +195,17 @@ export default {
 			}
 		},
 		openAirflowDagRunUrl(item) {
-			window.open(item.dag_execution_airflow_url, "_blank");
+			window.open(item.dag_execution_airflow_url, '_blank');
 		},
 		async getFirestoreData() {
-			this.$data.fetchAndAddStatus = "Loading";
+			this.$data.fetchAndAddStatus = 'Loading';
 			this.$data.moreToFetchAndAdd = false;
 			this.$data.isFetchAndAdding = true;
 			try {
-				store.dispatch("workflowStatus/closeDBChannel", {
+				store.dispatch('workflowStatus/closeDBChannel', {
 					clearModule: true
 				});
-				let fetchResult = await store.dispatch("workflowStatus/fetchAndAdd", {
+				let fetchResult = await store.dispatch('workflowStatus/fetchAndAdd', {
 					limit: 0
 				});
 				if (fetchResult.done === true) {
@@ -213,11 +213,11 @@ export default {
 				} else {
 					this.$data.moreToFetchAndAdd = true;
 				}
-				this.$data.fetchAndAddStatus = "Success";
+				this.$data.fetchAndAddStatus = 'Success';
 			} catch (e) {
-				console.log("Firestore Error catched");
+				console.log('Firestore Error catched');
 				console.log(e);
-				this.$data.fetchAndAddStatus = "Error";
+				this.$data.fetchAndAddStatus = 'Error';
 				this.$data.isFetchAndAdding = false;
 			}
 			this.$data.isFetchAndAdding = false;
@@ -233,14 +233,14 @@ export default {
 			dateFilters: state => state.filters.dateFilters,
 			minDateFilter: state => state.filters.minDateFilter
 		}),
-		...mapGetters(["periodFiltered", "whereRunsFilter"]),
+		...mapGetters(['periodFiltered', 'whereRunsFilter']),
 		workflowStatusFormated() {
 			const dataArray = Object.values(this.workflowStatus);
 			var dataFormated = dataArray.map(function(data) {
 				return {
-					last_update_date_formated: moment(data.last_modified).format("YYYY/MM/DD - HH:mm"),
+					last_update_date_formated: moment(data.last_modified).format('YYYY/MM/DD - HH:mm'),
 					last_update_date_from_now: moment(data.last_modified).fromNow(),
-					last_fire_date_formated: moment(data.target_dag_last_executed).format("YYYY/MM/DD - HH:mm"),
+					last_fire_date_formated: moment(data.target_dag_last_executed).format('YYYY/MM/DD - HH:mm'),
 					last_fire_date_from_now: moment(data.target_dag_last_executed).fromNow(),
 					nb_triggering_jobs: Object.keys(data.jobs).length,
 					// Compute the number of jobs with a executed status == true

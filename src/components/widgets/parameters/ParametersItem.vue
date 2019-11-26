@@ -22,7 +22,7 @@ export default {
 		paramItem: {
 			type: Object,
 			default() {
-				return { id: "account", label: "Account", value: "000021" };
+				return { id: 'account', label: 'Account', value: '000021' };
 			}
 		}
 	}

@@ -8,7 +8,7 @@
 
 		<search-menu v-if="$vuetify.breakpoint.smAndUp" />
 
-		<v-tooltip v-slot:activator="{ on }" bottom>
+		<v-tooltip v-slot:activator bottom>
 			<v-btn icon @click="$emit('toggleNotifications')">
 				<v-badge color="red" overlap>
 					<span slot="badge">2</span>
@@ -58,16 +58,16 @@
 </template>
 
 <script>
-import AccountSelector from "../widgets/filters/AccountSelector";
-import SearchMenu from "./sub-components/SearchMenu";
+import AccountSelector from '../widgets/filters/AccountSelector';
+import SearchMenu from './sub-components/SearchMenu';
 
-import { mapState } from "vuex";
-import { toggleFullScreen } from "@/util";
+import { mapState } from 'vuex';
+import { toggleFullScreen } from '@/util';
 
-import userSettingsItems from "../../navigation/user-settings-items";
+import userSettingsItems from '../../navigation/user-settings-items';
 
 export default {
-	name: "app-bar",
+	name: 'app-bar',
 	components: { AccountSelector, SearchMenu },
 	data: () => ({
 		userSettingsItems: userSettingsItems

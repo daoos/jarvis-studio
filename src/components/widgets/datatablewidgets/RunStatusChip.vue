@@ -5,13 +5,13 @@
 </template>
 
 <script>
-import Util from "@/util";
+import Util from '@/util';
 
 export default {
 	props: {
 		runStatus: {
 			type: String,
-			default: "Undefined"
+			default: 'Undefined'
 		},
 		smallChip: {
 			type: Boolean,
@@ -23,7 +23,7 @@ export default {
 		},
 		chipTextClass: {
 			type: String,
-			default: "text-capitalize"
+			default: 'text-capitalize'
 		}
 	},
 	computed: {

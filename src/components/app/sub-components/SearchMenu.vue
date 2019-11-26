@@ -24,7 +24,7 @@
 export default {
 	data: () => ({
 		searching: false,
-		search: ""
+		search: ''
 	}),
 	methods: {
 		searchBegin() {
@@ -33,14 +33,14 @@ export default {
 		},
 		clearSearch() {
 			this.searching = false;
-			this.search = "";
+			this.search = '';
 		}
 	}
 };
 </script>
 
 <style scoped lang="scss">
-@import "../../../../node_modules/vuetify/src/components/VBtn/variables";
+@import '../../../../node_modules/vuetify/src/components/VBtn/variables';
 
 .searching {
 	width: 208px;

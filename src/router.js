@@ -1,14 +1,14 @@
-import Vue from "vue";
-import Router from "vue-router";
-import paths from "./router/paths";
-import store from "@/store/index";
+import Vue from 'vue';
+import Router from 'vue-router';
+import paths from './router/paths';
+import store from '@/store/index';
 
 Vue.use(Router);
 
 const router = new Router({
 	base: process.env.BASE_URL,
-	mode: "history",
-	linkActiveClass: "active",
+	mode: 'history',
+	linkActiveClass: 'active',
 	routes: paths
 });
 
@@ -26,7 +26,7 @@ router.beforeEach((to, from, next) => {
 					next();
 				} else {
 					next({
-						path: "/signinEmail",
+						path: '/signinEmail',
 						query: { redirect: to.fullPath }
 					});
 				}

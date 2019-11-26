@@ -11,7 +11,7 @@
 				<v-list-item-action>
 					<v-btn icon @click.stop="drawer.mini = !drawer.mini">
 						<v-icon large color="complementary">
-							{{ drawer.mini ? "keyboard_arrow_right" : "keyboard_arrow_left" }}
+							{{ drawer.mini ? 'keyboard_arrow_right' : 'keyboard_arrow_left' }}
 						</v-icon>
 					</v-btn>
 				</v-list-item-action>
@@ -82,12 +82,12 @@
 </template>
 
 <script>
-import DataModelTreeView from "../widgets/datamodel/DatamodelTreeview";
+import DataModelTreeView from '../widgets/datamodel/DatamodelTreeview';
 
-import packageJson from "../../../package";
+import packageJson from '../../../package';
 
 export default {
-	name: "navigation-content",
+	name: 'navigation-content',
 	components: { DataModelTreeView },
 	props: {
 		drawer: {
@@ -105,7 +105,7 @@ export default {
 	},
 	computed: {
 		appName() {
-			return packageJson.name.replace("-", " ");
+			return packageJson.name.replace('-', ' ');
 		}
 	}
 };

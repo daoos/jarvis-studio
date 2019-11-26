@@ -97,14 +97,14 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-import { mapGetters } from "vuex";
-import VueJsonPretty from "vue-json-pretty";
-import store from "@/store/index";
-import moment from "moment";
-import _ from "lodash";
-import Util from "@/util";
-import DataManagementFilters from "./widgets/filters/DataManagementFilters";
+import { mapState } from 'vuex';
+import { mapGetters } from 'vuex';
+import VueJsonPretty from 'vue-json-pretty';
+import store from '@/store/index';
+import moment from 'moment';
+import _ from 'lodash';
+import Util from '@/util';
+import DataManagementFilters from './widgets/filters/DataManagementFilters';
 
 export default {
 	components: {
@@ -113,50 +113,50 @@ export default {
 	},
 	data: () => ({
 		expanded: [],
-		search: "",
+		search: '',
 		isFetchAndAdding: false,
 		expand: false,
 		pagination: {
-			sortBy: "dag_execution_date_formated",
+			sortBy: 'dag_execution_date_formated',
 			descending: true,
 			rowsPerPage: 10
 		},
-		fetchAndAddStatus: "",
+		fetchAndAddStatus: '',
 		moreToFetchAndAdd: false,
 		viewJson: false,
 		viewedItem: {},
 		headers: [
 			{
-				text: "Account ID",
-				align: "left",
+				text: 'Account ID',
+				align: 'left',
 				sortable: true,
-				value: "account"
+				value: 'account'
 			},
 			{
-				text: "Environnement",
-				align: "left",
+				text: 'Environnement',
+				align: 'left',
 				sortable: true,
-				value: "environment"
+				value: 'environment'
 			},
 			{
-				text: "Dag Id",
-				align: "left",
+				text: 'Dag Id',
+				align: 'left',
 				sortable: true,
-				value: "dag_id"
+				value: 'dag_id'
 			},
 			{
-				text: "Status",
-				align: "left",
+				text: 'Status',
+				align: 'left',
 				sortable: true,
-				value: "status"
+				value: 'status'
 			},
 			{
-				text: "Execution Date",
-				align: "left",
+				text: 'Execution Date',
+				align: 'left',
 				sortable: true,
-				value: "dag_execution_date_formated"
+				value: 'dag_execution_date_formated'
 			},
-			{ text: "Actions", align: "center", value: "actions", sortable: false }
+			{ text: 'Actions', align: 'center', value: 'actions', sortable: false }
 		]
 	}),
 	mounted() {
@@ -179,16 +179,16 @@ export default {
 			this.viewedItem = Object.assign({}, item);
 		},
 		openAirflowDagRunUrl(item) {
-			window.open(item.dag_execution_airflow_url, "_blank");
+			window.open(item.dag_execution_airflow_url, '_blank');
 		},
 		async getFirestoreData() {
 			const where = this.whereRunsFilter;
-			this.$data.fetchAndAddStatus = "Loading";
+			this.$data.fetchAndAddStatus = 'Loading';
 			this.$data.moreToFetchAndAdd = false;
 			this.$data.isFetchAndAdding = true;
 			try {
-				store.dispatch("vmLauncherRuns/closeDBChannel", { clearModule: true });
-				let fetchResult = await store.dispatch("vmLauncherRuns/openDBChannel", {
+				store.dispatch('vmLauncherRuns/closeDBChannel', { clearModule: true });
+				let fetchResult = await store.dispatch('vmLauncherRuns/openDBChannel', {
 					where,
 					limit: 0
 				});
@@ -197,9 +197,9 @@ export default {
 				} else {
 					this.$data.moreToFetchAndAdd = true;
 				}
-				this.$data.fetchAndAddStatus = "Success";
+				this.$data.fetchAndAddStatus = 'Success';
 			} catch (e) {
-				this.$data.fetchAndAddStatus = "Error";
+				this.$data.fetchAndAddStatus = 'Error';
 				this.$data.isFetchAndAdding = false;
 				console.error(e);
 			}
@@ -215,12 +215,12 @@ export default {
 			dateFilters: state => state.filters.dateFilters,
 			minDateFilter: state => state.filters.minDateFilter
 		}),
-		...mapGetters(["periodFiltered", "whereRunsFilter"]),
+		...mapGetters(['periodFiltered', 'whereRunsFilter']),
 		vmLauncherRunsFormated() {
 			const dataArray = Object.values(this.vmLauncherRuns);
 			const dataFormated = dataArray.map(function(data) {
 				return {
-					dag_execution_date_formated: moment(data.dag_execution_date).format("YYYY/MM/DD - HH:mm"),
+					dag_execution_date_formated: moment(data.dag_execution_date).format('YYYY/MM/DD - HH:mm'),
 					dag_execution_date_from_now: moment(data.dag_execution_date).fromNow(),
 					//color for the status
 					statusColor: Util.getStatusColor(data.status),

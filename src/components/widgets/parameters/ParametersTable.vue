@@ -28,8 +28,8 @@
 
 <script>
 // vue-good-table import the styles
-import "vue-good-table/dist/vue-good-table.css";
-import { VueGoodTable } from "vue-good-table";
+import 'vue-good-table/dist/vue-good-table.css';
+import { VueGoodTable } from 'vue-good-table';
 
 export default {
 	components: {
@@ -41,44 +41,44 @@ export default {
 	props: {
 		vflexLength: {
 			type: String,
-			default: "xs12"
+			default: 'xs12'
 		},
 		vflexOffset: {
 			type: String,
-			default: "offset-xs0"
+			default: 'offset-xs0'
 		},
 		tableTitle: {
 			type: String,
-			default: "Parameters Table Title"
+			default: 'Parameters Table Title'
 		},
 		description: {
 			type: String,
-			default: "Parameters Table Description"
+			default: 'Parameters Table Description'
 		},
 		columns: {
 			type: Array,
 			default() {
 				return [
 					{
-						label: "Name",
-						field: "name"
+						label: 'Name',
+						field: 'name'
 					},
 					{
-						label: "Age",
-						field: "age",
-						type: "number"
+						label: 'Age',
+						field: 'age',
+						type: 'number'
 					},
 					{
-						label: "Created On",
-						field: "createdAt",
-						type: "date",
-						dateInputFormat: "yyyy-MM-dd",
-						dateOutputFormat: "MMM Do yy"
+						label: 'Created On',
+						field: 'createdAt',
+						type: 'date',
+						dateInputFormat: 'yyyy-MM-dd',
+						dateOutputFormat: 'MMM Do yy'
 					},
 					{
-						label: "Percent",
-						field: "score",
-						type: "percentage"
+						label: 'Percent',
+						field: 'score',
+						type: 'percentage'
 					}
 				];
 			}
@@ -89,23 +89,23 @@ export default {
 				return [
 					{
 						id: 1,
-						name: "John",
+						name: 'John',
 						age: 20,
-						createdAt: "201-10-31:9: 35 am",
+						createdAt: '201-10-31:9: 35 am',
 						score: 0.03343
 					},
 					{
 						id: 2,
-						name: "Jane",
+						name: 'Jane',
 						age: 24,
-						createdAt: "2011-10-31",
+						createdAt: '2011-10-31',
 						score: 0.03343
 					},
 					{
 						id: 3,
-						name: "Susan",
+						name: 'Susan',
 						age: 16,
-						createdAt: "2011-10-30",
+						createdAt: '2011-10-30',
 						score: 0.03343
 					}
 				];
@@ -129,14 +129,14 @@ export default {
 		},
 		styleClass: {
 			type: String,
-			default: "vgt-table striped"
+			default: 'vgt-table striped'
 		}
 	},
 	computed: {
 		searchOptions() {
 			return {
 				enabled: this.searchOptionsEnabled,
-				placeholder: "Search for parameters"
+				placeholder: 'Search for parameters'
 			};
 		}
 	}

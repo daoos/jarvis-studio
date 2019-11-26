@@ -117,11 +117,11 @@
 </template>
 
 <script>
-import firebase from "firebase";
-import { mapState } from "vuex";
-import { mapGetters } from "vuex";
-import _ from "lodash";
-import ConfsComponent from "@/mixins/confsComponent.js";
+import firebase from 'firebase';
+import { mapState } from 'vuex';
+import { mapGetters } from 'vuex';
+import _ from 'lodash';
+import ConfsComponent from '@/mixins/confsComponent.js';
 
 export default {
 	mixins: [ConfsComponent],
@@ -132,67 +132,67 @@ export default {
 		selectedRoles: 0,
 		dialog: false,
 		pagination: {
-			sortBy: "email",
+			sortBy: 'email',
 			descending: false,
 			rowsPerPage: 50
 		},
 		headers: [
 			{
-				text: "Email",
-				align: "left",
+				text: 'Email',
+				align: 'left',
 				sortable: true,
-				value: "email"
+				value: 'email'
 			},
 			{
-				text: "Display Name",
-				align: "left",
+				text: 'Display Name',
+				align: 'left',
 				sortable: true,
-				value: "displayName"
+				value: 'displayName'
 			},
-			{ text: "Email Verified", value: "emailVerified" },
-			{ text: "Disabled", value: "disabled" },
-			{ text: "Nb Accounts", value: "nb_accounts" },
-			{ text: "Roles", value: "studioRolesIndex" },
-			{ text: "Actions", value: "action", sortable: false }
+			{ text: 'Email Verified', value: 'emailVerified' },
+			{ text: 'Disabled', value: 'disabled' },
+			{ text: 'Nb Accounts', value: 'nb_accounts' },
+			{ text: 'Roles', value: 'studioRolesIndex' },
+			{ text: 'Actions', value: 'action', sortable: false }
 		],
 		editedUserIndex: -1,
 		editedUser: {
-			email: "",
-			displayName: "",
+			email: '',
+			displayName: '',
 			emailVerified: false,
 			disabled: false,
 			creationTime: Date.now(),
-			password: "",
+			password: '',
 			showpassword: false,
 			rules: {
 				//required: value => !!value || "Required.",
-				min: v => v.length >= 8 || "Min 8 characters"
+				min: v => v.length >= 8 || 'Min 8 characters'
 			}
 		},
 		defaultUser: {
-			email: "",
-			displayName: "",
+			email: '',
+			displayName: '',
 			emailVerified: false,
 			disabled: false,
 			creationTime: Date.now(),
-			password: "",
+			password: '',
 			showpassword: false,
 			rules: {
 				//required: value => !!value || "Required.",
-				min: v => v.length >= 8 || "Min 8 characters"
+				min: v => v.length >= 8 || 'Min 8 characters'
 			}
 		},
 		studioRoles: [
-			{ roleName: "Member", roleCode: 0 },
-			{ roleName: "Viewer", roleCode: 1 },
-			{ roleName: "User", roleCode: 2 },
-			{ roleName: "Writer", roleCode: 3 },
-			{ roleName: "Admin", roleCode: 4 },
-			{ roleName: "Super Admin", roleCode: 5 }
+			{ roleName: 'Member', roleCode: 0 },
+			{ roleName: 'Viewer', roleCode: 1 },
+			{ roleName: 'User', roleCode: 2 },
+			{ roleName: 'Writer', roleCode: 3 },
+			{ roleName: 'Admin', roleCode: 4 },
+			{ roleName: 'Super Admin', roleCode: 5 }
 		],
-		search: "",
+		search: '',
 		isFetchAndAdding: false,
-		snackbarParam: { message: "", show: false, color: "info" }
+		snackbarParam: { message: '', show: false, color: 'info' }
 	}),
 	mounted() {
 		this.listAllUsers();
@@ -200,7 +200,7 @@ export default {
 	methods: {
 		listAllUsers() {
 			this.isFetchAndAdding = true;
-			const listAllUsers = firebase.functions().httpsCallable("listAllUsers");
+			const listAllUsers = firebase.functions().httpsCallable('listAllUsers');
 			//list all email users
 			listAllUsers({}).then(users => {
 				// store the users list
@@ -252,7 +252,7 @@ export default {
 		},
 		deleteUser(item) {
 			const index = this.users.indexOf(item);
-			confirm("Are you sure you want to delete this user?") && this.users.splice(index, 1);
+			confirm('Are you sure you want to delete this user?') && this.users.splice(index, 1);
 		},
 		close() {
 			this.dialog = false;
@@ -271,12 +271,12 @@ export default {
 		},
 		createUser() {
 			if (this.editedUserIndex > -1) {
-				const createUser = firebase.functions().httpsCallable("createUser");
+				const createUser = firebase.functions().httpsCallable('createUser');
 				createUser({
 					email: this.editedUser.email,
 					displayName: this.editedUser.displayName,
 					emailVerified: this.editedUser.emailVerified,
-					photoURL: "https://raw.githubusercontent.com/mkfeuhrer/JarvisBot/master/images/JarvisBot.gif",
+					photoURL: 'https://raw.githubusercontent.com/mkfeuhrer/JarvisBot/master/images/JarvisBot.gif',
 					password: this.editedUser.password,
 					disabled: this.editedUser.disabled,
 					accounts: this.selectedAccounts,
@@ -291,7 +291,7 @@ export default {
 		},
 		addRolesAndAccounts() {
 			if (this.editedUserIndex > -1) {
-				const addRolesAndAccounts = firebase.functions().httpsCallable("addRolesAndAccounts");
+				const addRolesAndAccounts = firebase.functions().httpsCallable('addRolesAndAccounts');
 				addRolesAndAccounts({
 					email: this.editedUser.email,
 					accounts: this.selectedAccounts,
@@ -311,9 +311,9 @@ export default {
 			user: state => state.user.user,
 			accounts: state => state.accounts.data
 		}),
-		...mapGetters(["periodFiltered", "whereConfFilter"]),
+		...mapGetters(['periodFiltered', 'whereConfFilter']),
 		formTitle() {
-			return this.editedUserIndex === -1 ? "New User" : "Edit User";
+			return this.editedUserIndex === -1 ? 'New User' : 'Edit User';
 		},
 		accountsFormated() {
 			return Object.values(this.accounts);

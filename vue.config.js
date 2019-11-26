@@ -1,8 +1,8 @@
 module.exports = {
 	configureWebpack: {
-		devtool: "source-map"
+		devtool: 'source-map'
 	},
-	lintOnSave: "error",
+	lintOnSave: 'error',
 	devServer: {
 		overlay: {
 			warnings: true,

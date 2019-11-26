@@ -112,14 +112,14 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-import { mapGetters } from "vuex";
-import VueJsonPretty from "vue-json-pretty";
-import store from "@/store/index";
-import moment from "moment";
-import _ from "lodash";
-import Util from "@/util";
-import DataManagementFilters from "./widgets/filters/DataManagementFilters";
+import { mapState } from 'vuex';
+import { mapGetters } from 'vuex';
+import VueJsonPretty from 'vue-json-pretty';
+import store from '@/store/index';
+import moment from 'moment';
+import _ from 'lodash';
+import Util from '@/util';
+import DataManagementFilters from './widgets/filters/DataManagementFilters';
 
 export default {
 	components: {
@@ -128,13 +128,13 @@ export default {
 	},
 	data: () => ({
 		expanded: [],
-		search: "",
+		search: '',
 		isFetchAndAdding: false,
-		fetchAndAddStatus: "",
+		fetchAndAddStatus: '',
 		moreToFetchAndAdd: false,
 		expand: false,
 		pagination: {
-			sortBy: "dag_execution_date_formated",
+			sortBy: 'dag_execution_date_formated',
 			descending: true,
 			rowsPerPage: 10
 		},
@@ -142,42 +142,42 @@ export default {
 		viewedItem: {},
 		headers: [
 			{
-				text: "Account ID",
-				align: "left",
+				text: 'Account ID',
+				align: 'left',
 				sortable: true,
-				value: "account"
+				value: 'account'
 			},
 			{
-				text: "Environnement",
-				align: "left",
+				text: 'Environnement',
+				align: 'left',
 				sortable: true,
-				value: "environment"
+				value: 'environment'
 			},
 			{
-				text: "Workflow Id Bucket",
-				align: "left",
+				text: 'Workflow Id Bucket',
+				align: 'left',
 				sortable: true,
-				value: "dag_id"
+				value: 'dag_id'
 			},
 			{
-				text: "# Tasks",
-				align: "left",
+				text: '# Tasks',
+				align: 'left',
 				sortable: true,
-				value: "nb_tasks"
+				value: 'nb_tasks'
 			},
 			{
-				text: "Status",
-				align: "left",
+				text: 'Status',
+				align: 'left',
 				sortable: true,
-				value: "status"
+				value: 'status'
 			},
 			{
-				text: "Execution Date",
-				align: "left",
+				text: 'Execution Date',
+				align: 'left',
 				sortable: true,
-				value: "dag_execution_date_formated"
+				value: 'dag_execution_date_formated'
 			},
-			{ text: "Actions", align: "center", value: "actions", sortable: false }
+			{ text: 'Actions', align: 'center', value: 'actions', sortable: false }
 		]
 	}),
 	mounted() {
@@ -195,18 +195,18 @@ export default {
 			}
 		},
 		openAirflowDagRunUrl(item) {
-			window.open(item.dag_execution_airflow_url, "_blank");
+			window.open(item.dag_execution_airflow_url, '_blank');
 		},
 		async getFirestoreData() {
 			const where = this.whereRunsFilter;
-			this.$data.fetchAndAddStatus = "Loading";
+			this.$data.fetchAndAddStatus = 'Loading';
 			this.$data.moreToFetchAndAdd = false;
 			this.$data.isFetchAndAdding = true;
 			try {
-				store.dispatch("getGbqToGbqRuns/closeDBChannel", {
+				store.dispatch('getGbqToGbqRuns/closeDBChannel', {
 					clearModule: true
 				});
-				let fetchResult = await store.dispatch("getGbqToGbqRuns/fetchAndAdd", {
+				let fetchResult = await store.dispatch('getGbqToGbqRuns/fetchAndAdd', {
 					where,
 					limit: 0
 				});
@@ -215,9 +215,9 @@ export default {
 				} else {
 					this.$data.moreToFetchAndAdd = true;
 				}
-				this.$data.fetchAndAddStatus = "Success";
+				this.$data.fetchAndAddStatus = 'Success';
 			} catch (e) {
-				this.$data.fetchAndAddStatus = "Error";
+				this.$data.fetchAndAddStatus = 'Error';
 				this.$data.isFetchAndAdding = false;
 				console.error(e);
 			}
@@ -233,7 +233,7 @@ export default {
 			dateFilters: state => state.filters.dateFilters,
 			minDateFilter: state => state.filters.minDateFilter
 		}),
-		...mapGetters(["periodFiltered", "whereRunsFilter"]),
+		...mapGetters(['periodFiltered', 'whereRunsFilter']),
 		getGbqToGbqRunsFormated() {
 			const dataArray = Object.values(this.getGbqToGbqRuns);
 			var dataFormated = dataArray.map(function(data) {
@@ -253,7 +253,7 @@ export default {
 					confCompliance: confCompliance,
 					confComplianceError: confComplianceError,
 					nb_tasks: nb_tasks,
-					dag_execution_date_formated: moment(data.dag_execution_date).format("YYYY/MM/DD - HH:mm"),
+					dag_execution_date_formated: moment(data.dag_execution_date).format('YYYY/MM/DD - HH:mm'),
 					dag_execution_date_from_now: moment(data.dag_execution_date).fromNow(),
 					//color for the status
 					statusColor: Util.getStatusColor(data.status),

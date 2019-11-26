@@ -1,5 +1,5 @@
-import firebase from "firebase";
-import router from "@/router";
+import firebase from 'firebase';
+import router from '@/router';
 
 const userData = {
 	state: {
@@ -38,14 +38,14 @@ const userData = {
 				.auth()
 				.signInWithEmailAndPassword(email, password)
 				.then(user => {
-					commit("setUser", user.user);
-					commit("setIsAuthenticated", true);
-					router.push("/");
+					commit('setUser', user.user);
+					commit('setIsAuthenticated', true);
+					router.push('/');
 				})
 				.catch(() => {
-					commit("setUser", null);
-					commit("setIsAuthenticated", false);
-					router.push("/signinEmail");
+					commit('setUser', null);
+					commit('setIsAuthenticated', false);
+					router.push('/signinEmail');
 				});
 		},
 		userGoogleSignin({ commit }) {
@@ -54,14 +54,14 @@ const userData = {
 				.auth()
 				.signInWithPopup(provider)
 				.then(user => {
-					commit("setUser", user.user);
-					commit("setIsAuthenticated", true);
-					router.push("/");
+					commit('setUser', user.user);
+					commit('setIsAuthenticated', true);
+					router.push('/');
 				})
 				.catch(() => {
-					commit("setUser", null);
-					commit("setIsAuthenticated", false);
-					router.push("/signinEmail");
+					commit('setUser', null);
+					commit('setIsAuthenticated', false);
+					router.push('/signinEmail');
 				});
 		},
 		userSignup({ commit }, { email, password }) {
@@ -69,32 +69,32 @@ const userData = {
 				.auth()
 				.createUserWithEmailAndPassword(email, password)
 				.then(user => {
-					commit("setUser", user.user);
-					commit("setIsAuthenticated", true);
-					router.push("/");
+					commit('setUser', user.user);
+					commit('setIsAuthenticated', true);
+					router.push('/');
 				})
 				.catch(() => {
-					commit("setUser", null);
-					commit("setIsAuthenticated", false);
-					router.push("/signinEmail");
+					commit('setUser', null);
+					commit('setIsAuthenticated', false);
+					router.push('/signinEmail');
 				});
 		},
 		autoSignIn({ commit }, payload) {
-			commit("setUser", payload);
-			commit("setIsAuthenticated", true);
+			commit('setUser', payload);
+			commit('setIsAuthenticated', true);
 		},
 		userSignOut({ commit }) {
-			router.push("/signinEmail");
+			router.push('/signinEmail');
 			firebase
 				.auth()
 				.signOut()
 				.then(() => {
-					commit("setUser", null);
-					commit("setIsAuthenticated", false);
+					commit('setUser', null);
+					commit('setIsAuthenticated', false);
 				})
 				.catch(() => {
-					commit("setUser", null);
-					commit("setIsAuthenticated", false);
+					commit('setUser', null);
+					commit('setIsAuthenticated', false);
 				});
 		}
 		// userAddAdminRole({ commit }, email) {

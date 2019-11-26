@@ -6,8 +6,8 @@
 </template>
 
 <script>
-import VmLauncherConfs from "../components/VmLauncherConfs";
-import DataManagementHeader from "../components/widgets/layout/DataManagementHeader";
+import VmLauncherConfs from '../components/VmLauncherConfs';
+import DataManagementHeader from '../components/widgets/layout/DataManagementHeader';
 
 export default {
 	components: {
@@ -16,11 +16,11 @@ export default {
 	},
 	data() {
 		return {
-			headerTitle: "VM Launcher",
+			headerTitle: 'VM Launcher',
 			tabsItems: [
-				{ id: 1, title: "Runs", link: "/runs/vmlauncher" },
-				{ id: 2, title: "Configurations", link: "/conf/vmlauncher" },
-				{ id: 3, title: "Documentation", link: "" }
+				{ id: 1, title: 'Runs', link: '/runs/vmlauncher' },
+				{ id: 2, title: 'Configurations', link: '/conf/vmlauncher' },
+				{ id: 3, title: 'Documentation', link: '' }
 			]
 		};
 	}

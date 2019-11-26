@@ -52,8 +52,8 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-import store from "@/store/index";
+import { mapState } from 'vuex';
+import store from '@/store/index';
 
 export default {
 	components: {},
@@ -66,13 +66,13 @@ export default {
 	created() {},
 	methods: {
 		applyEnvFilter(envFilterSelected) {
-			store.dispatch("applyEnvFilterSelected", envFilterSelected);
+			store.dispatch('applyEnvFilterSelected', envFilterSelected);
 		},
 		applyRunStatusFilter(runStatusSelected) {
-			store.dispatch("applyRunStatusFilterSelected", runStatusSelected);
+			store.dispatch('applyRunStatusFilterSelected', runStatusSelected);
 		},
 		applyDateFilter(dateFilterSelected) {
-			store.dispatch("applyDateFilterSelected", dateFilterSelected);
+			store.dispatch('applyDateFilterSelected', dateFilterSelected);
 		}
 	},
 	computed: {

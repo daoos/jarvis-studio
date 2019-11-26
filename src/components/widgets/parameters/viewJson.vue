@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import VueJsonPretty from "vue-json-pretty";
+import VueJsonPretty from 'vue-json-pretty';
 
 export default {
 	components: {
@@ -26,7 +26,7 @@ export default {
 		},
 		jsonID: {
 			type: String,
-			default: "Json Doc ID"
+			default: 'Json Doc ID'
 		},
 		deep: {
 			type: Number,

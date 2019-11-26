@@ -54,10 +54,10 @@
 </template>
 
 <script>
-import ParametersTable from "@/components/widgets/parameters/ParametersTable.vue";
-import HeaderDocView from "@/components/widgets/parameters/HeaderDocView.vue";
-import ParametersList from "@/components/widgets/parameters/ParametersList.vue";
-import CreateUpdateConfOverview from "@/components/widgets/configurations/CreateUpdateConfOverview.vue";
+import ParametersTable from '@/components/widgets/parameters/ParametersTable.vue';
+import HeaderDocView from '@/components/widgets/parameters/HeaderDocView.vue';
+import ParametersList from '@/components/widgets/parameters/ParametersList.vue';
+import CreateUpdateConfOverview from '@/components/widgets/configurations/CreateUpdateConfOverview.vue';
 export default {
 	components: {
 		HeaderDocView,
@@ -76,41 +76,41 @@ export default {
 	data: () => ({
 		sourceStorageColumns: [
 			{
-				label: "Type",
-				field: "source_type",
-				width: "100px"
+				label: 'Type',
+				field: 'source_type',
+				width: '100px'
 			},
 			{
-				label: "Storage ID",
-				field: "source_storage_id",
-				width: "200px"
+				label: 'Storage ID',
+				field: 'source_storage_id',
+				width: '200px'
 			},
 			{
-				label: "Source Folder",
-				field: "source_input_folder",
-				width: "200px"
+				label: 'Source Folder',
+				field: 'source_input_folder',
+				width: '200px'
 			},
 			{
-				label: "Archive Folder",
-				field: "source_archive_folder",
-				width: "200px"
+				label: 'Archive Folder',
+				field: 'source_archive_folder',
+				width: '200px'
 			}
 		],
 		destinationTableColumns: [
 			{
-				label: "GCP Project",
-				field: "gcp_project",
-				width: "150px"
+				label: 'GCP Project',
+				field: 'gcp_project',
+				width: '150px'
 			},
 			{
-				label: "Dataset",
-				field: "gbq_dataset",
-				width: "150px"
+				label: 'Dataset',
+				field: 'gbq_dataset',
+				width: '150px'
 			},
 			{
-				label: "Destination Table",
-				field: "table_name",
-				width: "200px"
+				label: 'Destination Table',
+				field: 'table_name',
+				width: '200px'
 			}
 		]
 	}),
@@ -123,12 +123,12 @@ export default {
 		tableDescription() {
 			return this.conf.table_description != undefined
 				? this.conf.table_description
-				: "⚠ Please, add a table description in the configuration file";
+				: '⚠ Please, add a table description in the configuration file';
 		},
 		sourceStorageRows() {
 			return [
 				{
-					source_type: "GCS",
+					source_type: 'GCS',
 					source_storage_id: this.conf.source_bucket,
 					source_input_folder: this.conf.gcs_prefix,
 					source_archive_folder: this.conf.archive_prefix
@@ -146,15 +146,15 @@ export default {
 		},
 		paramContext() {
 			return [
-				{ id: "account", label: "Account", value: this.conf.account },
+				{ id: 'account', label: 'Account', value: this.conf.account },
 				{
-					id: "environment",
-					label: "Environment",
+					id: 'environment',
+					label: 'Environment',
 					value: this.conf.environment
 				},
 				{
-					id: "filetemplate",
-					label: "File Name Template",
+					id: 'filetemplate',
+					label: 'File Name Template',
 					value: this.conf.id
 				}
 			];
@@ -162,28 +162,28 @@ export default {
 		paramItems() {
 			return [
 				{
-					id: "create_disposition",
-					label: "Create Disposition",
+					id: 'create_disposition',
+					label: 'Create Disposition',
 					value: this.conf.create_disposition
 				},
 				{
-					id: "field_delimiter",
-					label: "Field Delimiter",
+					id: 'field_delimiter',
+					label: 'Field Delimiter',
 					value: this.conf.field_delimiter
 				},
 				{
-					id: "skip_leading_rows",
-					label: "Skip Leading Rows",
+					id: 'skip_leading_rows',
+					label: 'Skip Leading Rows',
 					value: this.conf.skip_leading_rows
 				},
 				{
-					id: "source_format",
-					label: "Source Format",
+					id: 'source_format',
+					label: 'Source Format',
 					value: this.conf.source_format
 				},
 				{
-					id: "write_disposition",
-					label: "Write Disposition",
+					id: 'write_disposition',
+					label: 'Write Disposition',
 					value: this.conf.write_disposition
 				}
 			];
@@ -191,52 +191,52 @@ export default {
 		paramItemsOptions() {
 			return [
 				{
-					id: "bq_load_job_ignore_unknown_values",
-					label: "Ignore extra values",
+					id: 'bq_load_job_ignore_unknown_values',
+					label: 'Ignore extra values',
 					value: this.conf.bq_load_job_ignore_unknown_values,
-					default: "false",
-					description: "Ignore extra values not represented in the table schema."
+					default: 'false',
+					description: 'Ignore extra values not represented in the table schema.'
 				},
 				{
-					id: "bq_load_job_max_bad_records",
-					label: "Max bad records",
+					id: 'bq_load_job_max_bad_records',
+					label: 'Max bad records',
 					value: this.conf.bq_load_job_max_bad_records,
-					default: "0",
-					description: "Number of invalid rows to ignore."
+					default: '0',
+					description: 'Number of invalid rows to ignore.'
 				},
 				{
-					id: "bq_load_job_quote_character",
-					label: "Quote Character",
+					id: 'bq_load_job_quote_character',
+					label: 'Quote Character',
 					value: this.conf.bq_load_job_quote_character,
 					default: `"`
 				},
 				{
-					id: "bq_load_job_schema_update_options",
-					label: "Schema Update Options",
+					id: 'bq_load_job_schema_update_options',
+					label: 'Schema Update Options',
 					value: this.conf.bq_load_job_schema_update_options,
-					default: "[ ]",
-					description: "Specifies updates to the destination table schema to allow as a side effect of the load job."
+					default: '[ ]',
+					description: 'Specifies updates to the destination table schema to allow as a side effect of the load job.'
 				},
 				{
-					id: "bq_load_job_null_marker",
-					label: "Null Marker",
+					id: 'bq_load_job_null_marker',
+					label: 'Null Marker',
 					value: this.conf.bq_load_job_null_marker,
 					default: '""',
-					description: "Represents a null value (CSV only)."
+					description: 'Represents a null value (CSV only).'
 				},
 				{
-					id: "bq_load_job_allow_quoted_newlines",
-					label: "Allow quoted new lines",
+					id: 'bq_load_job_allow_quoted_newlines',
+					label: 'Allow quoted new lines',
 					value: this.conf.bq_load_job_allow_quoted_newlines,
-					default: "false",
-					description: "Allow quoted data containing newline characters (CSV only)."
+					default: 'false',
+					description: 'Allow quoted data containing newline characters (CSV only).'
 				},
 				{
-					id: "bq_load_job_allow_jagged_rows",
-					label: "Allow jagged rows",
+					id: 'bq_load_job_allow_jagged_rows',
+					label: 'Allow jagged rows',
 					value: this.conf.bq_load_job_allow_jagged_rows,
-					default: "false",
-					description: "Allow missing trailing optional columns (CSV only)."
+					default: 'false',
+					description: 'Allow missing trailing optional columns (CSV only).'
 				}
 			];
 		}

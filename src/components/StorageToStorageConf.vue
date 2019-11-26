@@ -37,10 +37,10 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-import StorageToStorageConfView from "./widgets/configurations/StorageToStorageConfView";
-import viewJson from "@/components/widgets/parameters/viewJson.vue";
-import store from "@/store/index";
+import { mapState } from 'vuex';
+import StorageToStorageConfView from './widgets/configurations/StorageToStorageConfView';
+import viewJson from '@/components/widgets/parameters/viewJson.vue';
+import store from '@/store/index';
 
 export default {
 	components: {
@@ -58,11 +58,11 @@ export default {
 	},
 	methods: {
 		async getFirestoreData() {
-			await store.dispatch("storageToStorageConf/closeDBChannel", {
+			await store.dispatch('storageToStorageConf/closeDBChannel', {
 				clearModule: true
 			});
 			await store
-				.dispatch("storageToStorageConf/fetchAndAdd", {
+				.dispatch('storageToStorageConf/fetchAndAdd', {
 					itemId: this.itemId
 				})
 				.catch(console.error);

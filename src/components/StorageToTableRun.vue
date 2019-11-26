@@ -58,12 +58,12 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-import store from "@/store/index";
-import viewJson from "@/components/widgets/parameters/viewJson.vue";
-import StorageToTableRunView from "@/components/widgets/runs/StorageToTableRunView.vue";
-import storageToTableConfOverview from "@/components/widgets/configurations/StorageToTableConfOverview.vue";
-import tableSchemaView from "@/components/widgets/configurations/TableSchemaView.vue";
+import { mapState } from 'vuex';
+import store from '@/store/index';
+import viewJson from '@/components/widgets/parameters/viewJson.vue';
+import StorageToTableRunView from '@/components/widgets/runs/StorageToTableRunView.vue';
+import storageToTableConfOverview from '@/components/widgets/configurations/StorageToTableConfOverview.vue';
+import tableSchemaView from '@/components/widgets/configurations/TableSchemaView.vue';
 
 export default {
 	components: {
@@ -84,11 +84,11 @@ export default {
 	},
 	methods: {
 		async getFirestoreData() {
-			await store.dispatch("storageToTableRun/closeDBChannel", {
+			await store.dispatch('storageToTableRun/closeDBChannel', {
 				clearModule: true
 			});
 			await store
-				.dispatch("storageToTableRun/fetchAndAdd", {
+				.dispatch('storageToTableRun/fetchAndAdd', {
 					itemId: this.itemId
 				})
 				.catch(console.error);

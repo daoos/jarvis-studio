@@ -1,8 +1,8 @@
 const dagruns = {
-	firestorePath: "composer-dag-runs",
-	firestoreRefType: "collection", // 'collection' or 'doc'
-	moduleName: "dagruns",
-	statePropName: "data",
+	firestorePath: 'composer-dag-runs',
+	firestoreRefType: 'collection', // 'collection' or 'doc'
+	moduleName: 'dagruns',
+	statePropName: 'data',
 	namespaced: true, // automatically added
 
 	// this object is your store module (will be added as '/myModule')

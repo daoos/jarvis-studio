@@ -1,8 +1,8 @@
 const getGbqToGcsRuns = {
-	firestorePath: "gbq-to-gcs-runs",
-	firestoreRefType: "collection", // 'collection' or 'doc'
-	moduleName: "getGbqToGcsRuns",
-	statePropName: "data",
+	firestorePath: 'gbq-to-gcs-runs',
+	firestoreRefType: 'collection', // 'collection' or 'doc'
+	moduleName: 'getGbqToGcsRuns',
+	statePropName: 'data',
 	namespaced: true, // automatically added
 
 	// this object is your store module (will be added as '/myModule')

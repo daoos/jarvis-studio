@@ -6,8 +6,8 @@
 </template>
 
 <script>
-import WorkflowConfs from "../components/WorkflowConfs";
-import DataManagementHeader from "../components/widgets/layout/DataManagementHeader";
+import WorkflowConfs from '../components/WorkflowConfs';
+import DataManagementHeader from '../components/widgets/layout/DataManagementHeader';
 
 export default {
 	components: {
@@ -16,11 +16,11 @@ export default {
 	},
 	data() {
 		return {
-			headerTitle: "Workflows",
+			headerTitle: 'Workflows',
 			tabsItems: [
-				{ id: 1, title: "Status", link: "/status/workflow" },
-				{ id: 2, title: "Configurations", link: "/conf/workflow" },
-				{ id: 3, title: "Documentation", link: "" }
+				{ id: 1, title: 'Status', link: '/status/workflow' },
+				{ id: 2, title: 'Configurations', link: '/conf/workflow' },
+				{ id: 3, title: 'Documentation', link: '' }
 			]
 		};
 	}

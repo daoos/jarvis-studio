@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import ParametersTable from "@/components/widgets/parameters/ParametersTable.vue";
+import ParametersTable from '@/components/widgets/parameters/ParametersTable.vue';
 export default {
 	components: { ParametersTable },
 	props: {
@@ -23,20 +23,20 @@ export default {
 		return {
 			schemaColumns: [
 				{
-					label: "Name",
-					field: "name"
+					label: 'Name',
+					field: 'name'
 				},
 				{
-					label: "Type",
-					field: "type"
+					label: 'Type',
+					field: 'type'
 				},
 				{
-					label: "Mode",
-					field: "mode"
+					label: 'Mode',
+					field: 'mode'
 				},
 				{
-					label: "Description",
-					field: "description"
+					label: 'Description',
+					field: 'description'
 				}
 			]
 		};

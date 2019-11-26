@@ -44,17 +44,17 @@
 </template>
 
 <script>
-import AppBar from "./components/app/AppBar";
-import FooterContent from "./components/app/FooterContent";
-import NavigationContent from "./components/app/NavigationContent";
-import NotificationContent from "./components/app/NotificationContent";
+import AppBar from './components/app/AppBar';
+import FooterContent from './components/app/FooterContent';
+import NavigationContent from './components/app/NavigationContent';
+import NotificationContent from './components/app/NotificationContent';
 
-import { mapState } from "vuex";
-import analyticsItems from "./navigation/analytics-items";
-import settingsItems from "./navigation/settings-items";
+import { mapState } from 'vuex';
+import analyticsItems from './navigation/analytics-items';
+import settingsItems from './navigation/settings-items';
 
 export default {
-	name: "app",
+	name: 'app',
 	components: { AppBar, FooterContent, NavigationContent, NotificationContent },
 	data: () => ({
 		navigationDrawer: {
@@ -79,7 +79,7 @@ export default {
 		})
 	},
 	watch: {
-		"$vuetify.breakpoint.lgAndUp"(isUp) {
+		'$vuetify.breakpoint.lgAndUp'(isUp) {
 			this.makeNavigationResponsive(isUp);
 		}
 	},
@@ -106,5 +106,5 @@ export default {
 </script>
 
 <style lang="scss">
-@import "scss/transitions/fade";
+@import 'scss/transitions/fade';
 </style>

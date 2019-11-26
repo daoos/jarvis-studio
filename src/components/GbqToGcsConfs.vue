@@ -114,15 +114,15 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-import { mapGetters } from "vuex";
-import VueJsonPretty from "vue-json-pretty";
-import store from "@/store/index";
-import _ from "lodash";
-import Util from "@/util";
-import DataManagementFilters from "./widgets/filters/DataManagementFilters";
-import ActivatedStatusChip from "./widgets/datatablewidgets/ActivatedStatusChip.vue";
-import ConfsComponent from "@/mixins/confsComponent.js";
+import { mapState } from 'vuex';
+import { mapGetters } from 'vuex';
+import VueJsonPretty from 'vue-json-pretty';
+import store from '@/store/index';
+import _ from 'lodash';
+import Util from '@/util';
+import DataManagementFilters from './widgets/filters/DataManagementFilters';
+import ActivatedStatusChip from './widgets/datatablewidgets/ActivatedStatusChip.vue';
+import ConfsComponent from '@/mixins/confsComponent.js';
 
 export default {
 	mixins: [ConfsComponent],
@@ -133,13 +133,13 @@ export default {
 	},
 	data: () => ({
 		expanded: [],
-		search: "",
+		search: '',
 		isFetchAndAdding: false,
-		fetchAndAddStatus: "",
+		fetchAndAddStatus: '',
 		moreToFetchAndAdd: false,
 		expand: false,
 		pagination: {
-			sortBy: "table_name",
+			sortBy: 'table_name',
 			descending: true,
 			rowsPerPage: 10
 		},
@@ -147,48 +147,48 @@ export default {
 		viewedItem: {},
 		headers: [
 			{
-				text: "Account ID",
-				align: "left",
+				text: 'Account ID',
+				align: 'left',
 				sortable: true,
-				value: "account"
+				value: 'account'
 			},
 			{
-				text: "Environnement",
-				align: "left",
+				text: 'Environnement',
+				align: 'left',
 				sortable: true,
-				value: "environment"
+				value: 'environment'
 			},
 			{
-				text: "Generated File",
-				align: "left",
+				text: 'Generated File',
+				align: 'left',
 				sortable: true,
-				value: "table_name"
+				value: 'table_name'
 			},
 			{
-				text: "BQ Project Id",
-				align: "left",
+				text: 'BQ Project Id',
+				align: 'left',
 				sortable: true,
-				value: "gcp_project"
+				value: 'gcp_project'
 			},
 			{
-				text: "Destination Bucket",
-				align: "left",
+				text: 'Destination Bucket',
+				align: 'left',
 				sortable: true,
-				value: "gcs_dest_bucket"
+				value: 'gcs_dest_bucket'
 			},
 			{
-				text: "Destination Prefix",
-				align: "left",
+				text: 'Destination Prefix',
+				align: 'left',
 				sortable: true,
-				value: "gcs_dest_prefix"
+				value: 'gcs_dest_prefix'
 			},
 			{
-				text: "Status",
-				align: "left",
+				text: 'Status',
+				align: 'left',
 				sortable: true,
-				value: "activated"
+				value: 'activated'
 			},
-			{ text: "Actions", align: "center", value: "actions", sortable: false }
+			{ text: 'Actions', align: 'center', value: 'actions', sortable: false }
 		]
 	}),
 	mounted() {
@@ -207,14 +207,14 @@ export default {
 		},
 		async getFirestoreData() {
 			const where = this.whereConfFilter;
-			this.$data.fetchAndAddStatus = "Loading";
+			this.$data.fetchAndAddStatus = 'Loading';
 			this.$data.moreToFetchAndAdd = false;
 			this.$data.isFetchAndAdding = true;
 			try {
-				store.dispatch("getGbqToGcsConfs/closeDBChannel", {
+				store.dispatch('getGbqToGcsConfs/closeDBChannel', {
 					clearModule: true
 				});
-				let fetchResult = await store.dispatch("getGbqToGcsConfs/fetchAndAdd", {
+				let fetchResult = await store.dispatch('getGbqToGcsConfs/fetchAndAdd', {
 					where,
 					limit: 0
 				});
@@ -223,11 +223,11 @@ export default {
 				} else {
 					this.$data.moreToFetchAndAdd = true;
 				}
-				this.$data.fetchAndAddStatus = "Success";
+				this.$data.fetchAndAddStatus = 'Success';
 			} catch (e) {
-				console.log("Firestore Error catched");
+				console.log('Firestore Error catched');
 				console.log(e);
-				this.$data.fetchAndAddStatus = "Error";
+				this.$data.fetchAndAddStatus = 'Error';
 				this.$data.isFetchAndAdding = false;
 			}
 			this.$data.isFetchAndAdding = false;
@@ -240,7 +240,7 @@ export default {
 			settings: state => state.settings,
 			getGbqToGcsConfs: state => state.getGbqToGcsConfs.data
 		}),
-		...mapGetters(["periodFiltered", "whereConfFilter"]),
+		...mapGetters(['periodFiltered', 'whereConfFilter']),
 		getGbqToGcsConfsFormated() {
 			const dataArray = Object.values(this.getGbqToGcsConfs);
 			var dataFormated = dataArray.map(function(data) {
