@@ -1,12 +1,15 @@
 <template>
 	<v-container fluid>
 		<v-toolbar class="elevation-0" color="transparent">
-			<v-text-field v-model="search" append-icon="search" label="Search" single-line hide-details></v-text-field>
-			<v-spacer></v-spacer>
+			<v-text-field v-model="search" append-icon="search" label="Search" single-line hide-details />
+
+			<v-spacer />
+
 			<v-dialog v-model="dialog" max-width="700px">
 				<template v-slot:activator="{ on }">
 					<v-btn color="primary" dark class="mb-2" v-on="on">New User</v-btn>
 				</template>
+
 				<v-card>
 					<v-card-title>
 						<span class="headline">{{ formTitle }}</span>
@@ -18,9 +21,11 @@
 								<v-col cols="12" sm="12" md="12">
 									<v-text-field v-model="editedUser.email" label="Email"></v-text-field>
 								</v-col>
+
 								<v-col cols="12" sm="12" md="12">
 									<v-text-field v-model="editedUser.displayName" label="Display Name"></v-text-field>
 								</v-col>
+
 								<v-col cols="12" sm="12" md="12">
 									<v-text-field
 										v-model="editedUser.password"
@@ -31,13 +36,16 @@
 										hint="At least 8 characters"
 										counter
 										@click:append="editedUser.showpassword = !editedUser.showpassword"
-									></v-text-field>
+									/>
 								</v-col>
+
 								<v-col cols="12" sm="12" md="12">
 									<v-text-field v-model="editedUser.emailVerified" label="Email Verified"></v-text-field>
 								</v-col>
+
 								<v-col cols="12" sm="12" md="12">
-									<v-text-field v-model="editedUser.disabled" label="Disabled"></v-text-field>
+									<v-text-field v-model="editedUser.disabled" label="Disabled" />
+
 									<v-select
 										v-model="selectedAccounts"
 										:items="accountsFormated"
@@ -48,7 +56,8 @@
 										persistent-hint
 										item-text="account_name"
 										item-value="id"
-									></v-select>
+									/>
+
 									<v-select
 										v-model="selectedRoles"
 										:items="studioRoles"
@@ -59,23 +68,27 @@
 										item-key="roleName"
 										item-text="roleName"
 										item-value="roleCode"
-									></v-select>
+									/>
 								</v-col>
 							</v-row>
 						</v-container>
 					</v-card-text>
 
 					<v-card-actions>
-						<v-spacer></v-spacer>
+						<v-spacer />
+
 						<v-btn color="blue darken-1" flat @click="close">Cancel</v-btn>
 						<v-btn color="blue darken-1" flat @click="createUser">Create User</v-btn>
 						<v-btn color="blue darken-1" flat @click="addRolesAndAccounts">Update User</v-btn>
 					</v-card-actions>
 				</v-card>
 			</v-dialog>
+
 			<v-icon right @click="listAllUsers" v-if="!isFetchAndAdding">refresh</v-icon>
-			<v-progress-circular indeterminate size="20" color="primary" v-if="isFetchAndAdding"></v-progress-circular>
+
+			<v-progress-circular indeterminate size="20" color="primary" v-if="isFetchAndAdding" />
 		</v-toolbar>
+
 		<v-data-table
 			:headers="headers"
 			:items="users"
@@ -84,34 +97,29 @@
 			:loading="isFetchAndAdding"
 			:sort-by.sync="pagination.sortBy"
 			:sort-desc.sync="pagination.descending"
-			item-key="email"
+			item-key="key"
 			light
 		>
-			<template v-slot:items="props">
-				<td>{{ props.item.email }}</td>
-				<td>{{ props.item.displayName }}</td>
-				<td>{{ props.item.emailVerified }}</td>
-				<td>{{ props.item.disabled }}</td>
-				<td>{{ props.item.nb_accounts }}</td>
-				<td>{{ props.item.studioRolesIndex }}</td>
-				<td class="justify-center layout px-0">
-					<v-icon small class="mr-2" @click="editUser(props.item)">
+			<template v-slot:item.action="{ item }">
+				<div class="justify-center layout px-0">
+					<v-icon small class="mr-2" @click="editUser(item)">
 						edit
 					</v-icon>
-					<v-icon small @click="deleteUser(props.item)">
+
+					<v-icon small @click="deleteUser(item)">
 						delete
 					</v-icon>
-				</td>
+				</div>
 			</template>
+
 			<template v-slot:no-data>
 				<v-btn color="primary" @click="listAllUsers">Reset</v-btn>
 			</template>
 		</v-data-table>
+
 		<v-snackbar v-model="snackbarParam.show" :color="snackbarParam.color" :timeout="2000">
 			{{ snackbarParam.message }}
-			<v-btn flat @click="snackbarParam.show = false">
-				Close
-			</v-btn>
+			<v-btn flat @click="snackbarParam.show = false">Close</v-btn>
 		</v-snackbar>
 	</v-container>
 </template>
@@ -124,8 +132,8 @@ import _ from 'lodash';
 import ConfsComponent from '@/mixins/confsComponent.js';
 
 export default {
+	name: 'users-content',
 	mixins: [ConfsComponent],
-	components: {},
 	data: () => ({
 		users: [],
 		selectedAccounts: [],
