@@ -20,7 +20,7 @@
 
 									<div class="card-title-right">
 										<v-tooltip bottom>
-											<template v-slot:activator="{ on }">
+											<template v-slot:activator>
 												<span> Last Update: {{ refreshedTimestamp.dateFromNow }} </span>
 											</template>
 											<span>{{ refreshedTimestamp.dateFormated }}</span>
