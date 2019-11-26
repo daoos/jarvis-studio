@@ -104,7 +104,7 @@
 			</v-alert>
 		</v-data-table>
 
-		<v-snackbar v-model="snackbarParam.show" :color="snackbarParam.color" :timeout="2000" auto-height>
+		<v-snackbar v-model="snackbarParam.show" :color="snackbarParam.color" :timeout="2000">
 			{{ snackbarParam.message }}
 			<v-btn flat @click="snackbarParam.show = false">
 				Close
@@ -120,11 +120,12 @@ import VueJsonPretty from 'vue-json-pretty';
 import store from '@/store/index';
 import _ from 'lodash';
 import Util from '@/util';
-import DataManagementFilters from './widgets/filters/DataManagementFilters';
-import ActivatedStatusChip from './widgets/datatablewidgets/ActivatedStatusChip.vue';
+import DataManagementFilters from '../widgets/filters/DataManagementFilters';
+import ActivatedStatusChip from '../widgets/datatablewidgets/ActivatedStatusChip.vue';
 import ConfsComponent from '@/mixins/confsComponent.js';
 
 export default {
+	name: 'configurations-listing',
 	mixins: [ConfsComponent],
 	components: {
 		VueJsonPretty,

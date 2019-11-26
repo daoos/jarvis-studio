@@ -208,7 +208,7 @@ export default [
 		meta: {
 			authRequired: true
 		},
-		component: () => import(/* webpackChunkName: "gbqtogcsconfs" */ '@/views/GbqToGcsConfs.vue'),
+		component: () => import(/* webpackChunkName: "gbqtogcsconfs" */ '@/views/GbqToGcs/ConfigurationsView.vue'),
 		alias: '/conf/gbqtogcs'
 	},
 	{
