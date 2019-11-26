@@ -8,7 +8,7 @@
 
 		<search-menu v-if="$vuetify.breakpoint.smAndUp" />
 
-		<v-tooltip v-slot:activator="{ on }" bottom>
+		<v-tooltip v-slot:activator bottom>
 			<v-btn icon @click="$emit('toggleNotifications')">
 				<v-badge color="red" overlap>
 					<span slot="badge">2</span>
