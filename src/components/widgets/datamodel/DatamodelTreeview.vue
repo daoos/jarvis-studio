@@ -1,20 +1,21 @@
 <template>
 	<v-col>
+		<v-progress-linear v-if="isLoading" color="complementary" indeterminate />
+
 		<v-treeview
-			:active.sync="active"
+			v-else
 			:items="items"
-			:load-children="fetchTables"
 			:open.sync="open"
+			:active.sync="active"
+			:load-children="fetchTables"
+			open-on-click
+			transition
 			activatable
 			active-class="primary--text"
 			class="transparent"
-			open-on-click
-			transition
 		>
 			<template v-slot:prepend="{ item, active }">
-				<v-icon v-if="!item.children" :color="active ? 'primary' : ''">
-					table_chart
-				</v-icon>
+				<v-icon v-if="!item.children" :color="active ? 'primary' : 'white'">table_chart</v-icon>
 			</template>
 		</v-treeview>
 	</v-col>
@@ -22,78 +23,57 @@
 
 <script>
 import { mapState } from "vuex";
-import store from "@/store/index";
+import store from "@/store";
 
 export default {
+	name: "data-model-tree-view",
 	data: () => ({
-		fetchAndAddStatus: "",
-		moreToFetchAndAdd: false,
-		isFetchAndAdding: false,
 		active: [],
 		open: [],
-		items: [{ id: "Loading", name: "Loading" }]
+		items: [],
+		isLoading: true
 	}),
-
-	computed: {
-		...mapState({
-			isAuthenticated: state => state.user.isAuthenticated,
-			user: state => state.user.user,
-			settings: state => state.settings,
-			dataModels: state => state.dataModels.data
-		})
-	},
-
-	watch: {
-		active: function() {
-			if (!this.active.length) return undefined;
-			const id = this.active[0];
-			const projectId = id.split("/")[0];
-			const datasetId = id.split("/")[1];
-			const tableId = id.split("/")[2];
-			this.$router.push({
-				name: "DataTableDetails",
-				params: { projectId: projectId, datasetId: datasetId, tableId: tableId }
-			});
-		}
-	},
-	async mounted() {
-		await this.getDataModel();
+	mounted() {
+		this.getDataModel();
 	},
 	methods: {
-		async getDataModel() {
-			return this.$store
+		getDataModel() {
+			this.$store
 				.dispatch("dataModels/fetchAndAdd", { limit: 0 })
 				.then(() => {
-					const dataModelsArray = Object.values(this.dataModels);
-					var dataModelsFormated = dataModelsArray.map(function(data) {
+					const dataModelsValues = Object.values(this.dataModels);
+					const dataModelsFormatted = dataModelsValues.map(data => {
+						let subCollectionsFormatted = [];
 						const projectId = data.id;
-						// format the sub_collections array to by compatible with the treeview componenent
-						let sub_collections_formated = [];
+
 						data.sub_collections.forEach(function(dataset) {
-							// add name, project id (used to fetch dataTable Later), type (to select the icon in the treeview), empty children to trigger the fetchTables function when necessary
-							let id = projectId.concat("/", dataset);
-							sub_collections_formated.push({
-								id: id,
+							// add name, project id (used to fetch dataTable Later), type (to select the icon in the treeview),
+							// empty children to trigger the fetchTables function when necessary
+							subCollectionsFormatted.push({
+								id: projectId.concat("/", dataset),
 								name: dataset,
 								projectId: projectId,
 								type: "dataset",
 								children: []
 							});
 						});
+
 						return {
 							name: data.id,
 							id: data.id,
 							type: "Project",
-							children: sub_collections_formated
+							children: subCollectionsFormatted
 						};
 					});
-					this.items = dataModelsFormated;
+
+					this.isLoading = false;
+					this.items = dataModelsFormatted;
 				})
 				.catch(console.error);
 		},
-		async fetchTables(item) {
+		fetchTables(item) {
 			store.dispatch("dataTables/closeDBChannel", { clearModule: true });
-			console.log("fetchTables for item ", item);
+
 			return this.$store
 				.dispatch("dataTables/fetchAndAdd", {
 					projectId: item.projectId,
@@ -101,18 +81,31 @@ export default {
 					limit: 0
 				})
 				.then(querySnapshot => {
-					console.log("querySnapshot.docs", querySnapshot.docs);
+					const dataTablesFormatted = querySnapshot.docs.map(data => ({
+						id: item.projectId.concat("/", item.name, "/", data.id),
+						name: data.id,
+						type: "table"
+					}));
 
-					var dataTablesFormated = querySnapshot.docs.map(function(data) {
-						return {
-							id: item.projectId.concat("/", item.name, "/", data.id),
-							name: data.id,
-							type: "table"
-						};
-					});
-					item.children.push(...dataTablesFormated);
+					item.children.push(...dataTablesFormatted);
 				})
 				.catch(console.error);
+		}
+	},
+	computed: {
+		...mapState({
+			dataModels: state => state.dataModels.data
+		})
+	},
+	watch: {
+		active: function() {
+			if (!this.active.length) return;
+
+			const id = this.active[0];
+			this.$router.push({
+				name: "DataTableDetails",
+				params: { projectId: id.split("/")[0], datasetId: id.split("/")[1], tableId: id.split("/")[2] }
+			});
 		}
 	}
 };

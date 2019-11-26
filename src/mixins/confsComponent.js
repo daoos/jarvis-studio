@@ -21,23 +21,23 @@ export default {
 			// The path of the collection the item belong to
 			const collectionPath = "".concat(collection, "/patch");
 			switch (item.activated) {
-				case true:
-					this.snackbarParam.message = "Configuration disabled";
-					this.snackbarParam.color = Util.getActiveConfColor(false);
-					store.dispatch(collectionPath, { id, activated: false }).then((this.snackbarParam.show = true));
-					break;
-				case false:
-					this.snackbarParam.message = "Configuration activated";
-					this.snackbarParam.color = Util.getActiveConfColor(true);
-					store.dispatch(collectionPath, { id, activated: true }).then((this.snackbarParam.show = true));
-					break;
-				default:
-					this.alertParam.color = "error";
-					this.alertParam.message =
+			case true:
+				this.snackbarParam.message = "Configuration disabled";
+				this.snackbarParam.color = Util.getActiveConfColor(false);
+				store.dispatch(collectionPath, { id, activated: false }).then((this.snackbarParam.show = true));
+				break;
+			case false:
+				this.snackbarParam.message = "Configuration activated";
+				this.snackbarParam.color = Util.getActiveConfColor(true);
+				store.dispatch(collectionPath, { id, activated: true }).then((this.snackbarParam.show = true));
+				break;
+			default:
+				this.alertParam.color = "error";
+				this.alertParam.message =
 						"The Activated attribute is not well set in the source configuration. Please update and deploy it again";
-					this.alertParam.show = "true";
-					this.alertParam.icon = "error";
-					break;
+				this.alertParam.show = "true";
+				this.alertParam.icon = "error";
+				break;
 			}
 		}
 	}

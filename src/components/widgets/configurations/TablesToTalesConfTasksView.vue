@@ -343,18 +343,18 @@ export default {
 			let tasksFull = this.tasksConf;
 			for (i = 0; i < tasksFull.length; i++) {
 				switch (tasksFull[i].task_type) {
-					case "create_gbq_table":
-						break;
-					case "copy_gbq_table":
-						break;
-					case "sql":
-						//extract the SQL filename to find the binary SQL present in the tasksSql Object
-						tasksFull[i].sql = this.prepareSQL(this.tasksSQL[tasksFull[i].id]);
-						break;
-					default:
-						tasksFull[i].task_type = "sql";
-						//extract the binary SQL present in the tasksSql Object
-						tasksFull[i].sql = this.prepareSQL(this.tasksSQL[tasksFull[i].id]);
+				case "create_gbq_table":
+					break;
+				case "copy_gbq_table":
+					break;
+				case "sql":
+					//extract the SQL filename to find the binary SQL present in the tasksSql Object
+					tasksFull[i].sql = this.prepareSQL(this.tasksSQL[tasksFull[i].id]);
+					break;
+				default:
+					tasksFull[i].task_type = "sql";
+					//extract the binary SQL present in the tasksSql Object
+					tasksFull[i].sql = this.prepareSQL(this.tasksSQL[tasksFull[i].id]);
 				}
 			}
 			return tasksFull;

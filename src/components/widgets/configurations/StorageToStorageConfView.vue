@@ -250,15 +250,15 @@ export default {
 		sourceStorageColumns() {
 			let sourceStorageColumns = {};
 			switch (this.conf.source.type) {
-				case "gcs":
-					sourceStorageColumns = this.gcsSourceStorageColumns;
-					break;
-				case "s3":
-					sourceStorageColumns = this.s3SourceStorageColumns;
-					break;
-				case "sftp":
-					sourceStorageColumns = this.sftpSourceStorageColumns;
-					break;
+			case "gcs":
+				sourceStorageColumns = this.gcsSourceStorageColumns;
+				break;
+			case "s3":
+				sourceStorageColumns = this.s3SourceStorageColumns;
+				break;
+			case "sftp":
+				sourceStorageColumns = this.sftpSourceStorageColumns;
+				break;
 			}
 			return sourceStorageColumns;
 		},
@@ -267,34 +267,34 @@ export default {
 			let sourceStorageRows = [];
 			let sourceStorageRow = {};
 			switch (source_type) {
-				case "gcs":
-					// sourceStorage attribut for GCS bucket
-					sourceStorageRow.type = this.conf.source.type;
-					sourceStorageRow.gcs_source_bucket = this.conf.source.gcs_source_bucket;
-					sourceStorageRow.gcs_source_prefix = this.conf.source.gcs_source_prefix;
-					sourceStorageRow.gcs_archive_prefix = this.conf.source.gcs_archive_prefix;
-					sourceStorageRow.gcp_credentials_secret = this.conf.source.gcp_credentials_secret;
-					sourceStorageRows.push(sourceStorageRow);
-					break;
-				case "s3":
-					// sourceStorage attribut for S3 bucket
-					sourceStorageRow.type = this.conf.source.type;
-					sourceStorageRow.aws_access_key = this.conf.source.aws_access_key;
-					sourceStorageRow.aws_access_key_secret = this.conf.source.aws_access_key_secret;
-					sourceStorageRows.push(sourceStorageRow);
-					break;
-				case "sftp":
-					// sourceStorage attribut for sftp folder
-					sourceStorageRow.type = this.conf.source.type;
-					sourceStorageRow.sftp_source_filename = this.conf.source.sftp_source_filename;
-					sourceStorageRow.sftp_source_directory = this.conf.source.sftp_source_directory;
-					sourceStorageRow.sftp_host = this.conf.source.sftp_host;
-					sourceStorageRow.sftp_port = this.conf.source.sftp_port;
-					sourceStorageRow.sftp_userid = this.conf.source.sftp_userid;
-					sourceStorageRow.sftp_password_secret = this.conf.source.sftp_password_secret;
-					sourceStorageRows.push(sourceStorageRow);
-					break;
-				default:
+			case "gcs":
+				// sourceStorage attribut for GCS bucket
+				sourceStorageRow.type = this.conf.source.type;
+				sourceStorageRow.gcs_source_bucket = this.conf.source.gcs_source_bucket;
+				sourceStorageRow.gcs_source_prefix = this.conf.source.gcs_source_prefix;
+				sourceStorageRow.gcs_archive_prefix = this.conf.source.gcs_archive_prefix;
+				sourceStorageRow.gcp_credentials_secret = this.conf.source.gcp_credentials_secret;
+				sourceStorageRows.push(sourceStorageRow);
+				break;
+			case "s3":
+				// sourceStorage attribut for S3 bucket
+				sourceStorageRow.type = this.conf.source.type;
+				sourceStorageRow.aws_access_key = this.conf.source.aws_access_key;
+				sourceStorageRow.aws_access_key_secret = this.conf.source.aws_access_key_secret;
+				sourceStorageRows.push(sourceStorageRow);
+				break;
+			case "sftp":
+				// sourceStorage attribut for sftp folder
+				sourceStorageRow.type = this.conf.source.type;
+				sourceStorageRow.sftp_source_filename = this.conf.source.sftp_source_filename;
+				sourceStorageRow.sftp_source_directory = this.conf.source.sftp_source_directory;
+				sourceStorageRow.sftp_host = this.conf.source.sftp_host;
+				sourceStorageRow.sftp_port = this.conf.source.sftp_port;
+				sourceStorageRow.sftp_userid = this.conf.source.sftp_userid;
+				sourceStorageRow.sftp_password_secret = this.conf.source.sftp_password_secret;
+				sourceStorageRows.push(sourceStorageRow);
+				break;
+			default:
 				// code block
 			}
 			return sourceStorageRows;
@@ -307,35 +307,35 @@ export default {
 			let sftpDestinationStorageRows = [];
 			for (var i = 0; i < this.conf.destinations.length; i++) {
 				switch (this.conf.destinations[i].type) {
-					case "gcs":
-						gcsDestinationStorageRows.push({
-							type: this.conf.destinations[i].type,
-							gcs_destination_bucket: this.conf.destinations[i].gcs_destination_bucket,
-							gcs_destination_prefix: this.conf.destinations[i].gcs_destination_prefix,
-							gcp_credentials_secret: this.conf.destinations[i].gcp_credentials_secret
-						});
-						break;
-					case "s3":
-						s3DestinationStorageRows.push({
-							type: this.conf.destinations[i].type,
-							s3_bucket: this.conf.destinations[i].s3_bucket,
-							s3_destination_prefix: this.conf.destinations[i].s3_destination_prefix,
-							aws_access_key: this.conf.destinations[i].aws_access_key,
-							aws_access_key_secret: this.conf.destinations[i].aws_access_key_secret
-						});
-						break;
-					case "sftp":
-						sftpDestinationStorageRows.push({
-							type: this.conf.destinations[i].type,
-							sftp_host: this.conf.destinations[i].sftp_host,
-							sftp_port: this.conf.destinations[i].sftp_port,
-							sftp_destination_dir: this.conf.destinations[i].sftp_destination_dir,
-							sftp_destination_dir_create: this.conf.destinations[i].sftp_destination_dir_create,
-							generate_top_file: this.conf.destinations[i].generate_top_file,
-							sftp_password_secret: this.conf.destinations[i].sftp_password_secret
-						});
-						break;
-					default:
+				case "gcs":
+					gcsDestinationStorageRows.push({
+						type: this.conf.destinations[i].type,
+						gcs_destination_bucket: this.conf.destinations[i].gcs_destination_bucket,
+						gcs_destination_prefix: this.conf.destinations[i].gcs_destination_prefix,
+						gcp_credentials_secret: this.conf.destinations[i].gcp_credentials_secret
+					});
+					break;
+				case "s3":
+					s3DestinationStorageRows.push({
+						type: this.conf.destinations[i].type,
+						s3_bucket: this.conf.destinations[i].s3_bucket,
+						s3_destination_prefix: this.conf.destinations[i].s3_destination_prefix,
+						aws_access_key: this.conf.destinations[i].aws_access_key,
+						aws_access_key_secret: this.conf.destinations[i].aws_access_key_secret
+					});
+					break;
+				case "sftp":
+					sftpDestinationStorageRows.push({
+						type: this.conf.destinations[i].type,
+						sftp_host: this.conf.destinations[i].sftp_host,
+						sftp_port: this.conf.destinations[i].sftp_port,
+						sftp_destination_dir: this.conf.destinations[i].sftp_destination_dir,
+						sftp_destination_dir_create: this.conf.destinations[i].sftp_destination_dir_create,
+						generate_top_file: this.conf.destinations[i].generate_top_file,
+						sftp_password_secret: this.conf.destinations[i].sftp_password_secret
+					});
+					break;
+				default:
 					// code block
 				}
 			}
