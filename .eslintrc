@@ -4,15 +4,8 @@
   "env": {
     "node": true
   },
-  "extends": [
-    "plugin:vue/recommended",
-    "eslint:recommended",
-    "prettier/vue",
-    "plugin:prettier/recommended"
-  ],
-  "plugins": [
-    "vuetify"
-  ],
+  "extends": ["plugin:vue/essential", "eslint:recommended", "prettier/vue", "plugin:prettier/recommended"],
+  "plugins": ["vuetify"],
   "parserOptions": {
     "parser": "babel-eslint"
   },
