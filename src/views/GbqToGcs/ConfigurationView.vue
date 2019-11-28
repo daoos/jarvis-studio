@@ -1,19 +1,19 @@
 <template>
 	<div>
 		<data-management-header :headerTitle="workflowName" :tabsItems="tabsItems" />
-		<configurations-listing />
+		<configuration-item />
 	</div>
 </template>
 
 <script>
 import DataManagementHeader from '../../components/widgets/layout/DataManagementHeader';
-import ConfigurationsListing from '../../components/GbqToGcs/ConfigurationsListing';
+import ConfigurationItem from '../../components/GbqToGcs/ConfigurationItem';
 
 import ConfigurationViewsMixin from '../../mixins/views/configurations';
 
 export default {
-	name: 'gbq-to-gcs-configurations-view',
-	components: { DataManagementHeader, ConfigurationsListing },
+	name: 'gbq-to-gcs-configuration-item',
+	components: { DataManagementHeader, ConfigurationItem },
 	mixins: [ConfigurationViewsMixin]
 };
 </script>

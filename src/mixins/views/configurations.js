@@ -1,4 +1,4 @@
-import { getWorkflowName } from '../util/data-workflows';
+import { getWorkflowName } from '../../util/data-workflows';
 
 export default {
 	computed: {

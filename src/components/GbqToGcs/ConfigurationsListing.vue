@@ -36,6 +36,12 @@
 		>
 			<v-progress-linear v-slot:progress color="blue" indeterminate />
 
+			<template v-slot:item.table_name="{ item: { table_name } }">
+				<router-link :to="{ name: 'GbqToGcsConf', params: { confId: table_name } }">
+					<span class="font-weight-medium">{{ table_name }}</span>
+				</router-link>
+			</template>
+
 			<template v-slot:item.activated="{ item }">
 				<ActivatedStatusChip
 					@click.native="changeActivatedStatus(item, 'getGbqToGcsConfs')"
