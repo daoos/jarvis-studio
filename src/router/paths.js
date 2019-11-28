@@ -1,4 +1,7 @@
 export default [
+	/**
+	 * App
+	 */
 	{
 		path: '/',
 		name: 'home',
@@ -7,22 +10,10 @@ export default [
 		},
 		component: () => import(/* webpackChunkName: "home" */ '@/views/Home.vue')
 	},
-	{
-		path: '/home',
-		name: 'homevue',
-		meta: {
-			authRequired: true
-		},
-		component: () => import(/* webpackChunkName: "home" */ '@/views/Home.vue')
-	},
-	{
-		path: '/settings/user/profile',
-		name: 'userProfile',
-		meta: {
-			authRequired: true
-		},
-		component: () => import(/* webpackChunkName: "userprofile" */ '@/views/UserProfile.vue')
-	},
+
+	/**
+	 * Auth
+	 */
 	{
 		path: '/signin',
 		name: 'signin',
@@ -38,6 +29,18 @@ export default [
 			public: true
 		},
 		component: () => import(/* webpackChunkName: "signinEmail" */ '@/views/SigninEmail.vue')
+	},
+
+	/**
+	 * Settings
+	 */
+	{
+		path: '/settings/user/profile',
+		name: 'userProfile',
+		meta: {
+			authRequired: true
+		},
+		component: () => import(/* webpackChunkName: "userprofile" */ '@/views/UserProfile.vue')
 	},
 	{
 		path: '/settings/users',
@@ -68,6 +71,10 @@ export default [
 		component: () => import(/* webpackChunkName: "gcpcloudfunctions" */ '@/views/GcpCloudFunctions.vue'),
 		alias: '/settings/gcpcloudfunctions'
 	},
+
+	/**
+	 * GcsToGcs
+	 */
 	{
 		path: '/gcstogcsconfs',
 		name: 'GcsToGcsConfs',
@@ -102,6 +109,10 @@ export default [
 		},
 		component: () => import(/* webpackChunkName: "gcstogcsrun" */ '@/views/GcsToGcsRun.vue')
 	},
+
+	/**
+	 * Storage to storage
+	 */
 	{
 		path: '/storagetostorage/runs/:runId',
 		name: 'StorageToStorageRun',
@@ -134,6 +145,10 @@ export default [
 		},
 		component: () => import(/* webpackChunkName: "storagetostorageruns" */ '@/views/StorageToStorageRuns.vue')
 	},
+
+	/**
+	 * Storage to table
+	 */
 	{
 		path: '/storagetotable/confs',
 		name: 'GcsToGbqConfs',
@@ -168,6 +183,10 @@ export default [
 		},
 		component: () => import(/* webpackChunkName: "storagetotablerun" */ '@/views/StorageToTableRun.vue')
 	},
+
+	/**
+	 * Tables to tables
+	 */
 	{
 		path: '/tablestotables/confs',
 		name: 'TablesToTablesConfs',
@@ -202,6 +221,10 @@ export default [
 		},
 		component: () => import(/* webpackChunkName: "tablestotablesrun" */ '@/views/TablesToTablesRun.vue')
 	},
+
+	/**
+	 * GbqToGcs
+	 */
 	{
 		path: '/gbqtogcsconfs',
 		name: 'gbqToGcsConfs',
@@ -212,6 +235,14 @@ export default [
 		alias: '/conf/gbqtogcs'
 	},
 	{
+		path: '/gbqtogcs/conf/:confId',
+		name: 'GbqToGcsConf',
+		meta: {
+			authRequired: true
+		},
+		component: () => import(/* webpackChunkName: "gbqtogcsconfs" */ '@/views/GbqToGcs/ConfigurationView.vue')
+	},
+	{
 		path: '/gbqtogcsruns',
 		name: 'gbqToGcsRuns',
 		meta: {
@@ -220,6 +251,10 @@ export default [
 		component: () => import(/* webpackChunkName: "gbqtogcsruns" */ '@/views/GbqToGcsRuns.vue'),
 		alias: '/runs/gbqtogcs'
 	},
+
+	/**
+	 * VM launcher
+	 */
 	{
 		path: '/vmlauncherruns',
 		name: 'vmLauncherRuns',
@@ -238,6 +273,10 @@ export default [
 		component: () => import(/* webpackChunkName: "vmlauncherconfs" */ '@/views/VmLauncherConfs.vue'),
 		alias: '/conf/vmlauncher'
 	},
+
+	/**
+	 * Workflow
+	 */
 	{
 		path: '/conf/workflow',
 		name: 'WorkflowConfs',
@@ -254,7 +293,10 @@ export default [
 		},
 		component: () => import(/* webpackChunkName: "workflowstatus" */ '@/views/WorkflowStatus.vue')
 	},
-	//Data Models
+
+	/**
+	 * Data Model
+	 */
 	{
 		path: '/datamodel/:projectId/:datasetId/:tableId',
 		name: 'DataTableDetails',
