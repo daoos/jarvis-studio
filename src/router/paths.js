@@ -46,7 +46,7 @@ export default [
 			authRequired: true,
 			adminRequired: true
 		},
-		component: () => import(/* webpackChunkName: "users" */ '@/views/Users.vue')
+		component: () => import(/* webpackChunkName: "users" */ '@/views/settings/Users.vue')
 	},
 	{
 		path: '/accounts',
