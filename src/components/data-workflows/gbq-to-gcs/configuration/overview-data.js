@@ -1,35 +1,5 @@
-// TODO: Update file with real components & data
-
 export default {
 	computed: {
-		getRows() {
-			//Combine the two array this.conf.destination_bucket and this.conf.destination_input_prefix
-			// into a array of json ==> Can't use map :(
-			// TODO: Remove
-			if (!this.conf) return [];
-
-			let destinationStorageRows = [];
-			for (let i = 0; i < this.conf.destination_bucket.length; i++) {
-				destinationStorageRows.push({
-					destination_type: 'GCS',
-					destination_storage_id: this.conf.destination_bucket[i],
-					destination_input_folder: this.conf.destination_gcs_prefix[i]
-				});
-			}
-			return destinationStorageRows;
-		},
-		fileNameTemplateRows() {
-			// TODO: Remove
-			if (!this.conf) return [];
-
-			var filename_templates_rows = this.conf.filename_templates.map(function(filename) {
-				return {
-					filename_template: filename,
-					filename_description: 'No Description'
-				};
-			});
-			return filename_templates_rows;
-		},
 		overviewData() {
 			return [
 				{
@@ -38,8 +8,6 @@ export default {
 						activeHeader: true,
 						viewId: this.confId,
 						viewType: 'conf',
-						// activatedConfStatus: null,
-						// runStatus: null,
 						description: null
 					}
 				},
@@ -53,14 +21,12 @@ export default {
 							{
 								id: 'account',
 								label: 'Account',
-								// TODO: Remove
-								value: this.conf ? this.conf.account : null
+								value: this.conf.account
 							},
 							{
 								id: 'environment',
 								label: 'Environment',
-								// TODO: Remove
-								value: this.conf ? this.conf.environment : null
+								value: this.conf.environment
 							}
 						]
 					}
@@ -68,8 +34,8 @@ export default {
 				{
 					component: 'parameters-table',
 					props: {
-						tableTitle: 'Source Storage',
-						description: 'Source Storage of the files to copy',
+						tableTitle: 'Destination Storage',
+						description: 'Destination Storage of the file to export',
 						columns: [
 							{
 								label: 'Type',
@@ -78,27 +44,26 @@ export default {
 							},
 							{
 								label: 'Storage ID',
-								field: 'source_storage_id',
+								field: 'gcs_dest_bucket',
 								width: '200px'
 							},
 							{
-								label: 'Source Folder',
-								field: 'source_input_folder',
+								label: 'Destination Folder',
+								field: 'gcs_dest_prefix',
 								width: '200px'
 							},
 							{
-								label: 'Archive Folder',
-								field: 'source_archive_folder',
+								label: 'Output Filename',
+								field: 'output_filename',
 								width: '200px'
 							}
 						],
 						rows: [
 							{
 								source_type: 'GCS',
-								// TODO: Remove
-								source_storage_id: this.conf ? this.conf.source_bucket : null,
-								source_input_folder: this.conf ? this.conf.source_gcs_prefix : null,
-								source_archive_folder: this.conf ? this.conf.source_archive_prefix : null
+								gcs_dest_bucket: this.conf.gcs_dest_bucket,
+								gcs_dest_prefix: this.conf.gcs_dest_prefix,
+								output_filename: this.conf.output_filename
 							}
 						],
 						vflexLength: 'xs9',
@@ -107,51 +72,87 @@ export default {
 					}
 				},
 				{
-					component: 'parameters-table',
+					component: 'parameters-list',
 					props: {
-						tableTitle: 'Destination Storage(s)',
-						description: 'Multi destination storages for the copied files',
-						columns: [
+						groupTitle: 'File Parameters',
+						tooltip: true,
+						description: 'Parameters for the exported file',
+						paramItems: [
 							{
-								label: 'Type',
-								field: 'destination_type',
-								width: '100px'
+								id: 'compression',
+								label: 'Compressed',
+								value: this.conf.compression
 							},
 							{
-								label: 'Storage ID',
-								field: 'destination_storage_id',
-								width: '200px'
+								id: 'field_delimiter',
+								label: 'Field Delimiter',
+								value: this.conf.field_delimiter
 							},
 							{
-								label: 'Destination Folder',
-								field: 'destination_input_folder',
-								width: '230px'
+								id: 'delete_dest_bucket_content',
+								label: 'Delete Destination Storage Content',
+								value: this.conf.delete_dest_bucket_content
 							}
-						],
-						// TODO: Remove
-						rows: this.getRows,
-						vflexLength: 'xs7',
-						lineNumbers: false,
-						searchOptionsEnabled: false
+						]
 					}
 				},
 				{
-					component: 'parameters-table',
+					component: 'parameters-list',
 					props: {
-						tableTitle: 'File Name Template(s)',
-						description:
-							'Templates of the incomming files that should be copied to the destination storages. Do not put the date/timestamp prefix file in the template ',
-						columns: [
+						groupTitle: 'Source Table',
+						tooltip: true,
+						description: 'SQL executed to generate the dataset to export into file',
+						paramItems: [
 							{
-								label: 'File Name Template',
-								field: 'filename_template'
+								id: 'gcp_project',
+								label: 'Bigquery Project ID',
+								value: this.conf.gcp_project
 							},
 							{
-								label: 'File Name Description',
-								field: 'filename_description'
+								id: '',
+								label: 'SQL File',
+								value: 'SQL File Linked to modal view as in the table to table configuration view'
+							},
+							{
+								id: 'copy_table',
+								label: 'Keep Table',
+								value: this.conf.copy_table
 							}
-						],
-						rows: this.fileNameTemplateRows
+						]
+					}
+				},
+				{
+					component: 'parameters-list',
+					props: {
+						groupTitle: '',
+						tooltip: false,
+						paramItems: [
+							{
+								id: '',
+								label: 'Type',
+								value: 'Bigquery'
+							},
+							{
+								id: 'dest_gcp_project_id',
+								label: 'Project ID',
+								value: this.conf.dest_gcp_project_id
+							},
+							{
+								id: 'dest_gbq_dataset',
+								label: 'Dataset',
+								value: this.conf.dest_gbq_dataset
+							},
+							{
+								id: 'dest_gbq_table',
+								label: 'Table Name',
+								value: this.conf.dest_gbq_table
+							},
+							{
+								id: 'dest_gbq_table_suffix',
+								label: 'Table Suffix',
+								value: this.conf.dest_gbq_table_suffix
+							}
+						]
 					}
 				}
 			];

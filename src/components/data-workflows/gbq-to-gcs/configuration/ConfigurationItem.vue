@@ -6,6 +6,9 @@
 
 		<v-row v-else>
 			<v-col cols="12" offset="0">
+				<p>Conf:</p>
+				<pre>{{ conf }}</pre>
+
 				<v-tabs v-model="activeTab" color="black" background-color="#E0E0E0" slider-color="primary" class="elevation-1">
 					<v-tab v-for="tab in tabs" :key="tab.label" :href="tab.href" v-text="tab.label" ripple />
 
@@ -49,18 +52,16 @@ export default {
 		this.getConf();
 	},
 	methods: {
-		getConf() {
+		async getConf() {
 			this.isLoading = true;
-			if (this.mirrorExcGcsToGcsConfs[this.confId] === undefined) this.getFirestoreData();
-			this.conf = this.mirrorExcGcsToGcsConfs[this.confId];
+			if (!this.getGbqToGcsConfs[this.confId]) await this.getFirestoreData();
+			this.conf = this.getGbqToGcsConfs[this.confId];
 			this.isLoading = false;
 		},
-		getFirestoreData() {
-			const confId = this.confId;
-
+		async getFirestoreData() {
 			try {
-				store.dispatch('mirrorExcGcsToGcsConfs/closeDBChannel', { clearModule: true });
-				store.dispatch('mirrorExcGcsToGcsConfs/fetchById', confId);
+				await store.dispatch('getGbqToGcsConfs/closeDBChannel', { clearModule: true });
+				await store.dispatch('getGbqToGcsConfs/fetchById', this.confId);
 			} catch (e) {
 				console.error(e);
 			}
@@ -87,7 +88,7 @@ export default {
 			return this.$route.params.confId;
 		},
 		...mapState({
-			mirrorExcGcsToGcsConfs: state => state.mirrorExcGcsToGcsConfs.data
+			getGbqToGcsConfs: state => state.getGbqToGcsConfs.data
 		})
 	}
 };
