@@ -93,12 +93,9 @@ export default {
 			return itemId;
 		},
 		conf() {
-			//Add the bucket file source to the SingleDoc object
-			var conf = this.tablesToTablesConf;
-			return conf;
+			// Add the bucket file source to the SingleDoc object
+			return this.tablesToTablesConf;
 		}
 	}
 };
 </script>
-
-<style lang="scss" scoped></style>

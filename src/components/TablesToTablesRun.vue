@@ -33,8 +33,9 @@
 								:conf="this.conf"
 								:confId="this.conf.configuration.dag_name"
 								:activeHeader="false"
-							></tablesToTablesConfOverview
-						></v-card>
+							/>
+							></v-card
+						>
 					</v-tab-item>
 					<v-tab-item value="conftasks">
 						<v-card v-if="this.conf !== undefined">
@@ -115,5 +116,3 @@ export default {
 	}
 };
 </script>
-
-<style lang="scss" scoped></style>

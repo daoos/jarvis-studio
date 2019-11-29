@@ -1,3 +1,5 @@
+import dataWorkflows from './data-workflows';
+
 const airflowRootUrl = 'https://v48232bfe51601b92-tp.appspot.com';
 const firestoreStorageToTableRunsCollection = 'mirror-exc-gcs-to-gbq-runs';
 const firestoreStorageToStorageConfsCollection = 'mirror-exc-gcs-to-gcs-conf';
@@ -116,5 +118,6 @@ export default {
 	firestoreTableToStorageConfsCollection,
 	firestoreTableToStorageRunsCollection,
 	firestoreWorkflowConfigurationsCollection,
-	firestoreWorkflowStatusCollection
+	firestoreWorkflowStatusCollection,
+	...dataWorkflows
 };

@@ -36,30 +36,6 @@
 		>
 			<v-progress-linear v-slot:progress color="blue" indeterminate />
 
-			<template v-slot:item.account="{ item: { account } }">
-				{{ account }}
-			</template>
-
-			<template v-slot:item.environment="{ item: { environment } }">
-				{{ environment }}
-			</template>
-
-			<template v-slot:item.table_name="{ item: { table_name } }">
-				{{ table_name }}
-			</template>
-
-			<template v-slot:item.gcp_project="{ item: { gcp_project } }">
-				{{ gcp_project }}
-			</template>
-
-			<template v-slot:item.gcs_dest_bucket="{ item: { gcs_dest_bucket } }">
-				{{ gcs_dest_bucket }}
-			</template>
-
-			<template v-slot:item.gcs_dest_prefix="{ item: { gcs_dest_prefix } }">
-				{{ gcs_dest_prefix }}
-			</template>
-
 			<template v-slot:item.activated="{ item }">
 				<ActivatedStatusChip
 					@click.native="changeActivatedStatus(item, 'getGbqToGcsConfs')"
@@ -104,7 +80,7 @@
 			</v-alert>
 		</v-data-table>
 
-		<v-snackbar v-model="snackbarParam.show" :color="snackbarParam.color" :timeout="2000" auto-height>
+		<v-snackbar v-model="snackbarParam.show" :color="snackbarParam.color" :timeout="2000">
 			{{ snackbarParam.message }}
 			<v-btn flat @click="snackbarParam.show = false">
 				Close
@@ -120,11 +96,12 @@ import VueJsonPretty from 'vue-json-pretty';
 import store from '@/store/index';
 import _ from 'lodash';
 import Util from '@/util';
-import DataManagementFilters from './widgets/filters/DataManagementFilters';
-import ActivatedStatusChip from './widgets/datatablewidgets/ActivatedStatusChip.vue';
+import DataManagementFilters from '../widgets/filters/DataManagementFilters';
+import ActivatedStatusChip from '../widgets/datatablewidgets/ActivatedStatusChip.vue';
 import ConfsComponent from '@/mixins/confsComponent.js';
 
 export default {
+	name: 'configurations-listing',
 	mixins: [ConfsComponent],
 	components: {
 		VueJsonPretty,
@@ -225,8 +202,7 @@ export default {
 				}
 				this.$data.fetchAndAddStatus = 'Success';
 			} catch (e) {
-				console.log('Firestore Error catched');
-				console.log(e);
+				console.log('Firestore Error catched:', e);
 				this.$data.fetchAndAddStatus = 'Error';
 				this.$data.isFetchAndAdding = false;
 			}
