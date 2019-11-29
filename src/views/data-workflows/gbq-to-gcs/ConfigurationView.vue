@@ -6,10 +6,10 @@
 </template>
 
 <script>
-import DataManagementHeader from '../../components/widgets/layout/DataManagementHeader';
-import ConfigurationItem from '../../components/GbqToGcs/ConfigurationItem';
+import DataManagementHeader from '../../../components/widgets/layout/DataManagementHeader';
+import ConfigurationItem from '../../../components/data-workflows/gbq-to-gcs/ConfigurationItem';
 
-import ConfigurationViewsMixin from '../../mixins/views/configurations';
+import ConfigurationViewsMixin from '../../../mixins/views/configurations';
 
 export default {
 	name: 'gbq-to-gcs-configuration-item',

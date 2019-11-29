@@ -231,7 +231,8 @@ export default [
 		meta: {
 			authRequired: true
 		},
-		component: () => import(/* webpackChunkName: "gbqtogcsconfs" */ '@/views/GbqToGcs/ConfigurationsView.vue'),
+		component: () =>
+			import(/* webpackChunkName: "gbqtogcsconfs" */ '@/views/data-workflows/gbq-to-gcs/ConfigurationsView.vue'),
 		alias: '/conf/gbqtogcs'
 	},
 	{
@@ -240,7 +241,8 @@ export default [
 		meta: {
 			authRequired: true
 		},
-		component: () => import(/* webpackChunkName: "gbqtogcsconfs" */ '@/views/GbqToGcs/ConfigurationView.vue')
+		component: () =>
+			import(/* webpackChunkName: "gbqtogcsconfs" */ '@/views/data-workflows/gbq-to-gcs/ConfigurationView.vue')
 	},
 	{
 		path: '/gbqtogcsruns',

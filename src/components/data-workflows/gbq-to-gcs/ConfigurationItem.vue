@@ -28,8 +28,8 @@
 </template>
 
 <script>
-import ConfigurationOverview from '../common/configuration/ConfigurationOverview';
-import ViewJson from '../widgets/parameters/viewJson.vue';
+import ConfigurationOverview from '../../common/configuration/ConfigurationOverview';
+import ViewJson from '../../widgets/parameters/viewJson.vue';
 
 import { mapState } from 'vuex';
 import store from '@/store/index';
