@@ -10,7 +10,7 @@
 					<v-tab v-for="tab in tabs" :key="tab.label" :href="tab.href" v-text="tab.label" ripple />
 
 					<v-tab-item value="overview">
-						<configuration-overview :data="configurationOverviewData" />
+						<configuration-overview :data="overviewData" />
 					</v-tab-item>
 
 					<v-tab-item value="full-json">
@@ -28,8 +28,10 @@
 </template>
 
 <script>
-import ConfigurationOverview from '../../common/configuration/ConfigurationOverview';
-import ViewJson from '../../widgets/parameters/viewJson.vue';
+import ConfigurationOverview from '../../../common/configuration/ConfigurationOverview';
+import ViewJson from '../../../widgets/parameters/viewJson.vue';
+
+import OverviewData from './overview-data';
 
 import { mapState } from 'vuex';
 import store from '@/store/index';
@@ -37,6 +39,7 @@ import store from '@/store/index';
 export default {
 	name: 'gbq-to-gcs-configuration-item',
 	components: { ConfigurationOverview, ViewJson },
+	mixins: [OverviewData],
 	data: () => ({
 		conf: null,
 		isLoading: true,
@@ -85,44 +88,7 @@ export default {
 		},
 		...mapState({
 			mirrorExcGcsToGcsConfs: state => state.mirrorExcGcsToGcsConfs.data
-		}),
-		configurationOverviewData() {
-			return [
-				{
-					component: 'overview-header',
-					props: {
-						activeHeader: true,
-						viewId: this.confId,
-						viewType: 'conf',
-						// activatedConfStatus: null,
-						// runStatus: null,
-						description: null
-					}
-				},
-				{
-					component: 'parameters-list',
-					props: {
-						groupTitle: 'Context',
-						tooltip: true,
-						description: 'Context of the Storage to Storage configuration',
-						paramItems: [
-							{
-								id: 'account',
-								label: 'Account',
-								// TODO: Remove
-								value: this.conf ? this.conf.account : null
-							},
-							{
-								id: 'environment',
-								label: 'Environment',
-								// TODO: Remove
-								value: this.conf ? this.conf.environment : null
-							}
-						]
-					}
-				}
-			];
-		}
+		})
 	}
 };
 </script>

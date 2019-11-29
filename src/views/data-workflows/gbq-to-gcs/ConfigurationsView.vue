@@ -7,7 +7,7 @@
 
 <script>
 import DataManagementHeader from '../../../components/widgets/layout/DataManagementHeader';
-import ConfigurationsListing from '../../../components/data-workflows/gbq-to-gcs/ConfigurationsListing';
+import ConfigurationsListing from '../../../components/data-workflows/gbq-to-gcs/configuration/ConfigurationsListing';
 
 import ConfigurationViewsMixin from '../../../mixins/views/configurations';
 
