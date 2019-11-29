@@ -1,42 +1,34 @@
 <template>
 	<v-container>
-		<v-row v-if="!isFetchAndAdding">
-			<v-col cols="12" offset="0">
-				<v-tabs v-model="activeTab" color="black" background-color="#E0E0E0" slider-color="primary">
-					<v-tab ripple href="#run-configuration">Overview</v-tab>
-					<v-tab ripple href="#full-json">Full Json</v-tab>
-					<v-tab ripple href="#conversation">Conversation</v-tab>
-
-					<v-tab-item value="run-configuration">
-						<v-card>
-							<configuration-overview :data="configurationOverviewData" />
-						</v-card>
-					</v-tab-item>
-
-					<v-tab-item value="full-json">
-						<v-card>
-							<!-- TODO: Move generic component -->
-							<view-json :json="conf" :jsonID="confId" />
-						</v-card>
-					</v-tab-item>
-
-					<v-tab-item value="conversation">
-						<v-card>
-							<blockquote class="blockquote">Coming soon...</blockquote>
-						</v-card>
-					</v-tab-item>
-				</v-tabs>
-			</v-col>
+		<v-row v-if="isLoading">
+			<v-progress-linear :indeterminate="true" />
 		</v-row>
 
 		<v-row v-else>
-			<v-progress-linear :indeterminate="true" />
+			<v-col cols="12" offset="0">
+				<v-tabs v-model="activeTab" color="black" background-color="#E0E0E0" slider-color="primary" class="elevation-1">
+					<v-tab v-for="tab in tabs" :key="tab.label" :href="tab.href" v-text="tab.label" ripple />
+
+					<v-tab-item value="overview">
+						<configuration-overview :data="configurationOverviewData" />
+					</v-tab-item>
+
+					<v-tab-item value="full-json">
+						<!-- TODO: Move generic component -->
+						<view-json :json="conf" :jsonID="confId" />
+					</v-tab-item>
+
+					<v-tab-item value="conversation">
+						<blockquote class="blockquote">Coming soon...</blockquote>
+					</v-tab-item>
+				</v-tabs>
+			</v-col>
 		</v-row>
 	</v-container>
 </template>
 
 <script>
-import ConfigurationOverview from '../common/ConfigurationOverview';
+import ConfigurationOverview from '../common/configuration/ConfigurationOverview';
 import ViewJson from '../widgets/parameters/viewJson.vue';
 
 import { mapState } from 'vuex';
@@ -46,10 +38,8 @@ export default {
 	name: 'gbq-to-gcs-configuration-item',
 	components: { ConfigurationOverview, ViewJson },
 	data: () => ({
-		conf: {},
-		isFetchAndAdding: true,
-		fetchAndAddStatus: '',
-		moreToFetchAndAdd: false,
+		conf: null,
+		isLoading: true,
 		activeTab: null
 	}),
 	mounted() {
@@ -57,36 +47,45 @@ export default {
 	},
 	methods: {
 		getConf() {
-			this.$data.isFetchAndAdding = true;
-			//get the conf is not in mirrorExcGcsToGcsConfs
-			if (this.mirrorExcGcsToGcsConfs[this.confId] === undefined) {
-				this.getFirestoreData();
-			}
+			this.isLoading = true;
+			if (this.mirrorExcGcsToGcsConfs[this.confId] === undefined) this.getFirestoreData();
 			this.conf = this.mirrorExcGcsToGcsConfs[this.confId];
-			this.$data.isFetchAndAdding = false;
+			this.isLoading = false;
 		},
 		getFirestoreData() {
 			const confId = this.confId;
-			this.$data.fetchAndAddStatus = 'Loading';
-			this.$data.moreToFetchAndAdd = false;
+
 			try {
-				store.dispatch('mirrorExcGcsToGcsConfs/closeDBChannel', {
-					clearModule: true
-				});
+				store.dispatch('mirrorExcGcsToGcsConfs/closeDBChannel', { clearModule: true });
 				store.dispatch('mirrorExcGcsToGcsConfs/fetchById', confId);
-				this.$data.fetchAndAddStatus = 'Success';
 			} catch (e) {
-				this.$data.fetchAndAddStatus = 'Error';
+				console.error(e);
 			}
 		}
 	},
 	computed: {
-		...mapState({
-			mirrorExcGcsToGcsConfs: state => state.mirrorExcGcsToGcsConfs.data
-		}),
+		tabs() {
+			return [
+				{
+					label: 'Overview',
+					href: '#overview'
+				},
+				{
+					label: 'Full Json',
+					href: '#full-json'
+				},
+				{
+					label: 'Conversation',
+					href: '#conversation'
+				}
+			];
+		},
 		confId() {
 			return this.$route.params.confId;
 		},
+		...mapState({
+			mirrorExcGcsToGcsConfs: state => state.mirrorExcGcsToGcsConfs.data
+		}),
 		configurationOverviewData() {
 			return [
 				{
@@ -104,16 +103,19 @@ export default {
 					component: 'parameters-list',
 					props: {
 						groupTitle: 'Context',
+						tooltip: true,
 						description: 'Context of the Storage to Storage configuration',
 						paramItems: [
 							{
 								id: 'account',
 								label: 'Account',
+								// TODO: Remove
 								value: this.conf ? this.conf.account : null
 							},
 							{
 								id: 'environment',
 								label: 'Environment',
+								// TODO: Remove
 								value: this.conf ? this.conf.environment : null
 							}
 						]

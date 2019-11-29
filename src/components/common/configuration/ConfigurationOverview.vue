@@ -39,7 +39,7 @@
 // import ParametersList from '@/components/widgets/parameters/ParametersList.vue';
 
 import OverviewHeader from './OverviewHeader';
-import ParametersList from './ParametersList';
+import ParametersList from '../parameters/ParametersList';
 
 export default {
 	name: 'gbq-to-gcs-configuration-overview',
