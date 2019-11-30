@@ -1,7 +1,7 @@
-const tablesToStorageConfs = {
+const tableToStorageConfs = {
 	firestorePath: 'table-to-storage-conf',
 	firestoreRefType: 'collection', // 'collection' or 'doc'
-	moduleName: 'tablesToStorageConfs',
+	moduleName: 'tableToStorageConfs',
 	statePropName: 'data',
 	namespaced: true, // automatically added
 	sync: {
@@ -16,4 +16,4 @@ const tablesToStorageConfs = {
 	actions: {}
 };
 
-export default tablesToStorageConfs;
+export default tableToStorageConfs;

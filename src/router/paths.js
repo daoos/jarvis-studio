@@ -255,6 +255,42 @@ export default [
 	},
 
 	/**
+	 * Table to Storage
+	 */
+	{
+		path: '/tabletostorage/confs',
+		name: 'TableToStorageConfs',
+		meta: {
+			authRequired: true
+		},
+		component: () => import(/* webpackChunkName: "tabletostorageconfs" */ '@/views/TableToStorageConfs.vue')
+	},
+	{
+		path: '/tabletostorage/confs/:pathId',
+		name: 'TableToStorageConf',
+		meta: {
+			authRequired: true
+		},
+		component: () => import(/* webpackChunkName: "tabletostorageconf" */ '@/views/TableToStorageConf.vue')
+	},
+	{
+		path: '/tabletostorage/runs',
+		name: 'TableToStorageRuns',
+		meta: {
+			authRequired: true
+		},
+		component: () => import(/* webpackChunkName: "tabletostorageruns" */ '@/views/TableToStorageRuns.vue')
+	},
+	{
+		path: '/tabletostorage/runs/:pathId',
+		name: 'TableToStorageRun',
+		meta: {
+			authRequired: true
+		},
+		component: () => import(/* webpackChunkName: "tabletostoragerun" */ '@/views/TableToStorageRun.vue')
+	},
+
+	/**
 	 * VM launcher
 	 */
 	{
