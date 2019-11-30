@@ -27,7 +27,7 @@ export default [
 	{
 		icon: 'share',
 		title: 'Table to Storage',
-		link: '/runs/gbqtogcs'
+		link: '/tabletostorage/runs'
 	},
 	{
 		icon: 'dns',

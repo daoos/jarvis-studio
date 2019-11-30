@@ -1,7 +1,9 @@
 export const getWorkflowName = name => {
 	const items = {
-		gbqToGcsConfs: 'Table to Storage',
-		GbqToGcsConf: 'Table to Storage'
+		gbqToGcsConfs: 'GBQ to GCS',
+		GbqToGcsConf: 'GBQ to GCS',
+		tableToStorageConfs: 'Table to Storage',
+		TableToStorageConf: 'Table to Storage'
 	};
 
 	return items[name];
