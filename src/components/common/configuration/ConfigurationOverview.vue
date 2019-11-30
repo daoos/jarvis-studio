@@ -2,12 +2,14 @@
 	<v-container>
 		<v-row>
 			<v-col cols="12" offset="0">
-				<component
-					v-for="(item, index) in data"
-					:key="`${item.component}-${index}`"
-					:is="item.component"
-					:properties="item.props"
-				/>
+				<template v-for="(item, index) in data">
+					<component
+						v-if="!item.hasOwnProperty('displayCondition') || item.displayCondition"
+						:key="`${item.component}-${index}`"
+						:is="item.component"
+						:properties="item.props"
+					/>
+				</template>
 			</v-col>
 		</v-row>
 	</v-container>

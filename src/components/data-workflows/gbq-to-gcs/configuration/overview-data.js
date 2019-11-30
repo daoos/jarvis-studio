@@ -122,37 +122,46 @@ export default {
 					}
 				},
 				{
-					component: 'parameters-list',
+					component: 'parameters-table',
+					displayCondition: this.conf.copy_table,
 					props: {
-						groupTitle: '',
-						tooltip: false,
-						paramItems: [
+						tableTitle: 'Destination Table',
+						description: 'The Destination Table where the dataset will be keeped',
+						columns: [
 							{
-								id: '',
 								label: 'Type',
-								value: 'Bigquery'
+								field: 'source_type',
+								width: '150px'
 							},
 							{
-								id: 'dest_gcp_project_id',
 								label: 'Project ID',
-								value: this.conf.dest_gcp_project_id
+								field: 'dest_gcp_project_id'
 							},
 							{
-								id: 'dest_gbq_dataset',
 								label: 'Dataset',
-								value: this.conf.dest_gbq_dataset
+								field: 'dest_gbq_dataset'
 							},
 							{
-								id: 'dest_gbq_table',
 								label: 'Table Name',
-								value: this.conf.dest_gbq_table
+								field: 'dest_gbq_table'
 							},
 							{
-								id: 'dest_gbq_table_suffix',
 								label: 'Table Suffix',
-								value: this.conf.dest_gbq_table_suffix
+								field: 'dest_gbq_table_suffix'
 							}
-						]
+						],
+						rows: [
+							{
+								source_type: 'BigQuery',
+								gcs_dest_bucket: this.conf.dest_gcp_project_id,
+								gcs_dest_prefix: this.conf.dest_gbq_dataset,
+								output_filename: this.conf.dest_gbq_table,
+								dest_gbq_table_suffix: this.conf.dest_gbq_table_suffix
+							}
+						],
+						vflexLength: 'xs9',
+						lineNumbers: false,
+						searchOptionsEnabled: 'false'
 					}
 				}
 			];

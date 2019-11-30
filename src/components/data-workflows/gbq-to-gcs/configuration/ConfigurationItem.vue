@@ -6,9 +6,6 @@
 
 		<v-row v-else>
 			<v-col cols="12" offset="0">
-				<p>Conf:</p>
-				<pre>{{ conf }}</pre>
-
 				<v-tabs v-model="activeTab" color="black" background-color="#E0E0E0" slider-color="primary" class="elevation-1">
 					<v-tab v-for="tab in tabs" :key="tab.label" :href="tab.href" v-text="tab.label" ripple />
 
