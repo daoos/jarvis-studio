@@ -12,7 +12,6 @@
 
 <script>
 export default {
-	components: {},
 	props: {
 		headerTitle: {
 			type: String,
@@ -25,10 +24,3 @@ export default {
 	}
 };
 </script>
-
-<style lang="scss" scoped>
-.disabled {
-	color: black;
-	pointer-events: none;
-}
-</style>

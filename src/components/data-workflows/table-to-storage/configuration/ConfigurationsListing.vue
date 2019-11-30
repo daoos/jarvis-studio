@@ -25,7 +25,7 @@
 
 		<v-data-table
 			:headers="headers"
-			:items="getGbqToGcsConfsFormated"
+			:items="tableToStorageConfsFormated"
 			:search="search"
 			:loading="isFetchAndAdding"
 			:expanded="expanded"
@@ -44,7 +44,7 @@
 
 			<template v-slot:item.activated="{ item }">
 				<ActivatedStatusChip
-					@click.native="changeActivatedStatus(item, 'getGbqToGcsConfs')"
+					@click.native="changeActivatedStatus(item, 'tableToStorageConfs')"
 					:activatedConfStatus="item.activated"
 				/>
 			</template>
@@ -118,7 +118,6 @@ export default {
 		expanded: [],
 		search: '',
 		isFetchAndAdding: false,
-		fetchAndAddStatus: '',
 		moreToFetchAndAdd: false,
 		expand: false,
 		pagination: {
@@ -190,41 +189,35 @@ export default {
 		},
 		async getFirestoreData() {
 			const where = this.whereConfFilter;
-			this.$data.fetchAndAddStatus = 'Loading';
-			this.$data.moreToFetchAndAdd = false;
-			this.$data.isFetchAndAdding = true;
+			this.moreToFetchAndAdd = false;
+			this.isFetchAndAdding = true;
 			try {
-				store.dispatch('getGbqToGcsConfs/closeDBChannel', {
+				store.dispatch('tableToStorageConfs/closeDBChannel', {
 					clearModule: true
 				});
-				let fetchResult = await store.dispatch('getGbqToGcsConfs/fetchAndAdd', {
+				let fetchResult = await store.dispatch('tableToStorageConfs/fetchAndAdd', {
 					where,
 					limit: 0
 				});
 				if (fetchResult.done === true) {
-					this.$data.moreToFetchAndAdd = false;
+					this.moreToFetchAndAdd = false;
 				} else {
-					this.$data.moreToFetchAndAdd = true;
+					this.moreToFetchAndAdd = true;
 				}
-				this.$data.fetchAndAddStatus = 'Success';
 			} catch (e) {
 				console.log('Firestore Error catched:', e);
-				this.$data.fetchAndAddStatus = 'Error';
-				this.$data.isFetchAndAdding = false;
+				this.isFetchAndAdding = false;
 			}
-			this.$data.isFetchAndAdding = false;
+			this.isFetchAndAdding = false;
 		}
 	},
 	computed: {
-		...mapState({
-			isAuthenticated: state => state.user.isAuthenticated,
-			user: state => state.user.user,
-			settings: state => state.settings,
-			getGbqToGcsConfs: state => state.getGbqToGcsConfs.data
-		}),
 		...mapGetters(['periodFiltered', 'whereConfFilter']),
-		getGbqToGcsConfsFormated() {
-			const dataArray = Object.values(this.getGbqToGcsConfs);
+		...mapState({
+			tableToStorageConfs: state => state.tableToStorageConfs.data
+		}),
+		tableToStorageConfsFormated() {
+			const dataArray = Object.values(this.tableToStorageConfs);
 			var dataFormated = dataArray.map(function(data) {
 				return {
 					//color for the activated status
@@ -242,5 +235,3 @@ export default {
 	}
 };
 </script>
-
-<style></style>

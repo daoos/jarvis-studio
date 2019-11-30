@@ -14,7 +14,6 @@
 					</v-tab-item>
 
 					<v-tab-item value="full-json">
-						<!-- TODO: Move generic component -->
 						<view-json :json="conf" :jsonID="confId" />
 					</v-tab-item>
 
@@ -29,7 +28,7 @@
 
 <script>
 import ConfigurationOverview from '../../../common/configuration/ConfigurationOverview';
-import ViewJson from '../../../widgets/parameters/viewJson.vue';
+import ViewJson from '../../../common/ViewJson';
 
 import OverviewData from './overview-data';
 
@@ -51,14 +50,14 @@ export default {
 	methods: {
 		async getConf() {
 			this.isLoading = true;
-			if (!this.getGbqToGcsConfs[this.confId]) await this.getFirestoreData();
-			this.conf = this.getGbqToGcsConfs[this.confId];
+			if (!this.tableToStorageConfs[this.confId]) await this.getFirestoreData();
+			this.conf = this.tableToStorageConfs[this.confId];
 			this.isLoading = false;
 		},
 		async getFirestoreData() {
 			try {
-				await store.dispatch('getGbqToGcsConfs/closeDBChannel', { clearModule: true });
-				await store.dispatch('getGbqToGcsConfs/fetchById', this.confId);
+				await store.dispatch('tableToStorageConfs/closeDBChannel', { clearModule: true });
+				await store.dispatch('tableToStorageConfs/fetchById', this.confId);
 			} catch (e) {
 				console.error(e);
 			}
@@ -85,7 +84,7 @@ export default {
 			return this.$route.params.confId;
 		},
 		...mapState({
-			getGbqToGcsConfs: state => state.getGbqToGcsConfs.data
+			tableToStorageConfs: state => state.tableToStorageConfs.data
 		})
 	}
 };
