@@ -31,6 +31,7 @@ export default {
 		},
 		jsonId: {
 			type: String,
+			default: '',
 			required: true
 		},
 		deep: {

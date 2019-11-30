@@ -14,7 +14,7 @@
 					</v-tab-item>
 
 					<v-tab-item value="full-json">
-						<view-json :json="conf" :jsonID="confId" />
+						<view-json :json="conf" :json-id="confId" />
 					</v-tab-item>
 
 					<v-tab-item value="conversation">
