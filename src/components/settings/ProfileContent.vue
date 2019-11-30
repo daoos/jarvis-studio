@@ -32,10 +32,8 @@ import { mapGetters } from 'vuex';
 import ParametersList from '@/components/widgets/parameters/ParametersList.vue';
 
 export default {
+	name: 'profile-content',
 	components: { ParametersList },
-	data() {
-		return {};
-	},
 	computed: {
 		...mapState({
 			isAuthenticated: state => state.user.isAuthenticated,
@@ -71,5 +69,3 @@ export default {
 	}
 };
 </script>
-
-<style scoped></style>

@@ -4,14 +4,14 @@
 			<v-toolbar-title class="pl-2 display-1">Profile</v-toolbar-title>
 		</v-toolbar>
 
-		<Users />
+		<profile-content />
 	</div>
 </template>
 
 <script>
-import Users from '../components/UserProfile';
+import ProfileContent from '../components/settings/ProfileContent';
 
 export default {
-	components: { Users }
+	components: { ProfileContent }
 };
 </script>

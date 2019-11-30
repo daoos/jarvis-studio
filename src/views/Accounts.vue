@@ -4,14 +4,14 @@
 			<v-toolbar-title class="pl-2 display-1">Accounts</v-toolbar-title>
 		</v-toolbar>
 
-		<Accounts />
+		<accounts-content />
 	</div>
 </template>
 
 <script>
-import Accounts from '../components/Accounts';
+import AccountsContent from '../components/settings/AccountsContent';
 
 export default {
-	components: { Accounts }
+	components: { AccountsContent }
 };
 </script>

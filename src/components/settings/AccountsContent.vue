@@ -73,6 +73,7 @@ import VueJsonPretty from 'vue-json-pretty';
 import store from '@/store/index';
 
 export default {
+	name: 'accounts-component',
 	components: {
 		VueJsonPretty
 	},
