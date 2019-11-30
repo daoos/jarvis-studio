@@ -30,9 +30,9 @@
 		</v-navigation-drawer>
 
 		<v-content>
-			<transition name="fade">
+			<transition name="fade" mode="out-in">
 				<keep-alive>
-					<router-view :key="$route.fullpath" />
+					<router-view :key="$route.fullPath" />
 				</keep-alive>
 			</transition>
 		</v-content>
