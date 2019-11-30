@@ -9,12 +9,12 @@
 
 			<v-icon right @click="getFirestoreData" v-if="!isFetchAndAdding">refresh</v-icon>
 
-			<v-progress-circular indeterminate size="20" color="primary" v-if="isFetchAndAdding" />
+			<v-progress-circular v-if="isFetchAndAdding" indeterminate size="20" color="primary" />
 		</v-toolbar>
 
 		<v-data-table
 			:headers="headers"
-			:items="vmLauncherRunsFormated"
+			:items="storageToStorageRunsFormated"
 			:search="search"
 			:loading="isFetchAndAdding"
 			:expanded="expanded"
@@ -33,8 +33,14 @@
 				{{ environment }}
 			</template>
 
-			<template v-slot:item.dag_id="{ item: { dag_id } }">
-				{{ dag_id }}
+			<template v-slot:item.configuration_id="{ item: { configuration_id } }">
+				{{ configuration_id }}
+			</template>
+
+			<template v-slot:item.triggering_file="{ item: { id, triggering_file } }">
+				<router-link :to="{ name: 'StorageToStorageRun', params: { runId: id } }">
+					{{ triggering_file }}
+				</router-link>
 			</template>
 
 			<template v-slot:item.status="{ item: { status, statusColor } }">
@@ -100,11 +106,11 @@
 import { mapState } from 'vuex';
 import { mapGetters } from 'vuex';
 import VueJsonPretty from 'vue-json-pretty';
-import store from '@/store/index';
+import store from '@/store';
 import moment from 'moment';
 import _ from 'lodash';
 import Util from '@/util';
-import DataManagementFilters from './widgets/filters/DataManagementFilters';
+import DataManagementFilters from '../../widgets/filters/DataManagementFilters';
 
 export default {
 	components: {
@@ -139,10 +145,16 @@ export default {
 				value: 'environment'
 			},
 			{
-				text: 'Dag Id',
+				text: 'Conf Id',
 				align: 'left',
 				sortable: true,
-				value: 'dag_id'
+				value: 'configuration_id'
+			},
+			{
+				text: 'Triggering File',
+				align: 'left',
+				sortable: true,
+				value: 'triggering_file'
 			},
 			{
 				text: 'Status',
@@ -173,11 +185,6 @@ export default {
 				this.viewedItem = item;
 			}
 		},
-		viewItem(props, item) {
-			props.expanded = !props.expanded;
-			this.viewedIndex = this.vmLauncherRunsFormated.indexOf(item);
-			this.viewedItem = Object.assign({}, item);
-		},
 		openAirflowDagRunUrl(item) {
 			window.open(item.dag_execution_airflow_url, '_blank');
 		},
@@ -187,8 +194,10 @@ export default {
 			this.$data.moreToFetchAndAdd = false;
 			this.$data.isFetchAndAdding = true;
 			try {
-				store.dispatch('vmLauncherRuns/closeDBChannel', { clearModule: true });
-				let fetchResult = await store.dispatch('vmLauncherRuns/openDBChannel', {
+				store.dispatch('storageToStorageRuns/closeDBChannel', {
+					clearModule: true
+				});
+				let fetchResult = await store.dispatch('storageToStorageRuns/fetchAndAdd', {
 					where,
 					limit: 0
 				});
@@ -210,15 +219,15 @@ export default {
 		...mapState({
 			isAuthenticated: state => state.user.isAuthenticated,
 			user: state => state.user.user,
-			vmLauncherRuns: state => state.vmLauncherRuns.data,
+			storageToStorageRuns: state => state.storageToStorageRuns.data,
 			dateFilterSelected: state => state.filters.dateFilterSelected,
 			dateFilters: state => state.filters.dateFilters,
 			minDateFilter: state => state.filters.minDateFilter
 		}),
 		...mapGetters(['periodFiltered', 'whereRunsFilter']),
-		vmLauncherRunsFormated() {
-			const dataArray = Object.values(this.vmLauncherRuns);
-			const dataFormated = dataArray.map(function(data) {
+		storageToStorageRunsFormated() {
+			const dataArray = Object.values(this.storageToStorageRuns);
+			var dataFormated = dataArray.map(function(data) {
 				return {
 					dag_execution_date_formated: moment(data.dag_execution_date).format('YYYY/MM/DD - HH:mm'),
 					dag_execution_date_from_now: moment(data.dag_execution_date).fromNow(),

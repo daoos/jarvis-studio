@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import StorageToStorageConf from '../components/StorageToStorageConf';
+import StorageToStorageConf from '../components/data-workflows/storage-to-storage/StorageToStorageConf';
 import DataManagementHeader from '../components/widgets/layout/DataManagementHeader';
 
 export default {

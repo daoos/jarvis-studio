@@ -1,6 +1,6 @@
 <template>
 	<v-container fluid>
-		<v-toolbar class="elevation-1" color="grey lighten-3">
+		<v-toolbar class="elevation-0" color="transparent">
 			<v-text-field v-model="search" append-icon="search" label="Search" single-line hide-details />
 
 			<v-spacer />
@@ -14,14 +14,14 @@
 
 		<v-data-table
 			:headers="headers"
-			:items="getGbqToGcsRunsFormated"
+			:items="getGbqToGbqRunsFormated"
 			:search="search"
 			:loading="isFetchAndAdding"
 			:expanded="expanded"
 			:sort-by.sync="pagination.sortBy"
 			:sort-desc.sync="pagination.descending"
 			item-key="id"
-			class="elevation-1"
+			light
 		>
 			<v-progress-linear v-slot:progress color="blue" indeterminate />
 
@@ -29,12 +29,25 @@
 				{{ account }}
 			</template>
 
-			<template v-slot:item.destination_bucket="{ item: { destination_bucket } }">
-				{{ destination_bucket }}
+			<template v-slot:item.environment="{ item: { environment } }">
+				{{ environment }}
 			</template>
 
-			<template v-slot:item.gcs_triggering_file="{ item: { gcs_triggering_file } }">
-				{{ gcs_triggering_file }}
+			<template v-slot:item.dag_id="{ item: { id, dag_id } }">
+				<router-link
+					:to="{
+						name: 'TablesToTablesRun',
+						params: { pathId: id }
+					}"
+				>
+					<span class="font-weight-medium">
+						{{ dag_id }}
+					</span>
+				</router-link>
+			</template>
+
+			<template v-slot:item.nb_tasks="{ item: { nb_tasks } }">
+				{{ nb_tasks }}
 			</template>
 
 			<template v-slot:item.status="{ item: { status, statusColor } }">
@@ -53,11 +66,13 @@
 
 			<template v-slot:item.actions="{ item }">
 				<div class="justify-center layout px-0">
-					<v-icon small class="mr-2" @click="toggleExpand(item)">
+					<v-icon small class="mr-2" @click="toggleExpand(item)" v-if="item.confCompliance">
 						remove_red_eye
 					</v-icon>
-
-					<v-icon small @click="openAirflowDagRunUrl(item)">
+					<v-icon small class="mr-2" @click="toggleExpand(item)" color="orange darken-1" v-else>
+						warning
+					</v-icon>
+					<v-icon class="mr-2" small @click="openAirflowDagRunUrl(item)">
 						open_in_new
 					</v-icon>
 				</div>
@@ -67,10 +82,12 @@
 				<td :colspan="headers.length" class="pa-0">
 					<v-card flat>
 						<v-card-title>
-							<span class="headline">{{ viewedItem.gcs_triggering_file }}</span>
+							<span class="headline">{{ viewedItem.dag_id }}</span>
 							<v-spacer></v-spacer>
 							<v-btn color="warning" fab small dark outline>
-								<v-icon @click="toggleExpand(viewedItem)">close</v-icon>
+								<v-icon @click="toggleExpand(viewedItem)">
+									close
+								</v-icon>
 							</v-btn>
 						</v-card-title>
 						<v-card-text>
@@ -80,7 +97,8 @@
 								:show-double-quotes="true"
 								:show-length="true"
 								:show-line="false"
-							></vue-json-pretty>
+							>
+							</vue-json-pretty>
 						</v-card-text>
 					</v-card>
 				</td>
@@ -97,11 +115,11 @@
 import { mapState } from 'vuex';
 import { mapGetters } from 'vuex';
 import VueJsonPretty from 'vue-json-pretty';
-import store from '@/store/index';
+import store from '@/store';
 import moment from 'moment';
 import _ from 'lodash';
 import Util from '@/util';
-import DataManagementFilters from './widgets/filters/DataManagementFilters';
+import DataManagementFilters from '../../widgets/filters/DataManagementFilters';
 
 export default {
 	components: {
@@ -112,9 +130,9 @@ export default {
 		expanded: [],
 		search: '',
 		isFetchAndAdding: false,
-		expand: false,
 		fetchAndAddStatus: '',
 		moreToFetchAndAdd: false,
+		expand: false,
 		pagination: {
 			sortBy: 'dag_execution_date_formated',
 			descending: true,
@@ -136,16 +154,16 @@ export default {
 				value: 'environment'
 			},
 			{
-				text: 'Destination Bucket',
+				text: 'Workflow Id Bucket',
 				align: 'left',
 				sortable: true,
-				value: 'destination_bucket'
+				value: 'dag_id'
 			},
 			{
-				text: 'Generated File',
+				text: '# Tasks',
 				align: 'left',
 				sortable: true,
-				value: 'gcs_triggering_file'
+				value: 'nb_tasks'
 			},
 			{
 				text: 'Status',
@@ -185,10 +203,10 @@ export default {
 			this.$data.moreToFetchAndAdd = false;
 			this.$data.isFetchAndAdding = true;
 			try {
-				store.dispatch('getGbqToGcsRuns/closeDBChannel', {
+				store.dispatch('getGbqToGbqRuns/closeDBChannel', {
 					clearModule: true
 				});
-				let fetchResult = await store.dispatch('getGbqToGcsRuns/fetchAndAdd', {
+				let fetchResult = await store.dispatch('getGbqToGbqRuns/fetchAndAdd', {
 					where,
 					limit: 0
 				});
@@ -199,10 +217,9 @@ export default {
 				}
 				this.$data.fetchAndAddStatus = 'Success';
 			} catch (e) {
-				console.log('Firestore Error catched');
-				console.log(e);
 				this.$data.fetchAndAddStatus = 'Error';
 				this.$data.isFetchAndAdding = false;
+				console.error(e);
 			}
 			this.$data.isFetchAndAdding = false;
 		}
@@ -211,16 +228,31 @@ export default {
 		...mapState({
 			isAuthenticated: state => state.user.isAuthenticated,
 			user: state => state.user.user,
-			getGbqToGcsRuns: state => state.getGbqToGcsRuns.data,
+			getGbqToGbqRuns: state => state.getGbqToGbqRuns.data,
 			dateFilterSelected: state => state.filters.dateFilterSelected,
 			dateFilters: state => state.filters.dateFilters,
 			minDateFilter: state => state.filters.minDateFilter
 		}),
 		...mapGetters(['periodFiltered', 'whereRunsFilter']),
-		getGbqToGcsRunsFormated() {
-			const dataArray = Object.values(this.getGbqToGcsRuns);
+		getGbqToGbqRunsFormated() {
+			const dataArray = Object.values(this.getGbqToGbqRuns);
 			var dataFormated = dataArray.map(function(data) {
+				// conCompliance is set to false if it detects a unexpected configuration json format
+				// confComplianceError array stores the error messages when the conf seems not compliante
+				let confCompliance = true;
+				let confComplianceError = [];
+				//try to compute the nb tasks in the configuration
+				let nb_tasks = 0;
+				try {
+					nb_tasks = data.configuration_context.configuration.workflow.length;
+				} catch (error) {
+					confCompliance = false;
+					confComplianceError.push(error);
+				}
 				return {
+					confCompliance: confCompliance,
+					confComplianceError: confComplianceError,
+					nb_tasks: nb_tasks,
 					dag_execution_date_formated: moment(data.dag_execution_date).format('YYYY/MM/DD - HH:mm'),
 					dag_execution_date_from_now: moment(data.dag_execution_date).fromNow(),
 					//color for the status

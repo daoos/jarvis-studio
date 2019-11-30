@@ -17,12 +17,20 @@
 					</v-tab>
 					<v-tab-item value="rundetails">
 						<v-card v-if="run !== undefined">
-							<GcsToGcsRunView :run="run" :runId="run.gcs_triggering_file" :activeHeader="true"></GcsToGcsRunView>
+							<StorageToStorageRunView
+								:run="run"
+								:runId="run.triggering_file"
+								:activeHeader="true"
+							></StorageToStorageRunView>
 						</v-card>
 					</v-tab-item>
 					<v-tab-item value="runconfiguration">
 						<v-card v-if="run !== undefined">
-							<GcsToGcsConfView :conf="run.configuration_context" :activeHeader="false"></GcsToGcsConfView>
+							<StorageToStorageConfView
+								:conf="run.configuration_context"
+								:configurationId="run.configuration_id"
+								:activeHeader="false"
+							></StorageToStorageConfView>
 						</v-card>
 					</v-tab-item>
 					<v-tab-item value="fulljson">
@@ -43,15 +51,15 @@
 
 <script>
 import { mapState } from 'vuex';
-import GcsToGcsConfView from './widgets/configurations/GcsToGcsConfView';
-import GcsToGcsRunView from './widgets/runs/GcsToGcsRunView';
-import store from '@/store/index';
+import StorageToStorageConfView from '../../widgets/configurations/StorageToStorageConfView';
+import StorageToStorageRunView from '../../widgets/runs/StorageToStorageRunView';
+import store from '@/store';
 import viewJson from '@/components/widgets/parameters/viewJson.vue';
 
 export default {
 	components: {
-		GcsToGcsConfView,
-		GcsToGcsRunView,
+		StorageToStorageConfView,
+		StorageToStorageRunView,
 		viewJson
 	},
 	data: () => ({
@@ -71,10 +79,10 @@ export default {
 		async getRun() {
 			this.$data.isFetchAndAdding = true;
 			//get the conf is not in mirrorExcGcsToGcsRuns
-			if (this.mirrorExcGcsToGcsRuns[this.confId] === undefined) {
+			if (this.storageToStorageRuns[this.confId] === undefined) {
 				await this.getFirestoreData();
 			}
-			this.run = this.mirrorExcGcsToGcsRuns[this.runId];
+			this.run = this.storageToStorageRuns[this.runId];
 			this.$data.isFetchAndAdding = false;
 		},
 		async getFirestoreData() {
@@ -82,10 +90,10 @@ export default {
 			this.$data.fetchAndAddStatus = 'Loading';
 			this.$data.moreToFetchAndAdd = false;
 			try {
-				await store.dispatch('mirrorExcGcsToGcsRuns/closeDBChannel', {
+				await store.dispatch('storageToStorageRuns/closeDBChannel', {
 					clearModule: true
 				});
-				await store.dispatch('mirrorExcGcsToGcsRuns/fetchById', runId);
+				await store.dispatch('storageToStorageRuns/fetchById', runId);
 				this.$data.fetchAndAddStatus = 'Success';
 			} catch (e) {
 				this.$data.fetchAndAddStatus = 'Error';
@@ -98,7 +106,7 @@ export default {
 			isAuthenticated: state => state.user.isAuthenticated,
 			user: state => state.user.user,
 			settings: state => state.settings,
-			mirrorExcGcsToGcsRuns: state => state.mirrorExcGcsToGcsRuns.data
+			storageToStorageRuns: state => state.storageToStorageRuns.data
 		}),
 		runId() {
 			return this.$route.params.runId;

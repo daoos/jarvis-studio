@@ -37,9 +37,9 @@
 
 <script>
 import { mapState } from 'vuex';
-import GcsToGcsConfView from './widgets/configurations/GcsToGcsConfView';
+import GcsToGcsConfView from '../../widgets/configurations/GcsToGcsConfView';
 import viewJson from '@/components/widgets/parameters/viewJson.vue';
-import store from '@/store/index';
+import store from '@/store';
 
 export default {
 	components: {

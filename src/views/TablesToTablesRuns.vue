@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import TablesToTablesRuns from '../components/TablesToTablesRuns';
+import TablesToTablesRuns from '../components/data-workflows/tables-to-tables/TablesToTablesRuns';
 import DataManagementHeader from '../components/widgets/layout/DataManagementHeader';
 
 export default {

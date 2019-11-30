@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import TablesToTablesConf from '../components/TablesToTablesConf';
+import TablesToTablesConf from '../components/data-workflows/tables-to-tables/TablesToTablesConf';
 import DataManagementHeader from '../components/widgets/layout/DataManagementHeader';
 
 export default {

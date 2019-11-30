@@ -9,8 +9,8 @@
 					<v-tab ripple href="#confoverview">
 						Configuration
 					</v-tab>
-					<v-tab ripple href="#conftasks">
-						Tasks
+					<v-tab ripple href="#confschema">
+						Schema
 					</v-tab>
 					<v-tab ripple href="#fulljson">
 						Full Json
@@ -20,30 +20,25 @@
 					</v-tab>
 					<v-tab-item value="rundetails">
 						<v-card v-if="this.run !== undefined">
-							<TablesToTablesRunView
+							<StorageToTableRunView
 								:run="this.run"
-								:runId="this.run.dag_id"
+								:runId="this.run.job_id"
 								:activeHeader="true"
-							></TablesToTablesRunView
+							></StorageToTableRunView
 						></v-card>
 					</v-tab-item>
 					<v-tab-item value="confoverview">
 						<v-card v-if="this.conf !== undefined">
-							<tablesToTablesConfOverview
+							<storageToTableConfOverview
 								:conf="this.conf"
-								:confId="this.conf.configuration.dag_name"
+								:confId="this.conf.table_name"
 								:activeHeader="false"
-							/>
-							></v-card
-						>
+							></storageToTableConfOverview
+						></v-card>
 					</v-tab-item>
-					<v-tab-item value="conftasks">
+					<v-tab-item value="confschema">
 						<v-card v-if="this.conf !== undefined">
-							<tablesToTalesConfTasksView
-								:tasksConf="this.conf.configuration.workflow"
-								:tasksSQL="this.conf.sql"
-								:dagConf="this.conf.configuration"
-							/>
+							<tableSchemaView :schemaRows="this.conf.schema" />
 						</v-card>
 					</v-tab-item>
 					<v-tab-item value="fulljson">
@@ -64,18 +59,18 @@
 
 <script>
 import { mapState } from 'vuex';
-import store from '@/store/index';
+import store from '@/store';
 import viewJson from '@/components/widgets/parameters/viewJson.vue';
-import TablesToTablesRunView from '@/components/widgets/runs/TablesToTablesRunView.vue';
-import tablesToTablesConfOverview from '@/components/widgets/configurations/TablesToTablesConfOverview.vue';
-import tablesToTalesConfTasksView from '@/components/widgets/configurations/TablesToTalesConfTasksView.vue';
+import StorageToTableRunView from '@/components/widgets/runs/StorageToTableRunView.vue';
+import storageToTableConfOverview from '@/components/widgets/configurations/StorageToTableConfOverview.vue';
+import tableSchemaView from '@/components/widgets/configurations/TableSchemaView.vue';
 
 export default {
 	components: {
 		viewJson,
-		TablesToTablesRunView,
-		tablesToTablesConfOverview,
-		tablesToTalesConfTasksView
+		storageToTableConfOverview,
+		tableSchemaView,
+		StorageToTableRunView
 	},
 	data() {
 		return {
@@ -89,11 +84,11 @@ export default {
 	},
 	methods: {
 		async getFirestoreData() {
-			await store.dispatch('tablesToTablesRun/closeDBChannel', {
+			await store.dispatch('storageToTableRun/closeDBChannel', {
 				clearModule: true
 			});
 			await store
-				.dispatch('tablesToTablesRun/fetchAndAdd', {
+				.dispatch('storageToTableRun/fetchAndAdd', {
 					itemId: this.itemId
 				})
 				.catch(console.error);
@@ -101,18 +96,25 @@ export default {
 	},
 	computed: {
 		...mapState({
-			tablesToTablesRun: state => state.tablesToTablesRun.data
+			storageToTableRun: state => state.storageToTableRun.data
 		}),
 		itemId() {
-			return this.$route.params.pathId;
+			var itemId = this.$route.params.pathId;
+			return itemId;
 		},
 		conf() {
-			//Add the bucket file source to the SingleDoc object
-			return this.tablesToTablesRun.configuration_context;
+			//Add the bucket file source to the storageToTableRun object
+			var conf = this.storageToTableRun.configuration_context;
+			conf.source_bucket = this.storageToTableRun.source_bucket;
+			conf.id = this.storageToTableRun.filename_template;
+			return conf;
 		},
 		run() {
-			return this.tablesToTablesRun;
+			var run = this.storageToTableRun;
+			return run;
 		}
 	}
 };
 </script>
+
+<style lang="scss" scoped></style>

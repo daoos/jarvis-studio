@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import workflowStatus from '../components/WorkflowStatus';
+import workflowStatus from '../components/data-workflows/workflow/WorkflowStatus';
 import DataManagementHeader from '../components/widgets/layout/DataManagementHeader';
 
 export default {

@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import StorageToTableRun from '../components/StorageToTableRun';
+import StorageToTableRun from '../components/data-workflows/storage-to-table/StorageToTableRun';
 import DataManagementHeader from '../components/widgets/layout/DataManagementHeader';
 
 export default {

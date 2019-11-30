@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import VmLauncherRuns from '../components/VmLauncherRuns';
+import VmLauncherRuns from '../components/data-workflows/vm-launcher/VmLauncherRuns';
 import DataManagementHeader from '../components/widgets/layout/DataManagementHeader';
 
 export default {

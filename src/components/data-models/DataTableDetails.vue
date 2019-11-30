@@ -282,10 +282,10 @@
 <script>
 import { mapState } from 'vuex';
 import VueJsonPretty from 'vue-json-pretty';
-import store from '@/store/index';
+import store from '@/store';
 import moment from 'moment';
-import JsonSchemaIsInvalid from './widgets/jsonvalidations/JsonSchemaIsInvalid.vue';
-import DataModelHeader from './widgets/layout/DataModelHeader';
+import JsonSchemaIsInvalid from '../widgets/jsonvalidations/JsonSchemaIsInvalid.vue';
+import DataModelHeader from '../widgets/layout/DataModelHeader';
 import tableSchemaView from '@/components/widgets/configurations/TableSchemaView.vue';
 // vue-good-table import the styles
 import 'vue-good-table/dist/vue-good-table.css';

@@ -5,7 +5,7 @@
 
 			<v-spacer />
 
-			<DataManagementFilters viewEnvironnement />
+			<DataManagementFilters viewEnvironnement viewPeriode viewRunStatus />
 
 			<v-icon right @click="getFirestoreData" v-if="!isFetchAndAdding">refresh</v-icon>
 
@@ -14,14 +14,14 @@
 
 		<v-data-table
 			:headers="headers"
-			:items="getGbqToGbqConfsFormated"
+			:items="vmLauncherRunsFormated"
 			:search="search"
 			:loading="isFetchAndAdding"
 			:expanded="expanded"
 			:sort-by.sync="pagination.sortBy"
 			:sort-desc.sync="pagination.descending"
 			item-key="id"
-			class="elevation-1"
+			class="elevation-5"
 		>
 			<v-progress-linear v-slot:progress color="blue" indeterminate />
 
@@ -33,47 +33,41 @@
 				{{ environment }}
 			</template>
 
-			<template v-slot:item.id="{ item: { id } }">
-				<router-link
-					:to="{
-						name: 'TablesToTablesConf',
-						params: { pathId: id }
-					}"
-				>
-					<span class="font-weight-medium">{{ id }}</span>
-				</router-link>
+			<template v-slot:item.dag_id="{ item: { dag_id } }">
+				{{ dag_id }}
+			</template>
+
+			<template v-slot:item.status="{ item: { status, statusColor } }">
+				<v-chip :color="statusColor" text-color="white" small class="text-lowercase">
+					{{ status }}
+				</v-chip>
 			</template>
 
 			<template
-				v-slot:item.configuration.default_bq_dataset="{
-					item: { configuration: { default_bq_dataset } }
+				v-slot:item.dag_execution_date_formated="{
+					item: { dag_execution_date_formated }
 				}"
 			>
-				{{ default_bq_dataset }}
-			</template>
-
-			<template v-slot:item.nb_tasks="{ item: { nb_tasks } }">
-				{{ nb_tasks }}
-			</template>
-
-			<template v-slot:item.activated="{ item }">
-				<ActivatedStatusChip
-					@click.native="changeActivatedStatus(item, 'getGbqToGbqConfs')"
-					:activatedConfStatus="item.configuration.activated"
-				/>
+				{{ dag_execution_date_formated }}
 			</template>
 
 			<template v-slot:item.actions="{ item }">
-				<v-icon small @click="toggleExpand(item)">
-					remove_red_eye
-				</v-icon>
+				<div class="justify-center layout px-0">
+					<v-icon small class="mr-2" @click="toggleExpand(item)">
+						remove_red_eye
+					</v-icon>
+
+					<v-icon small @click="openAirflowDagRunUrl(item)">
+						open_in_new
+					</v-icon>
+				</div>
 			</template>
 
 			<template v-slot:expanded-item="{ headers }">
 				<td :colspan="headers.length" class="pa-0">
 					<v-card flat>
 						<v-card-title>
-							<span class="headline">{{ viewedItem.id }}</span>
+							<span class="headline">{{ viewedItem.dag_run_id }}</span>
 							<v-spacer></v-spacer>
 							<v-btn color="warning" fab small dark outlined>
 								<v-icon @click="toggleExpand(viewedItem)">
@@ -99,39 +93,6 @@
 				Your search for "{{ search }}" found no results.
 			</v-alert>
 		</v-data-table>
-
-		<v-row v-if="viewJson">
-			<v-col cols="12" offset="0">
-				<v-card dark class="elevation-10">
-					<v-card-title>
-						<span class="headline">{{ id }}</span>
-						<v-spacer></v-spacer>
-						<v-btn color="warning" fab small dark outlined>
-							<v-icon @click="viewJson = false">
-								close
-							</v-icon>
-						</v-btn>
-					</v-card-title>
-					<v-card-text>
-						<vue-json-pretty
-							:data="viewedItem"
-							:deep="5"
-							:show-double-quotes="true"
-							:show-length="true"
-							:show-line="false"
-						>
-						</vue-json-pretty>
-					</v-card-text>
-				</v-card>
-			</v-col>
-		</v-row>
-
-		<v-snackbar v-model="snackbarParam.show" :color="snackbarParam.color" :timeout="2000">
-			{{ snackbarParam.message }}
-			<v-btn flat @click="snackbarParam.show = false">
-				Close
-			</v-btn>
-		</v-snackbar>
 	</v-container>
 </template>
 
@@ -139,31 +100,29 @@
 import { mapState } from 'vuex';
 import { mapGetters } from 'vuex';
 import VueJsonPretty from 'vue-json-pretty';
-import store from '@/store/index';
+import store from '@/store';
+import moment from 'moment';
 import _ from 'lodash';
-import DataManagementFilters from './widgets/filters/DataManagementFilters';
-import ActivatedStatusChip from './widgets/datatablewidgets/ActivatedStatusChip.vue';
-import ConfsComponent from '@/mixins/confsComponent.js';
+import Util from '@/util';
+import DataManagementFilters from '../../widgets/filters/DataManagementFilters';
 
 export default {
-	mixins: [ConfsComponent],
 	components: {
 		VueJsonPretty,
-		DataManagementFilters,
-		ActivatedStatusChip
+		DataManagementFilters
 	},
 	data: () => ({
 		expanded: [],
 		search: '',
 		isFetchAndAdding: false,
-		fetchAndAddStatus: '',
-		moreToFetchAndAdd: false,
 		expand: false,
 		pagination: {
-			sortBy: 'table_name',
+			sortBy: 'dag_execution_date_formated',
 			descending: true,
 			rowsPerPage: 10
 		},
+		fetchAndAddStatus: '',
+		moreToFetchAndAdd: false,
 		viewJson: false,
 		viewedItem: {},
 		headers: [
@@ -180,28 +139,22 @@ export default {
 				value: 'environment'
 			},
 			{
-				text: 'Workflow Id',
+				text: 'Dag Id',
 				align: 'left',
 				sortable: true,
-				value: 'id'
-			},
-			{
-				text: 'BQ Default Dataset',
-				align: 'left',
-				sortable: true,
-				value: 'configuration.default_bq_dataset'
-			},
-			{
-				text: '# Tasks',
-				align: 'left',
-				sortable: true,
-				value: 'nb_tasks'
+				value: 'dag_id'
 			},
 			{
 				text: 'Status',
 				align: 'left',
 				sortable: true,
-				value: 'activated'
+				value: 'status'
+			},
+			{
+				text: 'Execution Date',
+				align: 'left',
+				sortable: true,
+				value: 'dag_execution_date_formated'
 			},
 			{ text: 'Actions', align: 'center', value: 'actions', sortable: false }
 		]
@@ -220,16 +173,22 @@ export default {
 				this.viewedItem = item;
 			}
 		},
+		viewItem(props, item) {
+			props.expanded = !props.expanded;
+			this.viewedIndex = this.vmLauncherRunsFormated.indexOf(item);
+			this.viewedItem = Object.assign({}, item);
+		},
+		openAirflowDagRunUrl(item) {
+			window.open(item.dag_execution_airflow_url, '_blank');
+		},
 		async getFirestoreData() {
-			const where = this.whereConfFilter;
+			const where = this.whereRunsFilter;
 			this.$data.fetchAndAddStatus = 'Loading';
 			this.$data.moreToFetchAndAdd = false;
 			this.$data.isFetchAndAdding = true;
 			try {
-				store.dispatch('getGbqToGbqConfs/closeDBChannel', {
-					clearModule: true
-				});
-				let fetchResult = await store.dispatch('getGbqToGbqConfs/fetchAndAdd', {
+				store.dispatch('vmLauncherRuns/closeDBChannel', { clearModule: true });
+				let fetchResult = await store.dispatch('vmLauncherRuns/openDBChannel', {
 					where,
 					limit: 0
 				});
@@ -240,10 +199,9 @@ export default {
 				}
 				this.$data.fetchAndAddStatus = 'Success';
 			} catch (e) {
-				console.log('Firestore Error catched');
-				console.log(e);
 				this.$data.fetchAndAddStatus = 'Error';
 				this.$data.isFetchAndAdding = false;
+				console.error(e);
 			}
 			this.$data.isFetchAndAdding = false;
 		}
@@ -252,15 +210,22 @@ export default {
 		...mapState({
 			isAuthenticated: state => state.user.isAuthenticated,
 			user: state => state.user.user,
-			getGbqToGbqConfs: state => state.getGbqToGbqConfs.data
+			vmLauncherRuns: state => state.vmLauncherRuns.data,
+			dateFilterSelected: state => state.filters.dateFilterSelected,
+			dateFilters: state => state.filters.dateFilters,
+			minDateFilter: state => state.filters.minDateFilter
 		}),
-		...mapGetters(['periodFiltered', 'whereConfFilter']),
-		getGbqToGbqConfsFormated() {
-			const dataArray = Object.values(this.getGbqToGbqConfs);
-			var dataFormated = dataArray.map(function(data) {
+		...mapGetters(['periodFiltered', 'whereRunsFilter']),
+		vmLauncherRunsFormated() {
+			const dataArray = Object.values(this.vmLauncherRuns);
+			const dataFormated = dataArray.map(function(data) {
 				return {
-					nb_tasks: data.configuration.workflow.length,
-					sqlArray: Object.entries(data.sql)
+					dag_execution_date_formated: moment(data.dag_execution_date).format('YYYY/MM/DD - HH:mm'),
+					dag_execution_date_from_now: moment(data.dag_execution_date).fromNow(),
+					//color for the status
+					statusColor: Util.getStatusColor(data.status),
+					//generate Airflow URL
+					dag_execution_airflow_url: Util.dagRunAirflowUrl(data.dag_id, data.dag_run_id, data.dag_execution_date)
 				};
 			});
 			const dataArrayFormated = _.merge(dataArray, dataFormated);
@@ -268,7 +233,7 @@ export default {
 		}
 	},
 	watch: {
-		whereConfFilter() {
+		whereRunsFilter() {
 			this.getFirestoreData();
 		}
 	}

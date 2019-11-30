@@ -6,8 +6,8 @@
 					<v-tab ripple href="#confoverview">
 						Overview
 					</v-tab>
-					<v-tab ripple href="#confschema">
-						Schema
+					<v-tab ripple href="#conftasks">
+						Tasks
 					</v-tab>
 					<v-tab ripple href="#fulljson">
 						Full Json
@@ -17,16 +17,20 @@
 					</v-tab>
 					<v-tab-item value="confoverview">
 						<v-card v-if="this.conf !== undefined">
-							<storageToTableConfOverview
+							<tablesToTablesConfOverview
 								:conf="this.conf"
-								:confId="this.conf.table_name"
+								:confId="this.conf.configuration.dag_name"
 								:activeHeader="true"
-							></storageToTableConfOverview
+							></tablesToTablesConfOverview
 						></v-card>
 					</v-tab-item>
-					<v-tab-item value="confschema">
+					<v-tab-item value="conftasks">
 						<v-card v-if="this.conf !== undefined">
-							<tableSchemaView :schemaRows="this.conf.schema" />
+							<tablesToTalesConfTasksView
+								:tasksConf="this.conf.configuration.workflow"
+								:tasksSQL="this.conf.sql"
+								:dagConf="this.conf.configuration"
+							/>
 						</v-card>
 					</v-tab-item>
 					<v-tab-item value="fulljson">
@@ -47,16 +51,16 @@
 
 <script>
 import { mapState } from 'vuex';
-import store from '@/store/index';
+import store from '@/store';
 import viewJson from '@/components/widgets/parameters/viewJson.vue';
-import storageToTableConfOverview from '@/components/widgets/configurations/StorageToTableConfOverview.vue';
-import tableSchemaView from '@/components/widgets/configurations/TableSchemaView.vue';
+import tablesToTablesConfOverview from '@/components/widgets/configurations/TablesToTablesConfOverview.vue';
+import tablesToTalesConfTasksView from '@/components/widgets/configurations/TablesToTalesConfTasksView.vue';
 
 export default {
 	components: {
 		viewJson,
-		storageToTableConfOverview,
-		tableSchemaView
+		tablesToTablesConfOverview,
+		tablesToTalesConfTasksView
 	},
 	data() {
 		return {
@@ -65,18 +69,16 @@ export default {
 		};
 	},
 	async mounted() {
-		this.isFetchAndAdding = true;
 		await this.getFirestoreData();
 		this.isFetchAndAdding = false;
 	},
 	methods: {
 		async getFirestoreData() {
-			await store.dispatch('storageToTableConf/closeDBChannel', {
+			await store.dispatch('tablesToTablesConf/closeDBChannel', {
 				clearModule: true
 			});
 			await store
-				.dispatch('storageToTableConf/fetchAndAdd', {
-					sourceId: this.bucketIn,
+				.dispatch('tablesToTablesConf/fetchAndAdd', {
 					itemId: this.itemId
 				})
 				.catch(console.error);
@@ -84,22 +86,16 @@ export default {
 	},
 	computed: {
 		...mapState({
-			storageToTableConf: state => state.storageToTableConf.data
+			tablesToTablesConf: state => state.tablesToTablesConf.data
 		}),
 		itemId() {
-			return this.$route.params.pathId.split('/')[1];
-		},
-		bucketIn() {
-			return this.$route.params.pathId.split('/')[0];
+			var itemId = this.$route.params.pathId;
+			return itemId;
 		},
 		conf() {
-			//Add the bucket file source to the SingleDoc object
-			var conf = this.storageToTableConf;
-			conf.source_bucket = this.bucketIn;
-			return conf;
+			// Add the bucket file source to the SingleDoc object
+			return this.tablesToTablesConf;
 		}
 	}
 };
 </script>
-
-<style lang="scss" scoped></style>

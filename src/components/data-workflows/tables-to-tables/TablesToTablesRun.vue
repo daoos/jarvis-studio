@@ -3,8 +3,11 @@
 		<v-row v-if="!isFetchAndAdding">
 			<v-col cols="12" offset="0">
 				<v-tabs v-model="activeTab" color="black" background-color="#E0E0E0" slider-color="primary">
+					<v-tab ripple href="#rundetails">
+						Run Details
+					</v-tab>
 					<v-tab ripple href="#confoverview">
-						Overview
+						Configuration
 					</v-tab>
 					<v-tab ripple href="#conftasks">
 						Tasks
@@ -15,14 +18,24 @@
 					<v-tab ripple href="#conversation">
 						Conversation
 					</v-tab>
+					<v-tab-item value="rundetails">
+						<v-card v-if="this.run !== undefined">
+							<TablesToTablesRunView
+								:run="this.run"
+								:runId="this.run.dag_id"
+								:activeHeader="true"
+							></TablesToTablesRunView
+						></v-card>
+					</v-tab-item>
 					<v-tab-item value="confoverview">
 						<v-card v-if="this.conf !== undefined">
 							<tablesToTablesConfOverview
 								:conf="this.conf"
 								:confId="this.conf.configuration.dag_name"
-								:activeHeader="true"
-							></tablesToTablesConfOverview
-						></v-card>
+								:activeHeader="false"
+							/>
+							></v-card
+						>
 					</v-tab-item>
 					<v-tab-item value="conftasks">
 						<v-card v-if="this.conf !== undefined">
@@ -35,7 +48,7 @@
 					</v-tab-item>
 					<v-tab-item value="fulljson">
 						<v-card>
-							<viewJson :json="this.conf" :jsonID="this.conf.id" />
+							<viewJson :json="this.run" :jsonID="this.run.id" />
 						</v-card>
 					</v-tab-item>
 				</v-tabs>
@@ -51,14 +64,16 @@
 
 <script>
 import { mapState } from 'vuex';
-import store from '@/store/index';
+import store from '@/store';
 import viewJson from '@/components/widgets/parameters/viewJson.vue';
+import TablesToTablesRunView from '@/components/widgets/runs/TablesToTablesRunView.vue';
 import tablesToTablesConfOverview from '@/components/widgets/configurations/TablesToTablesConfOverview.vue';
 import tablesToTalesConfTasksView from '@/components/widgets/configurations/TablesToTalesConfTasksView.vue';
 
 export default {
 	components: {
 		viewJson,
+		TablesToTablesRunView,
 		tablesToTablesConfOverview,
 		tablesToTalesConfTasksView
 	},
@@ -74,11 +89,11 @@ export default {
 	},
 	methods: {
 		async getFirestoreData() {
-			await store.dispatch('tablesToTablesConf/closeDBChannel', {
+			await store.dispatch('tablesToTablesRun/closeDBChannel', {
 				clearModule: true
 			});
 			await store
-				.dispatch('tablesToTablesConf/fetchAndAdd', {
+				.dispatch('tablesToTablesRun/fetchAndAdd', {
 					itemId: this.itemId
 				})
 				.catch(console.error);
@@ -86,15 +101,17 @@ export default {
 	},
 	computed: {
 		...mapState({
-			tablesToTablesConf: state => state.tablesToTablesConf.data
+			tablesToTablesRun: state => state.tablesToTablesRun.data
 		}),
 		itemId() {
-			var itemId = this.$route.params.pathId;
-			return itemId;
+			return this.$route.params.pathId;
 		},
 		conf() {
-			// Add the bucket file source to the SingleDoc object
-			return this.tablesToTablesConf;
+			//Add the bucket file source to the SingleDoc object
+			return this.tablesToTablesRun.configuration_context;
+		},
+		run() {
+			return this.tablesToTablesRun;
 		}
 	}
 };

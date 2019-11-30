@@ -5,66 +5,76 @@
 
 			<v-spacer />
 
-			<DataManagementFilters viewEnvironnement viewPeriode viewRunStatus />
+			<DataManagementFilters viewEnvironnement viewPeriode />
 
-			<v-icon right @click="getFirestoreData" v-if="!isFetchAndAdding">refresh</v-icon>
+			<v-icon right @click="getFirestoreData" v-if="!isFetchAndAdding">
+				refresh
+			</v-icon>
 
-			<v-progress-circular v-if="isFetchAndAdding" indeterminate size="20" color="primary" />
+			<v-progress-circular indeterminate size="20" color="primary" v-if="isFetchAndAdding" />
 		</v-toolbar>
 
 		<v-data-table
 			:headers="headers"
-			:items="storageToStorageRunsFormated"
+			:items="workflowStatusFormated"
 			:search="search"
 			:loading="isFetchAndAdding"
 			:expanded="expanded"
 			:sort-by.sync="pagination.sortBy"
 			:sort-desc.sync="pagination.descending"
 			item-key="id"
-			class="elevation-5"
+			class="elevation-1"
 		>
 			<v-progress-linear v-slot:progress color="blue" indeterminate />
 
-			<template v-slot:item.account="{ item: { account } }">
-				{{ account }}
+			<template v-slot:item.id="{ item: { id } }">
+				{{ id }}
 			</template>
 
-			<template v-slot:item.environment="{ item: { environment } }">
-				{{ environment }}
+			<template v-slot:item.target_dag="{ item: { target_dag } }">
+				<!-- TODO: Fix this -->
+				{{ target_dag }}
 			</template>
 
-			<template v-slot:item.configuration_id="{ item: { configuration_id } }">
-				{{ configuration_id }}
-			</template>
-
-			<template v-slot:item.triggering_file="{ item: { id, triggering_file } }">
-				<router-link :to="{ name: 'StorageToStorageRun', params: { runId: id } }">
-					{{ triggering_file }}
-				</router-link>
-			</template>
-
-			<template v-slot:item.status="{ item: { status, statusColor } }">
-				<v-chip :color="statusColor" text-color="white" small class="text-lowercase">
-					{{ status }}
-				</v-chip>
+			<template v-slot:item.nb_triggering_jobs="{ item: { nb_triggering_jobs } }">
+				{{ nb_triggering_jobs }}
 			</template>
 
 			<template
-				v-slot:item.dag_execution_date_formated="{
-					item: { dag_execution_date_formated }
+				v-slot:item.nb_triggered_jobs="{
+					item: { nb_triggered_jobs, nb_triggering_jobs }
 				}"
 			>
-				{{ dag_execution_date_formated }}
+				<v-progress-circular
+					:rotate="270"
+					:size="35"
+					:value="(nb_triggered_jobs / nb_triggering_jobs) * 100"
+					color="green"
+				>
+					{{ nb_triggered_jobs }}
+				</v-progress-circular>
+			</template>
+
+			<template
+				v-slot:item.last_update_date_from_now="{
+					item: { last_update_date_from_now }
+				}"
+			>
+				{{ last_update_date_from_now }}
+			</template>
+
+			<template
+				v-slot:item.last_fire_date_from_now="{
+					item: { last_fire_date_from_now }
+				}"
+			>
+				{{ last_fire_date_from_now }}
 			</template>
 
 			<template v-slot:item.actions="{ item }">
 				<div class="justify-center layout px-0">
-					<v-icon small class="mr-2" @click="toggleExpand(item)">
+					<v-icon small @click="toggleExpand(item)">
 						remove_red_eye
-					</v-icon>
-
-					<v-icon small @click="openAirflowDagRunUrl(item)">
-						open_in_new
 					</v-icon>
 				</div>
 			</template>
@@ -73,7 +83,7 @@
 				<td :colspan="headers.length" class="pa-0">
 					<v-card flat>
 						<v-card-title>
-							<span class="headline">{{ viewedItem.dag_run_id }}</span>
+							<span class="headline">{{ viewedItem.id }}</span>
 							<v-spacer></v-spacer>
 							<v-btn color="warning" fab small dark outlined>
 								<v-icon @click="toggleExpand(viewedItem)">
@@ -106,11 +116,10 @@
 import { mapState } from 'vuex';
 import { mapGetters } from 'vuex';
 import VueJsonPretty from 'vue-json-pretty';
-import store from '@/store/index';
+import store from '@/store';
 import moment from 'moment';
 import _ from 'lodash';
-import Util from '@/util';
-import DataManagementFilters from './widgets/filters/DataManagementFilters';
+import DataManagementFilters from '../../widgets/filters/DataManagementFilters';
 
 export default {
 	components: {
@@ -133,46 +142,46 @@ export default {
 		viewedItem: {},
 		headers: [
 			{
-				text: 'Account ID',
+				text: 'Workflow Id',
 				align: 'left',
 				sortable: true,
-				value: 'account'
+				value: 'id'
 			},
 			{
-				text: 'Environnement',
+				text: 'Dag to fire',
 				align: 'left',
 				sortable: true,
 				value: 'environment'
 			},
 			{
-				text: 'Conf Id',
+				text: 'Triggering Jobs',
 				align: 'left',
 				sortable: true,
-				value: 'configuration_id'
+				value: 'nb_triggering_jobs'
 			},
 			{
-				text: 'Triggering File',
+				text: 'Triggered Jobs',
 				align: 'left',
 				sortable: true,
-				value: 'triggering_file'
+				value: 'nb_triggered_jobs'
 			},
 			{
-				text: 'Status',
+				text: 'Last triggering date',
 				align: 'left',
 				sortable: true,
-				value: 'status'
+				value: 'last_update_date_from_now'
 			},
 			{
-				text: 'Execution Date',
+				text: 'Last fire Date',
 				align: 'left',
 				sortable: true,
-				value: 'dag_execution_date_formated'
+				value: 'last_fire_date_from_now'
 			},
 			{ text: 'Actions', align: 'center', value: 'actions', sortable: false }
 		]
 	}),
-	mounted() {
-		this.getFirestoreData();
+	async mounted() {
+		await this.getFirestoreData();
 	},
 	methods: {
 		toggleExpand(item) {
@@ -189,16 +198,14 @@ export default {
 			window.open(item.dag_execution_airflow_url, '_blank');
 		},
 		async getFirestoreData() {
-			const where = this.whereRunsFilter;
 			this.$data.fetchAndAddStatus = 'Loading';
 			this.$data.moreToFetchAndAdd = false;
 			this.$data.isFetchAndAdding = true;
 			try {
-				store.dispatch('storageToStorageRuns/closeDBChannel', {
+				store.dispatch('workflowStatus/closeDBChannel', {
 					clearModule: true
 				});
-				let fetchResult = await store.dispatch('storageToStorageRuns/fetchAndAdd', {
-					where,
+				let fetchResult = await store.dispatch('workflowStatus/fetchAndAdd', {
 					limit: 0
 				});
 				if (fetchResult.done === true) {
@@ -208,9 +215,10 @@ export default {
 				}
 				this.$data.fetchAndAddStatus = 'Success';
 			} catch (e) {
+				console.log('Firestore Error catched');
+				console.log(e);
 				this.$data.fetchAndAddStatus = 'Error';
 				this.$data.isFetchAndAdding = false;
-				console.error(e);
 			}
 			this.$data.isFetchAndAdding = false;
 		}
@@ -219,22 +227,31 @@ export default {
 		...mapState({
 			isAuthenticated: state => state.user.isAuthenticated,
 			user: state => state.user.user,
-			storageToStorageRuns: state => state.storageToStorageRuns.data,
+			settings: state => state.settings,
+			workflowStatus: state => state.workflowStatus.data,
 			dateFilterSelected: state => state.filters.dateFilterSelected,
 			dateFilters: state => state.filters.dateFilters,
 			minDateFilter: state => state.filters.minDateFilter
 		}),
 		...mapGetters(['periodFiltered', 'whereRunsFilter']),
-		storageToStorageRunsFormated() {
-			const dataArray = Object.values(this.storageToStorageRuns);
+		workflowStatusFormated() {
+			const dataArray = Object.values(this.workflowStatus);
 			var dataFormated = dataArray.map(function(data) {
 				return {
-					dag_execution_date_formated: moment(data.dag_execution_date).format('YYYY/MM/DD - HH:mm'),
-					dag_execution_date_from_now: moment(data.dag_execution_date).fromNow(),
+					last_update_date_formated: moment(data.last_modified).format('YYYY/MM/DD - HH:mm'),
+					last_update_date_from_now: moment(data.last_modified).fromNow(),
+					last_fire_date_formated: moment(data.target_dag_last_executed).format('YYYY/MM/DD - HH:mm'),
+					last_fire_date_from_now: moment(data.target_dag_last_executed).fromNow(),
+					nb_triggering_jobs: Object.keys(data.jobs).length,
+					// Compute the number of jobs with a executed status == true
+					nb_triggered_jobs: Object.values(data.jobs).filter(function(d) {
+						return d.executed == true;
+					}).length
+
 					//color for the status
-					statusColor: Util.getStatusColor(data.status),
+					//statusColor: Util.getStatusColor(data.status),
 					//generate Airflow URL
-					dag_execution_airflow_url: Util.dagRunAirflowUrl(data.dag_id, data.dag_run_id, data.dag_execution_date)
+					//TODO : GENERATE THE AIRFLOW URL TO THE JOBS ID
 				};
 			});
 			const dataArrayFormated = _.merge(dataArray, dataFormated);
@@ -242,8 +259,8 @@ export default {
 		}
 	},
 	watch: {
-		whereRunsFilter() {
-			this.getFirestoreData();
+		async whereRunsFilter() {
+			await this.getFirestoreData();
 		}
 	}
 };

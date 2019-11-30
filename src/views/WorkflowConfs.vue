@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import WorkflowConfs from '../components/WorkflowConfs';
+import WorkflowConfs from '../components/data-workflows/workflow/WorkflowConfs';
 import DataManagementHeader from '../components/widgets/layout/DataManagementHeader';
 
 export default {
