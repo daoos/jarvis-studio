@@ -14,8 +14,7 @@
 					</v-tab-item>
 
 					<v-tab-item value="full-json">
-						<!-- TODO: Move generic component -->
-						<view-json :json="conf" :jsonID="confId" />
+						<view-json :json="conf" :json-id="confId" />
 					</v-tab-item>
 
 					<v-tab-item value="conversation">
@@ -29,7 +28,7 @@
 
 <script>
 import ConfigurationOverview from '../../../common/configuration/ConfigurationOverview';
-import ViewJson from '../../../widgets/parameters/viewJson.vue';
+import ViewJson from '../../../common/ViewJson';
 
 import OverviewData from './overview-data';
 
