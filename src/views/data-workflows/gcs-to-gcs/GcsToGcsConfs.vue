@@ -1,17 +1,17 @@
 <template>
 	<div>
 		<DataManagementHeader :tabsItems="tabsItems" :headerTitle="headerTitle"></DataManagementHeader>
-		<GcsToGcsRuns />
+		<GcsToGcsConfs />
 	</div>
 </template>
 
 <script>
-import GcsToGcsRuns from '../components/data-workflows/gcs-to-gcs/GcsToGcsRuns';
-import DataManagementHeader from '../components/app/headers/DataManagementHeader';
+import GcsToGcsConfs from '../../../components/data-workflows/gcs-to-gcs/GcsToGcsConfs';
+import DataManagementHeader from '../../../components/app/headers/DataManagementHeader';
 
 export default {
 	components: {
-		GcsToGcsRuns,
+		GcsToGcsConfs,
 		DataManagementHeader
 	},
 	data() {

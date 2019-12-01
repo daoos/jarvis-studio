@@ -6,8 +6,8 @@
 </template>
 
 <script>
-import GcsToGbqConfs from '../components/data-workflows/gcs-to-gbq/GcsToGbqConfs';
-import DataManagementHeader from '../components/app/headers/DataManagementHeader';
+import GcsToGbqConfs from '../../../components/data-workflows/gcs-to-gbq/GcsToGbqConfs';
+import DataManagementHeader from '../../../components/app/headers/DataManagementHeader';
 
 export default {
 	components: {

@@ -1,17 +1,17 @@
 <template>
 	<div>
 		<DataManagementHeader :tabsItems="tabsItems" :headerTitle="headerTitle"></DataManagementHeader>
-		<StorageToStorageConf />
+		<StorageToStorageConfs />
 	</div>
 </template>
 
 <script>
-import StorageToStorageConf from '../components/data-workflows/storage-to-storage/StorageToStorageConf';
-import DataManagementHeader from '../components/app/headers/DataManagementHeader';
+import StorageToStorageConfs from '@/components/data-workflows/storage-to-storage/StorageToStorageConfs.vue';
+import DataManagementHeader from '../../../components/app/headers/DataManagementHeader';
 
 export default {
 	components: {
-		StorageToStorageConf,
+		StorageToStorageConfs,
 		DataManagementHeader
 	},
 	data() {

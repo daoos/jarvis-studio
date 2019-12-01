@@ -20,7 +20,7 @@ export default [
 		meta: {
 			public: true
 		},
-		component: () => import(/* webpackChunkName: "signin" */ '@/views/Signin.vue')
+		component: () => import(/* webpackChunkName: "signin" */ '@/views/sign-in/Signin.vue')
 	},
 	{
 		path: '/signinemail',
@@ -28,7 +28,7 @@ export default [
 		meta: {
 			public: true
 		},
-		component: () => import(/* webpackChunkName: "signinEmail" */ '@/views/SigninEmail.vue')
+		component: () => import(/* webpackChunkName: "signinEmail" */ '@/views/sign-in/SigninEmail.vue')
 	},
 
 	/**
@@ -40,7 +40,7 @@ export default [
 		meta: {
 			authRequired: true
 		},
-		component: () => import(/* webpackChunkName: "userprofile" */ '@/views/UserProfile.vue')
+		component: () => import(/* webpackChunkName: "userprofile" */ '@/views/settings/Profile.vue')
 	},
 	{
 		path: '/settings/users',
@@ -58,7 +58,7 @@ export default [
 			authRequired: true,
 			adminRequired: true
 		},
-		component: () => import(/* webpackChunkName: "accounts" */ '@/views/Accounts.vue'),
+		component: () => import(/* webpackChunkName: "accounts" */ '@/views/settings/Accounts.vue'),
 		alias: '/settings/accounts'
 	},
 	{
@@ -68,7 +68,7 @@ export default [
 			authRequired: true,
 			adminRequired: true
 		},
-		component: () => import(/* webpackChunkName: "gcpcloudfunctions" */ '@/views/GcpCloudFunctions.vue'),
+		component: () => import(/* webpackChunkName: "gcpcloudfunctions" */ '@/views/settings/CloudFunctions.vue'),
 		alias: '/settings/gcpcloudfunctions'
 	},
 
@@ -81,7 +81,8 @@ export default [
 		meta: {
 			authRequired: true
 		},
-		component: () => import(/* webpackChunkName: "gcstogcsconfs" */ '@/views/GcsToGcsConfs.vue'),
+		component: () =>
+			import(/* webpackChunkName: "gcstogcsconfs" */ '@/views/data-workflows/gcs-to-gcs/GcsToGcsConfs.vue'),
 		alias: '/conf/gcstogcs'
 	},
 	{
@@ -90,7 +91,8 @@ export default [
 		meta: {
 			authRequired: true
 		},
-		component: () => import(/* webpackChunkName: "gcstogcsruns" */ '@/views/GcsToGcsRuns.vue'),
+		component: () =>
+			import(/* webpackChunkName: "gcstogcsruns" */ '@/views/data-workflows/gcs-to-gcs/GcsToGcsRuns.vue'),
 		alias: '/runs/gcstogcs'
 	},
 	{
@@ -99,7 +101,7 @@ export default [
 		meta: {
 			authRequired: true
 		},
-		component: () => import(/* webpackChunkName: "gcstogcsconf" */ '@/views/GcsToGcsConf.vue')
+		component: () => import(/* webpackChunkName: "gcstogcsconf" */ '@/views/data-workflows/gcs-to-gcs/GcsToGcsConf.vue')
 	},
 	{
 		path: '/gcstogcs/runs/:runId',
@@ -107,7 +109,7 @@ export default [
 		meta: {
 			authRequired: true
 		},
-		component: () => import(/* webpackChunkName: "gcstogcsrun" */ '@/views/GcsToGcsRun.vue')
+		component: () => import(/* webpackChunkName: "gcstogcsrun" */ '@/views/data-workflows/gcs-to-gcs/GcsToGcsRun.vue')
 	},
 
 	/**
@@ -119,7 +121,10 @@ export default [
 		meta: {
 			authRequired: true
 		},
-		component: () => import(/* webpackChunkName: "storagetostoragerun" */ '@/views/StorageToStorageRun.vue')
+		component: () =>
+			import(
+				/* webpackChunkName: "storagetostoragerun" */ '@/views/data-workflows/storage-to-storage/StorageToStorageRun.vue'
+			)
 	},
 	{
 		path: '/storagetostorage/confs',
@@ -127,7 +132,10 @@ export default [
 		meta: {
 			authRequired: true
 		},
-		component: () => import(/* webpackChunkName: "storagetostorageconfs" */ '@/views/StorageToStorageConfs.vue')
+		component: () =>
+			import(
+				/* webpackChunkName: "storagetostorageconfs" */ '@/views/data-workflows/storage-to-storage/StorageToStorageConfs.vue'
+			)
 	},
 	{
 		path: '/storagetostorage/confs/:pathId',
@@ -135,7 +143,10 @@ export default [
 		meta: {
 			authRequired: true
 		},
-		component: () => import(/* webpackChunkName: "storagetostorageconf" */ '@/views/StorageToStorageConf.vue')
+		component: () =>
+			import(
+				/* webpackChunkName: "storagetostorageconf" */ '@/views/data-workflows/storage-to-storage/StorageToStorageConf.vue'
+			)
 	},
 	{
 		path: '/storagetostorage/runs',
@@ -143,7 +154,10 @@ export default [
 		meta: {
 			authRequired: true
 		},
-		component: () => import(/* webpackChunkName: "storagetostorageruns" */ '@/views/StorageToStorageRuns.vue')
+		component: () =>
+			import(
+				/* webpackChunkName: "storagetostorageruns" */ '@/views/data-workflows/storage-to-storage/StorageToStorageRuns.vue'
+			)
 	},
 
 	/**
@@ -155,7 +169,8 @@ export default [
 		meta: {
 			authRequired: true
 		},
-		component: () => import(/* webpackChunkName: "gcstogbqconfs" */ '@/views/GcsToGbqConfs.vue'),
+		component: () =>
+			import(/* webpackChunkName: "gcstogbqconfs" */ '@/views/data-workflows/gcs-to-gbq/GcsToGbqConfs.vue'),
 		alias: '/conf/gcstogbq'
 	},
 	{
@@ -164,7 +179,10 @@ export default [
 		meta: {
 			authRequired: true
 		},
-		component: () => import(/* webpackChunkName: "storagetotableconf" */ '@/views/StorageToTableConf.vue')
+		component: () =>
+			import(
+				/* webpackChunkName: "storagetotableconf" */ '@/views/data-workflows/storage-to-table/StorageToTableConf.vue'
+			)
 	},
 	{
 		path: '/storagetotable/runs',
@@ -172,7 +190,8 @@ export default [
 		meta: {
 			authRequired: true
 		},
-		component: () => import(/* webpackChunkName: "gcstogbqruns" */ '@/views/GcsToGbqRuns.vue'),
+		component: () =>
+			import(/* webpackChunkName: "gcstogbqruns" */ '@/views/data-workflows/gcs-to-gbq/GcsToGbqRuns.vue'),
 		alias: '/runs/gcstogbq'
 	},
 	{
@@ -181,7 +200,10 @@ export default [
 		meta: {
 			authRequired: true
 		},
-		component: () => import(/* webpackChunkName: "storagetotablerun" */ '@/views/StorageToTableRun.vue')
+		component: () =>
+			import(
+				/* webpackChunkName: "storagetotablerun" */ '@/views/data-workflows/storage-to-table/StorageToTableRun.vue'
+			)
 	},
 
 	/**
@@ -193,7 +215,10 @@ export default [
 		meta: {
 			authRequired: true
 		},
-		component: () => import(/* webpackChunkName: "tablestotablesconfs" */ '@/views/TablesToTablesConfs.vue'),
+		component: () =>
+			import(
+				/* webpackChunkName: "tablestotablesconfs" */ '@/views/data-workflows/tables-to-tables/TablesToTablesConfs.vue'
+			),
 		alias: '/conf/gbqtogbq'
 	},
 	{
@@ -202,7 +227,10 @@ export default [
 		meta: {
 			authRequired: true
 		},
-		component: () => import(/* webpackChunkName: "tablestotablesconf" */ '@/views/TablesToTablesConf.vue')
+		component: () =>
+			import(
+				/* webpackChunkName: "tablestotablesconf" */ '@/views/data-workflows/tables-to-tables/TablesToTablesConf.vue'
+			)
 	},
 	{
 		path: '/tablestotables/runs',
@@ -210,7 +238,10 @@ export default [
 		meta: {
 			authRequired: true
 		},
-		component: () => import(/* webpackChunkName: "storagetotableconfs" */ '@/views/TablesToTablesRuns.vue'),
+		component: () =>
+			import(
+				/* webpackChunkName: "storagetotableconfs" */ '@/views/data-workflows/tables-to-tables/TablesToTablesRuns.vue'
+			),
 		alias: '/runs/gbqtogbq'
 	},
 	{
@@ -219,7 +250,10 @@ export default [
 		meta: {
 			authRequired: true
 		},
-		component: () => import(/* webpackChunkName: "tablestotablesrun" */ '@/views/TablesToTablesRun.vue')
+		component: () =>
+			import(
+				/* webpackChunkName: "tablestotablesrun" */ '@/views/data-workflows/tables-to-tables/TablesToTablesRun.vue'
+			)
 	},
 
 	/**
@@ -250,7 +284,8 @@ export default [
 		meta: {
 			authRequired: true
 		},
-		component: () => import(/* webpackChunkName: "gbqtogcsruns" */ '@/views/GbqToGcsRuns.vue'),
+		component: () =>
+			import(/* webpackChunkName: "gbqtogcsruns" */ '@/views/data-workflows/gbq-to-gcs/GbqToGcsRuns.vue'),
 		alias: '/runs/gbqtogcs'
 	},
 
@@ -285,7 +320,10 @@ export default [
 		meta: {
 			authRequired: true
 		},
-		component: () => import(/* webpackChunkName: "tabletostorageruns" */ '@/views/TableToStorageRuns.vue')
+		component: () =>
+			import(
+				/* webpackChunkName: "tabletostorageruns" */ '@/views/data-workflows/table-to-storage/TableToStorageRuns.vue'
+			)
 	},
 
 	// {
@@ -306,7 +344,8 @@ export default [
 		meta: {
 			authRequired: true
 		},
-		component: () => import(/* webpackChunkName: "vmlauncherruns" */ '@/views/VmLauncherRuns.vue'),
+		component: () =>
+			import(/* webpackChunkName: "vmlauncherruns" */ '@/views/data-workflows/vm-launcher/VmLauncherRuns.vue'),
 		alias: '/runs/vmlauncher'
 	},
 	{
@@ -315,7 +354,8 @@ export default [
 		meta: {
 			authRequired: true
 		},
-		component: () => import(/* webpackChunkName: "vmlauncherconfs" */ '@/views/VmLauncherConfs.vue'),
+		component: () =>
+			import(/* webpackChunkName: "vmlauncherconfs" */ '@/views/data-workflows/vm-launcher/VmLauncherConfs.vue'),
 		alias: '/conf/vmlauncher'
 	},
 
@@ -328,7 +368,7 @@ export default [
 		meta: {
 			authRequired: true
 		},
-		component: () => import(/* webpackChunkName: "workflowconfs" */ '@/views/WorkflowConfs.vue')
+		component: () => import(/* webpackChunkName: "workflowconfs" */ '@/views/data-workflows/workflow/WorkflowConfs.vue')
 	},
 	{
 		path: '/status/workflow',
@@ -336,7 +376,8 @@ export default [
 		meta: {
 			authRequired: true
 		},
-		component: () => import(/* webpackChunkName: "workflowstatus" */ '@/views/WorkflowStatus.vue')
+		component: () =>
+			import(/* webpackChunkName: "workflowstatus" */ '@/views/data-workflows/workflow/WorkflowStatus.vue')
 	},
 
 	/**
@@ -348,6 +389,6 @@ export default [
 		meta: {
 			authRequired: true
 		},
-		component: () => import(/* webpackChunkName: "datatabledetails" */ '@/views/DataTableDetails.vue')
+		component: () => import(/* webpackChunkName: "datatabledetails" */ '@/views/data-models/DataTableDetails.vue')
 	}
 ];
