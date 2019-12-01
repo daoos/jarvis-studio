@@ -7,7 +7,7 @@
 
 <script>
 import StorageToStorageRuns from '@/components/data-workflows/storage-to-storage/StorageToStorageRuns.vue';
-import DataManagementHeader from '../components/widgets/layout/DataManagementHeader';
+import DataManagementHeader from '../components/app/headers/DataManagementHeader';
 
 export default {
 	components: {

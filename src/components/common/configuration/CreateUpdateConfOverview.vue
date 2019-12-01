@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import ParametersTable from '@/components/widgets/parameters/ParametersTable.vue';
+import ParametersTable from '@/components/common/tmp/ParametersTable.vue';
 export default {
 	components: { ParametersTable },
 	props: {

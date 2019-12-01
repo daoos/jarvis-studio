@@ -17,12 +17,12 @@
 					</v-tab>
 					<v-tab-item value="rundetails">
 						<v-card v-if="run !== undefined">
-							<GcsToGcsRunView :run="run" :runId="run.gcs_triggering_file" :activeHeader="true"></GcsToGcsRunView>
+							<GcsToGcsRunView :run="run" :runId="run.gcs_triggering_file" :activeHeader="true" />
 						</v-card>
 					</v-tab-item>
 					<v-tab-item value="runconfiguration">
 						<v-card v-if="run !== undefined">
-							<GcsToGcsConfView :conf="run.configuration_context" :activeHeader="false"></GcsToGcsConfView>
+							<GcsToGcsConfView :conf="run.configuration_context" :activeHeader="false" />
 						</v-card>
 					</v-tab-item>
 					<v-tab-item value="fulljson">
@@ -35,7 +35,7 @@
 		</v-row>
 		<v-row v-else>
 			<template>
-				<v-progress-linear :indeterminate="true"></v-progress-linear>
+				<v-progress-linear :indeterminate="true" />
 			</template>
 		</v-row>
 	</v-container>
@@ -43,10 +43,10 @@
 
 <script>
 import { mapState } from 'vuex';
-import GcsToGcsConfView from '../../widgets/configurations/GcsToGcsConfView';
-import GcsToGcsRunView from '../../widgets/runs/GcsToGcsRunView';
+import GcsToGcsConfView from './GcsToGcsConfView';
+import GcsToGcsRunView from './GcsToGcsRunView';
 import store from '@/store';
-import viewJson from '@/components/widgets/parameters/viewJson.vue';
+import viewJson from '@/components/common/tmp/viewJson.vue';
 
 export default {
 	components: {

@@ -27,10 +27,10 @@
 </template>
 
 <script>
-import HeaderDocView from '@/components/widgets/parameters/HeaderDocView.vue';
-import ParametersList from '@/components/widgets/parameters/ParametersList.vue';
-import CreateUpdateConfOverview from '@/components/widgets/configurations/CreateUpdateConfOverview.vue';
-import TablesToTablesDagChart from '@/components/widgets/configurations/TablesToTablesDagChart.vue';
+import HeaderDocView from '@/components/common/HeaderDocView.vue';
+import ParametersList from '@/components/common/tmp/ParametersList.vue';
+import CreateUpdateConfOverview from '@/components/common/configuration/CreateUpdateConfOverview.vue';
+import TablesToTablesDagChart from '@/components/data-workflows/tables-to-tables/TablesToTablesDagChart.vue';
 
 export default {
 	components: {

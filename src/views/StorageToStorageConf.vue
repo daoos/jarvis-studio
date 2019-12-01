@@ -7,7 +7,7 @@
 
 <script>
 import StorageToStorageConf from '../components/data-workflows/storage-to-storage/StorageToStorageConf';
-import DataManagementHeader from '../components/widgets/layout/DataManagementHeader';
+import DataManagementHeader from '../components/app/headers/DataManagementHeader';
 
 export default {
 	components: {

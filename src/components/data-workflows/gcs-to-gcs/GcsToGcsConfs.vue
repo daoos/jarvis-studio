@@ -157,9 +157,9 @@ import { mapGetters } from 'vuex';
 import VueJsonPretty from 'vue-json-pretty';
 import store from '@/store';
 import _ from 'lodash';
-import ActivatedStatusChip from '../../widgets/datatablewidgets/ActivatedStatusChip.vue';
+import ActivatedStatusChip from '../../common/chips/ActivatedStatusChip.vue';
 import ConfsComponent from '@/mixins/confsComponent.js';
-import DataManagementFilters from '../../widgets/filters/DataManagementFilters';
+import DataManagementFilters from '../../common/DataManagementFilters';
 
 export default {
 	mixins: [ConfsComponent],

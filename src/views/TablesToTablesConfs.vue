@@ -7,7 +7,7 @@
 
 <script>
 import TablesToTablesConfs from '../components/data-workflows/tables-to-tables/TablesToTablesConfs';
-import DataManagementHeader from '../components/widgets/layout/DataManagementHeader';
+import DataManagementHeader from '../components/app/headers/DataManagementHeader';
 
 export default {
 	components: {

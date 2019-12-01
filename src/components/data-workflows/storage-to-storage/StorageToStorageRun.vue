@@ -51,10 +51,10 @@
 
 <script>
 import { mapState } from 'vuex';
-import StorageToStorageConfView from '../../widgets/configurations/StorageToStorageConfView';
-import StorageToStorageRunView from '../../widgets/runs/StorageToStorageRunView';
+import StorageToStorageConfView from './StorageToStorageConfView';
+import StorageToStorageRunView from './StorageToStorageRunView';
 import store from '@/store';
-import viewJson from '@/components/widgets/parameters/viewJson.vue';
+import viewJson from '@/components/common/tmp/viewJson.vue';
 
 export default {
 	components: {

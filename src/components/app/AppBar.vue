@@ -56,7 +56,7 @@
 </template>
 
 <script>
-import AccountSelector from '../widgets/filters/AccountSelector';
+import AccountSelector from './sub-components/AccountSelector';
 import SearchMenu from './sub-components/SearchMenu';
 
 import { mapState } from 'vuex';

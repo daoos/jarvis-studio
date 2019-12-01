@@ -7,7 +7,7 @@
 
 <script>
 import VmLauncherRuns from '../components/data-workflows/vm-launcher/VmLauncherRuns';
-import DataManagementHeader from '../components/widgets/layout/DataManagementHeader';
+import DataManagementHeader from '../components/app/headers/DataManagementHeader';
 
 export default {
 	components: {

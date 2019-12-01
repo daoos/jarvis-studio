@@ -84,11 +84,11 @@
 </template>
 
 <script>
-import ParametersList from '@/components/widgets/parameters/ParametersList.vue';
+import ParametersList from '@/components/common/tmp/ParametersList.vue';
 import VueMarkdown from 'vue-markdown';
 import Prism from 'vue-prismjs';
 import 'prismjs/themes/prism.css';
-import tableSchemaView from '@/components/widgets/configurations/TableSchemaView.vue';
+import tableSchemaView from '@/components/common/TableSchemaView.vue';
 
 export default {
 	components: {

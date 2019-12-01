@@ -38,8 +38,8 @@
 
 <script>
 import { mapState } from 'vuex';
-import StorageToStorageConfView from '../../widgets/configurations/StorageToStorageConfView';
-import viewJson from '@/components/widgets/parameters/viewJson.vue';
+import StorageToStorageConfView from './StorageToStorageConfView';
+import viewJson from '@/components/common/tmp/viewJson.vue';
 import store from '@/store';
 
 export default {

@@ -19,8 +19,8 @@
 </template>
 
 <script>
-import HeaderDocView from '@/components/widgets/parameters/HeaderDocView.vue';
-import ParametersList from '@/components/widgets/parameters/ParametersList.vue';
+import HeaderDocView from '@/components/common/HeaderDocView.vue';
+import ParametersList from '@/components/common/tmp/ParametersList.vue';
 export default {
 	components: {
 		HeaderDocView,

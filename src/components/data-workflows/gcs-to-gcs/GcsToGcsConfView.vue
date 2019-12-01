@@ -43,9 +43,9 @@
 </template>
 
 <script>
-import ParametersTable from '@/components/widgets/parameters/ParametersTable.vue';
-import HeaderDocView from '@/components/widgets/parameters/HeaderDocView.vue';
-import ParametersList from '@/components/widgets/parameters/ParametersList.vue';
+import ParametersTable from '@/components/common/tmp/ParametersTable.vue';
+import HeaderDocView from '@/components/common/HeaderDocView.vue';
+import ParametersList from '@/components/common/tmp/ParametersList.vue';
 export default {
 	components: {
 		ParametersTable,

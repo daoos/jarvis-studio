@@ -29,7 +29,7 @@
 <script>
 import { mapState } from 'vuex';
 import { mapGetters } from 'vuex';
-import ParametersList from '@/components/widgets/parameters/ParametersList.vue';
+import ParametersList from '@/components/common/tmp/ParametersList.vue';
 
 export default {
 	name: 'profile-content',

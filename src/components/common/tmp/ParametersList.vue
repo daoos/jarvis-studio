@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import ParametersItem from '@/components/widgets/parameters/ParametersItem.vue';
+import ParametersItem from '@/components/common/tmp/ParametersItem.vue';
 
 export default {
 	components: {

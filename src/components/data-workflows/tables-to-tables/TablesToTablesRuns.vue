@@ -119,7 +119,7 @@ import store from '@/store';
 import moment from 'moment';
 import _ from 'lodash';
 import Util from '@/util';
-import DataManagementFilters from '../../widgets/filters/DataManagementFilters';
+import DataManagementFilters from '../../common/DataManagementFilters';
 
 export default {
 	components: {

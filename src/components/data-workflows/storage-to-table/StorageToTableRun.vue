@@ -60,10 +60,10 @@
 <script>
 import { mapState } from 'vuex';
 import store from '@/store';
-import viewJson from '@/components/widgets/parameters/viewJson.vue';
-import StorageToTableRunView from '@/components/widgets/runs/StorageToTableRunView.vue';
-import storageToTableConfOverview from '@/components/widgets/configurations/StorageToTableConfOverview.vue';
-import tableSchemaView from '@/components/widgets/configurations/TableSchemaView.vue';
+import viewJson from '@/components/common/tmp/viewJson.vue';
+import StorageToTableRunView from '@/components/data-workflows/storage-to-table/StorageToTableRunView.vue';
+import storageToTableConfOverview from '@/components/data-workflows/storage-to-table/StorageToTableConfOverview.vue';
+import tableSchemaView from '@/components/common/TableSchemaView.vue';
 
 export default {
 	components: {

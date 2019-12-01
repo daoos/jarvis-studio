@@ -65,10 +65,10 @@
 <script>
 import { mapState } from 'vuex';
 import store from '@/store';
-import viewJson from '@/components/widgets/parameters/viewJson.vue';
-import TablesToTablesRunView from '@/components/widgets/runs/TablesToTablesRunView.vue';
-import tablesToTablesConfOverview from '@/components/widgets/configurations/TablesToTablesConfOverview.vue';
-import tablesToTalesConfTasksView from '@/components/widgets/configurations/TablesToTalesConfTasksView.vue';
+import viewJson from '@/components/common/tmp/viewJson.vue';
+import TablesToTablesRunView from '@/components/data-workflows/tables-to-tables/TablesToTablesRunView.vue';
+import tablesToTablesConfOverview from '@/components/data-workflows/tables-to-tables/TablesToTablesConfOverview.vue';
+import tablesToTalesConfTasksView from '@/components/data-workflows/tables-to-tables/TablesToTablesConfTasksView.vue';
 
 export default {
 	components: {

@@ -31,8 +31,8 @@
 </template>
 
 <script>
-import ActivatedStatusChip from '@/components/widgets/datatablewidgets/ActivatedStatusChip.vue';
-import RunStatusChip from '@/components/widgets/datatablewidgets/RunStatusChip.vue';
+import ActivatedStatusChip from '@/components/common/chips/ActivatedStatusChip.vue';
+import RunStatusChip from '@/components/common/chips/RunStatusChip.vue';
 
 export default {
 	components: {

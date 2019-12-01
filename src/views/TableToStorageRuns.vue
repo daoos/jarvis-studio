@@ -7,7 +7,7 @@
 
 <script>
 import RunsListing from '../components/data-workflows/table-to-storage/RunsListing';
-import DataManagementHeader from '../components/widgets/layout/DataManagementHeader';
+import DataManagementHeader from '../components/app/headers/DataManagementHeader';
 
 export default {
 	components: {
