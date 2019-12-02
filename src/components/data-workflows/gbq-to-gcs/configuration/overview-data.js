@@ -116,7 +116,8 @@ export default {
 							{
 								id: 'copy_table',
 								label: 'Keep Table',
-								value: this.conf.copy_table
+								value: this.conf.copy_table,
+								default: false
 							}
 						]
 					}
