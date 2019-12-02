@@ -81,17 +81,20 @@ export default {
 							{
 								id: 'compression',
 								label: 'Compressed',
-								value: this.conf.compression
+								value: this.conf.compression,
+								default: 'None'
 							},
 							{
 								id: 'field_delimiter',
 								label: 'Field Delimiter',
-								value: this.conf.field_delimiter
+								value: this.conf.field_delimiter,
+								default: '|'
 							},
 							{
 								id: 'delete_dest_bucket_content',
 								label: 'Delete Destination Storage Content',
-								value: this.conf.delete_dest_bucket_content
+								value: this.conf.delete_dest_bucket_content,
+								default: false
 							}
 						]
 					}

@@ -103,7 +103,8 @@ export default {
 							{
 								id: 'compression',
 								label: 'Compressed',
-								value: this.conf.compression
+								value: this.conf.compression,
+								default: 'None'
 							},
 							{
 								id: 'field_delimiter',
