@@ -111,12 +111,17 @@ export default {
 							{
 								id: '',
 								label: 'SQL File',
-								value: 'SQL File Linked to modal view as in the table to table configuration view'
+								component: 'sql-viewer',
+								properties: {
+									id: this.conf.id,
+									sqlBinary: this.conf.sql
+								}
 							},
 							{
 								id: 'copy_table',
 								label: 'Keep Table',
-								value: this.conf.copy_table
+								value: this.conf.copy_table,
+								default: false
 							}
 						]
 					}
@@ -153,10 +158,52 @@ export default {
 						rows: [
 							{
 								source_type: 'BigQuery',
-								gcs_dest_bucket: this.conf.dest_gcp_project_id,
-								gcs_dest_prefix: this.conf.dest_gbq_dataset,
-								output_filename: this.conf.dest_gbq_table,
+								dest_gcp_project_id: this.conf.dest_gcp_project_id,
+								dest_gbq_dataset: this.conf.dest_gbq_dataset,
+								dest_gbq_table: this.conf.dest_gbq_table,
 								dest_gbq_table_suffix: this.conf.dest_gbq_table_suffix
+							}
+						],
+						vflexLength: 'xs9',
+						lineNumbers: false,
+						searchOptionsEnabled: 'false'
+					}
+				},
+				{
+					component: 'parameters-table',
+					props: {
+						tableTitle: 'Create / Update',
+						description: 'When and Who create / update the configuration',
+						columns: [
+							{
+								label: 'Update Date',
+								field: 'update_date',
+								type: 'date',
+								dateInputFormat: "yyyy-MM-dd'T'HH:mm:ss.SSSSSS", // expects 2018-03-16 yyyy-MM-dd'T'HH:mm:ss.SSSxxx
+								dateOutputFormat: 'yyyy-MM-dd HH:mm:ss' // outputs Mar 16th 2018
+							},
+							{
+								label: 'Updated By',
+								field: 'updated_by'
+							},
+							{
+								label: 'Creation Date',
+								field: 'creation_date',
+								type: 'date',
+								dateInputFormat: "yyyy-MM-dd'T'HH:mm:ss.SSSSSS", // expects 2018-03-16
+								dateOutputFormat: 'yyyy-MM-dd HH:mm:ss' // outputs Mar 16th 2018
+							},
+							{
+								label: 'Created By',
+								field: 'created_by'
+							}
+						],
+						rows: [
+							{
+								update_date: this.conf.update_date,
+								updated_by: this.conf.updated_by,
+								creation_date: this.conf.creation_date,
+								created_by: this.conf.created_by
 							}
 						],
 						vflexLength: 'xs9',

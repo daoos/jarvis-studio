@@ -21,8 +21,8 @@
 								:conf="this.conf"
 								:confId="this.conf.configuration.dag_name"
 								:activeHeader="true"
-							></tablesToTablesConfOverview
-						></v-card>
+							/>
+						</v-card>
 					</v-tab-item>
 					<v-tab-item value="conftasks">
 						<v-card v-if="this.conf !== undefined">
@@ -43,7 +43,7 @@
 		</v-row>
 		<v-row v-else>
 			<template>
-				<v-progress-linear :indeterminate="true"></v-progress-linear>
+				<v-progress-linear :indeterminate="true" />
 			</template>
 		</v-row>
 	</v-container>

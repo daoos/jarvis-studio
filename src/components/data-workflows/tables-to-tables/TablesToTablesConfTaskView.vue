@@ -13,20 +13,21 @@
 
 					<v-dialog v-model="dialogSql" max-width="1000" fullscreen v-if="task.task_type === 'sql'">
 						<template v-slot:activator="{ on }">
-							<v-chip color="orange" text-color="white" v-on="on" class="mr-2">
-								VIEW SQL
-							</v-chip>
+							<v-chip color="orange" text-color="white" v-on="on" class="mr-2">VIEW SQL</v-chip>
 						</template>
+
 						<v-card>
 							<v-card-title class="headline grey lighten-2" primary-title>
 								{{ task.id }}
 							</v-card-title>
 
 							<v-card-text>
-								<prism :code="task.sql" :plugins="['line-numbers']" language="sql"></prism>
+								<prism :code="task.sql" :plugins="['line-numbers']" language="sql" />
 							</v-card-text>
+
 							<v-card-actions>
-								<v-spacer></v-spacer>
+								<v-spacer />
+
 								<v-btn color="primary" flat @click="dialogSql = false">
 									Close
 								</v-btn>
@@ -45,9 +46,13 @@
 								{{ task.id }}
 							</v-card-title>
 
-							<v-card-text> <tableSchemaView :schemaRows="task.bq_table_schema"/></v-card-text>
+							<v-card-text>
+								<tableSchemaView :schemaRows="task.bq_table_schema" />
+							</v-card-text>
+
 							<v-card-actions>
-								<v-spacer></v-spacer>
+								<v-spacer />
+
 								<v-btn color="primary" flat @click="dialogSchema = false">
 									Close
 								</v-btn>

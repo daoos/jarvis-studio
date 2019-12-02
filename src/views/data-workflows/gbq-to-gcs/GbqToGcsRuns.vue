@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<DataManagementHeader :tabsItems="tabsItems" :headerTitle="headerTitle"></DataManagementHeader>
+		<DataManagementHeader :tabsItems="tabsItems" :headerTitle="headerTitle" />
 		<GbqToGcsRuns />
 	</div>
 </template>
@@ -18,8 +18,8 @@ export default {
 		return {
 			headerTitle: 'GBQ to GCS',
 			tabsItems: [
-				{ id: 1, title: 'Runs', link: '/runs/gbqtogcs' },
-				{ id: 2, title: 'Configurations', link: '/conf/gbqtogcs' },
+				{ id: 1, title: 'Runs', link: { name: 'gbqToGcsRuns' } },
+				{ id: 2, title: 'Configurations', link: { name: 'gbqToGcsConfs' } },
 				{ id: 3, title: 'Documentation', link: '' }
 			]
 		};
