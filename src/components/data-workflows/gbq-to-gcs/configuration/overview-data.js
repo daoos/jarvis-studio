@@ -19,6 +19,16 @@ export default {
 						description: 'Context of the Storage to Storage configuration',
 						paramItems: [
 							{
+								id: 'configuration_type',
+								label: 'Configuration Type',
+								value: 'table-to-storage'
+							},
+							{
+								id: 'configuration_id',
+								label: 'Configuration ID',
+								value: this.conf.id
+							},
+							{
 								id: 'account',
 								label: 'Account',
 								value: this.conf.account
@@ -27,6 +37,18 @@ export default {
 								id: 'environment',
 								label: 'Environment',
 								value: this.conf.environment
+							},
+							{
+								id: 'activated',
+								label: 'Activated',
+								value: this.conf.activated,
+								default: true
+							},
+							{
+								id: 'archive',
+								label: 'Archive',
+								value: this.conf.archive,
+								default: false
 							}
 						]
 					}
@@ -86,12 +108,14 @@ export default {
 							{
 								id: 'field_delimiter',
 								label: 'Field Delimiter',
-								value: this.conf.field_delimiter
+								value: this.conf.field_delimiter,
+								default: '|'
 							},
 							{
 								id: 'delete_dest_bucket_content',
 								label: 'Delete Destination Storage Content',
-								value: this.conf.delete_dest_bucket_content
+								value: this.conf.delete_dest_bucket_content,
+								default: false
 							}
 						]
 					}
@@ -158,9 +182,9 @@ export default {
 						rows: [
 							{
 								source_type: 'BigQuery',
-								gcs_dest_bucket: this.conf.dest_gcp_project_id,
-								gcs_dest_prefix: this.conf.dest_gbq_dataset,
-								output_filename: this.conf.dest_gbq_table,
+								dest_gcp_project_id: this.conf.dest_gcp_project_id,
+								dest_gbq_dataset: this.conf.dest_gbq_dataset,
+								dest_gbq_table: this.conf.dest_gbq_table,
 								dest_gbq_table_suffix: this.conf.dest_gbq_table_suffix
 							}
 						],
