@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import ParametersItem from '../../widgets/parameters/ParametersItem.vue';
+import ParametersItem from '../tmp/ParametersItem.vue';
 
 export default {
 	name: 'parameters-list',

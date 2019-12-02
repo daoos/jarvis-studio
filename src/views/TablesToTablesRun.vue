@@ -6,8 +6,8 @@
 </template>
 
 <script>
-import TablesToTablesRun from '../components/TablesToTablesRun';
-import DataManagementHeader from '../components/widgets/layout/DataManagementHeader';
+import TablesToTablesRun from '../components/data-workflows/tables-to-tables/TablesToTablesRun';
+import DataManagementHeader from '../components/app/headers/DataManagementHeader';
 
 export default {
 	components: {

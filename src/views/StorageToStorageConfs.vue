@@ -6,8 +6,8 @@
 </template>
 
 <script>
-import StorageToStorageConfs from '@/components/StorageToStorageConfs.vue';
-import DataManagementHeader from '../components/widgets/layout/DataManagementHeader';
+import StorageToStorageConfs from '@/components/data-workflows/storage-to-storage/StorageToStorageConfs.vue';
+import DataManagementHeader from '../components/app/headers/DataManagementHeader';
 
 export default {
 	components: {

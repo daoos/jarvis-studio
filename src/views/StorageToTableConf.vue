@@ -6,8 +6,8 @@
 </template>
 
 <script>
-import StorageToTableConf from '../components/StorageToTableConf';
-import DataManagementHeader from '../components/widgets/layout/DataManagementHeader';
+import StorageToTableConf from '../components/data-workflows/storage-to-table/StorageToTableConf';
+import DataManagementHeader from '../components/app/headers/DataManagementHeader';
 
 export default {
 	components: {

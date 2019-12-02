@@ -35,8 +35,8 @@
 </template>
 
 <script>
-import ActivatedStatusChip from '../../widgets/datatablewidgets/ActivatedStatusChip.vue';
-import RunStatusChip from '../../widgets/datatablewidgets/RunStatusChip.vue';
+import ActivatedStatusChip from '../chips/ActivatedStatusChip.vue';
+import RunStatusChip from '../chips/RunStatusChip.vue';
 
 export default {
 	name: 'overview-header',

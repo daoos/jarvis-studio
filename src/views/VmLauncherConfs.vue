@@ -6,8 +6,8 @@
 </template>
 
 <script>
-import VmLauncherConfs from '../components/VmLauncherConfs';
-import DataManagementHeader from '../components/widgets/layout/DataManagementHeader';
+import VmLauncherConfs from '../components/data-workflows/vm-launcher/VmLauncherConfs';
+import DataManagementHeader from '../components/app/headers/DataManagementHeader';
 
 export default {
 	components: {
