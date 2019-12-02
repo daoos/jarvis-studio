@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import ProfileContent from '../components/settings/ProfileContent';
+import ProfileContent from '../../components/settings/ProfileContent';
 
 export default {
 	components: { ProfileContent }

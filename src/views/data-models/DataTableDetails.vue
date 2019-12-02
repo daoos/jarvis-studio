@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import DataTableDetails from '../components/data-models/DataTableDetails';
+import DataTableDetails from '../../components/data-models/DataTableDetails';
 
 export default {
 	components: {

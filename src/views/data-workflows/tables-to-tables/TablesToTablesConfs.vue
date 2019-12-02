@@ -1,17 +1,17 @@
 <template>
 	<div>
 		<DataManagementHeader :tabsItems="tabsItems" :headerTitle="headerTitle"></DataManagementHeader>
-		<TablesToTablesRun />
+		<TablesToTablesConfs />
 	</div>
 </template>
 
 <script>
-import TablesToTablesRun from '../components/data-workflows/tables-to-tables/TablesToTablesRun';
-import DataManagementHeader from '../components/app/headers/DataManagementHeader';
+import TablesToTablesConfs from '../../../components/data-workflows/tables-to-tables/TablesToTablesConfs';
+import DataManagementHeader from '../../../components/app/headers/DataManagementHeader';
 
 export default {
 	components: {
-		TablesToTablesRun,
+		TablesToTablesConfs,
 		DataManagementHeader
 	},
 	data() {

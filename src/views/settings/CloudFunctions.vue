@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import CloudFunctions from '../components/settings/CloudFunctions';
+import CloudFunctions from '../../components/settings/CloudFunctions';
 
 export default {
 	components: { CloudFunctions }

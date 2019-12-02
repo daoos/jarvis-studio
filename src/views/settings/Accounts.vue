@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import AccountsContent from '../components/settings/AccountsContent';
+import AccountsContent from '../../components/settings/AccountsContent';
 
 export default {
 	components: { AccountsContent }
