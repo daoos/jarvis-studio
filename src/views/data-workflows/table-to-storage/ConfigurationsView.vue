@@ -1,0 +1,20 @@
+<template>
+	<div>
+		<data-management-header :headerTitle="workflowName" :tabsItems="tabItems" />
+		<configurations-listing />
+	</div>
+</template>
+
+<script>
+import DataManagementHeader from '../../../components/widgets/layout/DataManagementHeader';
+import ConfigurationsListing from '../../../components/data-workflows/table-to-storage/configuration/ConfigurationsListing';
+
+import ConfigurationViewsMixin from '../../../mixins/views/configurations';
+import TabItemsMixin from './tab-items';
+
+export default {
+	name: 'table-to-storage-configurations-view',
+	components: { DataManagementHeader, ConfigurationsListing },
+	mixins: [ConfigurationViewsMixin, TabItemsMixin]
+};
+</script>

@@ -2,7 +2,7 @@
 	<v-container>
 		<v-row class="pl-5 pt-4 pr-5">
 			<v-col cols="12" offset="0">
-				<span class="headline font-weight-bold">{{ jsonID }}</span>
+				<span class="headline font-weight-bold">{{ jsonId }}</span>
 
 				<v-row class="pt-4 pb-4">
 					<vue-json-pretty
@@ -22,17 +22,17 @@
 import VueJsonPretty from 'vue-json-pretty';
 
 export default {
-	components: {
-		VueJsonPretty
-	},
+	name: 'view-json',
+	components: { VueJsonPretty },
 	props: {
 		json: {
 			type: Object,
-			default: undefined
+			required: true
 		},
-		jsonID: {
+		jsonId: {
 			type: String,
-			default: 'Json Doc ID'
+			default: '',
+			required: true
 		},
 		deep: {
 			type: Number,

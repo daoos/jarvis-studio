@@ -15,14 +15,19 @@ export default [
 		link: '/storagetotable/runs'
 	},
 	{
-		icon: 'device_hub',
+		icon: 'account_tree',
 		title: 'Tables to Tables',
 		link: '/tablestotables/runs'
 	},
 	{
 		icon: 'file_copy',
-		title: 'Table to Storage',
+		title: 'GBQ to GCS',
 		link: '/runs/gbqtogcs'
+	},
+	{
+		icon: 'share',
+		title: 'Table to Storage',
+		link: '/tabletostorage/runs'
 	},
 	{
 		icon: 'dns',

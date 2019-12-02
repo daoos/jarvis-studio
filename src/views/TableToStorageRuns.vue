@@ -16,10 +16,10 @@ export default {
 	},
 	data() {
 		return {
-			headerTitle: 'GBQ to GCS',
+			headerTitle: 'Table to Storage',
 			tabsItems: [
-				{ id: 1, title: 'Runs', link: { name: 'gbqToGcsRuns' } },
-				{ id: 2, title: 'Configurations', link: { name: 'gbqToGcsConfs' } },
+				{ id: 1, title: 'Runs', link: { name: 'TableToStorageRuns' } },
+				{ id: 2, title: 'Configurations', link: { name: 'TableToStorageConfs' } },
 				{ id: 3, title: 'Documentation', link: '' }
 			]
 		};
