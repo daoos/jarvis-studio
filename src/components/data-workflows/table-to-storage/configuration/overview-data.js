@@ -153,9 +153,9 @@ export default {
 						rows: [
 							{
 								source_type: 'BigQuery',
-								gcs_dest_bucket: this.conf.dest_gcp_project_id,
-								gcs_dest_prefix: this.conf.dest_gbq_dataset,
-								output_filename: this.conf.dest_gbq_table,
+								dest_gcp_project_id: this.conf.dest_gcp_project_id,
+								dest_gbq_dataset: this.conf.dest_gbq_dataset,
+								dest_gbq_table: this.conf.dest_gbq_table,
 								dest_gbq_table_suffix: this.conf.dest_gbq_table_suffix
 							}
 						],
