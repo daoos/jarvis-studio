@@ -113,6 +113,7 @@ export default {
 								label: 'SQL File',
 								component: 'sql-viewer',
 								properties: {
+									id: this.conf.id,
 									sqlBinary: this.conf.sql
 								}
 							},

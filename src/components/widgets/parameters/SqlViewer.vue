@@ -6,14 +6,11 @@
 
 		<v-card>
 			<v-card-title class="headline grey lighten-2" primary-title>
-				<!--{{ task.id }}-->
-				<p>Title</p>
+				{{ properties.id }}
 			</v-card-title>
 
 			<v-card-text>
-				<p>text</p>
-				<pre>{{ properties.sqlBinary }}</pre>
-				<!-- <prism :code="properties.sqlBinary" :plugins="['line-numbers']" language="sql" /> -->
+				<prism :code="rawSQL" :plugins="['line-numbers']" language="sql" />
 			</v-card-text>
 
 			<v-card-actions>
@@ -26,17 +23,29 @@
 </template>
 
 <script>
+import Prism from 'vue-prismjs';
+import { Base64 } from 'js-base64';
+
+import 'prismjs/themes/prism.css';
+
 export default {
 	name: 'sql-viewer',
 	props: {
 		properties: Object
 	},
+	components: { Prism },
 	data: () => ({
-		showDialog: false
+		showDialog: false,
+		base64: Base64
 	}),
 	methods: {
 		closeDialog() {
 			this.showDialog = false;
+		}
+	},
+	computed: {
+		rawSQL() {
+			return Base64.decode(this.properties.sqlBinary._binaryString);
 		}
 	}
 };

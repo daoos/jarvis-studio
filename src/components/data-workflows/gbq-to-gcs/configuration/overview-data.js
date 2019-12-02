@@ -111,7 +111,11 @@ export default {
 							{
 								id: '',
 								label: 'SQL File',
-								value: 'SQL File Linked to modal view as in the table to table configuration view'
+								component: 'sql-viewer',
+								properties: {
+									id: this.conf.id,
+									sqlBinary: this.conf.sql
+								}
 							},
 							{
 								id: 'copy_table',
