@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<DataManagementHeader :tabsItems="tabsItems" :headerTitle="headerTitle"></DataManagementHeader>
+		<DataManagementHeader :tabsItems="tabsItems" :headerTitle="headerTitle" />
 		<StorageToTableConf />
 	</div>
 </template>
