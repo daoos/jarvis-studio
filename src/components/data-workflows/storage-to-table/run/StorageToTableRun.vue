@@ -3,8 +3,11 @@
 		<v-row v-if="!isFetchAndAdding">
 			<v-col cols="12" offset="0">
 				<v-tabs v-model="activeTab" color="black" background-color="#E0E0E0" slider-color="primary">
+					<v-tab ripple href="#rundetails">
+						Run Details
+					</v-tab>
 					<v-tab ripple href="#confoverview">
-						Overview
+						Configuration
 					</v-tab>
 					<v-tab ripple href="#confschema">
 						Schema
@@ -15,12 +18,21 @@
 					<v-tab ripple href="#conversation">
 						Conversation
 					</v-tab>
+					<v-tab-item value="rundetails">
+						<v-card v-if="this.run !== undefined">
+							<StorageToTableRunView
+								:run="this.run"
+								:runId="this.run.job_id"
+								:activeHeader="true"
+							></StorageToTableRunView
+						></v-card>
+					</v-tab-item>
 					<v-tab-item value="confoverview">
 						<v-card v-if="this.conf !== undefined">
 							<storageToTableConfOverview
 								:conf="this.conf"
 								:confId="this.conf.table_name"
-								:activeHeader="true"
+								:activeHeader="false"
 							></storageToTableConfOverview
 						></v-card>
 					</v-tab-item>
@@ -31,7 +43,7 @@
 					</v-tab-item>
 					<v-tab-item value="fulljson">
 						<v-card>
-							<viewJson :json="this.conf" :jsonID="this.conf.id" />
+							<viewJson :json="this.run" :jsonID="this.run.id" />
 						</v-card>
 					</v-tab-item>
 				</v-tabs>
@@ -49,14 +61,16 @@
 import { mapState } from 'vuex';
 import store from '@/store';
 import viewJson from '@/components/common/tmp/viewJson.vue';
-import storageToTableConfOverview from '@/components/data-workflows/storage-to-table/StorageToTableConfOverview.vue';
+import StorageToTableRunView from '@/components/data-workflows/storage-to-table/run/StorageToTableRunView.vue';
+import storageToTableConfOverview from '@/components/data-workflows/storage-to-table/configuration/StorageToTableConfOverview.vue';
 import tableSchemaView from '@/components/common/TableSchemaView.vue';
 
 export default {
 	components: {
 		viewJson,
 		storageToTableConfOverview,
-		tableSchemaView
+		tableSchemaView,
+		StorageToTableRunView
 	},
 	data() {
 		return {
@@ -65,18 +79,16 @@ export default {
 		};
 	},
 	async mounted() {
-		this.isFetchAndAdding = true;
 		await this.getFirestoreData();
 		this.isFetchAndAdding = false;
 	},
 	methods: {
 		async getFirestoreData() {
-			await store.dispatch('storageToTableConf/closeDBChannel', {
+			await store.dispatch('storageToTableRun/closeDBChannel', {
 				clearModule: true
 			});
 			await store
-				.dispatch('storageToTableConf/fetchAndAdd', {
-					sourceId: this.bucketIn,
+				.dispatch('storageToTableRun/fetchAndAdd', {
 					itemId: this.itemId
 				})
 				.catch(console.error);
@@ -84,19 +96,22 @@ export default {
 	},
 	computed: {
 		...mapState({
-			storageToTableConf: state => state.storageToTableConf.data
+			storageToTableRun: state => state.storageToTableRun.data
 		}),
 		itemId() {
-			return this.$route.params.pathId.split('/')[1];
-		},
-		bucketIn() {
-			return this.$route.params.pathId.split('/')[0];
+			var itemId = this.$route.params.pathId;
+			return itemId;
 		},
 		conf() {
-			//Add the bucket file source to the SingleDoc object
-			var conf = this.storageToTableConf;
-			conf.source_bucket = this.bucketIn;
+			//Add the bucket file source to the storageToTableRun object
+			var conf = this.storageToTableRun.configuration_context;
+			conf.source_bucket = this.storageToTableRun.source_bucket;
+			conf.id = this.storageToTableRun.filename_template;
 			return conf;
+		},
+		run() {
+			var run = this.storageToTableRun;
+			return run;
 		}
 	}
 };

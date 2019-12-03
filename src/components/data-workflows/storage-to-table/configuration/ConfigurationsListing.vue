@@ -9,10 +9,12 @@
 
 					<DataManagementFilters viewEnvironnement />
 
-					<v-icon right @click="getFirestoreData" v-if="!isFetchAndAdding">refresh</v-icon>
-
 					<v-progress-circular indeterminate size="20" color="primary" v-if="isFetchAndAdding" />
+					<v-icon right @click="getFirestoreData" v-else>refresh</v-icon>
 				</v-toolbar>
+
+				<p>Hello</p>
+				<pre>{{ mirrorExcGcsToGbqConfsAllDetailsArrayFlat }}</pre>
 
 				<v-data-table
 					:headers="headers"
@@ -118,7 +120,7 @@
 					<v-btn icon @click="showDetailConfToDelete = !showDetailConfToDelete">
 						<v-icon>{{ showDetailConfToDelete ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}</v-icon>
 					</v-btn>
-					<v-spacer></v-spacer>
+					<v-spacer />
 					<v-btn color="grey" flat="flat" @click="cancelDeleteConfFromFirestore">
 						Cancel
 					</v-btn>
@@ -159,8 +161,8 @@ import { mapState } from 'vuex';
 import { mapGetters } from 'vuex';
 import VueJsonPretty from 'vue-json-pretty';
 import store from '@/store';
-import DataManagementFilters from '../../common/DataManagementFilters';
-import ActivatedStatusChip from '../../common/chips/ActivatedStatusChip.vue';
+import DataManagementFilters from '../../../common/DataManagementFilters';
+import ActivatedStatusChip from '../../../common/chips/ActivatedStatusChip.vue';
 import ConfsComponent from '@/mixins/confsComponent.js';
 
 export default {
@@ -294,6 +296,7 @@ export default {
 						// 	{ bucketId: bucketId, limit: 0 }
 						// );
 						//Ad the bucket source to the doc configuration and an unique key
+
 						let mirrorExcGcsToGbqConfDetailsEnriched = Object.values(this.mirrorExcGcsToGbqConfDetails).map(x =>
 							Object.assign({ bucket_source: bucketId }, x)
 						);
@@ -303,6 +306,7 @@ export default {
 							key = key.concat(val.bucket_source, '/', val.id, '/', val.gcs_prefix);
 							return Object.assign({ key: key }, val);
 						});
+
 						//Concat the fetched documents in the same Array
 						this.mirrorExcGcsToGbqConfsAllDetailsArray.push(Object.values(mirrorExcGcsToGbqConfDetailsEnriched));
 					} catch (e) {
@@ -321,13 +325,8 @@ export default {
 	},
 	computed: {
 		...mapState({
-			isAuthenticated: state => state.user.isAuthenticated,
-			user: state => state.user.user,
 			mirrorExcGcsToGbqConfs: state => state.mirrorExcGcsToGbqConfs.data,
-			mirrorExcGcsToGbqConfDetails: state => state.mirrorExcGcsToGbqConfDetails.data,
-			dateFilterSelected: state => state.filters.dateFilterSelected,
-			dateFilters: state => state.filters.dateFilters,
-			minDateFilter: state => state.filters.minDateFilter
+			mirrorExcGcsToGbqConfDetails: state => state.mirrorExcGcsToGbqConfDetails.data
 		}),
 		...mapGetters(['periodFiltered', 'whereConfFilter']),
 		mirrorExcGcsToGbqConfsAllDetailsArrayFlat() {
@@ -341,5 +340,3 @@ export default {
 	}
 };
 </script>
-
-<style></style>
