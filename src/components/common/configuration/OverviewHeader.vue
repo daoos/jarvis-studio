@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import ActivatedStatusChip from '../chips/ActivatedStatusChip.vue';
+import ActivatedStatusChip from './ConfigurationStatus.vue';
 import RunStatusChip from '../chips/RunStatusChip.vue';
 
 export default {

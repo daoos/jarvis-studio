@@ -160,7 +160,7 @@ import { mapGetters } from 'vuex';
 import VueJsonPretty from 'vue-json-pretty';
 import store from '@/store';
 import DataManagementFilters from '../../common/DataManagementFilters';
-import ActivatedStatusChip from '../../common/chips/ActivatedStatusChip.vue';
+import ActivatedStatusChip from '../../common/configuration/ConfigurationStatus.vue';
 import ConfsComponent from '@/mixins/confsComponent.js';
 
 export default {

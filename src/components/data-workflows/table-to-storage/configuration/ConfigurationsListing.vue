@@ -103,7 +103,7 @@ import store from '@/store/index';
 import _ from 'lodash';
 import Util from '@/util';
 import DataManagementFilters from '../../../common/DataManagementFilters';
-import ActivatedStatusChip from '../../../common/chips/ActivatedStatusChip.vue';
+import ActivatedStatusChip from '../../../common/configuration/ConfigurationStatus.vue';
 import ConfsComponent from '@/mixins/confsComponent.js';
 
 export default {
