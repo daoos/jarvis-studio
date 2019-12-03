@@ -200,6 +200,12 @@ export default {
 				value: 'environment'
 			},
 			{
+				text: 'Configuration ID',
+				align: 'left',
+				sortable: true,
+				value: 'id'
+			},
+			{
 				text: 'Destination Table',
 				align: 'left',
 				sortable: true,
@@ -283,6 +289,8 @@ export default {
 
 				const mirrorExcGcsToGbqConfsArray = Object.values(this.mirrorExcGcsToGbqConfs);
 
+				console.log(this.mirrorExcGcsToGbqConfs);
+
 				for (const index in mirrorExcGcsToGbqConfsArray) {
 					const bucketId = mirrorExcGcsToGbqConfsArray[index].id;
 
@@ -295,15 +303,12 @@ export default {
 							Object.assign({ bucket_source: bucketId }, x)
 						);
 
-						//Ad an unique key to the doc configuration (bucket + table destination + input folder)
-						mirrorExcGcsToGbqConfDetailsEnriched = mirrorExcGcsToGbqConfDetailsEnriched.map(val => {
+						// Add an unique key to the doc configuration (bucket + table destination + input folder)
+						this.mirrorExcGcsToGbqConfsAllDetailsArray = mirrorExcGcsToGbqConfDetailsEnriched.map(val => {
 							let key = '';
 							key = key.concat(val.bucket_source, '/', val.id, '/', val.gcs_prefix);
 							return Object.assign({ key: key }, val);
 						});
-
-						//Concat the fetched documents in the same Array
-						this.mirrorExcGcsToGbqConfsAllDetailsArray.push(Object.values(mirrorExcGcsToGbqConfDetailsEnriched));
 					} catch (e) {
 						console.error('Firestore Error catched', e);
 						this.fetchAndAddStatus = 'Error';
