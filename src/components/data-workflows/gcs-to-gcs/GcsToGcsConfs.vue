@@ -56,7 +56,13 @@
 			</template>
 
 			<template v-slot:item.activated="{ item }">
-				<configuration-status :item="item" collection="mirrorExcGcsToGcsConfs" :activatedConfStatus="item.activated" />
+				<configuration-status
+					:item="item"
+					collection="mirrorExcGcsToGcsConfs"
+					:activatedConfStatus="item.activated"
+					@statusUpdate="onStatusUpdate"
+					@statusError="onStatusError"
+				/>
 			</template>
 
 			<template v-slot:item.actions="{ item }">
@@ -141,7 +147,7 @@
 
 		<v-snackbar v-model="snackbarParam.show" :color="snackbarParam.color" :timeout="2000">
 			{{ snackbarParam.message }}
-			<v-btn flat @click="snackbarParam.show = false">
+			<v-btn text @click="snackbarParam.show = false">
 				Close
 			</v-btn>
 		</v-snackbar>
@@ -149,23 +155,26 @@
 </template>
 
 <script>
+import VueJsonPretty from 'vue-json-pretty';
+import DataManagementFilters from '../../common/DataManagementFilters';
+import ConfigurationStatus from '../../common/configuration/ConfigurationStatus.vue';
+
+import ConfigurationStatusMixin from '@/mixins/configuration/status';
+
 import { mapState } from 'vuex';
 import { mapGetters } from 'vuex';
-import VueJsonPretty from 'vue-json-pretty';
 import store from '@/store';
 import _ from 'lodash';
-import ConfigurationStatus from '../../common/configuration/ConfigurationStatus.vue';
-import DataManagementFilters from '../../common/DataManagementFilters';
 
 export default {
+	name: 'gcs-to-gcs-configurations-listing',
 	components: {
 		VueJsonPretty,
 		DataManagementFilters,
 		ConfigurationStatus
 	},
+	mixins: [ConfigurationStatusMixin],
 	data: () => ({
-		snackbarParam: { message: '', show: false, color: 'info' },
-		alertParam: { message: '', show: false, color: 'info', dismissible: true },
 		expanded: [],
 		search: '',
 		isFetchAndAdding: false,

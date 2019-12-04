@@ -61,6 +61,8 @@
 					:item="item"
 					collection="getGbqToGbqConfs"
 					:activatedConfStatus="item.configuration.activated"
+					@statusUpdate="onStatusUpdate"
+					@statusError="onStatusError"
 				/>
 			</template>
 
@@ -137,23 +139,26 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
-import { mapGetters } from 'vuex';
 import VueJsonPretty from 'vue-json-pretty';
-import store from '@/store';
-import _ from 'lodash';
 import DataManagementFilters from '../../common/DataManagementFilters';
 import ConfigurationStatus from '../../common/configuration/ConfigurationStatus.vue';
 
+import ConfigurationStatusMixin from '@/mixins/configuration/status';
+
+import { mapState } from 'vuex';
+import { mapGetters } from 'vuex';
+import store from '@/store';
+import _ from 'lodash';
+
 export default {
+	name: 'tables-to-tables-configurations-listing',
 	components: {
 		VueJsonPretty,
 		DataManagementFilters,
 		ConfigurationStatus
 	},
+	mixins: [ConfigurationStatusMixin],
 	data: () => ({
-		snackbarParam: { message: '', show: false, color: 'info' },
-		alertParam: { message: '', show: false, color: 'info', dismissible: true },
 		expanded: [],
 		search: '',
 		isFetchAndAdding: false,

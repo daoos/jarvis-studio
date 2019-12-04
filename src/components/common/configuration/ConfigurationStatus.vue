@@ -2,25 +2,22 @@
 	<v-chip
 		:color="colorActivatedConfStatus"
 		text-color="white"
-		:small="smallChip"
+		:small="isSmall"
 		:class="chipTextClass"
-		:label="chipLabel"
+		:label="isLabel"
 		@click="changeActivatedStatus(item, collection)"
 	>
-		{{ labelActivatedConfStatus }}
+		<v-progress-circular indeterminate size="20" color="primary" v-if="isLoading" />
+		<span v-else>{{ labelActivatedConfStatus }}</span>
 	</v-chip>
 </template>
 
 <script>
-import ConfsComponent from '@/mixins/confsComponent';
-
-import Util from '@/util';
 import store from '@/store';
 import { getActiveConfColor, getActiveConfLabel } from '@/util/data-workflows/configuration';
 
 export default {
 	name: 'activated-status-chip',
-	mixins: [ConfsComponent],
 	props: {
 		item: {
 			type: Object,
@@ -34,11 +31,11 @@ export default {
 			type: Boolean,
 			default: undefined
 		},
-		smallChip: {
+		isSmall: {
 			type: Boolean,
 			default: true
 		},
-		chipLabel: {
+		isLabel: {
 			type: Boolean,
 			default: false
 		},
@@ -47,38 +44,55 @@ export default {
 			default: 'text-capitalize'
 		}
 	},
+	data: () => ({
+		isLoading: false
+	}),
 	methods: {
 		changeActivatedStatus(item, collection) {
-			this.snackbarParam.message = '';
-			this.snackbarParam.show = false;
-			this.snackbarParam.color = 'info';
+			// TODO: Discard other snackBar
 
-			this.alertParam.message = '';
-			this.alertParam.show = false;
-			this.alertParam.color = 'info';
+			this.isLoading = true;
 
 			const id = item.id;
 			const collectionPath = ''.concat(collection, '/patch');
 
+			console.log('ITEM', item);
+
 			switch (item.activated) {
 				case true:
-					this.snackbarParam.message = 'Configuration disabled';
-					this.snackbarParam.color = Util.getActiveConfColor(false);
-					store.dispatch(collectionPath, { id, activated: false }).then((this.snackbarParam.show = true));
+					store.dispatch(collectionPath, { id, activated: false }).then(() => {
+						this.statusUpdateCallback({
+							message: 'Configuration disabled',
+							show: true,
+							color: getActiveConfColor(false)
+						});
+					});
 					break;
 				case false:
-					this.snackbarParam.message = 'Configuration activated';
-					this.snackbarParam.color = Util.getActiveConfColor(true);
-					store.dispatch(collectionPath, { id, activated: true }).then((this.snackbarParam.show = true));
+					store.dispatch(collectionPath, { id, activated: true }).then(() => {
+						this.statusUpdateCallback({
+							message: 'Configuration activated',
+							show: true,
+							color: getActiveConfColor(true)
+						});
+					});
 					break;
 				default:
-					this.alertParam.color = 'error';
-					this.alertParam.message =
-						'The Activated attribute is not well set in the source configuration. Please update and deploy it again';
-					this.alertParam.show = 'true';
-					this.alertParam.icon = 'error';
+					this.$emit('statusError', {
+						message:
+							'The Activated attribute is not well set in the source configuration. Please update and deploy it again',
+						show: true,
+						color: 'error',
+						icon: 'error',
+						dismissible: true
+					});
+					this.isLoading = false;
 					break;
 			}
+		},
+		statusUpdateCallback(snackbarParams) {
+			this.$emit('statusUpdate', snackbarParams);
+			this.isLoading = false;
 		}
 	},
 	computed: {

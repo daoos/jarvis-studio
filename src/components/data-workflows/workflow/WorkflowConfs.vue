@@ -46,7 +46,13 @@
 			</template>
 
 			<template v-slot:item.activated="{ item }">
-				<configuration-status :item="item" collection="workflowConfs" :activatedConfStatus="item.activated" />
+				<configuration-status
+					:item="item"
+					collection="workflowConfs"
+					:activatedConfStatus="item.activated"
+					@statusUpdate="onStatusUpdate"
+					@statusError="onStatusError"
+				/>
 			</template>
 
 			<template v-slot:item.actions="{ item }">
@@ -143,20 +149,25 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
-import { mapGetters } from 'vuex';
 import VueJsonPretty from 'vue-json-pretty';
-import store from '@/store';
-import _ from 'lodash';
 import ConfigurationStatus from '../../common/configuration/ConfigurationStatus.vue';
 import DataManagementFilters from '../../common/DataManagementFilters';
 
+import ConfigurationStatusMixin from '@/mixins/configuration/status';
+
+import { mapState } from 'vuex';
+import { mapGetters } from 'vuex';
+import store from '@/store';
+import _ from 'lodash';
+
 export default {
+	name: 'workflow-configurations-listing',
 	components: {
 		VueJsonPretty,
 		ConfigurationStatus,
 		DataManagementFilters
 	},
+	mixins: [ConfigurationStatusMixin],
 	data: () => ({
 		snackbarParam: { message: '', show: false, color: 'info' },
 		alertParam: { message: '', show: false, color: 'info', dismissible: true },

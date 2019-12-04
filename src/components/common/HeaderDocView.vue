@@ -8,10 +8,10 @@
 			</v-btn>
 			<configuration-status
 				v-if="viewType == 'conf'"
-				:smallChip="false"
+				:is-small="false"
 				:activatedConfStatus="activatedConfStatus"
 				chipTextClass="text-uppercase"
-				:chipLabel="true"
+				:isLabel="true"
 			/>
 			<RunStatusChip
 				v-if="viewType == 'run'"
