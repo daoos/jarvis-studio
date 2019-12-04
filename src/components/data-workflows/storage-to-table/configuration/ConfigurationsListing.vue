@@ -78,7 +78,7 @@
 								<v-card-title>
 									<span class="headline">{{ viewedItem.table_name }}</span>
 									<v-spacer />
-									<v-btn color="warning" fab small dark outline>
+									<v-btn color="warning" fab small dark outlined>
 										<v-icon @click="toggleExpand(viewedItem)">
 											close
 										</v-icon>
@@ -299,6 +299,14 @@ export default {
 							clearModule: true
 						});
 
+						let fetchResult = await store.dispatch('mirrorExcGcsToGbqConfDetails/fetchAndAdd', {
+							bucketId: bucketId,
+							limit: 0
+						});
+
+						console.log(this.mirrorExcGcsToGbqConfDetails);
+
+						//Ad the bucket source to the doc configuration and an unique key
 						let mirrorExcGcsToGbqConfDetailsEnriched = Object.values(this.mirrorExcGcsToGbqConfs).map(x =>
 							Object.assign({ bucket_source: bucketId }, x)
 						);
@@ -309,6 +317,8 @@ export default {
 							key = key.concat(val.bucket_source, '/', val.id, '/', val.gcs_prefix);
 							return Object.assign({ key: key }, val);
 						});
+						//Concat the fetched documents in the same Array
+						this.mirrorExcGcsToGbqConfsAllDetailsArray.push(Object.values(mirrorExcGcsToGbqConfDetailsEnriched));
 					} catch (e) {
 						console.error('Firestore Error catched', e);
 						this.fetchAndAddStatus = 'Error';
