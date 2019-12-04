@@ -58,7 +58,8 @@
 
 			<template v-slot:item.activated="{ item }">
 				<configuration-status
-					@click.native="changeActivatedStatus(item, 'getGbqToGbqConfs')"
+					:item="item"
+					collection="getGbqToGbqConfs"
 					:activatedConfStatus="item.configuration.activated"
 				/>
 			</template>

@@ -56,10 +56,7 @@
 			</template>
 
 			<template v-slot:item.activated="{ item }">
-				<configuration-status
-					@click.native="changeActivatedStatus(item, 'mirrorExcGcsToGcsConfs')"
-					:activatedConfStatus="item.activated"
-				/>
+				<configuration-status :item="item" collection="mirrorExcGcsToGcsConfs" :activatedConfStatus="item.activated" />
 			</template>
 
 			<template v-slot:item.actions="{ item }">

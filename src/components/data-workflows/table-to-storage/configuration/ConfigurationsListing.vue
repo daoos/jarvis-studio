@@ -43,10 +43,7 @@
 			</template>
 
 			<template v-slot:item.activated="{ item }">
-				<configuration-status
-					@click.native="changeActivatedStatus(item, 'tableToStorageConfs')"
-					:activatedConfStatus="item.activated"
-				/>
+				<configuration-status :item="item" collection="tableToStorageConfs" :activatedConfStatus="item.activated" />
 			</template>
 
 			<template v-slot:item.actions="{ item }">

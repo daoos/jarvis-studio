@@ -46,10 +46,7 @@
 			</template>
 
 			<template v-slot:item.activated="{ item }">
-				<configuration-status
-					@click.native="changeActivatedStatus(item, 'workflowConfs')"
-					:activatedConfStatus="item.activated"
-				/>
+				<configuration-status :item="item" collection="workflowConfs" :activatedConfStatus="item.activated" />
 			</template>
 
 			<template v-slot:item.actions="{ item }">

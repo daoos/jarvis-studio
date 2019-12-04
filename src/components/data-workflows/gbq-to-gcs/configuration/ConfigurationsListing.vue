@@ -43,10 +43,7 @@
 			</template>
 
 			<template v-slot:item.activated="{ item }">
-				<configuration-status
-					@click.native="changeActivatedStatus(item, 'getGbqToGcsConfs')"
-					:activatedConfStatus="item.activated"
-				/>
+				<configuration-status :item="item" collection="getGbqToGcsConfs" :activatedConfStatus="item.activated" />
 			</template>
 
 			<template v-slot:item.actions="{ item }">
