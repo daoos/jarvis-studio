@@ -46,7 +46,7 @@
 			</template>
 
 			<template v-slot:item.activated="{ item }">
-				<ActivatedStatusChip
+				<configuration-status
 					@click.native="changeActivatedStatus(item, 'workflowConfs')"
 					:activatedConfStatus="item.activated"
 				/>
@@ -151,7 +151,7 @@ import { mapGetters } from 'vuex';
 import VueJsonPretty from 'vue-json-pretty';
 import store from '@/store';
 import _ from 'lodash';
-import ActivatedStatusChip from '../../common/configuration/ConfigurationStatus.vue';
+import ConfigurationStatus from '../../common/configuration/ConfigurationStatus.vue';
 import ConfsComponent from '@/mixins/confsComponent.js';
 import DataManagementFilters from '../../common/DataManagementFilters';
 
@@ -159,7 +159,7 @@ export default {
 	mixins: [ConfsComponent],
 	components: {
 		VueJsonPretty,
-		ActivatedStatusChip,
+		ConfigurationStatus,
 		DataManagementFilters
 	},
 	data: () => ({

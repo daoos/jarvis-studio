@@ -7,7 +7,7 @@
 
 			<v-btn text color="grey" @click="goBack()">Go Back</v-btn>
 
-			<ActivatedStatusChip
+			<configuration-status
 				v-if="properties.viewType === 'conf'"
 				:smallChip="false"
 				:activatedConfStatus="properties.activatedConfStatus"
@@ -35,12 +35,12 @@
 </template>
 
 <script>
-import ActivatedStatusChip from './ConfigurationStatus.vue';
+import ConfigurationStatus from './ConfigurationStatus.vue';
 import RunStatusChip from '../chips/RunStatusChip.vue';
 
 export default {
 	name: 'overview-header',
-	components: { ActivatedStatusChip, RunStatusChip },
+	components: { ConfigurationStatus, RunStatusChip },
 	props: {
 		properties: {
 			type: Object,

@@ -21,4 +21,4 @@ export default {
 	firestoreTableToStorageRunsCollection,
 	firestoreWorkflowConfigurationsCollection,
 	firestoreWorkflowStatusCollection
-}
+};

@@ -6,7 +6,7 @@
 			<v-btn text color="grey" @click="goBack()">
 				Go Back
 			</v-btn>
-			<ActivatedStatusChip
+			<configuration-status
 				v-if="viewType == 'conf'"
 				:smallChip="false"
 				:activatedConfStatus="activatedConfStatus"
@@ -31,12 +31,12 @@
 </template>
 
 <script>
-import ActivatedStatusChip from '@/components/common/configuration/ConfigurationStatus.vue';
+import ConfigurationStatus from '@/components/common/configuration/ConfigurationStatus.vue';
 import RunStatusChip from '@/components/common/chips/RunStatusChip.vue';
 
 export default {
 	components: {
-		ActivatedStatusChip,
+		ConfigurationStatus,
 		RunStatusChip
 	},
 	data() {

@@ -56,7 +56,7 @@
 			</template>
 
 			<template v-slot:item.activated="{ item }">
-				<ActivatedStatusChip
+				<configuration-status
 					@click.native="changeActivatedStatus(item, 'mirrorExcGcsToGcsConfs')"
 					:activatedConfStatus="item.activated"
 				/>
@@ -157,7 +157,7 @@ import { mapGetters } from 'vuex';
 import VueJsonPretty from 'vue-json-pretty';
 import store from '@/store';
 import _ from 'lodash';
-import ActivatedStatusChip from '../../common/configuration/ConfigurationStatus.vue';
+import ConfigurationStatus from '../../common/configuration/ConfigurationStatus.vue';
 import ConfsComponent from '@/mixins/confsComponent.js';
 import DataManagementFilters from '../../common/DataManagementFilters';
 
@@ -166,7 +166,7 @@ export default {
 	components: {
 		VueJsonPretty,
 		DataManagementFilters,
-		ActivatedStatusChip
+		ConfigurationStatus
 	},
 	data: () => ({
 		expanded: [],

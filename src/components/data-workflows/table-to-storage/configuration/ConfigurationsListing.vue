@@ -43,7 +43,7 @@
 			</template>
 
 			<template v-slot:item.activated="{ item }">
-				<ActivatedStatusChip
+				<configuration-status
 					@click.native="changeActivatedStatus(item, 'tableToStorageConfs')"
 					:activatedConfStatus="item.activated"
 				/>
@@ -103,7 +103,7 @@ import store from '@/store/index';
 import _ from 'lodash';
 import Util from '@/util';
 import DataManagementFilters from '../../../common/DataManagementFilters';
-import ActivatedStatusChip from '../../../common/configuration/ConfigurationStatus.vue';
+import ConfigurationStatus from '../../../common/configuration/ConfigurationStatus.vue';
 import ConfsComponent from '@/mixins/confsComponent.js';
 
 export default {
@@ -112,7 +112,7 @@ export default {
 	components: {
 		VueJsonPretty,
 		DataManagementFilters,
-		ActivatedStatusChip
+		ConfigurationStatus
 	},
 	data: () => ({
 		expanded: [],

@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import Util from '@/util';
+import { getActiveConfColor, getActiveConfLabel } from '@/util/data-workflows/configuration';
 
 export default {
 	name: 'activated-status-chip',
@@ -35,10 +35,10 @@ export default {
 	},
 	computed: {
 		colorActivatedConfStatus() {
-			return Util.getActiveConfColor(this.activatedConfStatus);
+			return getActiveConfColor(this.activatedConfStatus);
 		},
 		labelActivatedConfStatus() {
-			return Util.getActiveConfLabel(this.activatedConfStatus);
+			return getActiveConfLabel(this.activatedConfStatus);
 		}
 	}
 };
