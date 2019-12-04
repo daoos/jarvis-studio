@@ -60,7 +60,6 @@ import AccountSelector from './sub-components/AccountSelector';
 import SearchMenu from './sub-components/SearchMenu';
 
 import { mapState } from 'vuex';
-import { toggleFullScreen } from '@/util';
 
 import userSettingsItems from '../../navigation/user-settings-items';
 
@@ -71,7 +70,28 @@ export default {
 		userSettingsItems: userSettingsItems
 	}),
 	methods: {
-		toggleFullScreen: () => toggleFullScreen()
+		toggleFullScreen: () => {
+			const doc = window.document;
+			const docEl = doc.documentElement;
+			const requestFullScreen =
+				docEl.requestFullscreen ||
+				docEl.mozRequestFullScreen ||
+				docEl.webkitRequestFullScreen ||
+				docEl.msRequestFullscreen;
+			const cancelFullScreen =
+				doc.exitFullscreen || doc.mozCancelFullScreen || doc.webkitExitFullscreen || doc.msExitFullscreen;
+
+			if (
+				!doc.fullscreenElement &&
+				!doc.mozFullScreenElement &&
+				!doc.webkitFullscreenElement &&
+				!doc.msFullscreenElement
+			) {
+				requestFullScreen.call(docEl);
+			} else {
+				cancelFullScreen.call(doc);
+			}
+		}
 	},
 	computed: {
 		...mapState({
