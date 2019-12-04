@@ -1,17 +1,17 @@
 <template>
 	<div>
-		<DataManagementHeader :tabsItems="tabsItems" :headerTitle="headerTitle"></DataManagementHeader>
-		<StorageToTableRun />
+		<DataManagementHeader :tabsItems="tabsItems" :headerTitle="headerTitle" />
+		<StorageToTableConf />
 	</div>
 </template>
 
 <script>
-import StorageToTableRun from '../../../components/data-workflows/storage-to-table/StorageToTableRun';
-import DataManagementHeader from '../../../components/app/headers/DataManagementHeader';
+import StorageToTableConf from '../../../../components/data-workflows/storage-to-table/configuration/StorageToTableConf';
+import DataManagementHeader from '../../../../components/app/headers/DataManagementHeader';
 
 export default {
 	components: {
-		StorageToTableRun,
+		StorageToTableConf,
 		DataManagementHeader
 	},
 	data() {

@@ -9,9 +9,8 @@
 
 					<DataManagementFilters viewEnvironnement />
 
-					<v-icon right @click="getFirestoreData" v-if="!isFetchAndAdding">refresh</v-icon>
-
 					<v-progress-circular indeterminate size="20" color="primary" v-if="isFetchAndAdding" />
+					<v-icon right @click="getFirestoreData" v-else>refresh</v-icon>
 				</v-toolbar>
 
 				<v-data-table
@@ -78,8 +77,8 @@
 							<v-card flat>
 								<v-card-title>
 									<span class="headline">{{ viewedItem.table_name }}</span>
-									<v-spacer></v-spacer>
-									<v-btn color="warning" fab small dark outline>
+									<v-spacer />
+									<v-btn color="warning" fab small dark outlined>
 										<v-icon @click="toggleExpand(viewedItem)">
 											close
 										</v-icon>
@@ -110,22 +109,21 @@
 		<v-dialog v-model="dialogDeleteConf" max-width="400">
 			<v-card light>
 				<v-card-title class="headline">Delete Configuration</v-card-title>
+
 				<v-card-text>
 					Do you really want to delete the configuration?
 					<h3 class="pt-3"><v-icon size="18">arrow_forward</v-icon>{{ confToDeleteFromFirestore.id }}</h3>
 				</v-card-text>
+
 				<v-card-actions>
 					<v-btn icon @click="showDetailConfToDelete = !showDetailConfToDelete">
 						<v-icon>{{ showDetailConfToDelete ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}</v-icon>
 					</v-btn>
-					<v-spacer></v-spacer>
-					<v-btn color="grey" flat="flat" @click="cancelDeleteConfFromFirestore">
-						Cancel
-					</v-btn>
-					<v-btn color="error" @click="confirmeDeleteConfFromFirestore">
-						Delete
-					</v-btn>
+					<v-spacer />
+					<v-btn color="grey" flat="flat" @click="cancelDeleteConfFromFirestore">Cancel</v-btn>
+					<v-btn color="error" @click="confirmeDeleteConfFromFirestore">Delete</v-btn>
 				</v-card-actions>
+
 				<v-slide-y-transition>
 					<v-card-text v-show="showDetailConfToDelete">
 						<vue-json-pretty
@@ -159,8 +157,8 @@ import { mapState } from 'vuex';
 import { mapGetters } from 'vuex';
 import VueJsonPretty from 'vue-json-pretty';
 import store from '@/store';
-import DataManagementFilters from '../../common/DataManagementFilters';
-import ActivatedStatusChip from '../../common/configuration/ConfigurationStatus.vue';
+import DataManagementFilters from '../../../common/DataManagementFilters';
+import ActivatedStatusChip from '../../../common/configuration/ConfigurationStatus.vue';
 import ConfsComponent from '@/mixins/confsComponent.js';
 
 export default {
@@ -177,7 +175,6 @@ export default {
 		isFetchAndAdding: false,
 		fetchAndAddStatus: '',
 		moreToFetchAndAdd: false,
-		expand: false,
 		pagination: {
 			sortBy: 'id',
 			descending: true,
@@ -203,6 +200,12 @@ export default {
 				value: 'environment'
 			},
 			{
+				text: 'Configuration ID',
+				align: 'left',
+				sortable: true,
+				value: 'id'
+			},
+			{
 				text: 'Destination Table',
 				align: 'left',
 				sortable: true,
@@ -226,7 +229,12 @@ export default {
 				sortable: true,
 				value: 'activated'
 			},
-			{ text: 'Actions', align: 'center', value: 'actions', sortable: false }
+			{
+				text: 'Actions',
+				align: 'center',
+				value: 'actions',
+				sortable: false
+			}
 		]
 	}),
 	mounted() {
@@ -263,42 +271,48 @@ export default {
 		},
 		async getFirestoreData() {
 			this.mirrorExcGcsToGbqConfsAllDetailsArray = [];
-			const where = this.whereConfFilter;
-			this.$data.fetchAndAddStatus = 'Loading';
-			this.$data.moreToFetchAndAdd = false;
-			this.$data.isFetchAndAdding = true;
+			this.fetchAndAddStatus = 'Loading';
+			this.moreToFetchAndAdd = false;
+			this.isFetchAndAdding = true;
 			try {
 				store.dispatch('mirrorExcGcsToGbqConfs/closeDBChannel', {
 					clearModule: true
 				});
-				let fetchResult = await store.dispatch('mirrorExcGcsToGbqConfs/fetchAndAdd', { where, limit: 0 });
-				if (fetchResult.done === true) {
-					this.$data.moreToFetchAndAdd = false;
-				} else {
-					this.$data.moreToFetchAndAdd = true;
-				}
-				this.$data.fetchAndAddStatus = 'Success';
 
-				//Loop to the document at the 1st level to get the detail configuration in the CONFIGURATION collection of each document
-				//Transform the mirrorExcGcsToGbqConfs in Array to loop on
+				const fetchResult = await store.dispatch('mirrorExcGcsToGbqConfs/fetchAndAdd', {
+					where: this.whereConfFilter,
+					limit: 1000
+				});
+
+				fetchResult.done === true ? (this.moreToFetchAndAdd = false) : (this.moreToFetchAndAdd = true);
+				this.fetchAndAddStatus = 'Success';
+
 				const mirrorExcGcsToGbqConfsArray = Object.values(this.mirrorExcGcsToGbqConfs);
-				//Loop on mirrorExcGcsToGbqConfsArray to get the collection
-				for (var confDetailsId in mirrorExcGcsToGbqConfsArray) {
-					let bucketId = mirrorExcGcsToGbqConfsArray[confDetailsId].id;
+
+				console.log(this.mirrorExcGcsToGbqConfs);
+
+				for (const index in mirrorExcGcsToGbqConfsArray) {
+					const bucketId = mirrorExcGcsToGbqConfsArray[index].id;
+
 					try {
 						store.dispatch('mirrorExcGcsToGbqConfDetails/closeDBChannel', {
 							clearModule: true
 						});
-						// let fetchResult = await store.dispatch(
-						// 	"mirrorExcGcsToGbqConfDetails/fetchAndAdd",
-						// 	{ bucketId: bucketId, limit: 0 }
-						// );
+
+						let fetchResult = await store.dispatch('mirrorExcGcsToGbqConfDetails/fetchAndAdd', {
+							bucketId: bucketId,
+							limit: 0
+						});
+
+						console.log(this.mirrorExcGcsToGbqConfDetails);
+
 						//Ad the bucket source to the doc configuration and an unique key
-						let mirrorExcGcsToGbqConfDetailsEnriched = Object.values(this.mirrorExcGcsToGbqConfDetails).map(x =>
+						let mirrorExcGcsToGbqConfDetailsEnriched = Object.values(this.mirrorExcGcsToGbqConfs).map(x =>
 							Object.assign({ bucket_source: bucketId }, x)
 						);
-						//Ad an unique key to the doc configuration (bucket + table destination + input folder)
-						mirrorExcGcsToGbqConfDetailsEnriched = mirrorExcGcsToGbqConfDetailsEnriched.map(val => {
+
+						// Add an unique key to the doc configuration (bucket + table destination + input folder)
+						this.mirrorExcGcsToGbqConfsAllDetailsArray = mirrorExcGcsToGbqConfDetailsEnriched.map(val => {
 							let key = '';
 							key = key.concat(val.bucket_source, '/', val.id, '/', val.gcs_prefix);
 							return Object.assign({ key: key }, val);
@@ -307,27 +321,22 @@ export default {
 						this.mirrorExcGcsToGbqConfsAllDetailsArray.push(Object.values(mirrorExcGcsToGbqConfDetailsEnriched));
 					} catch (e) {
 						console.error('Firestore Error catched', e);
-						this.$data.fetchAndAddStatus = 'Error';
-						this.$data.isFetchAndAdding = false;
+						this.fetchAndAddStatus = 'Error';
+						this.isFetchAndAdding = false;
 					}
 				}
 			} catch (e) {
 				console.error('Firestore Error catched:', e);
-				this.$data.fetchAndAddStatus = 'Error';
-				this.$data.isFetchAndAdding = false;
+				this.fetchAndAddStatus = 'Error';
+				this.isFetchAndAdding = false;
 			}
-			this.$data.isFetchAndAdding = false;
+			this.isFetchAndAdding = false;
 		}
 	},
 	computed: {
 		...mapState({
-			isAuthenticated: state => state.user.isAuthenticated,
-			user: state => state.user.user,
 			mirrorExcGcsToGbqConfs: state => state.mirrorExcGcsToGbqConfs.data,
-			mirrorExcGcsToGbqConfDetails: state => state.mirrorExcGcsToGbqConfDetails.data,
-			dateFilterSelected: state => state.filters.dateFilterSelected,
-			dateFilters: state => state.filters.dateFilters,
-			minDateFilter: state => state.filters.minDateFilter
+			mirrorExcGcsToGbqConfDetails: state => state.mirrorExcGcsToGbqConfDetails.data
 		}),
 		...mapGetters(['periodFiltered', 'whereConfFilter']),
 		mirrorExcGcsToGbqConfsAllDetailsArrayFlat() {
@@ -341,5 +350,3 @@ export default {
 	}
 };
 </script>
-
-<style></style>

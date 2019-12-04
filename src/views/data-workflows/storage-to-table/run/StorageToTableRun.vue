@@ -1,17 +1,17 @@
 <template>
 	<div>
 		<DataManagementHeader :tabsItems="tabsItems" :headerTitle="headerTitle"></DataManagementHeader>
-		<GcsToGbqRuns />
+		<StorageToTableRun />
 	</div>
 </template>
 
 <script>
-import GcsToGbqRuns from '../../../components/data-workflows/gcs-to-gbq/GcsToGbqRuns';
-import DataManagementHeader from '../../../components/app/headers/DataManagementHeader';
+import StorageToTableRun from '../../../../components/data-workflows/storage-to-table/run/StorageToTableRun';
+import DataManagementHeader from '../../../../components/app/headers/DataManagementHeader';
 
 export default {
 	components: {
-		GcsToGbqRuns,
+		StorageToTableRun,
 		DataManagementHeader
 	},
 	data() {
