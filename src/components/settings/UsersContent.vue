@@ -129,12 +129,12 @@ import firebase from 'firebase';
 import { mapState } from 'vuex';
 import { mapGetters } from 'vuex';
 import _ from 'lodash';
-import ConfsComponent from '@/mixins/confsComponent.js';
 
 export default {
 	name: 'users-content',
-	mixins: [ConfsComponent],
 	data: () => ({
+		snackbarParam: { message: '', show: false, color: 'info' },
+		alertParam: { message: '', show: false, color: 'info', dismissible: true },
 		users: [],
 		selectedAccounts: [],
 		selectedRoles: 0,

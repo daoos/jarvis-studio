@@ -149,17 +149,17 @@ import VueJsonPretty from 'vue-json-pretty';
 import store from '@/store';
 import _ from 'lodash';
 import ConfigurationStatus from '../../common/configuration/ConfigurationStatus.vue';
-import ConfsComponent from '@/mixins/confsComponent.js';
 import DataManagementFilters from '../../common/DataManagementFilters';
 
 export default {
-	mixins: [ConfsComponent],
 	components: {
 		VueJsonPretty,
 		ConfigurationStatus,
 		DataManagementFilters
 	},
 	data: () => ({
+		snackbarParam: { message: '', show: false, color: 'info' },
+		alertParam: { message: '', show: false, color: 'info', dismissible: true },
 		expanded: [],
 		search: '',
 		isFetchAndAdding: false,

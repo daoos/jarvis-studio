@@ -160,16 +160,16 @@ import VueJsonPretty from 'vue-json-pretty';
 import store from '@/store';
 import DataManagementFilters from '../../../common/DataManagementFilters';
 import ConfigurationStatus from '../../../common/configuration/ConfigurationStatus.vue';
-import ConfsComponent from '@/mixins/confsComponent.js';
 
 export default {
-	mixins: [ConfsComponent],
 	components: {
 		VueJsonPretty,
 		DataManagementFilters,
 		ConfigurationStatus
 	},
 	data: () => ({
+		snackbarParam: { message: '', show: false, color: 'info' },
+		alertParam: { message: '', show: false, color: 'info', dismissible: true },
 		expanded: [],
 		mirrorExcGcsToGbqConfsAllDetailsArray: [],
 		search: '',
