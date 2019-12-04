@@ -56,8 +56,6 @@ export default {
 			const id = item.id;
 			const collectionPath = ''.concat(collection, '/patch');
 
-			console.log('ITEM', item);
-
 			switch (item.activated) {
 				case true:
 					store.dispatch(collectionPath, { id, activated: false }).then(() => {

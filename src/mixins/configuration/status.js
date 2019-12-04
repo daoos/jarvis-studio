@@ -6,11 +6,12 @@ export default {
 	methods: {
 		onStatusUpdate(params) {
 			this.snackbarParam = params;
-			console.log('STATUS UPDATED -> Show Snackbar', params);
 		},
 		onStatusError(params) {
 			this.alertParam = params;
-			console.log('STATUS UPDATED -> Show Alert', params);
+		},
+		onCloseSnackbar() {
+			this.snackbarParam.show = false;
 		}
 	}
 };

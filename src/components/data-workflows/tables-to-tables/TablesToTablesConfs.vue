@@ -129,12 +129,12 @@
 			</v-col>
 		</v-row>
 
-		<v-snackbar v-model="snackbarParam.show" :color="snackbarParam.color" :timeout="2000">
-			{{ snackbarParam.message }}
-			<v-btn flat @click="snackbarParam.show = false">
-				Close
-			</v-btn>
-		</v-snackbar>
+		<configuration-snackbar
+			:show-snackbar="snackbarParam.show"
+			:color="snackbarParam.color"
+			:msg="snackbarParam.message"
+			@closeSnackbar="onCloseSnackbar"
+		/>
 	</v-container>
 </template>
 
@@ -142,6 +142,7 @@
 import VueJsonPretty from 'vue-json-pretty';
 import DataManagementFilters from '../../common/DataManagementFilters';
 import ConfigurationStatus from '../../common/configuration/ConfigurationStatus.vue';
+import ConfigurationSnackbar from '@/components/common/configuration/ConfigurationSnackbar';
 
 import ConfigurationStatusMixin from '@/mixins/configuration/status';
 
@@ -155,7 +156,8 @@ export default {
 	components: {
 		VueJsonPretty,
 		DataManagementFilters,
-		ConfigurationStatus
+		ConfigurationStatus,
+		ConfigurationSnackbar
 	},
 	mixins: [ConfigurationStatusMixin],
 	data: () => ({
