@@ -89,15 +89,12 @@ export default {
 					});
 					break;
 				default:
-					this.$emit('statusError', {
+					this.statusUpdateCallback({
 						message:
 							'The Activated attribute is not well set in the source configuration. Please update and deploy it again',
 						show: true,
-						color: 'error',
-						icon: 'error',
-						dismissible: true
+						color: 'error'
 					});
-					this.isLoading = false;
 					break;
 			}
 		},

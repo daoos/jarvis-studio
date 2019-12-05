@@ -1,14 +1,5 @@
 <template>
 	<v-container fluid>
-		<v-alert
-			:value="alertParam.show"
-			:color="alertParam.color"
-			:icon="alertParam.icon"
-			:dismissible="alertParam.dismissible"
-		>
-			{{ alertParam.message }}
-		</v-alert>
-
 		<v-toolbar class="elevation-O" color="transparent">
 			<v-text-field v-model="search" append-icon="search" label="Search" single-line hide-details />
 
