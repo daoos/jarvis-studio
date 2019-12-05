@@ -10,8 +10,11 @@ export default {
 		onStatusError(params) {
 			this.alertParam = params;
 		},
-		onCloseSnackbar() {
+		closeSnackbar() {
 			this.snackbarParam.show = false;
 		}
+	},
+	computed: {
+		timeout: () => 3500
 	}
 };
