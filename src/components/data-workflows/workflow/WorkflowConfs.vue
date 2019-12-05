@@ -46,7 +46,7 @@
 			</template>
 
 			<template v-slot:item.activated="{ item }">
-				<configuration-status :item="item" collection="workflowConfs" :activatedConfStatus="item.activated" />
+				<configuration-status :item="item" collection="workflowConfs" :is-activated="item.activated" />
 			</template>
 
 			<template v-slot:item.actions="{ item }">

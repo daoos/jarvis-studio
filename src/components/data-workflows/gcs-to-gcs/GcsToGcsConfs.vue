@@ -56,7 +56,7 @@
 			</template>
 
 			<template v-slot:item.activated="{ item }">
-				<configuration-status :item="item" collection="mirrorExcGcsToGcsConfs" :activatedConfStatus="item.activated" />
+				<configuration-status :item="item" collection="mirrorExcGcsToGcsConfs" :is-activated="item.activated" />
 			</template>
 
 			<template v-slot:item.actions="{ item }">

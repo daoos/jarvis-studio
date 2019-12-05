@@ -20,6 +20,7 @@ export const getActiveConfColor = activated => {
 
 export const getActiveConfLabel = activated => {
 	let label = '';
+
 	switch (activated) {
 		case true:
 			label = 'Activated';

@@ -50,7 +50,7 @@
 			</template>
 
 			<template v-slot:item.activated="{ item }">
-				<configuration-status :item="item" collection="vmLauncherConfs" :activatedConfStatus="item.activated" />
+				<configuration-status :item="item" collection="vmLauncherConfs" :is-activated="item.activated" />
 			</template>
 
 			<template v-slot:item.actions="{ item }">

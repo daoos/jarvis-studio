@@ -10,9 +10,8 @@
 			<configuration-status
 				v-if="properties.viewType === 'conf'"
 				:is-small="false"
-				:activatedConfStatus="properties.activatedConfStatus"
-				chipTextClass="text-uppercase"
-				:isLabel="true"
+				:is-activated="properties.activatedConfStatus"
+				:is-label="true"
 			/>
 
 			<RunStatusChip
