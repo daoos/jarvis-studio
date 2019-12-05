@@ -1,15 +1,15 @@
 <template>
 	<div>
 		<v-chip
-			:color="colorActivatedConfStatus"
+			:color="color"
 			text-color="white"
 			:small="isSmall"
-			:class="chipTextClass"
+			:class="isLabel ? 'text-uppercase' : 'text-capitalize'"
 			:label="isLabel"
 			@click="changeActivatedStatus(item, collection)"
 		>
 			<v-progress-circular indeterminate size="20" color="primary" v-if="isLoading" />
-			<span v-else>{{ labelActivatedConfStatus }}</span>
+			<span v-else>{{ label }}</span>
 		</v-chip>
 
 		<v-snackbar v-model="snackbarParam.show" :color="snackbarParam.color" :timeout="timeout">
@@ -34,9 +34,8 @@ export default {
 			type: String,
 			required: true
 		},
-		activatedConfStatus: {
-			type: Boolean,
-			default: undefined
+		isActivated: {
+			type: Boolean
 		},
 		isSmall: {
 			type: Boolean,
@@ -46,9 +45,9 @@ export default {
 			type: Boolean,
 			default: false
 		},
-		chipTextClass: {
+		customKey: {
 			type: String,
-			default: 'text-capitalize'
+			default: null
 		}
 	},
 	data: () => ({
@@ -58,45 +57,41 @@ export default {
 	}),
 	methods: {
 		changeActivatedStatus(item, collection) {
-			this.isLoading = true;
+			if (this.isActivated === undefined) {
+				this.statusUpdateCallback({
+					message:
+						'The Activated attribute is not well set in the source configuration. Please update and deploy it again',
+					show: true,
+					color: 'error'
+				});
 
+				return;
+			}
+
+			this.isLoading = true;
 			this.snackbarParam = {
 				message: null,
 				show: false,
 				color: null
 			};
-
 			const id = item.id;
-			const collectionPath = ''.concat(collection, '/patch');
+			const collectionPath = `${collection}/patch`;
 
-			switch (item.activated) {
-				case true:
-					store.dispatch(collectionPath, { id, activated: false }).then(() => {
-						this.statusUpdateCallback({
-							message: 'Configuration disabled',
-							show: true,
-							color: getActiveConfColor(false)
-						});
-					});
-					break;
-				case false:
-					store.dispatch(collectionPath, { id, activated: true }).then(() => {
-						this.statusUpdateCallback({
-							message: 'Configuration activated',
-							show: true,
-							color: getActiveConfColor(true)
-						});
-					});
-					break;
-				default:
-					this.statusUpdateCallback({
-						message:
-							'The Activated attribute is not well set in the source configuration. Please update and deploy it again',
-						show: true,
-						color: 'error'
-					});
-					break;
+			let activated, message;
+
+			if (this.isActivated) {
+				activated = false;
+				message = 'Configuration disabled';
+			} else {
+				activated = true;
+				message = 'Configuration activated';
 			}
+
+			const payload = this.customKey ? { id, [this.customKey]: { activated } } : { id, activated };
+
+			store.dispatch(collectionPath, payload).then(() => {
+				this.statusUpdateCallback({ message: message, show: true, color: getActiveConfColor(activated) });
+			});
 		},
 		statusUpdateCallback(snackbarParams) {
 			this.snackbarParam = snackbarParams;
@@ -107,11 +102,11 @@ export default {
 		}
 	},
 	computed: {
-		colorActivatedConfStatus() {
-			return getActiveConfColor(this.activatedConfStatus);
+		color() {
+			return getActiveConfColor(this.isActivated);
 		},
-		labelActivatedConfStatus() {
-			return getActiveConfLabel(this.activatedConfStatus);
+		label() {
+			return getActiveConfLabel(this.isActivated);
 		},
 		timeout: () => 3500
 	}

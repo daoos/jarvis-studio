@@ -57,7 +57,12 @@
 			</template>
 
 			<template v-slot:item.activated="{ item }">
-				<configuration-status :item="item" collection="getGbqToGbqConfs" :is-activated="item.configuration.activated" />
+				<configuration-status
+					:item="item"
+					collection="getGbqToGbqConfs"
+					:is-activated="item.configuration.activated"
+					custom-key="configuration"
+				/>
 			</template>
 
 			<template v-slot:item.actions="{ item }">
