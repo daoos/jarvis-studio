@@ -5,6 +5,8 @@ export default {
 				{
 					component: 'overview-header',
 					props: {
+						item: this.conf,
+						collection: 'getGbqToGcsConfs',
 						activeHeader: true,
 						viewId: this.confId,
 						viewType: 'conf',

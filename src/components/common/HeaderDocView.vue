@@ -2,18 +2,25 @@
 	<div>
 		<v-row class="pl-5 pt-4 pr-5" v-if="activeHeader">
 			<span class="headline font-weight-black text-truncate complementary--text">{{ viewId }}</span>
-			<v-spacer></v-spacer>
+
+			<v-spacer />
+
 			<v-btn text color="grey" @click="goBack()">
 				Go Back
 			</v-btn>
+
 			<configuration-status
-				v-if="viewType == 'conf'"
+				v-if="viewType === 'conf'"
+				:item="conf"
+				:collection="collection"
+				:custom-key="customKey"
 				:is-small="false"
 				:is-activated="activatedConfStatus"
 				:is-label="true"
 			/>
+
 			<RunStatusChip
-				v-if="viewType == 'run'"
+				v-if="viewType === 'run'"
 				:smallChip="false"
 				:runStatus="runStatus"
 				chipTextClass="text-uppercase"
@@ -42,6 +49,18 @@ export default {
 		return {};
 	},
 	props: {
+		conf: {
+			type: Object,
+			required: true
+		},
+		collection: {
+			type: String,
+			required: true
+		},
+		customKey: {
+			type: String,
+			default: null
+		},
 		viewType: {
 			type: String,
 			default: 'conf'

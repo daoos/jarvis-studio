@@ -9,8 +9,10 @@
 
 			<configuration-status
 				v-if="properties.viewType === 'conf'"
+				:item="properties.item"
+				:collection="properties.collection"
+				:is-activated="properties.item.activated"
 				:is-small="false"
-				:is-activated="properties.activatedConfStatus"
 				:is-label="true"
 			/>
 

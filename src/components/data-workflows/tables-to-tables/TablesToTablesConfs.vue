@@ -37,7 +37,7 @@
 				<router-link
 					:to="{
 						name: 'TablesToTablesConf',
-						params: { pathId: id }
+						params: { confId: id }
 					}"
 				>
 					<span class="font-weight-medium">{{ id }}</span>

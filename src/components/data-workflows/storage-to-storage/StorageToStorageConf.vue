@@ -3,35 +3,27 @@
 		<v-row v-if="!isFetchAndAdding">
 			<v-col cols="12" offset="0">
 				<v-tabs v-model="activeTab" color="black" background-color="#E0E0E0" slider-color="primary">
-					<v-tab ripple href="#confoverview">
-						Overview
-					</v-tab>
-					<v-tab ripple href="#fulljson">
-						Full Json
-					</v-tab>
-					<v-tab ripple href="#conversation">
-						Conversation
-					</v-tab>
-					<v-tab-item value="confoverview">
+					<v-tab ripple href="#configuration">Overview</v-tab>
+					<v-tab ripple href="#fulljson">Full Json</v-tab>
+					<v-tab ripple href="#conversation">Conversation</v-tab>
+
+					<v-tab-item value="configuration">
 						<v-card>
-							<StorageToStorageConfView
-								:conf="conf"
-								:configurationId="conf.id"
-								:isFetchAndAdding="isFetchAndAdding"
-								:activeHeader="true"
-							></StorageToStorageConfView>
+							<StorageToStorageConfView :conf="conf" :isFetchAndAdding="isFetchAndAdding" :activeHeader="true" />
 						</v-card>
 					</v-tab-item>
+
 					<v-tab-item value="fulljson">
 						<v-card>
-							<viewJson :json="conf" :jsonID="itemId" />
+							<viewJson :json="conf" :jsonID="confId" />
 						</v-card>
 					</v-tab-item>
 				</v-tabs>
 			</v-col>
 		</v-row>
+
 		<v-row v-else>
-			<v-progress-linear :indeterminate="true"></v-progress-linear>
+			<v-progress-linear :indeterminate="true" />
 		</v-row>
 	</v-container>
 </template>
@@ -48,41 +40,36 @@ export default {
 		viewJson
 	},
 	data: () => ({
+		conf: undefined,
 		isFetchAndAdding: true,
 		activeTab: null
 	}),
 	async mounted() {
-		this.isFetchAndAdding = true;
-		await this.getFirestoreData();
-		this.isFetchAndAdding = false;
+		await this.getConf();
 	},
 	methods: {
+		async getConf() {
+			this.isFetchAndAdding = true;
+			if (this.storageToStorageConfs[this.confId] === undefined) await this.getFirestoreData();
+			this.conf = this.storageToStorageConfs[this.confId];
+			this.isFetchAndAdding = false;
+		},
 		async getFirestoreData() {
-			await store.dispatch('storageToStorageConf/closeDBChannel', {
-				clearModule: true
-			});
-			await store
-				.dispatch('storageToStorageConf/fetchAndAdd', {
-					itemId: this.itemId
-				})
-				.catch(console.error);
+			try {
+				await store.dispatch('storageToStorageConfs/closeDBChannel', { clearModule: true });
+				await store.dispatch('storageToStorageConfs/fetchById', this.confId);
+			} catch (e) {
+				console.error(e);
+			}
 		}
 	},
 	computed: {
 		...mapState({
-			isAuthenticated: state => state.user.isAuthenticated,
-			user: state => state.user.user,
-			settings: state => state.settings,
-			storageToStorageConf: state => state.storageToStorageConf.data
+			storageToStorageConfs: state => state.storageToStorageConfs.data
 		}),
-		itemId() {
-			return this.$route.params.pathId;
-		},
-		conf() {
-			return this.storageToStorageConf;
+		confId() {
+			return this.$route.params.confId;
 		}
 	}
 };
 </script>
-
-<style></style>
