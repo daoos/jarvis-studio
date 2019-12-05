@@ -1,15 +1,22 @@
 <template>
-	<v-chip
-		:color="colorActivatedConfStatus"
-		text-color="white"
-		:small="isSmall"
-		:class="chipTextClass"
-		:label="isLabel"
-		@click="changeActivatedStatus(item, collection)"
-	>
-		<v-progress-circular indeterminate size="20" color="primary" v-if="isLoading" />
-		<span v-else>{{ labelActivatedConfStatus }}</span>
-	</v-chip>
+	<div>
+		<v-chip
+			:color="colorActivatedConfStatus"
+			text-color="white"
+			:small="isSmall"
+			:class="chipTextClass"
+			:label="isLabel"
+			@click="changeActivatedStatus(item, collection)"
+		>
+			<v-progress-circular indeterminate size="20" color="primary" v-if="isLoading" />
+			<span v-else>{{ labelActivatedConfStatus }}</span>
+		</v-chip>
+
+		<v-snackbar v-model="snackbarParam.show" :color="snackbarParam.color" :timeout="timeout">
+			{{ snackbarParam.message }}
+			<v-btn text @click="closeSnackbar">Close</v-btn>
+		</v-snackbar>
+	</div>
 </template>
 
 <script>
@@ -45,13 +52,19 @@ export default {
 		}
 	},
 	data: () => ({
-		isLoading: false
+		isLoading: false,
+		snackbarParam: {},
+		alertParam: {}
 	}),
 	methods: {
 		changeActivatedStatus(item, collection) {
-			// TODO: Discard other snackBar
-
 			this.isLoading = true;
+
+			this.snackbarParam = {
+				message: null,
+				show: false,
+				color: null
+			};
 
 			const id = item.id;
 			const collectionPath = ''.concat(collection, '/patch');
@@ -89,8 +102,11 @@ export default {
 			}
 		},
 		statusUpdateCallback(snackbarParams) {
-			this.$emit('statusUpdate', snackbarParams);
+			this.snackbarParam = snackbarParams;
 			this.isLoading = false;
+		},
+		closeSnackbar() {
+			this.snackbarParam.show = false;
 		}
 	},
 	computed: {
@@ -99,7 +115,8 @@ export default {
 		},
 		labelActivatedConfStatus() {
 			return getActiveConfLabel(this.activatedConfStatus);
-		}
+		},
+		timeout: () => 3500
 	}
 };
 </script>

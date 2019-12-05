@@ -57,13 +57,7 @@
 			</template>
 
 			<template v-slot:item.activated="{ item }">
-				<configuration-status
-					:item="item"
-					collection="storageToStorageConfs"
-					:activatedConfStatus="item.activated"
-					@statusUpdate="onStatusUpdate"
-					@statusError="onStatusError"
-				/>
+				<configuration-status :item="item" collection="storageToStorageConfs" :activatedConfStatus="item.activated" />
 			</template>
 
 			<template v-slot:item.actions="{ item }">
@@ -143,15 +137,9 @@
 			</v-card>
 		</v-dialog>
 
-		<!-- TODO: Update @closeSnackbar  -->
-		<v-snackbar v-model="showSnackbarDeleteConfSuccess" color="success" :timeout="timeout">
+		<!-- TODO: Add @closeSnackbar & timeout const -->
+		<v-snackbar v-model="showSnackbarDeleteConfSuccess" color="success" :timeout="3500">
 			Configuration deleted with success!
-			<v-btn text @click="closeSnackbar">Close</v-btn>
-		</v-snackbar>
-
-		<v-snackbar v-model="snackbarParam.show" :color="snackbarParam.color" :timeout="timeout">
-			{{ snackbarParam.message }}
-			<v-btn text @click="closeSnackbar">Close</v-btn>
 		</v-snackbar>
 	</v-container>
 </template>
@@ -160,8 +148,6 @@
 import VueJsonPretty from 'vue-json-pretty';
 import DataManagementFilters from '../../common/DataManagementFilters';
 import ConfigurationStatus from '../../common/configuration/ConfigurationStatus.vue';
-
-import ConfigurationStatusMixin from '@/mixins/configuration/status';
 
 import { mapState } from 'vuex';
 import { mapGetters } from 'vuex';
@@ -175,7 +161,6 @@ export default {
 		DataManagementFilters,
 		ConfigurationStatus
 	},
-	mixins: [ConfigurationStatusMixin],
 	data: () => ({
 		snackbarParam: { message: '', show: false, color: 'info' },
 		alertParam: { message: '', show: false, color: 'info', dismissible: true },

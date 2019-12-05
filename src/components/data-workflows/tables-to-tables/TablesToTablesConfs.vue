@@ -61,8 +61,6 @@
 					:item="item"
 					collection="getGbqToGbqConfs"
 					:activatedConfStatus="item.configuration.activated"
-					@statusUpdate="onStatusUpdate"
-					@statusError="onStatusError"
 				/>
 			</template>
 
@@ -128,11 +126,6 @@
 				</v-card>
 			</v-col>
 		</v-row>
-
-		<v-snackbar v-model="snackbarParam.show" :color="snackbarParam.color" :timeout="timeout">
-			{{ snackbarParam.message }}
-			<v-btn text @click="closeSnackbar">Close</v-btn>
-		</v-snackbar>
 	</v-container>
 </template>
 
@@ -140,8 +133,6 @@
 import VueJsonPretty from 'vue-json-pretty';
 import DataManagementFilters from '../../common/DataManagementFilters';
 import ConfigurationStatus from '../../common/configuration/ConfigurationStatus.vue';
-
-import ConfigurationStatusMixin from '@/mixins/configuration/status';
 
 import { mapState } from 'vuex';
 import { mapGetters } from 'vuex';
@@ -155,7 +146,6 @@ export default {
 		DataManagementFilters,
 		ConfigurationStatus
 	},
-	mixins: [ConfigurationStatusMixin],
 	data: () => ({
 		expanded: [],
 		search: '',

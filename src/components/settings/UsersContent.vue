@@ -117,7 +117,7 @@
 			</template>
 		</v-data-table>
 
-		<v-snackbar v-model="snackbarParam.show" :color="snackbarParam.color" :timeout="2000">
+		<v-snackbar v-model="snackbarParam.show" :color="snackbarParam.color" :timeout="3500">
 			{{ snackbarParam.message }}
 			<v-btn flat @click="snackbarParam.show = false">Close</v-btn>
 		</v-snackbar>
