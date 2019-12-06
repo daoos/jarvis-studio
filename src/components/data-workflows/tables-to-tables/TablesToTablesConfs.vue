@@ -37,7 +37,7 @@
 				<router-link
 					:to="{
 						name: 'TablesToTablesConf',
-						params: { pathId: id }
+						params: { confId: id }
 					}"
 				>
 					<span class="font-weight-medium">{{ id }}</span>
@@ -57,9 +57,11 @@
 			</template>
 
 			<template v-slot:item.activated="{ item }">
-				<ActivatedStatusChip
-					@click.native="changeActivatedStatus(item, 'getGbqToGbqConfs')"
-					:activatedConfStatus="item.configuration.activated"
+				<configuration-status
+					:item="item"
+					collection="getGbqToGbqConfs"
+					:is-activated="item.configuration.activated"
+					custom-key="configuration"
 				/>
 			</template>
 
@@ -125,32 +127,25 @@
 				</v-card>
 			</v-col>
 		</v-row>
-
-		<v-snackbar v-model="snackbarParam.show" :color="snackbarParam.color" :timeout="2000">
-			{{ snackbarParam.message }}
-			<v-btn flat @click="snackbarParam.show = false">
-				Close
-			</v-btn>
-		</v-snackbar>
 	</v-container>
 </template>
 
 <script>
+import VueJsonPretty from 'vue-json-pretty';
+import DataManagementFilters from '../../common/DataManagementFilters';
+import ConfigurationStatus from '../../common/configuration/ConfigurationStatus.vue';
+
 import { mapState } from 'vuex';
 import { mapGetters } from 'vuex';
-import VueJsonPretty from 'vue-json-pretty';
 import store from '@/store';
 import _ from 'lodash';
-import DataManagementFilters from '../../common/DataManagementFilters';
-import ActivatedStatusChip from '../../common/chips/ActivatedStatusChip.vue';
-import ConfsComponent from '@/mixins/confsComponent.js';
 
 export default {
-	mixins: [ConfsComponent],
+	name: 'tables-to-tables-configurations-listing',
 	components: {
 		VueJsonPretty,
 		DataManagementFilters,
-		ActivatedStatusChip
+		ConfigurationStatus
 	},
 	data: () => ({
 		expanded: [],

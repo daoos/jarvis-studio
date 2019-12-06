@@ -3,7 +3,9 @@
 		<v-row>
 			<v-col cols="12" offset="0">
 				<HeaderDocView
-					:viewId="configurationId"
+					:conf="conf"
+					collection="storageToStorageConfs"
+					:viewId="confId"
 					:activatedConfStatus="conf.activated"
 					:activeHeader="activeHeader"
 					viewType="conf"
@@ -21,7 +23,7 @@
 					vflexLength="xs10"
 					:lineNumbers="false"
 					:searchOptionsEnabled="false"
-				></ParametersTable>
+				/>
 				<ParametersTable
 					tableTitle="GCS Destinations"
 					description="Multi GCS destinations for copied files"
@@ -31,7 +33,7 @@
 					:lineNumbers="false"
 					:searchOptionsEnabled="false"
 					v-if="destinationStorageRows.gcs.length > 0"
-				></ParametersTable>
+				/>
 				<ParametersTable
 					tableTitle="S3 Destinations"
 					description="Multi S3 destinations for copied files"
@@ -41,7 +43,7 @@
 					:lineNumbers="false"
 					:searchOptionsEnabled="false"
 					v-if="destinationStorageRows.s3.length > 0"
-				></ParametersTable>
+				/>
 				<ParametersTable
 					tableTitle="SFTP Destinations"
 					description="Multi SFTP destinations for copied files"
@@ -51,13 +53,13 @@
 					:lineNumbers="false"
 					:searchOptionsEnabled="false"
 					v-if="destinationStorageRows.sftp.length > 0"
-				></ParametersTable>
+				/>
 				<ParametersTable
 					tableTitle="File Name Template(s)"
 					description="Templates of the incomming files that should be copied to the destination storages. Do not put the date/timestamp prefix file in the template "
 					:columns="fileNameTemplateColumns"
 					:rows="fileNameTemplateRows"
-				></ParametersTable>
+				/>
 			</v-col>
 		</v-row>
 	</v-container>
@@ -67,6 +69,7 @@
 import ParametersTable from '@/components/common/tmp/ParametersTable.vue';
 import HeaderDocView from '@/components/common/HeaderDocView.vue';
 import ParametersList from '@/components/common/tmp/ParametersList.vue';
+
 export default {
 	components: {
 		ParametersTable,
@@ -244,6 +247,18 @@ export default {
 		}
 	},
 	computed: {
+		confId() {
+			//Set a Conf Id to the first destination bucket in the Array when the Id of the Conf is not present in the payload
+			let getConfId = '';
+			if (this.conf.id !== undefined) {
+				getConfId = this.conf.id;
+			} else if (this.conf.destination_bucket[0] !== undefined) {
+				getConfId = this.conf.destination_bucket[0];
+			} else {
+				getConfId = '';
+			}
+			return getConfId;
+		},
 		fileNameTemplateRows() {
 			return this.conf.filename_templates;
 		},
@@ -346,7 +361,11 @@ export default {
 		},
 		paramItems() {
 			return [
-				{ id: 'account', label: 'Account', value: this.conf.account },
+				{
+					id: 'account',
+					label: 'Account',
+					value: this.conf.account
+				},
 				{
 					id: 'environment',
 					label: 'Environment',
@@ -357,5 +376,3 @@ export default {
 	}
 };
 </script>
-
-<style></style>

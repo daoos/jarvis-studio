@@ -3,8 +3,11 @@
 		<v-row>
 			<v-col cols="12" offset="0">
 				<HeaderDocView
+					:conf="conf"
+					collection="getGbqToGbqConfs"
 					:viewId="confId"
 					:activatedConfStatus="conf.configuration.activated"
+					custom-key="configuration"
 					:activeHeader="activeHeader"
 					viewType="conf"
 					:description="dagDescription"

@@ -5,6 +5,8 @@ export default {
 				{
 					component: 'overview-header',
 					props: {
+						item: this.conf,
+						collection: 'tableToStorageConfs',
 						activeHeader: true,
 						viewId: this.confId,
 						viewType: 'conf',

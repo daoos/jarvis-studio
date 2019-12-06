@@ -3,6 +3,8 @@
 		<v-row>
 			<v-col cols="12" offset="0">
 				<HeaderDocView
+					:conf="conf"
+					collection="mirrorExcGcsToGcsConfs"
 					:viewId="confId"
 					:activatedConfStatus="conf.activated"
 					:activeHeader="activeHeader"
@@ -21,7 +23,7 @@
 					vflexLength="xs9"
 					:lineNumbers="false"
 					:searchOptionsEnabled="false"
-				></ParametersTable>
+				/>
 				<ParametersTable
 					tableTitle="Destination Storage(s)"
 					description="Multi destination storages for the copied files"
@@ -30,13 +32,13 @@
 					vflexLength="xs7"
 					:lineNumbers="false"
 					:searchOptionsEnabled="false"
-				></ParametersTable>
+				/>
 				<ParametersTable
 					tableTitle="File Name Template(s)"
 					description="Templates of the incomming files that should be copied to the destination storages. Do not put the date/timestamp prefix file in the template "
 					:columns="fileNameTemplateColumns"
 					:rows="fileNameTemplateRows"
-				></ParametersTable>
+				/>
 			</v-col>
 		</v-row>
 	</v-container>

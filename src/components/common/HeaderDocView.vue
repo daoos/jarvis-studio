@@ -2,19 +2,25 @@
 	<div>
 		<v-row class="pl-5 pt-4 pr-5" v-if="activeHeader">
 			<span class="headline font-weight-black text-truncate complementary--text">{{ viewId }}</span>
-			<v-spacer></v-spacer>
+
+			<v-spacer />
+
 			<v-btn text color="grey" @click="goBack()">
 				Go Back
 			</v-btn>
-			<ActivatedStatusChip
-				v-if="viewType == 'conf'"
-				:smallChip="false"
-				:activatedConfStatus="activatedConfStatus"
-				chipTextClass="text-uppercase"
-				:chipLabel="true"
+
+			<configuration-status
+				v-if="viewType === 'conf'"
+				:item="conf"
+				:collection="collection"
+				:custom-key="customKey"
+				:is-small="false"
+				:is-activated="activatedConfStatus"
+				:is-label="true"
 			/>
+
 			<RunStatusChip
-				v-if="viewType == 'run'"
+				v-if="viewType === 'run'"
 				:smallChip="false"
 				:runStatus="runStatus"
 				chipTextClass="text-uppercase"
@@ -31,18 +37,30 @@
 </template>
 
 <script>
-import ActivatedStatusChip from '@/components/common/chips/ActivatedStatusChip.vue';
+import ConfigurationStatus from '@/components/common/configuration/ConfigurationStatus.vue';
 import RunStatusChip from '@/components/common/chips/RunStatusChip.vue';
 
 export default {
 	components: {
-		ActivatedStatusChip,
+		ConfigurationStatus,
 		RunStatusChip
 	},
 	data() {
 		return {};
 	},
 	props: {
+		conf: {
+			type: Object,
+			required: true
+		},
+		collection: {
+			type: String,
+			required: true
+		},
+		customKey: {
+			type: String,
+			default: null
+		},
 		viewType: {
 			type: String,
 			default: 'conf'

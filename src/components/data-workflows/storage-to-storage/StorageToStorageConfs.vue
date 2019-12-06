@@ -37,7 +37,7 @@
 				<router-link
 					:to="{
 						name: 'StorageToStorageConf',
-						params: { pathId: id }
+						params: { confId: id }
 					}"
 				>
 					<span class="font-weight-medium">{{ id }}</span>
@@ -57,10 +57,7 @@
 			</template>
 
 			<template v-slot:item.activated="{ item }">
-				<ActivatedStatusChip
-					@click.native="changeActivatedStatus(item, 'storageToStorageConfs')"
-					:activatedConfStatus="item.activated"
-				/>
+				<configuration-status :item="item" collection="storageToStorageConfs" :is-activated="item.activated" />
 			</template>
 
 			<template v-slot:item.actions="{ item }">
@@ -140,37 +137,33 @@
 			</v-card>
 		</v-dialog>
 
-		<v-snackbar v-model="showSnackbarDeleteConfSuccess" color="success" :timeout="1000">
-			Configuration deleted with sucess
-		</v-snackbar>
-
-		<v-snackbar v-model="snackbarParam.show" :color="snackbarParam.color" :timeout="2000">
-			{{ snackbarParam.message }}
-			<v-btn text @click="snackbarParam.show = false">
-				Close
-			</v-btn>
+		<!-- TODO: Add @closeSnackbar & timeout const -->
+		<v-snackbar v-model="showSnackbarDeleteConfSuccess" color="success" :timeout="3500">
+			Configuration deleted with success!
 		</v-snackbar>
 	</v-container>
 </template>
 
 <script>
+import VueJsonPretty from 'vue-json-pretty';
+import DataManagementFilters from '../../common/DataManagementFilters';
+import ConfigurationStatus from '../../common/configuration/ConfigurationStatus.vue';
+
 import { mapState } from 'vuex';
 import { mapGetters } from 'vuex';
-import VueJsonPretty from 'vue-json-pretty';
 import store from '@/store';
 import _ from 'lodash';
-import DataManagementFilters from '../../common/DataManagementFilters';
-import ActivatedStatusChip from '../../common/chips/ActivatedStatusChip.vue';
-import ConfsComponent from '@/mixins/confsComponent.js';
 
 export default {
-	mixins: [ConfsComponent],
+	name: 'storage-to-storage-configurations-listing',
 	components: {
 		VueJsonPretty,
 		DataManagementFilters,
-		ActivatedStatusChip
+		ConfigurationStatus
 	},
 	data: () => ({
+		snackbarParam: { message: '', show: false, color: 'info' },
+		alertParam: { message: '', show: false, color: 'info', dismissible: true },
 		expanded: [],
 		search: '',
 		isFetchAndAdding: false,

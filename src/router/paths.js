@@ -144,7 +144,7 @@ export default [
 			)
 	},
 	{
-		path: '/storagetostorage/confs/:pathId',
+		path: '/storagetostorage/confs/:confId',
 		name: 'StorageToStorageConf',
 		meta: {
 			authRequired: true
@@ -230,7 +230,7 @@ export default [
 		alias: '/conf/gbqtogbq'
 	},
 	{
-		path: '/tablestotables/confs/:pathId',
+		path: '/tablestotables/confs/:confId',
 		name: 'TablesToTablesConf',
 		meta: {
 			authRequired: true

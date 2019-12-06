@@ -1,14 +1,5 @@
 <template>
 	<v-container fluid>
-		<v-alert
-			:value="alertParam.show"
-			:color="alertParam.color"
-			:icon="alertParam.icon"
-			:dismissible="alertParam.dismissible"
-		>
-			{{ alertParam.message }}
-		</v-alert>
-
 		<v-toolbar class="elevation-O" color="transparent">
 			<v-text-field v-model="search" append-icon="search" label="Search" single-line hide-details />
 
@@ -43,10 +34,7 @@
 			</template>
 
 			<template v-slot:item.activated="{ item }">
-				<ActivatedStatusChip
-					@click.native="changeActivatedStatus(item, 'tableToStorageConfs')"
-					:activatedConfStatus="item.activated"
-				/>
+				<configuration-status :item="item" collection="tableToStorageConfs" :is-activated="item.activated" />
 			</template>
 
 			<template v-slot:item.actions="{ item }">
@@ -85,36 +73,30 @@
 				Your search for "{{ search }}" found no results.
 			</v-alert>
 		</v-data-table>
-
-		<v-snackbar v-model="snackbarParam.show" :color="snackbarParam.color" :timeout="2000">
-			{{ snackbarParam.message }}
-			<v-btn flat @click="snackbarParam.show = false">
-				Close
-			</v-btn>
-		</v-snackbar>
 	</v-container>
 </template>
 
 <script>
+import VueJsonPretty from 'vue-json-pretty';
+import DataManagementFilters from '../../../common/DataManagementFilters';
+import ConfigurationStatus from '../../../common/configuration/ConfigurationStatus.vue';
+
 import { mapState } from 'vuex';
 import { mapGetters } from 'vuex';
-import VueJsonPretty from 'vue-json-pretty';
 import store from '@/store/index';
 import _ from 'lodash';
 import Util from '@/util';
-import DataManagementFilters from '../../../common/DataManagementFilters';
-import ActivatedStatusChip from '../../../common/chips/ActivatedStatusChip.vue';
-import ConfsComponent from '@/mixins/confsComponent.js';
 
 export default {
-	name: 'configurations-listing',
-	mixins: [ConfsComponent],
+	name: 'table-to-storage-configurations-listing',
 	components: {
 		VueJsonPretty,
 		DataManagementFilters,
-		ActivatedStatusChip
+		ConfigurationStatus
 	},
 	data: () => ({
+		snackbarParam: { message: '', show: false, color: 'info' },
+		alertParam: { message: '', show: false, color: 'info', dismissible: true },
 		expanded: [],
 		search: '',
 		isFetchAndAdding: false,

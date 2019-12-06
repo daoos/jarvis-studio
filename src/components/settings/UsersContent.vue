@@ -117,7 +117,7 @@
 			</template>
 		</v-data-table>
 
-		<v-snackbar v-model="snackbarParam.show" :color="snackbarParam.color" :timeout="2000">
+		<v-snackbar v-model="snackbarParam.show" :color="snackbarParam.color" :timeout="3500">
 			{{ snackbarParam.message }}
 			<v-btn flat @click="snackbarParam.show = false">Close</v-btn>
 		</v-snackbar>
@@ -129,12 +129,12 @@ import firebase from 'firebase';
 import { mapState } from 'vuex';
 import { mapGetters } from 'vuex';
 import _ from 'lodash';
-import ConfsComponent from '@/mixins/confsComponent.js';
 
 export default {
 	name: 'users-content',
-	mixins: [ConfsComponent],
 	data: () => ({
+		snackbarParam: { message: '', show: false, color: 'info' },
+		alertParam: { message: '', show: false, color: 'info', dismissible: true },
 		users: [],
 		selectedAccounts: [],
 		selectedRoles: 0,

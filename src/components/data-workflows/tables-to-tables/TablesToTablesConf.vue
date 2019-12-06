@@ -3,18 +3,11 @@
 		<v-row v-if="!isFetchAndAdding">
 			<v-col cols="12" offset="0">
 				<v-tabs v-model="activeTab" color="black" background-color="#E0E0E0" slider-color="primary">
-					<v-tab ripple href="#confoverview">
-						Overview
-					</v-tab>
-					<v-tab ripple href="#conftasks">
-						Tasks
-					</v-tab>
-					<v-tab ripple href="#fulljson">
-						Full Json
-					</v-tab>
-					<v-tab ripple href="#conversation">
-						Conversation
-					</v-tab>
+					<v-tab ripple href="#confoverview">Overview</v-tab>
+					<v-tab ripple href="#conftasks">Tasks</v-tab>
+					<v-tab ripple href="#fulljson">Full Json</v-tab>
+					<v-tab ripple href="#conversation">Conversation</v-tab>
+
 					<v-tab-item value="confoverview">
 						<v-card v-if="this.conf !== undefined">
 							<tablesToTablesConfOverview
@@ -24,6 +17,7 @@
 							/>
 						</v-card>
 					</v-tab-item>
+
 					<v-tab-item value="conftasks">
 						<v-card v-if="this.conf !== undefined">
 							<tablesToTalesConfTasksView
@@ -33,6 +27,7 @@
 							/>
 						</v-card>
 					</v-tab-item>
+
 					<v-tab-item value="fulljson">
 						<v-card>
 							<viewJson :json="this.conf" :jsonID="this.conf.id" />
@@ -41,6 +36,7 @@
 				</v-tabs>
 			</v-col>
 		</v-row>
+
 		<v-row v-else>
 			<template>
 				<v-progress-linear :indeterminate="true" />
@@ -64,37 +60,36 @@ export default {
 	},
 	data() {
 		return {
+			conf: undefined,
 			isFetchAndAdding: true,
 			activeTab: null
 		};
 	},
 	async mounted() {
-		await this.getFirestoreData();
-		this.isFetchAndAdding = false;
+		await this.getConf();
 	},
 	methods: {
+		async getConf() {
+			this.isFetchAndAdding = true;
+			if (this.getGbqToGbqConfs[this.confId] === undefined) await this.getFirestoreData();
+			this.conf = this.getGbqToGbqConfs[this.confId];
+			this.isFetchAndAdding = false;
+		},
 		async getFirestoreData() {
-			await store.dispatch('tablesToTablesConf/closeDBChannel', {
-				clearModule: true
-			});
-			await store
-				.dispatch('tablesToTablesConf/fetchAndAdd', {
-					itemId: this.itemId
-				})
-				.catch(console.error);
+			try {
+				await store.dispatch('getGbqToGbqConfs/closeDBChannel', { clearModule: true });
+				await store.dispatch('getGbqToGbqConfs/fetchById', this.confId);
+			} catch (e) {
+				console.error(e);
+			}
 		}
 	},
 	computed: {
 		...mapState({
-			tablesToTablesConf: state => state.tablesToTablesConf.data
+			getGbqToGbqConfs: state => state.getGbqToGbqConfs.data
 		}),
-		itemId() {
-			var itemId = this.$route.params.pathId;
-			return itemId;
-		},
-		conf() {
-			// Add the bucket file source to the SingleDoc object
-			return this.tablesToTablesConf;
+		confId() {
+			return this.$route.params.confId;
 		}
 	}
 };

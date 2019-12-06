@@ -56,10 +56,7 @@
 			</template>
 
 			<template v-slot:item.activated="{ item }">
-				<ActivatedStatusChip
-					@click.native="changeActivatedStatus(item, 'mirrorExcGcsToGcsConfs')"
-					:activatedConfStatus="item.activated"
-				/>
+				<configuration-status :item="item" collection="mirrorExcGcsToGcsConfs" :is-activated="item.activated" />
 			</template>
 
 			<template v-slot:item.actions="{ item }">
@@ -138,35 +135,29 @@
 			</v-card>
 		</v-dialog>
 
-		<v-snackbar v-model="showSnackbarDeleteConfSuccess" color="success" :timeout="1000">
-			Configuration deleted with sucess
-		</v-snackbar>
-
-		<v-snackbar v-model="snackbarParam.show" :color="snackbarParam.color" :timeout="2000">
-			{{ snackbarParam.message }}
-			<v-btn flat @click="snackbarParam.show = false">
-				Close
-			</v-btn>
+		<!-- TODO: Add @closeSnackbar & timeout const -->
+		<v-snackbar v-model="showSnackbarDeleteConfSuccess" color="success" :timeout="3500">
+			Configuration deleted with success!
 		</v-snackbar>
 	</v-container>
 </template>
 
 <script>
+import VueJsonPretty from 'vue-json-pretty';
+import DataManagementFilters from '../../common/DataManagementFilters';
+import ConfigurationStatus from '../../common/configuration/ConfigurationStatus.vue';
+
 import { mapState } from 'vuex';
 import { mapGetters } from 'vuex';
-import VueJsonPretty from 'vue-json-pretty';
 import store from '@/store';
 import _ from 'lodash';
-import ActivatedStatusChip from '../../common/chips/ActivatedStatusChip.vue';
-import ConfsComponent from '@/mixins/confsComponent.js';
-import DataManagementFilters from '../../common/DataManagementFilters';
 
 export default {
-	mixins: [ConfsComponent],
+	name: 'gcs-to-gcs-configurations-listing',
 	components: {
 		VueJsonPretty,
 		DataManagementFilters,
-		ActivatedStatusChip
+		ConfigurationStatus
 	},
 	data: () => ({
 		expanded: [],
