@@ -176,7 +176,9 @@ export default [
 			authRequired: true
 		},
 		component: () =>
-			import(/* webpackChunkName: "gcstogbqconfs" */ '@/views/data-workflows/gcs-to-gbq/GcsToGbqConfs.vue'),
+			import(
+				/* webpackChunkName: "gcstogbqconfs" */ '@/views/data-workflows/storage-to-table/configuration/ConfigurationsView.vue'
+			),
 		alias: '/conf/gcstogbq'
 	},
 	{
@@ -187,7 +189,7 @@ export default [
 		},
 		component: () =>
 			import(
-				/* webpackChunkName: "storagetotableconf" */ '@/views/data-workflows/storage-to-table/StorageToTableConf.vue'
+				/* webpackChunkName: "storagetotableconf" */ '@/views/data-workflows/storage-to-table/configuration/StorageToTableConf.vue'
 			)
 	},
 	{
@@ -197,7 +199,7 @@ export default [
 			authRequired: true
 		},
 		component: () =>
-			import(/* webpackChunkName: "gcstogbqruns" */ '@/views/data-workflows/gcs-to-gbq/GcsToGbqRuns.vue'),
+			import(/* webpackChunkName: "gcstogbqruns" */ '@/views/data-workflows/storage-to-table/run/RunsView.vue'),
 		alias: '/runs/gcstogbq'
 	},
 	{
@@ -208,7 +210,7 @@ export default [
 		},
 		component: () =>
 			import(
-				/* webpackChunkName: "storagetotablerun" */ '@/views/data-workflows/storage-to-table/StorageToTableRun.vue'
+				/* webpackChunkName: "storagetotablerun" */ '@/views/data-workflows/storage-to-table/run/StorageToTableRun.vue'
 			)
 	},
 
