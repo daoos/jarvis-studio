@@ -1,6 +1,6 @@
 export default {
 	computed: {
-		tabItems() {
+		tabsItems() {
 			return [
 				{ id: 1, title: 'Runs', link: { name: 'gbqToGcsRuns' } },
 				{ id: 2, title: 'Configurations', link: { name: 'gbqToGcsConfs' } },

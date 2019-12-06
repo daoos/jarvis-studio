@@ -308,7 +308,7 @@ export default [
 		},
 		component: () =>
 			import(
-				/* webpackChunkName: "tabletostorageconfs" */ '@/views/data-workflows/table-to-storage/ConfigurationsView.vue'
+				/* webpackChunkName: "tabletostorageconfs" */ '@/views/data-workflows/table-to-storage/configuration/ConfigurationsView.vue'
 			)
 	},
 	{
@@ -319,7 +319,7 @@ export default [
 		},
 		component: () =>
 			import(
-				/* webpackChunkName: "tabletostorageconfs" */ '@/views/data-workflows/table-to-storage/ConfigurationView.vue'
+				/* webpackChunkName: "tabletostorageconfs" */ '@/views/data-workflows/table-to-storage/configuration/ConfigurationView.vue'
 			)
 	},
 	{
@@ -329,9 +329,7 @@ export default [
 			authRequired: true
 		},
 		component: () =>
-			import(
-				/* webpackChunkName: "tabletostorageruns" */ '@/views/data-workflows/table-to-storage/TableToStorageRuns.vue'
-			)
+			import(/* webpackChunkName: "tabletostorageruns" */ '@/views/data-workflows/table-to-storage/run/RunsListing.vue')
 	},
 
 	// {
