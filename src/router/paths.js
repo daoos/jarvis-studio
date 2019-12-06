@@ -323,23 +323,23 @@ export default [
 			)
 	},
 	{
-		path: '/tabletostorage/runs',
+		path: '/table-to-storage/runs',
 		name: 'TableToStorageRuns',
 		meta: {
 			authRequired: true
 		},
 		component: () =>
-			import(/* webpackChunkName: "tabletostorageruns" */ '@/views/data-workflows/table-to-storage/run/RunsListing.vue')
+			import(/* webpackChunkName: "tabletostorageruns" */ '@/views/data-workflows/table-to-storage/run/RunsView.vue')
 	},
-
-	// {
-	// 	path: '/tabletostorage/runs/:pathId',
-	// 	name: 'TableToStorageRun',
-	// 	meta: {
-	// 		authRequired: true
-	// 	},
-	// 	component: () => import(/* webpackChunkName: "tabletostoragerun" */ '@/views/TableToStorageRun.vue')
-	// },
+	{
+		path: '/table-to-storage/runs/:id',
+		name: 'TableToStorageRun',
+		meta: {
+			authRequired: true
+		},
+		component: () =>
+			import(/* webpackChunkName: "tabletostoragerun" */ '@/views/data-workflows/table-to-storage/run/RunView')
+	},
 
 	/**
 	 * VM launcher

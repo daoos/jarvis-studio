@@ -5,7 +5,9 @@ export const getWorkflowName = name => {
 		TableToStorageConf: 'Table to Storage',
 		TableToStorageConfs: 'Table to Storage',
 		GcsToGbqRuns: 'Storage to Table',
-		GcsToGbqConfs: 'Storage to Table'
+		GcsToGbqConfs: 'Storage to Table',
+		TableToStorageRuns: 'Table to Storage',
+		TableToStorageRun: 'Table to Storage'
 	};
 
 	return items[name];

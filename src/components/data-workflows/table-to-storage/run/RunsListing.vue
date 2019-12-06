@@ -14,7 +14,7 @@
 
 		<v-data-table
 			:headers="headers"
-			:items="getGbqToGcsRunsFormated"
+			:items="getGbqToGcsRunsFormatted"
 			:search="search"
 			:loading="isFetchAndAdding"
 			:expanded="expanded"
@@ -25,16 +25,10 @@
 		>
 			<v-progress-linear v-slot:progress color="blue" indeterminate />
 
-			<template v-slot:item.account="{ item: { account } }">
-				{{ account }}
-			</template>
-
-			<template v-slot:item.destination_bucket="{ item: { destination_bucket } }">
-				{{ destination_bucket }}
-			</template>
-
-			<template v-slot:item.gcs_triggering_file="{ item: { gcs_triggering_file } }">
-				{{ gcs_triggering_file }}
+			<template v-slot:item.destination_bucket="{ item: { id, destination_bucket } }">
+				<router-link :to="{ name: 'TableToStorageRun', params: { id } }">
+					{{ destination_bucket }}
+				</router-link>
 			</template>
 
 			<template v-slot:item.status="{ item: { status, statusColor } }">
@@ -53,13 +47,8 @@
 
 			<template v-slot:item.actions="{ item }">
 				<div class="justify-center layout px-0">
-					<v-icon small class="mr-2" @click="toggleExpand(item)">
-						remove_red_eye
-					</v-icon>
-
-					<v-icon small @click="openAirflowDagRunUrl(item)">
-						open_in_new
-					</v-icon>
+					<v-icon small class="mr-2" @click="toggleExpand(item)">remove_red_eye</v-icon>
+					<v-icon small @click="openAirflowDagRunUrl(item)">open_in_new</v-icon>
 				</div>
 			</template>
 
@@ -68,11 +57,12 @@
 					<v-card flat>
 						<v-card-title>
 							<span class="headline">{{ viewedItem.gcs_triggering_file }}</span>
-							<v-spacer></v-spacer>
+							<v-spacer />
 							<v-btn color="warning" fab small dark outline>
 								<v-icon @click="toggleExpand(viewedItem)">close</v-icon>
 							</v-btn>
 						</v-card-title>
+
 						<v-card-text>
 							<vue-json-pretty
 								:data="viewedItem"
@@ -80,7 +70,7 @@
 								:show-double-quotes="true"
 								:show-length="true"
 								:show-line="false"
-							></vue-json-pretty>
+							/>
 						</v-card-text>
 					</v-card>
 				</td>
@@ -94,33 +84,30 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
-import { mapGetters } from 'vuex';
 import VueJsonPretty from 'vue-json-pretty';
-import store from '@/store';
-import moment from 'moment';
-import _ from 'lodash';
-import Util from '@/util';
 import DataManagementFilters from '../../../common/DataManagementFilters';
 
+import { mapState } from 'vuex';
+import { mapGetters } from 'vuex';
+import store from '@/store';
+import Util from '@/util';
+import moment from 'moment';
+import _ from 'lodash';
+
 export default {
-	components: {
-		VueJsonPretty,
-		DataManagementFilters
-	},
+	name: 'table-to-storage-runs-listing',
+	components: { VueJsonPretty, DataManagementFilters },
 	data: () => ({
 		expanded: [],
 		search: '',
 		isFetchAndAdding: false,
 		expand: false,
 		fetchAndAddStatus: '',
-		moreToFetchAndAdd: false,
 		pagination: {
 			sortBy: 'dag_execution_date_formated',
 			descending: true,
 			rowsPerPage: 10
 		},
-		viewJson: false,
 		viewedItem: {},
 		headers: [
 			{
@@ -181,45 +168,29 @@ export default {
 		},
 		async getFirestoreData() {
 			const where = this.whereRunsFilter;
-			this.$data.fetchAndAddStatus = 'Loading';
-			this.$data.moreToFetchAndAdd = false;
-			this.$data.isFetchAndAdding = true;
+			this.fetchAndAddStatus = 'Loading';
+			this.isFetchAndAdding = true;
 			try {
-				store.dispatch('getGbqToGcsRuns/closeDBChannel', {
-					clearModule: true
-				});
-				let fetchResult = await store.dispatch('getGbqToGcsRuns/fetchAndAdd', {
-					where,
-					limit: 0
-				});
-				if (fetchResult.done === true) {
-					this.$data.moreToFetchAndAdd = false;
-				} else {
-					this.$data.moreToFetchAndAdd = true;
-				}
-				this.$data.fetchAndAddStatus = 'Success';
+				await store.dispatch('getGbqToGcsRuns/closeDBChannel', { clearModule: true });
+				await store.dispatch('getGbqToGcsRuns/fetchAndAdd', { where, limit: 0 });
+				this.fetchAndAddStatus = 'Success';
 			} catch (e) {
 				console.log('Firestore Error catched');
 				console.log(e);
-				this.$data.fetchAndAddStatus = 'Error';
-				this.$data.isFetchAndAdding = false;
+				this.fetchAndAddStatus = 'Error';
+				this.isFetchAndAdding = false;
 			}
-			this.$data.isFetchAndAdding = false;
+			this.isFetchAndAdding = false;
 		}
 	},
 	computed: {
 		...mapState({
-			isAuthenticated: state => state.user.isAuthenticated,
-			user: state => state.user.user,
-			getGbqToGcsRuns: state => state.getGbqToGcsRuns.data,
-			dateFilterSelected: state => state.filters.dateFilterSelected,
-			dateFilters: state => state.filters.dateFilters,
-			minDateFilter: state => state.filters.minDateFilter
+			getGbqToGcsRuns: state => state.getGbqToGcsRuns.data
 		}),
 		...mapGetters(['periodFiltered', 'whereRunsFilter']),
-		getGbqToGcsRunsFormated() {
+		getGbqToGcsRunsFormatted() {
 			const dataArray = Object.values(this.getGbqToGcsRuns);
-			var dataFormated = dataArray.map(function(data) {
+			const dataFormatted = dataArray.map(function(data) {
 				return {
 					dag_execution_date_formated: moment(data.dag_execution_date).format('YYYY/MM/DD - HH:mm'),
 					dag_execution_date_from_now: moment(data.dag_execution_date).fromNow(),
@@ -229,8 +200,8 @@ export default {
 					dag_execution_airflow_url: Util.dagRunAirflowUrl(data.dag_id, data.dag_run_id, data.dag_execution_date)
 				};
 			});
-			const dataArrayFormated = _.merge(dataArray, dataFormated);
-			return dataArrayFormated;
+
+			return _.merge(dataArray, dataFormatted);
 		}
 	},
 	watch: {
@@ -240,5 +211,3 @@ export default {
 	}
 };
 </script>
-
-<style></style>
