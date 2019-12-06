@@ -34,16 +34,14 @@
 						{{ environment }}
 					</template>
 
-					<template v-slot:item.table_name="{ item: { id, table_name } }">
+					<template v-slot:item.table_name="{ item: { key, table_name } }">
 						<router-link
 							:to="{
 								name: 'StorageToTableConf',
-								params: { pathId: id }
+								params: { pathId: key }
 							}"
 						>
-							<span class="font-weight-medium">
-								{{ table_name }}
-							</span>
+							<span class="font-weight-medium">{{ table_name }}</span>
 						</router-link>
 					</template>
 
@@ -197,12 +195,6 @@ export default {
 				value: 'environment'
 			},
 			{
-				text: 'Configuration ID',
-				align: 'left',
-				sortable: true,
-				value: 'id'
-			},
-			{
 				text: 'Destination Table',
 				align: 'left',
 				sortable: true,
@@ -280,14 +272,11 @@ export default {
 
 				await store.dispatch('mirrorExcGcsToGbqConfDetails/closeDBChannel', { clearModule: true });
 				await store.dispatch('mirrorExcGcsToGbqConfDetails/fetchAndAdd', { bucketId }).then(() => {
-					console.log(bucketId);
-					console.log(Object.values(this.mirrorExcGcsToGbqConfDetails));
-
-					// Ad the bucket source to the doc configuration and an unique key
-					/*const mirrorExcGcsToGbqConfDetailsEnriched = Object.values(this.mirrorExcGcsToGbqConfs).map(val => {
-						const key = `${val.bucket_source}/${val.id}/${val.gcp_project}`;
-						return Object.assign({ key, bucket_source: bucketId }, val);
-					});*/
+					// Ad the bucket source to the doc configuration and an unique key to use for path
+					Object.values(this.mirrorExcGcsToGbqConfDetails).forEach(val => {
+						val.key = `${bucketId}/${val.id}/${val.gcs_prefix}`;
+						val.bucket_source = bucketId;
+					});
 
 					this.mirrorExcGcsToGbqConfsAllDetailsArray.push(Object.values(this.mirrorExcGcsToGbqConfDetails));
 				});
