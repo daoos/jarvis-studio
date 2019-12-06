@@ -34,11 +34,11 @@
 						{{ environment }}
 					</template>
 
-					<template v-slot:item.table_name="{ item: { key, table_name } }">
+					<template v-slot:item.table_name="{ item: { id, table_name } }">
 						<router-link
 							:to="{
 								name: 'StorageToTableConf',
-								params: { pathId: key }
+								params: { pathId: id }
 							}"
 						>
 							<span class="font-weight-medium">
@@ -173,14 +173,11 @@ export default {
 		mirrorExcGcsToGbqConfsAllDetailsArray: [],
 		search: '',
 		isFetchAndAdding: false,
-		fetchAndAddStatus: '',
-		moreToFetchAndAdd: false,
 		pagination: {
 			sortBy: 'id',
 			descending: true,
 			rowsPerPage: 10
 		},
-		viewJson: false,
 		viewedItem: {},
 		confToDeleteFromFirestore: {},
 		dialogDeleteConf: false,
@@ -238,6 +235,8 @@ export default {
 		]
 	}),
 	mounted() {
+		// store.dispatch('mirrorExcGcsToGbqConfDetails/fetchAndAdd', { bucketId: 'mirror-fd-io-exc-demo-wbd--n-in' });
+		// console.log('RESULTS', this.mirrorExcGcsToGbqConfDetails);
 		this.getFirestoreData();
 	},
 	methods: {
@@ -271,65 +270,29 @@ export default {
 		},
 		async getFirestoreData() {
 			this.mirrorExcGcsToGbqConfsAllDetailsArray = [];
-			this.fetchAndAddStatus = 'Loading';
-			this.moreToFetchAndAdd = false;
 			this.isFetchAndAdding = true;
-			try {
-				store.dispatch('mirrorExcGcsToGbqConfs/closeDBChannel', {
-					clearModule: true
+
+			await store.dispatch('mirrorExcGcsToGbqConfs/closeDBChannel', { clearModule: true });
+			await store.dispatch('mirrorExcGcsToGbqConfs/fetchAndAdd', { where: this.whereConfFilter, limit: 1000 });
+
+			for (const item of Object.values(this.mirrorExcGcsToGbqConfs)) {
+				const bucketId = item.id;
+
+				await store.dispatch('mirrorExcGcsToGbqConfDetails/closeDBChannel', { clearModule: true });
+				await store.dispatch('mirrorExcGcsToGbqConfDetails/fetchAndAdd', { bucketId }).then(() => {
+					console.log(bucketId);
+					console.log(Object.values(this.mirrorExcGcsToGbqConfDetails));
+
+					// Ad the bucket source to the doc configuration and an unique key
+					/*const mirrorExcGcsToGbqConfDetailsEnriched = Object.values(this.mirrorExcGcsToGbqConfs).map(val => {
+						const key = `${val.bucket_source}/${val.id}/${val.gcp_project}`;
+						return Object.assign({ key, bucket_source: bucketId }, val);
+					});*/
+
+					this.mirrorExcGcsToGbqConfsAllDetailsArray.push(Object.values(this.mirrorExcGcsToGbqConfDetails));
 				});
-
-				const fetchResult = await store.dispatch('mirrorExcGcsToGbqConfs/fetchAndAdd', {
-					where: this.whereConfFilter,
-					limit: 1000
-				});
-
-				fetchResult.done === true ? (this.moreToFetchAndAdd = false) : (this.moreToFetchAndAdd = true);
-				this.fetchAndAddStatus = 'Success';
-
-				const mirrorExcGcsToGbqConfsArray = Object.values(this.mirrorExcGcsToGbqConfs);
-
-				console.log(this.mirrorExcGcsToGbqConfs);
-
-				for (const index in mirrorExcGcsToGbqConfsArray) {
-					const bucketId = mirrorExcGcsToGbqConfsArray[index].id;
-
-					try {
-						store.dispatch('mirrorExcGcsToGbqConfDetails/closeDBChannel', {
-							clearModule: true
-						});
-
-						let fetchResult = await store.dispatch('mirrorExcGcsToGbqConfDetails/fetchAndAdd', {
-							bucketId: bucketId,
-							limit: 0
-						});
-
-						console.log(this.mirrorExcGcsToGbqConfDetails);
-
-						//Ad the bucket source to the doc configuration and an unique key
-						let mirrorExcGcsToGbqConfDetailsEnriched = Object.values(this.mirrorExcGcsToGbqConfs).map(x =>
-							Object.assign({ bucket_source: bucketId }, x)
-						);
-
-						// Add an unique key to the doc configuration (bucket + table destination + input folder)
-						this.mirrorExcGcsToGbqConfsAllDetailsArray = mirrorExcGcsToGbqConfDetailsEnriched.map(val => {
-							let key = '';
-							key = key.concat(val.bucket_source, '/', val.id, '/', val.gcs_prefix);
-							return Object.assign({ key: key }, val);
-						});
-						//Concat the fetched documents in the same Array
-						this.mirrorExcGcsToGbqConfsAllDetailsArray.push(Object.values(mirrorExcGcsToGbqConfDetailsEnriched));
-					} catch (e) {
-						console.error('Firestore Error catched', e);
-						this.fetchAndAddStatus = 'Error';
-						this.isFetchAndAdding = false;
-					}
-				}
-			} catch (e) {
-				console.error('Firestore Error catched:', e);
-				this.fetchAndAddStatus = 'Error';
-				this.isFetchAndAdding = false;
 			}
+
 			this.isFetchAndAdding = false;
 		}
 	},
