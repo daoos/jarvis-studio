@@ -10,7 +10,7 @@
 					<v-tab v-for="tab in tabs" :key="tab.label" :href="tab.href" v-text="tab.label" ripple />
 
 					<v-tab-item value="overview">
-						<configuration-overview :data="overviewData" />
+						<overview-component :data="overviewData" />
 					</v-tab-item>
 
 					<v-tab-item value="full-json">
@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import ConfigurationOverview from '../../../common/tmp/ConfigurationOverview';
+import OverviewComponent from '@/components/data-workflows/common/OverviewComponent';
 import ViewJson from '../../../common/ViewJson';
 
 import OverviewData from './overview-data';
@@ -37,7 +37,7 @@ import store from '@/store/index';
 
 export default {
 	name: 'gbq-to-gcs-configuration-item',
-	components: { ConfigurationOverview, ViewJson },
+	components: { OverviewComponent, ViewJson },
 	mixins: [OverviewData],
 	data: () => ({
 		conf: null,

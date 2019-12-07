@@ -3,7 +3,7 @@
 		<v-row>
 			<v-col cols="12" offset="0">
 				<HeaderDocView
-					:conf="conf"
+					:item="conf"
 					collection="getGbqToGbqConfs"
 					:viewId="confId"
 					:activatedConfStatus="conf.configuration.activated"

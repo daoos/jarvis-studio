@@ -59,7 +59,7 @@ export default {
 			default: true
 		},
 		lineNumbers: {
-			type: Number
+			type: Boolean
 		}
 	},
 	computed: {

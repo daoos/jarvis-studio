@@ -7,7 +7,7 @@
 						v-if="!item.hasOwnProperty('displayCondition') || item.displayCondition"
 						:key="`${item.component}-${index}`"
 						:is="item.component"
-						:properties="item.props"
+						v-bind="item.props"
 					/>
 				</template>
 			</v-col>
@@ -16,13 +16,13 @@
 </template>
 
 <script>
-import OverviewHeader from '../../data-workflows/common/ViewHeader';
+import OverviewComponent from '@/components/data-workflows/common/OverviewComponent';
 import ParametersList from '../parameters/ParametersList';
 import ParametersTable from '../parameters/ParametersTable';
 
 export default {
 	name: 'gbq-to-gcs-configuration-overview',
-	components: { OverviewHeader, ParametersList, ParametersTable },
+	components: { OverviewComponent, ParametersList, ParametersTable },
 	props: {
 		data: { type: Array, required: true }
 	}

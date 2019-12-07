@@ -24,7 +24,7 @@ import ViewJson from '../../../common/ViewJson';
 import ViewConversation from '../ViewConversation';
 
 export default {
-	name: 'table-to-storage-run-item',
+	name: 'run-item',
 	components: { OverviewComponent, ViewJson, ViewConversation },
 	props: {
 		tabsItems: {
