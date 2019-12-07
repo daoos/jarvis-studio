@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<data-management-header :tabs-items="headerTabsItems" />
-		<run-item v-if="item" :tabs-items="itemTabsItems" :is-loading="isLoading" />
+		<run-item :tabs-items="itemTabsItems" :is-loading="isLoading" />
 	</div>
 </template>
 
@@ -10,13 +10,14 @@ import RunItem from '@/components/data-workflows/common/run/RunItem';
 import DataManagementHeader from '@/components/app/headers/DataManagementHeader';
 
 import HeaderTabsItemsMixin from '../header-tabs-items';
-import RunViewMixin from '@/mixins/run-view-mixin';
+import GetItemMixin from '@/mixins/get-item-mixin';
 
 export default {
 	components: { RunItem, DataManagementHeader },
-	mixins: [HeaderTabsItemsMixin, RunViewMixin],
+	mixins: [HeaderTabsItemsMixin, GetItemMixin],
 	data: () => ({
-		item: null
+		item: null,
+		moduleName: 'getGbqToGcsRuns'
 	}),
 	computed: {
 		itemTabsItems() {
@@ -63,6 +64,8 @@ export default {
 			];
 		},
 		runDetailsData() {
+			if (!this.item) return;
+
 			return [
 				{
 					component: 'view-header',
@@ -72,7 +75,8 @@ export default {
 						activeHeader: true,
 						viewId: this.itemId,
 						viewType: 'run',
-						description: null
+						description: null,
+						runStatus: this.item.status
 					}
 				},
 				{
@@ -138,6 +142,8 @@ export default {
 			];
 		},
 		configurationData() {
+			if (!this.item) return;
+
 			return [
 				{
 					component: 'view-header',

@@ -1,6 +1,4 @@
 export const getWorkflowName = name => {
-	console.log(name);
-
 	const items = {
 		// GCS to GCS
 		GcsToGcsRuns: 'GCS to GCS',
