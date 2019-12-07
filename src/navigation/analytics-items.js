@@ -36,7 +36,7 @@ export default [
 	},
 	{
 		icon: 'power',
-		title: 'Worklow',
+		title: 'Workflow',
 		link: '/status/workflow'
 	}
 ];

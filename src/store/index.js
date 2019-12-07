@@ -96,7 +96,7 @@ const store = new Vuex.Store(storeData);
 initFirebase().catch(error => {
 	// take user to a page stating an error occurred
 	// (might be a connection error, or the app is open in another tab)
-	router.push('/signinEmail');
+	router.push({ name: 'SignIn' });
 	// eslint-disable-next-line no-console
 	console.error(error);
 });

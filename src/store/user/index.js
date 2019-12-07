@@ -45,7 +45,7 @@ const userData = {
 				.catch(() => {
 					commit('setUser', null);
 					commit('setIsAuthenticated', false);
-					router.push('/signinEmail');
+					router.push({ name: 'SignIn' });
 				});
 		},
 		userGoogleSignin({ commit }) {
@@ -61,7 +61,7 @@ const userData = {
 				.catch(() => {
 					commit('setUser', null);
 					commit('setIsAuthenticated', false);
-					router.push('/signinEmail');
+					router.push({ name: 'SignIn' });
 				});
 		},
 		userSignup({ commit }, { email, password }) {
@@ -76,7 +76,7 @@ const userData = {
 				.catch(() => {
 					commit('setUser', null);
 					commit('setIsAuthenticated', false);
-					router.push('/signinEmail');
+					router.push({ name: 'SignIn' });
 				});
 		},
 		autoSignIn({ commit }, payload) {
@@ -84,7 +84,7 @@ const userData = {
 			commit('setIsAuthenticated', true);
 		},
 		userSignOut({ commit }) {
-			router.push('/signinEmail');
+			router.push({ name: 'SignIn' });
 			firebase
 				.auth()
 				.signOut()

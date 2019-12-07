@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import paths from './router/paths';
+import paths from './router/routes';
 import store from '@/store/index';
 
 Vue.use(Router);
@@ -26,7 +26,7 @@ router.beforeEach((to, from, next) => {
 					next();
 				} else {
 					next({
-						path: '/signinEmail',
+						name: 'SignIn',
 						query: { redirect: to.fullPath }
 					});
 				}
