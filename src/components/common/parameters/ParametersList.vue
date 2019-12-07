@@ -2,18 +2,18 @@
 	<v-container fluid>
 		<v-col>
 			<h2 class="black--text pb-3">
-				{{ properties.groupTitle }}
+				{{ groupTitle }}
 
-				<v-tooltip right v-if="properties.tooltip">
+				<v-tooltip right v-if="tooltip">
 					<template v-slot:activator="{ on }">
 						<v-icon color="blue-grey lighten-5" dark v-on="on">info</v-icon>
 					</template>
 
-					<span>{{ properties.description }}</span>
+					<span>{{ description }}</span>
 				</v-tooltip>
 			</h2>
 
-			<ParametersItem v-for="paramItem in properties.paramItems" :paramItem="paramItem" :key="paramItem.id" />
+			<ParametersItem v-for="paramItem in paramItems" :paramItem="paramItem" :key="paramItem.id" />
 
 			<footer>
 				<slot name="footer"></slot>
@@ -31,11 +31,6 @@ export default {
 		ParametersItem
 	},
 	props: {
-		properties: {
-			type: Object,
-			required: true
-		},
-		// TODO: Remove
 		vflexLength: {
 			type: String,
 			default: 'xs12'

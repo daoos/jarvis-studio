@@ -13,6 +13,7 @@
 <script>
 import ParametersTable from '@/components/common/tmp/ParametersTable.vue';
 export default {
+	name: 'create-update-conf-overview',
 	components: { ParametersTable },
 	props: {
 		updateDate: {

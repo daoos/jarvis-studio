@@ -7,7 +7,7 @@
 						v-if="!item.hasOwnProperty('displayCondition') || item.displayCondition"
 						:key="`${item.component}-${index}`"
 						:is="item.component"
-						:properties="item.props"
+						v-bind="item.props"
 					/>
 				</template>
 			</v-col>
@@ -19,10 +19,11 @@
 import ViewHeader from './ViewHeader';
 import ParametersList from '../../common/parameters/ParametersList';
 import ParametersTable from '../../common/parameters/ParametersTable';
+import CreateUpdateConfOverview from '@/components/common/configuration/CreateUpdateConfOverview';
 
 export default {
 	name: 'overview-component',
-	components: { ViewHeader, ParametersList, ParametersTable },
+	components: { ViewHeader, ParametersList, ParametersTable, CreateUpdateConfOverview },
 	props: {
 		data: {
 			type: Array,
