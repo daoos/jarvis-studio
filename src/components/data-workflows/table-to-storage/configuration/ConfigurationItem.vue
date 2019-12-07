@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import ConfigurationOverview from '../../../common/configuration/ConfigurationOverview';
+import ConfigurationOverview from '../../../common/tmp/ConfigurationOverview';
 import ViewJson from '../../../common/ViewJson';
 
 import OverviewData from './overview-data';

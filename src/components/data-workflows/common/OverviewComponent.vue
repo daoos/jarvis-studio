@@ -16,15 +16,18 @@
 </template>
 
 <script>
-import OverviewHeader from './OverviewHeader';
-import ParametersList from '../parameters/ParametersList';
-import ParametersTable from '../parameters/ParametersTable';
+import ViewHeader from './ViewHeader';
+import ParametersList from '../../common/parameters/ParametersList';
+import ParametersTable from '../../common/parameters/ParametersTable';
 
 export default {
-	name: 'gbq-to-gcs-configuration-overview',
-	components: { OverviewHeader, ParametersList, ParametersTable },
+	name: 'overview-component',
+	components: { ViewHeader, ParametersList, ParametersTable },
 	props: {
-		data: { type: Array, required: true }
+		data: {
+			type: Array,
+			required: true
+		}
 	}
 };
 </script>

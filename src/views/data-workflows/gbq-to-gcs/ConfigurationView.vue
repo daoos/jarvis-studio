@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<data-management-header :tabsItems="tabsItems" />
+		<data-management-header :tabsItems="headerTabsItems" />
 		<configuration-item />
 	</div>
 </template>

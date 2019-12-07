@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<data-management-header :tabsItems="tabsItems" />
+		<data-management-header :tabsItems="headerTabsItems" />
 		<configurations-listing />
 	</div>
 </template>
@@ -9,7 +9,7 @@
 import DataManagementHeader from '../../../../components/app/headers/DataManagementHeader';
 import ConfigurationsListing from '../../../../components/data-workflows/table-to-storage/configuration/ConfigurationsListing';
 
-import TabItemsMixin from '../tab-items';
+import TabItemsMixin from '../header-tabs-items';
 
 export default {
 	name: 'table-to-storage-configurations-view',

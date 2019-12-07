@@ -36,11 +36,11 @@
 </template>
 
 <script>
-import ConfigurationStatus from './ConfigurationStatus.vue';
-import RunStatusChip from '../chips/RunStatusChip.vue';
+import ConfigurationStatus from '../../common/configuration/ConfigurationStatus.vue';
+import RunStatusChip from '../../common/chips/RunStatusChip.vue';
 
 export default {
-	name: 'overview-header',
+	name: 'view-header',
 	components: { ConfigurationStatus, RunStatusChip },
 	props: {
 		properties: {

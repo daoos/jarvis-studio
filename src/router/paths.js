@@ -329,7 +329,7 @@ export default [
 			authRequired: true
 		},
 		component: () =>
-			import(/* webpackChunkName: "tabletostorageruns" */ '@/views/data-workflows/table-to-storage/run/RunsView.vue')
+			import(/* webpackChunkName: "tabletostorageruns" */ '@/views/data-workflows/table-to-storage/run/RunsListing.vue')
 	},
 	{
 		path: '/table-to-storage/runs/:id',

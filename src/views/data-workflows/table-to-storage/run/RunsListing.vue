@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<data-management-header :tabsItems="tabsItems" />
+		<data-management-header :tabsItems="headerTabsItems" />
 		<runs-listing />
 	</div>
 </template>
@@ -9,7 +9,7 @@
 import RunsListing from '@/components/data-workflows/table-to-storage/run/RunsListing';
 import DataManagementHeader from '@/components/app/headers/DataManagementHeader';
 
-import TabItemsMixin from '../tab-items';
+import TabItemsMixin from '../header-tabs-items';
 
 export default {
 	components: { RunsListing, DataManagementHeader },

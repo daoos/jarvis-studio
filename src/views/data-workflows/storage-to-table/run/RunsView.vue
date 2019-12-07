@@ -9,7 +9,7 @@
 import GcsToGbqRuns from '@/components/data-workflows/storage-to-table/run/GcsToGbqRuns';
 import DataManagementHeader from '@/components/app/headers/DataManagementHeader';
 
-import TabItemsMixin from '../tab-items';
+import TabItemsMixin from '../header-tabs-items';
 
 export default {
 	components: { GcsToGbqRuns, DataManagementHeader },
