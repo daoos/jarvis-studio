@@ -126,7 +126,11 @@ export default {
 		},
 		paramContext() {
 			return [
-				{ id: 'account', label: 'Account', value: this.conf.account },
+				{
+					id: 'account',
+					label: 'Account',
+					value: this.conf.account
+				},
 				{
 					id: 'environment',
 					label: 'Environment',

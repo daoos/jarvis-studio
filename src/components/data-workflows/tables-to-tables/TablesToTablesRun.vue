@@ -20,12 +20,8 @@
 					</v-tab>
 					<v-tab-item value="rundetails">
 						<v-card v-if="this.run !== undefined">
-							<TablesToTablesRunView
-								:run="this.run"
-								:runId="this.run.dag_id"
-								:activeHeader="true"
-							></TablesToTablesRunView
-						></v-card>
+							<TablesToTablesRunView :run="this.run" :runId="this.run.dag_id" :activeHeader="true" />
+						</v-card>
 					</v-tab-item>
 					<v-tab-item value="confoverview">
 						<v-card v-if="this.conf !== undefined">
