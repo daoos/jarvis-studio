@@ -1,7 +1,9 @@
+import { SIGN_IN } from '@/constants/router/routes-names';
+
 export default [
 	{
 		path: '/sign-in',
-		name: 'SignIn',
+		name: SIGN_IN,
 		meta: {
 			public: true
 		},

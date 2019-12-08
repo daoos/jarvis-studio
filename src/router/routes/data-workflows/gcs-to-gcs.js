@@ -1,6 +1,12 @@
 import { DATA_WORKFLOWS } from '@/constants/router/paths-prefixes';
 import { GCS_TO_GCS } from '@/constants/data-workflows/names';
 import { RUNS, CONFIGURATIONS } from '@/constants/data-workflows/status';
+import {
+	GCS_TO_GCS_RUNS_LISTING,
+	GCS_TO_GCS_RUNS_ITEM,
+	GCS_TO_GCS_CONFIGURATIONS_LISTING,
+	GCS_TO_GCS_CONFIGURATIONS_ITEM
+} from '@/constants/router/routes-names';
 
 export default [
 	/**
@@ -8,7 +14,7 @@ export default [
 	 */
 	{
 		path: `/${DATA_WORKFLOWS}/${GCS_TO_GCS}/${RUNS}`,
-		name: 'GcsToGcsRuns',
+		name: GCS_TO_GCS_RUNS_LISTING,
 		meta: {
 			authRequired: true
 		},
@@ -20,7 +26,7 @@ export default [
 	{
 		// TODO: Rename param to :id
 		path: `/${DATA_WORKFLOWS}/${GCS_TO_GCS}/${RUNS}/:runId`,
-		name: 'GcsToGcsRun',
+		name: GCS_TO_GCS_RUNS_ITEM,
 		meta: {
 			authRequired: true
 		},
@@ -35,7 +41,7 @@ export default [
 	 */
 	{
 		path: `/${DATA_WORKFLOWS}/${GCS_TO_GCS}/${CONFIGURATIONS}`,
-		name: 'GcsToGcsConfs',
+		name: GCS_TO_GCS_CONFIGURATIONS_LISTING,
 		meta: {
 			authRequired: true
 		},
@@ -47,7 +53,7 @@ export default [
 	{
 		// TODO: Rename param to :id
 		path: `/${DATA_WORKFLOWS}/${GCS_TO_GCS}/${CONFIGURATIONS}/:confId`,
-		name: 'GcsToGcsConf',
+		name: GCS_TO_GCS_CONFIGURATIONS_ITEM,
 		meta: {
 			authRequired: true
 		},

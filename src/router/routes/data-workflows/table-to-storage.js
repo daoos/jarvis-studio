@@ -1,6 +1,11 @@
 import { DATA_WORKFLOWS } from '@/constants/router/paths-prefixes';
 import { TABLE_TO_STORAGE } from '@/constants/data-workflows/names';
 import { RUNS, CONFIGURATIONS } from '@/constants/data-workflows/status';
+import {
+	TABLE_TO_STORAGE_RUNS_LISTING,
+	TABLE_TO_STORAGE_CONFIGURATIONS_LISTING,
+	TABLE_TO_STORAGE_CONFIGURATIONS_ITEM
+} from '@/constants/router/routes-names';
 
 export default [
 	/**
@@ -8,7 +13,7 @@ export default [
 	 */
 	{
 		path: `/${DATA_WORKFLOWS}/${TABLE_TO_STORAGE}/${RUNS}`,
-		name: 'TableToStorageRuns',
+		name: TABLE_TO_STORAGE_RUNS_LISTING,
 		meta: {
 			authRequired: true
 		},
@@ -24,7 +29,7 @@ export default [
 	 */
 	{
 		path: `/${DATA_WORKFLOWS}/${TABLE_TO_STORAGE}/${CONFIGURATIONS}`,
-		name: 'TableToStorageConfs',
+		name: TABLE_TO_STORAGE_CONFIGURATIONS_LISTING,
 		meta: {
 			authRequired: true
 		},
@@ -36,7 +41,7 @@ export default [
 	{
 		// TODO: Rename param to :id
 		path: `/${DATA_WORKFLOWS}/${TABLE_TO_STORAGE}/${CONFIGURATIONS}/:confId`,
-		name: 'TableToStorageConf',
+		name: TABLE_TO_STORAGE_CONFIGURATIONS_ITEM,
 		meta: {
 			authRequired: true
 		},

@@ -1,13 +1,15 @@
+import { NOT_FOUND, HOME } from '@/constants/router/routes-names';
+
 export default [
 	{
 		path: '*',
-		name: 'not-found',
+		name: NOT_FOUND,
 		meta: { authRequired: true },
 		component: () => import(/* webpackChunkName: "app/home" */ '@/views/app/NotFound.vue')
 	},
 	{
 		path: '/',
-		name: 'home',
+		name: HOME,
 		meta: {
 			authRequired: true
 		},

@@ -1,15 +1,18 @@
+import { SETTINGS } from '@/constants/router/paths-prefixes';
+import { PROFILE, USERS, ACCOUNTS, CLOUD_FUNCTIONS } from '@/constants/router/routes-names';
+
 export default [
 	{
-		path: '/settings/profile',
-		name: 'userProfile',
+		path: `/${SETTINGS}/profile`,
+		name: PROFILE,
 		meta: {
 			authRequired: true
 		},
 		component: () => import(/* webpackChunkName: "settings/profile" */ '@/views/settings/Profile.vue')
 	},
 	{
-		path: '/settings/users',
-		name: 'users',
+		path: `/${SETTINGS}/users`,
+		name: USERS,
 		meta: {
 			authRequired: true,
 			adminRequired: true
@@ -17,8 +20,8 @@ export default [
 		component: () => import(/* webpackChunkName: "settings/users" */ '@/views/settings/Users.vue')
 	},
 	{
-		path: '/settings/accounts',
-		name: 'accounts',
+		path: `/${SETTINGS}/accounts`,
+		name: ACCOUNTS,
 		meta: {
 			authRequired: true,
 			adminRequired: true
@@ -26,8 +29,8 @@ export default [
 		component: () => import(/* webpackChunkName: "settings/accounts" */ '@/views/settings/Accounts.vue')
 	},
 	{
-		path: '/settings/cloud-functions',
-		name: 'gcpcloudfunctions',
+		path: `/${SETTINGS}/cloud-functions`,
+		name: CLOUD_FUNCTIONS,
 		meta: {
 			authRequired: true,
 			adminRequired: true

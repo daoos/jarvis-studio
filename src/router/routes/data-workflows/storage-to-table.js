@@ -1,6 +1,12 @@
 import { DATA_WORKFLOWS } from '@/constants/router/paths-prefixes';
 import { STORAGE_TO_TABLE } from '@/constants/data-workflows/names';
 import { RUNS, CONFIGURATIONS } from '@/constants/data-workflows/status';
+import {
+	STORAGE_TO_TABLE_RUNS_LISTING,
+	STORAGE_TO_TABLE_RUNS_ITEM,
+	STORAGE_TO_TABLE_CONFIGURATIONS_LISTING,
+	STORAGE_TO_TABLE_CONFIGURATIONS_ITEM
+} from '@/constants/router/routes-names';
 
 export default [
 	/**
@@ -8,7 +14,7 @@ export default [
 	 */
 	{
 		path: `/${DATA_WORKFLOWS}/${STORAGE_TO_TABLE}/${RUNS}`,
-		name: 'GcsToGbqRuns',
+		name: STORAGE_TO_TABLE_RUNS_LISTING,
 		meta: {
 			authRequired: true
 		},
@@ -20,7 +26,7 @@ export default [
 	{
 		// TODO: Rename param to :id
 		path: `/${DATA_WORKFLOWS}/${STORAGE_TO_TABLE}/${RUNS}/:pathId`,
-		name: 'StorageToTableRun',
+		name: STORAGE_TO_TABLE_RUNS_ITEM,
 		meta: {
 			authRequired: true
 		},
@@ -35,7 +41,7 @@ export default [
 	 */
 	{
 		path: `/${DATA_WORKFLOWS}/${STORAGE_TO_TABLE}/${CONFIGURATIONS}`,
-		name: 'GcsToGbqConfs',
+		name: STORAGE_TO_TABLE_CONFIGURATIONS_LISTING,
 		meta: {
 			authRequired: true
 		},
@@ -47,7 +53,7 @@ export default [
 	{
 		// TODO: Rename param to :id
 		path: `/${DATA_WORKFLOWS}/${STORAGE_TO_TABLE}/${CONFIGURATIONS}/:pathId`,
-		name: 'StorageToTableConf',
+		name: STORAGE_TO_TABLE_CONFIGURATIONS_ITEM,
 		meta: {
 			authRequired: true
 		},

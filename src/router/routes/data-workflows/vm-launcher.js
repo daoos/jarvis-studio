@@ -1,6 +1,7 @@
 import { DATA_WORKFLOWS } from '@/constants/router/paths-prefixes';
 import { VM_LAUNCHER } from '@/constants/data-workflows/names';
 import { RUNS, CONFIGURATIONS } from '@/constants/data-workflows/status';
+import { VM_LAUNCHER_RUNS_LISTING, VM_LAUNCHER_CONFIGURATIONS_LISTING } from '@/constants/router/routes-names';
 
 export default [
 	/**
@@ -8,7 +9,7 @@ export default [
 	 */
 	{
 		path: `/${DATA_WORKFLOWS}/${VM_LAUNCHER}/${RUNS}`,
-		name: 'vmLauncherRuns',
+		name: VM_LAUNCHER_RUNS_LISTING,
 		meta: {
 			authRequired: true
 		},
@@ -24,7 +25,7 @@ export default [
 	 */
 	{
 		path: `/${DATA_WORKFLOWS}/${VM_LAUNCHER}/${CONFIGURATIONS}`,
-		name: 'vmLauncherConfs',
+		name: VM_LAUNCHER_CONFIGURATIONS_LISTING,
 		meta: {
 			authRequired: true
 		},

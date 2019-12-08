@@ -1,6 +1,12 @@
 import { DATA_WORKFLOWS } from '@/constants/router/paths-prefixes';
 import { TABLES_TO_TABLES } from '@/constants/data-workflows/names';
 import { RUNS, CONFIGURATIONS } from '@/constants/data-workflows/status';
+import {
+	TABLES_TO_TABLES_RUNS_LISTING,
+	TABLES_TO_TABLES_RUNS_ITEM,
+	TABLES_TO_TABLES_CONFIGURATIONS_LISTING,
+	TABLES_TO_TABLES_CONFIGURATIONS_ITEM
+} from '@/constants/router/routes-names';
 
 export default [
 	/**
@@ -8,7 +14,7 @@ export default [
 	 */
 	{
 		path: `/${DATA_WORKFLOWS}/${TABLES_TO_TABLES}/${RUNS}`,
-		name: 'TablesToTablesRuns',
+		name: TABLES_TO_TABLES_RUNS_LISTING,
 		meta: {
 			authRequired: true
 		},
@@ -20,7 +26,7 @@ export default [
 	{
 		// TODO: Rename param to :id
 		path: `/${DATA_WORKFLOWS}/${TABLES_TO_TABLES}/${RUNS}/:pathId`,
-		name: 'TablesToTablesRun',
+		name: TABLES_TO_TABLES_RUNS_ITEM,
 		meta: {
 			authRequired: true
 		},
@@ -35,7 +41,7 @@ export default [
 	 */
 	{
 		path: `/${DATA_WORKFLOWS}/${TABLES_TO_TABLES}/${CONFIGURATIONS}`,
-		name: 'TablesToTablesConfs',
+		name: TABLES_TO_TABLES_CONFIGURATIONS_LISTING,
 		meta: {
 			authRequired: true
 		},
@@ -47,7 +53,7 @@ export default [
 	{
 		// TODO: Rename param to :id
 		path: `/${DATA_WORKFLOWS}/${TABLES_TO_TABLES}/${CONFIGURATIONS}/:confId`,
-		name: 'TablesToTablesConf',
+		name: TABLES_TO_TABLES_CONFIGURATIONS_ITEM,
 		meta: {
 			authRequired: true
 		},
