@@ -1,4 +1,4 @@
-import router from '@/router';
+import index from '@/router';
 import store from '@/store';
 
 export default [
@@ -7,7 +7,7 @@ export default [
 		href: '#',
 		icon: 'account_circle',
 		click: () => {
-			router.push({ name: 'userProfile' });
+			index.push({ name: 'userProfile' });
 		}
 	},
 	{

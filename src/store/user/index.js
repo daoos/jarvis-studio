@@ -1,5 +1,5 @@
 import firebase from 'firebase';
-import router from '@/router';
+import index from '@/router';
 
 const userData = {
 	state: {
@@ -40,12 +40,12 @@ const userData = {
 				.then(user => {
 					commit('setUser', user.user);
 					commit('setIsAuthenticated', true);
-					router.push('/');
+					index.push('/');
 				})
 				.catch(() => {
 					commit('setUser', null);
 					commit('setIsAuthenticated', false);
-					router.push({ name: 'SignIn' });
+					index.push({ name: 'SignIn' });
 				});
 		},
 		userGoogleSignin({ commit }) {
@@ -56,12 +56,12 @@ const userData = {
 				.then(user => {
 					commit('setUser', user.user);
 					commit('setIsAuthenticated', true);
-					router.push('/');
+					index.push('/');
 				})
 				.catch(() => {
 					commit('setUser', null);
 					commit('setIsAuthenticated', false);
-					router.push({ name: 'SignIn' });
+					index.push({ name: 'SignIn' });
 				});
 		},
 		userSignup({ commit }, { email, password }) {
@@ -71,12 +71,12 @@ const userData = {
 				.then(user => {
 					commit('setUser', user.user);
 					commit('setIsAuthenticated', true);
-					router.push('/');
+					index.push('/');
 				})
 				.catch(() => {
 					commit('setUser', null);
 					commit('setIsAuthenticated', false);
-					router.push({ name: 'SignIn' });
+					index.push({ name: 'SignIn' });
 				});
 		},
 		autoSignIn({ commit }, payload) {
@@ -84,7 +84,7 @@ const userData = {
 			commit('setIsAuthenticated', true);
 		},
 		userSignOut({ commit }) {
-			router.push({ name: 'SignIn' });
+			index.push({ name: 'SignIn' });
 			firebase
 				.auth()
 				.signOut()

@@ -3,7 +3,7 @@ import Vuex from 'vuex';
 import user from './user';
 
 import { firebase, initFirebase } from '../firebase/firestore';
-import router from '@/router';
+import index from '@/router';
 
 Vue.use(Vuex);
 
@@ -96,7 +96,7 @@ const store = new Vuex.Store(storeData);
 initFirebase().catch(error => {
 	// take user to a page stating an error occurred
 	// (might be a connection error, or the app is open in another tab)
-	router.push({ name: 'SignIn' });
+	index.push({ name: 'SignIn' });
 	// eslint-disable-next-line no-console
 	console.error(error);
 });
