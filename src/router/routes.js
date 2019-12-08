@@ -15,6 +15,7 @@ export default [
 	...appRoutes,
 	...authRoutes,
 	...dataModelsRoutes,
+	// TODO: Use nested routes for data-workflows
 	...gcsToGcsRoutes,
 	...storageToStorageRoutes,
 	...storageToTableRoutes,
@@ -23,5 +24,6 @@ export default [
 	...tableToStorageRoutes,
 	...vmLauncherRoutes,
 	...workflowRoutes,
+	// END
 	...settingsRoutes
 ];

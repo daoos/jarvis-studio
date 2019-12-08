@@ -1,7 +1,7 @@
 export default [
 	{
 		title: 'Profile',
-		path: '/settings/user/profile',
+		path: '/settings/profile',
 		icon: 'account_circle'
 	},
 	{
@@ -16,7 +16,7 @@ export default [
 	},
 	{
 		title: 'Cloud Function Configurations',
-		path: '/settings/gcpcloudfunctions',
+		path: '/settings/cloud-functions',
 		icon: 'settings_ethernet'
 	}
 ];

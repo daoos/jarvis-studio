@@ -18,8 +18,8 @@ export default {
 		return {
 			headerTitle: 'Workflows',
 			tabsItems: [
-				{ id: 1, title: 'Status', link: '/status/workflow' },
-				{ id: 2, title: 'Configurations', link: '/conf/workflow' },
+				{ id: 1, title: 'Status', link: '/data-workflows/workflow/status' },
+				{ id: 2, title: 'Configurations', link: '/data-workflows/workflow/configurations' },
 				{ id: 3, title: 'Documentation', link: '' }
 			]
 		};

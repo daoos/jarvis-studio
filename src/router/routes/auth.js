@@ -5,6 +5,6 @@ export default [
 		meta: {
 			public: true
 		},
-		component: () => import(/* webpackChunkName: "signinEmail" */ '@/views/auth/SignIn.vue')
+		component: () => import(/* webpackChunkName: "auth/sign-in" */ '@/views/auth/SignIn.vue')
 	}
 ];

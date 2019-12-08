@@ -1,38 +1,59 @@
+import { DATA_WORKFLOWS } from '@/constants/router/paths-prefixes';
+import { GCS_TO_GCS } from '@/constants/data-workflows/names';
+import { RUNS, CONFIGURATIONS } from '@/constants/data-workflows/status';
+
 export default [
+	/**
+	 * RUNS
+	 */
 	{
-		path: '/gcs-to-gcs/conf/listing',
-		name: 'GcsToGcsConfs',
-		meta: {
-			authRequired: true
-		},
-		component: () =>
-			import(/* webpackChunkName: "gcstogcsconfs" */ '@/views/data-workflows/gcs-to-gcs/GcsToGcsConfs.vue'),
-		alias: '/conf/gcstogcs'
-	},
-	{
-		path: '/gcs-to-gcs-run/listing',
+		path: `/${DATA_WORKFLOWS}/${GCS_TO_GCS}/${RUNS}`,
 		name: 'GcsToGcsRuns',
 		meta: {
 			authRequired: true
 		},
 		component: () =>
-			import(/* webpackChunkName: "gcstogcsruns" */ '@/views/data-workflows/gcs-to-gcs/GcsToGcsRuns.vue'),
-		alias: '/runs/gcstogcs'
+			import(
+				/* webpackChunkName: "/data-workflows/gcs-to-gcs/runs/listing" */ '@/views/data-workflows/gcs-to-gcs/GcsToGcsRuns.vue'
+			)
 	},
 	{
-		path: '/gcs-to-gcs/conf/:confId',
-		name: 'GcsToGcsConf',
-		meta: {
-			authRequired: true
-		},
-		component: () => import(/* webpackChunkName: "gcstogcsconf" */ '@/views/data-workflows/gcs-to-gcs/GcsToGcsConf.vue')
-	},
-	{
-		path: '/gcs-to-gcs/run/:runId',
+		// TODO: Rename param to :id
+		path: `/${DATA_WORKFLOWS}/${GCS_TO_GCS}/${RUNS}/:runId`,
 		name: 'GcsToGcsRun',
 		meta: {
 			authRequired: true
 		},
-		component: () => import(/* webpackChunkName: "gcstogcsrun" */ '@/views/data-workflows/gcs-to-gcs/GcsToGcsRun.vue')
+		component: () =>
+			import(
+				/* webpackChunkName: "/data-workflows/gcs-to-gcs/runs/item" */ '@/views/data-workflows/gcs-to-gcs/GcsToGcsRun.vue'
+			)
+	},
+
+	/**
+	 * CONFIGURATIONS
+	 */
+	{
+		path: `/${DATA_WORKFLOWS}/${GCS_TO_GCS}/${CONFIGURATIONS}`,
+		name: 'GcsToGcsConfs',
+		meta: {
+			authRequired: true
+		},
+		component: () =>
+			import(
+				/* webpackChunkName: "/data-workflows/gcs-to-gcs/configurations/listing" */ '@/views/data-workflows/gcs-to-gcs/GcsToGcsConfs.vue'
+			)
+	},
+	{
+		// TODO: Rename param to :id
+		path: `/${DATA_WORKFLOWS}/${GCS_TO_GCS}/${CONFIGURATIONS}/:confId`,
+		name: 'GcsToGcsConf',
+		meta: {
+			authRequired: true
+		},
+		component: () =>
+			import(
+				/* webpackChunkName: "/data-workflows/gcs-to-gcs/configurations/item" */ '@/views/data-workflows/gcs-to-gcs/GcsToGcsConf.vue'
+			)
 	}
 ];

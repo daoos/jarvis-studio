@@ -18,8 +18,8 @@ export default {
 		return {
 			headerTitle: 'Tables to Tables',
 			tabsItems: [
-				{ id: 1, title: 'Runs', link: '/tablestotables/runs' },
-				{ id: 2, title: 'Configurations', link: '/tablestotables/confs' },
+				{ id: 1, title: 'Runs', link: '/data-workflows/tables-to-tables/runs' },
+				{ id: 2, title: 'Configurations', link: '/data-workflows/tables-to-tables/configurations' },
 				{ id: 3, title: 'Documentation', link: '' }
 			]
 		};

@@ -3,7 +3,7 @@ export default [
 		path: '*',
 		name: 'not-found',
 		meta: { authRequired: true },
-		component: () => import(/* webpackChunkName: "home" */ '@/views/app/NotFound.vue')
+		component: () => import(/* webpackChunkName: "app/home" */ '@/views/app/NotFound.vue')
 	},
 	{
 		path: '/',
@@ -11,6 +11,6 @@ export default [
 		meta: {
 			authRequired: true
 		},
-		component: () => import(/* webpackChunkName: "home" */ '@/views/app/Home.vue')
+		component: () => import(/* webpackChunkName: "app/home" */ '@/views/app/Home.vue')
 	}
 ];
