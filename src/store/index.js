@@ -40,7 +40,8 @@ import storageToTableConf from '@/store/storage-to-table-conf';
 import storageToTableRun from '@/store/storage-to-table-run';
 import tablesToTablesConf from '@/store/tables-to-tables-conf';
 import tablesToTablesRun from '@/store/tables-to-tables-run';
-import tableToStorageConfs from './table-to-storage-confs';
+import tableToStorageConfs from '@/store/table-to-storage-confs';
+import tableToStorageRuns from '@/store/table-to-storage-runs';
 
 const easyFirestores = VuexEasyFirestore(
 	[
@@ -72,6 +73,7 @@ const easyFirestores = VuexEasyFirestore(
 		tablesToTablesConf,
 		tablesToTablesRun,
 		tableToStorageConfs,
+		tableToStorageRuns,
 		singleDoc
 	],
 	{

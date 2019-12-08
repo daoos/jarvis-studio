@@ -14,7 +14,7 @@
 
 		<v-data-table
 			:headers="headers"
-			:items="getGbqToGcsRunsFormatted"
+			:items="tableToStorageRunsFormatted"
 			:search="search"
 			:loading="isFetchAndAdding"
 			:expanded="expanded"
@@ -25,9 +25,9 @@
 		>
 			<v-progress-linear v-slot:progress color="blue" indeterminate />
 
-			<template v-slot:item.destination_bucket="{ item: { id, destination_bucket } }">
+			<template v-slot:item.firestore_conf_doc_id="{ item: { id, firestore_conf_doc_id } }">
 				<router-link :to="{ name: 'TableToStorageRun', params: { id } }">
-					{{ destination_bucket }}
+					{{ firestore_conf_doc_id }}
 				</router-link>
 			</template>
 
@@ -58,7 +58,7 @@
 						<v-card-title>
 							<span class="headline">{{ viewedItem.gcs_triggering_file }}</span>
 							<v-spacer />
-							<v-btn color="warning" fab small dark outline>
+							<v-btn color="warning" fab small dark outlined>
 								<v-icon @click="toggleExpand(viewedItem)">close</v-icon>
 							</v-btn>
 						</v-card-title>
@@ -123,6 +123,12 @@ export default {
 				value: 'environment'
 			},
 			{
+				text: 'Configuration Id',
+				align: 'left',
+				sortable: true,
+				value: 'firestore_conf_doc_id'
+			},
+			{
 				text: 'Destination Bucket',
 				align: 'left',
 				sortable: true,
@@ -132,7 +138,7 @@ export default {
 				text: 'Generated File',
 				align: 'left',
 				sortable: true,
-				value: 'gcs_triggering_file'
+				value: 'output_filename'
 			},
 			{
 				text: 'Status',
@@ -171,8 +177,8 @@ export default {
 			this.fetchAndAddStatus = 'Loading';
 			this.isFetchAndAdding = true;
 			try {
-				await store.dispatch('getGbqToGcsRuns/closeDBChannel', { clearModule: true });
-				await store.dispatch('getGbqToGcsRuns/fetchAndAdd', { where, limit: 0 });
+				await store.dispatch('tableToStorageRuns/closeDBChannel', { clearModule: true });
+				await store.dispatch('tableToStorageRuns/fetchAndAdd', { where, limit: 0 });
 				this.fetchAndAddStatus = 'Success';
 			} catch (e) {
 				console.log('Firestore Error catched');
@@ -185,11 +191,11 @@ export default {
 	},
 	computed: {
 		...mapState({
-			getGbqToGcsRuns: state => state.getGbqToGcsRuns.data
+			tableToStorageRuns: state => state.tableToStorageRuns.data
 		}),
 		...mapGetters(['periodFiltered', 'whereRunsFilter']),
-		getGbqToGcsRunsFormatted() {
-			const dataArray = Object.values(this.getGbqToGcsRuns);
+		tableToStorageRunsFormatted() {
+			const dataArray = Object.values(this.tableToStorageRuns);
 			const dataFormatted = dataArray.map(function(data) {
 				return {
 					dag_execution_date_formated: moment(data.dag_execution_date).format('YYYY/MM/DD - HH:mm'),
