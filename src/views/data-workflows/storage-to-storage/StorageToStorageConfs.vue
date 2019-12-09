@@ -1,28 +1,18 @@
 <template>
 	<div>
-		<DataManagementHeader :tabsItems="tabsItems" :headerTitle="headerTitle"></DataManagementHeader>
+		<DataManagementHeader :tabsItems="tabsItems" />
 		<StorageToStorageConfs />
 	</div>
 </template>
 
 <script>
-import StorageToStorageConfs from '@/components/data-workflows/storage-to-storage/StorageToStorageConfs.vue';
 import DataManagementHeader from '../../../components/app/headers/DataManagementHeader';
+import StorageToStorageConfs from '@/components/data-workflows/storage-to-storage/StorageToStorageConfs.vue';
+
+import TabsItemsMixin from './tabs-items';
 
 export default {
-	components: {
-		StorageToStorageConfs,
-		DataManagementHeader
-	},
-	data() {
-		return {
-			headerTitle: 'Storage to Storage',
-			tabsItems: [
-				{ id: 1, title: 'Runs', link: '/data-workflows/storage-to-storage/runs' },
-				{ id: 2, title: 'Configurations', link: '/data-workflows/storage-to-storage/configurations' },
-				{ id: 3, title: 'Documentation', link: '' }
-			]
-		};
-	}
+	components: { DataManagementHeader, StorageToStorageConfs },
+	mixins: [TabsItemsMixin]
 };
 </script>

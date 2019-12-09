@@ -1,42 +1,69 @@
+import {
+	GCS_TO_GCS_RUNS_LISTING,
+	STORAGE_TO_STORAGE_RUNS_LISTING,
+	STORAGE_TO_TABLE_RUNS_LISTING,
+	TABLES_TO_TABLES_RUNS_LISTING,
+	GBQ_TO_GCS_RUNS_LISTING,
+	TABLE_TO_STORAGE_RUNS_LISTING,
+	VM_LAUNCHER_RUNS_LISTING,
+	WORKFLOW_STATUS_LISTING
+} from '@/constants/router/routes-names';
+
 export default [
 	{
 		icon: 'swap_horiz',
 		title: 'GCS to GCS',
-		link: '/data-workflows/gcs-to-gcs/runs'
+		link: {
+			name: GCS_TO_GCS_RUNS_LISTING
+		}
 	},
 	{
 		icon: 'flare',
 		title: 'Storage to Storage',
-		link: '/data-workflows/storage-to-storage/runs'
+		link: {
+			name: STORAGE_TO_STORAGE_RUNS_LISTING
+		}
 	},
 	{
 		icon: 'vertical_split',
 		title: 'Storage to Table',
-		link: '/data-workflows/storage-to-table/runs'
+		link: {
+			name: STORAGE_TO_TABLE_RUNS_LISTING
+		}
 	},
 	{
 		icon: 'account_tree',
 		title: 'Tables to Tables',
-		link: '/data-workflows/tables-to-tables/runs'
+		link: {
+			name: TABLES_TO_TABLES_RUNS_LISTING
+		}
 	},
 	{
 		icon: 'file_copy',
 		title: 'GBQ to GCS',
-		link: '/data-workflows/gbq-to-gcs/runs'
+		link: {
+			name: GBQ_TO_GCS_RUNS_LISTING
+		}
 	},
 	{
 		icon: 'share',
 		title: 'Table to Storage',
-		link: '/data-workflows/table-to-storage/runs'
+		link: {
+			name: TABLE_TO_STORAGE_RUNS_LISTING
+		}
 	},
 	{
 		icon: 'dns',
 		title: 'VM Launcher',
-		link: '/data-workflows/vm-launcher/runs'
+		link: {
+			name: VM_LAUNCHER_RUNS_LISTING
+		}
 	},
 	{
 		icon: 'power',
 		title: 'Workflow',
-		link: '/data-workflows/workflow/status'
+		link: {
+			name: WORKFLOW_STATUS_LISTING
+		}
 	}
 ];

@@ -1,6 +1,6 @@
 <template>
 	<v-toolbar dense tabs color="primary" dark>
-		<v-toolbar-title class="pl-2 display-1">{{ headerTitle }}</v-toolbar-title>
+		<v-toolbar-title class="pl-2 display-1">{{ workflowName }}</v-toolbar-title>
 
 		<v-tabs slider-color="white" slot="extension" color="transparent" background-color="primary">
 			<v-tab v-for="tabsItem in tabsItems" :key="tabsItem.id" :to="tabsItem.link">
@@ -11,15 +11,18 @@
 </template>
 
 <script>
+import { getWorkflowName } from '@/util/data-workflows';
+
 export default {
 	props: {
-		headerTitle: {
-			type: String,
-			required: true
-		},
 		tabsItems: {
 			type: Array,
 			required: true
+		}
+	},
+	computed: {
+		workflowName() {
+			return getWorkflowName(this.$route.name) || '';
 		}
 	}
 };

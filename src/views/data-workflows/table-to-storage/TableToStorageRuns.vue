@@ -1,28 +1,18 @@
 <template>
 	<div>
-		<DataManagementHeader :tabsItems="tabsItems" :headerTitle="headerTitle" />
+		<DataManagementHeader :tabsItems="tabsItems" />
 		<runs-listing />
 	</div>
 </template>
 
 <script>
-import RunsListing from '../../../components/data-workflows/table-to-storage/RunsListing';
 import DataManagementHeader from '../../../components/app/headers/DataManagementHeader';
+import RunsListing from '../../../components/data-workflows/table-to-storage/RunsListing';
+
+import TabsItemsMixin from './tabs-items';
 
 export default {
-	components: {
-		RunsListing,
-		DataManagementHeader
-	},
-	data() {
-		return {
-			headerTitle: 'Table to Storage',
-			tabsItems: [
-				{ id: 1, title: 'Runs', link: { name: 'TableToStorageRuns' } },
-				{ id: 2, title: 'Configurations', link: { name: 'TableToStorageConfs' } },
-				{ id: 3, title: 'Documentation', link: '' }
-			]
-		};
-	}
+	components: { DataManagementHeader, RunsListing },
+	mixins: [TabsItemsMixin]
 };
 </script>

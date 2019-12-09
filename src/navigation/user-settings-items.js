@@ -1,18 +1,17 @@
-import index from '@/router';
 import store from '@/store';
+import { PROFILE } from '@/constants/router/routes-names';
 
 export default [
 	{
 		title: 'Profile',
-		href: '#',
+		link: { name: PROFILE },
 		icon: 'account_circle',
-		click: () => {
-			index.push({ name: 'userProfile' });
-		}
+		click: () => {}
 	},
+	// TODO: Remove click actions & redirect to logout page
 	{
 		title: 'Logout',
-		href: '#',
+		link: null,
 		icon: 'exit_to_app',
 		click: () => {
 			store.dispatch('userSignOut');

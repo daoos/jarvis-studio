@@ -1,28 +1,18 @@
 <template>
 	<div>
-		<DataManagementHeader :tabsItems="tabsItems" :headerTitle="headerTitle"></DataManagementHeader>
+		<DataManagementHeader :tabsItems="tabsItems" />
 		<WorkflowConfs />
 	</div>
 </template>
 
 <script>
-import WorkflowConfs from '../../../components/data-workflows/workflow/WorkflowConfs';
 import DataManagementHeader from '../../../components/app/headers/DataManagementHeader';
+import WorkflowConfs from '../../../components/data-workflows/workflow/WorkflowConfs';
+
+import TabsItemsMixin from './tabs-items';
 
 export default {
-	components: {
-		WorkflowConfs,
-		DataManagementHeader
-	},
-	data() {
-		return {
-			headerTitle: 'Workflows',
-			tabsItems: [
-				{ id: 1, title: 'Status', link: '/data-workflows/workflow/status' },
-				{ id: 2, title: 'Configurations', link: '/data-workflows/workflow/configurations' },
-				{ id: 3, title: 'Documentation', link: '' }
-			]
-		};
-	}
+	components: { DataManagementHeader, WorkflowConfs },
+	mixins: [TabsItemsMixin]
 };
 </script>

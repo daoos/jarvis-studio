@@ -47,7 +47,7 @@
 			<v-tooltip
 				v-slot:activator="{ on }"
 				v-for="item in analyticsItems"
-				:key="item.link"
+				:key="item.title"
 				:disabled="!drawer.mini"
 				right
 			>
@@ -68,7 +68,7 @@
 		<v-list subheader>
 			<v-subheader v-if="!drawer.mini" class="text-uppercase">Settings</v-subheader>
 
-			<v-list-item v-for="setting in settingsItems" :key="setting.title" :to="{ path: setting.path }">
+			<v-list-item v-for="setting in settingsItems" :key="setting.title" :to="setting.link">
 				<v-list-item-action>
 					<v-icon v-html="setting.icon" />
 				</v-list-item-action>

@@ -1,19 +1,18 @@
 <template>
 	<div>
-		<DataManagementHeader :tabsItems="tabItems" :headerTitle="workflowName" />
+		<DataManagementHeader :tabsItems="tabsItems" />
 		<GcsToGbqRuns />
 	</div>
 </template>
 
 <script>
-import GcsToGbqRuns from '../../../../components/data-workflows/storage-to-table/run/GcsToGbqRuns';
 import DataManagementHeader from '../../../../components/app/headers/DataManagementHeader';
+import GcsToGbqRuns from '../../../../components/data-workflows/storage-to-table/run/GcsToGbqRuns';
 
-import ConfigurationViewsMixin from '@/mixins/views/configurations';
-import TabItemsMixin from '../tab-items';
+import TabsItemsMixin from '../tabs-items';
 
 export default {
-	components: { GcsToGbqRuns, DataManagementHeader },
-	mixins: [ConfigurationViewsMixin, TabItemsMixin]
+	components: { DataManagementHeader, GcsToGbqRuns },
+	mixins: [TabsItemsMixin]
 };
 </script>

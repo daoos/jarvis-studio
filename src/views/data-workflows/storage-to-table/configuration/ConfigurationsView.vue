@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<DataManagementHeader :tabsItems="tabItems" :headerTitle="workflowName" />
+		<DataManagementHeader :tabsItems="tabsItems" />
 		<GcsToGbqConfs />
 	</div>
 </template>
@@ -9,11 +9,10 @@
 import DataManagementHeader from '@/components/app/headers/DataManagementHeader';
 import GcsToGbqConfs from '@/components/data-workflows/storage-to-table/configuration/ConfigurationsListing';
 
-import ConfigurationViewsMixin from '@/mixins/views/configurations';
-import TabItemsMixin from '../tab-items';
+import TabsItemsMixin from '../tabs-items';
 
 export default {
 	components: { DataManagementHeader, GcsToGbqConfs },
-	mixins: [ConfigurationViewsMixin, TabItemsMixin]
+	mixins: [TabsItemsMixin]
 };
 </script>

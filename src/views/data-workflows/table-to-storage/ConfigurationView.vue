@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<data-management-header :headerTitle="workflowName" :tabsItems="tabItems" />
+		<data-management-header :tabsItems="tabsItems" />
 		<configuration-item />
 	</div>
 </template>
@@ -9,12 +9,11 @@
 import DataManagementHeader from '../../../components/app/headers/DataManagementHeader';
 import ConfigurationItem from '../../../components/data-workflows/table-to-storage/configuration/ConfigurationItem';
 
-import ConfigurationViewsMixin from '../../../mixins/views/configurations';
-import TabItemsMixin from './tab-items';
+import TabsItemsMixin from './tabs-items';
 
 export default {
 	name: 'table-to-storage-configuration-item',
 	components: { DataManagementHeader, ConfigurationItem },
-	mixins: [ConfigurationViewsMixin, TabItemsMixin]
+	mixins: [TabsItemsMixin]
 };
 </script>
