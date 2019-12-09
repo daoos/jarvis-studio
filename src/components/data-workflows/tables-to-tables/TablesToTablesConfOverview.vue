@@ -3,7 +3,7 @@
 		<v-row>
 			<v-col cols="12" offset="0">
 				<HeaderDocView
-					:conf="conf"
+					:item="conf"
 					collection="getGbqToGbqConfs"
 					:viewId="confId"
 					:activatedConfStatus="conf.configuration.activated"
@@ -126,7 +126,11 @@ export default {
 		},
 		paramContext() {
 			return [
-				{ id: 'account', label: 'Account', value: this.conf.account },
+				{
+					id: 'account',
+					label: 'Account',
+					value: this.conf.account
+				},
 				{
 					id: 'environment',
 					label: 'Environment',

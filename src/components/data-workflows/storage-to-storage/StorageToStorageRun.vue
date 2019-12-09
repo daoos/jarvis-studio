@@ -17,11 +17,7 @@
 					</v-tab>
 					<v-tab-item value="rundetails">
 						<v-card v-if="run !== undefined">
-							<StorageToStorageRunView
-								:run="run"
-								:runId="run.triggering_file"
-								:activeHeader="true"
-							></StorageToStorageRunView>
+							<StorageToStorageRunView :run="run" :runId="run.triggering_file" :activeHeader="true" />
 						</v-card>
 					</v-tab-item>
 					<v-tab-item value="runconfiguration">
@@ -30,7 +26,7 @@
 								:conf="run.configuration_context"
 								:configurationId="run.configuration_id"
 								:activeHeader="false"
-							></StorageToStorageConfView>
+							/>
 						</v-card>
 					</v-tab-item>
 					<v-tab-item value="fulljson">

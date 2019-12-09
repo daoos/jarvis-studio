@@ -2,23 +2,23 @@
 	<v-container fluid>
 		<v-col>
 			<h2 class="black--text pb-3">
-				{{ properties.tableTitle }}
+				{{ tableTitle }}
 
 				<v-tooltip right>
 					<template v-slot:activator="{ on }">
 						<v-icon color="blue-grey lighten-5" dark v-on="on">info</v-icon>
 					</template>
-					<span>{{ properties.description }}</span>
+					<span>{{ description }}</span>
 				</v-tooltip>
 			</h2>
 
 			<vue-good-table
-				:columns="properties.columns"
-				:rows="properties.rows"
-				:filterable="properties.filterable"
+				:columns="columns"
+				:rows="rows"
+				:filterable="filterable"
 				:search-options="searchOptions"
 				styleClass="vgt-table striped condensed"
-				:line-numbers="properties.lineNumbers"
+				:line-numbers="lineNumbers"
 			>
 				<div slot="emptystate">No information to display</div>
 			</vue-good-table>
@@ -38,9 +38,28 @@ export default {
 		return {};
 	},
 	props: {
-		properties: {
-			type: Object,
+		tableTitle: {
+			type: String,
 			required: true
+		},
+		description: {
+			type: String,
+			required: true
+		},
+		columns: {
+			type: Array,
+			required: true
+		},
+		rows: {
+			type: Array,
+			required: true
+		},
+		filterable: {
+			type: Boolean,
+			default: true
+		},
+		lineNumbers: {
+			type: Boolean
 		}
 	},
 	computed: {

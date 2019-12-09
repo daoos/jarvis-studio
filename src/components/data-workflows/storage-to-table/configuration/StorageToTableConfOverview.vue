@@ -3,6 +3,8 @@
 		<v-row>
 			<v-col cols="12" offset="0">
 				<HeaderDocView
+					:item="conf"
+					collection="storageToTableConf"
 					:viewId="confId"
 					:activatedConfStatus="conf.activated"
 					:activeHeader="activeHeader"
@@ -22,7 +24,7 @@
 					vflexLength="xs9"
 					:lineNumbers="false"
 					:searchOptionsEnabled="false"
-				></ParametersTable>
+				/>
 				<ParametersTable
 					tableTitle="Destination Table"
 					description="The destination table for the file to load"
@@ -31,7 +33,7 @@
 					vflexLength="xs7"
 					:lineNumbers="false"
 					:searchOptionsEnabled="false"
-				></ParametersTable>
+				/>
 				<ParametersList
 					groupTitle="Parameters"
 					description="Main Storage to Table parameters"

@@ -3,6 +3,8 @@
 		<v-row>
 			<v-col cols="12" offset="0">
 				<HeaderDocView
+					:item="run"
+					collection="storageToTableRun"
 					:viewId="run.gbq_table_refreshed"
 					:runStatus="run.status"
 					:activeHeader="activeHeader"

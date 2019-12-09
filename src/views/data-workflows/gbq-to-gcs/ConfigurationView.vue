@@ -6,8 +6,8 @@
 </template>
 
 <script>
-import DataManagementHeader from '../../../components/app/headers/DataManagementHeader';
-import ConfigurationItem from '../../../components/data-workflows/gbq-to-gcs/configuration/ConfigurationItem';
+import DataManagementHeader from '@/components/app/headers/DataManagementHeader';
+import ConfigurationItem from '@/components/data-workflows/gbq-to-gcs/configuration/ConfigurationItem';
 
 import TabsItemsMixin from './tab-items';
 

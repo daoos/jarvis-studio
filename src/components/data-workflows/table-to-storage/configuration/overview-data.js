@@ -3,7 +3,7 @@ export default {
 		overviewData() {
 			return [
 				{
-					component: 'overview-header',
+					component: 'view-header',
 					props: {
 						item: this.conf,
 						collection: 'tableToStorageConfs',

@@ -69,35 +69,32 @@ export default {
 			this.$router.go(-1);
 		},
 		async getRun() {
-			this.$data.isFetchAndAdding = true;
+			this.isFetchAndAdding = true;
 			//get the conf is not in mirrorExcGcsToGcsRuns
 			if (this.mirrorExcGcsToGcsRuns[this.confId] === undefined) {
 				await this.getFirestoreData();
 			}
 			this.run = this.mirrorExcGcsToGcsRuns[this.runId];
-			this.$data.isFetchAndAdding = false;
+			this.isFetchAndAdding = false;
 		},
 		async getFirestoreData() {
 			const runId = this.runId;
-			this.$data.fetchAndAddStatus = 'Loading';
-			this.$data.moreToFetchAndAdd = false;
+			this.fetchAndAddStatus = 'Loading';
+			this.moreToFetchAndAdd = false;
 			try {
 				await store.dispatch('mirrorExcGcsToGcsRuns/closeDBChannel', {
 					clearModule: true
 				});
 				await store.dispatch('mirrorExcGcsToGcsRuns/fetchById', runId);
-				this.$data.fetchAndAddStatus = 'Success';
+				this.fetchAndAddStatus = 'Success';
 			} catch (e) {
-				this.$data.fetchAndAddStatus = 'Error';
+				this.fetchAndAddStatus = 'Error';
 				console.error(e);
 			}
 		}
 	},
 	computed: {
 		...mapState({
-			isAuthenticated: state => state.user.isAuthenticated,
-			user: state => state.user.user,
-			settings: state => state.settings,
 			mirrorExcGcsToGcsRuns: state => state.mirrorExcGcsToGcsRuns.data
 		}),
 		runId() {
@@ -106,5 +103,3 @@ export default {
 	}
 };
 </script>
-
-<style></style>
