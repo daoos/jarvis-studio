@@ -4,6 +4,7 @@ import dataModelsRoutes from './routes/data-models';
 import gcsToGcsRoutes from './routes/data-workflows/gcs-to-gcs';
 import storageToStorageRoutes from './routes/data-workflows/storage-to-storage';
 import storageToTableRoutes from './routes/data-workflows/storage-to-table';
+import storageToTablesRoutes from './routes/data-workflows/storage-to-tables';
 import tablesToTablesRoutes from './routes/data-workflows/tables-to-tables';
 import gbqToGcsRoutes from './routes/data-workflows/gbq-to-gcs';
 import tableToStorageRoutes from './routes/data-workflows/table-to-storage';
@@ -19,6 +20,7 @@ export default [
 	...gcsToGcsRoutes,
 	...storageToStorageRoutes,
 	...storageToTableRoutes,
+	...storageToTablesRoutes,
 	...tablesToTablesRoutes,
 	...gbqToGcsRoutes,
 	...tableToStorageRoutes,

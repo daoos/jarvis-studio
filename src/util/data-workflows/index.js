@@ -1,3 +1,12 @@
+import {
+	STORAGE_TO_TABLES_RUNS_LISTING,
+	STORAGE_TO_TABLES_RUNS_ITEM,
+	STORAGE_TO_TABLES_CONFIGURATIONS_LISTING,
+	STORAGE_TO_TABLES_CONFIGURATIONS_ITEM
+} from '@/constants/router/routes-names';
+
+// TODO: Update all keys
+
 export const getWorkflowName = name => {
 	const items = {
 		// GCS to GCS
@@ -18,6 +27,12 @@ export const getWorkflowName = name => {
 		StorageToTableRun: 'Storage to Table',
 		GcsToGbqConfs: 'Storage to Table',
 		StorageToTableConf: 'Storage to Table',
+
+		// Storage to tables
+		[STORAGE_TO_TABLES_RUNS_LISTING]: 'Storage to Tables',
+		[STORAGE_TO_TABLES_RUNS_ITEM]: 'Storage to Table',
+		[STORAGE_TO_TABLES_CONFIGURATIONS_LISTING]: 'Storage to Table',
+		[STORAGE_TO_TABLES_CONFIGURATIONS_ITEM]: 'Storage to Table',
 
 		// Tables to Tables
 		TablesToTablesRuns: 'Tables to Tables',

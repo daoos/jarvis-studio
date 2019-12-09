@@ -24,6 +24,11 @@ export const STORAGE_TO_TABLE_RUNS_ITEM = 'StorageToTableRun';
 export const STORAGE_TO_TABLE_CONFIGURATIONS_LISTING = 'GcsToGbqConfs';
 export const STORAGE_TO_TABLE_CONFIGURATIONS_ITEM = 'StorageToTableConf';
 
+export const STORAGE_TO_TABLES_RUNS_LISTING = 'StorageToTablesRunsListing';
+export const STORAGE_TO_TABLES_RUNS_ITEM = 'StorageToTablesRunsItem';
+export const STORAGE_TO_TABLES_CONFIGURATIONS_LISTING = 'StorageToTablesConfigurationsListing';
+export const STORAGE_TO_TABLES_CONFIGURATIONS_ITEM = 'StorageToTablesConfigurationsItem';
+
 export const TABLES_TO_TABLES_RUNS_LISTING = 'TablesToTablesRuns';
 export const TABLES_TO_TABLES_RUNS_ITEM = 'TablesToTablesRun';
 export const TABLES_TO_TABLES_CONFIGURATIONS_LISTING = 'TablesToTablesConfs';
