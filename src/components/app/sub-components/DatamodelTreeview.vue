@@ -22,6 +22,7 @@
 </template>
 
 <script>
+import { DATA_TABLE_DETAILS } from '@/constants/router/routes-names';
 import { mapState } from 'vuex';
 import store from '@/store';
 
@@ -103,7 +104,7 @@ export default {
 
 			const id = this.active[0];
 			this.$router.push({
-				name: 'DataTableDetails',
+				name: DATA_TABLE_DETAILS,
 				params: { projectId: id.split('/')[0], datasetId: id.split('/')[1], tableId: id.split('/')[2] }
 			});
 		}

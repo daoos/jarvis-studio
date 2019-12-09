@@ -35,12 +35,7 @@
 					</template>
 
 					<template v-slot:item.table_name="{ item: { key, table_name } }">
-						<router-link
-							:to="{
-								name: 'StorageToTableConf',
-								params: { pathId: key }
-							}"
-						>
+						<router-link :to="{ name: routeName, params: { pathId: key } }">
 							<span class="font-weight-medium">{{ table_name }}</span>
 						</router-link>
 					</template>
@@ -146,6 +141,7 @@ import VueJsonPretty from 'vue-json-pretty';
 import DataManagementFilters from '../../../common/DataManagementFilters';
 import ConfigurationStatus from '../../../common/configuration/ConfigurationStatus.vue';
 
+import { STORAGE_TO_TABLE_CONFIGURATIONS_ITEM } from '@/constants/router/routes-names';
 import { mapState } from 'vuex';
 import { mapGetters } from 'vuex';
 import store from '@/store';
@@ -279,6 +275,9 @@ export default {
 		}
 	},
 	computed: {
+		routeName() {
+			return STORAGE_TO_TABLE_CONFIGURATIONS_ITEM;
+		},
 		...mapState({
 			mirrorExcGcsToGbqConfs: state => state.mirrorExcGcsToGbqConfs.data,
 			mirrorExcGcsToGbqConfDetails: state => state.mirrorExcGcsToGbqConfDetails.data

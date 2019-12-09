@@ -28,7 +28,7 @@
 			<v-progress-linear v-slot:progress color="blue" indeterminate />
 
 			<template v-slot:item.id="{ item: { id } }">
-				<router-link :to="{ name: 'GbqToGcsConf', params: { confId: id } }">
+				<router-link :to="{ name: routeName, params: { confId: id } }">
 					<span class="font-weight-medium">{{ id }}</span>
 				</router-link>
 			</template>
@@ -48,7 +48,7 @@
 					<v-card flat>
 						<v-card-title>
 							<span class="headline">{{ viewedItem.table_name }}</span>
-							<v-spacer></v-spacer>
+							<v-spacer />
 							<v-btn color="warning" fab small dark outlined>
 								<v-icon @click="toggleExpand(viewedItem)">
 									close
@@ -81,6 +81,7 @@ import VueJsonPretty from 'vue-json-pretty';
 import DataManagementFilters from '../../../common/DataManagementFilters';
 import ConfigurationStatus from '../../../common/configuration/ConfigurationStatus.vue';
 
+import { GBQ_TO_GCS_CONFIGURATIONS_ITEM } from '@/constants/router/routes-names';
 import { mapState } from 'vuex';
 import { mapGetters } from 'vuex';
 import store from '@/store/index';
@@ -198,6 +199,9 @@ export default {
 		}
 	},
 	computed: {
+		routeName() {
+			return GBQ_TO_GCS_CONFIGURATIONS_ITEM;
+		},
 		...mapState({
 			isAuthenticated: state => state.user.isAuthenticated,
 			user: state => state.user.user,

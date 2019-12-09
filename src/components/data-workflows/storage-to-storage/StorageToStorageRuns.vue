@@ -38,7 +38,7 @@
 			</template>
 
 			<template v-slot:item.triggering_file="{ item: { id, triggering_file } }">
-				<router-link :to="{ name: 'StorageToStorageRun', params: { runId: id } }">
+				<router-link :to="{ name: routeName, params: { runId: id } }">
 					{{ triggering_file }}
 				</router-link>
 			</template>
@@ -103,14 +103,16 @@
 </template>
 
 <script>
+import VueJsonPretty from 'vue-json-pretty';
+import DataManagementFilters from '../../common/DataManagementFilters';
+
+import { STORAGE_TO_STORAGE_RUNS_ITEM } from '@/constants/router/routes-names';
 import { mapState } from 'vuex';
 import { mapGetters } from 'vuex';
-import VueJsonPretty from 'vue-json-pretty';
 import store from '@/store';
 import moment from 'moment';
 import _ from 'lodash';
 import Util from '@/util';
-import DataManagementFilters from '../../common/DataManagementFilters';
 
 export default {
 	components: {
@@ -216,6 +218,9 @@ export default {
 		}
 	},
 	computed: {
+		routeName() {
+			return STORAGE_TO_STORAGE_RUNS_ITEM;
+		},
 		...mapState({
 			isAuthenticated: state => state.user.isAuthenticated,
 			user: state => state.user.user,
