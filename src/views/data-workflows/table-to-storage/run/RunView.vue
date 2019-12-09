@@ -17,7 +17,7 @@ export default {
 	mixins: [HeaderTabsItemsMixin, GetItemMixin],
 	data: () => ({
 		item: null,
-		moduleName: 'getGbqToGcsRuns'
+		moduleName: 'tableToStorageRuns'
 	}),
 	computed: {
 		itemTabsItems() {
@@ -84,7 +84,7 @@ export default {
 					props: {
 						groupTitle: 'Context',
 						tooltip: true,
-						description: 'Context of the Table to Storage configuration',
+						description: 'Context of the Table to Storage Run',
 						paramItems: [
 							{
 								id: 'account',
@@ -107,9 +107,9 @@ export default {
 						description: 'Details of the Table to Storage Run',
 						paramItems: [
 							{
-								id: 'dag_id',
-								label: 'Dag Id',
-								value: this.item.dag_id
+								id: 'firestore_conf_doc_id',
+								label: 'Configuration Id',
+								value: this.item.firestore_conf_doc_id
 							},
 							{
 								id: 'dag_type',

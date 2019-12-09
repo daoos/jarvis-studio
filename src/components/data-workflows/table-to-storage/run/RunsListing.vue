@@ -56,7 +56,7 @@
 				<td :colspan="headers.length" class="pa-0">
 					<v-card flat>
 						<v-card-title>
-							<span class="headline">{{ viewedItem.gcs_triggering_file }}</span>
+							<span class="headline">{{ viewedItem.firestore_conf_doc_id }}</span>
 							<v-spacer />
 							<v-btn color="warning" fab small dark outlined>
 								<v-icon @click="toggleExpand(viewedItem)">close</v-icon>
