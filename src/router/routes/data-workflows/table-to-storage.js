@@ -3,6 +3,7 @@ import { TABLE_TO_STORAGE } from '@/constants/data-workflows/names';
 import { RUNS, CONFIGURATIONS } from '@/constants/data-workflows/status';
 import {
 	TABLE_TO_STORAGE_RUNS_LISTING,
+	TABLE_TO_STORAGE_RUNS_ITEM,
 	TABLE_TO_STORAGE_CONFIGURATIONS_LISTING,
 	TABLE_TO_STORAGE_CONFIGURATIONS_ITEM
 } from '@/constants/router/routes-names';
@@ -19,10 +20,20 @@ export default [
 		},
 		component: () =>
 			import(
-				/* webpackChunkName: "/data-workflows/table-to-storage/runs/listing" */ '@/views/data-workflows/table-to-storage/TableToStorageRuns.vue'
+				/* webpackChunkName: "/data-workflows/table-to-storage/runs/listing" */ '@/views/data-workflows/table-to-storage/run/ListingView.vue'
 			)
 	},
-	// TODO: Create run view
+	{
+		path: `/${DATA_WORKFLOWS}/${TABLE_TO_STORAGE}/${RUNS}/:id`,
+		name: TABLE_TO_STORAGE_RUNS_ITEM,
+		meta: {
+			authRequired: true
+		},
+		component: () =>
+			import(
+				/* webpackChunkName: "/data-workflows/table-to-storage/runs/item" */ '@/views/data-workflows/table-to-storage/run/ItemView'
+			)
+	},
 
 	/**
 	 * CONFIGURATIONS

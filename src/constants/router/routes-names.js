@@ -35,7 +35,7 @@ export const GBQ_TO_GCS_CONFIGURATIONS_LISTING = 'gbqToGcsConfs';
 export const GBQ_TO_GCS_CONFIGURATIONS_ITEM = 'GbqToGcsConf';
 
 export const TABLE_TO_STORAGE_RUNS_LISTING = 'TableToStorageRuns';
-// TODO: Create run constant
+export const TABLE_TO_STORAGE_RUNS_ITEM = 'TableToStorageRun';
 export const TABLE_TO_STORAGE_CONFIGURATIONS_LISTING = 'TableToStorageConfs';
 export const TABLE_TO_STORAGE_CONFIGURATIONS_ITEM = 'TableToStorageConf';
 
