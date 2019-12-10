@@ -20,46 +20,42 @@ export default [
 		},
 		component: () =>
 			import(
-				/* webpackChunkName: "/data-workflows/storage-to-table/runs/listing" */ '@/views/data-workflows/storage-to-tables/runs/ListingView.vue'
+				/* webpackChunkName: "/data-workflows/storage-to-table/runs/listing" */ '@/views/data-workflows/storage-to-tables/runs/ListingView'
 			)
-	}
-	/*{
-		// TODO: Rename param to :id
-		path: `/${DATA_WORKFLOWS}/${STORAGE_TO_TABLES}/${RUNS}/:pathId`,
-		name: STORAGE_TO_TABLE_RUNS_ITEM,
+	},
+	{
+		path: `/${DATA_WORKFLOWS}/${STORAGE_TO_TABLES}/${RUNS}/:id`,
+		name: STORAGE_TO_TABLES_RUNS_ITEM,
 		meta: {
 			authRequired: true
 		},
 		component: () =>
 			import(
-				/!* webpackChunkName: "/data-workflows/storage-to-table/runs/item" *!/ '@/views/data-workflows/storage-to-table/run/StorageToTableRun.vue'
+				/* webpackChunkName: "/data-workflows/storage-to-table/runs/item" */ '@/views/data-workflows/storage-to-tables/runs/ItemView'
 			)
 	},
 
-	/!**
+	/**
 	 * CONFIGURATIONS
-	 *!/
+	 */
 	{
 		path: `/${DATA_WORKFLOWS}/${STORAGE_TO_TABLES}/${CONFIGURATIONS}`,
-		name: STORAGE_TO_TABLE_CONFIGURATIONS_LISTING,
+		name: STORAGE_TO_TABLES_CONFIGURATIONS_LISTING,
 		meta: {
 			authRequired: true
 		},
 		component: () =>
-			import(
-				/!* webpackChunkName: "/data-workflows/storage-to-table/configurations/listing" *!/ '@/views/data-workflows/storage-to-table/configuration/ConfigurationsView.vue'
-			)
+			// TODO: Create component
+			import(/* webpackChunkName: "/data-workflows/storage-to-table/configurations/listing" */ '@/views/app/NotFound')
 	},
 	{
-		// TODO: Rename param to :id
-		path: `/${DATA_WORKFLOWS}/${STORAGE_TO_TABLES}/${CONFIGURATIONS}/:pathId`,
-		name: STORAGE_TO_TABLE_CONFIGURATIONS_ITEM,
+		path: `/${DATA_WORKFLOWS}/${STORAGE_TO_TABLES}/${CONFIGURATIONS}/:id`,
+		name: STORAGE_TO_TABLES_CONFIGURATIONS_ITEM,
 		meta: {
 			authRequired: true
 		},
 		component: () =>
-			import(
-				/!* webpackChunkName: "/data-workflows/storage-to-table/configurations/item" *!/ '@/views/data-workflows/storage-to-table/configuration/StorageToTableConf.vue'
-			)
-	}*/
+			// TODO: Create component
+			import(/* webpackChunkName: "/data-workflows/storage-to-table/configurations/item" */ '@/views/app/NotFound')
+	}
 ];

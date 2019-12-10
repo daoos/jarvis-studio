@@ -30,9 +30,9 @@ export const getWorkflowName = name => {
 
 		// Storage to tables
 		[STORAGE_TO_TABLES_RUNS_LISTING]: 'Storage to Tables',
-		[STORAGE_TO_TABLES_RUNS_ITEM]: 'Storage to Table',
-		[STORAGE_TO_TABLES_CONFIGURATIONS_LISTING]: 'Storage to Table',
-		[STORAGE_TO_TABLES_CONFIGURATIONS_ITEM]: 'Storage to Table',
+		[STORAGE_TO_TABLES_RUNS_ITEM]: 'Storage to Tables',
+		[STORAGE_TO_TABLES_CONFIGURATIONS_LISTING]: 'Storage to Tables',
+		[STORAGE_TO_TABLES_CONFIGURATIONS_ITEM]: 'Storage to Tables',
 
 		// Tables to Tables
 		TablesToTablesRuns: 'Tables to Tables',

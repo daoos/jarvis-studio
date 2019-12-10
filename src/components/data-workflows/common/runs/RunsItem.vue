@@ -24,7 +24,7 @@ import ViewJson from '../../../common/ViewJson';
 import ViewConversation from '../ViewConversation';
 
 export default {
-	name: 'run-item',
+	name: 'runs-item',
 	components: { OverviewComponent, ViewJson, ViewConversation },
 	props: {
 		tabsItems: {

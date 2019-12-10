@@ -47,10 +47,22 @@ export default {
 					value: 'id'
 				},
 				{
+					text: 'Source Storage',
+					align: 'left',
+					sortable: true,
+					value: 'source_storage'
+				},
+				{
+					text: 'Destinations',
+					align: 'left',
+					sortable: true,
+					value: 'configuration_context.destinations.length'
+				},
+				{
 					text: 'Status',
 					align: 'left',
 					sortable: true,
-					value: 'activated'
+					value: 'status'
 				},
 				{
 					text: 'Actions',
