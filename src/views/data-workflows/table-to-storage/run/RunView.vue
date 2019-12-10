@@ -71,9 +71,8 @@ export default {
 					component: 'view-header',
 					props: {
 						item: this.item,
-						collection: 'tableToStorageConfs',
 						activeHeader: true,
-						viewId: this.itemId,
+						viewId: this.item.firestore_conf_doc_id,
 						viewType: 'run',
 						description: null,
 						runStatus: this.item.status
@@ -102,15 +101,35 @@ export default {
 				{
 					component: 'parameters-list',
 					props: {
-						groupTitle: 'Run Details',
+						groupTitle: 'Main parameters',
 						tooltip: true,
-						description: 'Details of the Table to Storage Run',
+						description: 'Main parameters of the Table to Storage Run',
 						paramItems: [
 							{
 								id: 'firestore_conf_doc_id',
 								label: 'Configuration Id',
 								value: this.item.firestore_conf_doc_id
 							},
+							{
+								id: 'destination_bucket',
+								label: 'Destination Bucket',
+								value: this.item.destination_bucket
+							},
+							{
+								id: 'output_filename',
+								label: 'Output Finame',
+								value: this.item.output_filename
+							}
+						]
+					}
+				},
+				{
+					component: 'parameters-list',
+					props: {
+						groupTitle: 'Run Details',
+						tooltip: true,
+						description: 'Details of the Table to Storage Run',
+						paramItems: [
 							{
 								id: 'dag_type',
 								label: 'Dag Type',
@@ -149,9 +168,8 @@ export default {
 					component: 'view-header',
 					props: {
 						item: this.item,
-						collection: 'tableToStorageConfs',
-						activeHeader: true,
-						viewId: this.itemId,
+						activeHeader: false,
+						viewId: this.item.firestore_conf_doc_id,
 						viewType: 'run',
 						description: null,
 						runStatus: this.item.status
@@ -173,59 +191,149 @@ export default {
 								id: 'environment',
 								label: 'Environment',
 								value: this.item.environment
-							},
-							{
-								id: 'gcp_project',
-								label: 'Default Project',
-								value: this.item.configuration_context.gcp_project,
-								description: 'Default Project ID used by the tasks'
-							},
-							{
-								id: 'destination_bucket',
-								label: 'Default Dataset',
-								value: this.item.destination_bucket,
-								description: 'Default Dataset used by the tasks'
-							},
-							{
-								id: 'dag_execution_date',
-								label: 'Start Date',
-								value: this.item.dag_execution_date,
-								description: `Start date of the DAG. The format must be : "yyyy, MM, dd" Where : YYYY >= 1970 MM = [1, 12] DD = [1, 31]`
-							},
-							{
-								id: 'catchup',
-								label: 'Catchup',
-								value: this.item.configuration_context.catchup,
-								default: 'false',
-								description: `This flag will specify to Composer/Airflow to backfill DAG runs upon deployment. If set to "true" AND the DAG is scheduled AND it's "start date" is in set in the past, Composer/Airflow will backfill and execute the DAG until the current date. If not set, the default value is : false`
-							},
-							{
-								id: 'schedule_interval',
-								label: 'Schedule Interval',
-								value: this.item.configuration_context.schedule_interval,
-								description: `If the DAG is scheduled, a CRON like string needs to be set, i.e every day at 7:00 => "0 7 * * *"  If scheduling is no required please set to : "None"`
-							},
-							{
-								id: 'default_write_disposition',
-								label: 'Default Write Disposition',
-								value: this.item.configuration_context.default_write_disposition,
-								description: 'Default Write Disposition used by the tasks'
-							},
-							{
-								id: 'max_active_runs',
-								label: 'Max Active Runs',
-								value: this.item.configuration_context.max_active_runs,
-								default: '1',
-								description: 'Number of concurrent DAG runs for this DAG.'
-							},
-							{
-								id: 'task_concurrency',
-								label: 'Task Concurrency',
-								value: this.item.configuration_context.task_concurrency,
-								default: '5',
-								description: 'Number of concurrent task executions within a DAG run.'
 							}
 						]
+					}
+				},
+				{
+					component: 'parameters-table',
+					props: {
+						tableTitle: 'Destination Storage',
+						description: 'Destination Storage of the file to export',
+						columns: [
+							{
+								label: 'Type',
+								field: 'source_type',
+								width: '100px'
+							},
+							{
+								label: 'Storage ID',
+								field: 'gcs_dest_bucket',
+								width: '200px'
+							},
+							{
+								label: 'Destination Folder',
+								field: 'gcs_dest_prefix',
+								width: '200px'
+							},
+							{
+								label: 'Output Filename',
+								field: 'output_filename',
+								width: '200px'
+							}
+						],
+						rows: [
+							{
+								source_type: 'GCS',
+								gcs_dest_bucket: this.item.configuration_context.gcs_dest_bucket,
+								gcs_dest_prefix: this.item.configuration_context.gcs_dest_prefix,
+								output_filename: this.item.configuration_context.output_filename
+							}
+						],
+						vflexLength: 'xs9',
+						lineNumbers: false,
+						searchOptionsEnabled: 'false'
+					}
+				},
+				{
+					component: 'parameters-list',
+					props: {
+						groupTitle: 'File Parameters',
+						tooltip: true,
+						description: 'Parameters for the exported file',
+						paramItems: [
+							{
+								id: 'compression',
+								label: 'Compressed',
+								value: this.item.configuration_context.compression,
+								default: 'None'
+							},
+							{
+								id: 'field_delimiter',
+								label: 'Field Delimiter',
+								value: this.item.configuration_context.field_delimiter,
+								default: '|'
+							},
+							{
+								id: 'delete_dest_bucket_content',
+								label: 'Delete Destination Storage Content',
+								value: this.item.configuration_context.delete_dest_bucket_content,
+								default: false
+							}
+						]
+					}
+				},
+				{
+					component: 'parameters-list',
+					props: {
+						groupTitle: 'Source Table',
+						tooltip: true,
+						description: 'SQL executed to generate the dataset to export into file',
+						paramItems: [
+							{
+								id: 'gcp_project',
+								label: 'Bigquery Project ID',
+								value: this.item.configuration_context.gcp_project
+							},
+							{
+								id: '',
+								label: 'SQL File',
+								component: 'sql-viewer',
+								properties: {
+									id: this.item.configuration_context.id,
+									sql: this.item.sql_query
+								}
+							},
+							{
+								id: 'copy_table',
+								label: 'Keep Table',
+								value: this.item.configuration_context.copy_table,
+								default: false
+							}
+						]
+					}
+				},
+				{
+					component: 'parameters-table',
+					displayCondition: this.item.configuration_context.copy_table,
+					props: {
+						tableTitle: 'Destination Table',
+						description: 'The Destination Table where the dataset will be keeped',
+						columns: [
+							{
+								label: 'Type',
+								field: 'source_type',
+								width: '150px'
+							},
+							{
+								label: 'Project ID',
+								field: 'dest_gcp_project_id'
+							},
+							{
+								label: 'Dataset',
+								field: 'dest_gbq_dataset'
+							},
+							{
+								label: 'Table Name',
+								field: 'dest_gbq_table'
+							},
+							{
+								label: 'Table Suffix',
+								field: 'dest_gbq_table_suffix'
+							}
+						],
+						rows: [
+							{
+								source_type: 'BigQuery',
+								dest_gcp_project_id: this.item.configuration_context.dest_gcp_project_id,
+								dest_gbq_dataset: this.item.configuration_context.dest_gbq_dataset,
+								dest_gbq_table: this.item.configuration_context.dest_gbq_table,
+								dest_gbq_table_suffix: this.item.configuration_context.dest_gbq_table_suffix
+							}
+						],
+						vflexLength: 'xs9',
+						lineNumbers: false,
+						searchOptionsEnabled: 'false'
 					}
 				},
 				{
