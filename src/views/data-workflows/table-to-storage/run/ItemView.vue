@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<data-management-header :tabs-items="headerTabsItems" />
+		<data-management-header :tabs-items="tabsItems" />
 		<run-item :tabs-items="itemTabsItems" :is-loading="isLoading" />
 	</div>
 </template>
@@ -9,12 +9,12 @@
 import RunItem from '@/components/data-workflows/common/run/RunItem';
 import DataManagementHeader from '@/components/app/headers/DataManagementHeader';
 
-import HeaderTabsItemsMixin from '../header-tabs-items';
+import TabsItemsMixin from '../tabs-items';
 import GetItemMixin from '@/mixins/get-item-mixin';
 
 export default {
 	components: { RunItem, DataManagementHeader },
-	mixins: [HeaderTabsItemsMixin, GetItemMixin],
+	mixins: [TabsItemsMixin, GetItemMixin],
 	data: () => ({
 		item: null,
 		moduleName: 'tableToStorageRuns'

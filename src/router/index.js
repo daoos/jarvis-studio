@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import paths from './router/paths';
-import store from '@/store/index';
+import routes from './routes';
+import store from '@/store';
 
 Vue.use(Router);
 
@@ -9,10 +9,10 @@ const router = new Router({
 	base: process.env.BASE_URL,
 	mode: 'history',
 	linkActiveClass: 'active',
-	routes: paths
+	routes: routes
 });
 
-// router gards
+// index gards
 router.beforeEach((to, from, next) => {
 	if (to.matched.some(record => record.meta.authRequired)) {
 		// this route requires auth, check if logged in
@@ -26,7 +26,7 @@ router.beforeEach((to, from, next) => {
 					next();
 				} else {
 					next({
-						path: '/signinEmail',
+						name: 'SignIn',
 						query: { redirect: to.fullPath }
 					});
 				}

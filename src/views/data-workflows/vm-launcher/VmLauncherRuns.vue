@@ -1,28 +1,18 @@
 <template>
 	<div>
-		<DataManagementHeader :tabsItems="tabsItems" :headerTitle="headerTitle"></DataManagementHeader>
+		<DataManagementHeader :tabsItems="tabsItems" />
 		<VmLauncherRuns />
 	</div>
 </template>
 
 <script>
-import VmLauncherRuns from '../../../components/data-workflows/vm-launcher/VmLauncherRuns';
 import DataManagementHeader from '../../../components/app/headers/DataManagementHeader';
+import VmLauncherRuns from '../../../components/data-workflows/vm-launcher/VmLauncherRuns';
+
+import TabsItemsMixin from './tabs-items';
 
 export default {
-	components: {
-		VmLauncherRuns,
-		DataManagementHeader
-	},
-	data() {
-		return {
-			headerTitle: 'VM Launcher',
-			tabsItems: [
-				{ id: 1, title: 'Runs', link: '/runs/vmlauncher' },
-				{ id: 2, title: 'Configurations', link: '/conf/vmlauncher' },
-				{ id: 3, title: 'Documentation', link: '' }
-			]
-		};
-	}
+	components: { DataManagementHeader, VmLauncherRuns },
+	mixins: [TabsItemsMixin]
 };
 </script>

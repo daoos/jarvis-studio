@@ -1,28 +1,18 @@
 <template>
 	<div>
-		<DataManagementHeader :tabsItems="tabsItems" :headerTitle="headerTitle" />
+		<DataManagementHeader :tabsItems="tabsItems" />
 		<GbqToGcsRuns />
 	</div>
 </template>
 
 <script>
-import GbqToGcsRuns from '../../../components/data-workflows/gbq-to-gcs/run/RunsListing';
 import DataManagementHeader from '../../../components/app/headers/DataManagementHeader';
+import GbqToGcsRuns from '../../../components/data-workflows/gbq-to-gcs/run/RunsListing';
+
+import TabsItemsMixin from './tab-items';
 
 export default {
-	components: {
-		GbqToGcsRuns,
-		DataManagementHeader
-	},
-	data() {
-		return {
-			headerTitle: 'GBQ to GCS',
-			tabsItems: [
-				{ id: 1, title: 'Runs', link: { name: 'gbqToGcsRuns' } },
-				{ id: 2, title: 'Configurations', link: { name: 'gbqToGcsConfs' } },
-				{ id: 3, title: 'Documentation', link: '' }
-			]
-		};
-	}
+	components: { DataManagementHeader, GbqToGcsRuns },
+	mixins: [TabsItemsMixin]
 };
 </script>

@@ -28,7 +28,7 @@
 			<v-progress-linear v-slot:progress color="blue" indeterminate />
 
 			<template v-slot:item.id="{ item: { id } }">
-				<router-link :to="{ name: 'TableToStorageConf', params: { confId: id } }">
+				<router-link :to="{ name: routeName, params: { confId: id } }">
 					<span class="font-weight-medium">{{ id }}</span>
 				</router-link>
 			</template>
@@ -81,6 +81,7 @@ import VueJsonPretty from 'vue-json-pretty';
 import DataManagementFilters from '../../../common/DataManagementFilters';
 import ConfigurationStatus from '../../../common/configuration/ConfigurationStatus.vue';
 
+import { TABLE_TO_STORAGE_CONFIGURATIONS_ITEM } from '@/constants/router/routes-names';
 import { mapState } from 'vuex';
 import { mapGetters } from 'vuex';
 import store from '@/store/index';
@@ -194,6 +195,9 @@ export default {
 		}
 	},
 	computed: {
+		routeName() {
+			return TABLE_TO_STORAGE_CONFIGURATIONS_ITEM;
+		},
 		...mapGetters(['periodFiltered', 'whereConfFilter']),
 		...mapState({
 			tableToStorageConfs: state => state.tableToStorageConfs.data

@@ -6,8 +6,6 @@
 import DataTableDetails from '../../components/data-models/DataTableDetails';
 
 export default {
-	components: {
-		DataTableDetails
-	}
+	components: { DataTableDetails }
 };
 </script>

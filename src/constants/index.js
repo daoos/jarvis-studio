@@ -1,5 +1,4 @@
 // UNUSED FILE
-// TODO: Use constants for paths & routing
 
 export const firestoreStorageToTableRunsCollection = 'mirror-exc-gcs-to-gbq-runs';
 export const firestoreStorageToStorageConfsCollection = 'mirror-exc-gcs-to-gcs-conf';

@@ -32,7 +32,7 @@
 				<v-list-item
 					v-for="(item, index) in userSettingsItems"
 					:key="index"
-					:href="item.href"
+					:to="item.link"
 					:disabled="item.disabled"
 					:target="item.target"
 					@click="item.click"

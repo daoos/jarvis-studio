@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import App from './App.vue';
-import router from '@/router';
+import index from '@/router';
 import store from '@/store/index';
 import vuetify from './plugins/vuetify';
 import firebase from 'firebase';
@@ -8,7 +8,7 @@ import firebase from 'firebase';
 Vue.config.productionTip = false;
 
 new Vue({
-	router,
+	router: index,
 	store,
 	vuetify,
 	render: h => h(App),

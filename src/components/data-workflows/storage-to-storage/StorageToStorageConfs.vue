@@ -34,12 +34,7 @@
 			</template>
 
 			<template v-slot:item.id="{ item: { id } }">
-				<router-link
-					:to="{
-						name: 'StorageToStorageConf',
-						params: { confId: id }
-					}"
-				>
+				<router-link :to="{ name: routeName, params: { confId: id } }">
 					<span class="font-weight-medium">{{ id }}</span>
 				</router-link>
 			</template>
@@ -149,6 +144,7 @@ import VueJsonPretty from 'vue-json-pretty';
 import DataManagementFilters from '../../common/DataManagementFilters';
 import ConfigurationStatus from '../../common/configuration/ConfigurationStatus.vue';
 
+import { STORAGE_TO_STORAGE_CONFIGURATIONS_ITEM } from '@/constants/router/routes-names';
 import { mapState } from 'vuex';
 import { mapGetters } from 'vuex';
 import store from '@/store';
@@ -287,6 +283,9 @@ export default {
 		}
 	},
 	computed: {
+		routeName() {
+			return STORAGE_TO_STORAGE_CONFIGURATIONS_ITEM;
+		},
 		...mapState({
 			isAuthenticated: state => state.user.isAuthenticated,
 			user: state => state.user.user,

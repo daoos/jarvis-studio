@@ -56,6 +56,7 @@
 </template>
 <script>
 export default {
+	name: 'sign-in',
 	data: () => ({
 		valid: false,
 		loading: false,

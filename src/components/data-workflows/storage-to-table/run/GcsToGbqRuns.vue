@@ -42,12 +42,7 @@
 							item: { id, gbq_table_refreshed }
 						}"
 					>
-						<router-link
-							:to="{
-								name: 'StorageToTableRun',
-								params: { pathId: id }
-							}"
-						>
+						<router-link :to="{ name: routeName, params: { pathId: id } }">
 							<span class="font-weight-medium">
 								{{ gbq_table_refreshed }}
 							</span>
@@ -122,14 +117,16 @@
 </template>
 
 <script>
+import VueJsonPretty from 'vue-json-pretty';
+import DataManagementFilters from '../../../common/DataManagementFilters';
+
+import { STORAGE_TO_TABLE_RUNS_ITEM } from '@/constants/router/routes-names';
 import { mapState } from 'vuex';
 import { mapGetters } from 'vuex';
-import VueJsonPretty from 'vue-json-pretty';
 import store from '@/store';
 import moment from 'moment';
 import _ from 'lodash';
 import Util from '@/util';
-import DataManagementFilters from '../../../common/DataManagementFilters';
 
 export default {
 	components: {
@@ -234,6 +231,9 @@ export default {
 		}
 	},
 	computed: {
+		routeName() {
+			return STORAGE_TO_TABLE_RUNS_ITEM;
+		},
 		...mapState({
 			isAuthenticated: state => state.user.isAuthenticated,
 			user: state => state.user.user,
@@ -266,5 +266,3 @@ export default {
 	}
 };
 </script>
-
-<style></style>

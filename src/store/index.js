@@ -3,6 +3,7 @@ import Vuex from 'vuex';
 import user from './user';
 
 import { firebase, initFirebase } from '../firebase/firestore';
+import { SIGN_IN } from '@/constants/router/routes-names';
 import router from '@/router';
 
 Vue.use(Vuex);
@@ -98,7 +99,7 @@ const store = new Vuex.Store(storeData);
 initFirebase().catch(error => {
 	// take user to a page stating an error occurred
 	// (might be a connection error, or the app is open in another tab)
-	router.push('/signinEmail');
+	router.push({ name: SIGN_IN });
 	// eslint-disable-next-line no-console
 	console.error(error);
 });

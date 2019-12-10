@@ -1,22 +1,32 @@
+import { PROFILE, USERS, ACCOUNTS, CLOUD_FUNCTIONS } from '@/constants/router/routes-names';
+
 export default [
 	{
 		title: 'Profile',
-		path: '/settings/user/profile',
-		icon: 'account_circle'
+		icon: 'account_circle',
+		link: {
+			name: PROFILE
+		}
 	},
 	{
 		title: 'Users',
-		path: '/settings/users',
-		icon: 'supervised_user_circle'
+		icon: 'supervised_user_circle',
+		link: {
+			name: USERS
+		}
 	},
 	{
 		title: 'Accounts',
-		path: '/settings/accounts',
-		icon: 'business'
+		icon: 'business',
+		link: {
+			name: ACCOUNTS
+		}
 	},
 	{
 		title: 'Cloud Function Configurations',
-		path: '/settings/gcpcloudfunctions',
-		icon: 'settings_ethernet'
+		icon: 'settings_ethernet',
+		link: {
+			name: CLOUD_FUNCTIONS
+		}
 	}
 ];

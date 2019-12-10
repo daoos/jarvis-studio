@@ -26,7 +26,7 @@
 			<v-progress-linear v-slot:progress color="blue" indeterminate />
 
 			<template v-slot:item.firestore_conf_doc_id="{ item: { id, firestore_conf_doc_id } }">
-				<router-link :to="{ name: 'TableToStorageRun', params: { id } }">
+				<router-link :to="{ name: routeName, params: { id } }">
 					{{ firestore_conf_doc_id }}
 				</router-link>
 			</template>
@@ -87,6 +87,7 @@
 import VueJsonPretty from 'vue-json-pretty';
 import DataManagementFilters from '../../../common/DataManagementFilters';
 
+import { TABLE_TO_STORAGE_RUNS_ITEM } from '@/constants/router/routes-names';
 import { mapState } from 'vuex';
 import { mapGetters } from 'vuex';
 import store from '@/store';
@@ -190,6 +191,9 @@ export default {
 		}
 	},
 	computed: {
+		routeName() {
+			return TABLE_TO_STORAGE_RUNS_ITEM;
+		},
 		...mapState({
 			tableToStorageRuns: state => state.tableToStorageRuns.data
 		}),

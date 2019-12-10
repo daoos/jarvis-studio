@@ -1,28 +1,18 @@
 <template>
 	<div>
-		<DataManagementHeader :tabsItems="tabsItems" :headerTitle="headerTitle" />
+		<DataManagementHeader :tabsItems="tabsItems" />
 		<StorageToTableConf />
 	</div>
 </template>
 
 <script>
-import StorageToTableConf from '../../../../components/data-workflows/storage-to-table/configuration/StorageToTableConf';
 import DataManagementHeader from '../../../../components/app/headers/DataManagementHeader';
+import StorageToTableConf from '../../../../components/data-workflows/storage-to-table/configuration/StorageToTableConf';
+
+import TabsItemsMixin from '../tabs-items';
 
 export default {
-	components: {
-		StorageToTableConf,
-		DataManagementHeader
-	},
-	data() {
-		return {
-			headerTitle: 'Storage to Table',
-			tabsItems: [
-				{ id: 1, title: 'Runs', link: '/storagetotable/runs' },
-				{ id: 2, title: 'Configurations', link: '/storagetotable/confs' },
-				{ id: 3, title: 'Documentation', link: '' }
-			]
-		};
-	}
+	components: { DataManagementHeader, StorageToTableConf },
+	mixins: [TabsItemsMixin]
 };
 </script>

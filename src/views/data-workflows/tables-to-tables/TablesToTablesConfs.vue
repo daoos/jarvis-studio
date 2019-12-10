@@ -1,28 +1,18 @@
 <template>
 	<div>
-		<DataManagementHeader :tabsItems="tabsItems" :headerTitle="headerTitle"></DataManagementHeader>
+		<DataManagementHeader :tabsItems="tabsItems" />
 		<TablesToTablesConfs />
 	</div>
 </template>
 
 <script>
-import TablesToTablesConfs from '../../../components/data-workflows/tables-to-tables/TablesToTablesConfs';
 import DataManagementHeader from '../../../components/app/headers/DataManagementHeader';
+import TablesToTablesConfs from '../../../components/data-workflows/tables-to-tables/TablesToTablesConfs';
+
+import TabsItemsMixin from './tabs-items';
 
 export default {
-	components: {
-		TablesToTablesConfs,
-		DataManagementHeader
-	},
-	data() {
-		return {
-			headerTitle: 'Tables to Tables',
-			tabsItems: [
-				{ id: 1, title: 'Runs', link: '/tablestotables/runs' },
-				{ id: 2, title: 'Configurations', link: '/tablestotables/confs' },
-				{ id: 3, title: 'Documentation', link: '' }
-			]
-		};
-	}
+	components: { DataManagementHeader, TablesToTablesConfs },
+	mixins: [TabsItemsMixin]
 };
 </script>
