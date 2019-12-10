@@ -11,7 +11,7 @@
 
 			<configuration-status
 				v-if="viewType === 'conf'"
-				:item="conf"
+				:item="item"
 				:collection="collection"
 				:custom-key="customKey"
 				:is-small="false"
@@ -49,7 +49,7 @@ export default {
 		return {};
 	},
 	props: {
-		conf: {
+		item: {
 			type: Object,
 			required: true
 		},
@@ -93,5 +93,3 @@ export default {
 	}
 };
 </script>
-
-<style lang="scss" scoped></style>

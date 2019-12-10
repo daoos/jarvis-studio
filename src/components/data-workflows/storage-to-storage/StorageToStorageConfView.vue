@@ -3,7 +3,7 @@
 		<v-row>
 			<v-col cols="12" offset="0">
 				<HeaderDocView
-					:conf="conf"
+					:item="conf"
 					collection="storageToStorageConfs"
 					:viewId="confId"
 					:activatedConfStatus="conf.activated"
@@ -252,8 +252,8 @@ export default {
 			let getConfId = '';
 			if (this.conf.id !== undefined) {
 				getConfId = this.conf.id;
-			} else if (this.conf.destination_bucket[0] !== undefined) {
-				getConfId = this.conf.destination_bucket[0];
+			} else if (this.conf.configuration_id !== undefined) {
+				getConfId = this.conf.configuration_id;
 			} else {
 				getConfId = '';
 			}

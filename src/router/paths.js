@@ -308,7 +308,7 @@ export default [
 		},
 		component: () =>
 			import(
-				/* webpackChunkName: "tabletostorageconfs" */ '@/views/data-workflows/table-to-storage/ConfigurationsView.vue'
+				/* webpackChunkName: "tabletostorageconfs" */ '@/views/data-workflows/table-to-storage/configuration/ConfigurationsView.vue'
 			)
 	},
 	{
@@ -319,29 +319,27 @@ export default [
 		},
 		component: () =>
 			import(
-				/* webpackChunkName: "tabletostorageconfs" */ '@/views/data-workflows/table-to-storage/ConfigurationView.vue'
+				/* webpackChunkName: "tabletostorageconfs" */ '@/views/data-workflows/table-to-storage/configuration/ConfigurationView.vue'
 			)
 	},
 	{
-		path: '/tabletostorage/runs',
+		path: '/table-to-storage/runs',
 		name: 'TableToStorageRuns',
 		meta: {
 			authRequired: true
 		},
 		component: () =>
-			import(
-				/* webpackChunkName: "tabletostorageruns" */ '@/views/data-workflows/table-to-storage/TableToStorageRuns.vue'
-			)
+			import(/* webpackChunkName: "tabletostorageruns" */ '@/views/data-workflows/table-to-storage/run/RunsListing.vue')
 	},
-
-	// {
-	// 	path: '/tabletostorage/runs/:pathId',
-	// 	name: 'TableToStorageRun',
-	// 	meta: {
-	// 		authRequired: true
-	// 	},
-	// 	component: () => import(/* webpackChunkName: "tabletostoragerun" */ '@/views/TableToStorageRun.vue')
-	// },
+	{
+		path: '/table-to-storage/runs/:id',
+		name: 'TableToStorageRun',
+		meta: {
+			authRequired: true
+		},
+		component: () =>
+			import(/* webpackChunkName: "tabletostoragerun" */ '@/views/data-workflows/table-to-storage/run/RunView')
+	},
 
 	/**
 	 * VM launcher
