@@ -1,7 +1,18 @@
 <template>
 	<div>
 		<DataManagementHeader :tabsItems="tabsItems" />
-		<listing-component :module-name="moduleName" :route-name="routeName" :headers="headers" />
+		<listing-component
+			:module-name="moduleName"
+			:route-name="routeName"
+			:headers="headers"
+			:overridden-columns="overriddenColumns"
+		>
+			<template v-slot:id="{ item: { id } }">
+				<router-link :to="{ name: routeName, params: { id } }">
+					<span class="font-weight-medium">{{ id }}</span>
+				</router-link>
+			</template>
+		</listing-component>
 	</div>
 </template>
 
@@ -19,7 +30,8 @@ export default {
 	mixins: [TabsItemsMixin],
 	data() {
 		return {
-			moduleName: 'storageToTablesRuns'
+			moduleName: 'storageToTablesRuns',
+			overriddenColumns: ['id']
 		};
 	},
 	computed: {
