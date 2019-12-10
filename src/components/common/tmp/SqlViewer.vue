@@ -45,7 +45,15 @@ export default {
 	},
 	computed: {
 		rawSQL() {
-			return Base64.decode(this.properties.sqlBinary._binaryString);
+			let sql = '';
+			if (this.properties.sqlBinary !== undefined) {
+				sql = Base64.decode(this.properties.sqlBinary._binaryString);
+			} else if (this.properties.sql !== undefined) {
+				sql = this.properties.sql;
+			} else {
+				sql = 'No SQL Data';
+			}
+			return sql;
 		}
 	}
 };
