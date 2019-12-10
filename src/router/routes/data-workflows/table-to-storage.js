@@ -48,8 +48,7 @@ export default [
 			)
 	},
 	{
-		// TODO: Rename param to :id
-		path: `/${DATA_WORKFLOWS}/${TABLE_TO_STORAGE}/${CONFIGURATIONS}/:confId`,
+		path: `/${DATA_WORKFLOWS}/${TABLE_TO_STORAGE}/${CONFIGURATIONS}/:id`,
 		name: TABLE_TO_STORAGE_CONFIGURATIONS_ITEM,
 		meta: {
 			authRequired: true

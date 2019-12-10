@@ -24,7 +24,7 @@
 			<v-progress-linear v-slot:progress color="blue" indeterminate />
 
 			<template v-slot:item.activated="{ item }">
-				<configuration-status :item="item" collection="getGbqToGcsConfs" :is-activated="item.activated" />
+				<configuration-status :item="item" :collection="moduleName" :is-activated="item.activated" />
 			</template>
 
 			<template v-slot:item.actions="{ item }">

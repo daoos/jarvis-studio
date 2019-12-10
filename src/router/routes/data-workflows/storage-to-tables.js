@@ -46,7 +46,9 @@ export default [
 		},
 		component: () =>
 			// TODO: Create component
-			import(/* webpackChunkName: "/data-workflows/storage-to-table/configurations/listing" */ '@/views/app/NotFound')
+			import(
+				/* webpackChunkName: "/data-workflows/storage-to-table/configurations/listing" */ '@/views/data-workflows/storage-to-tables/configurations/ListingView'
+			)
 	},
 	{
 		path: `/${DATA_WORKFLOWS}/${STORAGE_TO_TABLES}/${CONFIGURATIONS}/:id`,
@@ -56,6 +58,8 @@ export default [
 		},
 		component: () =>
 			// TODO: Create component
-			import(/* webpackChunkName: "/data-workflows/storage-to-table/configurations/item" */ '@/views/app/NotFound')
+			import(
+				/* webpackChunkName: "/data-workflows/storage-to-table/configurations/item" */ '@/views/data-workflows/storage-to-tables/configurations/ItemView'
+			)
 	}
 ];
