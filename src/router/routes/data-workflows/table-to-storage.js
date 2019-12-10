@@ -24,7 +24,7 @@ export default [
 			)
 	},
 	{
-		path: '/table-to-storage/runs/:id',
+		path: `/${DATA_WORKFLOWS}/${TABLE_TO_STORAGE}/${RUNS}/:id`,
 		name: TABLE_TO_STORAGE_RUNS_ITEM,
 		meta: {
 			authRequired: true
