@@ -23,18 +23,17 @@
 		>
 			<v-progress-linear v-slot:progress color="blue" indeterminate />
 
-			<template v-slot:item.id="{ item: { id } }">
-				<router-link :to="{ name: routeName, params: { id } }">
-					<span class="font-weight-medium">{{ id }}</span>
-				</router-link>
-			</template>
-
 			<template v-slot:item.activated="{ item }">
 				<configuration-status :item="item" collection="getGbqToGcsConfs" :is-activated="item.activated" />
 			</template>
 
 			<template v-slot:item.actions="{ item }">
 				<v-icon small @click="toggleExpand(item)">remove_red_eye</v-icon>
+			</template>
+
+			<!-- Loop placed after default templates to override them if needed -->
+			<template v-for="overriddenColumn in overriddenColumns" v-slot:[`item.${overriddenColumn}`]="{ item }">
+				<slot :name="overriddenColumn" v-bind="{ item }" />
 			</template>
 
 			<template v-slot:expanded-item="{ headers }">
@@ -95,6 +94,9 @@ export default {
 		headers: {
 			type: Array,
 			required: true
+		},
+		overriddenColumns: {
+			type: Array
 		}
 	},
 	data() {
