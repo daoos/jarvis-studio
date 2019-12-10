@@ -19,7 +19,7 @@ export default {
 	mixins: [TabsItemsMixin],
 	data() {
 		return {
-			moduleName: 'getGbqToGcsConfs'
+			moduleName: 'storageToTablesRuns'
 		};
 	},
 	computed: {
@@ -35,7 +35,7 @@ export default {
 					value: 'account'
 				},
 				{
-					text: 'Environnement',
+					text: 'Environment',
 					align: 'left',
 					sortable: true,
 					value: 'environment'
@@ -47,30 +47,17 @@ export default {
 					value: 'id'
 				},
 				{
-					text: 'BQ Project Id',
-					align: 'left',
-					sortable: true,
-					value: 'gcp_project'
-				},
-				{
-					text: 'Destination Bucket',
-					align: 'left',
-					sortable: true,
-					value: 'gcs_dest_bucket'
-				},
-				{
-					text: 'Destination Prefix',
-					align: 'left',
-					sortable: true,
-					value: 'gcs_dest_prefix'
-				},
-				{
 					text: 'Status',
 					align: 'left',
 					sortable: true,
 					value: 'activated'
 				},
-				{ text: 'Actions', align: 'center', value: 'actions', sortable: false }
+				{
+					text: 'Actions',
+					align: 'center',
+					sortable: false,
+					value: 'actions'
+				}
 			];
 		}
 	}

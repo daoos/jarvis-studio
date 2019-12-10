@@ -24,7 +24,7 @@
 			<v-progress-linear v-slot:progress color="blue" indeterminate />
 
 			<template v-slot:item.id="{ item: { id } }">
-				<router-link :to="{ name: routeName, params: { confId: id } }">
+				<router-link :to="{ name: routeName, params: { id } }">
 					<span class="font-weight-medium">{{ id }}</span>
 				</router-link>
 			</template>
@@ -124,6 +124,8 @@ export default {
 			}
 		},
 		async getFirestoreData() {
+			// TODO: Use getItem mixin?
+
 			const where = this.whereConfFilter;
 			this.isLoading = true;
 			try {
