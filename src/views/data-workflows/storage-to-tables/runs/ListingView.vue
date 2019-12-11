@@ -12,6 +12,10 @@
 					<span class="font-weight-medium">{{ id }}</span>
 				</router-link>
 			</template>
+
+			<template v-slot:configuration_context.source="{ item: { configuration_context: { source } } }">
+				{{ source.type === 'gcs' ? source.gcs_source_bucket : source.sftp_host }}
+			</template>
 		</listing-component>
 	</div>
 </template>
@@ -31,7 +35,7 @@ export default {
 	data() {
 		return {
 			moduleName: 'storageToTablesRuns',
-			overriddenColumns: ['id']
+			overriddenColumns: ['id', 'configuration_context.source']
 		};
 	},
 	computed: {
@@ -62,7 +66,7 @@ export default {
 					text: 'Source Storage',
 					align: 'left',
 					sortable: true,
-					value: 'source_storage'
+					value: 'configuration_context.source'
 				},
 				{
 					text: 'Destinations',
