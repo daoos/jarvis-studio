@@ -172,7 +172,7 @@ export default {
 						collection: this.moduleName,
 						activeHeader: false,
 						viewId: this.item.id,
-						viewType: 'run',
+						viewType: 'conf',
 						description: null,
 						runStatus: this.item.status
 					}
