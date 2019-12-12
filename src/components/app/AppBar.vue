@@ -1,5 +1,5 @@
 <template>
-	<v-app-bar app dark color="primary" elevate-on-scroll dense>
+	<v-app-bar app dark color="primary" elevate-on-scroll>
 		<v-app-bar-nav-icon v-if="!$vuetify.breakpoint.lgAndUp" @click="$emit('toggleNavigation')" />
 
 		<account-selector />
@@ -56,7 +56,7 @@
 </template>
 
 <script>
-import AccountSelector from './sub-components/AccountSelector';
+import AccountSelector from './sub-components/AccountsSelector';
 import SearchMenu from './sub-components/SearchMenu';
 
 import { mapState } from 'vuex';
