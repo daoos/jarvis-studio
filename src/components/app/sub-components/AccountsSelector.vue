@@ -1,18 +1,20 @@
 <template>
 	<div class="accounts-selector-wrapper">
+		<!-- item-text="account_name" | return-object -->
+
 		<v-autocomplete
+			v-if="user"
 			v-model="selectedAccounts"
-			:items="Object.values(accounts)"
+			:items="user.accounts"
 			label="Accounts"
-			item-text="account_name"
-			return-object
+			no-data-text="No accounts available"
 			hide-details
 			small-chips
 			multiple
 			chips
 		>
 			<template v-slot:selection="{ index, item }">
-				<span v-if="index === 0">{{ item.account_name }}</span>
+				<span v-if="index === 0">{{ item }}</span>
 				<span v-if="index === 1" class="other-accounts caption">(+{{ selectedAccounts.length - 1 }} others)</span>
 			</template>
 		</v-autocomplete>
@@ -27,26 +29,19 @@ export default {
 	name: 'accounts-selector',
 	data() {
 		return {
+			isLoading: true,
 			selectedAccounts: []
 		};
 	},
-	methods: {
-		applyAccountFilter(selectedAccount) {
-			store.dispatch('applyAccountFilterSelected', selectedAccount).then(() => {
-				console.log(this.user.accounts);
-			});
-		}
-	},
 	computed: {
 		...mapState({
-			accountFilterSelected: state => state.filters.accountFilterSelected,
 			accounts: state => state.accounts.data,
 			user: state => state.user.user
 		})
 	},
 	watch: {
-		selectedAccounts(value) {
-			console.log(value);
+		selectedAccounts(accounts) {
+			store.dispatch('updateFilteredAccounts', accounts);
 		}
 	}
 };

@@ -33,7 +33,8 @@ const filters = {
 			.startOf('day')
 			.subtract(1, 'days')
 			.toISOString(),
-		accountFilterSelected: { account_name: 'All Accounts', id: '000000' }
+		accountFilterSelected: { account_name: 'All Accounts', id: '000000' },
+		filteredAccounts: []
 	},
 	mutations: {
 		updateDateFilterSelected(state, dateFilterSelected) {
@@ -52,9 +53,8 @@ const filters = {
 				.subtract(dateFilterSelected.nbDays, 'days')
 				.toISOString();
 		},
-		updateAccountFilterSelected(state, accountFilterSelected) {
-			state.accountFilterSelected.account_name = accountFilterSelected.account_name;
-			state.accountFilterSelected.id = accountFilterSelected.id;
+		updateAccountFilterSelected(state, accounts) {
+			state.filteredAccounts = accounts;
 		}
 	},
 	actions: {
@@ -64,7 +64,7 @@ const filters = {
 			//Compute the minDate to apply from the DateFilterSelected
 			commit('updateMinDateFilter', dateFilterSelected);
 		},
-		applyAccountFilterSelected({ commit }, accountFilterSelected) {
+		updateFilteredAccounts({ commit }, accountFilterSelected) {
 			commit('updateAccountFilterSelected', accountFilterSelected);
 		},
 		applyEnvFilterSelected({ commit }, envFilterSelected) {
