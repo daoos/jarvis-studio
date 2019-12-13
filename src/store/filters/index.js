@@ -1,8 +1,12 @@
 import moment from 'moment';
+import user from '../user';
 
 const filters = {
 	state: {
-		dateFilterSelected: { dateLabel: 'Last 2 Days', nbDays: 1 },
+		dateFilterSelected: {
+			dateLabel: 'Last 2 Days',
+			nbDays: 1
+		},
 		dateFilters: [
 			{ dateLabel: 'Today', nbDays: 0 },
 			{ dateLabel: 'Last 2 Days', nbDays: 1 },
@@ -10,7 +14,10 @@ const filters = {
 			{ dateLabel: 'Last 30 Days', nbDays: 31 },
 			{ dateLabel: 'Last 90 Days', nbDays: 90 }
 		],
-		envFilterSelected: { envLabel: 'All Env.', envId: 'ALL' },
+		envFilterSelected: {
+			envLabel: 'All Env.',
+			envId: 'ALL'
+		},
 		envFilters: [
 			{ envLabel: 'All Env.', envId: 'ALL' },
 			{ envLabel: 'Production', envId: 'PROD' },
@@ -110,12 +117,16 @@ const filters = {
 		},
 		whereConfFilter(state) {
 			let whereConfFilter = [];
-			if (state.accountFilterSelected.id != '000000') {
-				whereConfFilter.push(['account', '==', state.accountFilterSelected.id]);
+			const { filteredAccounts, envFilterSelected } = state;
+
+			if (filteredAccounts.length > 0) {
+				whereConfFilter.push(['account', 'in', state.filteredAccounts]);
+			} else {
+				whereConfFilter.push(['account', 'in', user.state.user.accounts]);
 			}
-			if (state.envFilterSelected.envId != 'ALL') {
-				whereConfFilter.push(['environment', '==', state.envFilterSelected.envId]);
-			}
+
+			if (envFilterSelected.envId !== 'ALL') whereConfFilter.push(['environment', '==', state.envFilterSelected.envId]);
+
 			return whereConfFilter;
 		}
 	}
