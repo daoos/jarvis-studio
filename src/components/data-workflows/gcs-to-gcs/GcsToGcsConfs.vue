@@ -288,7 +288,6 @@ export default {
 		...mapState({
 			isAuthenticated: state => state.user.isAuthenticated,
 			user: state => state.user.user,
-			settings: state => state.settings,
 			mirrorExcGcsToGcsConfs: state => state.mirrorExcGcsToGcsConfs.data
 		}),
 		...mapGetters(['periodFiltered', 'whereConfFilter']),

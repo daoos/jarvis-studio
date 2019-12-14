@@ -412,7 +412,6 @@ export default {
 		...mapState({
 			isAuthenticated: state => state.user.isAuthenticated,
 			user: state => state.user.user,
-			settings: state => state.settings,
 			dataTableDetails: state => state.dataTableDetails.data,
 			schemas: state => state.schemas.data
 		}),

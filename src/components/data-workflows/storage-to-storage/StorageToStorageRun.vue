@@ -101,7 +101,6 @@ export default {
 		...mapState({
 			isAuthenticated: state => state.user.isAuthenticated,
 			user: state => state.user.user,
-			settings: state => state.settings,
 			storageToStorageRuns: state => state.storageToStorageRuns.data
 		}),
 		runId() {

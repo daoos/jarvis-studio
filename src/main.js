@@ -3,6 +3,7 @@ import App from './App.vue';
 import index from '@/router';
 import store from '@/store/index';
 import vuetify from './plugins/vuetify';
+
 import firebase from 'firebase';
 
 Vue.config.productionTip = false;

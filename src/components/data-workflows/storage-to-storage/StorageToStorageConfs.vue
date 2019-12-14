@@ -289,7 +289,6 @@ export default {
 		...mapState({
 			isAuthenticated: state => state.user.isAuthenticated,
 			user: state => state.user.user,
-			settings: state => state.settings,
 			storageToStorageConfs: state => state.storageToStorageConfs.data
 		}),
 		...mapGetters(['periodFiltered', 'whereConfFilter']),
