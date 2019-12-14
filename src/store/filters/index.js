@@ -99,20 +99,29 @@ const filters = {
 		},
 		whereRunsFilter(state) {
 			let whereRunsFilter = [];
-			if (state.minDateFilter != undefined) {
-				whereRunsFilter.push(['dag_execution_date', '>=', state.minDateFilter]);
+
+			const { filteredAccounts, minDateFilter, envFilterSelected, runStatusFilterSelected } = state;
+
+			if (minDateFilter !== undefined) {
+				whereRunsFilter.push(['dag_execution_date', '>=', minDateFilter]);
 			} else {
-				['dag_execution_date', '>=', '2019-01-01T00:00:00.000Z'];
+				whereRunsFilter.push(['dag_execution_date', '>=', '2019-01-01T00:00:00.000Z']);
 			}
-			if (state.accountFilterSelected.id != '000000') {
-				whereRunsFilter.push(['account', '==', state.accountFilterSelected.id]);
+
+			if (filteredAccounts.length > 0) {
+				whereRunsFilter.push(['account', 'in', filteredAccounts]);
+			} else {
+				whereRunsFilter.push(['account', 'in', user.state.user.accounts]);
 			}
-			if (state.envFilterSelected.envId != 'ALL') {
-				whereRunsFilter.push(['environment', '==', state.envFilterSelected.envId]);
+
+			if (envFilterSelected.envId !== 'ALL') {
+				whereRunsFilter.push(['environment', '==', envFilterSelected.envId]);
 			}
-			if (state.runStatusFilterSelected.runStatusId != 'ALL') {
-				whereRunsFilter.push(['status', '==', state.runStatusFilterSelected.runStatusId]);
+
+			if (runStatusFilterSelected.runStatusId !== 'ALL') {
+				whereRunsFilter.push(['status', '==', runStatusFilterSelected.runStatusId]);
 			}
+
 			return whereRunsFilter;
 		},
 		whereConfFilter(state) {
@@ -120,7 +129,7 @@ const filters = {
 			const { filteredAccounts, envFilterSelected } = state;
 
 			if (filteredAccounts.length > 0) {
-				whereConfFilter.push(['account', 'in', state.filteredAccounts]);
+				whereConfFilter.push(['account', 'in', filteredAccounts]);
 			} else {
 				whereConfFilter.push(['account', 'in', user.state.user.accounts]);
 			}

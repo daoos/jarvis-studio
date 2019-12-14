@@ -258,7 +258,6 @@ export default {
 		},
 		async getFirestoreData() {
 			const where = this.whereConfFilter;
-			console.log(where);
 			this.$data.fetchAndAddStatus = 'Loading';
 			this.$data.moreToFetchAndAdd = false;
 			this.$data.isFetchAndAdding = true;
