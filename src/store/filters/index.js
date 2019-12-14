@@ -1,5 +1,4 @@
 import moment from 'moment';
-import user from '../user';
 
 const filters = {
 	state: {
@@ -97,10 +96,15 @@ const filters = {
 			}
 			return periodFiltered;
 		},
-		whereRunsFilter(state) {
+		// TODO: Add filteredAccounts filter
+		// TODO: Add minDate filter
+		// TODO: Add envFilterSelected filter
+		// TODO: Add runStatusFilterSelected filter
+		whereRunsFilter(state, getters, rootState) {
 			let whereRunsFilter = [];
 
 			const { filteredAccounts, minDateFilter, envFilterSelected, runStatusFilterSelected } = state;
+			const formattedFilteredAccounts = filteredAccounts.map(account => account.id);
 
 			if (minDateFilter !== undefined) {
 				whereRunsFilter.push(['dag_execution_date', '>=', minDateFilter]);
@@ -109,9 +113,9 @@ const filters = {
 			}
 
 			if (filteredAccounts.length > 0) {
-				whereRunsFilter.push(['account', 'in', filteredAccounts]);
+				whereRunsFilter.push(['account', 'in', formattedFilteredAccounts]);
 			} else {
-				whereRunsFilter.push(['account', 'in', user.state.user.accounts]);
+				whereRunsFilter.push(['account', 'in', rootState.user.user.accounts]);
 			}
 
 			if (envFilterSelected.envId !== 'ALL') {
@@ -124,14 +128,17 @@ const filters = {
 
 			return whereRunsFilter;
 		},
-		whereConfFilter(state) {
+		whereConfFilter(state, getters, rootState) {
+			// TODO: Add other filters
+
 			let whereConfFilter = [];
 			const { filteredAccounts, envFilterSelected } = state;
+			const formattedFilteredAccounts = filteredAccounts.map(account => account.id);
 
-			if (filteredAccounts.length > 0) {
-				whereConfFilter.push(['account', 'in', filteredAccounts]);
+			if (formattedFilteredAccounts.length > 0) {
+				whereConfFilter.push(['account', 'in', formattedFilteredAccounts]);
 			} else {
-				whereConfFilter.push(['account', 'in', user.state.user.accounts]);
+				whereConfFilter.push(['account', 'in', rootState.user.user.accounts]);
 			}
 
 			if (envFilterSelected.envId !== 'ALL') whereConfFilter.push(['environment', '==', state.envFilterSelected.envId]);

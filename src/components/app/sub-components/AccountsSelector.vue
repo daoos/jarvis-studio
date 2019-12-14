@@ -1,11 +1,11 @@
 <template>
 	<div class="accounts-selector-wrapper">
-		<!-- item-text="account_name" | return-object -->
-
 		<v-autocomplete
 			v-if="user"
 			v-model="selectedAccounts"
-			:items="user.accounts"
+			:items="Object.values(accounts)"
+			item-text="account_name"
+			return-object
 			label="Accounts"
 			no-data-text="No accounts available"
 			hide-details
@@ -14,8 +14,8 @@
 			chips
 		>
 			<template v-slot:selection="{ index, item }">
-				<span v-if="index === 0">{{ item }}</span>
-				<span v-if="index === 1" class="other-accounts caption">(+{{ selectedAccounts.length - 1 }} others)</span>
+				<span v-if="index === 0">{{ item.account_name }}</span>
+				<span v-if="index === 1" class="other-accounts caption">(+{{ filteredAccounts.length - 1 }} others)</span>
 			</template>
 		</v-autocomplete>
 	</div>
@@ -29,19 +29,23 @@ export default {
 	name: 'accounts-selector',
 	data() {
 		return {
-			isLoading: true,
-			selectedAccounts: []
+			isLoading: true
 		};
 	},
 	computed: {
 		...mapState({
 			accounts: state => state.accounts.data,
+			// TODO: Remove this & use selectedAccounts length in template
+			filteredAccounts: state => state.filters.filteredAccounts,
 			user: state => state.user.user
-		})
-	},
-	watch: {
-		selectedAccounts(accounts) {
-			store.dispatch('updateFilteredAccounts', accounts);
+		}),
+		selectedAccounts: {
+			get() {
+				return JSON.parse(localStorage.vuex).filters.filteredAccounts;
+			},
+			set(accounts) {
+				store.dispatch('updateFilteredAccounts', accounts);
+			}
 		}
 	}
 };
