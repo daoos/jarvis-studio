@@ -7,6 +7,7 @@ import user from './user';
 import filters from './filters';
 
 import VuexEasyFirestore from 'vuex-easy-firestore';
+import VuexPersist from 'vuex-persist';
 import easyFirestoreModules from './easy-firestore-modules';
 
 import { firebase, initFirebase } from '../firebase/firestore';
@@ -28,9 +29,17 @@ const easyFirestore = VuexEasyFirestore(easyFirestoreModules, {
 	preventInitialDocInsertion: true
 });
 
+const vuexLocalStorage = new VuexPersist({
+	key: 'vuex',
+	storage: window.localStorage,
+	reducer: state => ({
+		filters: state.filters
+	})
+});
+
 const store = new Vuex.Store({
 	modules: { user, filters },
-	plugins: [easyFirestore]
+	plugins: [easyFirestore, vuexLocalStorage.plugin]
 });
 
 export default store;
