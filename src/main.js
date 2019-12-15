@@ -7,22 +7,26 @@ import firebase from 'firebase';
 
 Vue.config.productionTip = false;
 
-new Vue({
-	router: index,
-	store,
-	vuetify,
-	render: h => h(App),
-	created() {
-		firebase.auth().onAuthStateChanged(user => {
-			if (user) {
-				this.$store.dispatch('autoSignIn', user);
-				//Load Accounts into the Store/accounts module to apply user access management
-				this.$store.dispatch('accounts/fetchAndAdd', { limit: 0 });
-				//Load Schemas into the Store/schemas module to validate the schema of the different JSON Object in Firestore
-				this.$store.dispatch('schemas/fetchAndAdd', { limit: 0 });
-			} else {
-				this.$store.dispatch('userSignOut');
-			}
-		});
+let app = null;
+
+firebase.auth().onAuthStateChanged(user => {
+	if (user) {
+		store.dispatch('autoSignIn', user);
+		//Load Accounts into the Store/accounts module to apply user access management
+		store.dispatch('accounts/fetchAndAdd', { limit: 0 });
+		//Load Schemas into the Store/schemas module to validate the schema of the different JSON Object in Firestore
+		store.dispatch('schemas/fetchAndAdd', { limit: 0 });
+	} else {
+		// TODO: Redirect to logout page once created
+		store.dispatch('userSignOut');
 	}
-}).$mount('#app');
+
+	if (!app) {
+		app = new Vue({
+			router: index,
+			store,
+			vuetify,
+			render: h => h(App)
+		}).$mount('#app');
+	}
+});

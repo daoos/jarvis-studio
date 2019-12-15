@@ -58,8 +58,7 @@ export default {
 			clipped: false,
 			fixed: true,
 			permanent: true,
-			mini: false,
-			temporary: false
+			mini: false
 		},
 		showNotifications: false,
 		analyticsItems: analyticsItems,
@@ -89,11 +88,9 @@ export default {
 			if (isUp) {
 				this.navigationDrawer.open = true;
 				this.navigationDrawer.permanent = true;
-				this.navigationDrawer.temporary = false;
 			} else {
 				this.navigationDrawer.open = false;
 				this.navigationDrawer.permanent = false;
-				this.navigationDrawer.temporary = true;
 			}
 		}
 	}
