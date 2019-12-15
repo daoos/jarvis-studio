@@ -1,6 +1,5 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import router from '@/router';
 
 // Store modules
 import user from './user';
@@ -11,13 +10,11 @@ import VuexPersist from 'vuex-persist';
 import easyFirestoreModules from './easy-firestore-modules';
 
 import { firebase, initFirebase } from '../firebase/firestore';
-import { SIGN_IN } from '@/constants/router/routes-names';
 
 initFirebase().catch(error => {
 	// TODO: Redirect to error page (have to create one)
 	// Redirect user to a page stating an error occurred
 	// => (might be a connection error, or the app is open in another tab)
-	router.push({ name: SIGN_IN });
 	console.error(error);
 });
 

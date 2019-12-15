@@ -1,13 +1,9 @@
 <template>
 	<v-app>
-		<app-bar
-			v-if="!$route.meta.public"
-			@toggleNavigation="toggleNavigation"
-			@toggleNotifications="toggleNotifications"
-		/>
+		<app-bar v-if="isAuthenticated" @toggleNavigation="toggleNavigation" @toggleNotifications="toggleNotifications" />
 
 		<v-navigation-drawer
-			v-if="!$route.meta.public"
+			v-if="isAuthenticated"
 			v-model="navigationDrawer.open"
 			:fixed="navigationDrawer.fixed"
 			:clipped="navigationDrawer.clipped"
@@ -25,7 +21,7 @@
 			/>
 		</v-navigation-drawer>
 
-		<v-navigation-drawer v-if="!$route.meta.public" temporary :right="true" v-model="showNotifications" fixed app>
+		<v-navigation-drawer v-if="isAuthenticated" temporary :right="true" v-model="showNotifications" fixed app>
 			<notification-content :show-notifications="showNotifications" @closeNotifications="toggleNotifications" />
 		</v-navigation-drawer>
 
@@ -37,7 +33,7 @@
 			</transition>
 		</v-content>
 
-		<v-footer v-if="!$route.meta.public" class="menu" app dark>
+		<v-footer v-if="isAuthenticated" class="menu" app dark>
 			<footer-content />
 		</v-footer>
 	</v-app>
@@ -74,8 +70,7 @@ export default {
 	},
 	computed: {
 		...mapState({
-			isAuthenticated: state => state.user.isAuthenticated,
-			user: state => state.user.user
+			isAuthenticated: state => state.user.isAuthenticated
 		})
 	},
 	watch: {
