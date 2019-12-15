@@ -68,15 +68,21 @@
 		<v-list subheader>
 			<v-subheader v-if="!drawer.mini" class="text-uppercase">Settings</v-subheader>
 
-			<v-list-item v-for="setting in settingsItems" :key="setting.title" :to="setting.link">
-				<v-list-item-action>
-					<v-icon v-html="setting.icon" />
-				</v-list-item-action>
+			<template v-for="setting in settingsItems">
+				<v-list-item
+					v-if="!setting.hasOwnProperty('displayRule') || setting.displayRule"
+					:key="setting.title"
+					:to="setting.link"
+				>
+					<v-list-item-action>
+						<v-icon v-html="setting.icon" />
+					</v-list-item-action>
 
-				<v-list-item-content>
-					<v-list-item-title v-text="setting.title" />
-				</v-list-item-content>
-			</v-list-item>
+					<v-list-item-content>
+						<v-list-item-title v-text="setting.title" />
+					</v-list-item-content>
+				</v-list-item>
+			</template>
 		</v-list>
 	</div>
 </template>
