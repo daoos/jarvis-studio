@@ -70,7 +70,7 @@
 
 			<template v-for="setting in settingsItems">
 				<v-list-item
-					v-if="!setting.hasOwnProperty('displayRule') || setting.displayRule"
+					v-if="!setting.hasOwnProperty('displayRule') || setting.displayRule()"
 					:key="setting.title"
 					:to="setting.link"
 				>

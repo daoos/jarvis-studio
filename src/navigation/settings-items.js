@@ -12,8 +12,9 @@ export default [
 		title: 'Users',
 		icon: 'supervised_user_circle',
 		link: { name: USERS },
-		// TODO: Remove `store.getters.user` once Firebase & user are refactored
-		displayRule: store.getters.user && store.getters.user.studioRoles === SUPER_ADMIN
+		displayRule: () => {
+			return store.getters.user.studioRoles === SUPER_ADMIN.roleCode;
+		}
 	},
 	{
 		title: 'Accounts',
