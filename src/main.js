@@ -27,6 +27,5 @@ firebase.auth().onAuthStateChanged(user => {
 		store.dispatch('schemas/fetchAndAdd', { limit: 0 });
 	} else {
 		createApp();
-		// TODO: Redirect to logout page once created
 	}
 });

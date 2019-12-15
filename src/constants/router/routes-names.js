@@ -4,6 +4,7 @@ export const HOME = 'home';
 
 /* AUTH */
 export const SIGN_IN = 'SignIn';
+export const LOGOUT = 'Logout';
 
 /* DATA MODELS */
 export const DATA_TABLE_DETAILS = 'DataTableDetails';

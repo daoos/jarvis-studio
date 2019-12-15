@@ -1,14 +1,19 @@
-import guest from '@/router/middleware/guest';
+import auth from '@/router/middleware/auth';
 
-import { SIGN_IN } from '@/constants/router/routes-names';
+import { LOGOUT, SIGN_IN } from '@/constants/router/routes-names';
 
 export default [
 	{
 		path: '/sign-in',
 		name: SIGN_IN,
+		component: () => import(/* webpackChunkName: "auth/sign-in" */ '@/views/auth/SignIn')
+	},
+	{
+		path: '/logout',
+		name: LOGOUT,
 		meta: {
-			middleware: [guest]
+			middleware: [auth]
 		},
-		component: () => import(/* webpackChunkName: "auth/sign-in" */ '@/views/auth/SignIn.vue')
+		component: () => import(/* webpackChunkName: "auth/sign-in" */ '@/views/auth/Logout')
 	}
 ];

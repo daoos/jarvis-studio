@@ -18,7 +18,7 @@
 		<v-menu offset-y origin="center center" :nudge-bottom="10" transition="scale-transition">
 			<template v-slot:activator="{ on }">
 				<v-btn icon large v-on="on">
-					<v-avatar v-if="isAuthenticated && user.photoURL != null" size="32px">
+					<v-avatar v-if="isAuthenticated && user && user.photoURL != null" size="32px">
 						<img :src="user.photoURL" :alt="user.displayName" />
 					</v-avatar>
 
@@ -35,7 +35,6 @@
 					:to="item.link"
 					:disabled="item.disabled"
 					:target="item.target"
-					@click="item.click"
 					rel="noopener"
 				>
 					<v-list-item-action>

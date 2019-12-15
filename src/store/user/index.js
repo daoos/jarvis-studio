@@ -14,6 +14,8 @@ const userData = {
 				.auth()
 				.currentUser.getIdTokenResult()
 				.then(idTokenResult => {
+					if (!state.user) return;
+
 					if (idTokenResult.claims == null || idTokenResult.claims.accounts == null) {
 						state.user.accounts = [];
 					} else {
@@ -85,19 +87,10 @@ const userData = {
 			commit('setIsAuthenticated', true);
 		},
 		userSignOut({ commit }) {
-			firebase
-				.auth()
-				.signOut()
-				.then(() => {
-					commit('setUser', null);
-					commit('setIsAuthenticated', false);
-					router.push({ name: SIGN_IN });
-				})
-				.catch(() => {
-					commit('setUser', null);
-					commit('setIsAuthenticated', false);
-					router.push({ name: SIGN_IN });
-				});
+			commit('setUser', null);
+			commit('setIsAuthenticated', false);
+			router.push({ name: SIGN_IN });
+			firebase.auth().signOut();
 		}
 		// userAddAdminRole({ commit }, email) {
 		//   const addAdminRole = firebase.functions().httpsCallable("addAdminRole");
