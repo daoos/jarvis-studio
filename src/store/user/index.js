@@ -85,17 +85,18 @@ const userData = {
 			commit('setIsAuthenticated', true);
 		},
 		userSignOut({ commit }) {
-			router.push({ name: SIGN_IN });
 			firebase
 				.auth()
 				.signOut()
 				.then(() => {
 					commit('setUser', null);
 					commit('setIsAuthenticated', false);
+					router.push({ name: SIGN_IN });
 				})
 				.catch(() => {
 					commit('setUser', null);
 					commit('setIsAuthenticated', false);
+					router.push({ name: SIGN_IN });
 				});
 		}
 		// userAddAdminRole({ commit }, email) {

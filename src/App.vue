@@ -1,29 +1,33 @@
 <template>
 	<v-app>
-		<app-bar v-if="isAuthenticated" @toggleNavigation="toggleNavigation" @toggleNotifications="toggleNotifications" />
+		<template v-if="isAuthenticated">
+			<app-bar @toggleNavigation="toggleNavigation" @toggleNotifications="toggleNotifications" />
 
-		<v-navigation-drawer
-			v-if="isAuthenticated"
-			v-model="navigationDrawer.open"
-			:fixed="navigationDrawer.fixed"
-			:clipped="navigationDrawer.clipped"
-			:permanent="navigationDrawer.permanent"
-			:mini-variant="navigationDrawer.mini"
-			app
-			dark
-			class="menu"
-			width="300"
-		>
-			<navigation-content
-				:drawer="navigationDrawer"
-				:analytics-items="analyticsItems"
-				:settings-items="settingsItems"
-			/>
-		</v-navigation-drawer>
+			<v-navigation-drawer
+				v-model="showNavigation"
+				:permanent="navigationDrawer.permanent"
+				:mini-variant="navigationDrawer.mini"
+				fixed
+				app
+				dark
+				class="menu"
+				width="300"
+			>
+				<navigation-content
+					:drawer="navigationDrawer"
+					:analytics-items="analyticsItems"
+					:settings-items="settingsItems"
+				/>
+			</v-navigation-drawer>
 
-		<v-navigation-drawer v-if="isAuthenticated" temporary :right="true" v-model="showNotifications" fixed app>
-			<notification-content :show-notifications="showNotifications" @closeNotifications="toggleNotifications" />
-		</v-navigation-drawer>
+			<v-navigation-drawer temporary :right="true" v-model="showNotifications" fixed app>
+				<notification-content :show-notifications="showNotifications" @closeNotifications="toggleNotifications" />
+			</v-navigation-drawer>
+
+			<v-footer v-if="isAuthenticated" class="menu" app dark>
+				<footer-content />
+			</v-footer>
+		</template>
 
 		<v-content>
 			<transition name="fade" mode="out-in">
@@ -32,10 +36,6 @@
 				</keep-alive>
 			</transition>
 		</v-content>
-
-		<v-footer v-if="isAuthenticated" class="menu" app dark>
-			<footer-content />
-		</v-footer>
 	</v-app>
 </template>
 
@@ -54,12 +54,10 @@ export default {
 	components: { AppBar, FooterContent, NavigationContent, NotificationContent },
 	data: () => ({
 		navigationDrawer: {
-			open: true,
-			clipped: false,
-			fixed: true,
 			permanent: true,
 			mini: false
 		},
+		showNavigation: true,
 		showNotifications: false,
 		analyticsItems: analyticsItems,
 		settingsItems: settingsItems
@@ -79,17 +77,15 @@ export default {
 	},
 	methods: {
 		toggleNavigation() {
-			this.navigationDrawer.open = !this.navigationDrawer.open;
+			this.showNavigation = !this.showNavigation;
 		},
 		toggleNotifications() {
 			this.showNotifications = !this.showNotifications;
 		},
 		makeNavigationResponsive(isUp) {
 			if (isUp) {
-				this.navigationDrawer.open = true;
 				this.navigationDrawer.permanent = true;
 			} else {
-				this.navigationDrawer.open = false;
 				this.navigationDrawer.permanent = false;
 			}
 		}
