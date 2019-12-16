@@ -2,6 +2,8 @@ import { PROFILE, USERS, ACCOUNTS, CLOUD_FUNCTIONS } from '@/constants/router/ro
 import { SUPER_ADMIN } from '@/constants/user/roles';
 import store from '@/store';
 
+const isSuperAdminRule = () => store.getters.user.studioRoles === SUPER_ADMIN.roleCode;
+
 export default [
 	{
 		title: 'Profile',
@@ -12,9 +14,7 @@ export default [
 		title: 'Users',
 		icon: 'supervised_user_circle',
 		link: { name: USERS },
-		displayRule: () => {
-			return store.getters.user.studioRoles === SUPER_ADMIN.roleCode;
-		}
+		displayRule: isSuperAdminRule
 	},
 	{
 		title: 'Accounts',
@@ -24,6 +24,7 @@ export default [
 	{
 		title: 'Cloud Function Configurations',
 		icon: 'settings_ethernet',
-		link: { name: CLOUD_FUNCTIONS }
+		link: { name: CLOUD_FUNCTIONS },
+		displayRule: isSuperAdminRule
 	}
 ];

@@ -25,7 +25,7 @@ export default [
 	{
 		path: `/${SETTINGS}/cloud-functions`,
 		name: CLOUD_FUNCTIONS,
-		meta: { middleware: [auth] },
+		meta: { middleware: [auth, superAdmin] },
 		component: () => import(/* webpackChunkName: "settings/cloud-functions" */ '@/views/settings/CloudFunctions.vue')
 	}
 ];
