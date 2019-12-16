@@ -30,11 +30,13 @@
 			<v-icon>add</v-icon>
 		</v-btn>
 
+		<v-btn fab bottom right color="blue" dark fixed @click="dialog = !dialog">
+			<v-icon>add</v-icon>
+		</v-btn>
+
 		<v-dialog v-model="dialog" width="800px">
 			<v-card>
-				<v-card-title class="black lighten-4 py-4 title">
-					Create Account
-				</v-card-title>
+				<v-card-title class="black lighten-4 py-4 title">Create Account</v-card-title>
 				<v-container class="pa-4">
 					<v-row>
 						<v-col cols="6">

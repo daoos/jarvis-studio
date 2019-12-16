@@ -19,7 +19,8 @@ export default [
 	{
 		title: 'Accounts',
 		icon: 'business',
-		link: { name: ACCOUNTS }
+		link: { name: ACCOUNTS },
+		displayRule: isSuperAdminRule
 	},
 	{
 		title: 'Cloud Function Configurations',

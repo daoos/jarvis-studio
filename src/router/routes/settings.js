@@ -19,7 +19,7 @@ export default [
 	{
 		path: `/${SETTINGS}/accounts`,
 		name: ACCOUNTS,
-		meta: { middleware: [auth, hasAccount] },
+		meta: { middleware: [auth, hasAccount, superAdmin] },
 		component: () => import(/* webpackChunkName: "settings/accounts" */ '@/views/settings/Accounts.vue')
 	},
 	{
