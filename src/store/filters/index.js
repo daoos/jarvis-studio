@@ -129,7 +129,7 @@ const filters = {
 			return whereRunsFilter;
 		},
 		whereConfFilter(state, getters, rootState) {
-			// TODO: Add other filters
+			// TODO: Add status filter (activated)
 
 			let whereConfFilter = [];
 			const { filteredAccounts, envFilterSelected } = state;

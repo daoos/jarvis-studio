@@ -1,6 +1,6 @@
 <template>
 	<v-app>
-		<template v-if="isAuthenticated">
+		<template v-if="showLayout">
 			<app-bar @toggleNavigation="toggleNavigation" @toggleNotifications="toggleNotifications" />
 
 			<v-navigation-drawer
@@ -24,7 +24,7 @@
 				<notification-content :show-notifications="showNotifications" @closeNotifications="toggleNotifications" />
 			</v-navigation-drawer>
 
-			<v-footer v-if="isAuthenticated" class="menu" app dark>
+			<v-footer class="menu" app dark>
 				<footer-content />
 			</v-footer>
 		</template>
@@ -45,7 +45,7 @@ import FooterContent from './components/app/FooterContent';
 import NavigationContent from './components/app/NavigationContent';
 import NotificationContent from './components/app/NotificationContent';
 
-import { mapState } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 import analyticsItems from './navigation/analytics-items';
 import settingsItems from './navigation/settings-items';
 
@@ -68,7 +68,11 @@ export default {
 	computed: {
 		...mapState({
 			isAuthenticated: state => state.user.isAuthenticated
-		})
+		}),
+		...mapGetters(['getUserAccounts']),
+		showLayout() {
+			return this.isAuthenticated && this.getUserAccounts.length > 0;
+		}
 	},
 	watch: {
 		'$vuetify.breakpoint.lgAndUp'(isUp) {

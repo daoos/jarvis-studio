@@ -1,4 +1,4 @@
-import { auth } from '@/router/middleware';
+import { auth, hasAccount } from '@/router/middleware';
 
 import { DATA_WORKFLOWS } from '@/constants/router/paths-prefixes';
 import { VM_LAUNCHER } from '@/constants/data-workflows/names';
@@ -12,7 +12,7 @@ export default [
 	{
 		path: `/${DATA_WORKFLOWS}/${VM_LAUNCHER}/${RUNS}`,
 		name: VM_LAUNCHER_RUNS_LISTING,
-		meta: { middleware: [auth] },
+		meta: { middleware: [auth, hasAccount] },
 		component: () =>
 			import(
 				/* webpackChunkName: "/data-workflows/vm-launcher/runs/listing" */ '@/views/data-workflows/vm-launcher/VmLauncherRuns.vue'
@@ -26,7 +26,7 @@ export default [
 	{
 		path: `/${DATA_WORKFLOWS}/${VM_LAUNCHER}/${CONFIGURATIONS}`,
 		name: VM_LAUNCHER_CONFIGURATIONS_LISTING,
-		meta: { middleware: [auth] },
+		meta: { middleware: [auth, hasAccount] },
 		component: () =>
 			import(
 				/* webpackChunkName: "/data-workflows/vm-launcher/configurations/listing" */ '@/views/data-workflows/vm-launcher/VmLauncherConfs.vue'

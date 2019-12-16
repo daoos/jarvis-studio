@@ -1,6 +1,7 @@
 /* APP */
-export const NOT_FOUND = 'not-found';
 export const HOME = 'home';
+export const NO_ACCOUNT = 'no-account';
+export const NOT_FOUND = 'not-found';
 
 /* AUTH */
 export const SIGN_IN = 'SignIn';

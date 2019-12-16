@@ -1,4 +1,4 @@
-import { auth } from '@/router/middleware';
+import { auth, hasAccount } from '@/router/middleware';
 
 import { DATA_WORKFLOWS } from '@/constants/router/paths-prefixes';
 import { STORAGE_TO_STORAGE } from '@/constants/data-workflows/names';
@@ -17,7 +17,7 @@ export default [
 	{
 		path: `/${DATA_WORKFLOWS}/${STORAGE_TO_STORAGE}/${RUNS}`,
 		name: STORAGE_TO_STORAGE_RUNS_LISTING,
-		meta: { middleware: [auth] },
+		meta: { middleware: [auth, hasAccount] },
 		component: () =>
 			import(
 				/* webpackChunkName: "/data-workflows/storage-to-storage/runs/listing" */ '@/views/data-workflows/storage-to-storage/StorageToStorageRuns.vue'
@@ -27,7 +27,7 @@ export default [
 		// TODO: Rename param to :id
 		path: `/${DATA_WORKFLOWS}/${STORAGE_TO_STORAGE}/${RUNS}/:runId`,
 		name: STORAGE_TO_STORAGE_RUNS_ITEM,
-		meta: { middleware: [auth] },
+		meta: { middleware: [auth, hasAccount] },
 		component: () =>
 			import(
 				/* webpackChunkName: "/data-workflows/storage-to-storage/run/item" */ '@/views/data-workflows/storage-to-storage/StorageToStorageRun.vue'
@@ -40,7 +40,7 @@ export default [
 	{
 		path: `/${DATA_WORKFLOWS}/${STORAGE_TO_STORAGE}/${CONFIGURATIONS}`,
 		name: STORAGE_TO_STORAGE_CONFIGURATIONS_LISTING,
-		meta: { middleware: [auth] },
+		meta: { middleware: [auth, hasAccount] },
 		component: () =>
 			import(
 				/* webpackChunkName: "/data-workflows/storage-to-storage/configurations/listing" */ '@/views/data-workflows/storage-to-storage/StorageToStorageConfs.vue'
@@ -50,7 +50,7 @@ export default [
 		// TODO: Rename param to :id
 		path: `/${DATA_WORKFLOWS}/${STORAGE_TO_STORAGE}/${CONFIGURATIONS}/:confId`,
 		name: STORAGE_TO_STORAGE_CONFIGURATIONS_ITEM,
-		meta: { middleware: [auth] },
+		meta: { middleware: [auth, hasAccount] },
 		component: () =>
 			import(
 				/* webpackChunkName: "/data-workflows/storage-to-storage/configurations/item" */ '@/views/data-workflows/storage-to-storage/StorageToStorageConf.vue'

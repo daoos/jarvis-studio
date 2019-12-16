@@ -1,4 +1,4 @@
-import { auth } from '@/router/middleware';
+import { auth, hasAccount } from '@/router/middleware';
 
 import { DATA_WORKFLOWS } from '@/constants/router/paths-prefixes';
 import { TABLES_TO_TABLES } from '@/constants/data-workflows/names';
@@ -17,7 +17,7 @@ export default [
 	{
 		path: `/${DATA_WORKFLOWS}/${TABLES_TO_TABLES}/${RUNS}`,
 		name: TABLES_TO_TABLES_RUNS_LISTING,
-		meta: { middleware: [auth] },
+		meta: { middleware: [auth, hasAccount] },
 		component: () =>
 			import(
 				/* webpackChunkName: "/data-workflows/tables-to-tables/runs/listing" */ '@/views/data-workflows/tables-to-tables/TablesToTablesRuns.vue'
@@ -27,7 +27,7 @@ export default [
 		// TODO: Rename param to :id
 		path: `/${DATA_WORKFLOWS}/${TABLES_TO_TABLES}/${RUNS}/:pathId`,
 		name: TABLES_TO_TABLES_RUNS_ITEM,
-		meta: { middleware: [auth] },
+		meta: { middleware: [auth, hasAccount] },
 		component: () =>
 			import(
 				/* webpackChunkName: "/data-workflows/tables-to-tables/runs/item" */ '@/views/data-workflows/tables-to-tables/TablesToTablesRun.vue'
@@ -40,7 +40,7 @@ export default [
 	{
 		path: `/${DATA_WORKFLOWS}/${TABLES_TO_TABLES}/${CONFIGURATIONS}`,
 		name: TABLES_TO_TABLES_CONFIGURATIONS_LISTING,
-		meta: { middleware: [auth] },
+		meta: { middleware: [auth, hasAccount] },
 		component: () =>
 			import(
 				/* webpackChunkName: "/data-workflows/tables-to-tables/configurations/listing" */ '@/views/data-workflows/tables-to-tables/TablesToTablesConfs.vue'
@@ -50,7 +50,7 @@ export default [
 		// TODO: Rename param to :id
 		path: `/${DATA_WORKFLOWS}/${TABLES_TO_TABLES}/${CONFIGURATIONS}/:confId`,
 		name: TABLES_TO_TABLES_CONFIGURATIONS_ITEM,
-		meta: { middleware: [auth] },
+		meta: { middleware: [auth, hasAccount] },
 		component: () =>
 			import(
 				/* webpackChunkName: "/data-workflows/tables-to-tables/configurations/item" */ '@/views/data-workflows/tables-to-tables/TablesToTablesConf.vue'

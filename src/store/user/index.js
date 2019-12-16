@@ -118,6 +118,9 @@ const userData = {
 		},
 		user(state) {
 			return state.user;
+		},
+		getUserAccounts(state) {
+			return state.user.accounts;
 		}
 	}
 };

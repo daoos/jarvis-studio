@@ -5,7 +5,7 @@
 			:items="getItems"
 			item-text="account_name"
 			return-object
-			label="Accounts"
+			:label="selectedAccounts.length === 0 ? 'All Accounts' : 'Accounts'"
 			no-data-text="No accounts available"
 			hide-details
 			small-chips
