@@ -2,6 +2,7 @@ import {
 	GCS_TO_GCS_RUNS_LISTING,
 	STORAGE_TO_STORAGE_RUNS_LISTING,
 	STORAGE_TO_TABLE_RUNS_LISTING,
+	STORAGE_TO_TABLES_RUNS_LISTING,
 	TABLES_TO_TABLES_RUNS_LISTING,
 	GBQ_TO_GCS_RUNS_LISTING,
 	TABLE_TO_STORAGE_RUNS_LISTING,
@@ -29,6 +30,13 @@ export default [
 		title: 'Storage to Table',
 		link: {
 			name: STORAGE_TO_TABLE_RUNS_LISTING
+		}
+	},
+	{
+		icon: 'post_add',
+		title: 'Storage to Tables',
+		link: {
+			name: STORAGE_TO_TABLES_RUNS_LISTING
 		}
 	},
 	{

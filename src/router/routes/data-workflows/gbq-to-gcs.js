@@ -19,7 +19,7 @@ export default [
 		},
 		component: () =>
 			import(
-				/* webpackChunkName: "/data-workflows/gbq-to-gcs/runs/listing" */ '@/views/data-workflows/gbq-to-gcs/GbqToGcsRuns.vue'
+				/* webpackChunkName: "/data-workflows/gbq-to-gcs/runs/listing" */ '@/views/data-workflows/gbq-to-gcs/RunsView.vue'
 			)
 	},
 	// TODO: Create run view

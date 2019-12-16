@@ -20,7 +20,7 @@ export default [
 		},
 		component: () =>
 			import(
-				/* webpackChunkName: "/data-workflows/table-to-storage/runs/listing" */ '@/views/data-workflows/table-to-storage/run/ListingView.vue'
+				/* webpackChunkName: "/data-workflows/table-to-storage/runs/listing" */ '@/views/data-workflows/table-to-storage/run/ListingView'
 			)
 	},
 	{
@@ -30,9 +30,7 @@ export default [
 			authRequired: true
 		},
 		component: () =>
-			import(
-				/* webpackChunkName: "/data-workflows/table-to-storage/runs/item" */ '@/views/data-workflows/table-to-storage/run/ItemView'
-			)
+			import(/* webpackChunkName: "tabletostoragerun" */ '@/views/data-workflows/table-to-storage/run/ItemView')
 	},
 
 	/**
@@ -46,19 +44,18 @@ export default [
 		},
 		component: () =>
 			import(
-				/* webpackChunkName: "/data-workflows/table-to-storage/configurations/listing" */ '@/views/data-workflows/table-to-storage/ConfigurationsView.vue'
+				/* webpackChunkName: "/data-workflows/table-to-storage/configurations/listing" */ '@/views/data-workflows/table-to-storage/ConfigurationsView'
 			)
 	},
 	{
-		// TODO: Rename param to :id
-		path: `/${DATA_WORKFLOWS}/${TABLE_TO_STORAGE}/${CONFIGURATIONS}/:confId`,
+		path: `/${DATA_WORKFLOWS}/${TABLE_TO_STORAGE}/${CONFIGURATIONS}/:id`,
 		name: TABLE_TO_STORAGE_CONFIGURATIONS_ITEM,
 		meta: {
 			authRequired: true
 		},
 		component: () =>
 			import(
-				/* webpackChunkName: "/data-workflows/table-to-storage/configurations/item" */ '@/views/data-workflows/table-to-storage/ConfigurationView.vue'
+				/* webpackChunkName: "/data-workflows/table-to-storage/configurations/item" */ '@/views/data-workflows/table-to-storage/ConfigurationView'
 			)
 	}
 ];
