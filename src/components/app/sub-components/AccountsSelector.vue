@@ -1,7 +1,6 @@
 <template>
 	<div class="accounts-selector-wrapper">
 		<v-autocomplete
-			v-if="user"
 			v-model="selectedAccounts"
 			:items="getItems"
 			item-text="account_name"
@@ -39,19 +38,19 @@ export default {
 			user: state => state.user.user
 		}),
 		getItems() {
-			let arr = [];
+			let items = [];
 
 			this.user.accounts.forEach(id => {
 				const element = this.accounts[id];
-				if (element) arr.push(element);
+				if (element) items.push(element);
 			});
 
-			return arr;
-		},
-		watch: {
-			selectedAccounts(accounts) {
-				store.dispatch('updateFilteredAccounts', accounts);
-			}
+			return items;
+		}
+	},
+	watch: {
+		selectedAccounts(accounts) {
+			store.dispatch('updateFilteredAccounts', accounts);
 		}
 	}
 };
