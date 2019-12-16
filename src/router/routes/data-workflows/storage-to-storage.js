@@ -1,4 +1,4 @@
-import auth from '@/router/middleware/auth';
+import { auth } from '@/router/middleware';
 
 import { DATA_WORKFLOWS } from '@/constants/router/paths-prefixes';
 import { STORAGE_TO_STORAGE } from '@/constants/data-workflows/names';

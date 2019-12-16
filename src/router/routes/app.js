@@ -1,4 +1,4 @@
-import auth from '@/router/middleware/auth';
+import { auth } from '@/router/middleware';
 
 import { NOT_FOUND, HOME } from '@/constants/router/routes-names';
 

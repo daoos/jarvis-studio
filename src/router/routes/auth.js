@@ -1,4 +1,4 @@
-import auth from '@/router/middleware/auth';
+import { auth } from '@/router/middleware';
 
 import { LOGOUT, SIGN_IN } from '@/constants/router/routes-names';
 

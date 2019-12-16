@@ -1,4 +1,4 @@
-import auth from '@/router/middleware/auth';
+import { auth } from '@/router/middleware';
 
 import { DATA_MODELS } from '@/constants/router/paths-prefixes';
 import { DATA_TABLE_DETAILS } from '@/constants/router/routes-names';

@@ -1,5 +1,4 @@
-import auth from '@/router/middleware/auth';
-import superAdmin from '@/router/middleware/user/super-admin';
+import { auth, superAdmin } from '@/router/middleware';
 
 import { SETTINGS } from '@/constants/router/paths-prefixes';
 import { PROFILE, USERS, ACCOUNTS, CLOUD_FUNCTIONS } from '@/constants/router/routes-names';
