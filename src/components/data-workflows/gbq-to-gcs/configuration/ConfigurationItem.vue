@@ -81,7 +81,7 @@ export default {
 			];
 		},
 		confId() {
-			return this.$route.params.confId;
+			return this.$route.params.id;
 		},
 		...mapState({
 			getGbqToGcsConfs: state => state.getGbqToGcsConfs.data

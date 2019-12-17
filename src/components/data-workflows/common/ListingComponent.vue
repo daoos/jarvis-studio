@@ -87,10 +87,6 @@ export default {
 			type: String,
 			required: true
 		},
-		routeName: {
-			type: String,
-			required: true
-		},
 		headers: {
 			type: Array,
 			required: true

@@ -1,12 +1,7 @@
 <template>
 	<div>
 		<DataManagementHeader :tabsItems="tabsItems" />
-		<listing-component
-			:module-name="moduleName"
-			:route-name="routeName"
-			:headers="headers"
-			:overridden-columns="overriddenColumns"
-		>
+		<listing-component :module-name="moduleName" :headers="headers" :overridden-columns="overriddenColumns">
 			<template v-slot:id="{ item: { id } }">
 				<router-link :to="{ name: routeName, params: { id } }">
 					<span class="font-weight-medium">{{ id }}</span>
