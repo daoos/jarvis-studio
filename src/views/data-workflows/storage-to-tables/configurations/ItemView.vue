@@ -7,7 +7,7 @@
 
 <script>
 import DataManagementHeader from '../../../../components/app/headers/DataManagementHeader';
-import RunsItem from '@/components/data-workflows/common/runs/RunsItem';
+import RunsItem from '@/components/data-workflows/common/ItemComponent';
 
 import TabsItemsMixin from '../tabs-items';
 import GetItemMixin from '@/mixins/get-item-mixin';

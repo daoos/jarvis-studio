@@ -19,9 +19,9 @@
 </template>
 
 <script>
-import OverviewComponent from '../OverviewComponent';
-import ViewJson from '../../../common/ViewJson';
-import ViewConversation from '../ViewConversation';
+import OverviewComponent from './OverviewComponent';
+import ViewJson from '../../common/ViewJson';
+import ViewConversation from './ViewConversation';
 
 export default {
 	name: 'runs-item',

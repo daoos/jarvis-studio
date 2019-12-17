@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import RunsItem from '@/components/data-workflows/common/runs/RunsItem';
+import RunsItem from '@/components/data-workflows/common/ItemComponent';
 import DataManagementHeader from '@/components/app/headers/DataManagementHeader';
 
 import TabsItemsMixin from '../tabs-items';
