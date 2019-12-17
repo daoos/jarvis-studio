@@ -10,11 +10,11 @@ import RunsItem from '@/components/data-workflows/common/ItemComponent';
 import DataManagementHeader from '@/components/app/headers/DataManagementHeader';
 
 import TabsItemsMixin from '../tabs-items';
-import GetItemMixin from '@/mixins/get-item-mixin';
+import ItemMixin from '@/mixins/data-workflows/item-mixin';
 
 export default {
 	components: { RunsItem, DataManagementHeader },
-	mixins: [TabsItemsMixin, GetItemMixin],
+	mixins: [TabsItemsMixin, ItemMixin],
 	data: () => ({
 		item: null,
 		moduleName: 'tableToStorageRuns'

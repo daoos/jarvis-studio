@@ -1,13 +1,18 @@
-import { mapState } from 'vuex';
-import store from '@/store';
-
 /**
  * To use this mixin, parent component has to define `moduleName` in data.
  * It will fetch module name information depending url `id` parameter.
  */
 
+import DataManagementHeader from '@/components/app/headers/DataManagementHeader';
+import ItemComponent from '@/components/data-workflows/common/ItemComponent';
+
+import { mapState } from 'vuex';
+import store from '@/store';
+
 export default {
+	components: { DataManagementHeader, ItemComponent },
 	data: () => ({
+		item: null,
 		isLoading: true
 	}),
 	mounted() {

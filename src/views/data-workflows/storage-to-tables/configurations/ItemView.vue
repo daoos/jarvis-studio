@@ -10,12 +10,12 @@ import DataManagementHeader from '../../../../components/app/headers/DataManagem
 import RunsItem from '@/components/data-workflows/common/ItemComponent';
 
 import TabsItemsMixin from '../tabs-items';
-import GetItemMixin from '@/mixins/get-item-mixin';
+import ItemMixin from '@/mixins/data-workflows/item-mixin';
 
 export default {
 	name: 'storage-to-tables-configurations-listing-view',
 	components: { DataManagementHeader, RunsItem },
-	mixins: [TabsItemsMixin, GetItemMixin],
+	mixins: [TabsItemsMixin, ItemMixin],
 	data: () => ({
 		item: null,
 		moduleName: 'storageToTablesConfs'
