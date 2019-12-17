@@ -1,6 +1,6 @@
 <template>
 	<v-container>
-		<v-data-table :headers="headers" :items="Object.values(getAccounts)" class="elevation-1">
+		<v-data-table :headers="headers" :items="getAccounts" class="elevation-1">
 			<template v-slot:items="props">
 				<td>{{ props.item['account_name'] }}</td>
 				<td>{{ props.item['id'] }}</td>
@@ -25,10 +25,6 @@
 				</v-card>
 			</v-col>
 		</v-row>
-
-		<v-btn fab bottom right color="blue" dark fixed @click="dialog = !dialog">
-			<v-icon>add</v-icon>
-		</v-btn>
 
 		<v-btn fab bottom right color="blue" dark fixed @click="dialog = !dialog">
 			<v-icon>add</v-icon>
@@ -72,8 +68,9 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import VueJsonPretty from 'vue-json-pretty';
-import { mapGetters } from 'vuex';
+import store from '@/store/index';
 
 export default {
 	name: 'accounts-component',
@@ -110,9 +107,9 @@ export default {
 		]
 	}),
 	computed: {
-		...mapGetters({
-			getAccounts: 'accounts/getAccounts'
-		})
+		getAccounts() {
+			return Object.values(store.state.accounts.data);
+		}
 	}
 };
 </script>
