@@ -13,19 +13,19 @@ export default [
 	{
 		path: `/${SETTINGS}/users`,
 		name: USERS,
-		meta: { middleware: [auth, hasAccount, superAdmin] },
+		meta: { middleware: [auth, superAdmin] },
 		component: () => import(/* webpackChunkName: "settings/users" */ '@/views/settings/Users.vue')
 	},
 	{
 		path: `/${SETTINGS}/accounts`,
 		name: ACCOUNTS,
-		meta: { middleware: [auth, hasAccount, superAdmin] },
+		meta: { middleware: [auth, superAdmin] },
 		component: () => import(/* webpackChunkName: "settings/accounts" */ '@/views/settings/Accounts.vue')
 	},
 	{
 		path: `/${SETTINGS}/cloud-functions`,
 		name: CLOUD_FUNCTIONS,
-		meta: { middleware: [auth, hasAccount, superAdmin] },
+		meta: { middleware: [auth, superAdmin] },
 		component: () => import(/* webpackChunkName: "settings/cloud-functions" */ '@/views/settings/CloudFunctions.vue')
 	}
 ];
