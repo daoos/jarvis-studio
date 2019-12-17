@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 import store from '@/store';
 
 export default {
@@ -37,10 +37,11 @@ export default {
 			accounts: state => state.accounts.data,
 			user: state => state.user.user
 		}),
+		...mapGetters(['getUserAccounts']),
 		getItems() {
 			let items = [];
 
-			this.user.accounts.forEach(id => {
+			this.getUserAccounts.forEach(id => {
 				const element = this.accounts[id];
 				if (element) items.push(element);
 			});

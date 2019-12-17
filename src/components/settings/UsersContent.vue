@@ -203,9 +203,6 @@ export default {
 		isFetchAndAdding: false,
 		snackbarParam: { message: '', show: false, color: 'info' }
 	}),
-	created() {
-		store.dispatch('accounts/fetchAndAdd');
-	},
 	mounted() {
 		this.listAllUsers();
 	},

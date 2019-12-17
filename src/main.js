@@ -23,7 +23,8 @@ const createApp = () => {
 firebase.auth().onAuthStateChanged(user => {
 	if (user) {
 		store.dispatch('autoSignIn', user).then(() => createApp());
-		store.dispatch('schemas/fetchAndAdd', { limit: 0 });
+		store.dispatch('accounts/fetchAndAdd');
+		store.dispatch('schemas/fetchAndAdd');
 	} else {
 		createApp();
 	}
