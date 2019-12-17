@@ -8,11 +8,22 @@
 				<p>Please contact your admin.</p>
 			</v-col>
 		</v-row>
+
+		<v-btn fab bottom right color="blue" dark fixed @click="logoutUser">
+			<v-icon>logout</v-icon>
+		</v-btn>
 	</v-container>
 </template>
 
 <script>
+import { LOGOUT } from '@/constants/router/routes-names';
+
 export default {
-	name: 'no-account'
+	name: 'no-account',
+	methods: {
+		logoutUser() {
+			this.$router.push({ name: LOGOUT });
+		}
+	}
 };
 </script>

@@ -53,19 +53,23 @@ const userData = {
 		},
 		userGoogleSignin({ commit }) {
 			const provider = new firebase.auth.GoogleAuthProvider();
-			firebase
-				.auth()
-				.signInWithPopup(provider)
-				.then(user => {
-					commit('setUser', user.user);
-					commit('setIsAuthenticated', true);
-					router.push({ name: HOME });
-				})
-				.catch(() => {
-					commit('setUser', null);
-					commit('setIsAuthenticated', false);
-					router.push({ name: SIGN_IN });
-				});
+
+			return new Promise(function(resolve, reject) {
+				firebase
+					.auth()
+					.signInWithPopup(provider)
+					.then(user => {
+						commit('setUser', user.user);
+						commit('setIsAuthenticated', true);
+						resolve(user.user);
+					})
+					.catch(e => {
+						commit('setUser', null);
+						commit('setIsAuthenticated', false);
+						console.error(e);
+						reject(e);
+					});
+			});
 		},
 		userSignup({ commit }, { email, password }) {
 			firebase
