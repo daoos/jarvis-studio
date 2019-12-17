@@ -125,6 +125,7 @@
 </template>
 
 <script>
+import store from '@/store';
 import firebase from 'firebase';
 import { mapState } from 'vuex';
 import { mapGetters } from 'vuex';
@@ -202,6 +203,9 @@ export default {
 		isFetchAndAdding: false,
 		snackbarParam: { message: '', show: false, color: 'info' }
 	}),
+	created() {
+		store.dispatch('accounts/fetchAndAdd');
+	},
 	mounted() {
 		this.listAllUsers();
 	},
