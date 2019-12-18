@@ -9,6 +9,12 @@
 			:sort-desc="true"
 			show-airflow-action
 		>
+			<template v-slot:gcs_triggering_file="{ item: { id, gcs_triggering_file } }">
+				<router-link :to="{ name: routeName, params: { id } }">
+					<span class="font-weight-medium">{{ gcs_triggering_file }}</span>
+				</router-link>
+			</template>
+
 			<template v-slot:status="{ item: { status } }">
 				<v-chip v-if="status" :color="getStatusColor(status)" text-color="white" small class="text-lowercase">
 					{{ status }}
@@ -26,8 +32,10 @@
 import DataManagementHeader from '@/components/app/headers/DataManagementHeader';
 import ListingComponent from '@/components/data-workflows/common/ListingComponent';
 
-import TabsItemsMixin from '../tab-items';
+import TabsItemsMixin from '../tabs-items';
+
 import { getStatusColor } from '@/util/data-workflows/run';
+import { GBQ_TO_GCS_RUNS_ITEM } from '@/constants/router/routes-names';
 
 export default {
 	name: 'gbq-to-gcs-runs-listing',
@@ -36,7 +44,7 @@ export default {
 	data() {
 		return {
 			moduleName: 'getGbqToGcsRuns',
-			overriddenColumns: ['status', 'dag_execution_date']
+			overriddenColumns: ['gcs_triggering_file', 'status', 'dag_execution_date']
 		};
 	},
 	methods: {
@@ -45,6 +53,9 @@ export default {
 		}
 	},
 	computed: {
+		routeName() {
+			return GBQ_TO_GCS_RUNS_ITEM;
+		},
 		headers() {
 			return [
 				{

@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<data-management-header :tabsItems="tabsItems" />
+		<DataManagementHeader :tabsItems="tabsItems" />
 		<item-component :tabs-items="itemTabsItems" :is-loading="isLoading" />
 	</div>
 </template>
@@ -10,14 +10,25 @@ import TabsItemsMixin from '../tabs-items';
 import ItemMixin from '@/mixins/data-workflows/item-mixin';
 
 export default {
-	name: 'gbq-to-gcs-configuration-item',
+	name: 'storage-to-tales-runs-listing-view',
 	mixins: [TabsItemsMixin, ItemMixin],
 	data: () => ({
-		moduleName: 'getGbqToGcsConfs'
+		item: null,
+		moduleName: 'getGbqToGcsRuns'
 	}),
 	computed: {
 		itemTabsItems() {
 			return [
+				{
+					label: 'Run Details',
+					href: 'run-details',
+					component: {
+						name: 'overview-component',
+						props: {
+							data: this.runDetailsData
+						}
+					}
+				},
 				{
 					label: 'Configuration',
 					href: 'configuration',
@@ -49,7 +60,7 @@ export default {
 				}
 			];
 		},
-		configurationData() {
+		runDetailsData() {
 			if (!this.item) return;
 
 			return [
@@ -57,11 +68,11 @@ export default {
 					component: 'view-header',
 					props: {
 						item: this.item,
-						collection: 'getGbqToGcsConfs',
 						activeHeader: true,
 						viewId: this.item.id,
-						viewType: 'conf',
-						description: null
+						viewType: 'run',
+						description: null,
+						runStatus: this.item.status
 					}
 				},
 				{
@@ -69,18 +80,8 @@ export default {
 					props: {
 						groupTitle: 'Context',
 						tooltip: true,
-						description: 'Context of the Storage to Storage configuration',
+						description: 'Context of the Table to Storage Run',
 						paramItems: [
-							{
-								id: 'configuration_type',
-								label: 'Configuration Type',
-								value: 'table-to-storage'
-							},
-							{
-								id: 'configuration_id',
-								label: 'Configuration ID',
-								value: this.item.id
-							},
 							{
 								id: 'account',
 								label: 'Account',
@@ -90,18 +91,103 @@ export default {
 								id: 'environment',
 								label: 'Environment',
 								value: this.item.environment
+							}
+						]
+					}
+				},
+				{
+					component: 'parameters-list',
+					props: {
+						groupTitle: 'Main parameters',
+						tooltip: true,
+						description: 'Main parameters of the Table to Storage Run',
+						paramItems: [
+							{
+								id: 'firestore_conf_doc_id',
+								label: 'Configuration Id',
+								value: this.item.firestore_conf_doc_id
 							},
 							{
-								id: 'activated',
-								label: 'Activated',
-								value: this.item.activated,
-								default: true
+								id: 'destination_bucket',
+								label: 'Destination Bucket',
+								value: this.item.destination_bucket
 							},
 							{
-								id: 'archive',
-								label: 'Archive',
-								value: this.item.archive,
-								default: false
+								id: 'output_filename',
+								label: 'Output Finame',
+								value: this.item.output_filename
+							}
+						]
+					}
+				},
+				{
+					component: 'parameters-list',
+					props: {
+						groupTitle: 'Run Details',
+						tooltip: true,
+						description: 'Details of the Table to Storage Run',
+						paramItems: [
+							{
+								id: 'dag_type',
+								label: 'Dag Type',
+								value: this.item.dag_type
+							},
+							{
+								id: 'job_id',
+								label: 'Job Id',
+								value: this.item.job_id
+							},
+							{
+								id: 'dag_execution_date',
+								label: 'Execution Date',
+								value: this.item.dag_execution_date
+							},
+							{
+								id: 'dag_run_id',
+								label: 'Dag Run Id',
+								value: this.item.dag_run_id
+							},
+							{
+								id: 'dag_generator_version',
+								label: 'Dag Generator Version',
+								value: this.item.dag_generator_version
+							}
+						]
+					}
+				}
+			];
+		},
+		configurationData() {
+			if (!this.item) return;
+
+			return [
+				{
+					component: 'view-header',
+					props: {
+						item: this.item,
+						activeHeader: false,
+						viewId: this.item.firestore_conf_doc_id,
+						viewType: 'run',
+						description: null,
+						runStatus: this.item.status
+					}
+				},
+				{
+					component: 'parameters-list',
+					props: {
+						groupTitle: 'Context',
+						tooltip: true,
+						description: 'Context of the Table to Storage configuration',
+						paramItems: [
+							{
+								id: 'account',
+								label: 'Account',
+								value: this.item.account
+							},
+							{
+								id: 'environment',
+								label: 'Environment',
+								value: this.item.environment
 							}
 						]
 					}
@@ -136,9 +222,9 @@ export default {
 						rows: [
 							{
 								source_type: 'GCS',
-								gcs_dest_bucket: this.item.gcs_dest_bucket,
-								gcs_dest_prefix: this.item.gcs_dest_prefix,
-								output_filename: this.item.output_filename
+								gcs_dest_bucket: this.item.configuration_context.gcs_dest_bucket,
+								gcs_dest_prefix: this.item.configuration_context.gcs_dest_prefix,
+								output_filename: this.item.configuration_context.output_filename
 							}
 						],
 						vflexLength: 'xs9',
@@ -156,19 +242,19 @@ export default {
 							{
 								id: 'compression',
 								label: 'Compressed',
-								value: this.item.compression,
+								value: this.item.configuration_context.compression,
 								default: 'None'
 							},
 							{
 								id: 'field_delimiter',
 								label: 'Field Delimiter',
-								value: this.item.field_delimiter,
+								value: this.item.configuration_context.field_delimiter,
 								default: '|'
 							},
 							{
 								id: 'delete_dest_bucket_content',
 								label: 'Delete Destination Storage Content',
-								value: this.item.delete_dest_bucket_content,
+								value: this.item.configuration_context.delete_dest_bucket_content,
 								default: false
 							}
 						]
@@ -184,21 +270,21 @@ export default {
 							{
 								id: 'gcp_project',
 								label: 'Bigquery Project ID',
-								value: this.item.gcp_project
+								value: this.item.configuration_context.gcp_project
 							},
 							{
 								id: '',
 								label: 'SQL File',
 								component: 'sql-viewer',
 								properties: {
-									id: this.item.id,
-									sqlBinary: this.item.sql
+									id: this.item.configuration_context.id,
+									sql: this.item.sql_query
 								}
 							},
 							{
 								id: 'copy_table',
 								label: 'Keep Table',
-								value: this.item.copy_table,
+								value: this.item.configuration_context.copy_table,
 								default: false
 							}
 						]
@@ -206,7 +292,7 @@ export default {
 				},
 				{
 					component: 'parameters-table',
-					displayCondition: this.item.copy_table,
+					displayCondition: this.item.configuration_context.copy_table,
 					props: {
 						tableTitle: 'Destination Table',
 						description: 'The Destination Table where the dataset will be keeped',
@@ -236,10 +322,10 @@ export default {
 						rows: [
 							{
 								source_type: 'BigQuery',
-								dest_gcp_project_id: this.item.dest_gcp_project_id,
-								dest_gbq_dataset: this.item.dest_gbq_dataset,
-								dest_gbq_table: this.item.dest_gbq_table,
-								dest_gbq_table_suffix: this.item.dest_gbq_table_suffix
+								dest_gcp_project_id: this.item.configuration_context.dest_gcp_project_id,
+								dest_gbq_dataset: this.item.configuration_context.dest_gbq_dataset,
+								dest_gbq_table: this.item.configuration_context.dest_gbq_table,
+								dest_gbq_table_suffix: this.item.configuration_context.dest_gbq_table_suffix
 							}
 						],
 						vflexLength: 'xs9',
@@ -248,45 +334,12 @@ export default {
 					}
 				},
 				{
-					component: 'parameters-table',
+					component: 'create-update-conf-overview',
 					props: {
-						tableTitle: 'Create / Update',
-						description: 'When and Who create / update the configuration',
-						columns: [
-							{
-								label: 'Update Date',
-								field: 'update_date',
-								type: 'date',
-								dateInputFormat: "yyyy-MM-dd'T'HH:mm:ss.SSSSSS", // expects 2018-03-16 yyyy-MM-dd'T'HH:mm:ss.SSSxxx
-								dateOutputFormat: 'yyyy-MM-dd HH:mm:ss' // outputs Mar 16th 2018
-							},
-							{
-								label: 'Updated By',
-								field: 'updated_by'
-							},
-							{
-								label: 'Creation Date',
-								field: 'creation_date',
-								type: 'date',
-								dateInputFormat: "yyyy-MM-dd'T'HH:mm:ss.SSSSSS", // expects 2018-03-16
-								dateOutputFormat: 'yyyy-MM-dd HH:mm:ss' // outputs Mar 16th 2018
-							},
-							{
-								label: 'Created By',
-								field: 'created_by'
-							}
-						],
-						rows: [
-							{
-								update_date: this.item.update_date,
-								updated_by: this.item.updated_by,
-								creation_date: this.item.creation_date,
-								created_by: this.item.created_by
-							}
-						],
-						vflexLength: 'xs9',
-						lineNumbers: false,
-						searchOptionsEnabled: 'false'
+						creationDate: this.item.configuration_context.creation_date,
+						updateDate: this.item.configuration_context.update_date,
+						createdBy: this.item.configuration_context.created_by,
+						updatedBy: this.item.configuration_context.updated_by
 					}
 				}
 			];

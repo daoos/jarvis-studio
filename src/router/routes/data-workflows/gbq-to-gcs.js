@@ -5,6 +5,7 @@ import { GBQ_TO_GCS } from '@/constants/data-workflows/names';
 import { RUNS, CONFIGURATIONS } from '@/constants/data-workflows/status';
 import {
 	GBQ_TO_GCS_RUNS_LISTING,
+	GBQ_TO_GCS_RUNS_ITEM,
 	GBQ_TO_GCS_CONFIGURATIONS_LISTING,
 	GBQ_TO_GCS_CONFIGURATIONS_ITEM
 } from '@/constants/router/routes-names';
@@ -22,7 +23,15 @@ export default [
 				/* webpackChunkName: "/data-workflows/gbq-to-gcs/runs/listing" */ '@/views/data-workflows/gbq-to-gcs/runs/ListingView.vue'
 			)
 	},
-	// TODO: Create run view
+	{
+		path: `/${DATA_WORKFLOWS}/${GBQ_TO_GCS}/${RUNS}/:id`,
+		name: GBQ_TO_GCS_RUNS_ITEM,
+		meta: { middleware: [auth, hasAccount] },
+		component: () =>
+			import(
+				/* webpackChunkName: "/data-workflows/gbq-to-gcs/runs/listing" */ '@/views/data-workflows/gbq-to-gcs/runs/ItemView.vue'
+			)
+	},
 
 	/**
 	 * CONFIGURATIONS

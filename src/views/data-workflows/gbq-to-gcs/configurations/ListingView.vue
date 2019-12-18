@@ -15,7 +15,7 @@
 import DataManagementHeader from '@/components/app/headers/DataManagementHeader';
 import ListingComponent from '@/components/data-workflows/common/ListingComponent';
 
-import TabsItemsMixin from '../tab-items';
+import TabsItemsMixin from '../tabs-items';
 
 import { GBQ_TO_GCS_CONFIGURATIONS_ITEM } from '@/constants/router/routes-names';
 import defaultHeaders from '@/constants/data-workflows/listing/default-headers';

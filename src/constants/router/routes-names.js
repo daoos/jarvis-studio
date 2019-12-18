@@ -37,7 +37,7 @@ export const TABLES_TO_TABLES_CONFIGURATIONS_LISTING = 'TablesToTablesConfs';
 export const TABLES_TO_TABLES_CONFIGURATIONS_ITEM = 'TablesToTablesConf';
 
 export const GBQ_TO_GCS_RUNS_LISTING = 'gbqToGcsRuns';
-// TODO: Create run constant
+export const GBQ_TO_GCS_RUNS_ITEM = 'gbqToGcsRun';
 export const GBQ_TO_GCS_CONFIGURATIONS_LISTING = 'gbqToGcsConfs';
 export const GBQ_TO_GCS_CONFIGURATIONS_ITEM = 'GbqToGcsConf';
 
