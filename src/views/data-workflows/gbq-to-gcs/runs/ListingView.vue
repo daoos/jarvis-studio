@@ -38,6 +38,15 @@ import TabsItemsMixin from '../tabs-items';
 import { RUNS } from '@/constants/data-workflows/status';
 import { GBQ_TO_GCS_RUNS_ITEM } from '@/constants/router/routes-names';
 import { getStatusColor } from '@/util/data-workflows/run';
+import {
+	ACCOUNT,
+	ENVIRONMENT,
+	DESTINATION_BUCKET,
+	GCS_TRIGGERING_FILE,
+	STATUS,
+	DAG_EXECUTION_DATE,
+	ACTIONS
+} from '@/constants/data-workflows/listing/header-items';
 
 export default {
 	name: 'gbq-to-gcs-runs-listing',
@@ -62,50 +71,7 @@ export default {
 			return GBQ_TO_GCS_RUNS_ITEM;
 		},
 		headers() {
-			return [
-				{
-					text: 'Account ID',
-					align: 'left',
-					sortable: true,
-					value: 'account'
-				},
-				{
-					text: 'Environnement',
-					align: 'left',
-					sortable: true,
-					value: 'environment'
-				},
-				{
-					text: 'Destination Bucket',
-					align: 'left',
-					sortable: true,
-					value: 'destination_bucket'
-				},
-				{
-					text: 'Generated File',
-					align: 'left',
-					sortable: true,
-					value: 'gcs_triggering_file'
-				},
-				{
-					text: 'Status',
-					align: 'left',
-					sortable: true,
-					value: 'status'
-				},
-				{
-					text: 'Execution Date',
-					align: 'left',
-					sortable: true,
-					value: 'dag_execution_date'
-				},
-				{
-					text: 'Actions',
-					align: 'center',
-					value: 'actions',
-					sortable: false
-				}
-			];
+			return [ACCOUNT, ENVIRONMENT, DESTINATION_BUCKET, GCS_TRIGGERING_FILE, STATUS, DAG_EXECUTION_DATE, ACTIONS];
 		}
 	}
 };
