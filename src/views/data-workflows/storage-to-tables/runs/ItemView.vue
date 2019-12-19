@@ -13,7 +13,7 @@ import TabsItemsMixin from '../tabs-items';
 import GetItemMixin from '@/mixins/get-item-mixin';
 
 export default {
-	name: 'storage-to-tables-runs-listing-view',
+	name: 'storage-to-tables-run-view',
 	components: { DataManagementHeader, RunsItem },
 	mixins: [TabsItemsMixin, GetItemMixin],
 	data: () => ({
@@ -206,6 +206,46 @@ export default {
 					props: {
 						tableTitle: 'Source Storage',
 						description: 'Source Storage of the file to load',
+						columns: [
+							{
+								label: 'Type',
+								field: 'source_type',
+								width: '100px'
+							},
+							{
+								label: 'Storage ID',
+								field: 'gcs_source_bucket',
+								width: '200px'
+							},
+							{
+								label: 'Destination Folder',
+								field: 'gcs_source_prefix',
+								width: '200px'
+							},
+							{
+								label: 'Archive Folder',
+								field: 'gcs_archive_prefix',
+								width: '200px'
+							}
+						],
+						rows: [
+							{
+								source_type: this.item.configuration_context.source.type,
+								gcs_source_bucket: this.item.configuration_context.source.gcs_source_bucket,
+								gcs_source_prefix: this.item.configuration_context.source.gcs_source_prefix,
+								gcs_archive_prefix: this.item.configuration_context.source.gcs_archive_prefix
+							}
+						],
+						vflexLength: 'xs9',
+						lineNumbers: false,
+						searchOptionsEnabled: 'false'
+					}
+				},
+				{
+					component: 'parameters-table',
+					props: {
+						tableTitle: 'Destination Tables',
+						description: 'Destination Tables must be loaded from files',
 						columns: [
 							{
 								label: 'Type',

@@ -27,14 +27,14 @@ export default [
 	},
 	{
 		icon: 'vertical_split',
-		title: 'Storage to Table',
+		title: 'GCS To GBQ',
 		link: {
 			name: STORAGE_TO_TABLE_RUNS_LISTING
 		}
 	},
 	{
 		icon: 'post_add',
-		title: 'Storage to Tables',
+		title: 'Storage To Tables',
 		link: {
 			name: STORAGE_TO_TABLES_RUNS_LISTING
 		}
