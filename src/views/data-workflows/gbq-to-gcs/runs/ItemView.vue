@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<DataManagementHeader :tabsItems="tabsItems" />
+		<data-management-header :tabsItems="tabsItems" />
 		<item-component :tabs-items="itemTabsItems" :is-loading="isLoading" />
 	</div>
 </template>

@@ -24,7 +24,7 @@ import TabsItemsMixin from '../tabs-items';
 
 import { CONFIGURATIONS } from '@/constants/data-workflows/status';
 import { GBQ_TO_GCS_CONFIGURATIONS_ITEM } from '@/constants/router/routes-names';
-import defaultHeaders from '@/constants/data-workflows/listing/default-headers';
+import defaultHeaders from '@/constants/data-workflows/listing/configurations/default-headers';
 
 export default {
 	name: 'gbq-to-gcs-configurations-view',
