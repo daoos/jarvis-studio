@@ -21,10 +21,14 @@ const createApp = () => {
 };
 
 firebase.auth().onAuthStateChanged(user => {
+	// TODO: Fetch accounts while filtering on account_name from `getUserAccounts`
+
 	if (user) {
-		store.dispatch('autoSignIn', user).then(() => createApp());
-		store.dispatch('accounts/fetchAndAdd');
-		store.dispatch('schemas/fetchAndAdd');
+		Promise.all([
+			store.dispatch('autoSignIn', user),
+			store.dispatch('accounts/fetchAndAdd'),
+			store.dispatch('schemas/fetchAndAdd')
+		]).then(() => createApp());
 	} else {
 		createApp();
 	}
