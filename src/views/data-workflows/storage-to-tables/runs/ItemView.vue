@@ -73,7 +73,7 @@ export default {
 					props: {
 						item: this.item,
 						activeHeader: true,
-						viewId: this.item.id,
+						viewId: this.item.triggering_file,
 						viewType: 'run',
 						description: null,
 						runStatus: this.item.status
@@ -107,19 +107,24 @@ export default {
 						description: 'Main parameters of the Table to Storage Run',
 						paramItems: [
 							{
-								id: 'firestore_conf_doc_id',
+								id: 'configuration_id',
 								label: 'Configuration Id',
-								value: this.item.firestore_conf_doc_id
+								value: this.item.configuration_id
 							},
 							{
-								id: 'destination_bucket',
-								label: 'Destination Bucket',
-								value: this.item.destination_bucket
+								id: 'triggering_file',
+								label: 'Triggering File',
+								value: this.item.triggering_file
 							},
 							{
-								id: 'output_filename',
-								label: 'Output Finame',
-								value: this.item.output_filename
+								id: 'matching_filename_template',
+								label: 'Matching Filename Template',
+								value: this.item.matching_filename_template
+							},
+							{
+								id: 'source_storage',
+								label: 'Source Storage',
+								value: this.item.source_storage
 							}
 						]
 					}
@@ -199,8 +204,8 @@ export default {
 				{
 					component: 'parameters-table',
 					props: {
-						tableTitle: 'Destination Storage',
-						description: 'Destination Storage of the file to export',
+						tableTitle: 'Source Storage',
+						description: 'Source Storage of the file to load',
 						columns: [
 							{
 								label: 'Type',
@@ -209,26 +214,26 @@ export default {
 							},
 							{
 								label: 'Storage ID',
-								field: 'gcs_dest_bucket',
+								field: 'gcs_source_bucket',
 								width: '200px'
 							},
 							{
 								label: 'Destination Folder',
-								field: 'gcs_dest_prefix',
+								field: 'gcs_source_prefix',
 								width: '200px'
 							},
 							{
-								label: 'Output Filename',
-								field: 'output_filename',
+								label: 'Archive Folder',
+								field: 'gcs_archive_prefix',
 								width: '200px'
 							}
 						],
 						rows: [
 							{
-								source_type: 'GCS',
-								gcs_dest_bucket: this.item.configuration_context.gcs_dest_bucket,
-								gcs_dest_prefix: this.item.configuration_context.gcs_dest_prefix,
-								output_filename: this.item.configuration_context.output_filename
+								source_type: this.item.configuration_context.source.type,
+								gcs_source_bucket: this.item.configuration_context.source.gcs_source_bucket,
+								gcs_source_prefix: this.item.configuration_context.source.gcs_source_prefix,
+								gcs_archive_prefix: this.item.configuration_context.source.gcs_archive_prefix
 							}
 						],
 						vflexLength: 'xs9',
