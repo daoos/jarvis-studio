@@ -6,12 +6,12 @@
 </template>
 
 <script>
-import TabsItemsMixin from '../tabs-items';
+import CommonDataMixin from '../common-data';
 import ItemMixin from '@/mixins/data-workflows/item-mixin';
 
 export default {
 	name: 'gbq-to-gcs-configuration-item',
-	mixins: [TabsItemsMixin, ItemMixin],
+	mixins: [CommonDataMixin, ItemMixin],
 	data: () => ({
 		moduleName: 'getGbqToGcsConfs'
 	}),

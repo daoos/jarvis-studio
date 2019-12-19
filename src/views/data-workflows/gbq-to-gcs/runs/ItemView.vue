@@ -6,16 +6,12 @@
 </template>
 
 <script>
-import TabsItemsMixin from '../tabs-items';
+import CommonDataMixin from '../common-data';
 import ItemMixin from '@/mixins/data-workflows/item-mixin';
 
 export default {
-	name: 'storage-to-tales-runs-listing-view',
-	mixins: [TabsItemsMixin, ItemMixin],
-	data: () => ({
-		item: null,
-		moduleName: 'getGbqToGcsRuns'
-	}),
+	name: 'storage-to-tales-runs-item-view',
+	mixins: [CommonDataMixin, ItemMixin],
 	computed: {
 		itemTabsItems() {
 			return [

@@ -20,7 +20,7 @@
 import DataManagementHeader from '@/components/app/headers/DataManagementHeader';
 import ListingComponent from '@/components/data-workflows/common/ListingComponent';
 
-import TabsItemsMixin from '../tabs-items';
+import CommonDataMixin from '../common-data';
 
 import { CONFIGURATIONS } from '@/constants/data-workflows/status';
 import { GBQ_TO_GCS_CONFIGURATIONS_ITEM } from '@/constants/router/routes-names';
@@ -29,7 +29,7 @@ import defaultHeaders from '@/constants/data-workflows/listing/configurations/de
 export default {
 	name: 'gbq-to-gcs-configurations-view',
 	components: { DataManagementHeader, ListingComponent },
-	mixins: [TabsItemsMixin],
+	mixins: [CommonDataMixin],
 	data() {
 		return {
 			moduleName: 'getGbqToGcsConfs',
