@@ -6,10 +6,10 @@
 </template>
 
 <script>
-import GcsToGcsConfs from '../../../components/data-workflows/gcs-to-gcs/GcsToGcsConfs';
-import DataManagementHeader from '../../../components/app/headers/DataManagementHeader';
+import GcsToGcsConfs from '../../../../components/data-workflows/gcs-to-gcs/GcsToGcsConfs';
+import DataManagementHeader from '../../../../components/app/headers/DataManagementHeader';
 
-import TabsItemsMixin from './tabs-items';
+import TabsItemsMixin from '../common-data';
 
 export default {
 	components: { DataManagementHeader, GcsToGcsConfs },
