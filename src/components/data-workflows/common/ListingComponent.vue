@@ -78,6 +78,7 @@ import { mapState } from 'vuex';
 import { mapGetters } from 'vuex';
 import store from '@/store';
 import _ from 'lodash';
+import { RUNS } from '@/constants/data-workflows/status';
 import { getActiveConfColor } from '@/util/data-workflows/configuration';
 import { dagRunAirflowUrl } from '@/util/data-workflows/run';
 
@@ -85,6 +86,11 @@ export default {
 	name: 'listing-component',
 	components: { VueJsonPretty, DataManagementFilters, ConfigurationStatus },
 	props: {
+		type: {
+			// Use RUNS or CONFIGURATIONS constants
+			type: String,
+			required: true
+		},
 		moduleName: {
 			type: String,
 			required: true
@@ -136,7 +142,7 @@ export default {
 			window.open(dagRunAirflowUrl(item.dag_id, item.dag_run_id, item.dag_execution_date), '_blank');
 		},
 		async getFirestoreData() {
-			const where = this.whereConfFilter;
+			const where = this.type === RUNS ? this.whereRunsFilter : this.whereConfFilter;
 			this.isLoading = true;
 			try {
 				await store.dispatch(`${this.moduleName}/closeDBChannel`, { clearModule: true });
@@ -154,7 +160,7 @@ export default {
 				return state[this.moduleName].data;
 			}
 		}),
-		...mapGetters(['periodFiltered', 'whereConfFilter']),
+		...mapGetters(['periodFiltered', 'whereRunsFilter', 'whereConfFilter']),
 		formattedItems() {
 			const dataArray = Object.values(this.firestoreItems);
 			const formattedData = dataArray.map(function(data) {
@@ -167,7 +173,10 @@ export default {
 		}
 	},
 	watch: {
-		whereConfFilter: function() {
+		whereRunsFilter() {
+			this.getFirestoreData();
+		},
+		whereConfFilter() {
 			this.getFirestoreData();
 		}
 	}

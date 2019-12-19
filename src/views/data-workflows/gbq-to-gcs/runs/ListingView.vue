@@ -2,6 +2,7 @@
 	<div>
 		<data-management-header :tabsItems="tabsItems" />
 		<listing-component
+			:type="listingType"
 			:module-name="moduleName"
 			:headers="headers"
 			:overridden-columns="overriddenColumns"
@@ -34,8 +35,9 @@ import ListingComponent from '@/components/data-workflows/common/ListingComponen
 
 import TabsItemsMixin from '../tabs-items';
 
-import { getStatusColor } from '@/util/data-workflows/run';
+import { RUNS } from '@/constants/data-workflows/status';
 import { GBQ_TO_GCS_RUNS_ITEM } from '@/constants/router/routes-names';
+import { getStatusColor } from '@/util/data-workflows/run';
 
 export default {
 	name: 'gbq-to-gcs-runs-listing',
@@ -53,6 +55,9 @@ export default {
 		}
 	},
 	computed: {
+		listingType() {
+			return RUNS;
+		},
 		routeName() {
 			return GBQ_TO_GCS_RUNS_ITEM;
 		},

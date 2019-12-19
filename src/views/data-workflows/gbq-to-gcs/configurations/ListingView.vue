@@ -1,7 +1,12 @@
 <template>
 	<div>
 		<data-management-header :tabsItems="tabsItems" />
-		<listing-component :module-name="moduleName" :headers="headers" :overridden-columns="overriddenColumns">
+		<listing-component
+			:type="listingType"
+			:module-name="moduleName"
+			:headers="headers"
+			:overridden-columns="overriddenColumns"
+		>
 			<template v-slot:id="{ item: { id } }">
 				<router-link :to="{ name: routeName, params: { id } }">
 					<span class="font-weight-medium">{{ id }}</span>
@@ -17,6 +22,7 @@ import ListingComponent from '@/components/data-workflows/common/ListingComponen
 
 import TabsItemsMixin from '../tabs-items';
 
+import { CONFIGURATIONS } from '@/constants/data-workflows/status';
 import { GBQ_TO_GCS_CONFIGURATIONS_ITEM } from '@/constants/router/routes-names';
 import defaultHeaders from '@/constants/data-workflows/listing/default-headers';
 
@@ -31,6 +37,9 @@ export default {
 		};
 	},
 	computed: {
+		listingType() {
+			return CONFIGURATIONS;
+		},
 		routeName() {
 			return GBQ_TO_GCS_CONFIGURATIONS_ITEM;
 		},
