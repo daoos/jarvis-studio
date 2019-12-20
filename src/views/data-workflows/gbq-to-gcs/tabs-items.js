@@ -1,9 +1,6 @@
 import { GBQ_TO_GCS_RUNS_LISTING, GBQ_TO_GCS_CONFIGURATIONS_LISTING } from '@/constants/router/routes-names';
 
 export default {
-	data: () => ({
-		moduleName: 'getGbqToGcsRuns'
-	}),
 	computed: {
 		tabsItems() {
 			return [
