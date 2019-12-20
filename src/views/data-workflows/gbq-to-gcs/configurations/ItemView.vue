@@ -59,7 +59,7 @@ export default {
 					component: 'view-header',
 					props: {
 						item: this.item,
-						collection: 'getGbqToGcsConfs',
+						collection: this.moduleName,
 						activeHeader: true,
 						viewId: this.item.id,
 						viewType: 'conf',
