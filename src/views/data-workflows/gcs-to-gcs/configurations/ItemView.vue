@@ -10,7 +10,7 @@ import TabsItemsMixin from '../tabs-items';
 import ItemMixin from '@/mixins/data-workflows/item-mixin';
 
 export default {
-	name: '',
+	name: 'gcs-to-gcs-configurations-item-view',
 	mixins: [TabsItemsMixin, ItemMixin],
 	data() {
 		return {

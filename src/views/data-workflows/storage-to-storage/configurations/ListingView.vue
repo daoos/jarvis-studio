@@ -22,27 +22,24 @@ import DataManagementHeader from '../../../../components/app/headers/DataManagem
 import ListingComponent from '@/components/data-workflows/common/ListingComponent';
 
 import TabsItemsMixin from '../tabs-items';
-
 import { CONFIGURATIONS } from '@/constants/data-workflows/status';
-import { GCS_TO_GCS_CONFIGURATIONS_ITEM } from '@/constants/router/routes-names';
+import { STORAGE_TO_STORAGE_CONFIGURATIONS_ITEM } from '@/constants/router/routes-names';
 import {
 	ACCOUNT,
 	ACTIONS,
 	ACTIVATED,
 	ENVIRONMENT,
 	ID,
-	NB_DESTINATION_BUCKET,
-	NB_FILENAME_TEMPLATES,
-	SOURCE_BUCKET
+	NB_FILENAME_TEMPLATES
 } from '@/constants/data-workflows/listing/header-items';
 
 export default {
-	name: 'gcs-to-gcs-configurations-listing-view',
+	name: 'storage-to-storage-configurations-listing-view',
 	components: { DataManagementHeader, ListingComponent },
 	mixins: [TabsItemsMixin],
 	data() {
 		return {
-			moduleName: 'mirrorExcGcsToGcsConfs',
+			moduleName: 'storageToStorageConfs',
 			overriddenColumns: ['id']
 		};
 	},
@@ -51,19 +48,10 @@ export default {
 			return CONFIGURATIONS;
 		},
 		routeName() {
-			return GCS_TO_GCS_CONFIGURATIONS_ITEM;
+			return STORAGE_TO_STORAGE_CONFIGURATIONS_ITEM;
 		},
 		headers() {
-			return [
-				ACCOUNT,
-				ENVIRONMENT,
-				ID,
-				SOURCE_BUCKET,
-				NB_DESTINATION_BUCKET,
-				NB_FILENAME_TEMPLATES,
-				ACTIVATED,
-				ACTIONS
-			];
+			return [ACCOUNT, ENVIRONMENT, ID, NB_FILENAME_TEMPLATES, ACTIVATED, ACTIONS];
 		}
 	}
 };
