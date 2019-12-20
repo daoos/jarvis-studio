@@ -6,12 +6,17 @@
 </template>
 
 <script>
-import CommonDataMixin from '../common-data';
+import TabsItemsMixin from '../tabs-items';
 import ItemMixin from '@/mixins/data-workflows/item-mixin';
 
 export default {
 	name: 'storage-to-tales-runs-item-view',
-	mixins: [CommonDataMixin, ItemMixin],
+	mixins: [TabsItemsMixin, ItemMixin],
+	data() {
+		return {
+			moduleName: 'mirrorExcGcsToGcsRuns'
+		};
+	},
 	methods: {
 		getDestinationStorageRows() {
 			let destinationStorageRows = [];

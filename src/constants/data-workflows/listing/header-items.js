@@ -13,6 +13,12 @@ export const DAG_EXECUTION_DATE = { text: 'Execution Date', sortable: true, valu
 // CONFIGURATIONS
 export const ID = { text: 'Configuration id', sortable: true, value: 'id' };
 export const ACTIVATED = { text: 'Status', sortable: true, value: 'activated' };
+export const NB_DESTINATION_BUCKET = {
+	text: 'Nb Destination Buckets',
+	sortable: true,
+	value: 'destination_bucket.length'
+};
+export const NB_FILENAME_TEMPLATES = { text: 'Nb File Templates', sortable: true, value: 'filename_templates.length' };
 
 export default {
 	// GENERAL
@@ -29,5 +35,7 @@ export default {
 
 	// CONFIGURATIONS
 	ID,
-	ACTIVATED
+	ACTIVATED,
+	NB_DESTINATION_BUCKET,
+	NB_FILENAME_TEMPLATES
 };

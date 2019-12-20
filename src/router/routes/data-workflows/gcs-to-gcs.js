@@ -43,12 +43,12 @@ export default [
 		meta: { middleware: [auth, hasAccount] },
 		component: () =>
 			import(
-				/* webpackChunkName: "/data-workflows/gcs-to-gcs/configurations/listing" */ '@/views/data-workflows/gcs-to-gcs/configurations/GcsToGcsConfs.vue'
+				/* webpackChunkName: "/data-workflows/gcs-to-gcs/configurations/listing" */ '@/views/data-workflows/gcs-to-gcs/configurations/ListingView.vue'
 			)
 	},
 	{
 		// TODO: Rename param to :id
-		path: `/${DATA_WORKFLOWS}/${GCS_TO_GCS}/${CONFIGURATIONS}/:confId`,
+		path: `/${DATA_WORKFLOWS}/${GCS_TO_GCS}/${CONFIGURATIONS}/:id`,
 		name: GCS_TO_GCS_CONFIGURATIONS_ITEM,
 		meta: { middleware: [auth, hasAccount] },
 		component: () =>

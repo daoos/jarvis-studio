@@ -33,7 +33,7 @@
 import DataManagementHeader from '../../../../components/app/headers/DataManagementHeader';
 import ListingComponent from '@/components/data-workflows/common/ListingComponent';
 
-import CommonDataMixin from '../common-data';
+import TabsItemsMixin from '../tabs-items';
 
 import { RUNS } from '@/constants/data-workflows/status';
 import { GCS_TO_GCS_RUNS_ITEM } from '@/constants/router/routes-names';
@@ -50,9 +50,10 @@ import {
 
 export default {
 	components: { DataManagementHeader, ListingComponent },
-	mixins: [CommonDataMixin],
+	mixins: [TabsItemsMixin],
 	data() {
 		return {
+			moduleName: 'mirrorExcGcsToGcsRuns',
 			overriddenColumns: ['gcs_triggering_file', 'status', 'dag_execution_date']
 		};
 	},
