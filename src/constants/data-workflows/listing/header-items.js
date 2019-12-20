@@ -9,6 +9,9 @@ export const SOURCE_BUCKET = { text: 'Source Bucket', sortable: true, value: 'so
 export const GCS_TRIGGERING_FILE = { text: 'File', sortable: true, value: 'gcs_triggering_file' };
 export const STATUS = { text: 'Status', sortable: true, value: 'status' };
 export const DAG_EXECUTION_DATE = { text: 'Execution Date', sortable: true, value: 'dag_execution_date' };
+export const CONFIGURATION_ID = { text: 'Conf Id', sortable: true, value: 'configuration_id' };
+export const TRIGGERING_FILE = { text: 'Triggering File', sortable: true, value: 'triggering_file' };
+export const NB_FILENAME_TEMPLATES = { text: 'Nb File Templates', sortable: true, value: 'filename_templates.length' };
 
 // CONFIGURATIONS
 export const ID = { text: 'Configuration id', sortable: true, value: 'id' };
@@ -18,7 +21,6 @@ export const NB_DESTINATION_BUCKET = {
 	sortable: true,
 	value: 'destination_bucket.length'
 };
-export const NB_FILENAME_TEMPLATES = { text: 'Nb File Templates', sortable: true, value: 'filename_templates.length' };
 
 export default {
 	// GENERAL
@@ -32,10 +34,12 @@ export default {
 	GCS_TRIGGERING_FILE,
 	STATUS,
 	DAG_EXECUTION_DATE,
+	CONFIGURATION_ID,
+	TRIGGERING_FILE,
+	NB_FILENAME_TEMPLATES,
 
 	// CONFIGURATIONS
 	ID,
 	ACTIVATED,
-	NB_DESTINATION_BUCKET,
-	NB_FILENAME_TEMPLATES
+	NB_DESTINATION_BUCKET
 };
