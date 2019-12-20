@@ -27,9 +27,12 @@
 				<configuration-status :item="item" :collection="moduleName" :is-activated="item.activated" />
 			</template>
 
+			<!-- TODO: Add status for runs by default like `activated` -->
+
 			<template v-slot:item.actions="{ item }">
 				<v-icon small @click="toggleExpand(item)">remove_red_eye</v-icon>
 				<v-icon v-if="showAirflowAction" class="ml-2" small @click="openAirflowDagRunUrl(item)">open_in_new</v-icon>
+				<v-icon v-if="showDeleteAction" class="ml-2" small @click="openDeleteDialog(item)">delete_forever</v-icon>
 			</template>
 
 			<!-- Loop placed after default templates to override them if needed -->
@@ -66,6 +69,36 @@
 				Your search for "{{ search }}" found no results.
 			</v-alert>
 		</v-data-table>
+
+		<v-dialog v-model="showDeleteDialog" width="45%" max-width="700">
+			<v-card light>
+				<v-card-title class="headline">Delete Item</v-card-title>
+				<v-card-text>
+					Do you really want to delete this item?
+					<h3 class="pt-3"><v-icon size="18">arrow_forward</v-icon>{{ itemToDelete.id }}</h3>
+				</v-card-text>
+
+				<v-card-actions>
+					<v-btn @click="showDeleteItemDetails = !showDeleteItemDetails">
+						{{ showDeleteItemDetails ? 'Hide details' : 'Show more' }}
+					</v-btn>
+					<v-spacer />
+					<v-btn color="grey" text @click="cancelDeleteConfFromFirestore">Cancel</v-btn>
+					<v-btn color="error" @click="confirmDeleteConfFromFirestore">Delete</v-btn>
+				</v-card-actions>
+
+				<v-slide-y-transition>
+					<v-card-text v-show="showDeleteItemDetails">
+						<vue-json-pretty :data="itemToDelete" :deep="5" :show-length="true" :show-line="false"> </vue-json-pretty>
+					</v-card-text>
+				</v-slide-y-transition>
+			</v-card>
+		</v-dialog>
+
+		<!-- TODO: Add @closeSnackbar & timeout const -->
+		<v-snackbar v-model="showSnackbarDeleteConfSuccess" color="success" :timeout="3500">
+			Configuration deleted with success!
+		</v-snackbar>
 	</v-container>
 </template>
 
@@ -110,6 +143,9 @@ export default {
 		},
 		showAirflowAction: {
 			type: Boolean
+		},
+		showDeleteAction: {
+			type: Boolean
 		}
 	},
 	data() {
@@ -121,7 +157,11 @@ export default {
 				sortBy: 'table_name',
 				sortDesc: true
 			},
-			viewedItem: {}
+			viewedItem: {},
+			showDeleteDialog: false,
+			showDeleteItemDetails: false,
+			showSnackbarDeleteConfSuccess: false,
+			itemToDelete: {}
 		};
 	},
 	mounted() {
@@ -140,6 +180,24 @@ export default {
 		},
 		openAirflowDagRunUrl(item) {
 			window.open(dagRunAirflowUrl(item.dag_id, item.dag_run_id, item.dag_execution_date), '_blank');
+		},
+		openDeleteDialog(item) {
+			this.itemToDelete = item;
+			this.showDeleteDialog = true;
+		},
+		cancelDeleteConfFromFirestore() {
+			this.showDeleteDialog = false;
+			this.itemToDelete = {};
+			this.showDeleteItemDetails = false;
+		},
+		confirmDeleteConfFromFirestore() {
+			this.showDeleteDialog = false;
+			this.showSnackbarDeleteConfSuccess = false;
+			store.dispatch(`${this.moduleName}/delete`, this.itemToDelete.id).then(() => {
+				this.showSnackbarDeleteConfSuccess = true;
+			});
+			this.itemToDelete = {};
+			this.showDeleteItemDetails = false;
 		},
 		async getFirestoreData() {
 			const where = this.type === RUNS ? this.whereRunsFilter : this.whereConfFilter;
