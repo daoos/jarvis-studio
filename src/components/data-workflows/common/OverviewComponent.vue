@@ -17,9 +17,9 @@
 
 <script>
 import ViewHeader from './ViewHeader';
-import ParametersList from '../../common/parameters/ParametersList';
-import ParametersTable from '../../common/parameters/ParametersTable';
-import CreateUpdateConfOverview from '@/components/common/configuration/CreateUpdateConfOverview';
+import ParametersList from './item/parameters/ParametersList';
+import ParametersTable from './item/parameters/ParametersTable';
+import CreateUpdateConfOverview from '@/components/data-workflows/configuration/CreateUpdateConfOverview';
 
 export default {
 	name: 'overview-component',

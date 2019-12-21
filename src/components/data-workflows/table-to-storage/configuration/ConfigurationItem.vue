@@ -28,7 +28,7 @@
 
 <script>
 import OverviewComponent from '@/components/data-workflows/common/OverviewComponent';
-import ViewJson from '../../../common/ViewJson';
+import ViewJson from '../../common/ViewJson';
 
 import OverviewData from './overview-data';
 

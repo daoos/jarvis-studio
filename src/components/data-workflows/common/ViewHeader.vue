@@ -36,8 +36,8 @@
 </template>
 
 <script>
-import ConfigurationStatus from '../../common/configuration/ConfigurationStatus.vue';
-import RunStatusChip from '../../common/chips/RunStatusChip.vue';
+import ConfigurationStatus from '../configuration/ConfigurationStatus.vue';
+import RunStatusChip from '../runs/RunStatusChip.vue';
 
 export default {
 	name: 'view-header',

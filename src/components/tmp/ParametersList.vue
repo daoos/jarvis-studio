@@ -3,18 +3,14 @@
 		<v-col>
 			<h2 class="black--text pb-3">
 				{{ groupTitle }}
-
 				<v-tooltip right v-if="tooltip">
 					<template v-slot:activator="{ on }">
 						<v-icon color="blue-grey lighten-5" dark v-on="on">info</v-icon>
 					</template>
-
 					<span>{{ description }}</span>
 				</v-tooltip>
 			</h2>
-
-			<ParametersItem v-for="paramItem in paramItems" :paramItem="paramItem" :key="paramItem.id" />
-
+			<ParametersItem v-for="paramItem in paramItems" :paramItem="paramItem" :key="paramItem.id"></ParametersItem>
 			<footer>
 				<slot name="footer"></slot>
 			</footer>
@@ -23,10 +19,9 @@
 </template>
 
 <script>
-import ParametersItem from '../tmp/ParametersItem.vue';
+import ParametersItem from '@/components/data-workflows/common/item/parameters/ParametersItem.vue';
 
 export default {
-	name: 'parameters-list',
 	components: {
 		ParametersItem
 	},
@@ -63,3 +58,5 @@ export default {
 	}
 };
 </script>
+
+<style lang="scss" scoped></style>
