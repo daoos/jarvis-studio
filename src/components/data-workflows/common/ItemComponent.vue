@@ -19,6 +19,7 @@
 </template>
 
 <script>
+import CreateUpdateConfOverview from '@/components/data-workflows/configuration/CreateUpdateConfOverview';
 import OverviewComponent from './OverviewComponent';
 import ViewJson from './ViewJson';
 import ViewConversation from './ViewConversation';
@@ -26,7 +27,7 @@ import TableSchemaView from '@/components/data-workflows/common/TableSchemaView'
 
 export default {
 	name: 'item-component',
-	components: { OverviewComponent, ViewJson, ViewConversation, TableSchemaView },
+	components: { CreateUpdateConfOverview, OverviewComponent, ViewJson, ViewConversation, TableSchemaView },
 	props: {
 		tabsItems: {
 			type: Array,

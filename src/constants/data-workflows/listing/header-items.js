@@ -12,6 +12,7 @@ export const DAG_EXECUTION_DATE = { text: 'Execution Date', sortable: true, valu
 export const CONFIGURATION_ID = { text: 'Conf Id', sortable: true, value: 'configuration_id' };
 export const TRIGGERING_FILE = { text: 'Triggering File', sortable: true, value: 'triggering_file' };
 export const NB_FILENAME_TEMPLATES = { text: 'Nb File Templates', sortable: true, value: 'filename_templates.length' };
+export const GBQ_TABLE_REFRESHED = { text: 'Destination Table', sortable: true, value: 'gbq_table_refreshed' };
 
 // CONFIGURATIONS
 export const ID = { text: 'Configuration id', sortable: true, value: 'id' };
@@ -37,6 +38,7 @@ export default {
 	CONFIGURATION_ID,
 	TRIGGERING_FILE,
 	NB_FILENAME_TEMPLATES,
+	GBQ_TABLE_REFRESHED,
 
 	// CONFIGURATIONS
 	ID,

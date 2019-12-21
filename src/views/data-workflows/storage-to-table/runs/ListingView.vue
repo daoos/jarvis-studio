@@ -6,13 +6,10 @@
 			:module-name="moduleName"
 			:headers="headers"
 			:overridden-columns="overriddenColumns"
-			sort-by="dag_execution_date"
-			:sort-desc="true"
-			show-airflow-action
 		>
-			<template v-slot:triggering_file="{ item: { id, triggering_file } }">
+			<template v-slot:gcs_triggering_file="{ item: { id, gcs_triggering_file } }">
 				<router-link :to="{ name: routeName, params: { id } }">
-					<span class="font-weight-medium">{{ triggering_file }}</span>
+					<span class="font-weight-medium">{{ gcs_triggering_file }}</span>
 				</router-link>
 			</template>
 
@@ -36,26 +33,26 @@ import ListingComponent from '@/components/data-workflows/common/ListingComponen
 import TabsItemsMixin from '../tabs-items';
 
 import { RUNS } from '@/constants/data-workflows/status';
-import { STORAGE_TO_STORAGE_RUNS_ITEM } from '@/constants/router/routes-names';
+import { STORAGE_TO_TABLE_RUNS_ITEM } from '@/constants/router/routes-names';
 import { getStatusColor } from '@/util/data-workflows/run';
 import {
 	ACCOUNT,
 	ACTIONS,
-	CONFIGURATION_ID,
 	DAG_EXECUTION_DATE,
 	ENVIRONMENT,
-	STATUS,
-	TRIGGERING_FILE
+	GBQ_TABLE_REFRESHED,
+	GCS_TRIGGERING_FILE,
+	STATUS
 } from '@/constants/data-workflows/listing/header-items';
 
 export default {
-	name: 'storage-to-storage-runs-listing-view',
+	name: 'storage-to-table-runs-listing-view',
 	components: { DataManagementHeader, ListingComponent },
 	mixins: [TabsItemsMixin],
 	data() {
 		return {
-			moduleName: 'storageToStorageRuns',
-			overriddenColumns: ['triggering_file', 'status', 'dag_execution_date']
+			moduleName: 'mirrorExcGcsToGbqRuns',
+			overriddenColumns: ['gcs_triggering_file', 'status', 'dag_execution_date']
 		};
 	},
 	methods: {
@@ -68,10 +65,10 @@ export default {
 			return RUNS;
 		},
 		routeName() {
-			return STORAGE_TO_STORAGE_RUNS_ITEM;
+			return STORAGE_TO_TABLE_RUNS_ITEM;
 		},
 		headers() {
-			return [ACCOUNT, ENVIRONMENT, CONFIGURATION_ID, TRIGGERING_FILE, STATUS, DAG_EXECUTION_DATE, ACTIONS];
+			return [ACCOUNT, ENVIRONMENT, GBQ_TABLE_REFRESHED, GCS_TRIGGERING_FILE, STATUS, DAG_EXECUTION_DATE, ACTIONS];
 		}
 	}
 };

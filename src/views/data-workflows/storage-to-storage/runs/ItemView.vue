@@ -299,6 +299,7 @@ export default {
 					component: 'view-header',
 					props: {
 						item: this.item,
+						collection: this.moduleName,
 						activeHeader: false,
 						viewId: this.item.id,
 						viewType: 'conf'

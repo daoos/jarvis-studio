@@ -20,17 +20,16 @@ export default [
 		meta: { middleware: [auth, hasAccount] },
 		component: () =>
 			import(
-				/* webpackChunkName: "/data-workflows/storage-to-table/runs/listing" */ '@/views/data-workflows/storage-to-table/run/RunsView.vue'
+				/* webpackChunkName: "/data-workflows/storage-to-table/runs/listing" */ '@/views/data-workflows/storage-to-table/runs/ListingView.vue'
 			)
 	},
 	{
-		// TODO: Rename param to :id
-		path: `/${DATA_WORKFLOWS}/${STORAGE_TO_TABLE}/${RUNS}/:pathId`,
+		path: `/${DATA_WORKFLOWS}/${STORAGE_TO_TABLE}/${RUNS}/:id`,
 		name: STORAGE_TO_TABLE_RUNS_ITEM,
 		meta: { middleware: [auth, hasAccount] },
 		component: () =>
 			import(
-				/* webpackChunkName: "/data-workflows/storage-to-table/runs/item" */ '@/views/data-workflows/storage-to-table/run/StorageToTableRun.vue'
+				/* webpackChunkName: "/data-workflows/storage-to-table/runs/item" */ '@/views/data-workflows/storage-to-table/runs/ItemView.vue'
 			)
 	},
 

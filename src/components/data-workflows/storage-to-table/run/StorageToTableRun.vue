@@ -20,21 +20,13 @@
 					</v-tab>
 					<v-tab-item value="rundetails">
 						<v-card v-if="this.run !== undefined">
-							<StorageToTableRunView
-								:run="this.run"
-								:runId="this.run.job_id"
-								:activeHeader="true"
-							></StorageToTableRunView
-						></v-card>
+							<StorageToTableRunView :run="this.run" :runId="this.run.job_id" :activeHeader="true" />
+						</v-card>
 					</v-tab-item>
 					<v-tab-item value="confoverview">
 						<v-card v-if="this.conf !== undefined">
-							<storageToTableConfOverview
-								:conf="this.conf"
-								:confId="this.conf.table_name"
-								:activeHeader="false"
-							></storageToTableConfOverview
-						></v-card>
+							<storageToTableConfOverview :conf="this.conf" :confId="this.conf.table_name" :activeHeader="false" />
+						</v-card>
 					</v-tab-item>
 					<v-tab-item value="confschema">
 						<v-card v-if="this.conf !== undefined">
@@ -51,7 +43,7 @@
 		</v-row>
 		<v-row v-else>
 			<template>
-				<v-progress-linear :indeterminate="true"></v-progress-linear>
+				<v-progress-linear :indeterminate="true" />
 			</template>
 		</v-row>
 	</v-container>
@@ -60,10 +52,10 @@
 <script>
 import { mapState } from 'vuex';
 import store from '@/store';
-import viewJson from '@/components/common/tmp/viewJson.vue';
+import viewJson from '@/components/tmp/viewJson.vue';
 import StorageToTableRunView from '@/components/data-workflows/storage-to-table/run/StorageToTableRunView.vue';
 import storageToTableConfOverview from '@/components/data-workflows/storage-to-table/configuration/StorageToTableConfOverview.vue';
-import tableSchemaView from '@/components/common/TableSchemaView.vue';
+import tableSchemaView from '@/components/data-workflows/common/TableSchemaView.vue';
 
 export default {
 	components: {
@@ -99,22 +91,19 @@ export default {
 			storageToTableRun: state => state.storageToTableRun.data
 		}),
 		itemId() {
-			var itemId = this.$route.params.pathId;
-			return itemId;
+			console.log(this.$route.params.id);
+			return this.$route.params.id;
 		},
 		conf() {
-			//Add the bucket file source to the storageToTableRun object
-			var conf = this.storageToTableRun.configuration_context;
+			// Add the bucket file source to the storageToTableRun object
+			let conf = this.storageToTableRun.configuration_context;
 			conf.source_bucket = this.storageToTableRun.source_bucket;
 			conf.id = this.storageToTableRun.filename_template;
 			return conf;
 		},
 		run() {
-			var run = this.storageToTableRun;
-			return run;
+			return this.storageToTableRun;
 		}
 	}
 };
 </script>
-
-<style lang="scss" scoped></style>
