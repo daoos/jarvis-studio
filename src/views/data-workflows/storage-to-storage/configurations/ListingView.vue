@@ -22,6 +22,7 @@ import DataManagementHeader from '../../../../components/app/headers/DataManagem
 import ListingComponent from '@/components/data-workflows/common/ListingComponent';
 
 import TabsItemsMixin from '../tabs-items';
+
 import { CONFIGURATIONS } from '@/constants/data-workflows/status';
 import { STORAGE_TO_STORAGE_CONFIGURATIONS_ITEM } from '@/constants/router/routes-names';
 import {

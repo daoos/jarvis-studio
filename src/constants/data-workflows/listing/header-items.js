@@ -22,6 +22,9 @@ export const NB_DESTINATION_BUCKET = {
 	sortable: true,
 	value: 'destination_bucket.length'
 };
+export const TABLE_NAME = { text: 'Destination Table', sortable: true, value: 'table_name' };
+export const GCP_PROJECT = { text: 'BQ Project ID', sortable: true, value: 'gcp_project' };
+export const GBQ_DATASET = { text: 'BQ Dataset', sortable: true, value: 'gbq_dataset' };
 
 export default {
 	// GENERAL
@@ -43,5 +46,8 @@ export default {
 	// CONFIGURATIONS
 	ID,
 	ACTIVATED,
-	NB_DESTINATION_BUCKET
+	NB_DESTINATION_BUCKET,
+	TABLE_NAME,
+	GCP_PROJECT,
+	GBQ_DATASET
 };
