@@ -12,7 +12,7 @@
 
 		<v-data-table
 			:headers="headers"
-			:items="formattedItems"
+			:items="customDataFetching ? customFetchedItems : formattedItems"
 			:search="search"
 			:loading="isLoading"
 			:expanded="expanded"
@@ -132,6 +132,9 @@ export default {
 			type: Array,
 			required: true
 		},
+		customDataFetching: {
+			type: Function
+		},
 		overriddenColumns: {
 			type: Array
 		},
@@ -161,7 +164,8 @@ export default {
 			showDeleteDialog: false,
 			showDeleteItemDetails: false,
 			showSnackbarDeleteConfSuccess: false,
-			itemToDelete: {}
+			itemToDelete: {},
+			customFetchedItems: []
 		};
 	},
 	mounted() {
@@ -202,14 +206,18 @@ export default {
 		async getFirestoreData() {
 			const where = this.type === RUNS ? this.whereRunsFilter : this.whereConfFilter;
 			this.isLoading = true;
-			try {
+
+			if (this.customDataFetching) {
+				this.customDataFetching().then(items => {
+					this.customFetchedItems = items;
+					this.isLoading = false;
+				});
+			} else {
 				await store.dispatch(`${this.moduleName}/closeDBChannel`, { clearModule: true });
 				await store.dispatch(`${this.moduleName}/fetchAndAdd`, { where, limit: 0 });
-			} catch (e) {
-				console.log('Firestore Error catched:', e);
+
 				this.isLoading = false;
 			}
-			this.isLoading = false;
 		}
 	},
 	computed: {
