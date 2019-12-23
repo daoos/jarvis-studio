@@ -1,19 +1,19 @@
 <template>
 	<div>
 		<data-management-header :tabs-items="tabsItems" />
-		<runs-item :tabs-items="itemTabsItems" :is-loading="isLoading" />
+		<item-component :tabs-items="itemTabsItems" :is-loading="isLoading" />
 	</div>
 </template>
 
 <script>
-import RunsItem from '@/components/data-workflows/common/ItemComponent';
 import DataManagementHeader from '@/components/app/headers/DataManagementHeader';
+import ItemComponent from '@/components/data-workflows/common/ItemComponent';
 
 import TabsItemsMixin from '../tabs-items';
 import ItemMixin from '@/mixins/data-workflows/item-mixin';
 
 export default {
-	components: { RunsItem, DataManagementHeader },
+	components: { DataManagementHeader, ItemComponent },
 	mixins: [TabsItemsMixin, ItemMixin],
 	data: () => ({
 		item: null,

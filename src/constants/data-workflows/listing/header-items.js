@@ -13,6 +13,8 @@ export const CONFIGURATION_ID = { text: 'Conf Id', sortable: true, value: 'confi
 export const TRIGGERING_FILE = { text: 'Triggering File', sortable: true, value: 'triggering_file' };
 export const NB_FILENAME_TEMPLATES = { text: 'Nb File Templates', sortable: true, value: 'filename_templates.length' };
 export const GBQ_TABLE_REFRESHED = { text: 'Destination Table', sortable: true, value: 'gbq_table_refreshed' };
+export const FIRESTORE_CONF_DOC_ID = { text: 'Configuration Id', sortable: true, value: 'firestore_conf_doc_id' };
+export const OUTPUT_FILENAME = { text: 'Generated File', sortable: true, value: 'output_filename' };
 
 // CONFIGURATIONS
 export const ID = { text: 'Configuration id', sortable: true, value: 'id' };
@@ -42,6 +44,8 @@ export default {
 	TRIGGERING_FILE,
 	NB_FILENAME_TEMPLATES,
 	GBQ_TABLE_REFRESHED,
+	FIRESTORE_CONF_DOC_ID,
+	OUTPUT_FILENAME,
 
 	// CONFIGURATIONS
 	ID,
