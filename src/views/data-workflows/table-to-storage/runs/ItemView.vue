@@ -13,6 +13,7 @@ import TabsItemsMixin from '../tabs-items';
 import ItemMixin from '@/mixins/data-workflows/item-mixin';
 
 export default {
+	name: 'table-to-storage-runs-item-view',
 	components: { DataManagementHeader, ItemComponent },
 	mixins: [TabsItemsMixin, ItemMixin],
 	data: () => ({

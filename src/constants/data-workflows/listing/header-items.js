@@ -27,6 +27,8 @@ export const NB_DESTINATION_BUCKET = {
 export const TABLE_NAME = { text: 'Destination Table', sortable: true, value: 'table_name' };
 export const GCP_PROJECT = { text: 'BQ Project ID', sortable: true, value: 'gcp_project' };
 export const GBQ_DATASET = { text: 'BQ Dataset', sortable: true, value: 'gbq_dataset' };
+export const GCS_DEST_BUCKET = { text: 'Destination Bucket', sortable: true, value: 'gcs_dest_bucket' };
+export const GCS_DEST_PREFIX = { text: 'Destination Prefix', sortable: true, value: 'gcs_dest_prefix' };
 
 export default {
 	// GENERAL
@@ -53,5 +55,7 @@ export default {
 	NB_DESTINATION_BUCKET,
 	TABLE_NAME,
 	GCP_PROJECT,
-	GBQ_DATASET
+	GBQ_DATASET,
+	GCS_DEST_BUCKET,
+	GCS_DEST_PREFIX
 };
