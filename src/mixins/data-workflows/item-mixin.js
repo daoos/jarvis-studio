@@ -21,7 +21,6 @@ export default {
 	},
 	methods: {
 		async getItem() {
-			this.isLoading = true;
 			if (!this.firestoreItem[this.itemId]) await this.getFirestoreData();
 			this.item = this.firestoreItem[this.itemId];
 			this.isLoading = false;

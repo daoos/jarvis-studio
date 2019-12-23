@@ -9,8 +9,8 @@
 			:overridden-columns="overriddenColumns"
 			show-delete-action
 		>
-			<template v-slot:table_name="{ item: { key, table_name } }">
-				<router-link :to="{ name: routeName, params: { id: key } }">
+			<template v-slot:table_name="{ item: { bucket_id, id, table_name } }">
+				<router-link :to="{ name: routeName, params: { bucketId: bucket_id, id } }">
 					<span class="font-weight-medium">{{ table_name }}</span>
 				</router-link>
 			</template>
@@ -59,11 +59,7 @@ export default {
 
 				await this.$store.dispatch('mirrorExcGcsToGbqConfDetails/closeDBChannel', { clearModule: true });
 				await this.$store.dispatch('mirrorExcGcsToGbqConfDetails/fetchAndAdd', { bucketId }).then(() => {
-					Object.values(this.mirrorExcGcsToGbqConfDetails).forEach(val => {
-						val.key = `${bucketId}/${val.id}/${val.gcs_prefix}`;
-						val.bucket_source = bucketId;
-					});
-
+					Object.values(this.mirrorExcGcsToGbqConfDetails).forEach(val => (val.bucket_id = bucketId));
 					items.push(Object.values(this.mirrorExcGcsToGbqConfDetails));
 				});
 			}
