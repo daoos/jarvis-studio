@@ -35,6 +35,12 @@ export const GCP_PROJECT = { text: 'BQ Project ID', sortable: true, value: 'gcp_
 export const GBQ_DATASET = { text: 'BQ Dataset', sortable: true, value: 'gbq_dataset' };
 export const GCS_DEST_BUCKET = { text: 'Destination Bucket', sortable: true, value: 'gcs_dest_bucket' };
 export const GCS_DEST_PREFIX = { text: 'Destination Prefix', sortable: true, value: 'gcs_dest_prefix' };
+export const DEFAULT_BQ_DATASET = {
+	text: 'BQ Default Dataset',
+	sortable: true,
+	value: 'configuration.default_bq_dataset'
+};
+export const CONF_WORKFLOW_LENGTH = { text: '# Tasks', sortable: true, value: 'configuration.workflow.length' };
 
 export default {
 	// GENERAL
@@ -65,5 +71,6 @@ export default {
 	GCP_PROJECT,
 	GBQ_DATASET,
 	GCS_DEST_BUCKET,
-	GCS_DEST_PREFIX
+	GCS_DEST_PREFIX,
+	DEFAULT_BQ_DATASET
 };
