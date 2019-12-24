@@ -43,6 +43,12 @@ export const DEFAULT_BQ_DATASET = {
 export const CONF_WORKFLOW_LENGTH = { text: '# Tasks', sortable: true, value: 'configuration.workflow.length' };
 export const GCS_FILE_EXCHANGE_BUCKET = { text: 'Bucket Exchange', sortable: true, value: 'gcs_file_exchange_bucket' };
 export const WORKING_DIR = { text: 'Working Directory', sortable: true, value: 'working_dir' };
+export const TARGET_DAG = { text: 'Dag to fire', sortable: true, value: 'target_dag' };
+export const AUTHORIZED_JOB_IDS_LENGTH = {
+	text: 'Nb triggering Jobs',
+	sortable: true,
+	value: 'authorized_job_ids.length'
+};
 
 // Status
 export const JOBS = { text: 'Triggering Jobs', sortable: true, value: 'jobs' };
@@ -88,6 +94,8 @@ export default {
 	CONF_WORKFLOW_LENGTH,
 	GCS_FILE_EXCHANGE_BUCKET,
 	WORKING_DIR,
+	TARGET_DAG,
+	AUTHORIZED_JOB_IDS_LENGTH,
 
 	// STATUS
 	JOBS,

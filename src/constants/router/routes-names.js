@@ -54,7 +54,7 @@ export const VM_LAUNCHER_CONFIGURATIONS_ITEM = 'vmLauncherConfsItem';
 export const WORKFLOW_STATUS_LISTING = 'WorkflowStatus';
 export const WORKFLOW_STATUS_ITEM = 'WorkflowStatusItem';
 export const WORKFLOW_CONFIGURATIONS_LISTING = 'WorkflowConfs';
-// TODO: Create conf constant
+export const WORKFLOW_CONFIGURATIONS_ITEM = 'WorkflowConfsItem';
 
 /* SETTINGS */
 export const PROFILE = 'userProfile';
@@ -95,6 +95,7 @@ export default {
 	VM_LAUNCHER_CONFIGURATIONS_ITEM,
 	WORKFLOW_STATUS_LISTING,
 	WORKFLOW_CONFIGURATIONS_LISTING,
+	WORKFLOW_CONFIGURATIONS_ITEM,
 	PROFILE,
 	USERS,
 	ACCOUNTS,
