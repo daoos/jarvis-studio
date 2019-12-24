@@ -5,7 +5,8 @@ import {
 	STORAGE_TO_TABLES_CONFIGURATIONS_ITEM,
 	VM_LAUNCHER_RUNS_ITEM,
 	VM_LAUNCHER_RUNS_LISTING,
-	VM_LAUNCHER_CONFIGURATIONS_LISTING
+	VM_LAUNCHER_CONFIGURATIONS_LISTING,
+	VM_LAUNCHER_CONFIGURATIONS_ITEM
 } from '@/constants/router/routes-names';
 
 // TODO: Update all keys
@@ -59,6 +60,7 @@ export const getWorkflowName = name => {
 		[VM_LAUNCHER_RUNS_LISTING]: 'VM Launcher',
 		[VM_LAUNCHER_RUNS_ITEM]: 'VM Launcher',
 		[VM_LAUNCHER_CONFIGURATIONS_LISTING]: 'VM Launcher',
+		[VM_LAUNCHER_CONFIGURATIONS_ITEM]: 'VM Launcher',
 
 		// Workflow
 		WorkflowStatus: 'Workflow',

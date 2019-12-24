@@ -64,7 +64,6 @@ export default {
 			return RUNS;
 		},
 		routeName() {
-			// TODO: Create route
 			return VM_LAUNCHER_RUNS_ITEM;
 		},
 		headers() {

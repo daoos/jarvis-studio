@@ -49,7 +49,7 @@ export const TABLE_TO_STORAGE_CONFIGURATIONS_ITEM = 'TableToStorageConf';
 export const VM_LAUNCHER_RUNS_LISTING = 'vmLauncherRuns';
 export const VM_LAUNCHER_RUNS_ITEM = 'vmLauncherRunsItem';
 export const VM_LAUNCHER_CONFIGURATIONS_LISTING = 'vmLauncherConfs';
-// TODO: Create conf constant
+export const VM_LAUNCHER_CONFIGURATIONS_ITEM = 'vmLauncherConfsItem';
 
 export const WORKFLOW_STATUS_LISTING = 'WorkflowStatus';
 // TODO: Create status constant
@@ -92,6 +92,7 @@ export default {
 	VM_LAUNCHER_RUNS_LISTING,
 	VM_LAUNCHER_RUNS_ITEM,
 	VM_LAUNCHER_CONFIGURATIONS_LISTING,
+	VM_LAUNCHER_CONFIGURATIONS_ITEM,
 	WORKFLOW_STATUS_LISTING,
 	WORKFLOW_CONFIGURATIONS_LISTING,
 	PROFILE,

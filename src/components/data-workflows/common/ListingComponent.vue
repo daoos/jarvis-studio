@@ -156,10 +156,6 @@ export default {
 			isLoading: false,
 			search: '',
 			expanded: [],
-			pagination: {
-				sortBy: 'table_name',
-				sortDesc: true
-			},
 			viewedItem: {},
 			showDeleteDialog: false,
 			showDeleteItemDetails: false,
