@@ -2,7 +2,10 @@ import {
 	STORAGE_TO_TABLES_RUNS_LISTING,
 	STORAGE_TO_TABLES_RUNS_ITEM,
 	STORAGE_TO_TABLES_CONFIGURATIONS_LISTING,
-	STORAGE_TO_TABLES_CONFIGURATIONS_ITEM
+	STORAGE_TO_TABLES_CONFIGURATIONS_ITEM,
+	VM_LAUNCHER_RUNS_ITEM,
+	VM_LAUNCHER_RUNS_LISTING,
+	VM_LAUNCHER_CONFIGURATIONS_LISTING
 } from '@/constants/router/routes-names';
 
 // TODO: Update all keys
@@ -53,9 +56,9 @@ export const getWorkflowName = name => {
 		TableToStorageConf: 'Table to Storage',
 
 		// VM Launcher
-		// TODO: Update names
-		vmLauncherRuns: 'VM Launcher',
-		vmLauncherConfs: 'VM Launcher',
+		[VM_LAUNCHER_RUNS_LISTING]: 'VM Launcher',
+		[VM_LAUNCHER_RUNS_ITEM]: 'VM Launcher',
+		[VM_LAUNCHER_CONFIGURATIONS_LISTING]: 'VM Launcher',
 
 		// Workflow
 		WorkflowStatus: 'Workflow',
