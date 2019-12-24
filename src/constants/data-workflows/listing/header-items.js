@@ -15,6 +15,12 @@ export const NB_FILENAME_TEMPLATES = { text: 'Nb File Templates', sortable: true
 export const GBQ_TABLE_REFRESHED = { text: 'Destination Table', sortable: true, value: 'gbq_table_refreshed' };
 export const FIRESTORE_CONF_DOC_ID = { text: 'Configuration Id', sortable: true, value: 'firestore_conf_doc_id' };
 export const OUTPUT_FILENAME = { text: 'Generated File', sortable: true, value: 'output_filename' };
+export const DAG_ID = { text: 'Workflow Id Bucket', sortable: true, value: 'dag_id' };
+export const WORKFLOW_LENGTH = {
+	text: 'Tasks',
+	sortable: true,
+	value: 'configuration_context.configuration.workflow.length'
+};
 
 // CONFIGURATIONS
 export const ID = { text: 'Configuration id', sortable: true, value: 'id' };
@@ -48,6 +54,8 @@ export default {
 	GBQ_TABLE_REFRESHED,
 	FIRESTORE_CONF_DOC_ID,
 	OUTPUT_FILENAME,
+	DAG_ID,
+	WORKFLOW_LENGTH,
 
 	// CONFIGURATIONS
 	ID,

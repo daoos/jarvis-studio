@@ -33,7 +33,7 @@
 import HeaderDocView from '@/components/data-workflows/common/HeaderDocView.vue';
 import ParametersList from '@/components/tmp/ParametersList.vue';
 import CreateUpdateConfOverview from '@/components/data-workflows/configuration/CreateUpdateConfOverview.vue';
-import TablesToTablesDagChart from '@/components/data-workflows/tables-to-tables/TablesToTablesDagChart.vue';
+import TablesToTablesDagChart from '@/components/data-workflows/common/item/DagChart.vue';
 
 export default {
 	components: {

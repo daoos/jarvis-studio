@@ -1,6 +1,6 @@
 <template>
 	<perfect-scrollbar>
-		<VueFlowy :chart="chart"></VueFlowy>
+		<VueFlowy :chart="chart" />
 	</perfect-scrollbar>
 </template>
 
@@ -9,8 +9,7 @@ import { VueFlowy, FlowChart } from 'vue-flowy';
 import { PerfectScrollbar } from 'vue2-perfect-scrollbar';
 
 export default {
-	name: 'App',
-
+	name: 'dag-chart',
 	components: {
 		VueFlowy,
 		PerfectScrollbar
@@ -141,4 +140,4 @@ export default {
 };
 </script>
 
-<style src="../../../../node_modules/vue2-perfect-scrollbar/dist/vue2-perfect-scrollbar.css" />
+<style src="../../../../../node_modules/vue2-perfect-scrollbar/dist/vue2-perfect-scrollbar.css" />
