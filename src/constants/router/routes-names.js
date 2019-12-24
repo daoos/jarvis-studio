@@ -52,7 +52,7 @@ export const VM_LAUNCHER_CONFIGURATIONS_LISTING = 'vmLauncherConfs';
 export const VM_LAUNCHER_CONFIGURATIONS_ITEM = 'vmLauncherConfsItem';
 
 export const WORKFLOW_STATUS_LISTING = 'WorkflowStatus';
-// TODO: Create status constant
+export const WORKFLOW_STATUS_ITEM = 'WorkflowStatusItem';
 export const WORKFLOW_CONFIGURATIONS_LISTING = 'WorkflowConfs';
 // TODO: Create conf constant
 

@@ -44,6 +44,16 @@ export const CONF_WORKFLOW_LENGTH = { text: '# Tasks', sortable: true, value: 'c
 export const GCS_FILE_EXCHANGE_BUCKET = { text: 'Bucket Exchange', sortable: true, value: 'gcs_file_exchange_bucket' };
 export const WORKING_DIR = { text: 'Working Directory', sortable: true, value: 'working_dir' };
 
+// Status
+export const JOBS = { text: 'Triggering Jobs', sortable: true, value: 'jobs' };
+export const TRIGGERED_JOBS = { text: 'Triggered Jobs', sortable: true, value: 'triggered_jobs' };
+export const LAST_UPDATE_FROM_NOW = {
+	text: 'Last triggering date',
+	sortable: true,
+	value: 'last_update_date_from_now'
+};
+export const LAST_FIRE_DATE_FROM_NOW = { text: 'Last fire Date', sortable: true, value: 'last_fire_date_from_now' };
+
 export default {
 	// GENERAL
 	ACCOUNT,
@@ -77,5 +87,11 @@ export default {
 	DEFAULT_BQ_DATASET,
 	CONF_WORKFLOW_LENGTH,
 	GCS_FILE_EXCHANGE_BUCKET,
-	WORKING_DIR
+	WORKING_DIR,
+
+	// STATUS
+	JOBS,
+	TRIGGERED_JOBS,
+	LAST_UPDATE_FROM_NOW,
+	LAST_FIRE_DATE_FROM_NOW
 };

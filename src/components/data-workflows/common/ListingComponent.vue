@@ -210,7 +210,7 @@ export default {
 				});
 			} else {
 				await store.dispatch(`${this.moduleName}/closeDBChannel`, { clearModule: true });
-				await store.dispatch(`${this.moduleName}/fetchAndAdd`, { where, limit: 0 });
+				await store.dispatch(`${this.moduleName}/fetchAndAdd`, { limit: 0 });
 
 				this.isLoading = false;
 			}
