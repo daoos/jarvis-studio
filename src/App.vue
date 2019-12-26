@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import AppBar from './components/app/AppBar';
+import AppBar from './components/app/app-bar/AppBar';
 import FooterContent from './components/app/FooterContent';
 import NavigationContent from './components/app/NavigationContent';
 import NotificationContent from './components/app/NotificationContent';

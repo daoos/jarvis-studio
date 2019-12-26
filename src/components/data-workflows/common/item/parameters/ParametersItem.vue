@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import SqlViewer from '@/components/data-workflows/common/SqlViewer';
+import SqlViewer from '@/components/data-workflows/common/item/overview/SqlViewer';
 
 export default {
 	name: 'parameters-item',

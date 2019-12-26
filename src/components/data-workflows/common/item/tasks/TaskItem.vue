@@ -93,7 +93,7 @@ import ParametersList from '@/components/data-workflows/common/item/parameters/P
 import VueMarkdown from 'vue-markdown';
 import Prism from 'vue-prismjs';
 import 'prismjs/themes/prism.css';
-import tableSchemaView from '@/components/data-workflows/common/TableSchemaView.vue';
+import tableSchemaView from '@/components/data-workflows/common/item/schema/TableSchemaView.vue';
 
 export default {
 	components: {

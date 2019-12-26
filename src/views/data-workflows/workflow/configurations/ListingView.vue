@@ -17,8 +17,8 @@
 </template>
 
 <script>
-import DataManagementHeader from '../../../../components/app/headers/DataManagementHeader';
-import ListingComponent from '@/components/data-workflows/common/ListingComponent';
+import DataManagementHeader from '../../../../components/data-workflows/DataManagementHeader';
+import ListingComponent from '@/components/data-workflows/common/listing/ListingComponent';
 
 import TabsItemsMixin from '../tabs-items';
 
