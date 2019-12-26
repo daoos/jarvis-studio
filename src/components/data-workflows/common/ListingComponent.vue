@@ -16,10 +16,11 @@
 			:search="search"
 			:loading="isLoading"
 			:expanded="expanded"
-			:sort-by.sync="pagination.sortBy"
-			:sort-desc.sync="pagination.sortDesc"
+			:sort-by.sync="sortBy"
+			:sort-desc.sync="sortDesc"
 			item-key="id"
 			class="elevation-1"
+			:items-per-page="itemsPerPage"
 		>
 			<v-progress-linear v-slot:progress color="blue" indeterminate />
 
@@ -97,6 +98,18 @@ export default {
 		},
 		overriddenColumns: {
 			type: Array
+		},
+		sortBy: {
+			type: String,
+			default: 'dag_execution_date'
+		},
+		sortDesc: {
+			type: Boolean,
+			default: true
+		},
+		itemsPerPage: {
+			type: Number,
+			default: 10
 		}
 	},
 	data() {
@@ -104,10 +117,6 @@ export default {
 			isLoading: false,
 			search: '',
 			expanded: [],
-			pagination: {
-				sortBy: 'table_name',
-				sortDesc: true
-			},
 			viewedItem: {}
 		};
 	},

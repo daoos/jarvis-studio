@@ -26,3 +26,5 @@ new Vue({
 		});
 	}
 }).$mount('#app');
+
+Vue.use(require('vue-moment'));
