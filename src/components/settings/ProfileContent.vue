@@ -29,16 +29,14 @@
 <script>
 import { mapState } from 'vuex';
 import { mapGetters } from 'vuex';
-import ParametersList from '@/components/tmp/ParametersList.vue';
+import ParametersList from '@/components/data-workflows/common/item/parameters/ParametersList';
 
 export default {
 	name: 'profile-content',
 	components: { ParametersList },
 	computed: {
 		...mapState({
-			isAuthenticated: state => state.user.isAuthenticated,
-			user: state => state.user.user,
-			accounts: state => state.accounts.data
+			user: state => state.user.user
 		}),
 		...mapGetters(['periodFiltered', 'whereConfFilter']),
 		userIdentity() {
