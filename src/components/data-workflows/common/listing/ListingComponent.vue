@@ -41,27 +41,20 @@
 			</template>
 
 			<template v-slot:expanded-item="{ headers }">
-				<td :colspan="headers.length" class="pa-0">
-					<v-card flat>
-						<v-card-title>
-							<span class="headline">{{ viewedItem.table_name }}</span>
-							<v-spacer />
-							<v-btn color="warning" fab small dark outlined>
-								<v-icon @click="toggleExpand(viewedItem)">close</v-icon>
-							</v-btn>
-						</v-card-title>
+				<td ref="expandedItem" :colspan="headers.length" class="pa-0">
+					<div class="expanded-item pa-4">
+						<v-btn class="close-btn" color="warning" fab small dark outlined>
+							<v-icon @click="toggleExpand(viewedItem)">close</v-icon>
+						</v-btn>
 
-						<v-card-text>
-							<vue-json-pretty
-								:data="viewedItem"
-								:deep="5"
-								:show-double-quotes="true"
-								:show-length="true"
-								:show-line="false"
-							>
-							</vue-json-pretty>
-						</v-card-text>
-					</v-card>
+						<vue-json-pretty
+							:data="viewedItem"
+							:deep="5"
+							:show-double-quotes="true"
+							:show-length="true"
+							:show-line="false"
+						/>
+					</div>
 				</td>
 			</template>
 
@@ -244,3 +237,21 @@ export default {
 	}
 };
 </script>
+
+<style lang="scss">
+.expanded-item {
+	position: relative;
+	max-height: 75vh;
+	overflow-y: scroll;
+	word-break: break-all;
+
+	.close-btn {
+		z-index: 1;
+		position: -webkit-sticky;
+		position: sticky;
+		top: 0;
+		float: right;
+		background-color: white;
+	}
+}
+</style>
