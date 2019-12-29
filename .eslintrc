@@ -7,18 +7,25 @@
     "plugin:vue/essential",
     "plugin:prettier/recommended",
     "@vue/prettier",
-    "prettier"
+    "prettier",
+    "@vue/typescript"
   ],
   "plugins": [
     "vuetify",
     "prettier"
   ],
   "parserOptions": {
-    "parser": "babel-eslint"
+    "parser": "@typescript-eslint/parser"
   },
   "rules": {
     "no-console": "off",
-    "indent": ["error", "tab", { "SwitchCase": 1 }],
+    "indent": [
+      "error",
+      "tab",
+      {
+        "SwitchCase": 1
+      }
+    ],
     "prettier/prettier": "error",
     "vuetify/no-deprecated-classes": "error",
     "vuetify/grid-unknown-attributes": "error",

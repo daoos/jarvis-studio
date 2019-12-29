@@ -1,102 +1,29 @@
 <template>
-	<v-app>
-		<template v-if="showLayout">
-			<app-bar @toggleNavigation="toggleNavigation" @toggleNotifications="toggleNotifications" />
-
-			<v-navigation-drawer
-				v-model="showNavigation"
-				:permanent="navigationDrawer.permanent"
-				:mini-variant="navigationDrawer.mini"
-				fixed
-				app
-				dark
-				class="menu"
-				width="300"
-			>
-				<navigation-content
-					:drawer="navigationDrawer"
-					:analytics-items="analyticsItems"
-					:settings-items="settingsItems"
-				/>
-			</v-navigation-drawer>
-
-			<v-navigation-drawer temporary :right="true" v-model="showNotifications" fixed app>
-				<notification-content :show-notifications="showNotifications" @closeNotifications="toggleNotifications" />
-			</v-navigation-drawer>
-
-			<v-footer class="menu" app dark>
-				<footer-content />
-			</v-footer>
-		</template>
-
-		<v-content>
-			<transition name="fade" mode="out-in">
-				<keep-alive>
-					<router-view :key="$route.fullPath" />
-				</keep-alive>
-			</transition>
-		</v-content>
-	</v-app>
+	<div id="app">
+		<img alt="Vue logo" src="./assets/logo.png" />
+		<HelloWorld msg="Welcome to Your Vue.js + TypeScript App" />
+	</div>
 </template>
 
-<script>
-import AppBar from './components/app/app-bar/AppBar';
-import FooterContent from './components/app/FooterContent';
-import NavigationContent from './components/app/NavigationContent';
-import NotificationContent from './components/app/NotificationContent';
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator';
+import HelloWorld from './components/HelloWorld.vue';
 
-import { mapState, mapGetters } from 'vuex';
-import analyticsItems from './navigation/analytics-items';
-import settingsItems from './navigation/settings-items';
-
-export default {
-	name: 'app',
-	components: { AppBar, FooterContent, NavigationContent, NotificationContent },
-	data: () => ({
-		navigationDrawer: {
-			permanent: true,
-			mini: false
-		},
-		showNavigation: true,
-		showNotifications: false,
-		analyticsItems: analyticsItems,
-		settingsItems: settingsItems
-	}),
-	mounted() {
-		this.makeNavigationResponsive();
-	},
-	computed: {
-		...mapState({
-			isAuthenticated: state => state.user.isAuthenticated
-		}),
-		...mapGetters(['getUserAccounts']),
-		showLayout() {
-			return this.isAuthenticated && this.getUserAccounts.length > 0;
-		}
-	},
-	watch: {
-		'$vuetify.breakpoint.lgAndUp'(isUp) {
-			this.makeNavigationResponsive(isUp);
-		}
-	},
-	methods: {
-		toggleNavigation() {
-			this.showNavigation = !this.showNavigation;
-		},
-		toggleNotifications() {
-			this.showNotifications = !this.showNotifications;
-		},
-		makeNavigationResponsive(isUp) {
-			if (isUp) {
-				this.navigationDrawer.permanent = true;
-			} else {
-				this.navigationDrawer.permanent = false;
-			}
-		}
+@Component({
+	components: {
+		HelloWorld
 	}
-};
+})
+export default class App extends Vue {}
 </script>
 
 <style lang="scss">
-@import 'scss/transitions/fade';
+#app {
+	font-family: 'Avenir', Helvetica, Arial, sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	text-align: center;
+	color: #2c3e50;
+	margin-top: 60px;
+}
 </style>
