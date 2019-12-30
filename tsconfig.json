@@ -34,6 +34,20 @@
     "tests/**/*.tsx"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    // TODO: Migrate all these files & folders
+    "src/components/app",
+    "src/components/data-models",
+    "src/components/data-workflows",
+    "src/components/settings",
+    "src/constants",
+    "src/firebase",
+    "src/mixins",
+    "src/plugins",
+    "src/router",
+    "src/store",
+    "src/util",
+    "src/views",
+    "src/main.ts"
   ]
 }
