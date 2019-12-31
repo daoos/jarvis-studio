@@ -20,6 +20,7 @@
 			:sort-desc.sync="sortDesc"
 			item-key="id"
 			class="elevation-1"
+			:items-per-page="itemsPerPage"
 		>
 			<v-progress-linear v-slot:progress color="blue" indeterminate />
 
@@ -97,24 +98,26 @@ export default {
 			type: Array
 		},
 		sortBy: {
-			type: String
+			type: String,
+			default: 'dag_execution_date'
 		},
 		sortDesc: {
-			type: Boolean
+			type: Boolean,
+			default: true
 		},
-		showAirflowAction: {
-			type: Boolean
-		}
+		itemsPerPage: {
+			type: Number,
+			default: 10
+		},
+    showAirflowAction: {
+			type: Boolean 
+    }
 	},
 	data() {
 		return {
 			isLoading: false,
 			search: '',
 			expanded: [],
-			pagination: {
-				sortBy: 'table_name',
-				sortDesc: true
-			},
 			viewedItem: {}
 		};
 	},
