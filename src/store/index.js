@@ -1,20 +1,14 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-
-// Store modules
-import user from './user';
-import filters from './filters';
-
 import VuexEasyFirestore from 'vuex-easy-firestore';
 import VuexPersist from 'vuex-persist';
-import easyFirestoreModules from './easy-firestore-modules';
 
-import { firebase, initFirebase } from '../firebase/firestore';
+import user from './modules/user';
+import filters from './modules/filters';
+import easyFirestoreModules from './modules/easy-firestore';
+import { firebase, initFirebase } from '../config/firebase';
 
 initFirebase().catch(error => {
-	// TODO: Redirect to error page (have to create one)
-	// Redirect user to a page stating an error occurred
-	// => (might be a connection error, or the app is open in another tab)
 	console.error(error);
 });
 
