@@ -1,23 +1,20 @@
 <template>
 	<div>
-		<data-management-header :tabs-items="tabsItems" />
-		<runs-item :tabs-items="itemTabsItems" :is-loading="isLoading" />
+		<DataManagementHeader :tabsItems="tabsItems" />
+		<item-component :tabs-items="itemTabsItems" :is-loading="isLoading" />
 	</div>
 </template>
 
 <script>
-import RunsItem from '@/components/data-workflows/common/ItemComponent';
-import DataManagementHeader from '@/components/app/headers/DataManagementHeader';
-
 import TabsItemsMixin from '../tabs-items';
 import ItemMixin from '@/mixins/data-workflows/item-mixin';
 
 export default {
-	components: { RunsItem, DataManagementHeader },
+	name: 'storage-to-tales-runs-listing-view',
 	mixins: [TabsItemsMixin, ItemMixin],
 	data: () => ({
 		item: null,
-		moduleName: 'tableToStorageRuns'
+		moduleName: 'getGbqToGcsRuns'
 	}),
 	computed: {
 		itemTabsItems() {
@@ -72,7 +69,7 @@ export default {
 					props: {
 						item: this.item,
 						activeHeader: true,
-						viewId: this.item.firestore_conf_doc_id,
+						viewId: this.item.id,
 						viewType: 'run',
 						description: null,
 						runStatus: this.item.status

@@ -30,6 +30,7 @@
 
 			<template v-slot:item.actions="{ item }">
 				<v-icon small @click="toggleExpand(item)">remove_red_eye</v-icon>
+				<v-icon v-if="showAirflowAction" class="ml-2" small @click="openAirflowDagRunUrl(item)">open_in_new</v-icon>
 			</template>
 
 			<!-- Loop placed after default templates to override them if needed -->
@@ -78,17 +79,14 @@ import { mapState } from 'vuex';
 import { mapGetters } from 'vuex';
 import store from '@/store';
 import _ from 'lodash';
-import Util from '@/util';
+import { getActiveConfColor } from '@/util/data-workflows/configuration';
+import { dagRunAirflowUrl } from '@/util/data-workflows/run';
 
 export default {
 	name: 'listing-component',
 	components: { VueJsonPretty, DataManagementFilters, ConfigurationStatus },
 	props: {
 		moduleName: {
-			type: String,
-			required: true
-		},
-		routeName: {
 			type: String,
 			required: true
 		},
@@ -110,6 +108,9 @@ export default {
 		itemsPerPage: {
 			type: Number,
 			default: 10
+		},
+		showAirflowAction: {
+			type: Boolean
 		}
 	},
 	data() {
@@ -134,9 +135,10 @@ export default {
 				this.viewedItem = item;
 			}
 		},
+		openAirflowDagRunUrl(item) {
+			window.open(dagRunAirflowUrl(item.dag_id, item.dag_run_id, item.dag_execution_date), '_blank');
+		},
 		async getFirestoreData() {
-			// TODO: Use getItem mixin?
-
 			const where = this.whereConfFilter;
 			this.isLoading = true;
 			try {
@@ -161,7 +163,7 @@ export default {
 			const formattedData = dataArray.map(function(data) {
 				return {
 					//color for the activated status
-					activeConfColor: Util.getActiveConfColor(data.activated)
+					activeConfColor: getActiveConfColor(data.activated)
 				};
 			});
 			return _.merge(dataArray, formattedData);

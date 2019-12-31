@@ -1,14 +1,65 @@
+<template>
+	<div>
+		<data-management-header :tabsItems="tabsItems" />
+		<item-component :tabs-items="itemTabsItems" :is-loading="isLoading" />
+	</div>
+</template>
+
+<script>
+import TabsItemsMixin from '../tabs-items';
+import ItemMixin from '@/mixins/data-workflows/item-mixin';
+
 export default {
+	name: 'gbq-to-gcs-configuration-item',
+	mixins: [TabsItemsMixin, ItemMixin],
+	data: () => ({
+		moduleName: 'getGbqToGcsConfs'
+	}),
 	computed: {
-		overviewData() {
+		itemTabsItems() {
+			return [
+				{
+					label: 'Configuration',
+					href: 'configuration',
+					component: {
+						name: 'overview-component',
+						props: {
+							data: this.configurationData
+						}
+					}
+				},
+				{
+					label: 'Full Json',
+					href: 'full-json',
+					component: {
+						name: 'view-json',
+						props: {
+							json: this.item,
+							jsonId: this.itemId
+						}
+					}
+				},
+				{
+					label: 'Conversation',
+					href: 'conversation',
+					component: {
+						name: 'view-conversation',
+						props: {}
+					}
+				}
+			];
+		},
+		configurationData() {
+			if (!this.item) return;
+
 			return [
 				{
 					component: 'view-header',
 					props: {
-						item: this.conf,
+						item: this.item,
 						collection: 'getGbqToGcsConfs',
 						activeHeader: true,
-						viewId: this.confId,
+						viewId: this.item.id,
 						viewType: 'conf',
 						description: null
 					}
@@ -28,28 +79,28 @@ export default {
 							{
 								id: 'configuration_id',
 								label: 'Configuration ID',
-								value: this.conf.id
+								value: this.item.id
 							},
 							{
 								id: 'account',
 								label: 'Account',
-								value: this.conf.account
+								value: this.item.account
 							},
 							{
 								id: 'environment',
 								label: 'Environment',
-								value: this.conf.environment
+								value: this.item.environment
 							},
 							{
 								id: 'activated',
 								label: 'Activated',
-								value: this.conf.activated,
+								value: this.item.activated,
 								default: true
 							},
 							{
 								id: 'archive',
 								label: 'Archive',
-								value: this.conf.archive,
+								value: this.item.archive,
 								default: false
 							}
 						]
@@ -85,9 +136,9 @@ export default {
 						rows: [
 							{
 								source_type: 'GCS',
-								gcs_dest_bucket: this.conf.gcs_dest_bucket,
-								gcs_dest_prefix: this.conf.gcs_dest_prefix,
-								output_filename: this.conf.output_filename
+								gcs_dest_bucket: this.item.gcs_dest_bucket,
+								gcs_dest_prefix: this.item.gcs_dest_prefix,
+								output_filename: this.item.output_filename
 							}
 						],
 						vflexLength: 'xs9',
@@ -105,19 +156,19 @@ export default {
 							{
 								id: 'compression',
 								label: 'Compressed',
-								value: this.conf.compression,
+								value: this.item.compression,
 								default: 'None'
 							},
 							{
 								id: 'field_delimiter',
 								label: 'Field Delimiter',
-								value: this.conf.field_delimiter,
+								value: this.item.field_delimiter,
 								default: '|'
 							},
 							{
 								id: 'delete_dest_bucket_content',
 								label: 'Delete Destination Storage Content',
-								value: this.conf.delete_dest_bucket_content,
+								value: this.item.delete_dest_bucket_content,
 								default: false
 							}
 						]
@@ -133,21 +184,21 @@ export default {
 							{
 								id: 'gcp_project',
 								label: 'Bigquery Project ID',
-								value: this.conf.gcp_project
+								value: this.item.gcp_project
 							},
 							{
 								id: '',
 								label: 'SQL File',
 								component: 'sql-viewer',
 								properties: {
-									id: this.conf.id,
-									sqlBinary: this.conf.sql
+									id: this.item.id,
+									sqlBinary: this.item.sql
 								}
 							},
 							{
 								id: 'copy_table',
 								label: 'Keep Table',
-								value: this.conf.copy_table,
+								value: this.item.copy_table,
 								default: false
 							}
 						]
@@ -155,7 +206,7 @@ export default {
 				},
 				{
 					component: 'parameters-table',
-					displayCondition: this.conf.copy_table,
+					displayCondition: this.item.copy_table,
 					props: {
 						tableTitle: 'Destination Table',
 						description: 'The Destination Table where the dataset will be keeped',
@@ -185,10 +236,10 @@ export default {
 						rows: [
 							{
 								source_type: 'BigQuery',
-								dest_gcp_project_id: this.conf.dest_gcp_project_id,
-								dest_gbq_dataset: this.conf.dest_gbq_dataset,
-								dest_gbq_table: this.conf.dest_gbq_table,
-								dest_gbq_table_suffix: this.conf.dest_gbq_table_suffix
+								dest_gcp_project_id: this.item.dest_gcp_project_id,
+								dest_gbq_dataset: this.item.dest_gbq_dataset,
+								dest_gbq_table: this.item.dest_gbq_table,
+								dest_gbq_table_suffix: this.item.dest_gbq_table_suffix
 							}
 						],
 						vflexLength: 'xs9',
@@ -227,10 +278,10 @@ export default {
 						],
 						rows: [
 							{
-								update_date: this.conf.update_date,
-								updated_by: this.conf.updated_by,
-								creation_date: this.conf.creation_date,
-								created_by: this.conf.created_by
+								update_date: this.item.update_date,
+								updated_by: this.item.updated_by,
+								creation_date: this.item.creation_date,
+								created_by: this.item.created_by
 							}
 						],
 						vflexLength: 'xs9',
@@ -242,3 +293,4 @@ export default {
 		}
 	}
 };
+</script>
