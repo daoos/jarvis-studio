@@ -33,3 +33,5 @@ firebase.auth().onAuthStateChanged(user => {
 		createApp();
 	}
 });
+
+Vue.use(require('vue-moment'));

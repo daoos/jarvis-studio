@@ -10,26 +10,14 @@
 					:activeHeader="activeHeader"
 					viewType="run"
 				/>
-				<ParametersList
-					groupTitle="Context"
-					description="Context of the Storage to Table Run"
-					:paramItems="paramContext"
-				/>
-				<ParametersList
-					groupTitle="Source"
-					description="Source of the Storage to Table Run"
-					:paramItems="paramSource"
-				/>
+				<ParametersList groupTitle="Context" description="Context of the GCS To GBQ Run" :paramItems="paramContext" />
+				<ParametersList groupTitle="Source" description="Source of the GCS To GBQ Run" :paramItems="paramSource" />
 				<ParametersList
 					groupTitle="Destination"
-					description="Destination of the Storage to Table Run"
+					description="Destination of the GCS To GBQ Run"
 					:paramItems="paramDestination"
 				/>
-				<ParametersList
-					groupTitle="Run Details"
-					description="Details of the Storage to Table Run"
-					:paramItems="paramItems"
-				/>
+				<ParametersList groupTitle="Run Details" description="Details of the GCS To GBQ Run" :paramItems="paramItems" />
 			</v-col>
 		</v-row>
 	</v-container>

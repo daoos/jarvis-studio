@@ -6,11 +6,15 @@
 			:route-name="routeName"
 			:headers="headers"
 			:overridden-columns="overriddenColumns"
+			sortBy="id"
 		>
 			<template v-slot:id="{ item: { id } }">
 				<router-link :to="{ name: routeName, params: { id } }">
 					<span class="font-weight-medium">{{ id }}</span>
 				</router-link>
+			</template>
+			<template v-slot:source="{ item: { source } }">
+				{{ source.type === 'gcs' ? source.gcs_source_bucket : 'unknown' }}
 			</template>
 		</listing-component>
 	</div>
@@ -31,7 +35,7 @@ export default {
 	data() {
 		return {
 			moduleName: 'storageToTablesConfs',
-			overriddenColumns: ['id']
+			overriddenColumns: ['id', 'source']
 		};
 	},
 	computed: {
@@ -57,6 +61,20 @@ export default {
 					align: 'left',
 					sortable: true,
 					value: 'id'
+				},
+				{ text: 'Source Type', align: 'left', sortable: true, value: 'source.type' },
+				{ text: 'Source Name', align: 'left', sortable: true, value: 'source' },
+				{
+					text: 'Destinations',
+					align: 'left',
+					sortable: true,
+					value: 'destinations.length'
+				},
+				{
+					text: 'Tables',
+					align: 'left',
+					sortable: true,
+					value: 'destinations[0].tables.length'
 				},
 				{
 					text: 'Status',
