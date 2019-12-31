@@ -13,7 +13,7 @@
 				/>
 				<ParametersList
 					groupTitle="Context"
-					description="Context of the Storage to Table configuration"
+					description="Context of the GCS To GBQ configuration"
 					:paramItems="paramContext"
 				/>
 				<ParametersTable
@@ -34,14 +34,10 @@
 					:lineNumbers="false"
 					:searchOptionsEnabled="false"
 				/>
-				<ParametersList
-					groupTitle="Parameters"
-					description="Main Storage to Table parameters"
-					:paramItems="paramItems"
-				/>
+				<ParametersList groupTitle="Parameters" description="Main GCS To GBQ parameters" :paramItems="paramItems" />
 				<ParametersList
 					groupTitle="Options"
-					description="Storage to Table optionnal configurations"
+					description="GCS To GBQ optionnal configurations"
 					:paramItems="paramItemsOptions"
 				/>
 				<CreateUpdateConfOverview

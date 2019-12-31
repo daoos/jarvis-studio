@@ -60,6 +60,10 @@ export default {
 		},
 		lineNumbers: {
 			type: Boolean
+		},
+		searchOptionsEnabled: {
+			type: Boolean,
+			default: false
 		}
 	},
 	computed: {
