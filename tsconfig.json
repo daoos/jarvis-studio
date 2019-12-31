@@ -8,11 +8,14 @@
     "moduleResolution": "node",
     "experimentalDecorators": true,
     "esModuleInterop": true,
+    // TODO: Remove this property once all files are migrated
+    "allowJs": true,
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
     "baseUrl": ".",
     "types": [
-      "webpack-env"
+      "webpack-env",
+      "vuetify"
     ],
     "paths": {
       "@/*": [
@@ -24,6 +27,10 @@
       "dom",
       "dom.iterable",
       "scripthost"
+    ],
+    "typeRoots": [
+      "./node_modules/@types",
+      "./node_modules/vuetify/types"
     ]
   },
   "include": [
@@ -34,20 +41,6 @@
     "tests/**/*.tsx"
   ],
   "exclude": [
-    "node_modules",
-    // TODO: Migrate all these files & folders
-    "src/components/app",
-    "src/components/data-models",
-    "src/components/data-workflows",
-    "src/components/settings",
-    "src/constants",
-    "src/firebase",
-    "src/mixins",
-    "src/plugins",
-    "src/router",
-    "src/store",
-    "src/util",
-    "src/views",
-    "src/main.ts"
+    "node_modules"
   ]
 }
