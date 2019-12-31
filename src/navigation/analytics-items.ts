@@ -1,3 +1,4 @@
+import { Link } from '@/types/link';
 import {
 	GCS_TO_GCS_RUNS_LISTING,
 	STORAGE_TO_STORAGE_RUNS_LISTING,
@@ -9,7 +10,6 @@ import {
 	VM_LAUNCHER_RUNS_LISTING,
 	WORKFLOW_STATUS_LISTING
 } from '@/constants/router/routes-names';
-import { Link } from '@/types/link';
 
 export const analyticsItems: Link[] = [
 	{

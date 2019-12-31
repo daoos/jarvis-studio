@@ -48,6 +48,7 @@ import FooterContent from '@/components/app/FooterContent.vue';
 
 import { State, Getter } from 'vuex-class';
 
+import { Link } from '@/types/link';
 import { analyticsItems } from './navigation/analytics-items';
 import { settingsItems } from './navigation/settings-items';
 
@@ -63,8 +64,8 @@ export default class App extends Vue {
 	navigationDrawer: Drawer = { permanent: true, mini: false };
 	showNavigation: boolean = true;
 	showNotifications: boolean = false;
-	analyticsItems: object = analyticsItems;
-	settingsItems: object = settingsItems;
+	analyticsItems: Link[] = analyticsItems;
+	settingsItems: Link[] = settingsItems;
 
 	@State(state => state.user.isAuthenticated) isAuthenticated!: boolean;
 	@Getter('getUserAccounts') getUserAccounts!: string[];
