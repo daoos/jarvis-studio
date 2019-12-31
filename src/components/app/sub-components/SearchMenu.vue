@@ -1,5 +1,5 @@
 <template>
-	<v-row class="fill-height" align="center" justify="end">
+	<v-row align="center" justify="end">
 		<v-btn icon @click.native="searchBegin">
 			<v-icon>search</v-icon>
 		</v-btn>

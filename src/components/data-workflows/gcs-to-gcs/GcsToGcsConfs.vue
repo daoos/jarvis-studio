@@ -258,7 +258,6 @@ export default {
 		},
 		async getFirestoreData() {
 			const where = this.whereConfFilter;
-			console.log(where);
 			this.$data.fetchAndAddStatus = 'Loading';
 			this.$data.moreToFetchAndAdd = false;
 			this.$data.isFetchAndAdding = true;
@@ -289,7 +288,6 @@ export default {
 		...mapState({
 			isAuthenticated: state => state.user.isAuthenticated,
 			user: state => state.user.user,
-			settings: state => state.settings,
 			mirrorExcGcsToGcsConfs: state => state.mirrorExcGcsToGcsConfs.data
 		}),
 		...mapGetters(['periodFiltered', 'whereConfFilter']),

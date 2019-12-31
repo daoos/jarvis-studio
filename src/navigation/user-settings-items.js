@@ -1,20 +1,14 @@
-import store from '@/store';
-import { PROFILE } from '@/constants/router/routes-names';
+import { LOGOUT, PROFILE } from '@/constants/router/routes-names';
 
 export default [
 	{
 		title: 'Profile',
 		link: { name: PROFILE },
-		icon: 'account_circle',
-		click: () => {}
+		icon: 'account_circle'
 	},
-	// TODO: Remove click actions & redirect to logout page
 	{
 		title: 'Logout',
-		link: null,
-		icon: 'exit_to_app',
-		click: () => {
-			store.dispatch('userSignOut');
-		}
+		link: { name: LOGOUT },
+		icon: 'exit_to_app'
 	}
 ];

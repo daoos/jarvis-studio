@@ -7,13 +7,11 @@ const accounts = {
 	sync: {
 		guard: ['created_at', 'updated_at'] // array of keys
 	},
-
-	// this object is your store module (will be added as '/myModule')
-	// you can also add state/getters/mutations/actions
-	state: {},
-	getters: {},
-	mutations: {},
-	actions: {}
+	getters: {
+		getAccounts(state) {
+			return state.data;
+		}
+	}
 };
 
 export default accounts;

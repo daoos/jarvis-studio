@@ -14,64 +14,46 @@ export default [
 	{
 		icon: 'swap_horiz',
 		title: 'GCS to GCS',
-		link: {
-			name: GCS_TO_GCS_RUNS_LISTING
-		}
+		link: { name: GCS_TO_GCS_RUNS_LISTING }
 	},
 	{
 		icon: 'flare',
 		title: 'Storage to Storage',
-		link: {
-			name: STORAGE_TO_STORAGE_RUNS_LISTING
-		}
+		link: { name: STORAGE_TO_STORAGE_RUNS_LISTING }
 	},
 	{
 		icon: 'vertical_split',
-		title: 'GCS To GBQ',
-		link: {
-			name: STORAGE_TO_TABLE_RUNS_LISTING
-		}
+		title: 'Storage to Table',
+		link: { name: STORAGE_TO_TABLE_RUNS_LISTING }
 	},
 	{
 		icon: 'post_add',
-		title: 'Storage To Tables',
-		link: {
-			name: STORAGE_TO_TABLES_RUNS_LISTING
-		}
+		title: 'Storage to Tables',
+		link: { name: STORAGE_TO_TABLES_RUNS_LISTING }
 	},
 	{
 		icon: 'account_tree',
 		title: 'Tables to Tables',
-		link: {
-			name: TABLES_TO_TABLES_RUNS_LISTING
-		}
+		link: { name: TABLES_TO_TABLES_RUNS_LISTING }
 	},
 	{
 		icon: 'file_copy',
 		title: 'GBQ to GCS',
-		link: {
-			name: GBQ_TO_GCS_RUNS_LISTING
-		}
+		link: { name: GBQ_TO_GCS_RUNS_LISTING }
 	},
 	{
 		icon: 'share',
 		title: 'Table to Storage',
-		link: {
-			name: TABLE_TO_STORAGE_RUNS_LISTING
-		}
+		link: { name: TABLE_TO_STORAGE_RUNS_LISTING }
 	},
 	{
 		icon: 'dns',
 		title: 'VM Launcher',
-		link: {
-			name: VM_LAUNCHER_RUNS_LISTING
-		}
+		link: { name: VM_LAUNCHER_RUNS_LISTING }
 	},
 	{
 		icon: 'power',
 		title: 'Workflow',
-		link: {
-			name: WORKFLOW_STATUS_LISTING
-		}
+		link: { name: WORKFLOW_STATUS_LISTING }
 	}
 ];

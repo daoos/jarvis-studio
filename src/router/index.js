@@ -3,6 +3,8 @@ import Router from 'vue-router';
 import routes from './routes';
 import store from '@/store';
 
+import middlewarePipeline from './middleware/pipeline';
+
 Vue.use(Router);
 
 const router = new Router({
@@ -12,34 +14,16 @@ const router = new Router({
 	routes: routes
 });
 
-// index gards
 router.beforeEach((to, from, next) => {
-	if (to.matched.some(record => record.meta.authRequired)) {
-		// this route requires auth, check if logged in
-		// if not, redirect to login page.
-		if (store.getters.isAuthenticated) {
-			next();
-		} else {
-			//waiting from auto login to check if a user was logged in the session
-			setTimeout(function() {
-				if (store.getters.isAuthenticated) {
-					next();
-				} else {
-					next({
-						name: 'SignIn',
-						query: { redirect: to.fullPath }
-					});
-				}
-			}, 1000);
-		}
-	} else {
-		next(); // make sure to always call next()!
-	}
-});
+	if (!to.meta.middleware) return next();
 
-// Stop the loading picto
-router.afterEach(() => {
-	//NProgress.done();
+	const middleware = to.meta.middleware;
+	const context = { to, from, next, store };
+
+	return middleware[0]({
+		...context,
+		nextPipeline: middlewarePipeline(context, middleware, 1)
+	});
 });
 
 export default router;

@@ -278,7 +278,6 @@ export default {
 		...mapState({
 			isAuthenticated: state => state.user.isAuthenticated,
 			user: state => state.user.user,
-			settings: state => state.settings,
 			workflowConfs: state => state.workflowConfs.data
 		}),
 		...mapGetters(['periodFiltered', 'whereConfFilter']),

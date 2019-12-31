@@ -227,7 +227,6 @@ export default {
 		...mapState({
 			isAuthenticated: state => state.user.isAuthenticated,
 			user: state => state.user.user,
-			settings: state => state.settings,
 			workflowStatus: state => state.workflowStatus.data,
 			dateFilterSelected: state => state.filters.dateFilterSelected,
 			dateFilters: state => state.filters.dateFilters,

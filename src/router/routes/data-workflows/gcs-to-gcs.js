@@ -1,3 +1,5 @@
+import { auth, hasAccount } from '@/router/middleware';
+
 import { DATA_WORKFLOWS } from '@/constants/router/paths-prefixes';
 import { GCS_TO_GCS } from '@/constants/data-workflows/names';
 import { RUNS, CONFIGURATIONS } from '@/constants/data-workflows/status';
@@ -15,9 +17,7 @@ export default [
 	{
 		path: `/${DATA_WORKFLOWS}/${GCS_TO_GCS}/${RUNS}`,
 		name: GCS_TO_GCS_RUNS_LISTING,
-		meta: {
-			authRequired: true
-		},
+		meta: { middleware: [auth, hasAccount] },
 		component: () =>
 			import(
 				/* webpackChunkName: "/data-workflows/gcs-to-gcs/runs/listing" */ '@/views/data-workflows/gcs-to-gcs/GcsToGcsRuns.vue'
@@ -27,9 +27,7 @@ export default [
 		// TODO: Rename param to :id
 		path: `/${DATA_WORKFLOWS}/${GCS_TO_GCS}/${RUNS}/:runId`,
 		name: GCS_TO_GCS_RUNS_ITEM,
-		meta: {
-			authRequired: true
-		},
+		meta: { middleware: [auth, hasAccount] },
 		component: () =>
 			import(
 				/* webpackChunkName: "/data-workflows/gcs-to-gcs/runs/item" */ '@/views/data-workflows/gcs-to-gcs/GcsToGcsRun.vue'
@@ -42,9 +40,7 @@ export default [
 	{
 		path: `/${DATA_WORKFLOWS}/${GCS_TO_GCS}/${CONFIGURATIONS}`,
 		name: GCS_TO_GCS_CONFIGURATIONS_LISTING,
-		meta: {
-			authRequired: true
-		},
+		meta: { middleware: [auth, hasAccount] },
 		component: () =>
 			import(
 				/* webpackChunkName: "/data-workflows/gcs-to-gcs/configurations/listing" */ '@/views/data-workflows/gcs-to-gcs/GcsToGcsConfs.vue'
@@ -54,9 +50,7 @@ export default [
 		// TODO: Rename param to :id
 		path: `/${DATA_WORKFLOWS}/${GCS_TO_GCS}/${CONFIGURATIONS}/:confId`,
 		name: GCS_TO_GCS_CONFIGURATIONS_ITEM,
-		meta: {
-			authRequired: true
-		},
+		meta: { middleware: [auth, hasAccount] },
 		component: () =>
 			import(
 				/* webpackChunkName: "/data-workflows/gcs-to-gcs/configurations/item" */ '@/views/data-workflows/gcs-to-gcs/GcsToGcsConf.vue'
