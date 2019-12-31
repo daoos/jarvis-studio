@@ -109,9 +109,9 @@ export default {
 			type: Number,
 			default: 10
 		},
-    showAirflowAction: {
-			type: Boolean 
-    }
+		showAirflowAction: {
+			type: Boolean
+		}
 	},
 	data() {
 		return {
