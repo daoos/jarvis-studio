@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<DataManagementHeader :tabsItems="tabsItems" />
+		<data-management-header :tabsItems="tabsItems" />
 		<item-component :tabs-items="itemTabsItems" :is-loading="isLoading" />
 	</div>
 </template>
@@ -10,12 +10,13 @@ import TabsItemsMixin from '../tabs-items';
 import ItemMixin from '@/mixins/data-workflows/item-mixin';
 
 export default {
-	name: 'storage-to-tales-runs-listing-view',
+	name: 'storage-to-tales-runs-item-view',
 	mixins: [TabsItemsMixin, ItemMixin],
-	data: () => ({
-		item: null,
-		moduleName: 'getGbqToGcsRuns'
-	}),
+	data() {
+		return {
+			moduleName: 'getGbqToGcsRuns'
+		};
+	},
 	computed: {
 		itemTabsItems() {
 			return [

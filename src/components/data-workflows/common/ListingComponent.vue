@@ -28,9 +28,12 @@
 				<configuration-status :item="item" :collection="moduleName" :is-activated="item.activated" />
 			</template>
 
+			<!-- TODO: Add status for runs by default like `activated` -->
+
 			<template v-slot:item.actions="{ item }">
 				<v-icon small @click="toggleExpand(item)">remove_red_eye</v-icon>
 				<v-icon v-if="showAirflowAction" class="ml-2" small @click="openAirflowDagRunUrl(item)">open_in_new</v-icon>
+				<v-icon v-if="showDeleteAction" class="ml-2" small @click="openDeleteDialog(item)">delete_forever</v-icon>
 			</template>
 
 			<!-- Loop placed after default templates to override them if needed -->
@@ -67,6 +70,36 @@
 				Your search for "{{ search }}" found no results.
 			</v-alert>
 		</v-data-table>
+
+		<v-dialog v-model="showDeleteDialog" width="45%" max-width="700">
+			<v-card light>
+				<v-card-title class="headline">Delete Item</v-card-title>
+				<v-card-text>
+					Do you really want to delete this item?
+					<h3 class="pt-3"><v-icon size="18">arrow_forward</v-icon>{{ itemToDelete.id }}</h3>
+				</v-card-text>
+
+				<v-card-actions>
+					<v-btn @click="showDeleteItemDetails = !showDeleteItemDetails">
+						{{ showDeleteItemDetails ? 'Hide details' : 'Show more' }}
+					</v-btn>
+					<v-spacer />
+					<v-btn color="grey" text @click="cancelDeleteConfFromFirestore">Cancel</v-btn>
+					<v-btn color="error" @click="confirmDeleteConfFromFirestore">Delete</v-btn>
+				</v-card-actions>
+
+				<v-slide-y-transition>
+					<v-card-text v-show="showDeleteItemDetails">
+						<vue-json-pretty :data="itemToDelete" :deep="5" :show-length="true" :show-line="false"> </vue-json-pretty>
+					</v-card-text>
+				</v-slide-y-transition>
+			</v-card>
+		</v-dialog>
+
+		<!-- TODO: Add @closeSnackbar & timeout const -->
+		<v-snackbar v-model="showSnackbarDeleteConfSuccess" color="success" :timeout="3500">
+			Configuration deleted with success!
+		</v-snackbar>
 	</v-container>
 </template>
 
@@ -79,6 +112,7 @@ import { mapState } from 'vuex';
 import { mapGetters } from 'vuex';
 import store from '@/store';
 import _ from 'lodash';
+import { RUNS } from '@/constants/data-workflows/status';
 import { getActiveConfColor } from '@/util/data-workflows/configuration';
 import { dagRunAirflowUrl } from '@/util/data-workflows/run';
 
@@ -86,6 +120,11 @@ export default {
 	name: 'listing-component',
 	components: { VueJsonPretty, DataManagementFilters, ConfigurationStatus },
 	props: {
+		type: {
+			// Use RUNS or CONFIGURATIONS constants
+			type: String,
+			required: true
+		},
 		moduleName: {
 			type: String,
 			required: true
@@ -111,6 +150,9 @@ export default {
 		},
 		showAirflowAction: {
 			type: Boolean
+		},
+		showDeleteAction: {
+			type: Boolean
 		}
 	},
 	data() {
@@ -118,7 +160,15 @@ export default {
 			isLoading: false,
 			search: '',
 			expanded: [],
-			viewedItem: {}
+			pagination: {
+				sortBy: 'table_name',
+				sortDesc: true
+			},
+			viewedItem: {},
+			showDeleteDialog: false,
+			showDeleteItemDetails: false,
+			showSnackbarDeleteConfSuccess: false,
+			itemToDelete: {}
 		};
 	},
 	mounted() {
@@ -138,8 +188,26 @@ export default {
 		openAirflowDagRunUrl(item) {
 			window.open(dagRunAirflowUrl(item.dag_id, item.dag_run_id, item.dag_execution_date), '_blank');
 		},
+		openDeleteDialog(item) {
+			this.itemToDelete = item;
+			this.showDeleteDialog = true;
+		},
+		cancelDeleteConfFromFirestore() {
+			this.showDeleteDialog = false;
+			this.itemToDelete = {};
+			this.showDeleteItemDetails = false;
+		},
+		confirmDeleteConfFromFirestore() {
+			this.showDeleteDialog = false;
+			this.showSnackbarDeleteConfSuccess = false;
+			store.dispatch(`${this.moduleName}/delete`, this.itemToDelete.id).then(() => {
+				this.showSnackbarDeleteConfSuccess = true;
+			});
+			this.itemToDelete = {};
+			this.showDeleteItemDetails = false;
+		},
 		async getFirestoreData() {
-			const where = this.whereConfFilter;
+			const where = this.type === RUNS ? this.whereRunsFilter : this.whereConfFilter;
 			this.isLoading = true;
 			try {
 				await store.dispatch(`${this.moduleName}/closeDBChannel`, { clearModule: true });
@@ -157,7 +225,7 @@ export default {
 				return state[this.moduleName].data;
 			}
 		}),
-		...mapGetters(['periodFiltered', 'whereConfFilter']),
+		...mapGetters(['periodFiltered', 'whereRunsFilter', 'whereConfFilter']),
 		formattedItems() {
 			const dataArray = Object.values(this.firestoreItems);
 			const formattedData = dataArray.map(function(data) {
@@ -170,7 +238,10 @@ export default {
 		}
 	},
 	watch: {
-		whereConfFilter: function() {
+		whereRunsFilter() {
+			this.getFirestoreData();
+		},
+		whereConfFilter() {
 			this.getFirestoreData();
 		}
 	}

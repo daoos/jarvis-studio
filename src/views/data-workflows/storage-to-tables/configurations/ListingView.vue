@@ -2,8 +2,8 @@
 	<div>
 		<DataManagementHeader :tabsItems="tabsItems" />
 		<listing-component
+			:type="listingType"
 			:module-name="moduleName"
-			:route-name="routeName"
 			:headers="headers"
 			:overridden-columns="overriddenColumns"
 			sortBy="id"
@@ -26,6 +26,7 @@ import ListingComponent from '@/components/data-workflows/common/ListingComponen
 
 import TabsItemsMixin from '../tabs-items';
 
+import { CONFIGURATIONS } from '@/constants/data-workflows/status';
 import { STORAGE_TO_TABLES_CONFIGURATIONS_ITEM } from '@/constants/router/routes-names';
 
 export default {
@@ -39,6 +40,9 @@ export default {
 		};
 	},
 	computed: {
+		listingType() {
+			return CONFIGURATIONS;
+		},
 		routeName() {
 			return STORAGE_TO_TABLES_CONFIGURATIONS_ITEM;
 		},

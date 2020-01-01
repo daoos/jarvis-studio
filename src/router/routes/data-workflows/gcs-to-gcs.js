@@ -20,17 +20,17 @@ export default [
 		meta: { middleware: [auth, hasAccount] },
 		component: () =>
 			import(
-				/* webpackChunkName: "/data-workflows/gcs-to-gcs/runs/listing" */ '@/views/data-workflows/gcs-to-gcs/GcsToGcsRuns.vue'
+				/* webpackChunkName: "/data-workflows/gcs-to-gcs/runs/listing" */ '@/views/data-workflows/gcs-to-gcs/runs/ListingView.vue'
 			)
 	},
 	{
 		// TODO: Rename param to :id
-		path: `/${DATA_WORKFLOWS}/${GCS_TO_GCS}/${RUNS}/:runId`,
+		path: `/${DATA_WORKFLOWS}/${GCS_TO_GCS}/${RUNS}/:id`,
 		name: GCS_TO_GCS_RUNS_ITEM,
 		meta: { middleware: [auth, hasAccount] },
 		component: () =>
 			import(
-				/* webpackChunkName: "/data-workflows/gcs-to-gcs/runs/item" */ '@/views/data-workflows/gcs-to-gcs/GcsToGcsRun.vue'
+				/* webpackChunkName: "/data-workflows/gcs-to-gcs/runs/item" */ '@/views/data-workflows/gcs-to-gcs/runs/ItemView.vue'
 			)
 	},
 
@@ -43,17 +43,17 @@ export default [
 		meta: { middleware: [auth, hasAccount] },
 		component: () =>
 			import(
-				/* webpackChunkName: "/data-workflows/gcs-to-gcs/configurations/listing" */ '@/views/data-workflows/gcs-to-gcs/GcsToGcsConfs.vue'
+				/* webpackChunkName: "/data-workflows/gcs-to-gcs/configurations/listing" */ '@/views/data-workflows/gcs-to-gcs/configurations/ListingView.vue'
 			)
 	},
 	{
 		// TODO: Rename param to :id
-		path: `/${DATA_WORKFLOWS}/${GCS_TO_GCS}/${CONFIGURATIONS}/:confId`,
+		path: `/${DATA_WORKFLOWS}/${GCS_TO_GCS}/${CONFIGURATIONS}/:id`,
 		name: GCS_TO_GCS_CONFIGURATIONS_ITEM,
 		meta: { middleware: [auth, hasAccount] },
 		component: () =>
 			import(
-				/* webpackChunkName: "/data-workflows/gcs-to-gcs/configurations/item" */ '@/views/data-workflows/gcs-to-gcs/GcsToGcsConf.vue'
+				/* webpackChunkName: "/data-workflows/gcs-to-gcs/configurations/item" */ '@/views/data-workflows/gcs-to-gcs/configurations/ItemView.vue'
 			)
 	}
 ];

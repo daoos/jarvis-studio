@@ -12,9 +12,11 @@ import ItemMixin from '@/mixins/data-workflows/item-mixin';
 export default {
 	name: 'gbq-to-gcs-configuration-item',
 	mixins: [TabsItemsMixin, ItemMixin],
-	data: () => ({
-		moduleName: 'getGbqToGcsConfs'
-	}),
+	data() {
+		return {
+			moduleName: 'getGbqToGcsConfs'
+		};
+	},
 	computed: {
 		itemTabsItems() {
 			return [
@@ -57,7 +59,7 @@ export default {
 					component: 'view-header',
 					props: {
 						item: this.item,
-						collection: 'getGbqToGcsConfs',
+						collection: this.moduleName,
 						activeHeader: true,
 						viewId: this.item.id,
 						viewType: 'conf',

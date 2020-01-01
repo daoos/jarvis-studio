@@ -2,14 +2,14 @@
 	<div>
 		<DataManagementHeader :tabsItems="tabsItems" />
 		<listing-component
+			:type="listingType"
 			:module-name="moduleName"
-			:route-name="routeName"
 			:headers="headers"
 			:overridden-columns="overriddenColumns"
 		>
-			<template v-slot:id="{ item: { id, triggering_file } }">
+			<template v-slot:id="{ item: { id } }">
 				<router-link :to="{ name: routeName, params: { id } }">
-					<span class="font-weight-medium">{{ triggering_file }}</span>
+					<span class="font-weight-medium">{{ id }}</span>
 				</router-link>
 			</template>
 
@@ -37,6 +37,7 @@ import { getStatusColor } from '@/util/data-workflows/run';
 
 import TabsItemsMixin from '../tabs-items';
 
+import { RUNS } from '@/constants/data-workflows/status';
 import { STORAGE_TO_TABLES_RUNS_ITEM } from '@/constants/router/routes-names';
 
 export default {
@@ -55,6 +56,9 @@ export default {
 		}
 	},
 	computed: {
+		listingType() {
+			return RUNS;
+		},
 		routeName() {
 			return STORAGE_TO_TABLES_RUNS_ITEM;
 		},

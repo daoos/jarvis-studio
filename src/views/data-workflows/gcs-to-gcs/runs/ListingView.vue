@@ -30,18 +30,18 @@
 </template>
 
 <script>
-import DataManagementHeader from '@/components/app/headers/DataManagementHeader';
+import DataManagementHeader from '../../../../components/app/headers/DataManagementHeader';
 import ListingComponent from '@/components/data-workflows/common/ListingComponent';
 
 import TabsItemsMixin from '../tabs-items';
 
 import { RUNS } from '@/constants/data-workflows/status';
-import { GBQ_TO_GCS_RUNS_ITEM } from '@/constants/router/routes-names';
+import { GCS_TO_GCS_RUNS_ITEM } from '@/constants/router/routes-names';
 import { getStatusColor } from '@/util/data-workflows/run';
 import {
 	ACCOUNT,
 	ENVIRONMENT,
-	DESTINATION_BUCKET,
+	SOURCE_BUCKET,
 	GCS_TRIGGERING_FILE,
 	STATUS,
 	DAG_EXECUTION_DATE,
@@ -49,12 +49,11 @@ import {
 } from '@/constants/data-workflows/listing/header-items';
 
 export default {
-	name: 'gbq-to-gcs-runs-listing',
 	components: { DataManagementHeader, ListingComponent },
 	mixins: [TabsItemsMixin],
 	data() {
 		return {
-			moduleName: 'getGbqToGcsRuns',
+			moduleName: 'mirrorExcGcsToGcsRuns',
 			overriddenColumns: ['gcs_triggering_file', 'status', 'dag_execution_date']
 		};
 	},
@@ -68,10 +67,10 @@ export default {
 			return RUNS;
 		},
 		routeName() {
-			return GBQ_TO_GCS_RUNS_ITEM;
+			return GCS_TO_GCS_RUNS_ITEM;
 		},
 		headers() {
-			return [ACCOUNT, ENVIRONMENT, DESTINATION_BUCKET, GCS_TRIGGERING_FILE, STATUS, DAG_EXECUTION_DATE, ACTIONS];
+			return [ACCOUNT, ENVIRONMENT, SOURCE_BUCKET, GCS_TRIGGERING_FILE, STATUS, DAG_EXECUTION_DATE, ACTIONS];
 		}
 	}
 };

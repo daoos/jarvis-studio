@@ -6,6 +6,7 @@
 			:module-name="moduleName"
 			:headers="headers"
 			:overridden-columns="overriddenColumns"
+			show-delete-action
 		>
 			<template v-slot:id="{ item: { id } }">
 				<router-link :to="{ name: routeName, params: { id } }">
@@ -17,22 +18,30 @@
 </template>
 
 <script>
-import DataManagementHeader from '@/components/app/headers/DataManagementHeader';
+import DataManagementHeader from '../../../../components/app/headers/DataManagementHeader';
 import ListingComponent from '@/components/data-workflows/common/ListingComponent';
 
 import TabsItemsMixin from '../tabs-items';
 
 import { CONFIGURATIONS } from '@/constants/data-workflows/status';
-import { GBQ_TO_GCS_CONFIGURATIONS_ITEM } from '@/constants/router/routes-names';
-import defaultHeaders from '@/constants/data-workflows/listing/configurations/default-headers';
+import { GCS_TO_GCS_CONFIGURATIONS_ITEM } from '@/constants/router/routes-names';
+import {
+	ACCOUNT,
+	ACTIONS,
+	ACTIVATED,
+	ENVIRONMENT,
+	ID,
+	NB_DESTINATION_BUCKET,
+	NB_FILENAME_TEMPLATES,
+	SOURCE_BUCKET
+} from '@/constants/data-workflows/listing/header-items';
 
 export default {
-	name: 'gbq-to-gcs-configurations-view',
 	components: { DataManagementHeader, ListingComponent },
 	mixins: [TabsItemsMixin],
 	data() {
 		return {
-			moduleName: 'getGbqToGcsConfs',
+			moduleName: 'mirrorExcGcsToGcsConfs',
 			overriddenColumns: ['id']
 		};
 	},
@@ -41,10 +50,19 @@ export default {
 			return CONFIGURATIONS;
 		},
 		routeName() {
-			return GBQ_TO_GCS_CONFIGURATIONS_ITEM;
+			return GCS_TO_GCS_CONFIGURATIONS_ITEM;
 		},
 		headers() {
-			return defaultHeaders;
+			return [
+				ACCOUNT,
+				ENVIRONMENT,
+				ID,
+				SOURCE_BUCKET,
+				NB_DESTINATION_BUCKET,
+				NB_FILENAME_TEMPLATES,
+				ACTIVATED,
+				ACTIONS
+			];
 		}
 	}
 };
