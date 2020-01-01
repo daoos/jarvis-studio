@@ -1,3 +1,5 @@
+import { RouteConfig } from 'vue-router';
+
 import appRoutes from './routes/app';
 import authRoutes from './routes/auth';
 import dataModelsRoutes from './routes/data-models';
@@ -12,7 +14,7 @@ import vmLauncherRoutes from './routes/data-workflows/vm-launcher';
 import workflowRoutes from './routes/data-workflows/workflow';
 import settingsRoutes from './routes/settings';
 
-export default [
+export const routes: RouteConfig[] = [
 	...appRoutes,
 	...authRoutes,
 	...dataModelsRoutes,
