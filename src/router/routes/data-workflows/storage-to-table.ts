@@ -16,7 +16,7 @@ export const storageToTableRoutes: RouteConfig[] = [
 	 * RUNS
 	 */
 	{
-		path: `/${DATA_WORKFLOWS}/${STORAGE_TO_TABLE}/${RUNS}`,
+		path: `/${DATA_WORKFLOWS}/${STORAGE_TO_TABLE.url}/${RUNS}`,
 		name: STORAGE_TO_TABLE_RUNS_LISTING,
 		meta: { middleware: [auth, hasAccount] },
 		component: () =>
@@ -25,7 +25,7 @@ export const storageToTableRoutes: RouteConfig[] = [
 			)
 	},
 	{
-		path: `/${DATA_WORKFLOWS}/${STORAGE_TO_TABLE}/${RUNS}/:id`,
+		path: `/${DATA_WORKFLOWS}/${STORAGE_TO_TABLE.url}/${RUNS}/:id`,
 		name: STORAGE_TO_TABLE_RUNS_ITEM,
 		meta: { middleware: [auth, hasAccount] },
 		component: () =>
@@ -38,7 +38,7 @@ export const storageToTableRoutes: RouteConfig[] = [
 	 * CONFIGURATIONS
 	 */
 	{
-		path: `/${DATA_WORKFLOWS}/${STORAGE_TO_TABLE}/${CONFIGURATIONS}`,
+		path: `/${DATA_WORKFLOWS}/${STORAGE_TO_TABLE.url}/${CONFIGURATIONS}`,
 		name: STORAGE_TO_TABLE_CONFIGURATIONS_LISTING,
 		meta: { middleware: [auth, hasAccount] },
 		component: () =>
@@ -47,7 +47,7 @@ export const storageToTableRoutes: RouteConfig[] = [
 			)
 	},
 	{
-		path: `/${DATA_WORKFLOWS}/${STORAGE_TO_TABLE}/${CONFIGURATIONS}/:bucketId/:id`,
+		path: `/${DATA_WORKFLOWS}/${STORAGE_TO_TABLE.url}/${CONFIGURATIONS}/:bucketId/:id`,
 		name: STORAGE_TO_TABLE_CONFIGURATIONS_ITEM,
 		meta: { middleware: [auth, hasAccount] },
 		component: () =>
