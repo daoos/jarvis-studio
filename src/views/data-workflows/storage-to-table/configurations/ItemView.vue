@@ -1,12 +1,12 @@
 <template>
 	<div>
-		<data-management-header :tabsItems="tabsItems" />
+		<data-management-header :workflowName="workflowName" :tabsItems="tabsItems" />
 		<item-component :tabs-items="itemTabsItems" :is-loading="isLoading" />
 	</div>
 </template>
 
 <script>
-import TabsItemsMixin from '../tabs-items';
+import HeaderInfosMixin from '../header-infos';
 import ItemMixin from '@/mixins/data-workflows/item-mixin';
 
 import { mapState } from 'vuex';
@@ -14,7 +14,7 @@ import store from '@/store';
 
 export default {
 	name: 'storage-to-table-configurations-item-view',
-	mixins: [TabsItemsMixin, ItemMixin],
+	mixins: [HeaderInfosMixin, ItemMixin],
 	data() {
 		return {
 			moduleName: 'mirrorExcGcsToGbqConfs'

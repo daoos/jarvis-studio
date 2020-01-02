@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<data-management-header :tabsItems="tabsItems" />
+		<data-management-header :workflowName="workflowName" :tabsItems="tabsItems" />
 		<listing-component
 			:type="listingType"
 			:module-name="moduleName"
@@ -21,7 +21,7 @@
 import DataManagementHeader from '../../../../components/data-workflows/DataManagementHeader';
 import ListingComponent from '@/components/data-workflows/common/listing/ListingComponent';
 
-import TabsItemsMixin from '../tabs-items';
+import HeaderInfosMixin from '../header-infos';
 
 import { CONFIGURATIONS } from '@/constants/data-workflows/status';
 import { GCS_TO_GCS_CONFIGURATIONS_ITEM } from '@/constants/router/routes-names';
@@ -39,7 +39,7 @@ import {
 export default {
 	name: 'gcs-to-gcs-configurations-listing-view',
 	components: { DataManagementHeader, ListingComponent },
-	mixins: [TabsItemsMixin],
+	mixins: [HeaderInfosMixin],
 	data() {
 		return {
 			moduleName: 'mirrorExcGcsToGcsConfs',

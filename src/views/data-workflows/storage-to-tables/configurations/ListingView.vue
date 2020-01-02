@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<DataManagementHeader :tabsItems="tabsItems" />
+		<data-management-header :workflowName="workflowName" :tabsItems="tabsItems" />
 		<listing-component
 			:type="listingType"
 			:module-name="moduleName"
@@ -20,7 +20,7 @@
 import DataManagementHeader from '../../../../components/data-workflows/DataManagementHeader';
 import ListingComponent from '@/components/data-workflows/common/listing/ListingComponent';
 
-import TabsItemsMixin from '../tabs-items';
+import HeaderInfosMixin from '../header-infos';
 
 import { CONFIGURATIONS } from '@/constants/data-workflows/status';
 import { STORAGE_TO_TABLES_CONFIGURATIONS_ITEM } from '@/constants/router/routes-names';
@@ -28,7 +28,7 @@ import { STORAGE_TO_TABLES_CONFIGURATIONS_ITEM } from '@/constants/router/routes
 export default {
 	name: 'storage-to-tables-configurations-listing-view',
 	components: { DataManagementHeader, ListingComponent },
-	mixins: [TabsItemsMixin],
+	mixins: [HeaderInfosMixin],
 	data() {
 		return {
 			moduleName: 'storageToTablesConfs',

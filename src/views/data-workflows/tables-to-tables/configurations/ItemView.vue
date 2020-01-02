@@ -1,17 +1,17 @@
 <template>
 	<div>
-		<DataManagementHeader :tabsItems="tabsItems" />
+		<data-management-header :workflowName="workflowName" :tabsItems="tabsItems" />
 		<item-component :tabs-items="itemTabsItems" :is-loading="isLoading" />
 	</div>
 </template>
 
 <script>
-import TabsItemsMixin from '../tabs-items';
+import HeaderInfosMixin from '../header-infos';
 import ItemMixin from '@/mixins/data-workflows/item-mixin';
 
 export default {
 	name: 'tables-to-tables-configurations-item-view',
-	mixins: [TabsItemsMixin, ItemMixin],
+	mixins: [HeaderInfosMixin, ItemMixin],
 	data() {
 		return {
 			moduleName: 'getGbqToGbqConfs'

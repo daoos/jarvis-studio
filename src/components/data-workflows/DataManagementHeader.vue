@@ -11,18 +11,15 @@
 </template>
 
 <script>
-import { getWorkflowName } from '@/util/data-workflows';
-
 export default {
 	props: {
+		workflowName: {
+			type: String,
+			required: true
+		},
 		tabsItems: {
 			type: Array,
 			required: true
-		}
-	},
-	computed: {
-		workflowName() {
-			return getWorkflowName(this.$route.name) || '';
 		}
 	}
 };

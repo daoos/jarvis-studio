@@ -1,7 +1,11 @@
+import { GCS_TO_GCS } from '@/constants/data-workflows/names';
 import { GCS_TO_GCS_RUNS_LISTING, GCS_TO_GCS_CONFIGURATIONS_LISTING } from '@/constants/router/routes-names';
 
 export default {
 	computed: {
+		workflowName() {
+			return GCS_TO_GCS.displayName;
+		},
 		tabsItems() {
 			return [
 				{ id: 1, title: 'Runs', link: { name: GCS_TO_GCS_RUNS_LISTING } },
