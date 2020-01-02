@@ -1,5 +1,6 @@
-import { auth, hasAccount } from '@/router/middleware';
+import { RouteConfig } from 'vue-router';
 
+import { auth, hasAccount } from '@/router/middleware';
 import { DATA_WORKFLOWS } from '@/constants/router/paths-prefixes';
 import { STORAGE_TO_TABLES } from '@/constants/data-workflows/names';
 import { RUNS, CONFIGURATIONS } from '@/constants/data-workflows/status';
@@ -10,7 +11,7 @@ import {
 	STORAGE_TO_TABLES_CONFIGURATIONS_ITEM
 } from '@/constants/router/routes-names';
 
-export default [
+export const storageToTablesRoutes: RouteConfig[] = [
 	/**
 	 * RUNS
 	 */
@@ -20,7 +21,7 @@ export default [
 		meta: { middleware: [auth, hasAccount] },
 		component: () =>
 			import(
-				/* webpackChunkName: "/data-workflows/storage-to-table/runs/listing" */ '@/views/data-workflows/storage-to-tables/runs/ListingView'
+				/* webpackChunkName: "/data-workflows/storage-to-table/runs/listing" */ '@/views/data-workflows/storage-to-tables/runs/ListingView.vue'
 			)
 	},
 	{
@@ -29,7 +30,7 @@ export default [
 		meta: { middleware: [auth, hasAccount] },
 		component: () =>
 			import(
-				/* webpackChunkName: "/data-workflows/storage-to-table/runs/item" */ '@/views/data-workflows/storage-to-tables/runs/ItemView'
+				/* webpackChunkName: "/data-workflows/storage-to-table/runs/item" */ '@/views/data-workflows/storage-to-tables/runs/ItemView.vue'
 			)
 	},
 
@@ -42,7 +43,7 @@ export default [
 		meta: { middleware: [auth, hasAccount] },
 		component: () =>
 			import(
-				/* webpackChunkName: "/data-workflows/storage-to-table/configurations/listing" */ '@/views/data-workflows/storage-to-tables/configurations/ListingView'
+				/* webpackChunkName: "/data-workflows/storage-to-table/configurations/listing" */ '@/views/data-workflows/storage-to-tables/configurations/ListingView.vue'
 			)
 	},
 	{
@@ -51,7 +52,7 @@ export default [
 		meta: { middleware: [auth, hasAccount] },
 		component: () =>
 			import(
-				/* webpackChunkName: "/data-workflows/storage-to-table/configurations/item" */ '@/views/data-workflows/storage-to-tables/configurations/ItemView'
+				/* webpackChunkName: "/data-workflows/storage-to-table/configurations/item" */ '@/views/data-workflows/storage-to-tables/configurations/ItemView.vue'
 			)
 	}
 ];

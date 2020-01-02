@@ -1,5 +1,6 @@
-import { auth, hasAccount } from '@/router/middleware';
+import { RouteConfig } from 'vue-router';
 
+import { auth, hasAccount } from '@/router/middleware';
 import { DATA_WORKFLOWS } from '@/constants/router/paths-prefixes';
 import { STORAGE_TO_STORAGE } from '@/constants/data-workflows/names';
 import { RUNS, CONFIGURATIONS } from '@/constants/data-workflows/status';
@@ -10,7 +11,7 @@ import {
 	STORAGE_TO_STORAGE_CONFIGURATIONS_ITEM
 } from '@/constants/router/routes-names';
 
-export default [
+export const storageToStorageRoutes: RouteConfig[] = [
 	/**
 	 * RUNS
 	 */
