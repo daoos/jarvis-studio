@@ -52,10 +52,10 @@
 </template>
 
 <script>
-import ParametersTable from '@/components/common/tmp/ParametersTable.vue';
-import HeaderDocView from '@/components/common/HeaderDocView.vue';
-import ParametersList from '@/components/common/tmp/ParametersList.vue';
-import CreateUpdateConfOverview from '@/components/common/configuration/CreateUpdateConfOverview.vue';
+import ParametersTable from '@/components/data-workflows/common/item/parameters/ParametersTable.vue';
+import HeaderDocView from '@/components/data-workflows/common/HeaderDocView.vue';
+import ParametersList from '@/components/data-workflows/common/item/parameters/ParametersList.vue';
+import CreateUpdateConfOverview from '@/components/data-workflows/configuration/CreateUpdateConfOverview.vue';
 export default {
 	components: {
 		HeaderDocView,
