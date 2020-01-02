@@ -1,4 +1,6 @@
-export const getActiveConfColor = activated => {
+type ConfActivated = boolean | 'RUNNING';
+
+export const getActiveConfColor = (activated: ConfActivated) => {
 	let activeColor;
 
 	switch (activated) {
@@ -18,7 +20,7 @@ export const getActiveConfColor = activated => {
 	return activeColor;
 };
 
-export const getActiveConfLabel = activated => {
+export const getActiveConfLabel = (activated: ConfActivated) => {
 	let label = '';
 
 	switch (activated) {
