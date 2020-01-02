@@ -1,4 +1,16 @@
-import { NavigationGuard, Route } from 'vue-router';
+import { Location, NavigationGuard, Route } from 'vue-router';
+
+export interface Link {
+	icon: string;
+	title: string;
+	link: Location;
+	displayRule?(): boolean;
+}
+
+export interface Role {
+	roleName: string;
+	roleCode: 0 | 1 | 2 | 3 | 4 | 5;
+}
 
 // TODO: Update when this PR from vue-router will be merged => https://github.com/vuejs/vue-router/pull/2497
 type Next = Parameters<NavigationGuard>[2];

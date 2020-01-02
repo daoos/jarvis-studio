@@ -1,4 +1,8 @@
-import { HeaderItem } from '@/types/header-item';
+interface HeaderItem {
+	text: string;
+	sortable: boolean;
+	value: string;
+}
 
 // GENERAL
 export const ACCOUNT: HeaderItem = { text: 'Account ID', sortable: true, value: 'account' };

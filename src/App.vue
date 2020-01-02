@@ -48,7 +48,7 @@ import FooterContent from '@/components/app/FooterContent.vue';
 
 import { State, Getter } from 'vuex-class';
 
-import { Link } from '@/types/link';
+import { Link } from '@/types';
 import { analyticsItems } from './navigation/analytics-items';
 import { settingsItems } from './navigation/settings-items';
 

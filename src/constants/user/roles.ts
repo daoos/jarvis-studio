@@ -1,4 +1,4 @@
-import { Role } from '@/types/role';
+import { Role } from '@/types';
 
 export const MEMBER: Role = { roleName: 'Member', roleCode: 0 };
 export const VIEWER: Role = { roleName: 'Viewer', roleCode: 1 };
