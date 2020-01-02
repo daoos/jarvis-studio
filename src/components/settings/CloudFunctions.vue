@@ -21,7 +21,7 @@
 
 <script>
 import VueJsonPretty from 'vue-json-pretty';
-import store from '@/store/index';
+import store from '@/store';
 
 export default {
 	name: 'cloud-functions',

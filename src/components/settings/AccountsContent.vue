@@ -70,7 +70,7 @@
 <script>
 import { mapState } from 'vuex';
 import VueJsonPretty from 'vue-json-pretty';
-import store from '@/store/index';
+import store from '@/store';
 
 export default {
 	name: 'accounts-component',

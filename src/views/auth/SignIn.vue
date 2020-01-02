@@ -84,7 +84,7 @@ export default {
 		signin() {
 			this.loading = true;
 			if (this.$refs.form.validate()) {
-				this.$store.dispatch('userSignin', {
+				this.$store.dispatch('userSignIn', {
 					email: this.model.email,
 					password: this.model.password
 				});

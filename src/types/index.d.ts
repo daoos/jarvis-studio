@@ -24,3 +24,11 @@ export interface Context {
 
 export type Middleware = (context: Context, nextPipeline: MiddlewarePipeline) => Route | MiddlewarePipeline;
 export type MiddlewarePipeline = (context: Context, middleware: Middleware[], index: number) => Middleware | any;
+
+// State
+export interface RootState {} // TODO: Define RootState
+
+export interface UserState {
+	user: any; // TODO: Set type
+	isAuthenticated: boolean;
+}
