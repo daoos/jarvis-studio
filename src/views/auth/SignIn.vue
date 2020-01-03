@@ -77,14 +77,14 @@ export default {
 	methods: {
 		googleSignin() {
 			this.loadingGoogleSignin = true;
-			this.$store.dispatch('userGoogleSignin').then(() => {
+			this.$store.dispatch('user/googleSignIn').then(() => {
 				this.$router.push('/');
 			});
 		},
 		signin() {
 			this.loading = true;
 			if (this.$refs.form.validate()) {
-				this.$store.dispatch('userSignIn', {
+				this.$store.dispatch('user/signIn', {
 					email: this.model.email,
 					password: this.model.password
 				});

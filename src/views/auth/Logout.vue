@@ -6,7 +6,7 @@
 export default {
 	name: 'logout',
 	mounted() {
-		this.$store.dispatch('userSignOut');
+		this.$store.dispatch('user/signOut');
 	}
 };
 </script>

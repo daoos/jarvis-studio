@@ -5,7 +5,7 @@ import router from '@/router';
 import { HOME, SIGN_IN } from '@/constants/router/routes-names';
 
 export const actions: ActionTree<UserState, RootState> = {
-	userSignIn({ commit }, { email, password }) {
+	signIn({ commit }, { email, password }) {
 		firebase
 			.auth()
 			.signInWithEmailAndPassword(email, password)
@@ -20,7 +20,7 @@ export const actions: ActionTree<UserState, RootState> = {
 				router.push({ name: SIGN_IN });
 			});
 	},
-	userGoogleSignin({ commit }) {
+	googleSignIn({ commit }) {
 		const provider = new firebase.auth.GoogleAuthProvider();
 
 		return new Promise(function(resolve, reject) {
@@ -40,7 +40,7 @@ export const actions: ActionTree<UserState, RootState> = {
 				});
 		});
 	},
-	userSignup({ commit }, { email, password }) {
+	signUp({ commit }, { email, password }) {
 		firebase
 			.auth()
 			.createUserWithEmailAndPassword(email, password)
@@ -55,11 +55,11 @@ export const actions: ActionTree<UserState, RootState> = {
 				router.push({ name: SIGN_IN });
 			});
 	},
-	autoSignIn({ commit }, payload) {
+	alreadySignedIn({ commit }, payload) {
 		commit('setUser', payload);
 		commit('setIsAuthenticated', true);
 	},
-	userSignOut({ commit }) {
+	signOut({ commit }) {
 		commit('setUser', null);
 		commit('setIsAuthenticated', false);
 		router.push({ name: SIGN_IN });

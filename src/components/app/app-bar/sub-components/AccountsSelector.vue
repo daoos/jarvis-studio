@@ -37,11 +37,13 @@ export default {
 			accounts: state => state.accounts.data,
 			user: state => state.user.user
 		}),
-		...mapGetters(['getUserAccounts']),
+		...mapGetters({
+			userAccounts: 'user/accounts'
+		}),
 		getItems() {
 			let items = [];
 
-			this.getUserAccounts.forEach(id => {
+			this.userAccounts.forEach(id => {
 				const element = this.accounts[id];
 				if (element) items.push(element);
 			});

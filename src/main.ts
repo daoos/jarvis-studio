@@ -25,7 +25,7 @@ const createApp = () => {
 
 firebase.auth().onAuthStateChanged(user => {
 	if (user) {
-		store.dispatch('autoSignIn', user).then(() => createApp());
+		store.dispatch('user/alreadySignedIn', user).then(() => createApp());
 		store.dispatch('accounts/fetchAndAdd');
 		store.dispatch('schemas/fetchAndAdd');
 	} else {

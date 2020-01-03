@@ -8,7 +8,7 @@ export const getters: GetterTree<UserState, RootState> = {
 	user(state) {
 		return state.user;
 	},
-	getUserAccounts(state) {
-		return state.user.accounts;
+	accounts(state) {
+		return state.user!.accounts;
 	}
 };

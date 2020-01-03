@@ -5,11 +5,14 @@ import { actions } from './actions';
 import { mutations } from './mutations';
 
 export const state: UserState = {
-	user: Object,
+	user: null,
 	isAuthenticated: false
 };
 
+const namespaced: boolean = true;
+
 export const userModule: Module<UserState, RootState> = {
+	namespaced,
 	state,
 	getters,
 	actions,
