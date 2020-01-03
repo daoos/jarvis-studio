@@ -32,4 +32,3 @@ firebase.auth().onAuthStateChanged(user => {
 		createApp();
 	}
 });
-
