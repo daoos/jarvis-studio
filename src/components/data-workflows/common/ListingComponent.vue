@@ -143,12 +143,6 @@ export default {
 			type: String,
 			default: 'dag_execution_date'
 		},
-		showAirflowAction: {
-			type: Boolean
-		},
-		showDeleteAction: {
-			type: Boolean
-		},
 		sortDesc: {
 			type: Boolean,
 			default: true
@@ -156,6 +150,12 @@ export default {
 		itemsPerPage: {
 			type: Number,
 			default: 10
+		},
+		showAirflowAction: {
+			type: Boolean
+		},
+		showDeleteAction: {
+			type: Boolean
 		}
 	},
 	data() {

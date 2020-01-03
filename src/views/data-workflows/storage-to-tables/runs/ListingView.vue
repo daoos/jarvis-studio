@@ -7,9 +7,9 @@
 			:headers="headers"
 			:overridden-columns="overriddenColumns"
 		>
-			<template v-slot:id="{ item: { id, triggering_file } }">
+			<template v-slot:id="{ item: { id } }">
 				<router-link :to="{ name: routeName, params: { id } }">
-					<span class="font-weight-medium">{{ triggering_file }}</span>
+					<span class="font-weight-medium">{{ id }}</span>
 				</router-link>
 			</template>
 
