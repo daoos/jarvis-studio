@@ -300,7 +300,7 @@ export default {
 					props: {
 						item: this.item,
 						activeHeader: false,
-						viewId: this.item.id,
+						viewId: this.item.configuration_context.configuration_id,
 						viewType: 'conf'
 					}
 				},
@@ -360,6 +360,28 @@ export default {
 						],
 						rows: this.getDestinationStorageRows().gcs,
 						vflexLength: 'xs10',
+						lineNumbers: false,
+						searchOptionsEnabled: false
+					}
+				},
+				{
+					component: 'parameters-table',
+					props: {
+						tableTitle: 'File Name Template(s)',
+						description:
+							'Templates of the incomming files that should be copied to the destination storages. Do not put the date/timestamp prefix file in the template',
+						columns: [
+							{
+								label: 'File Name Template',
+								field: 'filename_template'
+							},
+							{
+								label: 'File Name Description',
+								field: 'file_description'
+							}
+						],
+						rows: this.item.configuration_context.filename_templates,
+						vflexLength: 'xs12',
 						lineNumbers: false,
 						searchOptionsEnabled: false
 					}
