@@ -53,7 +53,7 @@ export default {
 	},
 	watch: {
 		selectedAccounts(accounts) {
-			store.dispatch('updateFilteredAccounts', accounts);
+			store.dispatch('filters/updateFilteredAccounts', accounts);
 		}
 	}
 };

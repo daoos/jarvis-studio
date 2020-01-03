@@ -15,7 +15,8 @@ export type MiddlewarePipeline = (context: Context, middleware: Middleware[], in
 // State
 export interface RootState {
 	user: UserState;
-} // TODO: Define RootState
+	filters: FilterState;
+}
 
 export interface UserState {
 	user: User | null;

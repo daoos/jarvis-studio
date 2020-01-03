@@ -18,10 +18,6 @@ export const getters: GetterTree<FilterState, RootState> = {
 		}
 		return periodFiltered;
 	},
-	// TODO: Add filteredAccounts filter
-	// TODO: Add minDate filter
-	// TODO: Add envFilterSelected filter
-	// TODO: Add runStatusFilterSelected filter
 	whereRunsFilter(state, getters, rootState) {
 		let whereRunsFilter = [];
 

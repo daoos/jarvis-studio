@@ -51,7 +51,7 @@ export const state: FilterState = {
 const namespaced: boolean = true;
 
 export const filtersModule: Module<FilterState, RootState> = {
-	// namespaced,
+	namespaced,
 	state,
 	getters,
 	actions,

@@ -66,13 +66,13 @@ export default {
 	created() {},
 	methods: {
 		applyEnvFilter(envFilterSelected) {
-			store.dispatch('applyEnvFilterSelected', envFilterSelected);
+			store.dispatch('filters/applyEnvFilterSelected', envFilterSelected);
 		},
 		applyRunStatusFilter(runStatusSelected) {
-			store.dispatch('applyRunStatusFilterSelected', runStatusSelected);
+			store.dispatch('filters/applyRunStatusFilterSelected', runStatusSelected);
 		},
 		applyDateFilter(dateFilterSelected) {
-			store.dispatch('applyDateFilterSelected', dateFilterSelected);
+			store.dispatch('filters/applyDateFilterSelected', dateFilterSelected);
 		}
 	},
 	computed: {

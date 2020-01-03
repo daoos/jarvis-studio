@@ -215,7 +215,11 @@ export default {
 				return state[this.moduleName].data;
 			}
 		}),
-		...mapGetters(['periodFiltered', 'whereRunsFilter', 'whereConfFilter']),
+		...mapGetters({
+			periodFiltered: 'filters/periodFiltered',
+			whereRunsFilter: 'filters/whereRunsFilter',
+			whereConfFilter: 'filters/whereConfFilter'
+		}),
 		formattedItems() {
 			const dataArray = Object.values(this.firestoreItems);
 			const formattedData = dataArray.map(function(data) {
