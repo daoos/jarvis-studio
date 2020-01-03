@@ -24,8 +24,8 @@
 </template>
 
 <script>
-import HeaderDocView from '@/components/common/HeaderDocView.vue';
-import ParametersList from '@/components/common/tmp/ParametersList.vue';
+import HeaderDocView from '@/components/data-workflows/common/HeaderDocView.vue';
+import ParametersList from '@/components/data-workflows/common/item/parameters/ParametersList.vue';
 export default {
 	components: {
 		HeaderDocView,

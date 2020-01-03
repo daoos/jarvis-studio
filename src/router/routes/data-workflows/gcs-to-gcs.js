@@ -24,7 +24,6 @@ export default [
 			)
 	},
 	{
-		// TODO: Rename param to :id
 		path: `/${DATA_WORKFLOWS}/${GCS_TO_GCS}/${RUNS}/:id`,
 		name: GCS_TO_GCS_RUNS_ITEM,
 		meta: { middleware: [auth, hasAccount] },
@@ -47,7 +46,6 @@ export default [
 			)
 	},
 	{
-		// TODO: Rename param to :id
 		path: `/${DATA_WORKFLOWS}/${GCS_TO_GCS}/${CONFIGURATIONS}/:id`,
 		name: GCS_TO_GCS_CONFIGURATIONS_ITEM,
 		meta: { middleware: [auth, hasAccount] },

@@ -10,7 +10,7 @@ import TabsItemsMixin from '../tabs-items';
 import ItemMixin from '@/mixins/data-workflows/item-mixin';
 
 export default {
-	name: 'storage-to-tales-runs-item-view',
+	name: 'gcs-to-gcs-runs-item-view',
 	mixins: [TabsItemsMixin, ItemMixin],
 	data() {
 		return {

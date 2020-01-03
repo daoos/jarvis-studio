@@ -105,8 +105,8 @@
 
 <script>
 import VueJsonPretty from 'vue-json-pretty';
-import DataManagementFilters from '../../common/DataManagementFilters';
-import ConfigurationStatus from '../../common/configuration/ConfigurationStatus.vue';
+import DataManagementFilters from './DataManagementFilters';
+import ConfigurationStatus from '../configuration/ConfigurationStatus.vue';
 
 import { mapState } from 'vuex';
 import { mapGetters } from 'vuex';

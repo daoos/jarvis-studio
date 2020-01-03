@@ -138,8 +138,8 @@
 
 <script>
 import VueJsonPretty from 'vue-json-pretty';
-import DataManagementFilters from '../../../common/DataManagementFilters';
-import ConfigurationStatus from '../../../common/configuration/ConfigurationStatus.vue';
+import DataManagementFilters from '@/components/data-workflows/common/DataManagementFilters';
+import ConfigurationStatus from '@/components/data-workflows/configuration/ConfigurationStatus.vue';
 
 import { STORAGE_TO_TABLE_CONFIGURATIONS_ITEM } from '@/constants/router/routes-names';
 import { mapState } from 'vuex';

@@ -85,7 +85,7 @@
 
 <script>
 import VueJsonPretty from 'vue-json-pretty';
-import DataManagementFilters from '../../../common/DataManagementFilters';
+import DataManagementFilters from '../../common/DataManagementFilters';
 
 import { TABLE_TO_STORAGE_RUNS_ITEM } from '@/constants/router/routes-names';
 import { mapState } from 'vuex';

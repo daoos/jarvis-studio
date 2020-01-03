@@ -20,12 +20,13 @@
 
 <script>
 import OverviewComponent from './OverviewComponent';
-import ViewJson from '../../common/ViewJson';
+import ViewJson from './ViewJson';
 import ViewConversation from './ViewConversation';
+import TableSchemaView from '@/components/data-workflows/common/TableSchemaView';
 
 export default {
 	name: 'item-component',
-	components: { OverviewComponent, ViewJson, ViewConversation },
+	components: { OverviewComponent, ViewJson, ViewConversation, TableSchemaView },
 	props: {
 		tabsItems: {
 			type: Array,

@@ -20,17 +20,16 @@ export default [
 		meta: { middleware: [auth, hasAccount] },
 		component: () =>
 			import(
-				/* webpackChunkName: "/data-workflows/storage-to-storage/runs/listing" */ '@/views/data-workflows/storage-to-storage/StorageToStorageRuns.vue'
+				/* webpackChunkName: "/data-workflows/storage-to-storage/runs/listing" */ '@/views/data-workflows/storage-to-storage/runs/ListingView.vue'
 			)
 	},
 	{
-		// TODO: Rename param to :id
-		path: `/${DATA_WORKFLOWS}/${STORAGE_TO_STORAGE}/${RUNS}/:runId`,
+		path: `/${DATA_WORKFLOWS}/${STORAGE_TO_STORAGE}/${RUNS}/:id`,
 		name: STORAGE_TO_STORAGE_RUNS_ITEM,
 		meta: { middleware: [auth, hasAccount] },
 		component: () =>
 			import(
-				/* webpackChunkName: "/data-workflows/storage-to-storage/run/item" */ '@/views/data-workflows/storage-to-storage/StorageToStorageRun.vue'
+				/* webpackChunkName: "/data-workflows/storage-to-storage/run/item" */ '@/views/data-workflows/storage-to-storage/runs/ItemView.vue'
 			)
 	},
 
@@ -43,17 +42,16 @@ export default [
 		meta: { middleware: [auth, hasAccount] },
 		component: () =>
 			import(
-				/* webpackChunkName: "/data-workflows/storage-to-storage/configurations/listing" */ '@/views/data-workflows/storage-to-storage/StorageToStorageConfs.vue'
+				/* webpackChunkName: "/data-workflows/storage-to-storage/configurations/listing" */ '@/views/data-workflows/storage-to-storage/configurations/ListingView.vue'
 			)
 	},
 	{
-		// TODO: Rename param to :id
-		path: `/${DATA_WORKFLOWS}/${STORAGE_TO_STORAGE}/${CONFIGURATIONS}/:confId`,
+		path: `/${DATA_WORKFLOWS}/${STORAGE_TO_STORAGE}/${CONFIGURATIONS}/:id`,
 		name: STORAGE_TO_STORAGE_CONFIGURATIONS_ITEM,
 		meta: { middleware: [auth, hasAccount] },
 		component: () =>
 			import(
-				/* webpackChunkName: "/data-workflows/storage-to-storage/configurations/item" */ '@/views/data-workflows/storage-to-storage/StorageToStorageConf.vue'
+				/* webpackChunkName: "/data-workflows/storage-to-storage/configurations/item" */ '@/views/data-workflows/storage-to-storage/configurations/ItemView.vue'
 			)
 	}
 ];

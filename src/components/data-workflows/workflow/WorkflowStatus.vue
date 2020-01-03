@@ -119,7 +119,7 @@ import VueJsonPretty from 'vue-json-pretty';
 import store from '@/store';
 import moment from 'moment';
 import _ from 'lodash';
-import DataManagementFilters from '../../common/DataManagementFilters';
+import DataManagementFilters from '../common/DataManagementFilters';
 
 export default {
 	components: {
