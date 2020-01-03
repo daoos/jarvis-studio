@@ -5,7 +5,7 @@ import VuexPersist from 'vuex-persist';
 import { RootState } from '@/types';
 
 import { userModule } from './modules/user';
-import filters from './modules/filters';
+import { filtersModule } from './modules/filters';
 import easyFirestoreModules from './modules/easy-firestore';
 import { firebase, initFirebase } from '../config/firebase';
 
@@ -30,7 +30,7 @@ const vuexLocalStorage = new VuexPersist({
 });
 
 const storeOptions: StoreOptions<RootState> = {
-	modules: { user: userModule, filters },
+	modules: { user: userModule, filters: filtersModule },
 	plugins: [easyFirestore, vuexLocalStorage.plugin]
 };
 
