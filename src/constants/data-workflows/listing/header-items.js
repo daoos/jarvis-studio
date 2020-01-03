@@ -13,6 +13,8 @@ export const CONFIGURATION_ID = { text: 'Conf Id', sortable: true, value: 'confi
 export const TRIGGERING_FILE = { text: 'Triggering File', sortable: true, value: 'triggering_file' };
 export const NB_FILENAME_TEMPLATES = { text: 'Nb File Templates', sortable: true, value: 'filename_templates.length' };
 export const GBQ_TABLE_REFRESHED = { text: 'Destination Table', sortable: true, value: 'gbq_table_refreshed' };
+export const FIRESTORE_CONF_DOC_ID = { text: 'Configuration Id', sortable: true, value: 'firestore_conf_doc_id' };
+export const OUTPUT_FILENAME = { text: 'Generated File', sortable: true, value: 'output_filename' };
 
 // CONFIGURATIONS
 export const ID = { text: 'Configuration id', sortable: true, value: 'id' };
@@ -25,6 +27,8 @@ export const NB_DESTINATION_BUCKET = {
 export const TABLE_NAME = { text: 'Destination Table', sortable: true, value: 'table_name' };
 export const GCP_PROJECT = { text: 'BQ Project ID', sortable: true, value: 'gcp_project' };
 export const GBQ_DATASET = { text: 'BQ Dataset', sortable: true, value: 'gbq_dataset' };
+export const GCS_DEST_BUCKET = { text: 'Destination Bucket', sortable: true, value: 'gcs_dest_bucket' };
+export const GCS_DEST_PREFIX = { text: 'Destination Prefix', sortable: true, value: 'gcs_dest_prefix' };
 
 export default {
 	// GENERAL
@@ -42,6 +46,8 @@ export default {
 	TRIGGERING_FILE,
 	NB_FILENAME_TEMPLATES,
 	GBQ_TABLE_REFRESHED,
+	FIRESTORE_CONF_DOC_ID,
+	OUTPUT_FILENAME,
 
 	// CONFIGURATIONS
 	ID,
@@ -49,5 +55,7 @@ export default {
 	NB_DESTINATION_BUCKET,
 	TABLE_NAME,
 	GCP_PROJECT,
-	GBQ_DATASET
+	GBQ_DATASET,
+	GCS_DEST_BUCKET,
+	GCS_DEST_PREFIX
 };

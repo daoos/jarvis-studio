@@ -20,7 +20,7 @@ export default [
 		meta: { middleware: [auth, hasAccount] },
 		component: () =>
 			import(
-				/* webpackChunkName: "/data-workflows/table-to-storage/runs/listing" */ '@/views/data-workflows/table-to-storage/run/ListingView'
+				/* webpackChunkName: "/data-workflows/table-to-storage/runs/listing" */ '@/views/data-workflows/table-to-storage/runs/ListingView'
 			)
 	},
 	{
@@ -28,7 +28,7 @@ export default [
 		name: TABLE_TO_STORAGE_RUNS_ITEM,
 		meta: { middleware: [auth, hasAccount] },
 		component: () =>
-			import(/* webpackChunkName: "tabletostoragerun" */ '@/views/data-workflows/table-to-storage/run/ItemView')
+			import(/* webpackChunkName: "tabletostoragerun" */ '@/views/data-workflows/table-to-storage/runs/ItemView')
 	},
 
 	/**
@@ -40,7 +40,7 @@ export default [
 		meta: { middleware: [auth, hasAccount] },
 		component: () =>
 			import(
-				/* webpackChunkName: "/data-workflows/table-to-storage/configurations/listing" */ '@/views/data-workflows/table-to-storage/ConfigurationsView'
+				/* webpackChunkName: "/data-workflows/table-to-storage/configurations/listing" */ '@/views/data-workflows/table-to-storage/configurations/ListingView'
 			)
 	},
 	{
@@ -49,7 +49,7 @@ export default [
 		meta: { middleware: [auth, hasAccount] },
 		component: () =>
 			import(
-				/* webpackChunkName: "/data-workflows/table-to-storage/configurations/item" */ '@/views/data-workflows/table-to-storage/ConfigurationView'
+				/* webpackChunkName: "/data-workflows/table-to-storage/configurations/item" */ '@/views/data-workflows/table-to-storage/configurations/ItemView'
 			)
 	}
 ];
