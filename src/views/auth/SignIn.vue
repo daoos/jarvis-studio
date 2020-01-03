@@ -77,7 +77,9 @@ export default {
 	methods: {
 		googleSignin() {
 			this.loadingGoogleSignin = true;
-			this.$store.dispatch('userGoogleSignin');
+			this.$store.dispatch('userGoogleSignin').then(() => {
+				this.$router.push('/');
+			});
 		},
 		signin() {
 			this.loading = true;

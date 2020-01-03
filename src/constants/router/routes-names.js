@@ -1,9 +1,11 @@
 /* APP */
-export const NOT_FOUND = 'not-found';
 export const HOME = 'home';
+export const NO_ACCOUNT = 'no-account';
+export const NOT_FOUND = 'not-found';
 
 /* AUTH */
 export const SIGN_IN = 'SignIn';
+export const LOGOUT = 'Logout';
 
 /* DATA MODELS */
 export const DATA_TABLE_DETAILS = 'DataTableDetails';
@@ -35,7 +37,7 @@ export const TABLES_TO_TABLES_CONFIGURATIONS_LISTING = 'TablesToTablesConfs';
 export const TABLES_TO_TABLES_CONFIGURATIONS_ITEM = 'TablesToTablesConf';
 
 export const GBQ_TO_GCS_RUNS_LISTING = 'gbqToGcsRuns';
-// TODO: Create run constant
+export const GBQ_TO_GCS_RUNS_ITEM = 'gbqToGcsRun';
 export const GBQ_TO_GCS_CONFIGURATIONS_LISTING = 'gbqToGcsConfs';
 export const GBQ_TO_GCS_CONFIGURATIONS_ITEM = 'GbqToGcsConf';
 

@@ -1,8 +1,11 @@
+import { auth, hasAccount } from '@/router/middleware';
+
 import { DATA_WORKFLOWS } from '@/constants/router/paths-prefixes';
 import { GBQ_TO_GCS } from '@/constants/data-workflows/names';
 import { RUNS, CONFIGURATIONS } from '@/constants/data-workflows/status';
 import {
 	GBQ_TO_GCS_RUNS_LISTING,
+	GBQ_TO_GCS_RUNS_ITEM,
 	GBQ_TO_GCS_CONFIGURATIONS_LISTING,
 	GBQ_TO_GCS_CONFIGURATIONS_ITEM
 } from '@/constants/router/routes-names';
@@ -14,15 +17,21 @@ export default [
 	{
 		path: `/${DATA_WORKFLOWS}/${GBQ_TO_GCS}/${RUNS}`,
 		name: GBQ_TO_GCS_RUNS_LISTING,
-		meta: {
-			authRequired: true
-		},
+		meta: { middleware: [auth, hasAccount] },
 		component: () =>
 			import(
-				/* webpackChunkName: "/data-workflows/gbq-to-gcs/runs/listing" */ '@/views/data-workflows/gbq-to-gcs/RunsView.vue'
+				/* webpackChunkName: "/data-workflows/gbq-to-gcs/runs/listing" */ '@/views/data-workflows/gbq-to-gcs/runs/ListingView.vue'
 			)
 	},
-	// TODO: Create run view
+	{
+		path: `/${DATA_WORKFLOWS}/${GBQ_TO_GCS}/${RUNS}/:id`,
+		name: GBQ_TO_GCS_RUNS_ITEM,
+		meta: { middleware: [auth, hasAccount] },
+		component: () =>
+			import(
+				/* webpackChunkName: "/data-workflows/gbq-to-gcs/runs/listing" */ '@/views/data-workflows/gbq-to-gcs/runs/ItemView.vue'
+			)
+	},
 
 	/**
 	 * CONFIGURATIONS
@@ -30,24 +39,19 @@ export default [
 	{
 		path: `/${DATA_WORKFLOWS}/${GBQ_TO_GCS}/${CONFIGURATIONS}`,
 		name: GBQ_TO_GCS_CONFIGURATIONS_LISTING,
-		meta: {
-			authRequired: true
-		},
+		meta: { middleware: [auth, hasAccount] },
 		component: () =>
 			import(
-				/* webpackChunkName: "/data-workflows/gbq-to-gcs/configurations/listing" */ '@/views/data-workflows/gbq-to-gcs/ConfigurationsView.vue'
+				/* webpackChunkName: "/data-workflows/gbq-to-gcs/configurations/listing" */ '@/views/data-workflows/gbq-to-gcs/configurations/ListingView.vue'
 			)
 	},
 	{
-		// TODO: Rename param to :id
-		path: `/${DATA_WORKFLOWS}/${GBQ_TO_GCS}/${CONFIGURATIONS}/:confId`,
+		path: `/${DATA_WORKFLOWS}/${GBQ_TO_GCS}/${CONFIGURATIONS}/:id`,
 		name: GBQ_TO_GCS_CONFIGURATIONS_ITEM,
-		meta: {
-			authRequired: true
-		},
+		meta: { middleware: [auth, hasAccount] },
 		component: () =>
 			import(
-				/* webpackChunkName: "/data-workflows/gbq-to-gcs/configurations/item" */ '@/views/data-workflows/gbq-to-gcs/ConfigurationView.vue'
+				/* webpackChunkName: "/data-workflows/gbq-to-gcs/configurations/item" */ '@/views/data-workflows/gbq-to-gcs/configurations/ItemView.vue'
 			)
 	}
 ];

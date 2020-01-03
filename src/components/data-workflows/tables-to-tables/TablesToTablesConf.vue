@@ -48,7 +48,7 @@
 <script>
 import { mapState } from 'vuex';
 import store from '@/store';
-import viewJson from '@/components/common/tmp/viewJson.vue';
+import viewJson from '@/components/tmp/viewJson.vue';
 import tablesToTablesConfOverview from '@/components/data-workflows/tables-to-tables/TablesToTablesConfOverview.vue';
 import tablesToTalesConfTasksView from '@/components/data-workflows/tables-to-tables/TablesToTablesConfTasksView.vue';
 

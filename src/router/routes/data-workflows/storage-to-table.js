@@ -1,3 +1,5 @@
+import { auth, hasAccount } from '@/router/middleware';
+
 import { DATA_WORKFLOWS } from '@/constants/router/paths-prefixes';
 import { STORAGE_TO_TABLE } from '@/constants/data-workflows/names';
 import { RUNS, CONFIGURATIONS } from '@/constants/data-workflows/status';
@@ -15,24 +17,19 @@ export default [
 	{
 		path: `/${DATA_WORKFLOWS}/${STORAGE_TO_TABLE}/${RUNS}`,
 		name: STORAGE_TO_TABLE_RUNS_LISTING,
-		meta: {
-			authRequired: true
-		},
+		meta: { middleware: [auth, hasAccount] },
 		component: () =>
 			import(
-				/* webpackChunkName: "/data-workflows/storage-to-table/runs/listing" */ '@/views/data-workflows/storage-to-table/run/RunsView.vue'
+				/* webpackChunkName: "/data-workflows/storage-to-table/runs/listing" */ '@/views/data-workflows/storage-to-table/runs/ListingView.vue'
 			)
 	},
 	{
-		// TODO: Rename param to :id
-		path: `/${DATA_WORKFLOWS}/${STORAGE_TO_TABLE}/${RUNS}/:pathId`,
+		path: `/${DATA_WORKFLOWS}/${STORAGE_TO_TABLE}/${RUNS}/:id`,
 		name: STORAGE_TO_TABLE_RUNS_ITEM,
-		meta: {
-			authRequired: true
-		},
+		meta: { middleware: [auth, hasAccount] },
 		component: () =>
 			import(
-				/* webpackChunkName: "/data-workflows/storage-to-table/runs/item" */ '@/views/data-workflows/storage-to-table/run/StorageToTableRun.vue'
+				/* webpackChunkName: "/data-workflows/storage-to-table/runs/item" */ '@/views/data-workflows/storage-to-table/runs/ItemView.vue'
 			)
 	},
 
@@ -42,24 +39,19 @@ export default [
 	{
 		path: `/${DATA_WORKFLOWS}/${STORAGE_TO_TABLE}/${CONFIGURATIONS}`,
 		name: STORAGE_TO_TABLE_CONFIGURATIONS_LISTING,
-		meta: {
-			authRequired: true
-		},
+		meta: { middleware: [auth, hasAccount] },
 		component: () =>
 			import(
-				/* webpackChunkName: "/data-workflows/storage-to-table/configurations/listing" */ '@/views/data-workflows/storage-to-table/configuration/ConfigurationsView.vue'
+				/* webpackChunkName: "/data-workflows/storage-to-table/configurations/listing" */ '@/views/data-workflows/storage-to-table/configurations/ListingView.vue'
 			)
 	},
 	{
-		// TODO: Rename param to :id
-		path: `/${DATA_WORKFLOWS}/${STORAGE_TO_TABLE}/${CONFIGURATIONS}/:pathId`,
+		path: `/${DATA_WORKFLOWS}/${STORAGE_TO_TABLE}/${CONFIGURATIONS}/:bucketId/:id`,
 		name: STORAGE_TO_TABLE_CONFIGURATIONS_ITEM,
-		meta: {
-			authRequired: true
-		},
+		meta: { middleware: [auth, hasAccount] },
 		component: () =>
 			import(
-				/* webpackChunkName: "/data-workflows/storage-to-table/configurations/item" */ '@/views/data-workflows/storage-to-table/configuration/StorageToTableConf.vue'
+				/* webpackChunkName: "/data-workflows/storage-to-table/configurations/item" */ '@/views/data-workflows/storage-to-table/configurations/ItemView.vue'
 			)
 	}
 ];

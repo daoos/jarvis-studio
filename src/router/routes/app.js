@@ -1,18 +1,28 @@
-import { NOT_FOUND, HOME } from '@/constants/router/routes-names';
+import { auth, hasAccount } from '@/router/middleware';
+
+import { HOME, NO_ACCOUNT, NOT_FOUND } from '@/constants/router/routes-names';
 
 export default [
-	{
-		path: '*',
-		name: NOT_FOUND,
-		meta: { authRequired: true },
-		component: () => import(/* webpackChunkName: "app/home" */ '@/views/app/NotFound.vue')
-	},
 	{
 		path: '/',
 		name: HOME,
 		meta: {
-			authRequired: true
+			middleware: [auth, hasAccount]
 		},
-		component: () => import(/* webpackChunkName: "app/home" */ '@/views/app/Home.vue')
+		component: () => import(/* webpackChunkName: "app/home" */ '@/views/app/Home')
+	},
+	{
+		path: '/no-account',
+		name: NO_ACCOUNT,
+		meta: {
+			middleware: [auth]
+		},
+		component: () => import(/* webpackChunkName: "app/home" */ '@/views/app/NoAccount')
+	},
+	{
+		path: '*',
+		name: NOT_FOUND,
+		meta: { middleware: [auth, hasAccount] },
+		component: () => import(/* webpackChunkName: "app/home" */ '@/views/app/NotFound')
 	}
 ];

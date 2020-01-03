@@ -18,15 +18,15 @@
 					<v-card-text>
 						<v-container>
 							<v-row>
-								<v-col cols="12" sm="12" md="12">
-									<v-text-field v-model="editedUser.email" label="Email"></v-text-field>
+								<v-col cols="12">
+									<v-text-field v-model="editedUser.email" label="Email" />
 								</v-col>
 
-								<v-col cols="12" sm="12" md="12">
-									<v-text-field v-model="editedUser.displayName" label="Display Name"></v-text-field>
+								<v-col cols="12">
+									<v-text-field v-model="editedUser.displayName" label="Display Name" />
 								</v-col>
 
-								<v-col cols="12" sm="12" md="12">
+								<v-col cols="12">
 									<v-text-field
 										v-model="editedUser.password"
 										:append-icon="editedUser.showpassword ? 'visibility' : 'visibility_off'"
@@ -39,16 +39,16 @@
 									/>
 								</v-col>
 
-								<v-col cols="12" sm="12" md="12">
-									<v-text-field v-model="editedUser.emailVerified" label="Email Verified"></v-text-field>
+								<v-col cols="12">
+									<v-text-field v-model="editedUser.emailVerified" label="Email Verified" />
 								</v-col>
 
-								<v-col cols="12" sm="12" md="12">
+								<v-col cols="12">
 									<v-text-field v-model="editedUser.disabled" label="Disabled" />
 
 									<v-select
 										v-model="selectedAccounts"
-										:items="accountsFormated"
+										:items="accountsFormatted"
 										label="Accounts"
 										multiple
 										chips
@@ -77,9 +77,9 @@
 					<v-card-actions>
 						<v-spacer />
 
-						<v-btn color="blue darken-1" flat @click="close">Cancel</v-btn>
-						<v-btn color="blue darken-1" flat @click="createUser">Create User</v-btn>
-						<v-btn color="blue darken-1" flat @click="addRolesAndAccounts">Update User</v-btn>
+						<v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
+						<v-btn color="blue darken-1" text @click="createUser">Create User</v-btn>
+						<v-btn color="blue darken-1" text @click="addRolesAndAccounts">Update User</v-btn>
 					</v-card-actions>
 				</v-card>
 			</v-dialog>
@@ -119,12 +119,13 @@
 
 		<v-snackbar v-model="snackbarParam.show" :color="snackbarParam.color" :timeout="3500">
 			{{ snackbarParam.message }}
-			<v-btn flat @click="snackbarParam.show = false">Close</v-btn>
+			<v-btn text @click="snackbarParam.show = false">Close</v-btn>
 		</v-snackbar>
 	</v-container>
 </template>
 
 <script>
+import store from '@/store';
 import firebase from 'firebase';
 import { mapState } from 'vuex';
 import { mapGetters } from 'vuex';
@@ -210,10 +211,10 @@ export default {
 			this.isFetchAndAdding = true;
 			const listAllUsers = firebase.functions().httpsCallable('listAllUsers');
 			//list all email users
-			listAllUsers({}).then(users => {
+			listAllUsers({}).then(res => {
 				// store the users list
-				const dataUsers = Object.values(users.data.users);
-				let usersFormated = users.data.users.map(function(data) {
+				const dataUsers = Object.values(res.data.users);
+				let usersFormated = res.data.users.map(function(data) {
 					let nb_accounts = 0;
 					try {
 						nb_accounts = data.customClaims.accounts.length;
@@ -238,24 +239,24 @@ export default {
 		editUser(item) {
 			this.editedUserIndex = this.users.indexOf(item);
 			this.editedUser = Object.assign({}, item);
-			// if (
-			//   this.editedUser.customClaims == null ||
-			//   typeof this.editedUser.customClaims.accounts === "undefined" ||
-			//   this.editedUser.customClaims.accounts === null
-			// ) {
-			//   this.selectedAccounts = [];
-			// } else {
-			//   this.selectedAccounts = this.editedUser.customClaims.accounts;
-			// }
-			// if (
-			//   this.editedUser.customClaims == null ||
-			//   typeof this.editedUser.customClaims.studioRoles === "undefined" ||
-			//   this.editedUser.customClaims.studioRoles === null
-			// ) {
-			//   this.selectedRoles = 0;
-			// } else {
-			//   this.selectedRoles = this.editedUser.customClaims.studioRoles;
-			// }
+			if (
+				this.editedUser.customClaims == null ||
+				typeof this.editedUser.customClaims.accounts === 'undefined' ||
+				this.editedUser.customClaims.accounts === null
+			) {
+				this.selectedAccounts = [];
+			} else {
+				this.selectedAccounts = this.editedUser.customClaims.accounts;
+			}
+			if (
+				this.editedUser.customClaims == null ||
+				typeof this.editedUser.customClaims.studioRoles === 'undefined' ||
+				this.editedUser.customClaims.studioRoles === null
+			) {
+				this.selectedRoles = 0;
+			} else {
+				this.selectedRoles = this.editedUser.customClaims.studioRoles;
+			}
 			this.dialog = true;
 		},
 		deleteUser(item) {
@@ -315,15 +316,13 @@ export default {
 	},
 	computed: {
 		...mapState({
-			isAuthenticated: state => state.user.isAuthenticated,
-			user: state => state.user.user,
 			accounts: state => state.accounts.data
 		}),
 		...mapGetters(['periodFiltered', 'whereConfFilter']),
 		formTitle() {
 			return this.editedUserIndex === -1 ? 'New User' : 'Edit User';
 		},
-		accountsFormated() {
+		accountsFormatted() {
 			return Object.values(this.accounts);
 		}
 	},
@@ -334,5 +333,3 @@ export default {
 	}
 };
 </script>
-
-<style></style>

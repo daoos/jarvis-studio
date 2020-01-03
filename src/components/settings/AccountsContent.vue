@@ -1,24 +1,20 @@
 <template>
 	<v-container>
-		<v-data-table :headers="headers" :items="accounts" class="elevation-1">
+		<v-data-table :headers="headers" :items="getAccounts" class="elevation-1">
 			<template v-slot:items="props">
 				<td>{{ props.item['account_name'] }}</td>
 				<td>{{ props.item['id'] }}</td>
 				<td>{{ props.item['dlk_gcp_id_project'] }}</td>
 				<td>{{ props.item['exc_gcp_id_project'] }}</td>
 			</template>
-			<template v-slot:no-data>
-				<v-alert :value="true" color="error" icon="warning">
-					Sorry, nothing to display here :(
-				</v-alert>
-			</template>
 		</v-data-table>
+
 		<v-row>
 			<v-col cols="12" offset="0">
 				<v-card dark>
 					<v-card-text>
 						<vue-json-pretty
-							:data="accounts"
+							:data="getAccounts"
 							:deep="2"
 							:show-double-quotes="true"
 							:show-length="true"
@@ -29,36 +25,40 @@
 				</v-card>
 			</v-col>
 		</v-row>
+
+		<v-btn fab bottom right color="blue" dark fixed @click="dialog = !dialog">
+			<v-icon>add</v-icon>
+		</v-btn>
+
 		<v-dialog v-model="dialog" width="800px">
 			<v-card>
-				<v-card-title class="black lighten-4 py-4 title">
-					Create Account
-				</v-card-title>
+				<v-card-title class="black lighten-4 py-4 title">Create Account</v-card-title>
 				<v-container class="pa-4">
 					<v-row>
 						<v-col cols="6">
-							<v-text-field prepend-icon="business" placeholder="Account Name"></v-text-field>
+							<v-text-field prepend-icon="business" placeholder="Account Name" />
 						</v-col>
 						<v-col cols="6">
-							<v-text-field prepend-icon="vpn_key" placeholder="Account ID"></v-text-field>
+							<v-text-field prepend-icon="vpn_key" placeholder="Account ID" />
 						</v-col>
 						<v-col cols="6">
-							<v-text-field prepend-icon="account_box" placeholder="Contact First Name"></v-text-field>
+							<v-text-field prepend-icon="account_box" placeholder="Contact First Name" />
 						</v-col>
 						<v-col cols="6">
-							<v-text-field placeholder="Contact Last Name"></v-text-field>
+							<v-text-field placeholder="Contact Last Name" />
 						</v-col>
 						<v-col cols="12">
-							<v-text-field prepend-icon="mail" placeholder="Email Contact Account"></v-text-field>
+							<v-text-field prepend-icon="mail" placeholder="Email Contact Account" />
 						</v-col>
 						<v-col cols="12">
-							<v-text-field prepend-icon="notes" placeholder="Notes"></v-text-field>
+							<v-text-field prepend-icon="notes" placeholder="Notes" />
 						</v-col>
 					</v-row>
 				</v-container>
+
 				<v-card-actions>
 					<v-btn flat color="primary">More</v-btn>
-					<v-spacer></v-spacer>
+					<v-spacer />
 					<v-btn flat color="primary" @click="dialog = false">Cancel</v-btn>
 					<v-btn flat @click="dialog = false">Save</v-btn>
 				</v-card-actions>
@@ -106,23 +106,10 @@ export default {
 			}
 		]
 	}),
-	created() {
-		//load the content of the module
-		store.dispatch('accounts/fetchAndAdd').catch(console.error);
-	},
 	computed: {
-		...mapState({
-			isAuthenticated: state => state.user.isAuthenticated,
-			user: state => state.user.user
-		}),
-		accounts() {
-			console.log('store.state.accounts.data');
-			console.log(store.state.accounts.data);
-			console.log(Object.values(store.state.accounts.data));
+		getAccounts() {
 			return Object.values(store.state.accounts.data);
 		}
 	}
 };
 </script>
-
-<style></style>

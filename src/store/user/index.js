@@ -14,6 +14,8 @@ const userData = {
 				.auth()
 				.currentUser.getIdTokenResult()
 				.then(idTokenResult => {
+					if (!state.user) return;
+
 					if (idTokenResult.claims == null || idTokenResult.claims.accounts == null) {
 						state.user.accounts = [];
 					} else {
@@ -51,19 +53,23 @@ const userData = {
 		},
 		userGoogleSignin({ commit }) {
 			const provider = new firebase.auth.GoogleAuthProvider();
-			firebase
-				.auth()
-				.signInWithPopup(provider)
-				.then(user => {
-					commit('setUser', user.user);
-					commit('setIsAuthenticated', true);
-					router.push({ name: HOME });
-				})
-				.catch(() => {
-					commit('setUser', null);
-					commit('setIsAuthenticated', false);
-					router.push({ name: SIGN_IN });
-				});
+
+			return new Promise(function(resolve, reject) {
+				firebase
+					.auth()
+					.signInWithPopup(provider)
+					.then(user => {
+						commit('setUser', user.user);
+						commit('setIsAuthenticated', true);
+						resolve(user.user);
+					})
+					.catch(e => {
+						commit('setUser', null);
+						commit('setIsAuthenticated', false);
+						console.error(e);
+						reject(e);
+					});
+			});
 		},
 		userSignup({ commit }, { email, password }) {
 			firebase
@@ -85,18 +91,10 @@ const userData = {
 			commit('setIsAuthenticated', true);
 		},
 		userSignOut({ commit }) {
+			commit('setUser', null);
+			commit('setIsAuthenticated', false);
 			router.push({ name: SIGN_IN });
-			firebase
-				.auth()
-				.signOut()
-				.then(() => {
-					commit('setUser', null);
-					commit('setIsAuthenticated', false);
-				})
-				.catch(() => {
-					commit('setUser', null);
-					commit('setIsAuthenticated', false);
-				});
+			firebase.auth().signOut();
 		}
 		// userAddAdminRole({ commit }, email) {
 		//   const addAdminRole = firebase.functions().httpsCallable("addAdminRole");
@@ -124,6 +122,9 @@ const userData = {
 		},
 		user(state) {
 			return state.user;
+		},
+		getUserAccounts(state) {
+			return state.user.accounts;
 		}
 	}
 };

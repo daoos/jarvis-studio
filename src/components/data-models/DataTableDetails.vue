@@ -286,7 +286,7 @@ import store from '@/store';
 import moment from 'moment';
 import JsonSchemaIsInvalid from './JsonSchemaIsInvalid.vue';
 import DataModelHeader from '../app/headers/DataModelHeader';
-import tableSchemaView from '@/components/common/TableSchemaView.vue';
+import tableSchemaView from '@/components/data-workflows/common/TableSchemaView.vue';
 // vue-good-table import the styles
 import 'vue-good-table/dist/vue-good-table.css';
 import { VueGoodTable } from 'vue-good-table';
@@ -412,7 +412,6 @@ export default {
 		...mapState({
 			isAuthenticated: state => state.user.isAuthenticated,
 			user: state => state.user.user,
-			settings: state => state.settings,
 			dataTableDetails: state => state.dataTableDetails.data,
 			schemas: state => state.schemas.data
 		}),

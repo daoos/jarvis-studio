@@ -2,8 +2,8 @@
 	<div>
 		<DataManagementHeader :tabsItems="tabsItems" />
 		<listing-component
+			:type="listingType"
 			:module-name="moduleName"
-			:route-name="routeName"
 			:headers="headers"
 			:overridden-columns="overriddenColumns"
 		>
@@ -37,6 +37,7 @@ import { getStatusColor } from '@/util/data-workflows/run';
 
 import TabsItemsMixin from '../tabs-items';
 
+import { RUNS } from '@/constants/data-workflows/status';
 import { STORAGE_TO_TABLES_RUNS_ITEM } from '@/constants/router/routes-names';
 
 export default {
@@ -55,6 +56,9 @@ export default {
 		}
 	},
 	computed: {
+		listingType() {
+			return RUNS;
+		},
 		routeName() {
 			return STORAGE_TO_TABLES_RUNS_ITEM;
 		},

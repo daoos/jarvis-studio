@@ -1,3 +1,5 @@
+import { auth, hasAccount } from '@/router/middleware';
+
 import { DATA_WORKFLOWS } from '@/constants/router/paths-prefixes';
 import { TABLE_TO_STORAGE } from '@/constants/data-workflows/names';
 import { RUNS, CONFIGURATIONS } from '@/constants/data-workflows/status';
@@ -15,9 +17,7 @@ export default [
 	{
 		path: `/${DATA_WORKFLOWS}/${TABLE_TO_STORAGE}/${RUNS}`,
 		name: TABLE_TO_STORAGE_RUNS_LISTING,
-		meta: {
-			authRequired: true
-		},
+		meta: { middleware: [auth, hasAccount] },
 		component: () =>
 			import(
 				/* webpackChunkName: "/data-workflows/table-to-storage/runs/listing" */ '@/views/data-workflows/table-to-storage/run/ListingView'
@@ -26,9 +26,7 @@ export default [
 	{
 		path: `/${DATA_WORKFLOWS}/${TABLE_TO_STORAGE}/${RUNS}/:id`,
 		name: TABLE_TO_STORAGE_RUNS_ITEM,
-		meta: {
-			authRequired: true
-		},
+		meta: { middleware: [auth, hasAccount] },
 		component: () =>
 			import(/* webpackChunkName: "tabletostoragerun" */ '@/views/data-workflows/table-to-storage/run/ItemView')
 	},
@@ -39,9 +37,7 @@ export default [
 	{
 		path: `/${DATA_WORKFLOWS}/${TABLE_TO_STORAGE}/${CONFIGURATIONS}`,
 		name: TABLE_TO_STORAGE_CONFIGURATIONS_LISTING,
-		meta: {
-			authRequired: true
-		},
+		meta: { middleware: [auth, hasAccount] },
 		component: () =>
 			import(
 				/* webpackChunkName: "/data-workflows/table-to-storage/configurations/listing" */ '@/views/data-workflows/table-to-storage/ConfigurationsView'
@@ -50,9 +46,7 @@ export default [
 	{
 		path: `/${DATA_WORKFLOWS}/${TABLE_TO_STORAGE}/${CONFIGURATIONS}/:id`,
 		name: TABLE_TO_STORAGE_CONFIGURATIONS_ITEM,
-		meta: {
-			authRequired: true
-		},
+		meta: { middleware: [auth, hasAccount] },
 		component: () =>
 			import(
 				/* webpackChunkName: "/data-workflows/table-to-storage/configurations/item" */ '@/views/data-workflows/table-to-storage/ConfigurationView'
