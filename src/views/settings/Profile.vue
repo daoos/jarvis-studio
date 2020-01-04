@@ -8,10 +8,12 @@
 	</div>
 </template>
 
-<script>
-import ProfileContent from '../../components/settings/ProfileContent';
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator';
+import ProfileContent from '@/components/settings/ProfileContent.vue';
 
-export default {
+@Component({
 	components: { ProfileContent }
-};
+})
+export default class Profile extends Vue {}
 </script>

@@ -15,15 +15,14 @@
 	</v-container>
 </template>
 
-<script>
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator';
 import { LOGOUT } from '@/constants/router/routes-names';
 
-export default {
-	name: 'no-account',
-	methods: {
-		logoutUser() {
-			this.$router.push({ name: LOGOUT });
-		}
+@Component
+export default class NoAccount extends Vue {
+	logoutUser() {
+		this.$router.push({ name: LOGOUT });
 	}
-};
+}
 </script>
