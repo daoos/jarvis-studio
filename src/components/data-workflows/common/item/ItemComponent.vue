@@ -4,6 +4,13 @@
 			<v-progress-linear :indeterminate="true" />
 		</v-row>
 
+		<v-row v-else-if="isNotFound">
+			<v-col cols="12" offset="0" class="text-center">
+				<p>Document not found</p>
+				<v-btn @click="$router.go(-1)">Go Back</v-btn>
+			</v-col>
+		</v-row>
+
 		<v-row v-else>
 			<v-col cols="12" offset="0">
 				<v-tabs v-model="activeTab" color="black" background-color="#E0E0E0" slider-color="primary" class="elevation-1">
@@ -35,6 +42,10 @@ export default {
 			required: true
 		},
 		isLoading: {
+			type: Boolean,
+			required: true
+		},
+		isNotFound: {
 			type: Boolean,
 			required: true
 		}
