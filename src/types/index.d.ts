@@ -1,5 +1,6 @@
 import { Location, NavigationGuard, Route } from 'vue-router';
 import { User as FirebaseUser } from 'firebase';
+import { IEasyFirestoreModule } from 'vuex-easy-firestore/types/declarations';
 
 // Router
 export interface Context {
@@ -16,6 +17,7 @@ export type MiddlewarePipeline = (context: Context, middleware: Middleware[], in
 export interface RootState {
 	user: UserState;
 	filters: FilterState;
+	// TODO: Add easy-firestore modules
 }
 
 export interface UserState {

@@ -30,11 +30,11 @@ export default {
 	},
 	created() {
 		//load the content of the module
-		store.dispatch('gcpcloudfunctions/fetchAndAdd').catch(console.error);
+		store.dispatch('gcpCloudFunctions/fetchAndAdd').catch(console.error);
 	},
 	computed: {
 		moduleJson() {
-			return store.state.gcpcloudfunctions.data;
+			return store.state.gcpCloudFunctions.data;
 		}
 	}
 };
