@@ -1,6 +1,6 @@
 import { Location, NavigationGuard, Route } from 'vue-router';
 import { User as FirebaseUser } from 'firebase';
-import { IEasyFirestoreModule } from 'vuex-easy-firestore/types/declarations';
+import { IPluginState } from 'vuex-easy-firestore/types/declarations';
 
 // Router
 export interface Context {
@@ -17,7 +17,34 @@ export type MiddlewarePipeline = (context: Context, middleware: Middleware[], in
 export interface RootState {
 	user: UserState;
 	filters: FilterState;
-	// TODO: Add easy-firestore modules
+	accounts: IPluginState;
+	schemas: IPluginState;
+	mirrorExcGcsToGcsRuns: IPluginState;
+	mirrorExcGcsToGcsConfs: IPluginState;
+	mirrorExcGcsToGbqRuns: IPluginState;
+	mirrorExcGcsToGbqConfs: IPluginState;
+	mirrorExcGcsToGbqConfDetails: IPluginState;
+	gcpCloudFunctions: IPluginState;
+	getGbqToGcsRuns: IPluginState;
+	getGbqToGcsConfs: IPluginState;
+	getGbqToGbqConfs: IPluginState;
+	getGbqToGbqRuns: IPluginState;
+	vmLauncherConfs: IPluginState;
+	vmLauncherRuns: IPluginState;
+	workflowConfs: IPluginState;
+	workflowStatus: IPluginState;
+	dataModels: IPluginState;
+	dataTables: IPluginState;
+	dataTableDetails: IPluginState;
+	storageToStorageConfs: IPluginState;
+	storageToStorageRuns: IPluginState;
+	storageToTableConf: IPluginState;
+	storageToTablesConfs: IPluginState;
+	storageToTableRun: IPluginState;
+	storageToTablesRuns: IPluginState;
+	tablesToTablesRun: IPluginState;
+	tableToStorageConfs: IPluginState;
+	tableToStorageRuns: IPluginState;
 }
 
 export interface UserState {
