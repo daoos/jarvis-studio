@@ -23,7 +23,7 @@
 
 <script>
 import { DATA_TABLE_DETAILS } from '@/constants/router/routes-names';
-import { mapState } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 import store from '@/store';
 
 export default {
@@ -39,38 +39,37 @@ export default {
 	},
 	methods: {
 		getDataModel() {
-			this.$store
-				.dispatch('dataModels/fetchAndAdd', { limit: 0 })
-				.then(() => {
-					const dataModelsValues = Object.values(this.dataModels);
-					const dataModelsFormatted = dataModelsValues.map(data => {
-						let subCollectionsFormatted = [];
-						const projectId = data.id;
+			let promises = [];
 
-						data.sub_collections.forEach(function(dataset) {
-							// add name, project id (used to fetch dataTable Later), type (to select the icon in the treeview),
-							// empty children to trigger the fetchTables function when necessary
-							subCollectionsFormatted.push({
-								id: projectId.concat('/', dataset),
-								name: dataset,
-								projectId: projectId,
-								type: 'dataset',
-								children: []
-							});
+			this.getUserAccounts.forEach(account => {
+				promises.push(this.$store.dispatch('dataModels/fetchById', account.dlk_gcp_id_project));
+			});
+
+			Promise.all(promises).then(data => {
+				this.items = data.map(item => {
+					let children = [];
+					const projectId = item.id;
+
+					item.sub_collections.forEach(docId => {
+						children.push({
+							id: `${projectId}/${docId}`,
+							name: docId,
+							projectId: projectId,
+							type: 'dataset',
+							children: []
 						});
-
-						return {
-							name: data.id,
-							id: data.id,
-							type: 'Project',
-							children: subCollectionsFormatted
-						};
 					});
 
-					this.isLoading = false;
-					this.items = dataModelsFormatted;
-				})
-				.catch(console.error);
+					return {
+						name: item.id,
+						id: item.id,
+						type: 'Project',
+						children
+					};
+				});
+
+				this.isLoading = false;
+			});
 		},
 		fetchTables(item) {
 			store.dispatch('dataTables/closeDBChannel', { clearModule: true });
@@ -96,7 +95,8 @@ export default {
 	computed: {
 		...mapState({
 			dataModels: state => state.dataModels.data
-		})
+		}),
+		...mapGetters(['getUserAccounts'])
 	},
 	watch: {
 		active: function() {
@@ -111,19 +111,3 @@ export default {
 	}
 };
 </script>
-
-<style>
-/* https://stackoverflow.com/questions/54119491/vuetify-treeview-cant-break-text-using-css/54119821#54119821 */
-/* https://github.com/vuetifyjs/vuetify/issues/7177 */
-.v-treeview-node__label {
-	flex-shrink: 1;
-	word-break: break-all;
-	font-size: 14px;
-}
-.v-treeview-node__root {
-	height: auto;
-}
-.v-treeview-node--leaf {
-	margin-left: 25px;
-}
-</style>
