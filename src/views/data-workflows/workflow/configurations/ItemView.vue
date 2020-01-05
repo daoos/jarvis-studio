@@ -62,7 +62,8 @@ export default {
 						collection: this.moduleName,
 						activeHeader: true,
 						viewId: this.item.id,
-						viewType: 'conf'
+						viewType: 'conf',
+						description: this.item.short_description
 					}
 				},
 				{
@@ -70,7 +71,7 @@ export default {
 					props: {
 						groupTitle: 'Context',
 						tooltip: true,
-						description: 'Context of the Storage to Storage configuration',
+						description: 'Context of the Workflow configuration',
 						paramItems: [
 							{
 								id: 'account',
@@ -81,18 +82,42 @@ export default {
 								id: 'environment',
 								label: 'Environment',
 								value: this.item.environment
-							},
-							{
-								id: 'short_description',
-								label: 'Short description',
-								value: this.item.short_description
-							},
-							{
-								id: 'target_dag',
-								label: 'Target Dag',
-								value: this.item.target_dag
 							}
 						]
+					}
+				},
+				{
+					component: 'parameters-table',
+					props: {
+						tableTitle: 'Target Job',
+						description: 'Job to target',
+						columns: [
+							{
+								label: 'Job ID',
+								field: 'job_id'
+							}
+						],
+						rows: [{ job_id: this.item.target_dag }],
+						lineNumbers: true,
+						searchOptionsEnabled: false
+					}
+				},
+				{
+					component: 'parameters-table',
+					props: {
+						tableTitle: 'Triggering Jobs',
+						description: 'Jobs trigerring the workflow',
+						columns: [
+							{
+								label: 'Job ID',
+								field: 'job_id'
+							}
+						],
+						rows: this.item.authorized_job_ids.map(function(val, index) {
+							return { job_id: val };
+						}),
+						lineNumbers: true,
+						searchOptionsEnabled: true
 					}
 				}
 			];
