@@ -19,6 +19,8 @@ export default {
 	},
 	computed: {
 		itemTabsItems() {
+			if (!this.item) return [];
+
 			return [
 				{
 					label: 'Run Details',
