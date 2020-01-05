@@ -41,6 +41,8 @@ export const DEFAULT_BQ_DATASET = {
 	value: 'configuration.default_bq_dataset'
 };
 export const CONF_WORKFLOW_LENGTH = { text: '# Tasks', sortable: true, value: 'configuration.workflow.length' };
+export const GCS_FILE_EXCHANGE_BUCKET = { text: 'Bucket Exchange', sortable: true, value: 'gcs_file_exchange_bucket' };
+export const WORKING_DIR = { text: 'Working Directory', sortable: true, value: 'working_dir' };
 
 export default {
 	// GENERAL
@@ -72,5 +74,8 @@ export default {
 	GBQ_DATASET,
 	GCS_DEST_BUCKET,
 	GCS_DEST_PREFIX,
-	DEFAULT_BQ_DATASET
+	DEFAULT_BQ_DATASET,
+	CONF_WORKFLOW_LENGTH,
+	GCS_FILE_EXCHANGE_BUCKET,
+	WORKING_DIR
 };
