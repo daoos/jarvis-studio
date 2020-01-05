@@ -44,11 +44,11 @@
 				<td :colspan="headers.length" class="pa-0">
 					<v-card flat>
 						<v-card-title>
-							<span class="headline">{{ viewedItem.table_name }}</span>
-							<v-spacer />
 							<v-btn color="warning" fab small dark outlined>
 								<v-icon @click="toggleExpand(viewedItem)">close</v-icon>
 							</v-btn>
+							<span class="headline">{{ viewedItem.id }}</span>
+							<v-spacer />
 						</v-card-title>
 
 						<v-card-text>
