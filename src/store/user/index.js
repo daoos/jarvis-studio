@@ -123,8 +123,15 @@ const userData = {
 		user(state) {
 			return state.user;
 		},
-		getUserAccounts(state) {
-			return state.user.accounts;
+		getUserAccounts(state, rootState) {
+			let items = [];
+
+			state.user.accounts.forEach(id => {
+				const element = rootState['accounts/getAccounts'][id];
+				if (element) items.push(element);
+			});
+
+			return items;
 		}
 	}
 };
