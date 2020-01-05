@@ -1,5 +1,5 @@
-<template
-	><v-container fluid>
+<template>
+	<v-container fluid>
 		<div v-for="task in tasksFull" :key="task.id">
 			<TablesToTablesConfTaskView :task="task" :dagContext="dagContext" />
 		</div>
@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import TablesToTablesConfTaskView from '@/components/data-workflows/tables-to-tables/TablesToTablesConfTaskView.vue';
+import TablesToTablesConfTaskView from '@/components/data-workflows/common/item/to-refacto/TaskItem.vue';
 import { Base64 } from 'js-base64';
 export default {
 	components: {
@@ -362,5 +362,3 @@ export default {
 	}
 };
 </script>
-
-<style lang="scss" scoped></style>

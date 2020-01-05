@@ -16,14 +16,15 @@
 </template>
 
 <script>
-import ViewHeader from './ViewHeader';
+import CreateUpdateConfOverview from '@/components/data-workflows/configuration/CreateUpdateConfOverview';
+import DagChart from '@/components/data-workflows/common/item/DagChart';
 import ParametersList from './item/parameters/ParametersList';
 import ParametersTable from './item/parameters/ParametersTable';
-import CreateUpdateConfOverview from '@/components/data-workflows/configuration/CreateUpdateConfOverview';
+import ViewHeader from './ViewHeader';
 
 export default {
 	name: 'overview-component',
-	components: { ViewHeader, ParametersList, ParametersTable, CreateUpdateConfOverview },
+	components: { CreateUpdateConfOverview, DagChart, ParametersList, ParametersTable, ViewHeader },
 	props: {
 		data: {
 			type: Array,

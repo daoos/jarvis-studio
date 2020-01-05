@@ -11,9 +11,10 @@
 				v-if="viewType === 'conf'"
 				:item="item"
 				:collection="collection"
-				:is-activated="item.activated"
+				:is-activated="customKey ? item[customKey].activated : item.activated"
 				:is-small="false"
 				:is-label="true"
+				:custom-key="customKey"
 			/>
 
 			<RunStatusChip
@@ -67,6 +68,10 @@ export default {
 		},
 		description: {
 			type: String
+		},
+		customKey: {
+			type: String,
+			default: null
 		}
 	},
 	methods: {

@@ -21,13 +21,14 @@
 <script>
 import CreateUpdateConfOverview from '@/components/data-workflows/configuration/CreateUpdateConfOverview';
 import OverviewComponent from './OverviewComponent';
+import TableSchemaView from '@/components/data-workflows/common/TableSchemaView';
+import TaskListing from '@/components/data-workflows/common/item/to-refacto/TaskListing';
 import ViewJson from './ViewJson';
 import ViewConversation from './ViewConversation';
-import TableSchemaView from '@/components/data-workflows/common/TableSchemaView';
 
 export default {
 	name: 'item-component',
-	components: { CreateUpdateConfOverview, OverviewComponent, ViewJson, ViewConversation, TableSchemaView },
+	components: { CreateUpdateConfOverview, OverviewComponent, TableSchemaView, TaskListing, ViewJson, ViewConversation },
 	props: {
 		tabsItems: {
 			type: Array,

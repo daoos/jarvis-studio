@@ -15,6 +15,12 @@ export const NB_FILENAME_TEMPLATES = { text: 'Nb File Templates', sortable: true
 export const GBQ_TABLE_REFRESHED = { text: 'Destination Table', sortable: true, value: 'gbq_table_refreshed' };
 export const FIRESTORE_CONF_DOC_ID = { text: 'Configuration Id', sortable: true, value: 'firestore_conf_doc_id' };
 export const OUTPUT_FILENAME = { text: 'Generated File', sortable: true, value: 'output_filename' };
+export const DAG_ID = { text: 'Workflow Id Bucket', sortable: true, value: 'dag_id' };
+export const WORKFLOW_LENGTH = {
+	text: 'Tasks',
+	sortable: true,
+	value: 'configuration_context.configuration.workflow.length'
+};
 
 // CONFIGURATIONS
 export const ID = { text: 'Configuration id', sortable: true, value: 'id' };
@@ -29,6 +35,12 @@ export const GCP_PROJECT = { text: 'BQ Project ID', sortable: true, value: 'gcp_
 export const GBQ_DATASET = { text: 'BQ Dataset', sortable: true, value: 'gbq_dataset' };
 export const GCS_DEST_BUCKET = { text: 'Destination Bucket', sortable: true, value: 'gcs_dest_bucket' };
 export const GCS_DEST_PREFIX = { text: 'Destination Prefix', sortable: true, value: 'gcs_dest_prefix' };
+export const DEFAULT_BQ_DATASET = {
+	text: 'BQ Default Dataset',
+	sortable: true,
+	value: 'configuration.default_bq_dataset'
+};
+export const CONF_WORKFLOW_LENGTH = { text: '# Tasks', sortable: true, value: 'configuration.workflow.length' };
 
 export default {
 	// GENERAL
@@ -48,6 +60,8 @@ export default {
 	GBQ_TABLE_REFRESHED,
 	FIRESTORE_CONF_DOC_ID,
 	OUTPUT_FILENAME,
+	DAG_ID,
+	WORKFLOW_LENGTH,
 
 	// CONFIGURATIONS
 	ID,
@@ -57,5 +71,6 @@ export default {
 	GCP_PROJECT,
 	GBQ_DATASET,
 	GCS_DEST_BUCKET,
-	GCS_DEST_PREFIX
+	GCS_DEST_PREFIX,
+	DEFAULT_BQ_DATASET
 };
