@@ -6,7 +6,11 @@ import {
 	VM_LAUNCHER_RUNS_ITEM,
 	VM_LAUNCHER_RUNS_LISTING,
 	VM_LAUNCHER_CONFIGURATIONS_LISTING,
-	VM_LAUNCHER_CONFIGURATIONS_ITEM
+	VM_LAUNCHER_CONFIGURATIONS_ITEM,
+	WORKFLOW_STATUS_LISTING,
+	WORKFLOW_STATUS_ITEM,
+	WORKFLOW_CONFIGURATIONS_LISTING,
+	WORKFLOW_CONFIGURATIONS_ITEM
 } from '@/constants/router/routes-names';
 
 // TODO: Update all keys
@@ -63,8 +67,10 @@ export const getWorkflowName = name => {
 		[VM_LAUNCHER_CONFIGURATIONS_ITEM]: 'VM Launcher',
 
 		// Workflow
-		WorkflowStatus: 'Workflow',
-		WorkflowConfs: 'Workflow'
+		[WORKFLOW_STATUS_LISTING]: 'Workflow',
+		[WORKFLOW_STATUS_ITEM]: 'Workflow',
+		[WORKFLOW_CONFIGURATIONS_LISTING]: 'Workflow',
+		[WORKFLOW_CONFIGURATIONS_ITEM]: 'Workflow'
 	};
 
 	return items[name];

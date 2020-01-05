@@ -43,6 +43,22 @@ export const DEFAULT_BQ_DATASET = {
 export const CONF_WORKFLOW_LENGTH = { text: '# Tasks', sortable: true, value: 'configuration.workflow.length' };
 export const GCS_FILE_EXCHANGE_BUCKET = { text: 'Bucket Exchange', sortable: true, value: 'gcs_file_exchange_bucket' };
 export const WORKING_DIR = { text: 'Working Directory', sortable: true, value: 'working_dir' };
+export const TARGET_DAG = { text: 'Dag to fire', sortable: true, value: 'target_dag' };
+export const AUTHORIZED_JOB_IDS_LENGTH = {
+	text: 'Nb triggering Jobs',
+	sortable: true,
+	value: 'authorized_job_ids.length'
+};
+
+// Status
+export const JOBS = { text: 'Triggering Jobs', sortable: true, value: 'jobs' };
+export const TRIGGERED_JOBS = { text: 'Triggered Jobs', sortable: true, value: 'triggered_jobs' };
+export const LAST_UPDATE_FROM_NOW = {
+	text: 'Last triggering date',
+	sortable: true,
+	value: 'last_update_date_from_now'
+};
+export const LAST_FIRE_DATE_FROM_NOW = { text: 'Last fire Date', sortable: true, value: 'last_fire_date_from_now' };
 
 export default {
 	// GENERAL
@@ -77,5 +93,13 @@ export default {
 	DEFAULT_BQ_DATASET,
 	CONF_WORKFLOW_LENGTH,
 	GCS_FILE_EXCHANGE_BUCKET,
-	WORKING_DIR
+	WORKING_DIR,
+	TARGET_DAG,
+	AUTHORIZED_JOB_IDS_LENGTH,
+
+	// STATUS
+	JOBS,
+	TRIGGERED_JOBS,
+	LAST_UPDATE_FROM_NOW,
+	LAST_FIRE_DATE_FROM_NOW
 };
