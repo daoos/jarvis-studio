@@ -14,15 +14,26 @@
 			</template>
 
 			<template v-slot:configuration_context.source="{ item: { configuration_context: { source } } }">
-				{{ source.type === 'gcs' ? source.gcs_source_bucket : source.sftp_host }}
+				{{ source ? (source.type === 'gcs' ? source.gcs_source_bucket : source.sftp_host) : 'waiting...' }}
+			</template>
+
+			<template v-slot:dag_execution_date="{ item: { dag_execution_date } }">
+				{{ dag_execution_date | moment('YYYY/MM/DD - HH:mm') }}
+			</template>
+
+			<template v-slot:status="{ item: { status } }">
+				<v-chip :color="getStatusColor(status)" text-color="white" small class="text-lowercase">
+					{{ status }}
+				</v-chip>
 			</template>
 		</listing-component>
 	</div>
 </template>
 
 <script>
-import DataManagementHeader from '../../../../components/data-workflows/DataManagementHeader';
-import ListingComponent from '@/components/data-workflows/common/listing/ListingComponent';
+import DataManagementHeader from '../../../../components/app/headers/DataManagementHeader';
+import ListingComponent from '@/components/data-workflows/common/ListingComponent';
+import { getStatusColor } from '@/util/data-workflows/run';
 
 import TabsItemsMixin from '../tabs-items';
 
@@ -36,8 +47,13 @@ export default {
 	data() {
 		return {
 			moduleName: 'storageToTablesRuns',
-			overriddenColumns: ['id', 'configuration_context.source']
+			overriddenColumns: ['id', 'configuration_context.source', 'dag_execution_date', 'status']
 		};
+	},
+	methods: {
+		getStatusColor(status) {
+			return getStatusColor(status);
+		}
 	},
 	computed: {
 		listingType() {
@@ -61,7 +77,7 @@ export default {
 					value: 'environment'
 				},
 				{
-					text: 'Configuration id',
+					text: 'Triggering File',
 					align: 'left',
 					sortable: true,
 					value: 'id'
@@ -83,6 +99,12 @@ export default {
 					align: 'left',
 					sortable: true,
 					value: 'status'
+				},
+				{
+					text: 'Execution Date',
+					align: 'left',
+					sortable: true,
+					value: 'dag_execution_date'
 				},
 				{
 					text: 'Actions',
