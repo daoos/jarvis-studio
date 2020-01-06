@@ -8,10 +8,12 @@
 	</div>
 </template>
 
-<script>
-import UsersContent from '../../components/settings/UsersContent';
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator';
+import UsersContent from '@/components/settings/UsersContent.vue';
 
-export default {
+@Component({
 	components: { UsersContent }
-};
+})
+export default class Users extends Vue {}
 </script>

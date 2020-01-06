@@ -8,10 +8,12 @@
 	</div>
 </template>
 
-<script>
-import AccountsContent from '../../components/settings/AccountsContent';
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator';
+import AccountsContent from '@/components/settings/AccountsContent.vue';
 
-export default {
+@Component({
 	components: { AccountsContent }
-};
+})
+export default class Accounts extends Vue {}
 </script>

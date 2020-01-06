@@ -4,14 +4,16 @@
 			<v-toolbar-title class="pl-2 display-1">Cloud Function Configurations</v-toolbar-title>
 		</v-toolbar>
 
-		<cloud-functions />
+		<cloud-functions-content />
 	</div>
 </template>
 
-<script>
-import CloudFunctions from '../../components/settings/CloudFunctions';
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator';
+import CloudFunctionsContent from '@/components/settings/CloudFunctions.vue';
 
-export default {
-	components: { CloudFunctions }
-};
+@Component({
+	components: { CloudFunctionsContent }
+})
+export default class CloudFunctions extends Vue {}
 </script>

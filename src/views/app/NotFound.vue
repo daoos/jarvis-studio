@@ -5,12 +5,13 @@
 	</div>
 </template>
 
-<script>
-import DataOverviewHeader from '@/components/app/data-overview/DataOverviewHeader';
-import DataOverviewContent from '@/components/app/data-overview/DataOverviewContent';
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator';
+import DataOverviewHeader from '@/components/app/data-overview/DataOverviewHeader.vue';
+import DataOverviewContent from '@/components/app/data-overview/DataOverviewContent.vue';
 
-export default {
-	name: 'not-found',
+@Component({
 	components: { DataOverviewHeader, DataOverviewContent }
-};
+})
+export default class NotFound extends Vue {}
 </script>

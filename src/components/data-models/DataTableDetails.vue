@@ -239,6 +239,8 @@
 </template>
 
 <script>
+// TODO: Refactor component
+
 import { mapState } from 'vuex';
 import VueJsonPretty from 'vue-json-pretty';
 import store from '@/store';
