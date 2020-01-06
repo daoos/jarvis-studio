@@ -52,7 +52,7 @@ export default {
 			];
 		},
 		statusData() {
-			if (!this.item) return;
+			if (Object.keys(this.item).length === 0) return;
 
 			return [
 				{

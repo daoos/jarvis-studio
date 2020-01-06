@@ -29,9 +29,11 @@
 	</div>
 </template>
 
-<script>
-import DataManagementHeader from '../../../../components/data-workflows/DataManagementHeader';
-import ListingComponent from '@/components/data-workflows/common/listing/ListingComponent';
+<script lang="ts">
+import { Component, Mixins } from 'vue-property-decorator';
+import { RunStatus } from '@/types';
+import DataManagementHeader from '../../../../components/data-workflows/DataManagementHeader.vue';
+import ListingComponent from '@/components/data-workflows/common/listing/ListingComponent.vue';
 
 import HeaderInfosMixin from '../header-infos';
 
@@ -48,30 +50,27 @@ import {
 	ACTIONS
 } from '@/constants/data-workflows/listing/header-items';
 
-export default {
-	components: { DataManagementHeader, ListingComponent },
-	mixins: [HeaderInfosMixin],
-	data() {
-		return {
-			moduleName: 'mirrorExcGcsToGcsRuns',
-			overriddenColumns: ['gcs_triggering_file', 'status', 'dag_execution_date']
-		};
-	},
-	methods: {
-		getStatusColor(status) {
-			return getStatusColor(status);
-		}
-	},
-	computed: {
-		listingType() {
-			return RUNS;
-		},
-		routeName() {
-			return GCS_TO_GCS_RUNS_ITEM;
-		},
-		headers() {
-			return [ACCOUNT, ENVIRONMENT, SOURCE_BUCKET, GCS_TRIGGERING_FILE, STATUS, DAG_EXECUTION_DATE, ACTIONS];
-		}
+@Component({
+	components: { DataManagementHeader, ListingComponent }
+})
+export default class GcsToGcsRunsListingView extends Mixins(HeaderInfosMixin) {
+	moduleName: string = 'mirrorExcGcsToGcsRuns';
+	overriddenColumns: string[] = ['gcs_triggering_file', 'status', 'dag_execution_date'];
+
+	getStatusColor(status: RunStatus) {
+		return getStatusColor(status);
 	}
-};
+
+	get listingType() {
+		return RUNS;
+	}
+
+	get routeName() {
+		return GCS_TO_GCS_RUNS_ITEM;
+	}
+
+	get headers() {
+		return [ACCOUNT, ENVIRONMENT, SOURCE_BUCKET, GCS_TRIGGERING_FILE, STATUS, DAG_EXECUTION_DATE, ACTIONS];
+	}
+}
 </script>

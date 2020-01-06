@@ -104,3 +104,5 @@ export interface Link {
 	link: Location;
 	displayRule?(): boolean;
 }
+
+export type RunStatus = 'SUCCESS' | 'FAILED' | 'RUNNING';

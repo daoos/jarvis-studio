@@ -4,24 +4,34 @@
  */
 
 import { Component, Vue } from 'vue-property-decorator';
-import { State } from 'vuex-class';
+// import { State } from 'vuex-class';
 import DataManagementHeader from '@/components/data-workflows/DataManagementHeader.vue';
 import ItemComponent from '@/components/data-workflows/common/item/ItemComponent.vue';
-
 import store from '@/store';
+import { mapState } from 'vuex';
+
+type Item = { [index: string]: any };
 
 @Component({
-	components: { DataManagementHeader, ItemComponent }
+	components: { DataManagementHeader, ItemComponent },
+	computed: {
+		...mapState({
+			firestoreItem(state) {
+				return state[this.moduleName].data;
+			}
+		})
+	}
 })
 export default class ItemMixin extends Vue {
+	moduleName: string = '';
 	isNotFound: boolean = false;
-	item: Object = {}; // TODO: Create type `Item`
+	item: Item = {};
 	isLoading: boolean = true;
 
-	@State(state => state[this.moduleName].data) firestoreItem: Object = {}; // TODO: Create type `Item`
+	// @State(state => state[this.moduleName].data) firestoreItem: Item = {};
 
 	mounted() {
-		if (!this.moduleName) throw new Error('Parent component has to define `moduleName` in data');
+		// if (!this.moduleName) throw new Error('Parent component has to define `moduleName` in data');
 		this.getItem();
 	}
 
@@ -36,14 +46,6 @@ export default class ItemMixin extends Vue {
 		await store.dispatch(`${this.moduleName}/closeDBChannel`, { clearModule: true });
 		await store.dispatch(`${this.moduleName}/fetchById`, this.itemId);
 	}
-
-	/*computed: {
-		...mapState({
-			firestoreItem(state) {
-				return state[this.moduleName].data;
-			}
-		})
-	}*/
 
 	get itemId(): string {
 		return this.$route.params.id;

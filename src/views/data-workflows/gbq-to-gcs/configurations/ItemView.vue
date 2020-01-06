@@ -15,6 +15,8 @@ export default class GbqToGcsConfigurationsItemView extends Mixins(HeaderInfosMi
 	moduleName: string = 'getGbqToGcsConfs';
 
 	get itemTabsItems() {
+		if (Object.keys(this.item).length === 0) return [];
+
 		return [
 			{
 				label: 'Configuration',
@@ -49,8 +51,6 @@ export default class GbqToGcsConfigurationsItemView extends Mixins(HeaderInfosMi
 	}
 
 	get configurationData() {
-		if (!this.item) return;
-
 		return [
 			{
 				component: 'view-header',

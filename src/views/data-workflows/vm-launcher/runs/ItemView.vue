@@ -62,7 +62,7 @@ export default {
 			];
 		},
 		runDetailsData() {
-			if (!this.item) return;
+			if (Object.keys(this.item).length === 0) return;
 
 			return [
 				{
@@ -118,7 +118,7 @@ export default {
 			];
 		},
 		configurationData() {
-			if (!this.item) return;
+			if (Object.keys(this.item).length === 0) return;
 
 			return [
 				{
