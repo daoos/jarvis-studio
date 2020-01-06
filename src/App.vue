@@ -20,8 +20,8 @@
 				/>
 			</v-navigation-drawer>
 
-			<v-navigation-drawer temporary :right="true" v-model="showNotifications" fixed app>
-				<notification-content :show-notifications="showNotifications" @closeNotifications="toggleNotifications" />
+			<v-navigation-drawer v-model="showNotifications" fixed app temporary right>
+				<notification-content @closeNotifications="toggleNotifications" />
 			</v-navigation-drawer>
 
 			<v-footer class="menu" app dark>
@@ -74,17 +74,17 @@ export default class App extends Vue {
 		this.makeNavigationResponsive(false);
 	}
 
-	toggleNavigation = (): void => {
+	toggleNavigation(): void {
 		this.showNavigation = !this.showNavigation;
-	};
+	}
 
-	toggleNotifications = (): void => {
+	toggleNotifications(): void {
 		this.showNotifications = !this.showNotifications;
-	};
+	}
 
-	makeNavigationResponsive = (isUp: boolean): void => {
+	makeNavigationResponsive(isUp: boolean): void {
 		this.navigationDrawer.permanent = isUp;
-	};
+	}
 
 	get showLayout() {
 		return this.isAuthenticated && this.accounts.length > 0;
