@@ -73,10 +73,14 @@ export default {
 					component: 'view-header',
 					props: {
 						item: this.item,
+						customKey: 'configuration',
 						collection: this.moduleName,
 						activeHeader: true,
-						viewId: this.item.configuration.dag_name,
-						viewType: 'conf'
+						viewId: this.item.configuration.configuration_id
+							? this.item.configuration.configuration_id
+							: this.item.configuration.dag_name,
+						viewType: 'conf',
+						description: this.item.configuration.short_description
 					}
 				},
 				{
