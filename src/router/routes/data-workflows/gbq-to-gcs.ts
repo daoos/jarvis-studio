@@ -1,5 +1,6 @@
-import { auth, hasAccount } from '@/router/middleware';
+import { RouteConfig } from 'vue-router';
 
+import { auth, hasAccount } from '@/router/middleware';
 import { DATA_WORKFLOWS } from '@/constants/router/paths-prefixes';
 import { GBQ_TO_GCS } from '@/constants/data-workflows/names';
 import { RUNS, CONFIGURATIONS } from '@/constants/data-workflows/status';
@@ -10,7 +11,7 @@ import {
 	GBQ_TO_GCS_CONFIGURATIONS_ITEM
 } from '@/constants/router/routes-names';
 
-export default [
+export const gbqToGcsRoutes: RouteConfig[] = [
 	/**
 	 * RUNS
 	 */

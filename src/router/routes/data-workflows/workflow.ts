@@ -1,5 +1,6 @@
-import { auth, hasAccount } from '@/router/middleware';
+import { RouteConfig } from 'vue-router';
 
+import { auth, hasAccount } from '@/router/middleware';
 import { DATA_WORKFLOWS } from '@/constants/router/paths-prefixes';
 import { WORKFLOW } from '@/constants/data-workflows/names';
 import { STATUS, CONFIGURATIONS } from '@/constants/data-workflows/status';
@@ -10,7 +11,7 @@ import {
 	WORKFLOW_CONFIGURATIONS_ITEM
 } from '@/constants/router/routes-names';
 
-export default [
+export const workflowRoutes: RouteConfig[] = [
 	/**
 	 * STATUS
 	 */
@@ -20,7 +21,7 @@ export default [
 		meta: { middleware: [auth, hasAccount] },
 		component: () =>
 			import(
-				/* webpackChunkName: "/data-workflows/workflow/status/listing" */ '@/views/data-workflows/workflow/status/ListingView'
+				/* webpackChunkName: "/data-workflows/workflow/status/listing" */ '@/views/data-workflows/workflow/status/ListingView.vue'
 			)
 	},
 	{
@@ -29,7 +30,7 @@ export default [
 		meta: { middleware: [auth, hasAccount] },
 		component: () =>
 			import(
-				/* webpackChunkName: "/data-workflows/workflow/status/listing" */ '@/views/data-workflows/workflow/status/ItemView'
+				/* webpackChunkName: "/data-workflows/workflow/status/listing" */ '@/views/data-workflows/workflow/status/ItemView.vue'
 			)
 	},
 
@@ -42,7 +43,7 @@ export default [
 		meta: { middleware: [auth, hasAccount] },
 		component: () =>
 			import(
-				/* webpackChunkName: "/data-workflows/workflow/configurations/listing" */ '@/views/data-workflows/workflow/configurations/ListingView'
+				/* webpackChunkName: "/data-workflows/workflow/configurations/listing" */ '@/views/data-workflows/workflow/configurations/ListingView.vue'
 			)
 	},
 	{
@@ -51,7 +52,7 @@ export default [
 		meta: { middleware: [auth, hasAccount] },
 		component: () =>
 			import(
-				/* webpackChunkName: "/data-workflows/workflow/configurations/listing" */ '@/views/data-workflows/workflow/configurations/ItemView'
+				/* webpackChunkName: "/data-workflows/workflow/configurations/listing" */ '@/views/data-workflows/workflow/configurations/ItemView.vue'
 			)
 	}
 ];

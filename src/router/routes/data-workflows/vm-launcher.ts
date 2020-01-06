@@ -1,5 +1,6 @@
-import { auth, hasAccount } from '@/router/middleware';
+import { RouteConfig } from 'vue-router';
 
+import { auth, hasAccount } from '@/router/middleware';
 import { DATA_WORKFLOWS } from '@/constants/router/paths-prefixes';
 import { VM_LAUNCHER } from '@/constants/data-workflows/names';
 import { RUNS, CONFIGURATIONS } from '@/constants/data-workflows/status';
@@ -10,7 +11,7 @@ import {
 	VM_LAUNCHER_CONFIGURATIONS_ITEM
 } from '@/constants/router/routes-names';
 
-export default [
+export const vmLauncherRoutes: RouteConfig[] = [
 	/**
 	 * RUNS
 	 */
@@ -20,7 +21,7 @@ export default [
 		meta: { middleware: [auth, hasAccount] },
 		component: () =>
 			import(
-				/* webpackChunkName: "/data-workflows/vm-launcher/runs/listing" */ '@/views/data-workflows/vm-launcher/runs/ListingView'
+				/* webpackChunkName: "/data-workflows/vm-launcher/runs/listing" */ '@/views/data-workflows/vm-launcher/runs/ListingView.vue'
 			)
 	},
 	{
@@ -29,7 +30,7 @@ export default [
 		meta: { middleware: [auth, hasAccount] },
 		component: () =>
 			import(
-				/* webpackChunkName: "/data-workflows/vm-launcher/runs/listing" */ '@/views/data-workflows/vm-launcher/runs/ItemView'
+				/* webpackChunkName: "/data-workflows/vm-launcher/runs/listing" */ '@/views/data-workflows/vm-launcher/runs/ItemView.vue'
 			)
 	},
 
@@ -42,7 +43,7 @@ export default [
 		meta: { middleware: [auth, hasAccount] },
 		component: () =>
 			import(
-				/* webpackChunkName: "/data-workflows/vm-launcher/configurations/listing" */ '@/views/data-workflows/vm-launcher/configurations/ListingView'
+				/* webpackChunkName: "/data-workflows/vm-launcher/configurations/listing" */ '@/views/data-workflows/vm-launcher/configurations/ListingView.vue'
 			)
 	},
 	{
@@ -51,7 +52,7 @@ export default [
 		meta: { middleware: [auth, hasAccount] },
 		component: () =>
 			import(
-				/* webpackChunkName: "/data-workflows/vm-launcher/configurations/listing" */ '@/views/data-workflows/vm-launcher/configurations/ItemView'
+				/* webpackChunkName: "/data-workflows/vm-launcher/configurations/listing" */ '@/views/data-workflows/vm-launcher/configurations/ItemView.vue'
 			)
 	}
 ];

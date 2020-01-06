@@ -1,9 +1,10 @@
-import { auth, hasAccount, superAdmin } from '@/router/middleware';
+import { RouteConfig } from 'vue-router';
 
+import { auth, hasAccount, superAdmin } from '@/router/middleware';
 import { SETTINGS } from '@/constants/router/paths-prefixes';
 import { PROFILE, USERS, ACCOUNTS, CLOUD_FUNCTIONS } from '@/constants/router/routes-names';
 
-export default [
+export const settingsRoutes: RouteConfig[] = [
 	{
 		path: `/${SETTINGS}/profile`,
 		name: PROFILE,
