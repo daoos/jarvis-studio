@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import DataManagementHeader from '../../../../components/data-workflows/DataManagementHeader';
+import DataManagementHeader from '../../../../components/data-workflows/common/DataManagementHeader';
 import ListingComponent from '@/components/data-workflows/common/listing/ListingComponent';
 
 import TabsItemsMixin from '../tabs-items';
