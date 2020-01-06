@@ -191,7 +191,7 @@ export default {
 					id: 'temporary_table',
 					label: 'Temporary Table',
 					value: this.task.temporary_table,
-					default: 'False',
+					default: false,
 					description: "Define if it's a temporary table that will be deleted at the end of the Dag"
 				});
 				communParams.push({
@@ -228,7 +228,7 @@ export default {
 					id: 'destination_bq_table_date_suffix',
 					label: 'Add Date suffix to destination table',
 					value: this.task.destination_bq_table_date_suffix,
-					default: 'False',
+					default: false,
 					description: 'Add the current date as a suffix to the destination table'
 				});
 				communParams.push({

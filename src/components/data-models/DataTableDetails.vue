@@ -16,7 +16,7 @@
 										{{ this.dataTableDetails.id }}
 									</span>
 
-									<v-spacer></v-spacer>
+									<v-spacer />
 
 									<div class="card-title-right">
 										<v-tooltip bottom>
@@ -44,39 +44,21 @@
 												rows="1"
 												readonly
 												outline
-											></v-textarea>
+											/>
 										</v-col>
 									</v-row>
 
 									<v-row>
 										<v-col cols="3">
-											<v-text-field
-												label="Account"
-												:value="dataTableDetails.account"
-												class="title"
-												readonly
-												outline
-											></v-text-field>
+											<v-text-field label="Account" :value="dataTableDetails.account" class="title" readonly outline />
 										</v-col>
 
 										<v-col cols="3">
-											<v-text-field
-												label="Project Id"
-												:value="this.projectId"
-												class="title"
-												readonly
-												outline
-											></v-text-field>
+											<v-text-field label="Project Id" :value="this.projectId" class="title" readonly outline />
 										</v-col>
 
 										<v-col cols="3">
-											<v-text-field
-												label="Dataset"
-												:value="this.datasetId"
-												class="title"
-												readonly
-												outline
-											></v-text-field>
+											<v-text-field label="Dataset" :value="this.datasetId" class="title" readonly outline />
 										</v-col>
 
 										<v-col cols="3">
@@ -86,39 +68,21 @@
 												class="title"
 												readonly
 												outline
-											></v-text-field>
+											/>
 										</v-col>
 									</v-row>
 
 									<v-row>
 										<v-col cols="3">
-											<v-text-field
-												label="Row Number"
-												:value="numRowsFormated"
-												class="title"
-												readonly
-												outline
-											></v-text-field>
+											<v-text-field label="Row Number" :value="numRowsFormated" class="title" readonly outline />
 										</v-col>
 
 										<v-col cols="3">
-											<v-text-field
-												label="Table Size"
-												:value="numBytesFormated"
-												class="title"
-												readonly
-												outline
-											></v-text-field>
+											<v-text-field label="Table Size" :value="numBytesFormated" class="title" readonly outline />
 										</v-col>
 
 										<v-col cols="3">
-											<v-text-field
-												label="Table Type"
-												:value="dataTableDetails.kind"
-												class="title"
-												readonly
-												outline
-											></v-text-field>
+											<v-text-field label="Table Type" :value="dataTableDetails.kind" class="title" readonly outline />
 										</v-col>
 
 										<v-col cols="3">
@@ -137,26 +101,17 @@
 
 						<v-col cols="12">
 							<v-tabs v-model="activeTab" color="grey lighten-3" slider-color="primary">
-								<v-tab ripple href="#dataoverview">
-									Data Overview
-								</v-tab>
-								<v-tab ripple href="#schema">
-									Schema
-								</v-tab>
-								<v-tab ripple href="#workflow">
-									Workflow
-								</v-tab>
-								<v-tab ripple href="#documentation">
-									Documentation
-								</v-tab>
-								<v-tab ripple href="#fulljson">
-									Full Json
-								</v-tab>
+								<v-tab ripple href="#dataoverview">Data Overview</v-tab>
+								<v-tab ripple href="#schema">Schema</v-tab>
+								<v-tab ripple href="#workflow">Workflow</v-tab>
+								<v-tab ripple href="#documentation">Documentation</v-tab>
+								<v-tab ripple href="#fulljson">Full Json</v-tab>
+
 								<v-tab-item value="dataoverview">
 									<v-card>
 										<v-card-title>
 											<span class="title">Data Overview</span>
-											<v-spacer></v-spacer>
+											<v-spacer />
 										</v-card-title>
 										<v-card-text>
 											<vue-good-table
@@ -171,16 +126,18 @@
 										</v-card-text>
 									</v-card>
 								</v-tab-item>
+
 								<v-tab-item value="schema">
 									<v-card>
 										<tableSchemaView :schemaRows="dataTableDetails.schema.fields" />
 									</v-card>
 								</v-tab-item>
+
 								<v-tab-item value="workflow">
 									<v-card>
 										<v-card-title>
 											<span class="title mt-2 ml-1">{{ dataTableDetails.dag_id }}</span>
-											<v-spacer></v-spacer>
+											<v-spacer />
 										</v-card-title>
 										<v-card-text>
 											<v-row>
@@ -193,7 +150,7 @@
 														rows="1"
 														readonly
 														outline
-													></v-textarea>
+													/>
 												</v-col>
 											</v-row>
 											<v-row>
@@ -204,7 +161,7 @@
 														class="subtitle-1"
 														readonly
 														outline
-													></v-text-field>
+													/>
 												</v-col>
 												<v-col cols="2">
 													<v-text-field
@@ -213,7 +170,7 @@
 														class="subtitle-1"
 														readonly
 														outline
-													></v-text-field>
+													/>
 												</v-col>
 												<v-col cols="3">
 													<v-text-field
@@ -222,7 +179,7 @@
 														class="subtitle-1"
 														readonly
 														outline
-													></v-text-field>
+													/>
 												</v-col>
 												<v-col cols="2">
 													<v-text-field
@@ -231,12 +188,13 @@
 														class="subtitle-1"
 														readonly
 														outline
-													></v-text-field>
+													/>
 												</v-col>
 											</v-row>
 										</v-card-text>
 									</v-card>
 								</v-tab-item>
+
 								<v-tab-item value="documentation">
 									<v-card>
 										<v-card-text>
@@ -248,11 +206,12 @@
 										</v-card-text>
 									</v-card>
 								</v-tab-item>
+
 								<v-tab-item value="fulljson">
 									<v-card>
 										<v-card-title>
 											<span class="title">Full Json</span>
-											<v-spacer></v-spacer>
+											<v-spacer />
 										</v-card-title>
 										<v-card-text>
 											<vue-json-pretty

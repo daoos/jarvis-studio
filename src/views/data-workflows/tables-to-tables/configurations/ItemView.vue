@@ -73,10 +73,14 @@ export default {
 					component: 'view-header',
 					props: {
 						item: this.item,
+						customKey: 'configuration',
 						collection: this.moduleName,
 						activeHeader: true,
-						viewId: this.item.configuration.dag_name,
-						viewType: 'conf'
+						viewId: this.item.configuration.configuration_id
+							? this.item.configuration.configuration_id
+							: this.item.configuration.dag_name,
+						viewType: 'conf',
+						description: this.item.configuration.short_description
 					}
 				},
 				{
@@ -118,7 +122,7 @@ export default {
 								id: 'catchup',
 								label: 'Catchup',
 								value: this.item.configuration.catchup,
-								default: 'false',
+								default: false,
 								description: `This flag will specify to Composer/Airflow to backfill DAG runs upon deployment. If set to "true" AND the DAG is scheduled AND it's "start date" is in set in the past, Composer/Airflow will backfill and execute the DAG until the current date. If not set, the default value is : false`
 							},
 							{

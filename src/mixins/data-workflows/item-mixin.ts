@@ -5,7 +5,7 @@
 
 import { Component, Vue } from 'vue-property-decorator';
 // import { State } from 'vuex-class';
-import DataManagementHeader from '@/components/data-workflows/DataManagementHeader.vue';
+import DataManagementHeader from '@/components/data-workflows/common/DataManagementHeader.vue';
 import ItemComponent from '@/components/data-workflows/common/item/ItemComponent.vue';
 import store from '@/store';
 import { mapState } from 'vuex';

@@ -226,7 +226,7 @@ export default class GbqToGcsRunsItemView extends Mixins(HeaderInfosMixin, ItemM
 					],
 					vflexLength: 'xs9',
 					lineNumbers: false,
-					searchOptionsEnabled: 'false'
+					searchOptionsEnabled: false
 				}
 			},
 			{
@@ -327,7 +327,7 @@ export default class GbqToGcsRunsItemView extends Mixins(HeaderInfosMixin, ItemM
 					],
 					vflexLength: 'xs9',
 					lineNumbers: false,
-					searchOptionsEnabled: 'false'
+					searchOptionsEnabled: false
 				}
 			},
 			{

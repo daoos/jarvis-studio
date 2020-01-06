@@ -32,7 +32,7 @@
 <script lang="ts">
 import { Component, Mixins } from 'vue-property-decorator';
 import { RunStatus } from '@/types';
-import DataManagementHeader from '@/components/data-workflows/DataManagementHeader.vue';
+import DataManagementHeader from '@/components/data-workflows/common/DataManagementHeader.vue';
 import ListingComponent from '@/components/data-workflows/common/listing/ListingComponent.vue';
 
 import HeaderInfosMixin from '../header-infos';

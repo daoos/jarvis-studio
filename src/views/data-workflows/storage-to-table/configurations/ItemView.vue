@@ -246,7 +246,7 @@ export default {
 								id: 'bq_load_job_ignore_unknown_values',
 								label: 'Ignore extra values',
 								value: this.item.bq_load_job_ignore_unknown_values,
-								default: 'false',
+								default: false,
 								description: 'Ignore extra values not represented in the table schema.'
 							},
 							{
@@ -281,14 +281,14 @@ export default {
 								id: 'bq_load_job_allow_quoted_newlines',
 								label: 'Allow quoted new lines',
 								value: this.item.bq_load_job_allow_quoted_newlines,
-								default: 'false',
+								default: false,
 								description: 'Allow quoted data containing newline characters (CSV only).'
 							},
 							{
 								id: 'bq_load_job_allow_jagged_rows',
 								label: 'Allow jagged rows',
 								value: this.item.bq_load_job_allow_jagged_rows,
-								default: 'false',
+								default: false,
 								description: 'Allow missing trailing optional columns (CSV only).'
 							}
 						]

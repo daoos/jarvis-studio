@@ -123,7 +123,7 @@ export default {
 						],
 						vflexLength: 'xs9',
 						lineNumbers: false,
-						searchOptionsEnabled: 'false'
+						searchOptionsEnabled: false
 					}
 				},
 				{
@@ -224,7 +224,7 @@ export default {
 						],
 						vflexLength: 'xs9',
 						lineNumbers: false,
-						searchOptionsEnabled: 'false'
+						searchOptionsEnabled: false
 					}
 				},
 				{
@@ -266,7 +266,7 @@ export default {
 						],
 						vflexLength: 'xs9',
 						lineNumbers: false,
-						searchOptionsEnabled: 'false'
+						searchOptionsEnabled: false
 					}
 				}
 			];

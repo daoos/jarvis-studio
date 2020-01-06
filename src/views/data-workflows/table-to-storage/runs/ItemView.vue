@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import DataManagementHeader from '@/components/data-workflows/DataManagementHeader';
+import DataManagementHeader from '@/components/data-workflows/common/DataManagementHeader';
 import ItemComponent from '@/components/data-workflows/common/item/ItemComponent';
 
 import HeaderInfosMixin from '../header-infos';
@@ -233,7 +233,7 @@ export default {
 						],
 						vflexLength: 'xs9',
 						lineNumbers: false,
-						searchOptionsEnabled: 'false'
+						searchOptionsEnabled: false
 					}
 				},
 				{
@@ -334,7 +334,7 @@ export default {
 						],
 						vflexLength: 'xs9',
 						lineNumbers: false,
-						searchOptionsEnabled: 'false'
+						searchOptionsEnabled: false
 					}
 				},
 				{

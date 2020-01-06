@@ -142,7 +142,7 @@ export default class GbqToGcsConfigurationsItemView extends Mixins(HeaderInfosMi
 					],
 					vflexLength: 'xs9',
 					lineNumbers: false,
-					searchOptionsEnabled: 'false'
+					searchOptionsEnabled: false
 				}
 			},
 			{
@@ -243,7 +243,7 @@ export default class GbqToGcsConfigurationsItemView extends Mixins(HeaderInfosMi
 					],
 					vflexLength: 'xs9',
 					lineNumbers: false,
-					searchOptionsEnabled: 'false'
+					searchOptionsEnabled: false
 				}
 			},
 			{
@@ -285,7 +285,7 @@ export default class GbqToGcsConfigurationsItemView extends Mixins(HeaderInfosMi
 					],
 					vflexLength: 'xs9',
 					lineNumbers: false,
-					searchOptionsEnabled: 'false'
+					searchOptionsEnabled: false
 				}
 			}
 		];

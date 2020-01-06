@@ -205,7 +205,7 @@ export default {
 								id: 'catchup',
 								label: 'Catchup',
 								value: this.item.configuration_context.configuration.catchup,
-								default: 'false',
+								default: false,
 								description: `This flag will specify to Composer/Airflow to backfill DAG runs upon deployment. If set to "true" AND the DAG is scheduled AND it's "start date" is in set in the past, Composer/Airflow will backfill and execute the DAG until the current date. If not set, the default value is : false`
 							},
 							{

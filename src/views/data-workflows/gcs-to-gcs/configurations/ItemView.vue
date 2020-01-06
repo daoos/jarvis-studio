@@ -91,7 +91,7 @@ export default class GcsToGcsConfigurationsItemView extends Mixins(HeaderInfosMi
 				props: {
 					groupTitle: 'Context',
 					tooltip: true,
-					description: 'Context of the Storage to Storage configuration',
+					description: 'Context of the GCS to GCS configuration',
 					paramItems: [
 						{
 							id: 'account',
