@@ -1,10 +1,10 @@
 import Vue from 'vue';
+import vueMoment from 'vue-moment';
 import App from './App.vue';
 import router from '@/router';
 import store from '@/store/index';
-import vuetify from './plugins/vuetify';
-import vueMoment from 'vue-moment';
-import firebase from 'firebase';
+import vuetify from '@/plugins/vuetify';
+import { firebase } from '@/config/firebase';
 
 Vue.config.productionTip = false;
 
