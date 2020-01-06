@@ -10,7 +10,7 @@ Vue.config.productionTip = false;
 
 Vue.use(vueMoment);
 
-let app = null;
+let app: Vue;
 
 const createApp = () => {
 	if (!app) {

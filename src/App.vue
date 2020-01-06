@@ -39,62 +39,61 @@
 	</v-app>
 </template>
 
-<script>
-import AppBar from './components/app/app-bar/AppBar';
-import FooterContent from './components/app/FooterContent';
-import NavigationContent from './components/app/NavigationContent';
-import NotificationContent from './components/app/NotificationContent';
+<script lang="ts">
+import { Component, Watch, Vue } from 'vue-property-decorator';
+import AppBar from '@/components/app/app-bar/AppBar.vue';
+import NavigationContent from '@/components/app/NavigationContent.vue';
+import NotificationContent from '@/components/app/NotificationContent.vue';
+import FooterContent from '@/components/app/FooterContent.vue';
 
-import { mapState, mapGetters } from 'vuex';
-import analyticsItems from './navigation/analytics-items';
-import settingsItems from './navigation/settings-items';
+import { State, Getter } from 'vuex-class';
 
-export default {
-	name: 'app',
-	components: { AppBar, FooterContent, NavigationContent, NotificationContent },
-	data: () => ({
-		navigationDrawer: {
-			permanent: true,
-			mini: false
-		},
-		showNavigation: true,
-		showNotifications: false,
-		analyticsItems: analyticsItems,
-		settingsItems: settingsItems
-	}),
+import { analyticsItems } from './navigation/analytics-items';
+import { settingsItems } from './navigation/settings-items';
+
+interface Drawer {
+	permanent: boolean;
+	mini: boolean;
+}
+
+@Component({
+	components: { AppBar, FooterContent, NavigationContent, NotificationContent }
+})
+export default class App extends Vue {
+	navigationDrawer: Drawer = { permanent: true, mini: false };
+	showNavigation: boolean = true;
+	showNotifications: boolean = false;
+	analyticsItems: object = analyticsItems;
+	settingsItems: object = settingsItems;
+
+	@State(state => state.user.isAuthenticated) isAuthenticated!: boolean;
+	@Getter('getUserAccounts') getUserAccounts!: string[];
+
 	mounted() {
-		this.makeNavigationResponsive();
-	},
-	computed: {
-		...mapState({
-			isAuthenticated: state => state.user.isAuthenticated
-		}),
-		...mapGetters(['getUserAccounts']),
-		showLayout() {
-			return this.isAuthenticated && this.getUserAccounts.length > 0;
-		}
-	},
-	watch: {
-		'$vuetify.breakpoint.lgAndUp'(isUp) {
-			this.makeNavigationResponsive(isUp);
-		}
-	},
-	methods: {
-		toggleNavigation() {
-			this.showNavigation = !this.showNavigation;
-		},
-		toggleNotifications() {
-			this.showNotifications = !this.showNotifications;
-		},
-		makeNavigationResponsive(isUp) {
-			if (isUp) {
-				this.navigationDrawer.permanent = true;
-			} else {
-				this.navigationDrawer.permanent = false;
-			}
-		}
+		this.makeNavigationResponsive(false);
 	}
-};
+
+	toggleNavigation = (): void => {
+		this.showNavigation = !this.showNavigation;
+	};
+
+	toggleNotifications = (): void => {
+		this.showNotifications = !this.showNotifications;
+	};
+
+	makeNavigationResponsive = (isUp: boolean): void => {
+		this.navigationDrawer.permanent = isUp;
+	};
+
+	get showLayout() {
+		return this.isAuthenticated && this.getUserAccounts.length > 0;
+	}
+
+	@Watch('myProperty')
+	'$vuetify.breakpoint.lgAndUp'(isUp: boolean) {
+		this.makeNavigationResponsive(isUp);
+	}
+}
 </script>
 
 <style lang="scss">

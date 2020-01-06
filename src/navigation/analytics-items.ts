@@ -9,8 +9,9 @@ import {
 	VM_LAUNCHER_RUNS_LISTING,
 	WORKFLOW_STATUS_LISTING
 } from '@/constants/router/routes-names';
+import { Link } from '@/types/link';
 
-export default [
+export const analyticsItems: Link[] = [
 	{
 		icon: 'swap_horiz',
 		title: 'GCS to GCS',
