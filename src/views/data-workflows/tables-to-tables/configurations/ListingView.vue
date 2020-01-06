@@ -12,13 +12,23 @@
 					<span class="font-weight-medium">{{ id }}</span>
 				</router-link>
 			</template>
+
+			<template v-slot:activated="{ item }">
+				<configuration-status
+					:item="item"
+					:collection="moduleName"
+					:is-activated="item.configuration.activated"
+					custom-key="configuration"
+				/>
+			</template>
 		</listing-component>
 	</div>
 </template>
 
 <script>
-import DataManagementHeader from '../../../../components/data-workflows/DataManagementHeader';
+import DataManagementHeader from '../../../../components/data-workflows/common/DataManagementHeader';
 import ListingComponent from '@/components/data-workflows/common/listing/ListingComponent';
+import ConfigurationStatus from '@/components/data-workflows/configuration/ConfigurationStatus.vue';
 
 import TabsItemsMixin from '../tabs-items';
 
@@ -36,12 +46,12 @@ import {
 
 export default {
 	name: 'tables-to-tables-configurations-listing-view',
-	components: { DataManagementHeader, ListingComponent },
+	components: { DataManagementHeader, ListingComponent, ConfigurationStatus },
 	mixins: [TabsItemsMixin],
 	data() {
 		return {
 			moduleName: 'getGbqToGbqConfs',
-			overriddenColumns: ['id']
+			overriddenColumns: ['id', 'activated']
 		};
 	},
 	computed: {
