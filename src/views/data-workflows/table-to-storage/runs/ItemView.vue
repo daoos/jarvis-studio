@@ -6,8 +6,8 @@
 </template>
 
 <script>
-import DataManagementHeader from '@/components/app/headers/DataManagementHeader';
-import ItemComponent from '@/components/data-workflows/common/ItemComponent';
+import DataManagementHeader from '@/components/data-workflows/common/DataManagementHeader';
+import ItemComponent from '@/components/data-workflows/common/item/ItemComponent';
 
 import TabsItemsMixin from '../tabs-items';
 import ItemMixin from '@/mixins/data-workflows/item-mixin';

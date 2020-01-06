@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import TablesToTablesConfTaskView from '@/components/data-workflows/common/item/to-refacto/TaskItem.vue';
+import TablesToTablesConfTaskView from '@/components/data-workflows/common/item/tasks/TaskItem.vue';
 import { Base64 } from 'js-base64';
 export default {
 	components: {

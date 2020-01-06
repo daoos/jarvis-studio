@@ -17,9 +17,9 @@
 
 <script>
 import CreateUpdateConfOverview from '@/components/data-workflows/configuration/CreateUpdateConfOverview';
-import DagChart from '@/components/data-workflows/common/item/DagChart';
-import ParametersList from './item/parameters/ParametersList';
-import ParametersTable from './item/parameters/ParametersTable';
+import DagChart from '@/components/data-workflows/common/item/overview/DagChart';
+import ParametersList from '../parameters/ParametersList';
+import ParametersTable from '../parameters/ParametersTable';
 import ViewHeader from './ViewHeader';
 
 export default {

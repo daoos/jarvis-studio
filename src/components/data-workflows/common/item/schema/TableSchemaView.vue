@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import ParametersTable from '@/components/tmp/ParametersTable.vue';
+import ParametersTable from '@/components/data-workflows/common/item/parameters/ParametersTable';
 export default {
 	components: { ParametersTable },
 	props: {

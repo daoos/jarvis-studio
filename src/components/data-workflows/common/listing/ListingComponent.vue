@@ -45,11 +45,11 @@
 				<td :colspan="headers.length" class="pa-0">
 					<v-card flat>
 						<v-card-title>
-							<span class="headline">{{ viewedItem.table_name }}</span>
-							<v-spacer />
 							<v-btn color="warning" fab small dark outlined>
 								<v-icon @click="toggleExpand(viewedItem)">close</v-icon>
 							</v-btn>
+							<span class="headline">{{ viewedItem.id }}</span>
+							<v-spacer />
 						</v-card-title>
 
 						<v-card-text>
@@ -105,8 +105,8 @@
 
 <script>
 import VueJsonPretty from 'vue-json-pretty';
-import DataManagementFilters from './DataManagementFilters';
-import ConfigurationStatus from '../configuration/ConfigurationStatus.vue';
+import DataManagementFilters from './filters/DataManagementFilters';
+import ConfigurationStatus from '../../configuration/ConfigurationStatus.vue';
 
 import { mapState } from 'vuex';
 import { mapGetters } from 'vuex';

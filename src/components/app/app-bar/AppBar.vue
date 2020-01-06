@@ -60,7 +60,7 @@ import SearchMenu from './sub-components/SearchMenu';
 
 import { mapState } from 'vuex';
 
-import userSettingsItems from '../../navigation/user-settings-items';
+import userSettingsItems from '../../../navigation/user-settings-items';
 
 export default {
 	name: 'app-bar',

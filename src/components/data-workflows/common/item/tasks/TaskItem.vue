@@ -28,7 +28,7 @@
 							<v-card-actions>
 								<v-spacer />
 
-								<v-btn color="primary" flat @click="dialogSql = false">
+								<v-btn color="primary" text @click="dialogSql = false">
 									Close
 								</v-btn>
 							</v-card-actions>
@@ -53,7 +53,7 @@
 							<v-card-actions>
 								<v-spacer />
 
-								<v-btn color="primary" flat @click="dialogSchema = false">
+								<v-btn color="primary" text @click="dialogSchema = false">
 									Close
 								</v-btn>
 							</v-card-actions>
@@ -76,7 +76,7 @@
 							</v-card-text>
 							<v-card-actions>
 								<v-spacer></v-spacer>
-								<v-btn color="primary" flat @click="dialogLongDescription = false">
+								<v-btn color="primary" text @click="dialogLongDescription = false">
 									Close
 								</v-btn>
 							</v-card-actions>
@@ -89,11 +89,11 @@
 </template>
 
 <script>
-import ParametersList from '@/components/tmp/ParametersList.vue';
+import ParametersList from '@/components/data-workflows/common/item/parameters/ParametersList';
 import VueMarkdown from 'vue-markdown';
 import Prism from 'vue-prismjs';
 import 'prismjs/themes/prism.css';
-import tableSchemaView from '@/components/data-workflows/common/TableSchemaView.vue';
+import tableSchemaView from '@/components/data-workflows/common/item/schema/TableSchemaView.vue';
 
 export default {
 	components: {

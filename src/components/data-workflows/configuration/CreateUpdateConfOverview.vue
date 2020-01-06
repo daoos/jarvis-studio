@@ -11,7 +11,8 @@
 </template>
 
 <script>
-import ParametersTable from '@/components/tmp/ParametersTable.vue';
+import ParametersTable from '@/components/data-workflows/common/item/parameters/ParametersTable';
+
 export default {
 	name: 'create-update-conf-overview',
 	components: { ParametersTable },

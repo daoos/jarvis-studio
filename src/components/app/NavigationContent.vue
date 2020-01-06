@@ -88,7 +88,7 @@
 </template>
 
 <script>
-import DataModelTreeView from './sub-components/DatamodelTreeview';
+import DataModelTreeView from '../data-models/DatamodelTreeview';
 
 import packageJson from '../../../package';
 

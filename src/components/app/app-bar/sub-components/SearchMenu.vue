@@ -40,7 +40,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import '../../../../node_modules/vuetify/src/components/VBtn/variables';
+@import '../../../../../node_modules/vuetify/src/components/VBtn/variables';
 
 .searching {
 	width: 208px;
