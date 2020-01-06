@@ -30,10 +30,11 @@ export const getWorkflowName = name => {
 		StorageToStorageConf: 'Storage to Storage',
 
 		// GCS to GBQ
-		GcsToGbqRuns: 'Storage to Table',
-		StorageToTableRun: 'Storage to Table',
-		GcsToGbqConfs: 'Storage to Table',
-		StorageToTableConf: 'Storage to Table',
+		// TODO: Update names
+		GcsToGbqRuns: 'GCS To GBQ',
+		StorageToTableRun: 'GCS To GBQ',
+		GcsToGbqConfs: 'GCS To GBQ',
+		StorageToTableConf: 'GCS To GBQ',
 
 		// Storage to tables
 		[STORAGE_TO_TABLES_RUNS_LISTING]: 'Storage to Tables',
