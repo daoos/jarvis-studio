@@ -12,6 +12,7 @@ import store from '@/store';
 export default {
 	components: { DataManagementHeader, ItemComponent },
 	data: () => ({
+		isNotFound: false,
 		item: null,
 		isLoading: true
 	}),
@@ -23,15 +24,13 @@ export default {
 		async getItem() {
 			if (!this.firestoreItem[this.itemId]) await this.getFirestoreData();
 			this.item = this.firestoreItem[this.itemId];
+
+			if (!this.item) this.isNotFound = true;
 			this.isLoading = false;
 		},
 		async getFirestoreData() {
-			try {
-				await store.dispatch(`${this.moduleName}/closeDBChannel`, { clearModule: true });
-				await store.dispatch(`${this.moduleName}/fetchById`, this.itemId);
-			} catch (e) {
-				console.error(e);
-			}
+			await store.dispatch(`${this.moduleName}/closeDBChannel`, { clearModule: true });
+			await store.dispatch(`${this.moduleName}/fetchById`, this.itemId);
 		}
 	},
 	computed: {

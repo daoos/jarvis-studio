@@ -1,20 +1,20 @@
 <template>
 	<div>
 		<data-management-header :workflowName="workflowName" :tabsItems="tabsItems" />
-		<runs-item :tabs-items="itemTabsItems" :is-loading="isLoading" />
+		<item-component :tabs-items="itemTabsItems" :is-loading="isLoading" :is-not-found="isNotFound" />
 	</div>
 </template>
 
 <script>
 import DataManagementHeader from '../../../../components/data-workflows/common/DataManagementHeader';
-import RunsItem from '@/components/data-workflows/common/item/ItemComponent';
+import ItemComponent from '@/components/data-workflows/common/item/ItemComponent';
 
 import HeaderInfosMixin from '../header-infos';
 import ItemMixin from '@/mixins/data-workflows/item-mixin';
 
 export default {
 	name: 'storage-to-tables-configurations-listing-view',
-	components: { DataManagementHeader, RunsItem },
+	components: { DataManagementHeader, ItemComponent },
 	mixins: [HeaderInfosMixin, ItemMixin],
 	data: () => ({
 		item: null,
@@ -205,7 +205,7 @@ export default {
 						activeHeader: true,
 						viewId: this.item.id,
 						viewType: 'conf',
-						description: this.item.short_description
+						description: null
 					}
 				},
 				{

@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<data-management-header :workflowName="workflowName" :tabsItems="tabsItems" />
-		<item-component v-if="item" :tabs-items="itemTabsItem" :is-loading="isLoading" />
+		<item-component :tabs-items="itemTabsItems" :is-loading="isLoading" :is-not-found="isNotFound" />
 	</div>
 </template>
 
@@ -18,7 +18,7 @@ export default {
 		};
 	},
 	computed: {
-		itemTabsItem() {
+		itemTabsItems() {
 			return [
 				{
 					label: 'Run Details',
