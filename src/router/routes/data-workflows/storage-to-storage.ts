@@ -16,7 +16,7 @@ export const storageToStorageRoutes: RouteConfig[] = [
 	 * RUNS
 	 */
 	{
-		path: `/${DATA_WORKFLOWS}/${STORAGE_TO_STORAGE}/${RUNS}`,
+		path: `/${DATA_WORKFLOWS}/${STORAGE_TO_STORAGE.url}/${RUNS}`,
 		name: STORAGE_TO_STORAGE_RUNS_LISTING,
 		meta: { middleware: [auth, hasAccount] },
 		component: () =>
@@ -25,7 +25,7 @@ export const storageToStorageRoutes: RouteConfig[] = [
 			)
 	},
 	{
-		path: `/${DATA_WORKFLOWS}/${STORAGE_TO_STORAGE}/${RUNS}/:id`,
+		path: `/${DATA_WORKFLOWS}/${STORAGE_TO_STORAGE.url}/${RUNS}/:id`,
 		name: STORAGE_TO_STORAGE_RUNS_ITEM,
 		meta: { middleware: [auth, hasAccount] },
 		component: () =>
@@ -38,7 +38,7 @@ export const storageToStorageRoutes: RouteConfig[] = [
 	 * CONFIGURATIONS
 	 */
 	{
-		path: `/${DATA_WORKFLOWS}/${STORAGE_TO_STORAGE}/${CONFIGURATIONS}`,
+		path: `/${DATA_WORKFLOWS}/${STORAGE_TO_STORAGE.url}/${CONFIGURATIONS}`,
 		name: STORAGE_TO_STORAGE_CONFIGURATIONS_LISTING,
 		meta: { middleware: [auth, hasAccount] },
 		component: () =>
@@ -47,7 +47,7 @@ export const storageToStorageRoutes: RouteConfig[] = [
 			)
 	},
 	{
-		path: `/${DATA_WORKFLOWS}/${STORAGE_TO_STORAGE}/${CONFIGURATIONS}/:id`,
+		path: `/${DATA_WORKFLOWS}/${STORAGE_TO_STORAGE.url}/${CONFIGURATIONS}/:id`,
 		name: STORAGE_TO_STORAGE_CONFIGURATIONS_ITEM,
 		meta: { middleware: [auth, hasAccount] },
 		component: () =>

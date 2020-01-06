@@ -1,3 +1,4 @@
+import { TABLE_TO_STORAGE } from '@/constants/data-workflows/names';
 import {
 	TABLE_TO_STORAGE_RUNS_LISTING,
 	TABLE_TO_STORAGE_CONFIGURATIONS_LISTING
@@ -5,6 +6,9 @@ import {
 
 export default {
 	computed: {
+		workflowName() {
+			return TABLE_TO_STORAGE.displayName;
+		},
 		tabsItems() {
 			return [
 				{ id: 1, title: 'Runs', link: { name: TABLE_TO_STORAGE_RUNS_LISTING } },

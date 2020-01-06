@@ -9,13 +9,13 @@
 import DataManagementHeader from '@/components/data-workflows/common/DataManagementHeader';
 import ItemComponent from '@/components/data-workflows/common/item/ItemComponent';
 
-import TabsItemsMixin from '../tabs-items';
+import HeaderInfosMixin from '../header-infos';
 import ItemMixin from '@/mixins/data-workflows/item-mixin';
 
 export default {
 	name: 'table-to-storage-runs-item-view',
 	components: { DataManagementHeader, ItemComponent },
-	mixins: [TabsItemsMixin, ItemMixin],
+	mixins: [HeaderInfosMixin, ItemMixin],
 	data: () => ({
 		item: null,
 		moduleName: 'tableToStorageRuns'

@@ -16,7 +16,7 @@ export const gcsToGcsRoutes: RouteConfig[] = [
 	 * RUNS
 	 */
 	{
-		path: `/${DATA_WORKFLOWS}/${GCS_TO_GCS}/${RUNS}`,
+		path: `/${DATA_WORKFLOWS}/${GCS_TO_GCS.url}/${RUNS}`,
 		name: GCS_TO_GCS_RUNS_LISTING,
 		meta: { middleware: [auth, hasAccount] },
 		component: () =>
@@ -25,7 +25,7 @@ export const gcsToGcsRoutes: RouteConfig[] = [
 			)
 	},
 	{
-		path: `/${DATA_WORKFLOWS}/${GCS_TO_GCS}/${RUNS}/:id`,
+		path: `/${DATA_WORKFLOWS}/${GCS_TO_GCS.url}/${RUNS}/:id`,
 		name: GCS_TO_GCS_RUNS_ITEM,
 		meta: { middleware: [auth, hasAccount] },
 		component: () =>
@@ -38,7 +38,7 @@ export const gcsToGcsRoutes: RouteConfig[] = [
 	 * CONFIGURATIONS
 	 */
 	{
-		path: `/${DATA_WORKFLOWS}/${GCS_TO_GCS}/${CONFIGURATIONS}`,
+		path: `/${DATA_WORKFLOWS}/${GCS_TO_GCS.url}/${CONFIGURATIONS}`,
 		name: GCS_TO_GCS_CONFIGURATIONS_LISTING,
 		meta: { middleware: [auth, hasAccount] },
 		component: () =>
@@ -47,7 +47,7 @@ export const gcsToGcsRoutes: RouteConfig[] = [
 			)
 	},
 	{
-		path: `/${DATA_WORKFLOWS}/${GCS_TO_GCS}/${CONFIGURATIONS}/:id`,
+		path: `/${DATA_WORKFLOWS}/${GCS_TO_GCS.url}/${CONFIGURATIONS}/:id`,
 		name: GCS_TO_GCS_CONFIGURATIONS_ITEM,
 		meta: { middleware: [auth, hasAccount] },
 		component: () =>

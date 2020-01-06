@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import Util from '@/util';
+import { getStatusColor } from '@/util/data-workflows/run';
 
 export default {
 	props: {
@@ -28,7 +28,7 @@ export default {
 	},
 	computed: {
 		colorRunStatus() {
-			return Util.getStatusColor(this.runStatus);
+			return getStatusColor(this.runStatus);
 		}
 	}
 };

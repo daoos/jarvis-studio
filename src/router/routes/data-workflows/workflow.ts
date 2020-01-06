@@ -16,7 +16,7 @@ export const workflowRoutes: RouteConfig[] = [
 	 * STATUS
 	 */
 	{
-		path: `/${DATA_WORKFLOWS}/${WORKFLOW}/${STATUS}`,
+		path: `/${DATA_WORKFLOWS}/${WORKFLOW.url}/${STATUS}`,
 		name: WORKFLOW_STATUS_LISTING,
 		meta: { middleware: [auth, hasAccount] },
 		component: () =>
@@ -25,7 +25,7 @@ export const workflowRoutes: RouteConfig[] = [
 			)
 	},
 	{
-		path: `/${DATA_WORKFLOWS}/${WORKFLOW}/${STATUS}/:id`,
+		path: `/${DATA_WORKFLOWS}/${WORKFLOW.url}/${STATUS}/:id`,
 		name: WORKFLOW_STATUS_ITEM,
 		meta: { middleware: [auth, hasAccount] },
 		component: () =>
@@ -38,7 +38,7 @@ export const workflowRoutes: RouteConfig[] = [
 	 * CONFIGURATIONS
 	 */
 	{
-		path: `/${DATA_WORKFLOWS}/${WORKFLOW}/${CONFIGURATIONS}`,
+		path: `/${DATA_WORKFLOWS}/${WORKFLOW.url}/${CONFIGURATIONS}`,
 		name: WORKFLOW_CONFIGURATIONS_LISTING,
 		meta: { middleware: [auth, hasAccount] },
 		component: () =>
@@ -47,7 +47,7 @@ export const workflowRoutes: RouteConfig[] = [
 			)
 	},
 	{
-		path: `/${DATA_WORKFLOWS}/${WORKFLOW}/${CONFIGURATIONS}/:id`,
+		path: `/${DATA_WORKFLOWS}/${WORKFLOW.url}/${CONFIGURATIONS}/:id`,
 		name: WORKFLOW_CONFIGURATIONS_ITEM,
 		meta: { middleware: [auth, hasAccount] },
 		component: () =>

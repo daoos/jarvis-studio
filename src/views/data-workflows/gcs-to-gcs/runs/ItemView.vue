@@ -1,17 +1,17 @@
 <template>
 	<div>
-		<data-management-header :tabsItems="tabsItems" />
+		<data-management-header :workflow-name="workflowName" :tabsItems="tabsItems" />
 		<item-component :tabs-items="itemTabsItems" :is-loading="isLoading" />
 	</div>
 </template>
 
 <script>
-import TabsItemsMixin from '../tabs-items';
+import HeaderInfosMixin from '../header-infos';
 import ItemMixin from '@/mixins/data-workflows/item-mixin';
 
 export default {
 	name: 'gcs-to-gcs-runs-item-view',
-	mixins: [TabsItemsMixin, ItemMixin],
+	mixins: [HeaderInfosMixin, ItemMixin],
 	data() {
 		return {
 			moduleName: 'mirrorExcGcsToGcsRuns'

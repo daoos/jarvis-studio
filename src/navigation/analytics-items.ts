@@ -1,4 +1,4 @@
-import { Link } from '@/types/link';
+import { Link } from '@/types';
 import {
 	GCS_TO_GCS_RUNS_LISTING,
 	STORAGE_TO_STORAGE_RUNS_LISTING,

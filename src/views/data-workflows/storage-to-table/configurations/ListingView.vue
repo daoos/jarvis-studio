@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<data-management-header :tabsItems="tabsItems" />
+		<data-management-header :workflowName="workflowName" :tabsItems="tabsItems" />
 		<listing-component
 			:type="listingType"
 			:module-name="moduleName"
@@ -22,7 +22,7 @@
 import DataManagementHeader from '@/components/data-workflows/common/DataManagementHeader';
 import ListingComponent from '@/components/data-workflows/common/listing/ListingComponent';
 
-import TabsItemsMixin from '../tabs-items';
+import HeaderInfosMixin from '../header-infos';
 
 import { mapState, mapGetters } from 'vuex';
 import { CONFIGURATIONS } from '@/constants/data-workflows/status';
@@ -40,7 +40,7 @@ import {
 export default {
 	name: 'storage-to-table-configurations-listing-view',
 	components: { DataManagementHeader, ListingComponent },
-	mixins: [TabsItemsMixin],
+	mixins: [HeaderInfosMixin],
 	data() {
 		return {
 			moduleName: 'mirrorExcGcsToGbqConfs',

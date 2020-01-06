@@ -1,12 +1,14 @@
-export const dagRunAirflowUrl = (dag_id, run_id, execution_date) => {
-	const airflowRootUrl = 'https://v48232bfe51601b92-tp.appspot.com';
+type RunStatus = 'SUCCESS' | 'FAILED' | 'RUNNING';
+
+export const dagRunAirflowUrl = (dag_id: string, run_id: string, execution_date: string) => {
+	const airflowRootUrl = process.env.VUE_APP_AIRFLOW_URL;
 	const dagIdEncoded = encodeURIComponent(dag_id);
 	const runIdEncoded = encodeURIComponent(run_id);
 	const executionDateEncoded = encodeURIComponent(execution_date);
 	return `${airflowRootUrl}/admin/airflow/graph?dag_id=${dagIdEncoded}&run_id=${runIdEncoded}&execution_date=${executionDateEncoded}`;
 };
 
-export const getStatusColor = status => {
+export const getStatusColor = (status: RunStatus) => {
 	let statusColor;
 
 	switch (status) {
