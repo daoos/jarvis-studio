@@ -68,7 +68,7 @@ export default class App extends Vue {
 	settingsItems: Link[] = settingsItems;
 
 	@State(state => state.user.isAuthenticated) isAuthenticated!: boolean;
-	@Getter('getUserAccounts') getUserAccounts!: string[];
+	@Getter('user/accounts') accounts!: string[];
 
 	mounted() {
 		this.makeNavigationResponsive(false);
@@ -87,7 +87,7 @@ export default class App extends Vue {
 	};
 
 	get showLayout() {
-		return this.isAuthenticated && this.getUserAccounts.length > 0;
+		return this.isAuthenticated && this.accounts.length > 0;
 	}
 
 	@Watch('myProperty')

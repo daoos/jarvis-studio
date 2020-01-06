@@ -3,7 +3,7 @@ import { SUPER_ADMIN } from '@/constants/user/roles';
 import store from '@/store';
 import { Link } from '@/types';
 
-const isSuperAdminRule = () => store.getters.user.studioRoles === SUPER_ADMIN.roleCode;
+const isSuperAdminRule = () => store.getters['user/user'].studioRoles === SUPER_ADMIN.roleCode;
 
 export const settingsItems: Link[] = [
 	{

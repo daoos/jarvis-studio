@@ -2,7 +2,7 @@ import Vue from 'vue';
 import vueMoment from 'vue-moment';
 import App from './App.vue';
 import router from '@/router';
-import store from '@/store/index';
+import store from '@/store';
 import vuetify from '@/plugins/vuetify';
 import { firebase } from '@/config/firebase';
 
@@ -24,14 +24,10 @@ const createApp = () => {
 };
 
 firebase.auth().onAuthStateChanged(user => {
-	// TODO: Fetch accounts while filtering on account_name from `getUserAccounts`
-
 	if (user) {
-		Promise.all([
-			store.dispatch('autoSignIn', user),
-			store.dispatch('accounts/fetchAndAdd'),
-			store.dispatch('schemas/fetchAndAdd')
-		]).then(() => createApp());
+		store.dispatch('user/alreadySignedIn', user).then(() => createApp());
+		store.dispatch('accounts/fetchAndAdd');
+		store.dispatch('schemas/fetchAndAdd');
 	} else {
 		createApp();
 	}

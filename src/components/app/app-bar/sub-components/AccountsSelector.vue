@@ -2,7 +2,7 @@
 	<div class="accounts-selector-wrapper">
 		<v-autocomplete
 			v-model="selectedAccounts"
-			:items="getUserAccounts"
+			:items="getItems"
 			item-text="account_name"
 			return-object
 			:label="selectedAccounts.length === 0 ? 'All Accounts' : 'Accounts'"
@@ -37,11 +37,23 @@ export default {
 			accounts: state => state.accounts.data,
 			user: state => state.user.user
 		}),
-		...mapGetters(['getUserAccounts'])
+		...mapGetters({
+			userAccounts: 'user/accounts'
+		}),
+		getItems() {
+			let items = [];
+
+			this.userAccounts.forEach(id => {
+				const element = this.accounts[id];
+				if (element) items.push(element);
+			});
+
+			return items;
+		}
 	},
 	watch: {
 		selectedAccounts(accounts) {
-			store.dispatch('updateFilteredAccounts', accounts);
+			store.dispatch('filters/updateFilteredAccounts', accounts);
 		}
 	}
 };
