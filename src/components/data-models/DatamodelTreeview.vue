@@ -25,7 +25,6 @@
 import { DATA_TABLE_DETAILS } from '@/constants/router/routes-names';
 import { mapState } from 'vuex';
 import store from '@/store';
-
 export default {
 	name: 'data-model-tree-view',
 	data: () => ({
@@ -46,7 +45,6 @@ export default {
 					const dataModelsFormatted = dataModelsValues.map(data => {
 						let subCollectionsFormatted = [];
 						const projectId = data.id;
-
 						data.sub_collections.forEach(function(dataset) {
 							// add name, project id (used to fetch dataTable Later), type (to select the icon in the treeview),
 							// empty children to trigger the fetchTables function when necessary
@@ -58,7 +56,6 @@ export default {
 								children: []
 							});
 						});
-
 						return {
 							name: data.id,
 							id: data.id,
@@ -66,7 +63,6 @@ export default {
 							children: subCollectionsFormatted
 						};
 					});
-
 					this.isLoading = false;
 					this.items = dataModelsFormatted;
 				})
@@ -74,7 +70,6 @@ export default {
 		},
 		fetchTables(item) {
 			store.dispatch('dataTables/closeDBChannel', { clearModule: true });
-
 			return this.$store
 				.dispatch('dataTables/fetchAndAdd', {
 					projectId: item.projectId,
@@ -87,7 +82,6 @@ export default {
 						name: data.id,
 						type: 'table'
 					}));
-
 					item.children.push(...dataTablesFormatted);
 				})
 				.catch(console.error);
@@ -101,7 +95,6 @@ export default {
 	watch: {
 		active: function() {
 			if (!this.active.length) return;
-
 			const id = this.active[0];
 			this.$router.push({
 				name: DATA_TABLE_DETAILS,

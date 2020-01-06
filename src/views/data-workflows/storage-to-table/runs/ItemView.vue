@@ -217,10 +217,10 @@ export default {
 						item: this.item,
 						collection: this.moduleName,
 						activeHeader: false,
-						viewId: this.item.id,
+						viewId: this.item.configuration_context.table_name,
 						viewType: 'conf',
-						description: this.item.table_description
-							? this.item.table_description
+						description: this.item.configuration_context.table_description
+							? this.item.configuration_context.table_description
 							: '⚠ Please, add a table description in the configuration file'
 					}
 				},
@@ -281,7 +281,7 @@ export default {
 								source_type: 'GCS',
 								source_storage_id: this.item.source_bucket,
 								source_input_folder: this.item.gcs_prefix,
-								source_archive_folder: this.item.archive_prefix
+								source_archive_folder: this.item.configuration_context.archive_prefix
 							}
 						],
 						vflexLength: 'xs9',

@@ -30,6 +30,14 @@ export default {
 			}
 
 			return destinationStorageRows;
+		},
+		getFileNameTemplateRows() {
+			return this.item.configuration_context.filename_templates.map(filename => {
+				return {
+					filename_template: filename,
+					filename_description: 'No Description'
+				};
+			});
 		}
 	},
 	computed: {
@@ -225,10 +233,9 @@ export default {
 					props: {
 						item: this.item,
 						activeHeader: false,
-						viewId: this.item.firestore_conf_doc_id,
-						viewType: 'run',
-						description: null,
-						runStatus: this.item.status
+						viewId: this.item.configuration_context.source_bucket,
+						viewType: 'conf',
+						description: null
 					}
 				},
 				{
@@ -236,17 +243,17 @@ export default {
 					props: {
 						groupTitle: 'Context',
 						tooltip: true,
-						description: 'Context of the Table to Storage configuration',
+						description: 'Context of the GCS to GCS configuration',
 						paramItems: [
 							{
 								id: 'account',
 								label: 'Account',
-								value: this.item.account
+								value: this.item.configuration_context.account
 							},
 							{
 								id: 'environment',
 								label: 'Environment',
-								value: this.item.environment
+								value: this.item.configuration_context.environment
 							}
 						]
 					}
@@ -254,8 +261,8 @@ export default {
 				{
 					component: 'parameters-table',
 					props: {
-						tableTitle: 'Destination Storage',
-						description: 'Destination Storage of the file to export',
+						tableTitle: 'Source Storage',
+						description: 'Source Storage of the files to copy',
 						columns: [
 							{
 								label: 'Type',
@@ -264,132 +271,81 @@ export default {
 							},
 							{
 								label: 'Storage ID',
-								field: 'gcs_dest_bucket',
+								field: 'source_storage_id',
 								width: '200px'
 							},
 							{
-								label: 'Destination Folder',
-								field: 'gcs_dest_prefix',
+								label: 'Source Folder',
+								field: 'source_input_folder',
 								width: '200px'
 							},
 							{
-								label: 'Output Filename',
-								field: 'output_filename',
+								label: 'Archive Folder',
+								field: 'source_archive_folder',
 								width: '200px'
 							}
 						],
 						rows: [
 							{
 								source_type: 'GCS',
-								gcs_dest_bucket: this.item.configuration_context.gcs_dest_bucket,
-								gcs_dest_prefix: this.item.configuration_context.gcs_dest_prefix,
-								output_filename: this.item.configuration_context.output_filename
+								source_storage_id: this.item.configuration_context.source_bucket,
+								source_input_folder: this.item.configuration_context.source_gcs_prefix,
+								source_archive_folder: this.item.configuration_context.source_archive_prefix
 							}
 						],
 						vflexLength: 'xs9',
 						lineNumbers: false,
 						searchOptionsEnabled: 'false'
-					}
-				},
-				{
-					component: 'parameters-list',
-					props: {
-						groupTitle: 'File Parameters',
-						tooltip: true,
-						description: 'Parameters for the exported file',
-						paramItems: [
-							{
-								id: 'compression',
-								label: 'Compressed',
-								value: this.item.configuration_context.compression,
-								default: 'None'
-							},
-							{
-								id: 'field_delimiter',
-								label: 'Field Delimiter',
-								value: this.item.configuration_context.field_delimiter,
-								default: '|'
-							},
-							{
-								id: 'delete_dest_bucket_content',
-								label: 'Delete Destination Storage Content',
-								value: this.item.configuration_context.delete_dest_bucket_content,
-								default: false
-							}
-						]
-					}
-				},
-				{
-					component: 'parameters-list',
-					props: {
-						groupTitle: 'Source Table',
-						tooltip: true,
-						description: 'SQL executed to generate the dataset to export into file',
-						paramItems: [
-							{
-								id: 'gcp_project',
-								label: 'Bigquery Project ID',
-								value: this.item.configuration_context.gcp_project
-							},
-							{
-								id: '',
-								label: 'SQL File',
-								component: 'sql-viewer',
-								properties: {
-									id: this.item.configuration_context.id,
-									sql: this.item.sql_query
-								}
-							},
-							{
-								id: 'copy_table',
-								label: 'Keep Table',
-								value: this.item.configuration_context.copy_table,
-								default: false
-							}
-						]
 					}
 				},
 				{
 					component: 'parameters-table',
-					displayCondition: this.item.configuration_context.copy_table,
 					props: {
-						tableTitle: 'Destination Table',
-						description: 'The Destination Table where the dataset will be keeped',
+						tableTitle: 'Destination Storage(s)',
+						description: 'Multi destination storages for the copied files',
 						columns: [
 							{
 								label: 'Type',
-								field: 'source_type',
-								width: '150px'
+								field: 'destination_type',
+								width: '100px'
 							},
 							{
-								label: 'Project ID',
-								field: 'dest_gcp_project_id'
+								label: 'Storage ID',
+								field: 'destination_storage_id',
+								width: '200px'
 							},
 							{
-								label: 'Dataset',
-								field: 'dest_gbq_dataset'
-							},
-							{
-								label: 'Table Name',
-								field: 'dest_gbq_table'
-							},
-							{
-								label: 'Table Suffix',
-								field: 'dest_gbq_table_suffix'
+								label: 'Destination Folder',
+								field: 'destination_input_folder',
+								width: '230px'
 							}
 						],
-						rows: [
+						rows: this.getDestinationStorageRows(),
+						vflexLength: 'xs7',
+						lineNumbers: false,
+						searchOptionsEnabled: false
+					}
+				},
+				{
+					component: 'parameters-table',
+					props: {
+						tableTitle: 'File Name Template(s)',
+						description:
+							'Templates of the incomming files that should be copied to the destination storages. Do not put the date/timestamp prefix file in the template',
+						columns: [
 							{
-								source_type: 'BigQuery',
-								dest_gcp_project_id: this.item.configuration_context.dest_gcp_project_id,
-								dest_gbq_dataset: this.item.configuration_context.dest_gbq_dataset,
-								dest_gbq_table: this.item.configuration_context.dest_gbq_table,
-								dest_gbq_table_suffix: this.item.configuration_context.dest_gbq_table_suffix
+								label: 'File Name Template',
+								field: 'filename_template'
+							},
+							{
+								label: 'File Name Description',
+								field: 'filename_description'
 							}
 						],
+						rows: this.getFileNameTemplateRows(),
 						vflexLength: 'xs9',
 						lineNumbers: false,
-						searchOptionsEnabled: 'false'
+						searchOptionsEnabled: false
 					}
 				},
 				{
