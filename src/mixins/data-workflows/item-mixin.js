@@ -3,7 +3,7 @@
  * It will fetch module name information depending url `id` parameter.
  */
 
-import DataManagementHeader from '@/components/data-workflows/DataManagementHeader';
+import DataManagementHeader from '@/components/data-workflows/common/DataManagementHeader';
 import ItemComponent from '@/components/data-workflows/common/item/ItemComponent';
 
 import { mapState } from 'vuex';
