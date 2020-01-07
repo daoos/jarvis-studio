@@ -13,6 +13,7 @@ import ItemMixin from '@/mixins/data-workflows/item-mixin';
 @Component
 export default class GcsToGcsRunsItemView extends Mixins(HeaderInfosMixin, ItemMixin) {
 	moduleName: string = 'mirrorExcGcsToGcsRuns';
+
 	getDestinationStorageRows() {
 		let destinationStorageRows = [];
 
