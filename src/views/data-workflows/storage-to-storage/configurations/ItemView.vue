@@ -7,11 +7,12 @@
 
 <script lang="ts">
 import { Component, Mixins } from 'vue-property-decorator';
+import { AnyObject, DestinationStorageRows } from '@/types';
 import HeaderInfosMixin from '../header-infos';
 import ItemMixin from '@/mixins/data-workflows/item-mixin';
 
 @Component
-export default class GcsToGcsConfigurationsItemView extends Mixins(HeaderInfosMixin, ItemMixin) {
+export default class StorageToStorageConfigurationsItemView extends Mixins(HeaderInfosMixin, ItemMixin) {
 	moduleName: string = 'storageToStorageConfs';
 
 	getSourceStorageColumns() {
@@ -43,10 +44,12 @@ export default class GcsToGcsConfigurationsItemView extends Mixins(HeaderInfosMi
 				];
 				break;
 			case 's3':
-				sourceStorageColumns = this.s3SourceStorageColumns;
+				// TODO: Define array
+				sourceStorageColumns = [];
 				break;
 			case 'sftp':
-				sourceStorageColumns = this.sftpSourceStorageColumns;
+				// TODO: Define array
+				sourceStorageColumns = [];
 				break;
 		}
 
@@ -54,8 +57,8 @@ export default class GcsToGcsConfigurationsItemView extends Mixins(HeaderInfosMi
 	}
 
 	getSourceStorageRows() {
-		let source_type = this.item.source.type;
-		let sourceStorageRow = {};
+		let source_type: string = this.item.source.type;
+		let sourceStorageRow: AnyObject = {};
 
 		switch (source_type) {
 			case 'gcs':
@@ -89,7 +92,7 @@ export default class GcsToGcsConfigurationsItemView extends Mixins(HeaderInfosMi
 
 	getDestinationStorageRows() {
 		// Build 3 arrays for each destination type (gcs,s3,sftp)
-		let destinationStorageRows = { gcs: [], s3: [], sftp: [] };
+		let destinationStorageRows: DestinationStorageRows = { gcs: [], s3: [], sftp: [] };
 		let gcsDestinationStorageRows = [];
 		let s3DestinationStorageRows = [];
 		let sftpDestinationStorageRows = [];

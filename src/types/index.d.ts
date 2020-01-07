@@ -106,3 +106,17 @@ export interface Link {
 }
 
 export type RunStatus = 'SUCCESS' | 'FAILED' | 'RUNNING';
+
+export type AnyObject = { [index: string]: any };
+
+// DataWorkflows
+// Filters
+// TODO: Define type
+export type WhereConfFilter = any;
+
+// Storage to Storage
+export type DestinationStorageRows = {
+	gcs: Object[];
+	s3: Object[];
+	sftp: Object[];
+};

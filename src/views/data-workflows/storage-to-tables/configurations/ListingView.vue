@@ -20,80 +20,78 @@
 	</div>
 </template>
 
-<script>
-import DataManagementHeader from '../../../../components/data-workflows/common/DataManagementHeader';
-import ListingComponent from '@/components/data-workflows/common/listing/ListingComponent';
+<script lang="ts">
+import { Component, Mixins } from 'vue-property-decorator';
+import DataManagementHeader from '@/components/data-workflows/common/DataManagementHeader.vue';
+import ListingComponent from '@/components/data-workflows/common/listing/ListingComponent.vue';
 
 import HeaderInfosMixin from '../header-infos';
 
 import { CONFIGURATIONS } from '@/constants/data-workflows/status';
 import { STORAGE_TO_TABLES_CONFIGURATIONS_ITEM } from '@/constants/router/routes-names';
 
-export default {
-	name: 'storage-to-tables-configurations-listing-view',
-	components: { DataManagementHeader, ListingComponent },
-	mixins: [HeaderInfosMixin],
-	data() {
-		return {
-			moduleName: 'storageToTablesConfs',
-			overriddenColumns: ['id', 'source']
-		};
-	},
-	computed: {
-		listingType() {
-			return CONFIGURATIONS;
-		},
-		routeName() {
-			return STORAGE_TO_TABLES_CONFIGURATIONS_ITEM;
-		},
-		headers() {
-			return [
-				{
-					text: 'Account ID',
-					align: 'left',
-					sortable: true,
-					value: 'account'
-				},
-				{
-					text: 'Environment',
-					align: 'left',
-					sortable: true,
-					value: 'environment'
-				},
-				{
-					text: 'Configuration id',
-					align: 'left',
-					sortable: true,
-					value: 'id'
-				},
-				{ text: 'Source Type', align: 'left', sortable: true, value: 'source.type' },
-				{ text: 'Source Name', align: 'left', sortable: true, value: 'source' },
-				{
-					text: 'Destinations',
-					align: 'left',
-					sortable: true,
-					value: 'destinations.length'
-				},
-				{
-					text: 'Tables',
-					align: 'left',
-					sortable: true,
-					value: 'destinations[0].tables.length'
-				},
-				{
-					text: 'Status',
-					align: 'left',
-					sortable: true,
-					value: 'activated'
-				},
-				{
-					text: 'Actions',
-					align: 'center',
-					sortable: false,
-					value: 'actions'
-				}
-			];
-		}
+@Component({
+	components: { DataManagementHeader, ListingComponent }
+})
+export default class StorageToTablesConfigurationsListingView extends Mixins(HeaderInfosMixin) {
+	moduleName: string = 'storageToTablesConfs';
+	overriddenColumns: string[] = ['id', 'source'];
+
+	get listingType() {
+		return CONFIGURATIONS;
 	}
-};
+
+	get routeName() {
+		return STORAGE_TO_TABLES_CONFIGURATIONS_ITEM;
+	}
+
+	get headers() {
+		return [
+			{
+				text: 'Account ID',
+				align: 'left',
+				sortable: true,
+				value: 'account'
+			},
+			{
+				text: 'Environment',
+				align: 'left',
+				sortable: true,
+				value: 'environment'
+			},
+			{
+				text: 'Configuration id',
+				align: 'left',
+				sortable: true,
+				value: 'id'
+			},
+			{ text: 'Source Type', align: 'left', sortable: true, value: 'source.type' },
+			{ text: 'Source Name', align: 'left', sortable: true, value: 'source' },
+			{
+				text: 'Destinations',
+				align: 'left',
+				sortable: true,
+				value: 'destinations.length'
+			},
+			{
+				text: 'Tables',
+				align: 'left',
+				sortable: true,
+				value: 'destinations[0].tables.length'
+			},
+			{
+				text: 'Status',
+				align: 'left',
+				sortable: true,
+				value: 'activated'
+			},
+			{
+				text: 'Actions',
+				align: 'center',
+				sortable: false,
+				value: 'actions'
+			}
+		];
+	}
+}
 </script>

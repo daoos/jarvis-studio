@@ -39,9 +39,11 @@
 	</div>
 </template>
 
-<script>
-import DataManagementHeader from '../../../../components/data-workflows/common/DataManagementHeader';
-import ListingComponent from '@/components/data-workflows/common/listing/ListingComponent';
+<script lang="ts">
+import { Component, Mixins } from 'vue-property-decorator';
+import { RunStatus } from '@/types';
+import DataManagementHeader from '@/components/data-workflows/common/DataManagementHeader.vue';
+import ListingComponent from '@/components/data-workflows/common/listing/ListingComponent.vue';
 
 import HeaderInfosMixin from '../header-infos';
 
@@ -57,31 +59,33 @@ import {
 	TRIGGERED_JOBS
 } from '@/constants/data-workflows/listing/header-items';
 
-export default {
-	name: 'workflow-status-listing-view',
-	components: { DataManagementHeader, ListingComponent },
-	mixins: [HeaderInfosMixin],
-	data() {
-		return {
-			moduleName: 'workflowStatus',
-			overriddenColumns: ['id', 'jobs', 'triggered_jobs', 'last_update_date_from_now', 'last_fire_date_from_now']
-		};
-	},
-	methods: {
-		getStatusColor(status) {
-			return getStatusColor(status);
-		}
-	},
-	computed: {
-		listingType() {
-			return RUNS;
-		},
-		routeName() {
-			return WORKFLOW_STATUS_ITEM;
-		},
-		headers() {
-			return [ID, JOBS, TRIGGERED_JOBS, LAST_UPDATE_FROM_NOW, LAST_FIRE_DATE_FROM_NOW, ACTIONS];
-		}
+@Component({
+	components: { DataManagementHeader, ListingComponent }
+})
+export default class WorkflowStatusListingView extends Mixins(HeaderInfosMixin) {
+	moduleName: string = 'workflowStatus';
+	overriddenColumns: string[] = [
+		'id',
+		'jobs',
+		'triggered_jobs',
+		'last_update_date_from_now',
+		'last_fire_date_from_now'
+	];
+
+	getStatusColor(status: RunStatus) {
+		return getStatusColor(status);
 	}
-};
+
+	get listingType() {
+		return RUNS;
+	}
+
+	get routeName() {
+		return WORKFLOW_STATUS_ITEM;
+	}
+
+	get headers() {
+		return [ID, JOBS, TRIGGERED_JOBS, LAST_UPDATE_FROM_NOW, LAST_FIRE_DATE_FROM_NOW, ACTIONS];
+	}
+}
 </script>

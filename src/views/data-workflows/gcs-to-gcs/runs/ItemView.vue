@@ -28,7 +28,7 @@ export default class GcsToGcsRunsItemView extends Mixins(HeaderInfosMixin, ItemM
 	}
 
 	getFileNameTemplateRows() {
-		return this.item.configuration_context.filename_templates.map(filename => {
+		return this.item.configuration_context.filename_templates.map((filename: string) => {
 			return {
 				filename_template: filename,
 				filename_description: 'No Description'

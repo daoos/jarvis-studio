@@ -4,13 +4,12 @@
  */
 
 import { Component, Vue } from 'vue-property-decorator';
+import { AnyObject } from '@/types';
 // import { State } from 'vuex-class';
 import DataManagementHeader from '@/components/data-workflows/common/DataManagementHeader.vue';
 import ItemComponent from '@/components/data-workflows/common/item/ItemComponent.vue';
 import store from '@/store';
 import { mapState } from 'vuex';
-
-type Item = { [index: string]: any };
 
 @Component({
 	components: { DataManagementHeader, ItemComponent },
@@ -25,10 +24,10 @@ type Item = { [index: string]: any };
 export default class ItemMixin extends Vue {
 	moduleName: string = '';
 	isNotFound: boolean = false;
-	item: Item = {};
+	item: AnyObject = {};
 	isLoading: boolean = true;
 
-	// @State(state => state[this.moduleName].data) firestoreItem: Item = {};
+	// @State(state => state[this.moduleName].data) firestoreItem: AnyObject = {};
 
 	mounted() {
 		// if (!this.moduleName) throw new Error('Parent component has to define `moduleName` in data');
