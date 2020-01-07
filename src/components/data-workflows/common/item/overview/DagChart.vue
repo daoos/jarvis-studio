@@ -10,10 +10,7 @@ import { PerfectScrollbar } from 'vue2-perfect-scrollbar';
 
 export default {
 	name: 'dag-chart',
-	components: {
-		VueFlowy,
-		PerfectScrollbar
-	},
+	components: { VueFlowy, PerfectScrollbar },
 	props: {
 		dagId: {
 			type: String,
@@ -29,15 +26,13 @@ export default {
 			}
 		}
 	},
-
-	data: () => ({
-		chart: new FlowChart()
-	}),
+	data() {
+		return {
+			chart: new FlowChart()
+		};
+	},
 	mounted() {
 		this.buildDegGraph();
-	},
-	beforeDestroy() {
-		this.chart.destroy();
 	},
 	methods: {
 		buildDegGraph() {
@@ -135,6 +130,11 @@ export default {
 				dag.push(this.task_dependencies[i].replace(/ /g, ''));
 			}
 			return dag;
+		}
+	},
+	watch: {
+		'$route.name'() {
+			this.chart.destroy();
 		}
 	}
 };
