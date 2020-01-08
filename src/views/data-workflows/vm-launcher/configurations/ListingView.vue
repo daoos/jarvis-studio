@@ -19,9 +19,10 @@
 	</div>
 </template>
 
-<script>
-import DataManagementHeader from '../../../../components/data-workflows/common/DataManagementHeader';
-import ListingComponent from '@/components/data-workflows/common/listing/ListingComponent';
+<script lang="ts">
+import { Component, Mixins } from 'vue-property-decorator';
+import DataManagementHeader from '@/components/data-workflows/common/DataManagementHeader.vue';
+import ListingComponent from '@/components/data-workflows/common/listing/ListingComponent.vue';
 
 import HeaderInfosMixin from '../header-infos';
 
@@ -37,26 +38,23 @@ import {
 	WORKING_DIR
 } from '@/constants/data-workflows/listing/header-items';
 
-export default {
-	name: 'vm-launcher-configurations-listing-view',
-	components: { DataManagementHeader, ListingComponent },
-	mixins: [HeaderInfosMixin],
-	data() {
-		return {
-			moduleName: 'vmLauncherConfs',
-			overriddenColumns: ['id']
-		};
-	},
-	computed: {
-		listingType() {
-			return CONFIGURATIONS;
-		},
-		routeName() {
-			return VM_LAUNCHER_CONFIGURATIONS_ITEM;
-		},
-		headers() {
-			return [ACCOUNT, ENVIRONMENT, ID, GCS_FILE_EXCHANGE_BUCKET, WORKING_DIR, ACTIVATED, ACTIONS];
-		}
+@Component({
+	components: { DataManagementHeader, ListingComponent }
+})
+export default class VmLauncherConfigurationsListingView extends Mixins(HeaderInfosMixin) {
+	moduleName: string = 'vmLauncherConfs';
+	overriddenColumns: string[] = ['id'];
+
+	get listingType() {
+		return CONFIGURATIONS;
 	}
-};
+
+	get routeName() {
+		return VM_LAUNCHER_CONFIGURATIONS_ITEM;
+	}
+
+	get headers() {
+		return [ACCOUNT, ENVIRONMENT, ID, GCS_FILE_EXCHANGE_BUCKET, WORKING_DIR, ACTIVATED, ACTIONS];
+	}
+}
 </script>

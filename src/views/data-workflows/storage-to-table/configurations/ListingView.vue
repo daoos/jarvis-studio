@@ -18,13 +18,15 @@
 	</div>
 </template>
 
-<script>
-import DataManagementHeader from '@/components/data-workflows/common/DataManagementHeader';
-import ListingComponent from '@/components/data-workflows/common/listing/ListingComponent';
+<script lang="ts">
+import { Component, Mixins } from 'vue-property-decorator';
+import { AnyObject, WhereConfFilter } from '@/types';
+import { Getter, State } from 'vuex-class';
+import DataManagementHeader from '@/components/data-workflows/common/DataManagementHeader.vue';
+import ListingComponent from '@/components/data-workflows/common/listing/ListingComponent.vue';
 
 import HeaderInfosMixin from '../header-infos';
 
-import { mapState, mapGetters } from 'vuex';
 import { CONFIGURATIONS } from '@/constants/data-workflows/status';
 import { STORAGE_TO_TABLE_CONFIGURATIONS_ITEM } from '@/constants/router/routes-names';
 import {
@@ -37,51 +39,47 @@ import {
 	TABLE_NAME
 } from '@/constants/data-workflows/listing/header-items';
 
-export default {
-	name: 'storage-to-table-configurations-listing-view',
-	components: { DataManagementHeader, ListingComponent },
-	mixins: [HeaderInfosMixin],
-	data() {
-		return {
-			moduleName: 'mirrorExcGcsToGbqConfs',
-			overriddenColumns: ['table_name']
-		};
-	},
-	methods: {
-		async customDataFetching() {
-			let items = [];
+@Component({
+	components: { DataManagementHeader, ListingComponent }
+})
+export default class StorageToTableConfigurationsListingView extends Mixins(HeaderInfosMixin) {
+	moduleName: string = 'mirrorExcGcsToGbqConfs';
+	overriddenColumns: string[] = ['table_name'];
 
-			await this.$store.dispatch(`${this.moduleName}/closeDBChannel`, { clearModule: true });
-			await this.$store.dispatch(`${this.moduleName}/fetchAndAdd`, { where: this.whereConfFilter, limit: 1000 });
+	@State(state => state.mirrorExcGcsToGbqConfs.data) mirrorExcGcsToGbqConfs!: Object;
+	@State(state => state.mirrorExcGcsToGbqConfDetails.data) mirrorExcGcsToGbqConfDetails!: Object;
 
-			for (const item of Object.values(this.mirrorExcGcsToGbqConfs)) {
-				const bucketId = item.id;
+	@Getter('filters/whereConfFilter') whereConfFilter!: WhereConfFilter;
 
-				await this.$store.dispatch('mirrorExcGcsToGbqConfDetails/closeDBChannel', { clearModule: true });
-				await this.$store.dispatch('mirrorExcGcsToGbqConfDetails/fetchAndAdd', { bucketId }).then(() => {
-					Object.values(this.mirrorExcGcsToGbqConfDetails).forEach(val => (val.bucket_id = bucketId));
-					items.push(Object.values(this.mirrorExcGcsToGbqConfDetails));
-				});
-			}
+	async customDataFetching() {
+		let items: AnyObject[] = [];
 
-			return items.flat();
+		await this.$store.dispatch(`${this.moduleName}/closeDBChannel`, { clearModule: true });
+		await this.$store.dispatch(`${this.moduleName}/fetchAndAdd`, { where: this.whereConfFilter, limit: 1000 });
+
+		for (const item of Object.values(this.mirrorExcGcsToGbqConfs)) {
+			const bucketId = item.id;
+
+			await this.$store.dispatch('mirrorExcGcsToGbqConfDetails/closeDBChannel', { clearModule: true });
+			await this.$store.dispatch('mirrorExcGcsToGbqConfDetails/fetchAndAdd', { bucketId }).then(() => {
+				Object.values(this.mirrorExcGcsToGbqConfDetails).forEach(val => (val.bucket_id = bucketId));
+				items.push(Object.values(this.mirrorExcGcsToGbqConfDetails));
+			});
 		}
-	},
-	computed: {
-		...mapState({
-			mirrorExcGcsToGbqConfs: state => state.mirrorExcGcsToGbqConfs.data,
-			mirrorExcGcsToGbqConfDetails: state => state.mirrorExcGcsToGbqConfDetails.data
-		}),
-		...mapGetters(['whereConfFilter']),
-		listingType() {
-			return CONFIGURATIONS;
-		},
-		routeName() {
-			return STORAGE_TO_TABLE_CONFIGURATIONS_ITEM;
-		},
-		headers() {
-			return [ACCOUNT, ENVIRONMENT, TABLE_NAME, GCP_PROJECT, GBQ_DATASET, ACTIVATED, ACTIONS];
-		}
+
+		return items.flat();
 	}
-};
+
+	get listingType() {
+		return CONFIGURATIONS;
+	}
+
+	get routeName() {
+		return STORAGE_TO_TABLE_CONFIGURATIONS_ITEM;
+	}
+
+	get headers() {
+		return [ACCOUNT, ENVIRONMENT, TABLE_NAME, GCP_PROJECT, GBQ_DATASET, ACTIVATED, ACTIONS];
+	}
+}
 </script>

@@ -1,4 +1,4 @@
-type RunStatus = 'SUCCESS' | 'FAILED' | 'RUNNING';
+import { RunStatus } from '@/types';
 
 export const dagRunAirflowUrl = (dag_id: string, run_id: string, execution_date: string) => {
 	const airflowRootUrl = process.env.VUE_APP_AIRFLOW_URL;

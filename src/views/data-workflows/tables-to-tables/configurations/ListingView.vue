@@ -25,9 +25,10 @@
 	</div>
 </template>
 
-<script>
-import DataManagementHeader from '../../../../components/data-workflows/common/DataManagementHeader';
-import ListingComponent from '@/components/data-workflows/common/listing/ListingComponent';
+<script lang="ts">
+import { Component, Mixins } from 'vue-property-decorator';
+import DataManagementHeader from '@/components/data-workflows/common/DataManagementHeader.vue';
+import ListingComponent from '@/components/data-workflows/common/listing/ListingComponent.vue';
 import ConfigurationStatus from '@/components/data-workflows/configuration/ConfigurationStatus.vue';
 
 import HeaderInfosMixin from '../header-infos';
@@ -44,26 +45,23 @@ import {
 	ID
 } from '@/constants/data-workflows/listing/header-items';
 
-export default {
-	name: 'tables-to-tables-configurations-listing-view',
-	components: { DataManagementHeader, ListingComponent, ConfigurationStatus },
-	mixins: [HeaderInfosMixin],
-	data() {
-		return {
-			moduleName: 'getGbqToGbqConfs',
-			overriddenColumns: ['id', 'activated']
-		};
-	},
-	computed: {
-		listingType() {
-			return CONFIGURATIONS;
-		},
-		routeName() {
-			return TABLES_TO_TABLES_CONFIGURATIONS_ITEM;
-		},
-		headers() {
-			return [ACCOUNT, ENVIRONMENT, ID, DEFAULT_BQ_DATASET, CONF_WORKFLOW_LENGTH, ACTIVATED, ACTIONS];
-		}
+@Component({
+	components: { DataManagementHeader, ListingComponent, ConfigurationStatus }
+})
+export default class TablesToTablesConfigurationsListingView extends Mixins(HeaderInfosMixin) {
+	moduleName: string = 'getGbqToGbqConfs';
+	overriddenColumns: string[] = ['id', 'activated'];
+
+	get listingType() {
+		return CONFIGURATIONS;
 	}
-};
+
+	get routeName() {
+		return TABLES_TO_TABLES_CONFIGURATIONS_ITEM;
+	}
+
+	get headers() {
+		return [ACCOUNT, ENVIRONMENT, ID, DEFAULT_BQ_DATASET, CONF_WORKFLOW_LENGTH, ACTIVATED, ACTIONS];
+	}
+}
 </script>

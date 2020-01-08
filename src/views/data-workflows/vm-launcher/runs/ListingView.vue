@@ -26,9 +26,11 @@
 	</div>
 </template>
 
-<script>
-import DataManagementHeader from '../../../../components/data-workflows/common/DataManagementHeader';
-import ListingComponent from '@/components/data-workflows/common/listing/ListingComponent';
+<script lang="ts">
+import { Component, Mixins } from 'vue-property-decorator';
+import { RunStatus } from '@/types';
+import DataManagementHeader from '@/components/data-workflows/common/DataManagementHeader.vue';
+import ListingComponent from '@/components/data-workflows/common/listing/ListingComponent.vue';
 
 import HeaderInfosMixin from '../header-infos';
 
@@ -44,31 +46,27 @@ import {
 	STATUS
 } from '@/constants/data-workflows/listing/header-items';
 
-export default {
-	name: 'vm-launcher-runs-listing-view',
-	components: { DataManagementHeader, ListingComponent },
-	mixins: [HeaderInfosMixin],
-	data() {
-		return {
-			moduleName: 'vmLauncherRuns',
-			overriddenColumns: ['dag_id', 'status', 'dag_execution_date']
-		};
-	},
-	methods: {
-		getStatusColor(status) {
-			return getStatusColor(status);
-		}
-	},
-	computed: {
-		listingType() {
-			return RUNS;
-		},
-		routeName() {
-			return VM_LAUNCHER_RUNS_ITEM;
-		},
-		headers() {
-			return [ACCOUNT, ENVIRONMENT, DAG_ID, STATUS, DAG_EXECUTION_DATE, ACTIONS];
-		}
+@Component({
+	components: { DataManagementHeader, ListingComponent }
+})
+export default class VmLauncherRunsListingView extends Mixins(HeaderInfosMixin) {
+	moduleName: string = 'vmLauncherRuns';
+	overriddenColumns: string[] = ['dag_id', 'status', 'dag_execution_date'];
+
+	getStatusColor(status: RunStatus) {
+		return getStatusColor(status);
 	}
-};
+
+	get listingType() {
+		return RUNS;
+	}
+
+	get routeName() {
+		return VM_LAUNCHER_RUNS_ITEM;
+	}
+
+	get headers() {
+		return [ACCOUNT, ENVIRONMENT, DAG_ID, STATUS, DAG_EXECUTION_DATE, ACTIONS];
+	}
+}
 </script>

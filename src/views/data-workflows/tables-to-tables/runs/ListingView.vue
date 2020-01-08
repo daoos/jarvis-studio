@@ -29,9 +29,11 @@
 	</div>
 </template>
 
-<script>
-import DataManagementHeader from '../../../../components/data-workflows/common/DataManagementHeader';
-import ListingComponent from '@/components/data-workflows/common/listing/ListingComponent';
+<script lang="ts">
+import { Component, Mixins } from 'vue-property-decorator';
+import { RunStatus } from '@/types';
+import DataManagementHeader from '@/components/data-workflows/common/DataManagementHeader.vue';
+import ListingComponent from '@/components/data-workflows/common/listing/ListingComponent.vue';
 
 import HeaderInfosMixin from '../header-infos';
 
@@ -48,31 +50,27 @@ import {
 	WORKFLOW_LENGTH
 } from '@/constants/data-workflows/listing/header-items';
 
-export default {
-	name: 'tables-to-tables-runs-listing-view',
-	components: { DataManagementHeader, ListingComponent },
-	mixins: [HeaderInfosMixin],
-	data() {
-		return {
-			moduleName: 'getGbqToGbqRuns',
-			overriddenColumns: ['dag_id', 'status', 'dag_execution_date']
-		};
-	},
-	methods: {
-		getStatusColor(status) {
-			return getStatusColor(status);
-		}
-	},
-	computed: {
-		listingType() {
-			return RUNS;
-		},
-		routeName() {
-			return TABLES_TO_TABLES_RUNS_ITEM;
-		},
-		headers() {
-			return [ACCOUNT, ENVIRONMENT, DAG_ID, WORKFLOW_LENGTH, STATUS, DAG_EXECUTION_DATE, ACTIONS];
-		}
+@Component({
+	components: { DataManagementHeader, ListingComponent }
+})
+export default class TablesToTablesRunsListingView extends Mixins(HeaderInfosMixin) {
+	moduleName: string = 'getGbqToGbqRuns';
+	overriddenColumns: string[] = ['dag_id', 'status', 'dag_execution_date'];
+
+	getStatusColor(status: RunStatus) {
+		return getStatusColor(status);
 	}
-};
+
+	get listingType() {
+		return RUNS;
+	}
+
+	get routeName() {
+		return TABLES_TO_TABLES_RUNS_ITEM;
+	}
+
+	get headers() {
+		return [ACCOUNT, ENVIRONMENT, DAG_ID, WORKFLOW_LENGTH, STATUS, DAG_EXECUTION_DATE, ACTIONS];
+	}
+}
 </script>

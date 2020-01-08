@@ -17,9 +17,10 @@
 	</div>
 </template>
 
-<script>
-import DataManagementHeader from '../../../../components/data-workflows/common/DataManagementHeader';
-import ListingComponent from '@/components/data-workflows/common/listing/ListingComponent';
+<script lang="ts">
+import { Component, Mixins } from 'vue-property-decorator';
+import DataManagementHeader from '@/components/data-workflows/common/DataManagementHeader.vue';
+import ListingComponent from '@/components/data-workflows/common/listing/ListingComponent.vue';
 
 import HeaderInfosMixin from '../header-infos';
 
@@ -36,35 +37,23 @@ import {
 	SOURCE_BUCKET
 } from '@/constants/data-workflows/listing/header-items';
 
-export default {
-	name: 'gcs-to-gcs-configurations-listing-view',
-	components: { DataManagementHeader, ListingComponent },
-	mixins: [HeaderInfosMixin],
-	data() {
-		return {
-			moduleName: 'mirrorExcGcsToGcsConfs',
-			overriddenColumns: ['id']
-		};
-	},
-	computed: {
-		listingType() {
-			return CONFIGURATIONS;
-		},
-		routeName() {
-			return GCS_TO_GCS_CONFIGURATIONS_ITEM;
-		},
-		headers() {
-			return [
-				ACCOUNT,
-				ENVIRONMENT,
-				ID,
-				SOURCE_BUCKET,
-				NB_DESTINATION_BUCKET,
-				NB_FILENAME_TEMPLATES,
-				ACTIVATED,
-				ACTIONS
-			];
-		}
+@Component({
+	components: { DataManagementHeader, ListingComponent }
+})
+export default class GcsToGcsConfigurationsListingView extends Mixins(HeaderInfosMixin) {
+	moduleName: string = 'mirrorExcGcsToGcsConfs';
+	overriddenColumns: string[] = ['id'];
+
+	get listingType() {
+		return CONFIGURATIONS;
 	}
-};
+
+	get routeName() {
+		return GCS_TO_GCS_CONFIGURATIONS_ITEM;
+	}
+
+	get headers() {
+		return [ACCOUNT, ENVIRONMENT, ID, SOURCE_BUCKET, NB_DESTINATION_BUCKET, NB_FILENAME_TEMPLATES, ACTIVATED, ACTIONS];
+	}
+}
 </script>

@@ -16,9 +16,10 @@
 	</div>
 </template>
 
-<script>
-import DataManagementHeader from '../../../../components/data-workflows/common/DataManagementHeader';
-import ListingComponent from '@/components/data-workflows/common/listing/ListingComponent';
+<script lang="ts">
+import { Component, Mixins } from 'vue-property-decorator';
+import DataManagementHeader from '@/components/data-workflows/common/DataManagementHeader.vue';
+import ListingComponent from '@/components/data-workflows/common/listing/ListingComponent.vue';
 
 import HeaderInfosMixin from '../header-infos';
 
@@ -34,26 +35,23 @@ import {
 	TARGET_DAG
 } from '@/constants/data-workflows/listing/header-items';
 
-export default {
-	name: 'workflow-configurations-listing-view',
-	components: { DataManagementHeader, ListingComponent },
-	mixins: [HeaderInfosMixin],
-	data() {
-		return {
-			moduleName: 'workflowConfs',
-			overriddenColumns: ['id']
-		};
-	},
-	computed: {
-		listingType() {
-			return CONFIGURATIONS;
-		},
-		routeName() {
-			return WORKFLOW_CONFIGURATIONS_ITEM;
-		},
-		headers() {
-			return [ACCOUNT, ENVIRONMENT, ID, TARGET_DAG, AUTHORIZED_JOB_IDS_LENGTH, ACTIVATED, ACTIONS];
-		}
+@Component({
+	components: { DataManagementHeader, ListingComponent }
+})
+export default class WorkflowConfigurationsListingView extends Mixins(HeaderInfosMixin) {
+	moduleName: string = 'workflowConfs';
+	overriddenColumns: string[] = ['id'];
+
+	get listingType() {
+		return CONFIGURATIONS;
 	}
-};
+
+	get routeName() {
+		return WORKFLOW_CONFIGURATIONS_ITEM;
+	}
+
+	get headers() {
+		return [ACCOUNT, ENVIRONMENT, ID, TARGET_DAG, AUTHORIZED_JOB_IDS_LENGTH, ACTIVATED, ACTIONS];
+	}
+}
 </script>

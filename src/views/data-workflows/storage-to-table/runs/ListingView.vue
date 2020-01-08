@@ -26,9 +26,11 @@
 	</div>
 </template>
 
-<script>
-import DataManagementHeader from '../../../../components/data-workflows/common/DataManagementHeader';
-import ListingComponent from '@/components/data-workflows/common/listing/ListingComponent';
+<script lang="ts">
+import { Component, Mixins } from 'vue-property-decorator';
+import { RunStatus } from '@/types';
+import DataManagementHeader from '@/components/data-workflows/common/DataManagementHeader.vue';
+import ListingComponent from '@/components/data-workflows/common/listing/ListingComponent.vue';
 
 import HeaderInfosMixin from '../header-infos';
 
@@ -45,31 +47,27 @@ import {
 	STATUS
 } from '@/constants/data-workflows/listing/header-items';
 
-export default {
-	name: 'storage-to-table-runs-listing-view',
-	components: { DataManagementHeader, ListingComponent },
-	mixins: [HeaderInfosMixin],
-	data() {
-		return {
-			moduleName: 'mirrorExcGcsToGbqRuns',
-			overriddenColumns: ['gcs_triggering_file', 'status', 'dag_execution_date']
-		};
-	},
-	methods: {
-		getStatusColor(status) {
-			return getStatusColor(status);
-		}
-	},
-	computed: {
-		listingType() {
-			return RUNS;
-		},
-		routeName() {
-			return STORAGE_TO_TABLE_RUNS_ITEM;
-		},
-		headers() {
-			return [ACCOUNT, ENVIRONMENT, GBQ_TABLE_REFRESHED, GCS_TRIGGERING_FILE, STATUS, DAG_EXECUTION_DATE, ACTIONS];
-		}
+@Component({
+	components: { DataManagementHeader, ListingComponent }
+})
+export default class StorageToTableRunsListingView extends Mixins(HeaderInfosMixin) {
+	moduleName: string = 'mirrorExcGcsToGbqRuns';
+	overriddenColumns: string[] = ['gcs_triggering_file', 'status', 'dag_execution_date'];
+
+	getStatusColor(status: RunStatus) {
+		return getStatusColor(status);
 	}
-};
+
+	get listingType() {
+		return RUNS;
+	}
+
+	get routeName() {
+		return STORAGE_TO_TABLE_RUNS_ITEM;
+	}
+
+	get headers() {
+		return [ACCOUNT, ENVIRONMENT, GBQ_TABLE_REFRESHED, GCS_TRIGGERING_FILE, STATUS, DAG_EXECUTION_DATE, ACTIONS];
+	}
+}
 </script>

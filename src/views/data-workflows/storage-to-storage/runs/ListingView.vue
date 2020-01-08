@@ -29,9 +29,11 @@
 	</div>
 </template>
 
-<script>
-import DataManagementHeader from '../../../../components/data-workflows/common/DataManagementHeader';
-import ListingComponent from '@/components/data-workflows/common/listing/ListingComponent';
+<script lang="ts">
+import { Component, Mixins } from 'vue-property-decorator';
+import { RunStatus } from '@/types';
+import DataManagementHeader from '@/components/data-workflows/common/DataManagementHeader.vue';
+import ListingComponent from '@/components/data-workflows/common/listing/ListingComponent.vue';
 
 import HeaderInfosMixin from '../header-infos';
 
@@ -48,31 +50,27 @@ import {
 	TRIGGERING_FILE
 } from '@/constants/data-workflows/listing/header-items';
 
-export default {
-	name: 'storage-to-storage-runs-listing-view',
-	components: { DataManagementHeader, ListingComponent },
-	mixins: [HeaderInfosMixin],
-	data() {
-		return {
-			moduleName: 'storageToStorageRuns',
-			overriddenColumns: ['triggering_file', 'status', 'dag_execution_date']
-		};
-	},
-	methods: {
-		getStatusColor(status) {
-			return getStatusColor(status);
-		}
-	},
-	computed: {
-		listingType() {
-			return RUNS;
-		},
-		routeName() {
-			return STORAGE_TO_STORAGE_RUNS_ITEM;
-		},
-		headers() {
-			return [ACCOUNT, ENVIRONMENT, CONFIGURATION_ID, TRIGGERING_FILE, STATUS, DAG_EXECUTION_DATE, ACTIONS];
-		}
+@Component({
+	components: { DataManagementHeader, ListingComponent }
+})
+export default class StorageToStorageRunsListingView extends Mixins(HeaderInfosMixin) {
+	moduleName: string = 'storageToStorageRuns';
+	overriddenColumns: string[] = ['triggering_file', 'status', 'dag_execution_date'];
+
+	getStatusColor(status: RunStatus) {
+		return getStatusColor(status);
 	}
-};
+
+	get listingType() {
+		return RUNS;
+	}
+
+	get routeName() {
+		return STORAGE_TO_STORAGE_RUNS_ITEM;
+	}
+
+	get headers() {
+		return [ACCOUNT, ENVIRONMENT, CONFIGURATION_ID, TRIGGERING_FILE, STATUS, DAG_EXECUTION_DATE, ACTIONS];
+	}
+}
 </script>

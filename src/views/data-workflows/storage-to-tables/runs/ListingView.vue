@@ -30,9 +30,11 @@
 	</div>
 </template>
 
-<script>
-import DataManagementHeader from '@/components/data-workflows/common/DataManagementHeader';
-import ListingComponent from '@/components/data-workflows/common/listing/ListingComponent';
+<script lang="ts">
+import { Component, Mixins } from 'vue-property-decorator';
+import { RunStatus } from '@/types';
+import DataManagementHeader from '@/components/data-workflows/common/DataManagementHeader.vue';
+import ListingComponent from '@/components/data-workflows/common/listing/ListingComponent.vue';
 import { getStatusColor } from '@/util/data-workflows/run';
 
 import HeaderInfosMixin from '../header-infos';
@@ -40,80 +42,76 @@ import HeaderInfosMixin from '../header-infos';
 import { RUNS } from '@/constants/data-workflows/status';
 import { STORAGE_TO_TABLES_RUNS_ITEM } from '@/constants/router/routes-names';
 
-export default {
-	name: 'storage-to-tables-runs-listing-view',
-	components: { DataManagementHeader, ListingComponent },
-	mixins: [HeaderInfosMixin],
-	data() {
-		return {
-			moduleName: 'storageToTablesRuns',
-			overriddenColumns: ['id', 'configuration_context.source', 'dag_execution_date', 'status']
-		};
-	},
-	methods: {
-		getStatusColor(status) {
-			return getStatusColor(status);
-		}
-	},
-	computed: {
-		listingType() {
-			return RUNS;
-		},
-		routeName() {
-			return STORAGE_TO_TABLES_RUNS_ITEM;
-		},
-		headers() {
-			return [
-				{
-					text: 'Account ID',
-					align: 'left',
-					sortable: true,
-					value: 'account'
-				},
-				{
-					text: 'Environment',
-					align: 'left',
-					sortable: true,
-					value: 'environment'
-				},
-				{
-					text: 'Triggering File',
-					align: 'left',
-					sortable: true,
-					value: 'id'
-				},
-				{
-					text: 'Source Storage',
-					align: 'left',
-					sortable: true,
-					value: 'configuration_context.source'
-				},
-				{
-					text: 'Destinations',
-					align: 'left',
-					sortable: true,
-					value: 'configuration_context.destinations.length'
-				},
-				{
-					text: 'Status',
-					align: 'left',
-					sortable: true,
-					value: 'status'
-				},
-				{
-					text: 'Execution Date',
-					align: 'left',
-					sortable: true,
-					value: 'dag_execution_date'
-				},
-				{
-					text: 'Actions',
-					align: 'center',
-					sortable: false,
-					value: 'actions'
-				}
-			];
-		}
+@Component({
+	components: { DataManagementHeader, ListingComponent }
+})
+export default class StorageToTablesRunsListingView extends Mixins(HeaderInfosMixin) {
+	moduleName: string = 'storageToTablesRuns';
+	overriddenColumns: string[] = ['id', 'configuration_context.source', 'dag_execution_date', 'status'];
+
+	getStatusColor(status: RunStatus) {
+		return getStatusColor(status);
 	}
-};
+
+	get listingType() {
+		return RUNS;
+	}
+
+	get routeName() {
+		return STORAGE_TO_TABLES_RUNS_ITEM;
+	}
+
+	get headers() {
+		return [
+			{
+				text: 'Account ID',
+				align: 'left',
+				sortable: true,
+				value: 'account'
+			},
+			{
+				text: 'Environment',
+				align: 'left',
+				sortable: true,
+				value: 'environment'
+			},
+			{
+				text: 'Triggering File',
+				align: 'left',
+				sortable: true,
+				value: 'id'
+			},
+			{
+				text: 'Source Storage',
+				align: 'left',
+				sortable: true,
+				value: 'configuration_context.source'
+			},
+			{
+				text: 'Destinations',
+				align: 'left',
+				sortable: true,
+				value: 'configuration_context.destinations.length'
+			},
+			{
+				text: 'Status',
+				align: 'left',
+				sortable: true,
+				value: 'status'
+			},
+			{
+				text: 'Execution Date',
+				align: 'left',
+				sortable: true,
+				value: 'dag_execution_date'
+			},
+			{
+				text: 'Actions',
+				align: 'center',
+				sortable: false,
+				value: 'actions'
+			}
+		];
+	}
+}
 </script>

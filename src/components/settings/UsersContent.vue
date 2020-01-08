@@ -318,7 +318,7 @@ export default {
 		...mapState({
 			accounts: state => state.accounts.data
 		}),
-		...mapGetters(['periodFiltered', 'whereConfFilter']),
+		...mapGetters(['periodFiltered', 'filters/whereConfFilter']),
 		formTitle() {
 			return this.editedUserIndex === -1 ? 'New User' : 'Edit User';
 		},

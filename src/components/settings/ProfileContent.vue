@@ -38,7 +38,7 @@ export default {
 		...mapState({
 			user: state => state.user.user
 		}),
-		...mapGetters(['periodFiltered', 'whereConfFilter']),
+		...mapGetters(['periodFiltered', 'filters/whereConfFilter']),
 		userIdentity() {
 			return [
 				{ id: 'email', label: 'Email', value: this.user.email },

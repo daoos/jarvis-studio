@@ -17,9 +17,10 @@
 	</div>
 </template>
 
-<script>
-import DataManagementHeader from '../../../../components/data-workflows/common/DataManagementHeader';
-import ListingComponent from '@/components/data-workflows/common/listing/ListingComponent';
+<script lang="ts">
+import { Component, Mixins } from 'vue-property-decorator';
+import DataManagementHeader from '@/components/data-workflows/common/DataManagementHeader.vue';
+import ListingComponent from '@/components/data-workflows/common/listing/ListingComponent.vue';
 
 import HeaderInfosMixin from '../header-infos';
 
@@ -36,26 +37,23 @@ import {
 	ID
 } from '@/constants/data-workflows/listing/header-items';
 
-export default {
-	name: 'table-to-storage-configurations-view',
-	components: { DataManagementHeader, ListingComponent },
-	mixins: [HeaderInfosMixin],
-	data() {
-		return {
-			moduleName: 'tableToStorageConfs',
-			overriddenColumns: ['id']
-		};
-	},
-	computed: {
-		listingType() {
-			return CONFIGURATIONS;
-		},
-		routeName() {
-			return TABLE_TO_STORAGE_CONFIGURATIONS_ITEM;
-		},
-		headers() {
-			return [ACCOUNT, ENVIRONMENT, ID, GCP_PROJECT, GCS_DEST_BUCKET, GCS_DEST_PREFIX, ACTIVATED, ACTIONS];
-		}
+@Component({
+	components: { DataManagementHeader, ListingComponent }
+})
+export default class TableToStorageConfigurationsListingView extends Mixins(HeaderInfosMixin) {
+	moduleName: string = 'tableToStorageConfs';
+	overriddenColumns: string[] = ['id'];
+
+	get listingType() {
+		return CONFIGURATIONS;
 	}
-};
+
+	get routeName() {
+		return TABLE_TO_STORAGE_CONFIGURATIONS_ITEM;
+	}
+
+	get headers() {
+		return [ACCOUNT, ENVIRONMENT, ID, GCP_PROJECT, GCS_DEST_BUCKET, GCS_DEST_PREFIX, ACTIVATED, ACTIONS];
+	}
+}
 </script>
