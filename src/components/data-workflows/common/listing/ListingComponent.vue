@@ -105,7 +105,7 @@ import { mapState } from 'vuex';
 import { mapGetters } from 'vuex';
 import store from '@/store';
 import _ from 'lodash';
-import { RUNS } from '@/constants/data-workflows/status';
+import { CONFIGURATIONS, RUNS, STATUS } from '@/constants/data-workflows/status';
 import { getActiveConfColor } from '@/util/data-workflows/configuration';
 import { dagRunAirflowUrl } from '@/util/data-workflows/run';
 
@@ -200,7 +200,22 @@ export default {
 			this.showDeleteItemDetails = false;
 		},
 		async getFirestoreData() {
-			const where = this.type === RUNS ? this.whereRunsFilter : this.whereConfFilter;
+			let where;
+
+			switch (this.type) {
+				case RUNS:
+					where = this.whereRunsFilter;
+					break;
+				case CONFIGURATIONS:
+					where = this.whereConfFilter;
+					break;
+				case STATUS:
+					where = this.whereStatusFilter;
+					break;
+				default:
+					where = [];
+			}
+
 			this.isLoading = true;
 
 			if (this.customDataFetching) {
@@ -224,6 +239,7 @@ export default {
 		}),
 		...mapGetters({
 			periodFiltered: 'filters/periodFiltered',
+			whereStatusFilter: 'filters/whereStatusFilter',
 			whereRunsFilter: 'filters/whereRunsFilter',
 			whereConfFilter: 'filters/whereConfFilter'
 		}),
@@ -239,6 +255,9 @@ export default {
 		}
 	},
 	watch: {
+		whereStatusFilter() {
+			this.getFirestoreData();
+		},
 		whereRunsFilter() {
 			this.getFirestoreData();
 		},

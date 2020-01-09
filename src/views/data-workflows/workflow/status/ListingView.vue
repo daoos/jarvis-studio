@@ -47,7 +47,7 @@ import ListingComponent from '@/components/data-workflows/common/listing/Listing
 
 import HeaderInfosMixin from '../header-infos';
 
-import { RUNS } from '@/constants/data-workflows/status';
+import { STATUS } from '@/constants/data-workflows/status';
 import { WORKFLOW_STATUS_ITEM } from '@/constants/router/routes-names';
 import { getStatusColor } from '@/util/data-workflows/run';
 import {
@@ -77,7 +77,7 @@ export default class WorkflowStatusListingView extends Mixins(HeaderInfosMixin) 
 	}
 
 	get listingType() {
-		return RUNS;
+		return STATUS;
 	}
 
 	get routeName() {

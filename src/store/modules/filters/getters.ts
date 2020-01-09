@@ -1,6 +1,22 @@
 import { GetterTree } from 'vuex';
-import { FilterState, RootState } from '@/types';
+import { Account, EnvFilter, FilterState, RootState } from '@/types';
 import moment from 'moment';
+import { RUNS, STATUS } from '@/constants/data-workflows/status';
+
+const getAccountsFilter = (filteredAccounts: Account[], formattedFilteredAccounts: string[], rootState: RootState) => {
+	return filteredAccounts.length > 0
+		? ['account', 'in', formattedFilteredAccounts]
+		: ['account', 'in', rootState.user.user!.accounts];
+};
+
+const getEnvFilterSelected = (envFilterSelected: EnvFilter) => {
+	return ['environment', '==', envFilterSelected.envId];
+};
+
+const getMinDateFilter = (minDateFilter: string, type: string) => {
+	let field = type === RUNS ? 'dag_execution_date' : 'last_modified';
+	return minDateFilter ? [field, '>=', minDateFilter] : [field, '>=', '2019-01-01T00:00:00.000Z'];
+};
 
 export const getters: GetterTree<FilterState, RootState> = {
 	periodFiltered(state) {
@@ -18,49 +34,42 @@ export const getters: GetterTree<FilterState, RootState> = {
 		}
 		return periodFiltered;
 	},
-	whereRunsFilter(state, getters, rootState) {
-		let whereRunsFilter = [];
+	whereStatusFilter(state, getters, rootState) {
+		const { filteredAccounts, minDateFilter, envFilterSelected } = state;
+		const formattedFilteredAccounts = filteredAccounts.map(account => account.id);
 
+		let filters = [
+			getAccountsFilter(filteredAccounts, formattedFilteredAccounts, rootState),
+			getMinDateFilter(minDateFilter, STATUS)
+		];
+
+		if (envFilterSelected.envId !== 'ALL') filters.push(getEnvFilterSelected(envFilterSelected));
+
+		return filters;
+	},
+	whereRunsFilter(state, getters, rootState) {
 		const { filteredAccounts, minDateFilter, envFilterSelected, runStatusFilterSelected } = state;
 		const formattedFilteredAccounts = filteredAccounts.map(account => account.id);
 
-		if (minDateFilter !== undefined) {
-			whereRunsFilter.push(['dag_execution_date', '>=', minDateFilter]);
-		} else {
-			whereRunsFilter.push(['dag_execution_date', '>=', '2019-01-01T00:00:00.000Z']);
-		}
+		let filters = [
+			getAccountsFilter(filteredAccounts, formattedFilteredAccounts, rootState),
+			getMinDateFilter(minDateFilter, RUNS)
+		];
 
-		if (filteredAccounts.length > 0) {
-			whereRunsFilter.push(['account', 'in', formattedFilteredAccounts]);
-		} else {
-			whereRunsFilter.push(['account', 'in', rootState.user.user!.accounts]);
-		}
+		if (envFilterSelected.envId !== 'ALL') filters.push(getEnvFilterSelected(envFilterSelected));
+		if (runStatusFilterSelected.runStatusId !== 'ALL')
+			filters.push(['status', '==', runStatusFilterSelected.runStatusId]);
 
-		if (envFilterSelected.envId !== 'ALL') {
-			whereRunsFilter.push(['environment', '==', envFilterSelected.envId]);
-		}
-
-		if (runStatusFilterSelected.runStatusId !== 'ALL') {
-			whereRunsFilter.push(['status', '==', runStatusFilterSelected.runStatusId]);
-		}
-
-		return whereRunsFilter;
+		return filters;
 	},
 	whereConfFilter(state, getters, rootState) {
-		// TODO: Add status filter (activated)
-
-		let whereConfFilter = [];
 		const { filteredAccounts, envFilterSelected } = state;
 		const formattedFilteredAccounts = filteredAccounts.map(account => account.id);
 
-		if (formattedFilteredAccounts.length > 0) {
-			whereConfFilter.push(['account', 'in', formattedFilteredAccounts]);
-		} else {
-			whereConfFilter.push(['account', 'in', rootState.user.user!.accounts]);
-		}
+		let filters = [getAccountsFilter(filteredAccounts, formattedFilteredAccounts, rootState)];
 
-		if (envFilterSelected.envId !== 'ALL') whereConfFilter.push(['environment', '==', state.envFilterSelected.envId]);
+		if (envFilterSelected.envId !== 'ALL') filters.push(getEnvFilterSelected(envFilterSelected));
 
-		return whereConfFilter;
+		return filters;
 	}
 };
