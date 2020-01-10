@@ -4,7 +4,7 @@
 			<v-container class="fill-height pa-0" fluid>
 				<v-row class="fill-height" no-gutters>
 					<v-col v-if="$vuetify.breakpoint.mdAndUp" class="infos-panel d-flex flex-column justify-space-between">
-						<h1 class="mt-8 ml-8">Big Data Platform</h1>
+						<!-- <h1 class="mt-8 ml-8">JARVIS</h1> -->
 						<img src="@/assets/img/app/logo.png" alt="Jarvis Logo" class="logo mb-8 ml-8" />
 					</v-col>
 
@@ -138,7 +138,7 @@ export default class SignIn extends Vue {
 	background-image: url('../../assets/img/sign-in/background.jpg');
 
 	.logo {
-		width: 110px;
+		width: 200px;
 	}
 }
 
