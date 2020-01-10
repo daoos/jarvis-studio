@@ -5,7 +5,7 @@
 
 			<v-spacer />
 
-			<DataManagementFilters viewEnvironnement />
+			<data-management-filters :type="type" />
 			<v-icon right @click="getFirestoreData" v-if="!isLoading">refresh</v-icon>
 			<v-progress-circular indeterminate size="20" color="primary" v-if="isLoading" />
 		</v-toolbar>

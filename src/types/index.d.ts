@@ -55,20 +55,26 @@ export interface UserState {
 export type DateLabel = 'Today' | 'Last 2 Days' | 'Last 7 Days' | 'Last 30 Days' | 'Last 90 Days';
 export type NbDays = 0 | 1 | 7 | 31 | 90;
 export interface DateFilter {
-	dateLabel: DateLabel;
-	nbDays: NbDays;
+	label: DateLabel;
+	value: NbDays;
 }
 export type EnvLabel = 'All Env.' | 'Production' | 'Pre-Production' | 'Staging' | 'Development';
 export type EnvId = 'ALL' | 'PROD' | 'PREPROD' | 'STAGING' | 'DEV';
 export interface EnvFilter {
-	envLabel: EnvLabel;
-	envId: EnvId;
+	label: EnvLabel;
+	value: EnvId;
 }
 export type RunStatusLabel = 'All Status' | 'Success' | 'Failed' | 'Running';
 export type RunStatusId = 'ALL' | 'SUCCESS' | 'FAILED' | 'RUNNING';
 export interface RunStatusFilter {
-	runStatusLabel: RunStatusLabel;
-	runStatusId: RunStatusId;
+	label: RunStatusLabel;
+	value: RunStatusId;
+}
+export type ConfActivatedLabel = 'All Status' | 'Activated' | 'Disabled';
+export type ConfActivatedValue = 'ALL' | true | false;
+export interface ConfActivatedFilter {
+	label: ConfActivatedLabel;
+	value: ConfActivatedValue;
 }
 export interface Account {
 	account_name: 'All Accounts' | 'Jules' | 'Pimkie' | 'Grain de Malice' | 'Orsay' | 'RougeGorge' | 'jarvis-demo';
@@ -81,6 +87,8 @@ export interface FilterState {
 	envFilters: EnvFilter[];
 	runStatusFilterSelected: RunStatusFilter;
 	runStatusFilters: RunStatusFilter[];
+	confActivatedFilterSelected: ConfActivatedFilter;
+	confActivatedFilters: ConfActivatedFilter[];
 	minDateFilter: string;
 	accountFilterSelected: Account;
 	filteredAccounts: Account[];
