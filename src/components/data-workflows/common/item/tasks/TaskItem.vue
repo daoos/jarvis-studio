@@ -28,18 +28,14 @@
 							<v-card-actions>
 								<v-spacer />
 
-								<v-btn color="primary" text @click="dialogSql = false">
-									Close
-								</v-btn>
+								<v-btn color="primary" text @click="dialogSql = false">Close</v-btn>
 							</v-card-actions>
 						</v-card>
 					</v-dialog>
 
 					<v-dialog v-model="dialogSchema" max-width="1000" fullscreen v-if="task.task_type === 'create_gbq_table'">
 						<template v-slot:activator="{ on }">
-							<v-chip color="green" text-color="white" v-on="on" class="mr-2">
-								VIEW SCHEMA
-							</v-chip>
+							<v-chip color="green" text-color="white" v-on="on" class="mr-2">VIEW SCHEMA</v-chip>
 						</template>
 						<v-card>
 							<v-card-title class="headline grey lighten-2" primary-title>
@@ -53,32 +49,47 @@
 							<v-card-actions>
 								<v-spacer />
 
-								<v-btn color="primary" text @click="dialogSchema = false">
-									Close
-								</v-btn>
+								<v-btn color="primary" text @click="dialogSchema = false">Close</v-btn>
 							</v-card-actions>
 						</v-card>
 					</v-dialog>
 
 					<v-dialog v-model="dialogLongDescription" width="1000">
 						<template v-slot:activator="{ on }">
-							<v-chip color="primary" text-color="white" v-on="on">
-								LONG DESCRIPTION
-							</v-chip>
+							<v-chip color="primary" text-color="white" v-on="on" class="mr-2">LONG DESCRIPTION</v-chip>
 						</template>
+
 						<v-card>
 							<v-card-title class="headline grey lighten-2" primary-title>
 								{{ task.id }}
 							</v-card-title>
 
 							<v-card-text>
-								<vue-markdown :source="task.doc_md"></vue-markdown>
+								<vue-markdown :source="task.doc_md" />
 							</v-card-text>
+
 							<v-card-actions>
-								<v-spacer></v-spacer>
-								<v-btn color="primary" text @click="dialogLongDescription = false">
-									Close
-								</v-btn>
+								<v-spacer />
+								<v-btn color="primary" text @click="dialogLongDescription = false">Close</v-btn>
+							</v-card-actions>
+						</v-card>
+					</v-dialog>
+
+					<v-dialog v-model="logsDialog" width="1000">
+						<template v-slot:activator="{ on }">
+							<v-chip color="complementary" text-color="white" v-on="on">Logs</v-chip>
+						</template>
+
+						<v-card>
+							<v-card-title class="headline grey lighten-2" primary-title>Task logs: {{ task.id }}</v-card-title>
+
+							<v-card-text>
+								<logs-component :folder-path="getLogsProps.folderPath" :file-name="getLogsProps.fileName" />
+							</v-card-text>
+
+							<v-card-actions>
+								<v-spacer />
+								<v-btn color="primary" text @click="logsDialog = false">Close</v-btn>
 							</v-card-actions>
 						</v-card>
 					</v-dialog>
@@ -94,9 +105,11 @@ import VueMarkdown from 'vue-markdown';
 import Prism from 'vue-prismjs';
 import 'prismjs/themes/prism.css';
 import tableSchemaView from '@/components/data-workflows/common/item/schema/TableSchemaView.vue';
+import LogsComponent from '@/components/data-workflows/common/item/logs/LogsComponent';
 
 export default {
 	components: {
+		LogsComponent,
 		ParametersList,
 		VueMarkdown,
 		Prism,
@@ -139,13 +152,22 @@ export default {
 					]
 				};
 			}
+		},
+		configurationId: {
+			type: String,
+			required: true
+		},
+		runId: {
+			type: String,
+			required: true
 		}
 	},
 	data() {
 		return {
-			dialogLongDescription: false,
 			dialogSql: false,
-			dialogSchema: false
+			dialogSchema: false,
+			dialogLongDescription: false,
+			logsDialog: false
 		};
 	},
 	computed: {
@@ -240,9 +262,13 @@ export default {
 				});
 			}
 			return communParams;
+		},
+		getLogsProps() {
+			return {
+				folderPath: `/${this.configurationId}/${this.task.id}/${this.runId}`,
+				fileName: '1.log'
+			};
 		}
 	}
 };
 </script>
-
-<style lang="scss" scoped></style>
