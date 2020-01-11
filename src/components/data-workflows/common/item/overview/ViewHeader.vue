@@ -20,7 +20,7 @@
 					:custom-key="customKey"
 				/>
 
-				<v-menu offset-y>
+				<v-menu offset-y v-if="!item.archive || isSuperAdmin">
 					<template v-slot:activator="{ on }">
 						<v-icon v-on="on">more_vert</v-icon>
 					</template>
@@ -74,6 +74,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Getter } from 'vuex-class';
 import { AnyObject, Snackbar } from '@/types';
 import ConfigurationStatus from '../../../configuration/ConfigurationStatus.vue';
 import RunStatusChip from '../../../runs/RunStatusChip.vue';
@@ -91,6 +92,8 @@ export default class ViewHeader extends Vue {
 	@Prop(String) readonly runStatus: string | undefined;
 	@Prop(String) readonly description: string | undefined;
 	@Prop({ default: null }) readonly customKey: string | undefined;
+
+	@Getter('user/isSuperAdmin') isSuperAdmin!: number;
 
 	isLoading: boolean = false;
 	archiveSnackbar: Snackbar = { show: false, timeout: 10000 };

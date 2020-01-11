@@ -68,8 +68,10 @@ export const getters: GetterTree<FilterState, RootState> = {
 		let filters = [getAccountsFilter(filteredAccounts, formattedFilteredAccounts, rootState)];
 
 		if (envFilterSelected.value !== 'ALL') filters.push(getEnvFilterSelected(envFilterSelected));
-		if (confActivatedFilterSelected.value !== 'ALL')
-			filters.push(['activated', '==', confActivatedFilterSelected.value]);
+		if (confActivatedFilterSelected.value !== 'ALL') {
+			const field = confActivatedFilterSelected.label === 'Archived' ? 'archive' : 'activated';
+			filters.push([field, '==', confActivatedFilterSelected.value]);
+		}
 
 		console.log(filters);
 

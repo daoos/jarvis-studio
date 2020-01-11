@@ -1,8 +1,8 @@
 <template>
 	<v-row align="center" justify="end" class="pr-5">
 		<v-menu
-			v-for="(filter, index) in filters"
-			:key="`${filter.values[0].label}-${index}`"
+			v-for="(filter, filterIndex) in filters"
+			:key="`${filter.values[0].label}-${filterIndex}`"
 			transition="slide-y-transition"
 			bottom
 		>
@@ -15,9 +15,9 @@
 
 			<v-list>
 				<v-list-item
-					v-for="option in filters[index].values"
-					:key="option.value"
-					@click="filters[index].clickAction(option)"
+					v-for="(option, optionIndex) in filters[filterIndex].values"
+					:key="`${option.value}-${optionIndex}`"
+					@click="filters[filterIndex].clickAction(option)"
 				>
 					<v-list-item-title>{{ option.label }}</v-list-item-title>
 				</v-list-item>
@@ -29,7 +29,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { ConfActivatedFilter, DateFilter, EnvFilter, RunStatusFilter } from '@/types';
-import { State } from 'vuex-class';
+import { Getter, State } from 'vuex-class';
 import store from '@/store';
 import { CONFIGURATIONS, RUNS, STATUS } from '@/constants/data-workflows/status';
 
@@ -45,6 +45,17 @@ export default class DataManagementFilters extends Vue {
 	@State(state => state.filters.confActivatedFilters) confActivatedFilters!: ConfActivatedFilter[];
 	@State(state => state.filters.dateFilterSelected) dateFilterSelected!: DateFilter;
 	@State(state => state.filters.dateFilters) dateFilters!: DateFilter[];
+
+	@Getter('user/isSuperAdmin') isSuperAdmin!: number;
+
+	// TODO: Refactoring
+	mounted() {
+		const hasArchivedOption = this.confActivatedFilters.find(element => element.label === 'Archived');
+
+		if (this.isSuperAdmin && !hasArchivedOption) {
+			this.confActivatedFilters.push({ label: 'Archived', value: true });
+		}
+	}
 
 	applyEnvFilter(envFilterSelected: EnvFilter): void {
 		store.dispatch('filters/applyEnvFilterSelected', envFilterSelected);
