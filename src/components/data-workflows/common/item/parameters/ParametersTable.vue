@@ -21,11 +21,6 @@
 				:line-numbers="lineNumbers"
 			>
 				<div slot="emptystate">No information to display</div>
-
-				<template slot="table-row" slot-scope="props">
-					<component v-if="props.column.field === 'actions'" :is="overriddenRow(props.column.field).component" />
-					<span v-else>{{ props.formattedRow[props.column.field] }}</span>
-				</template>
 			</vue-good-table>
 		</v-col>
 	</v-container>
@@ -34,12 +29,13 @@
 <script>
 import { VueGoodTable } from 'vue-good-table';
 import 'vue-good-table/dist/vue-good-table.css';
-import ActionsRow from './overridden-rows/ActionsRow';
 
 export default {
 	components: {
-		ActionsRow,
 		VueGoodTable
+	},
+	data() {
+		return {};
 	},
 	props: {
 		tableTitle: {
@@ -58,9 +54,6 @@ export default {
 			type: Array,
 			required: true
 		},
-		overriddenRows: {
-			type: Array
-		},
 		filterable: {
 			type: Boolean,
 			default: true
@@ -71,11 +64,6 @@ export default {
 		searchOptionsEnabled: {
 			type: Boolean,
 			default: false
-		}
-	},
-	methods: {
-		overriddenRow(rowName) {
-			return this.overriddenRows ? this.overriddenRows.find(row => row.name === rowName) : null;
 		}
 	},
 	computed: {
