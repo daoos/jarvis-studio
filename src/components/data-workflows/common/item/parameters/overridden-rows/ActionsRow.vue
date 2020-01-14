@@ -50,7 +50,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 import { AnyObject, TableParameters } from '@/types';
 import { Base64 } from 'js-base64';
 import ViewJson from '@/components/data-workflows/common/item/json/ViewJson.vue';
-import { VueGoodTable } from 'vue-good-table';
+import VueGoodTable from 'vue-good-table';
 import VueMarkdown from 'vue-markdown';
 
 @Component({

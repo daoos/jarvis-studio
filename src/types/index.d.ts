@@ -123,6 +123,7 @@ export type DestinationStorageRows = {
 
 // Data
 export interface TableParameters {
+	[index: string]: any;
 	source_format?: string;
 	create_disposition?: string;
 	write_disposition?: string;
@@ -132,7 +133,7 @@ export interface TableParameters {
 	null_marker?: string;
 	bq_load_job_ignore_unknown_values?: boolean;
 	bq_load_job_max_bad_records?: number;
-	bq_load_job_schema_update_options?: Array;
+	bq_load_job_schema_update_options?: string[];
 	bq_load_job_allow_quoted_newlines?: boolean;
 	bq_load_job_allow_jagged_rows?: boolean;
 }
