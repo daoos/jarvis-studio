@@ -123,7 +123,7 @@ export type DestinationStorageRows = {
 
 // Data
 export interface TableParameters {
-	[index: string]: any;
+	[key: string]: any;
 	source_format?: string;
 	create_disposition?: string;
 	write_disposition?: string;
