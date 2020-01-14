@@ -81,7 +81,8 @@ export default class StorageToTablesRunsItemView extends Mixins(HeaderInfosMixin
 							name: 'actions',
 							component: 'actions-row',
 							props: {
-								item: this.item
+								item: this.item,
+								destinations: this.item.configuration_context.destinations[0]
 							}
 						}
 					],

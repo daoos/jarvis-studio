@@ -50,18 +50,18 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 import { AnyObject, TableParameters } from '@/types';
 import { Base64 } from 'js-base64';
 import ViewJson from '@/components/data-workflows/common/item/json/ViewJson.vue';
-import VueGoodTable from 'vue-good-table';
 import VueMarkdown from 'vue-markdown';
 
 @Component({
 	components: {
 		ViewJson,
-		VueGoodTable,
+		'vue-good-table': require('vue-good-table').VueGoodTable,
 		VueMarkdown
 	}
 })
 export default class ActionsRow extends Vue {
 	@Prop({ required: true }) item!: AnyObject;
+	@Prop({ required: true }) destinations!: AnyObject;
 	@Prop({ required: true }) index!: number;
 
 	showDetailsDialog: boolean = false;
@@ -89,7 +89,7 @@ export default class ActionsRow extends Vue {
 	}
 
 	get destinationTable(): AnyObject {
-		return this.item.configuration_context.destinations[0].tables[this.index];
+		return this.destinations.tables[this.index];
 	}
 
 	get schemaColumns(): Object[] {
@@ -117,20 +117,19 @@ export default class ActionsRow extends Vue {
 	}
 
 	get parametersJson(): Object {
-		const destination = this.item.configuration_context.destinations[0];
 		const parameters: TableParameters = {
-			source_format: destination.source_format,
-			create_disposition: destination.create_disposition,
-			write_disposition: destination.write_disposition,
-			skip_leading_rows: destination.skip_leading_rows,
-			field_delimiter: destination.field_delimiter,
-			quote_character: destination.quote_character,
-			null_marker: destination.null_marker,
-			bq_load_job_ignore_unknown_values: destination.bq_load_job_ignore_unknown_values,
-			bq_load_job_max_bad_records: destination.bq_load_job_max_bad_records,
-			bq_load_job_schema_update_options: destination.bq_load_job_schema_update_options,
-			bq_load_job_allow_quoted_newlines: destination.bq_load_job_allow_quoted_newlines,
-			bq_load_job_allow_jagged_rows: destination.bq_load_job_allow_jagged_rows
+			source_format: this.destinations.source_format,
+			create_disposition: this.destinations.create_disposition,
+			write_disposition: this.destinations.write_disposition,
+			skip_leading_rows: this.destinations.skip_leading_rows,
+			field_delimiter: this.destinations.field_delimiter,
+			quote_character: this.destinations.quote_character,
+			null_marker: this.destinations.null_marker,
+			bq_load_job_ignore_unknown_values: this.destinations.bq_load_job_ignore_unknown_values,
+			bq_load_job_max_bad_records: this.destinations.bq_load_job_max_bad_records,
+			bq_load_job_schema_update_options: this.destinations.bq_load_job_schema_update_options,
+			bq_load_job_allow_quoted_newlines: this.destinations.bq_load_job_allow_quoted_newlines,
+			bq_load_job_allow_jagged_rows: this.destinations.bq_load_job_allow_jagged_rows
 		};
 
 		Object.keys(parameters).forEach(key => (parameters[key] === undefined ? delete parameters[key] : {}));
