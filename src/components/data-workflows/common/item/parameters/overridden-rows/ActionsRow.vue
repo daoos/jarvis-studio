@@ -13,7 +13,7 @@
 						<v-tab-item :value="getTabHref(0)">
 							<v-card flat tile>
 								<v-card-text>
-									<view-json :json="schema" :json-id="`Schema of table ${index + 1}`" />
+									<vue-good-table :columns="schemaColumns" :rows="schema" styleClass="vgt-table striped condensed" />
 								</v-card-text>
 							</v-card>
 						</v-tab-item>
@@ -21,7 +21,7 @@
 						<v-tab-item :value="getTabHref(1)">
 							<v-card flat tile>
 								<v-card-text>
-									<view-json :json="parametersJson" :json-id="`Parameters of table ${index + 1}`" />
+									<view-json :json="parametersJson" />
 								</v-card-text>
 							</v-card>
 						</v-tab-item>
@@ -47,14 +47,16 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import { AnyObject } from '@/types';
+import { AnyObject, TableParameters } from '@/types';
 import { Base64 } from 'js-base64';
 import ViewJson from '@/components/data-workflows/common/item/json/ViewJson.vue';
+import { VueGoodTable } from 'vue-good-table';
 import VueMarkdown from 'vue-markdown';
 
 @Component({
 	components: {
 		ViewJson,
+		VueGoodTable,
 		VueMarkdown
 	}
 })
@@ -69,7 +71,7 @@ export default class ActionsRow extends Vue {
 		return this.tabs[index].href;
 	}
 
-	get tabs(): AnyObject[] {
+	get tabs(): { label: string; href: string }[] {
 		return [
 			{
 				label: 'schema',
@@ -86,18 +88,37 @@ export default class ActionsRow extends Vue {
 		];
 	}
 
-	get destinationTable(): Object {
+	get destinationTable(): AnyObject {
 		return this.item.configuration_context.destinations[0].tables[this.index];
 	}
 
-	get schema(): string {
-		return JSON.parse(Base64.decode(this.destinationTable.ddl_infos));
+	get schemaColumns(): Object[] {
+		return [
+			{
+				label: 'name',
+				field: 'name',
+				type: 'string'
+			},
+			{
+				label: 'type',
+				field: 'type',
+				type: 'string'
+			},
+			{
+				label: 'description',
+				field: 'description',
+				type: 'string'
+			}
+		];
+	}
+
+	get schema(): Object[] {
+		return JSON.parse(Base64.decode(this.destinationTable.ddl_infos)).schema;
 	}
 
 	get parametersJson(): Object {
 		const destination = this.item.configuration_context.destinations[0];
-
-		return {
+		const parameters: TableParameters = {
 			source_format: destination.source_format,
 			create_disposition: destination.create_disposition,
 			write_disposition: destination.write_disposition,
@@ -111,6 +132,10 @@ export default class ActionsRow extends Vue {
 			bq_load_job_allow_quoted_newlines: destination.bq_load_job_allow_quoted_newlines,
 			bq_load_job_allow_jagged_rows: destination.bq_load_job_allow_jagged_rows
 		};
+
+		Object.keys(parameters).forEach(key => (parameters[key] === undefined ? delete parameters[key] : {}));
+
+		return parameters;
 	}
 
 	get docMdDecoded(): string {

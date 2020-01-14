@@ -41,6 +41,7 @@ import 'vue-good-table/dist/vue-good-table.css';
 import ActionsRow from './overridden-rows/ActionsRow';
 
 export default {
+	name: 'parameters-table',
 	components: {
 		ActionsRow,
 		VueGoodTable

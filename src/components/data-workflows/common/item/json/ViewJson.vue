@@ -2,7 +2,7 @@
 	<v-container>
 		<v-row class="pl-5 pt-4 pr-5">
 			<v-col cols="12" offset="0">
-				<span class="headline font-weight-bold">{{ jsonId }}</span>
+				<span v-if="jsonId" class="headline font-weight-bold">{{ jsonId }}</span>
 
 				<v-row class="pt-4 pb-4">
 					<vue-json-pretty
@@ -31,9 +31,7 @@ export default {
 			required: true
 		},
 		jsonId: {
-			type: String,
-			default: '',
-			required: true
+			type: String
 		},
 		deep: {
 			type: Number,

@@ -1,5 +1,5 @@
 <template>
-	<ParametersTable
+	<parameters-table
 		tableTitle="Table Schema"
 		description="Schema details of the table"
 		:columns="schemaColumns"
@@ -12,7 +12,9 @@
 
 <script>
 import ParametersTable from '@/components/data-workflows/common/item/parameters/ParametersTable';
+
 export default {
+	name: 'table-schema-view',
 	components: { ParametersTable },
 	props: {
 		schemaRows: {
