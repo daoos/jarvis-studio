@@ -79,7 +79,10 @@ export default class StorageToTablesRunsItemView extends Mixins(HeaderInfosMixin
 					overriddenRows: [
 						{
 							name: 'actions',
-							component: 'actions-row'
+							component: 'actions-row',
+							props: {
+								item: this.item
+							}
 						}
 					],
 					vflexLength: 'xs9',

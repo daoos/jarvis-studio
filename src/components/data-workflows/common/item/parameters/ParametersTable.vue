@@ -23,7 +23,11 @@
 				<div slot="emptystate">No information to display</div>
 
 				<template slot="table-row" slot-scope="props">
-					<component v-if="props.column.field === 'actions'" :is="overriddenRow(props.column.field).component" />
+					<component
+						v-if="props.column.field === 'actions'"
+						:is="overriddenRow(props.column.field).component"
+						v-bind="{ ...overriddenRow(props.column.field).props, index: props.index }"
+					/>
 					<span v-else>{{ props.formattedRow[props.column.field] }}</span>
 				</template>
 			</vue-good-table>
