@@ -6,6 +6,7 @@
 
 				<v-row class="pt-4 pb-4">
 					<vue-json-pretty
+						class="json-pretty"
 						:data="json"
 						:deep="deep"
 						:show-double-quotes="true"
@@ -41,3 +42,9 @@ export default {
 	}
 };
 </script>
+
+<style lang="scss" scoped>
+.json-pretty {
+	word-break: break-all;
+}
+</style>
