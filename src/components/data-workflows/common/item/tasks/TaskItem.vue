@@ -84,7 +84,12 @@
 							<v-card-title class="headline grey lighten-2" primary-title>Task logs: {{ task.id }}</v-card-title>
 
 							<v-card-text>
-								<logs-component :folder-path="getLogsProps.folderPath" :file-name="getLogsProps.fileName" />
+								<logs-component
+									:dag-id="getLogsProps.dagId"
+									:task-id="getLogsProps.taskId"
+									:dag-run-id="getLogsProps.dagRunId"
+									:dag-execution-date="getLogsProps.dagExecutionDate"
+								/>
 							</v-card-text>
 
 							<v-card-actions>
@@ -153,11 +158,15 @@ export default {
 				};
 			}
 		},
-		configurationId: {
+		dagId: {
 			type: String,
 			required: true
 		},
-		runId: {
+		dagRunId: {
+			type: String,
+			required: true
+		},
+		dagExecutionDate: {
 			type: String,
 			required: true
 		}
@@ -265,8 +274,10 @@ export default {
 		},
 		getLogsProps() {
 			return {
-				folderPath: `/${this.configurationId}/${this.task.id}/${this.runId}`,
-				fileName: '1.log'
+				dagId: this.dagId,
+				taskId: this.task.id,
+				dagRunId: this.dagRunId,
+				dagExecutionDate: this.dagExecutionDate
 			};
 		}
 	}

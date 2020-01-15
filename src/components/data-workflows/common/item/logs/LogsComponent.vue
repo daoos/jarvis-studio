@@ -12,72 +12,92 @@
 		</div>
 
 		<div v-else>
-			<p>LogsComponent</p>
-			<pre>{{ logs }}</pre>
+			<!-- TODO: Handle errors -->
 
-			<v-btn color="primary" class="learn-more-btn" @click="downloadLogFile">Download log file</v-btn>
+			<div v-if="Object.keys(logs).length === 1">
+				<v-btn color="primary" class="learn-more-btn" @click="downloadLogFile(Object.keys(logs)[0])">
+					Download log file
+				</v-btn>
+				<pre v-for="logKey in Object.keys(logs)" :key="logKey">{{ logs[logKey] }}</pre>
+			</div>
+
+			<v-tabs
+				v-else
+				v-model="activeTab"
+				color="black"
+				background-color="#E0E0E0"
+				slider-color="primary"
+				class="elevation-1"
+			>
+				<v-tab v-for="logKey in Object.keys(logs)" :key="logKey" :href="`#${logKey}`" v-text="logKey" ripple />
+
+				<v-tab-item v-for="logKey in Object.keys(logs)" :key="logKey" :value="logKey">
+					<v-btn color="primary" class="learn-more-btn" @click="downloadLogFile(logKey)">Download log file</v-btn>
+					{{ logs[logKey] }}
+				</v-tab-item>
+			</v-tabs>
 		</div>
 	</div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
+import { AnyObject } from '@/types';
 import { firebase } from '@/config/firebase';
+import { Base64 } from 'js-base64';
 
 @Component
 export default class LogsComponent extends Vue {
 	isLoading: boolean = false;
 	hasError: boolean = false;
 	errorMsg: Object | null = null;
-	fileUrl: string = '';
-	logs: string | null = null;
+	logs: Object = {};
+	activeTab: null = null;
 
-	@Prop({ required: true }) private folderPath!: string;
-	@Prop({ required: true }) private fileName!: string;
+	@Prop({ required: true }) private dagId!: string;
+	@Prop({ required: true }) private taskId!: string;
+	@Prop({ required: true }) private dagRunId!: string;
+	@Prop({ required: true }) private dagExecutionDate!: string;
 
 	mounted() {
-		const logsFolder = firebase
-			.storage()
-			.ref()
-			.child(`logs/${this.folderPath}`);
-		const logFile = logsFolder.child(this.fileName);
+		this.getLogs();
+	}
+
+	getLogs(): void {
+		let decodedLogFiles: AnyObject = [];
+		const getAirflowLogs = firebase.functions().httpsCallable('fd-io-api-airflow-logs-manager');
 
 		this.isLoading = true;
 
-		logFile
+		getAirflowLogs({
+			dagId: this.dagId,
+			taskId: this.taskId,
+			dagRunId: this.dagRunId,
+			dagExecutionDate: this.dagExecutionDate
+		}).then(res => {
+			const data = res.data;
+
+			Object.keys(data).forEach(key => {
+				decodedLogFiles[key] = Base64.decode(data[key]);
+			});
+
+			this.isLoading = false;
+			this.logs = decodedLogFiles;
+		});
+	}
+
+	downloadLogFile(fileName: string): void {
+		const logsFolder = firebase
+			.storage()
+			.ref()
+			.child(`logs/${this.dagId}/${this.taskId}/${this.dagExecutionDate}`);
+
+		logsFolder
+			.child(fileName)
 			.getDownloadURL()
 			.then(url => {
-				console.log('URL:', url);
-				console.log('File content:', this.getLogFileContent(url));
-				this.fileUrl = url;
-				this.logs = this.getLogFileContent(url);
-				this.isLoading = false;
-			})
-			.catch(err => {
-				this.hasError = true;
-				this.errorMsg = err;
-				this.isLoading = false;
+				window.open(url, '_blank');
 			});
-	}
-
-	getLogFileContent(url: string): string {
-		const request = new XMLHttpRequest();
-		request.open('GET', url, true);
-		request.send(null);
-
-		request.onreadystatechange = () => {
-			if (request.readyState === 4 && request.status === 200) {
-				const type = request.getResponseHeader('Content-Type');
-
-				if (type.indexOf('text') !== 1) {
-					return request.responseText;
-				}
-			}
-		};
-	}
-
-	downloadLogFile(): void {
-		window.open(this.fileUrl, '_blank');
 	}
 }
 </script>

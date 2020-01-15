@@ -44,8 +44,9 @@ export default class TablesToTablesRunsItemView extends Mixins(HeaderInfosMixin,
 				component: {
 					name: 'task-listing',
 					props: {
-						configurationId: `${this.item.configuration_context.configuration.configuration_id}_${this.item.environment}`,
-						runId: this.item.dag_execution_date,
+						dagId: this.item.dag_id,
+						dagRunId: this.item.dag_run_id,
+						dagExecutionDate: this.item.dag_execution_date,
 						tasksConf: this.item.configuration_context.configuration.workflow,
 						tasksSQL: this.item.configuration_context.sql,
 						dagConf: this.item.configuration_context.configuration
