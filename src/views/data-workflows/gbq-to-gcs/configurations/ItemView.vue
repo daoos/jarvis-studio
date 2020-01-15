@@ -277,7 +277,7 @@ export default class GbqToGcsConfigurationsItemView extends Mixins(HeaderInfosMi
 					],
 					rows: [
 						{
-							update_date: this.item.update_date,
+							update_date: this.item.update_date || this.item.updated_date,
 							updated_by: this.item.updated_by,
 							creation_date: this.item.creation_date,
 							created_by: this.item.created_by
