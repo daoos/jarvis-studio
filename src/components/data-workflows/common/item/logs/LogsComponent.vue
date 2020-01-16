@@ -5,9 +5,12 @@
 		</div>
 
 		<div v-else>
-			<!-- TODO: Handle errors -->
+			<div v-if="hasError">
+				<h2>Path: {{ path }}</h2>
+				{{ errorMsg }}
+			</div>
 
-			<div v-if="Object.keys(logs).length === 1">
+			<div v-else-if="Object.keys(logs).length === 1">
 				<v-btn color="primary" class="mb-4" @click="downloadLogFile(Object.keys(logs)[0])">
 					Download log file
 				</v-btn>
@@ -25,7 +28,7 @@
 				<v-tab v-for="logKey in Object.keys(logs)" :key="logKey" :href="`#${logKey}`" v-text="logKey" ripple />
 
 				<v-tab-item v-for="logKey in Object.keys(logs)" :key="logKey" :value="logKey">
-					<v-btn color="primary" class="mb-4" @click="downloadLogFile(logKey)">Download log file</v-btn>
+					<v-btn color="primary" class="my-4" @click="downloadLogFile(logKey)">Download log file</v-btn>
 					<pre class="log pb-4">{{ logs[logKey] }}</pre>
 				</v-tab-item>
 			</v-tabs>
@@ -42,7 +45,9 @@ import { Base64 } from 'js-base64';
 @Component
 export default class LogsComponent extends Vue {
 	isLoading: boolean = false;
-	logs: Object = {};
+	hasError: boolean = false;
+	errorMsg: string = '';
+	logs: AnyObject = {};
 	activeTab: null = null;
 
 	@Prop({ required: true }) private dagId!: string;
@@ -65,30 +70,38 @@ export default class LogsComponent extends Vue {
 			taskId: this.taskId,
 			dagRunId: this.dagRunId,
 			dagExecutionDate: this.dagExecutionDate
-		}).then(res => {
-			const data = res.data;
+		})
+			.then(res => {
+				const data = res.data;
 
-			Object.keys(data).forEach(key => {
-				decodedLogFiles[key] = Base64.decode(data[key]);
+				Object.keys(data).forEach(key => {
+					decodedLogFiles[key] = Base64.decode(data[key]);
+				});
+
+				this.logs = decodedLogFiles;
+				this.isLoading = false;
+			})
+			.catch(err => {
+				this.hasError = true;
+				this.errorMsg = err;
+				this.isLoading = false;
 			});
-
-			this.isLoading = false;
-			this.logs = decodedLogFiles;
-		});
 	}
 
-	downloadLogFile(fileName: string): void {
-		const logsFolder = firebase
-			.storage()
-			.ref()
-			.child(`logs/${this.dagId}/${this.taskId}/${this.dagExecutionDate}`);
+	downloadLogFile(airflowFileName: string): void {
+		const fileName = `${this.dagId}-${this.taskId}-${this.dagExecutionDate}-${airflowFileName}`;
 
-		logsFolder
-			.child(fileName)
-			.getDownloadURL()
-			.then(url => {
-				window.open(url, '_blank');
-			});
+		const element = document.createElement('a');
+		element.setAttribute('href', `data:text/plain;charset=utf-8,${this.logs[airflowFileName]}`);
+		element.setAttribute('download', fileName);
+		element.style.display = 'none';
+		document.body.appendChild(element);
+		element.click();
+		document.body.removeChild(element);
+	}
+
+	get path(): string {
+		return `logs/${this.dagId}/${this.taskId}/${this.dagExecutionDate}`;
 	}
 }
 </script>
