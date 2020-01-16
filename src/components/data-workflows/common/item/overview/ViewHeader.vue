@@ -17,13 +17,7 @@
 				:custom-key="customKey"
 			/>
 
-			<RunStatusChip
-				v-if="viewType === 'run'"
-				:smallChip="false"
-				:runStatus="runStatus"
-				chipTextClass="text-uppercase"
-				:chipLabel="true"
-			/>
+			<RunStatusChip v-if="viewType === 'run'" :status="runStatus" is-label />
 		</v-row>
 
 		<v-row v-else class="pl-5 pt-4 pr-5">

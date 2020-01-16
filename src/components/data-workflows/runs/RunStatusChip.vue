@@ -1,35 +1,22 @@
 <template>
-	<v-chip :color="colorRunStatus" text-color="white" :small="smallChip" :class="chipTextClass" :label="chipLabel">
-		{{ runStatus }}
+	<v-chip class="text-uppercase" :color="color" text-color="white" :small="isSmall" :label="isLabel">
+		{{ status }}
 	</v-chip>
 </template>
 
-<script>
+<script lang="ts">
+import { Component, Prop, Vue } from 'vue-property-decorator';
+import { RunStatus } from '@/types';
 import { getStatusColor } from '@/util/data-workflows/run';
 
-export default {
-	props: {
-		runStatus: {
-			type: String,
-			default: 'Undefined'
-		},
-		smallChip: {
-			type: Boolean,
-			default: true
-		},
-		chipLabel: {
-			type: Boolean,
-			default: false
-		},
-		chipTextClass: {
-			type: String,
-			default: 'text-capitalize'
-		}
-	},
-	computed: {
-		colorRunStatus() {
-			return getStatusColor(this.runStatus);
-		}
+@Component
+export default class RunStatusChip extends Vue {
+	@Prop({ required: true }) private status!: RunStatus;
+	@Prop(Boolean) private isSmall!: boolean;
+	@Prop(Boolean) private isLabel!: boolean;
+
+	get color() {
+		return getStatusColor(this.status);
 	}
-};
+}
 </script>
