@@ -2,6 +2,7 @@
 	<v-container fluid>
 		<div v-for="task in tasksFull" :key="task.id">
 			<TablesToTablesConfTaskView
+				:type="type"
 				:task="task"
 				:dagContext="dagContext"
 				:dag-id="dagId"
@@ -21,6 +22,10 @@ export default {
 		TablesToTablesConfTaskView
 	},
 	props: {
+		type: {
+			type: String,
+			required: true
+		},
 		dagId: {
 			type: String,
 			required: true

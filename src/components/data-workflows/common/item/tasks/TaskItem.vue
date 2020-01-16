@@ -75,7 +75,7 @@
 						</v-card>
 					</v-dialog>
 
-					<v-dialog v-model="logsDialog" width="1000">
+					<v-dialog v-if="showLogs" v-model="logsDialog" width="1000">
 						<template v-slot:activator="{ on }">
 							<v-chip color="complementary" text-color="white" v-on="on">Logs</v-chip>
 						</template>
@@ -111,6 +111,7 @@ import Prism from 'vue-prismjs';
 import 'prismjs/themes/prism.css';
 import tableSchemaView from '@/components/data-workflows/common/item/schema/TableSchemaView.vue';
 import LogsComponent from '@/components/data-workflows/common/item/logs/LogsComponent';
+import { RUNS } from '@/constants/data-workflows/status';
 
 export default {
 	components: {
@@ -121,6 +122,10 @@ export default {
 		tableSchemaView
 	},
 	props: {
+		type: {
+			type: String,
+			required: true
+		},
 		task: {
 			type: Object,
 			default() {
@@ -271,6 +276,9 @@ export default {
 				});
 			}
 			return communParams;
+		},
+		showLogs() {
+			return this.type === RUNS;
 		},
 		getLogsProps() {
 			return {

@@ -9,6 +9,7 @@
 import { Component, Mixins } from 'vue-property-decorator';
 import HeaderInfosMixin from '../header-infos';
 import ItemMixin from '@/mixins/data-workflows/item-mixin';
+import { RUNS } from '@/constants/data-workflows/status';
 
 @Component
 export default class TablesToTablesRunsItemView extends Mixins(HeaderInfosMixin, ItemMixin) {
@@ -44,6 +45,7 @@ export default class TablesToTablesRunsItemView extends Mixins(HeaderInfosMixin,
 				component: {
 					name: 'task-listing',
 					props: {
+						type: RUNS,
 						dagId: this.item.dag_id,
 						dagRunId: this.item.dag_run_id,
 						dagExecutionDate: this.item.dag_execution_date,

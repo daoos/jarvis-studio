@@ -9,6 +9,7 @@
 import { Component, Mixins } from 'vue-property-decorator';
 import HeaderInfosMixin from '../header-infos';
 import ItemMixin from '@/mixins/data-workflows/item-mixin';
+import { CONFIGURATIONS } from '@/constants/data-workflows/status';
 
 @Component
 export default class TablesToTablesConfigurationsItemView extends Mixins(HeaderInfosMixin, ItemMixin) {
@@ -34,6 +35,7 @@ export default class TablesToTablesConfigurationsItemView extends Mixins(HeaderI
 				component: {
 					name: 'task-listing',
 					props: {
+						type: CONFIGURATIONS,
 						tasksConf: this.item.configuration.workflow,
 						tasksSQL: this.item.sql,
 						dagConf: this.item.configuration
