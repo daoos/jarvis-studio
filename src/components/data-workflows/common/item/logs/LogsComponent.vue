@@ -4,21 +4,14 @@
 			<v-progress-circular indeterminate size="42" color="primary" />
 		</div>
 
-		<div v-else-if="hasError">
-			<h2 class="mb-4 error--text">Error while fetching log file</h2>
-			<p>Code: {{ errorMsg.code_ }}</p>
-			<p>Message: {{ errorMsg.message_ }}</p>
-			<p>Server response: {{ errorMsg.serverResponse_ }}</p>
-		</div>
-
 		<div v-else>
 			<!-- TODO: Handle errors -->
 
 			<div v-if="Object.keys(logs).length === 1">
-				<v-btn color="primary" class="learn-more-btn" @click="downloadLogFile(Object.keys(logs)[0])">
+				<v-btn color="primary" class="mb-4" @click="downloadLogFile(Object.keys(logs)[0])">
 					Download log file
 				</v-btn>
-				<pre v-for="logKey in Object.keys(logs)" :key="logKey">{{ logs[logKey] }}</pre>
+				<pre class="log pb-4">{{ Object.values(logs)[0] }}</pre>
 			</div>
 
 			<v-tabs
@@ -32,8 +25,8 @@
 				<v-tab v-for="logKey in Object.keys(logs)" :key="logKey" :href="`#${logKey}`" v-text="logKey" ripple />
 
 				<v-tab-item v-for="logKey in Object.keys(logs)" :key="logKey" :value="logKey">
-					<v-btn color="primary" class="learn-more-btn" @click="downloadLogFile(logKey)">Download log file</v-btn>
-					{{ logs[logKey] }}
+					<v-btn color="primary" class="mb-4" @click="downloadLogFile(logKey)">Download log file</v-btn>
+					<pre class="log pb-4">{{ logs[logKey] }}</pre>
 				</v-tab-item>
 			</v-tabs>
 		</div>
@@ -49,8 +42,6 @@ import { Base64 } from 'js-base64';
 @Component
 export default class LogsComponent extends Vue {
 	isLoading: boolean = false;
-	hasError: boolean = false;
-	errorMsg: Object | null = null;
 	logs: Object = {};
 	activeTab: null = null;
 
@@ -101,3 +92,10 @@ export default class LogsComponent extends Vue {
 	}
 }
 </script>
+
+<style lang="scss">
+.log {
+	max-width: 100%;
+	overflow-y: scroll;
+}
+</style>
