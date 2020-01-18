@@ -70,8 +70,8 @@ export interface RunStatusFilter {
 	label: RunStatusLabel;
 	value: RunStatusId;
 }
-export type ConfActivatedLabel = 'All Status' | 'Activated' | 'Disabled';
-export type ConfActivatedValue = 'ALL' | true | false;
+export type ConfActivatedLabel = 'All Status' | 'Activated' | 'Disabled' | 'Archived';
+export type ConfActivatedValue = 'ALL' | boolean;
 export interface ConfActivatedFilter {
 	label: ConfActivatedLabel;
 	value: ConfActivatedValue;

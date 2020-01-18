@@ -50,7 +50,7 @@ export default class DataManagementFilters extends Vue {
 
 	// TODO: Refactoring
 	mounted() {
-		const hasArchivedOption = this.confActivatedFilters.find(element => element.label === 'Archived');
+		const hasArchivedOption = this.confActivatedFilters.find(element => String(element.label) === 'Archived');
 
 		if (this.isSuperAdmin && !hasArchivedOption) {
 			this.confActivatedFilters.push({ label: 'Archived', value: true });
@@ -74,7 +74,11 @@ export default class DataManagementFilters extends Vue {
 	}
 
 	get filters() {
-		let filters = [
+		let filters: {
+			values: EnvFilter[] | RunStatusFilter[] | ConfActivatedFilter[] | DateFilter[];
+			selectedValue: EnvFilter | RunStatusFilter | ConfActivatedFilter | DateFilter;
+			clickAction: Function;
+		}[] = [
 			{
 				values: this.envFilters,
 				selectedValue: this.envFilterSelected,

@@ -70,10 +70,9 @@ export const getters: GetterTree<FilterState, RootState> = {
 		if (envFilterSelected.value !== 'ALL') filters.push(getEnvFilterSelected(envFilterSelected));
 		if (confActivatedFilterSelected.value !== 'ALL') {
 			const field = confActivatedFilterSelected.label === 'Archived' ? 'archive' : 'activated';
+			// @ts-ignore
 			filters.push([field, '==', confActivatedFilterSelected.value]);
 		}
-
-		console.log(filters);
 
 		return filters;
 	}
