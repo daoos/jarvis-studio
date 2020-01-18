@@ -6,6 +6,7 @@
 			:small="isSmall"
 			:class="isLabel ? 'text-uppercase' : 'text-capitalize'"
 			:label="isLabel"
+			:disabled="item.archive"
 			@click="changeActivatedStatus(item, collection)"
 		>
 			<v-progress-circular indeterminate size="20" color="primary" v-if="isLoading" />

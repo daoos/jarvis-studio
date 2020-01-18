@@ -16,5 +16,8 @@ export const actions: ActionTree<FilterState, RootState> = {
 	},
 	applyRunStatusFilterSelected({ commit }, runStatusFilterSelected) {
 		commit('updateRunStatusFilterSelected', runStatusFilterSelected);
+	},
+	applyConfActivatedFilterSelected({ commit }, confActivatedFilterSelected) {
+		commit('updateConfActivatedFilterSelected', confActivatedFilterSelected);
 	}
 };

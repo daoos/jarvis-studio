@@ -10,7 +10,7 @@ const getAccountsFilter = (filteredAccounts: Account[], formattedFilteredAccount
 };
 
 const getEnvFilterSelected = (envFilterSelected: EnvFilter) => {
-	return ['environment', '==', envFilterSelected.envId];
+	return ['environment', '==', envFilterSelected.value];
 };
 
 const getMinDateFilter = (minDateFilter: string, type: string) => {
@@ -23,12 +23,12 @@ export const getters: GetterTree<FilterState, RootState> = {
 		//Compute the date array from minDateFilter to Now to build chart
 		let periodFiltered = [];
 		var i;
-		for (i = 0; i <= state.dateFilterSelected.nbDays; i++) {
+		for (i = 0; i <= state.dateFilterSelected.value; i++) {
 			periodFiltered.push(
 				moment()
 					.utc()
 					.startOf('day')
-					.subtract(state.dateFilterSelected.nbDays - i, 'days')
+					.subtract(state.dateFilterSelected.value - i, 'days')
 					.toISOString()
 			);
 		}
@@ -43,7 +43,7 @@ export const getters: GetterTree<FilterState, RootState> = {
 			getMinDateFilter(minDateFilter, STATUS)
 		];
 
-		if (envFilterSelected.envId !== 'ALL') filters.push(getEnvFilterSelected(envFilterSelected));
+		if (envFilterSelected.value !== 'ALL') filters.push(getEnvFilterSelected(envFilterSelected));
 
 		return filters;
 	},
@@ -56,19 +56,24 @@ export const getters: GetterTree<FilterState, RootState> = {
 			getMinDateFilter(minDateFilter, RUNS)
 		];
 
-		if (envFilterSelected.envId !== 'ALL') filters.push(getEnvFilterSelected(envFilterSelected));
-		if (runStatusFilterSelected.runStatusId !== 'ALL')
-			filters.push(['status', '==', runStatusFilterSelected.runStatusId]);
+		if (envFilterSelected.value !== 'ALL') filters.push(getEnvFilterSelected(envFilterSelected));
+		if (runStatusFilterSelected.value !== 'ALL') filters.push(['status', '==', runStatusFilterSelected.value]);
 
 		return filters;
 	},
 	whereConfFilter(state, getters, rootState) {
-		const { filteredAccounts, envFilterSelected } = state;
+		const { filteredAccounts, envFilterSelected, confActivatedFilterSelected } = state;
 		const formattedFilteredAccounts = filteredAccounts.map(account => account.id);
 
 		let filters = [getAccountsFilter(filteredAccounts, formattedFilteredAccounts, rootState)];
 
-		if (envFilterSelected.envId !== 'ALL') filters.push(getEnvFilterSelected(envFilterSelected));
+		if (envFilterSelected.value !== 'ALL') filters.push(getEnvFilterSelected(envFilterSelected));
+		if (confActivatedFilterSelected.value !== 'ALL') {
+			const field = confActivatedFilterSelected.label === 'Archived' ? 'archive' : 'activated';
+			filters.push([field, '==', confActivatedFilterSelected.value]);
+		}
+
+		console.log(filters);
 
 		return filters;
 	}

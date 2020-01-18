@@ -1,91 +1,109 @@
 <template>
 	<v-row align="center" justify="end" class="pr-5">
-		<v-menu transition="slide-y-transition" bottom>
+		<v-menu
+			v-for="(filter, filterIndex) in filters"
+			:key="`${filter.values[0].label}-${filterIndex}`"
+			transition="slide-y-transition"
+			bottom
+		>
 			<template v-slot:activator="{ on }">
 				<v-btn small outlined v-on="on" class="mr-3">
-					{{ envFilterSelected.envLabel }}
-					<v-icon>arrow_drop_down</v-icon>
-				</v-btn>
-			</template>
-
-			<v-list>
-				<v-list-item v-for="environment in envFilters" :key="environment.envId" @click="applyEnvFilter(environment)">
-					<v-list-item-title>{{ environment.envLabel }}</v-list-item-title>
-				</v-list-item>
-			</v-list>
-		</v-menu>
-
-		<v-menu transition="slide-y-transition" bottom>
-			<template v-slot:activator="{ on }">
-				<v-btn small outlined v-on="on" class="mr-3">
-					{{ runStatusFilterSelected.runStatusLabel }}
+					{{ filter.selectedValue.label }}
 					<v-icon>arrow_drop_down</v-icon>
 				</v-btn>
 			</template>
 
 			<v-list>
 				<v-list-item
-					v-for="runStatus in runStatusFilters"
-					:key="runStatus.runStatusId"
-					@click="applyRunStatusFilter(runStatus)"
+					v-for="(option, optionIndex) in filters[filterIndex].values"
+					:key="`${option.value}-${optionIndex}`"
+					@click="filters[filterIndex].clickAction(option)"
 				>
-					<v-list-item-title>{{ runStatus.runStatusLabel }}</v-list-item-title>
-				</v-list-item>
-			</v-list>
-		</v-menu>
-
-		<v-menu transition="slide-y-transition" bottom>
-			<template v-slot:activator="{ on }">
-				<v-btn small outlined v-on="on">
-					{{ dateFilterSelected.dateLabel }}
-					<v-icon class="contrast--text">arrow_drop_down</v-icon>
-				</v-btn>
-			</template>
-
-			<v-list>
-				<v-list-item v-for="date in dateFilters" :key="date.nbDays" @click="applyDateFilter(date)">
-					<v-list-item-title>{{ date.dateLabel }}</v-list-item-title>
+					<v-list-item-title>{{ option.label }}</v-list-item-title>
 				</v-list-item>
 			</v-list>
 		</v-menu>
 	</v-row>
 </template>
 
-<script>
-import { mapState } from 'vuex';
+<script lang="ts">
+import { Component, Prop, Vue } from 'vue-property-decorator';
+import { ConfActivatedFilter, DateFilter, EnvFilter, RunStatusFilter } from '@/types';
+import { Getter, State } from 'vuex-class';
 import store from '@/store';
+import { CONFIGURATIONS, RUNS, STATUS } from '@/constants/data-workflows/status';
 
-export default {
-	components: {},
-	props: {
-		viewEnvironnement: Boolean,
-		viewPeriode: Boolean,
-		viewRunStatus: Boolean
-	},
-	data: () => ({}),
-	created() {},
-	methods: {
-		applyEnvFilter(envFilterSelected) {
-			store.dispatch('filters/applyEnvFilterSelected', envFilterSelected);
-		},
-		applyRunStatusFilter(runStatusSelected) {
-			store.dispatch('filters/applyRunStatusFilterSelected', runStatusSelected);
-		},
-		applyDateFilter(dateFilterSelected) {
-			store.dispatch('filters/applyDateFilterSelected', dateFilterSelected);
+@Component
+export default class DataManagementFilters extends Vue {
+	@Prop({ required: true }) type!: any;
+
+	@State(state => state.filters.envFilterSelected) envFilterSelected!: EnvFilter;
+	@State(state => state.filters.envFilters) envFilters!: EnvFilter[];
+	@State(state => state.filters.runStatusFilterSelected) runStatusFilterSelected!: RunStatusFilter;
+	@State(state => state.filters.runStatusFilters) runStatusFilters!: RunStatusFilter[];
+	@State(state => state.filters.confActivatedFilterSelected) confActivatedFilterSelected!: ConfActivatedFilter;
+	@State(state => state.filters.confActivatedFilters) confActivatedFilters!: ConfActivatedFilter[];
+	@State(state => state.filters.dateFilterSelected) dateFilterSelected!: DateFilter;
+	@State(state => state.filters.dateFilters) dateFilters!: DateFilter[];
+
+	@Getter('user/isSuperAdmin') isSuperAdmin!: number;
+
+	// TODO: Refactoring
+	mounted() {
+		const hasArchivedOption = this.confActivatedFilters.find(element => element.label === 'Archived');
+
+		if (this.isSuperAdmin && !hasArchivedOption) {
+			this.confActivatedFilters.push({ label: 'Archived', value: true });
 		}
-	},
-	computed: {
-		...mapState({
-			isAuthenticated: state => state.user.isAuthenticated,
-			user: state => state.user.user,
-			envFilterSelected: state => state.filters.envFilterSelected,
-			envFilters: state => state.filters.envFilters,
-			runStatusFilterSelected: state => state.filters.runStatusFilterSelected,
-			runStatusFilters: state => state.filters.runStatusFilters,
-			dateFilterSelected: state => state.filters.dateFilterSelected,
-			dateFilters: state => state.filters.dateFilters
-		})
 	}
-};
+
+	applyEnvFilter(envFilterSelected: EnvFilter): void {
+		store.dispatch('filters/applyEnvFilterSelected', envFilterSelected);
+	}
+
+	applyRunStatusFilter(runStatusSelected: RunStatusFilter): void {
+		store.dispatch('filters/applyRunStatusFilterSelected', runStatusSelected);
+	}
+
+	applyConfActivatedFilter(confActivatedSelected: ConfActivatedFilter): void {
+		store.dispatch('filters/applyConfActivatedFilterSelected', confActivatedSelected);
+	}
+
+	applyDateFilter(dateFilterSelected: DateFilter): void {
+		store.dispatch('filters/applyDateFilterSelected', dateFilterSelected);
+	}
+
+	get filters() {
+		let filters = [
+			{
+				values: this.envFilters,
+				selectedValue: this.envFilterSelected,
+				clickAction: this.applyEnvFilter
+			}
+		];
+
+		if (this.type === RUNS)
+			filters.push({
+				values: this.runStatusFilters,
+				selectedValue: this.runStatusFilterSelected,
+				clickAction: this.applyRunStatusFilter
+			});
+
+		if (this.type === CONFIGURATIONS)
+			filters.push({
+				values: this.confActivatedFilters,
+				selectedValue: this.confActivatedFilterSelected,
+				clickAction: this.applyConfActivatedFilter
+			});
+
+		if (this.type === RUNS || this.type === STATUS)
+			filters.push({
+				values: this.dateFilters,
+				selectedValue: this.dateFilterSelected,
+				clickAction: this.applyDateFilter
+			});
+
+		return filters;
+	}
+}
 </script>
