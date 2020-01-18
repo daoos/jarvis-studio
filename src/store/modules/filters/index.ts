@@ -7,45 +7,57 @@ import { Module } from 'vuex';
 import { FilterState, RootState } from '@/types';
 
 export const state: FilterState = {
-	dateFilterSelected: {
-		dateLabel: 'Last 2 Days',
-		nbDays: 1
+	accountFilterSelected: {
+		account_name: 'All Accounts',
+		id: '000000'
 	},
-	dateFilters: [
-		{ dateLabel: 'Today', nbDays: 0 },
-		{ dateLabel: 'Last 2 Days', nbDays: 1 },
-		{ dateLabel: 'Last 7 Days', nbDays: 7 },
-		{ dateLabel: 'Last 30 Days', nbDays: 31 },
-		{ dateLabel: 'Last 90 Days', nbDays: 90 }
-	],
+	filteredAccounts: [],
 	envFilterSelected: {
-		envLabel: 'All Env.',
-		envId: 'ALL'
+		label: 'All Env.',
+		value: 'ALL'
 	},
 	envFilters: [
-		{ envLabel: 'All Env.', envId: 'ALL' },
-		{ envLabel: 'Production', envId: 'PROD' },
-		{ envLabel: 'Pre-Production', envId: 'PREPROD' },
-		{ envLabel: 'Staging', envId: 'STAGING' },
-		{ envLabel: 'Development', envId: 'DEV' }
+		{ label: 'All Env.', value: 'ALL' },
+		{ label: 'Production', value: 'PROD' },
+		{ label: 'Pre-Production', value: 'PREPROD' },
+		{ label: 'Staging', value: 'STAGING' },
+		{ label: 'Development', value: 'DEV' }
 	],
 	runStatusFilterSelected: {
-		runStatusLabel: 'All Status',
-		runStatusId: 'ALL'
+		label: 'All Status',
+		value: 'ALL'
 	},
 	runStatusFilters: [
-		{ runStatusLabel: 'All Status', runStatusId: 'ALL' },
-		{ runStatusLabel: 'Success', runStatusId: 'SUCCESS' },
-		{ runStatusLabel: 'Failed', runStatusId: 'FAILED' },
-		{ runStatusLabel: 'Running', runStatusId: 'RUNNING' }
+		{ label: 'All Status', value: 'ALL' },
+		{ label: 'Success', value: 'SUCCESS' },
+		{ label: 'Failed', value: 'FAILED' },
+		{ label: 'Running', value: 'RUNNING' }
+	],
+	confActivatedFilterSelected: {
+		label: 'All Status',
+		value: 'ALL'
+	},
+	confActivatedFilters: [
+		{ label: 'All Status', value: 'ALL' },
+		{ label: 'Activated', value: true },
+		{ label: 'Disabled', value: false }
+	],
+	dateFilterSelected: {
+		label: 'Last 2 Days',
+		value: 1
+	},
+	dateFilters: [
+		{ label: 'Today', value: 0 },
+		{ label: 'Last 2 Days', value: 1 },
+		{ label: 'Last 7 Days', value: 7 },
+		{ label: 'Last 30 Days', value: 31 },
+		{ label: 'Last 90 Days', value: 90 }
 	],
 	minDateFilter: moment()
 		.utc()
 		.startOf('day')
 		.subtract(1, 'days')
-		.toISOString(),
-	accountFilterSelected: { account_name: 'All Accounts', id: '000000' },
-	filteredAccounts: []
+		.toISOString()
 };
 
 const namespaced: boolean = true;
