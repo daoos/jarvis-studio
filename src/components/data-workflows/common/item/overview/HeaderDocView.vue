@@ -19,7 +19,13 @@
 				:is-label="true"
 			/>
 
-			<RunStatusChip v-if="viewType === 'run'" :status="runStatus" is-label />
+			<RunStatusChip
+				v-if="viewType === 'run'"
+				:status="runStatus"
+				:doc-id="item.id"
+				:collection="collection"
+				is-label
+			/>
 		</v-row>
 		<v-row class="pl-5 pt-4 pr-5" v-else>
 			<span class="headline font-weight-bold">{{ viewId }}</span>

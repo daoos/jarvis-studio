@@ -17,7 +17,13 @@
 				:custom-key="customKey"
 			/>
 
-			<RunStatusChip v-if="viewType === 'run'" :status="runStatus" is-label />
+			<RunStatusChip
+				v-if="viewType === 'run'"
+				:status="runStatus"
+				:doc-id="item.id"
+				:collection="collection"
+				is-label
+			/>
 		</v-row>
 
 		<v-row v-else class="pl-5 pt-4 pr-5">

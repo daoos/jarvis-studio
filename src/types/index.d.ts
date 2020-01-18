@@ -64,8 +64,8 @@ export interface EnvFilter {
 	envLabel: EnvLabel;
 	envId: EnvId;
 }
-export type RunStatusLabel = 'All Status' | 'Success' | 'Failed' | 'Running';
-export type RunStatusId = 'ALL' | 'SUCCESS' | 'FAILED' | 'RUNNING';
+export type RunStatusLabel = 'All Status' | 'Success' | 'Failed' | 'Running' | 'Checked';
+export type RunStatusId = 'ALL' | 'SUCCESS' | 'FAILED' | 'RUNNING' | 'CHECKED';
 export interface RunStatusFilter {
 	runStatusLabel: RunStatusLabel;
 	runStatusId: RunStatusId;
@@ -105,7 +105,7 @@ export interface Link {
 	displayRule?(): boolean;
 }
 
-export type RunStatus = 'SUCCESS' | 'FAILED' | 'RUNNING';
+export type RunStatus = 'SUCCESS' | 'FAILED' | 'RUNNING' | 'CHECKED';
 
 export type AnyObject = { [index: string]: any };
 

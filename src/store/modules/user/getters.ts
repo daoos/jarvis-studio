@@ -10,5 +10,8 @@ export const getters: GetterTree<UserState, RootState> = {
 	},
 	accounts(state) {
 		return state.user!.accounts;
+	},
+	role(state) {
+		return state.user!.studioRoles;
 	}
 };

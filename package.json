@@ -48,6 +48,7 @@
     "vuex-persist": "^2.2.0"
   },
   "devDependencies": {
+    "@mdi/js": "^4.7.95",
     "@types/vue-moment": "^4.0.0",
     "@vue/cli-plugin-babel": "^4.0.5",
     "@vue/cli-plugin-eslint": "^4.0.5",

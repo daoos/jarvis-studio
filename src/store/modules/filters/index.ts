@@ -37,7 +37,8 @@ export const state: FilterState = {
 		{ runStatusLabel: 'All Status', runStatusId: 'ALL' },
 		{ runStatusLabel: 'Success', runStatusId: 'SUCCESS' },
 		{ runStatusLabel: 'Failed', runStatusId: 'FAILED' },
-		{ runStatusLabel: 'Running', runStatusId: 'RUNNING' }
+		{ runStatusLabel: 'Running', runStatusId: 'RUNNING' },
+		{ runStatusLabel: 'Checked', runStatusId: 'CHECKED' }
 	],
 	minDateFilter: moment()
 		.utc()

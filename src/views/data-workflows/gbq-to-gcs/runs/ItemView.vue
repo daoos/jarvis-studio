@@ -66,6 +66,7 @@ export default class GbqToGcsRunsItemView extends Mixins(HeaderInfosMixin, ItemM
 				component: 'view-header',
 				props: {
 					item: this.item,
+					collection: this.moduleName,
 					activeHeader: true,
 					viewId: this.item.id,
 					viewType: 'run',
@@ -162,6 +163,7 @@ export default class GbqToGcsRunsItemView extends Mixins(HeaderInfosMixin, ItemM
 				component: 'view-header',
 				props: {
 					item: this.item,
+					collection: this.moduleName,
 					activeHeader: false,
 					viewId: this.item.firestore_conf_doc_id,
 					viewType: 'run',

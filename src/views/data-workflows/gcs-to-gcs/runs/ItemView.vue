@@ -89,6 +89,7 @@ export default class GcsToGcsRunsItemView extends Mixins(HeaderInfosMixin, ItemM
 				component: 'view-header',
 				props: {
 					item: this.item,
+					collection: this.moduleName,
 					activeHeader: true,
 					viewId: this.item.gcs_triggering_file,
 					viewType: 'run',

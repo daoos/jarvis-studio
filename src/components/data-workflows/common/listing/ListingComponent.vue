@@ -28,8 +28,8 @@
 				<configuration-status :item="item" :collection="moduleName" :is-activated="item.activated" />
 			</template>
 
-			<template v-slot:item.status="{ item: { status } }">
-				<run-status-chip :status="status" is-small />
+			<template v-slot:item.status="{ item: { id, status } }">
+				<run-status-chip :status="status" :doc-id="id" :collection="moduleName" is-small />
 			</template>
 
 			<template v-slot:item.actions="{ item }">
