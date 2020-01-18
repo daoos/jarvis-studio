@@ -2,15 +2,10 @@
 name: New Epic
 about: Create a New Epic
 title: ''
-labels: ''
+labels: epic
 assignees: ''
 
 ---
-
-Introduction
-Product requirement
-Technical requirement
-Design requirement
 
 **INTRODUCTION**
 You should explain the ‘why’ and ‘what’ about the epic.
