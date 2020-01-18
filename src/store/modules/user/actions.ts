@@ -6,19 +6,19 @@ import { HOME, SIGN_IN } from '@/constants/router/routes-names';
 
 export const actions: ActionTree<UserState, RootState> = {
 	signIn({ commit }, { email, password }) {
-		firebase
-			.auth()
-			.signInWithEmailAndPassword(email, password)
-			.then(user => {
-				commit('setUser', user.user);
-				commit('setIsAuthenticated', true);
-				router.push({ name: HOME });
-			})
-			.catch(() => {
-				commit('setUser', null);
-				commit('setIsAuthenticated', false);
-				router.push({ name: SIGN_IN });
-			});
+		return new Promise(function(resolve, reject) {
+			firebase
+				.auth()
+				.signInWithEmailAndPassword(email, password)
+				.then(user => {
+					commit('setUser', user.user);
+					commit('setIsAuthenticated', true);
+					resolve(user.user);
+				})
+				.catch(e => {
+					reject(e);
+				});
+		});
 	},
 	googleSignIn({ commit }) {
 		const provider = new firebase.auth.GoogleAuthProvider();
@@ -33,9 +33,6 @@ export const actions: ActionTree<UserState, RootState> = {
 					resolve(user.user);
 				})
 				.catch(e => {
-					commit('setUser', null);
-					commit('setIsAuthenticated', false);
-					console.error(e);
 					reject(e);
 				});
 		});
