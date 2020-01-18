@@ -113,6 +113,11 @@ export interface Link {
 	displayRule?(): boolean;
 }
 
+export interface Snackbar {
+	show: boolean;
+	timeout: number;
+}
+
 export type RunStatus = 'SUCCESS' | 'FAILED' | 'RUNNING';
 
 export type AnyObject = { [index: string]: any };
