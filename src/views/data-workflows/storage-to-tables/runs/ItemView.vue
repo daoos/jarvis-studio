@@ -68,9 +68,24 @@ export default class StorageToTablesRunsItemView extends Mixins(HeaderInfosMixin
 							label: 'Description',
 							field: 'short_description',
 							width: '300px'
+						},
+						{
+							label: 'Actions',
+							field: 'actions',
+							width: 'auto'
 						}
 					],
 					rows: this.getDestinationTables(),
+					overriddenRows: [
+						{
+							name: 'actions',
+							component: 'actions-row',
+							props: {
+								item: this.item,
+								destinations: this.item.configuration_context.destinations[0]
+							}
+						}
+					],
 					vflexLength: 'xs9',
 					lineNumbers: false,
 					searchOptionsEnabled: true
