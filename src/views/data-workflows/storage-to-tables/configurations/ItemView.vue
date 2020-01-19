@@ -291,7 +291,7 @@ export default class StorageToTablesConfigurationsItemView extends Mixins(Header
 				component: 'create-update-conf-overview',
 				props: {
 					creationDate: null,
-					updateDate: this.item.updated_date,
+					updateDate: this.item.update_date || this.item.updated_date,
 					createdBy: null,
 					updatedBy: this.item.updated_by
 				}

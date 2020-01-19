@@ -334,7 +334,7 @@ export default class TableToStorageRunsItemView extends Mixins(HeaderInfosMixin,
 				component: 'create-update-conf-overview',
 				props: {
 					creationDate: this.item.configuration_context.creation_date,
-					updateDate: this.item.configuration_context.update_date,
+					updateDate: this.item.configuration_context.update_date || this.item.configuration_context.updated_date,
 					createdBy: this.item.configuration_context.created_by,
 					updatedBy: this.item.configuration_context.updated_by
 				}
