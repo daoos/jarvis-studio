@@ -21,10 +21,10 @@
 
 			<RunStatusChip
 				v-if="viewType === 'run'"
-				:smallChip="false"
-				:runStatus="runStatus"
-				chipTextClass="text-uppercase"
-				:chipLabel="true"
+				:status="runStatus"
+				:doc-id="item.id"
+				:collection="collection"
+				is-label
 			/>
 		</v-row>
 		<v-row class="pl-5 pt-4 pr-5" v-else>

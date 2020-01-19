@@ -20,22 +20,14 @@
 			<template v-slot:dag_execution_date="{ item: { dag_execution_date } }">
 				{{ dag_execution_date | moment('YYYY/MM/DD - HH:mm') }}
 			</template>
-
-			<template v-slot:status="{ item: { status } }">
-				<v-chip :color="getStatusColor(status)" text-color="white" small class="text-lowercase">
-					{{ status }}
-				</v-chip>
-			</template>
 		</listing-component>
 	</div>
 </template>
 
 <script lang="ts">
 import { Component, Mixins } from 'vue-property-decorator';
-import { RunStatus } from '@/types';
 import DataManagementHeader from '@/components/data-workflows/common/DataManagementHeader.vue';
 import ListingComponent from '@/components/data-workflows/common/listing/ListingComponent.vue';
-import { getStatusColor } from '@/util/data-workflows/run';
 
 import HeaderInfosMixin from '../header-infos';
 
@@ -47,11 +39,7 @@ import { STORAGE_TO_TABLES_RUNS_ITEM } from '@/constants/router/routes-names';
 })
 export default class StorageToTablesRunsListingView extends Mixins(HeaderInfosMixin) {
 	moduleName: string = 'storageToTablesRuns';
-	overriddenColumns: string[] = ['id', 'configuration_context.source', 'dag_execution_date', 'status'];
-
-	getStatusColor(status: RunStatus) {
-		return getStatusColor(status);
-	}
+	overriddenColumns: string[] = ['id', 'configuration_context.source', 'dag_execution_date'];
 
 	get listingType() {
 		return RUNS;
