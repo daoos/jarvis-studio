@@ -85,6 +85,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { InputValidationRules } from 'vuetify';
+import { KEY } from '@/constants/store/vuex-persist';
 
 type Model = {
 	email: string;
@@ -106,6 +107,10 @@ export default class SignIn extends Vue {
 		v => !!v || 'Password is required',
 		v => v.length >= 6 || 'Password must be greater than 6 characters'
 	];
+
+	mounted() {
+		localStorage.removeItem(KEY);
+	}
 
 	googleSignIn() {
 		this.loadingGoogleSignIn = true;
