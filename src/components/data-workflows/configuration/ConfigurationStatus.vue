@@ -4,7 +4,11 @@
 			:color="color"
 			text-color="white"
 			:small="isSmall"
-			:class="isLabel ? 'text-uppercase' : 'text-capitalize'"
+			:class="{
+				'text-uppercase': isLabel,
+				'text-capitalize': !isLabel,
+				'no-opacity': this.item.archive
+			}"
 			:label="isLabel"
 			:disabled="item.archive"
 			@click="changeActivatedStatus(item, collection)"
@@ -104,7 +108,7 @@ export default {
 	},
 	computed: {
 		color() {
-			return getActiveConfColor(this.isActivated);
+			return getActiveConfColor(this.isActivated, this.item.archive);
 		},
 		label() {
 			return getActiveConfLabel(this.isActivated);
@@ -113,3 +117,9 @@ export default {
 	}
 };
 </script>
+
+<style lang="scss">
+.v-chip.no-opacity {
+	opacity: 1;
+}
+</style>

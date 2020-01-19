@@ -1,6 +1,9 @@
 type ConfActivated = boolean | 'RUNNING';
+type ConfArchived = boolean;
 
-export const getActiveConfColor = (activated: ConfActivated) => {
+export const getActiveConfColor = (activated: ConfActivated, archived: ConfArchived) => {
+	if (archived) return 'black';
+
 	let activeColor;
 
 	switch (activated) {
