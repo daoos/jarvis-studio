@@ -68,9 +68,24 @@ export default class StorageToTablesRunsItemView extends Mixins(HeaderInfosMixin
 							label: 'Description',
 							field: 'short_description',
 							width: '300px'
+						},
+						{
+							label: 'Actions',
+							field: 'actions',
+							width: 'auto'
 						}
 					],
 					rows: this.getDestinationTables(),
+					overriddenRows: [
+						{
+							name: 'actions',
+							component: 'actions-row',
+							props: {
+								item: this.item,
+								destinations: this.item.configuration_context.destinations[0]
+							}
+						}
+					],
 					vflexLength: 'xs9',
 					lineNumbers: false,
 					searchOptionsEnabled: true
@@ -387,7 +402,7 @@ export default class StorageToTablesRunsItemView extends Mixins(HeaderInfosMixin
 				component: 'create-update-conf-overview',
 				props: {
 					creationDate: this.item.configuration_context.creation_date,
-					updateDate: this.item.configuration_context.update_date,
+					updateDate: this.item.configuration_context.update_date || this.item.configuration_context.updated_date,
 					createdBy: this.item.configuration_context.created_by,
 					updatedBy: this.item.configuration_context.updated_by
 				}
