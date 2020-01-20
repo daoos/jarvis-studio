@@ -7,6 +7,7 @@
 				:dagContext="dagContext"
 				:dag-id="dagId"
 				:dag-run-id="dagRunId"
+				:dag-type="dagType"
 				:dag-execution-date="dagExecutionDate"
 			/>
 		</div>
@@ -31,6 +32,10 @@ export default {
 			required: true
 		},
 		dagRunId: {
+			type: String,
+			required: true
+		},
+		dagType: {
 			type: String,
 			required: true
 		},

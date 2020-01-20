@@ -221,6 +221,7 @@ export default class StorageToTablesRunsItemView extends Mixins(HeaderInfosMixin
 				component: 'view-header',
 				props: {
 					item: this.item,
+					collection: this.moduleName,
 					activeHeader: true,
 					viewId: this.item.triggering_file,
 					viewType: 'run',
