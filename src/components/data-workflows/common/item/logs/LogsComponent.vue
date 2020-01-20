@@ -4,53 +4,81 @@
 			<v-progress-circular indeterminate size="42" color="primary" />
 		</div>
 
-		<div v-else-if="hasError">
-			<h2 class="mb-4 error--text">Error while fetching log file</h2>
-			<p>Code: {{ errorMsg.code_ }}</p>
-			<p>Message: {{ errorMsg.message_ }}</p>
-			<p>Server response: {{ errorMsg.serverResponse_ }}</p>
-		</div>
-
 		<div v-else>
-			<p>LogsComponent</p>
-			<pre>{{ logs }}</pre>
+			<div v-if="hasError">
+				<h2>Path: {{ path }}</h2>
+				{{ errorMsg }}
+			</div>
 
-			<v-btn color="primary" class="learn-more-btn" @click="downloadLogFile">Download log file</v-btn>
+			<div v-else-if="Object.keys(logs).length === 1">
+				<v-btn color="primary" class="mb-4" @click="downloadLogFile(Object.keys(logs)[0])">
+					Download log file
+				</v-btn>
+				<pre class="log pb-4">{{ Object.values(logs)[0] }}</pre>
+			</div>
+
+			<v-tabs
+				v-else
+				v-model="activeTab"
+				color="black"
+				background-color="#E0E0E0"
+				slider-color="primary"
+				class="elevation-1"
+			>
+				<v-tab v-for="logKey in Object.keys(logs)" :key="logKey" :href="`#${logKey}`" v-text="logKey" ripple />
+
+				<v-tab-item v-for="logKey in Object.keys(logs)" :key="logKey" :value="logKey">
+					<v-btn color="primary" class="my-4" @click="downloadLogFile(logKey)">Download log file</v-btn>
+					<pre class="log pb-4">{{ logs[logKey] }}</pre>
+				</v-tab-item>
+			</v-tabs>
 		</div>
 	</div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
+import { AnyObject } from '@/types';
 import { firebase } from '@/config/firebase';
+import { Base64 } from 'js-base64';
 
 @Component
 export default class LogsComponent extends Vue {
 	isLoading: boolean = false;
 	hasError: boolean = false;
-	errorMsg: Object | null = null;
-	fileUrl: string = '';
-	logs: string | null = null;
+	errorMsg: string = '';
+	logs: AnyObject = {};
+	activeTab: null = null;
 
-	@Prop({ required: true }) private folderPath!: string;
-	@Prop({ required: true }) private fileName!: string;
+	@Prop({ required: true }) private dagId!: string;
+	@Prop({ required: true }) private taskId!: string;
+	@Prop({ required: true }) private dagRunId!: string;
+	@Prop({ required: true }) private dagExecutionDate!: string;
 
 	mounted() {
-		const logsFolder = firebase
-			.storage()
-			.ref()
-			.child(`logs/${this.folderPath}`);
-		const logFile = logsFolder.child(this.fileName);
+		this.getLogs();
+	}
+
+	getLogs(): void {
+		let decodedLogFiles: AnyObject = [];
+		const getAirflowLogs = firebase.functions().httpsCallable('fd-io-api-airflow-logs-manager');
 
 		this.isLoading = true;
 
-		logFile
-			.getDownloadURL()
-			.then(url => {
-				console.log('URL:', url);
-				console.log('File content:', this.getLogFileContent(url));
-				this.fileUrl = url;
-				this.logs = this.getLogFileContent(url);
+		getAirflowLogs({
+			dagId: this.dagId,
+			taskId: this.taskId,
+			dagRunId: this.dagRunId,
+			dagExecutionDate: this.dagExecutionDate
+		})
+			.then(res => {
+				const data = res.data;
+
+				Object.keys(data).forEach(key => {
+					decodedLogFiles[key] = Base64.decode(data[key]);
+				});
+
+				this.logs = decodedLogFiles;
 				this.isLoading = false;
 			})
 			.catch(err => {
@@ -60,24 +88,27 @@ export default class LogsComponent extends Vue {
 			});
 	}
 
-	getLogFileContent(url: string): string {
-		const request = new XMLHttpRequest();
-		request.open('GET', url, true);
-		request.send(null);
+	downloadLogFile(airflowFileName: string): void {
+		const fileName = `${this.dagId}-${this.taskId}-${this.dagExecutionDate}-${airflowFileName}`;
 
-		request.onreadystatechange = () => {
-			if (request.readyState === 4 && request.status === 200) {
-				const type = request.getResponseHeader('Content-Type');
-
-				if (type.indexOf('text') !== 1) {
-					return request.responseText;
-				}
-			}
-		};
+		const element = document.createElement('a');
+		element.setAttribute('href', `data:text/plain;charset=utf-8,${this.logs[airflowFileName]}`);
+		element.setAttribute('download', fileName);
+		element.style.display = 'none';
+		document.body.appendChild(element);
+		element.click();
+		document.body.removeChild(element);
 	}
 
-	downloadLogFile(): void {
-		window.open(this.fileUrl, '_blank');
+	get path(): string {
+		return `logs/${this.dagId}/${this.taskId}/${this.dagExecutionDate}`;
 	}
 }
 </script>
+
+<style lang="scss">
+.log {
+	max-width: 100%;
+	overflow-y: scroll;
+}
+</style>
