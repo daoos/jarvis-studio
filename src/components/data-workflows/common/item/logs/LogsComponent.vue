@@ -53,6 +53,7 @@ export default class LogsComponent extends Vue {
 	@Prop({ required: true }) private dagId!: string;
 	@Prop({ required: true }) private taskId!: string;
 	@Prop({ required: true }) private dagRunId!: string;
+	@Prop({ required: true }) private dagType!: string;
 	@Prop({ required: true }) private dagExecutionDate!: string;
 
 	mounted() {
@@ -69,6 +70,7 @@ export default class LogsComponent extends Vue {
 			dagId: this.dagId,
 			taskId: this.taskId,
 			dagRunId: this.dagRunId,
+			dagType: this.dagType,
 			dagExecutionDate: this.dagExecutionDate
 		})
 			.then(res => {

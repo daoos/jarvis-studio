@@ -88,6 +88,7 @@
 									:dag-id="getLogsProps.dagId"
 									:task-id="getLogsProps.taskId"
 									:dag-run-id="getLogsProps.dagRunId"
+									:dag-type="getLogsProps.dagType"
 									:dag-execution-date="getLogsProps.dagExecutionDate"
 								/>
 							</v-card-text>
@@ -168,6 +169,10 @@ export default {
 			required: true
 		},
 		dagRunId: {
+			type: String,
+			required: true
+		},
+		dagType: {
 			type: String,
 			required: true
 		},
@@ -285,6 +290,7 @@ export default {
 				dagId: this.dagId,
 				taskId: this.task.id,
 				dagRunId: this.dagRunId,
+				dagType: this.dagType,
 				dagExecutionDate: this.dagExecutionDate
 			};
 		}
