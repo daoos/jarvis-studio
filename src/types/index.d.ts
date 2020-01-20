@@ -70,8 +70,8 @@ export interface RunStatusFilter {
 	label: RunStatusLabel;
 	value: RunStatusId;
 }
-export type ConfActivatedLabel = 'All Status' | 'Activated' | 'Disabled';
-export type ConfActivatedValue = 'ALL' | true | false;
+export type ConfActivatedLabel = 'All Status' | 'Activated' | 'Disabled' | 'Archived';
+export type ConfActivatedValue = 'ALL' | boolean;
 export interface ConfActivatedFilter {
 	label: ConfActivatedLabel;
 	value: ConfActivatedValue;
@@ -133,3 +133,20 @@ export type DestinationStorageRows = {
 	s3: Object[];
 	sftp: Object[];
 };
+
+// Data
+export interface TableParameters {
+	[key: string]: any;
+	source_format?: string;
+	create_disposition?: string;
+	write_disposition?: string;
+	skip_leading_rows?: number;
+	field_delimiter?: string;
+	quote_character?: string;
+	null_marker?: string;
+	bq_load_job_ignore_unknown_values?: boolean;
+	bq_load_job_max_bad_records?: number;
+	bq_load_job_schema_update_options?: string[];
+	bq_load_job_allow_quoted_newlines?: boolean;
+	bq_load_job_allow_jagged_rows?: boolean;
+}
