@@ -16,7 +16,7 @@
 			<ParametersItem v-for="paramItem in paramItems" :paramItem="paramItem" :key="paramItem.id" />
 
 			<footer>
-				<slot name="footer"></slot>
+				<slot name="footer" />
 			</footer>
 		</v-col>
 	</v-container>
