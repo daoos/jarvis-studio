@@ -41,7 +41,6 @@
 
 <script lang="ts">
 import { Component, Mixins } from 'vue-property-decorator';
-import { RunStatus } from '@/types';
 import DataManagementHeader from '@/components/data-workflows/common/DataManagementHeader.vue';
 import ListingComponent from '@/components/data-workflows/common/listing/ListingComponent.vue';
 
@@ -49,7 +48,6 @@ import HeaderInfosMixin from '../header-infos';
 
 import { STATUS } from '@/constants/data-workflows/status';
 import { WORKFLOW_STATUS_ITEM } from '@/constants/router/routes-names';
-import { getStatusColor } from '@/util/data-workflows/run';
 import {
 	ACTIONS,
 	ID,
@@ -71,10 +69,6 @@ export default class WorkflowStatusListingView extends Mixins(HeaderInfosMixin) 
 		'last_update_date_from_now',
 		'last_fire_date_from_now'
 	];
-
-	getStatusColor(status: RunStatus) {
-		return getStatusColor(status);
-	}
 
 	get listingType() {
 		return STATUS;

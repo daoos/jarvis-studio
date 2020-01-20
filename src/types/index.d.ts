@@ -64,8 +64,8 @@ export interface EnvFilter {
 	label: EnvLabel;
 	value: EnvId;
 }
-export type RunStatusLabel = 'All Status' | 'Success' | 'Failed' | 'Running';
-export type RunStatusId = 'ALL' | 'SUCCESS' | 'FAILED' | 'RUNNING';
+export type RunStatusLabel = 'All Status' | 'Success' | 'Failed' | 'Running' | 'Checked';
+export type RunStatusId = 'ALL' | 'SUCCESS' | 'FAILED' | 'RUNNING' | 'CHECKED';
 export interface RunStatusFilter {
 	label: RunStatusLabel;
 	value: RunStatusId;
@@ -118,7 +118,7 @@ export interface Snackbar {
 	timeout: number;
 }
 
-export type RunStatus = 'SUCCESS' | 'FAILED' | 'RUNNING';
+export type RunStatus = 'SUCCESS' | 'FAILED' | 'RUNNING' | 'CHECKED';
 
 export type AnyObject = { [index: string]: any };
 

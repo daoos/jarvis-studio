@@ -28,7 +28,9 @@
 				<configuration-status :item="item" :collection="moduleName" :is-activated="item.activated" />
 			</template>
 
-			<!-- TODO: Add status for runs by default like `activated` -->
+			<template v-slot:item.status="{ item: { id, status } }">
+				<run-status-chip :status="status" :doc-id="id" :collection="moduleName" is-small />
+			</template>
 
 			<template v-slot:item.actions="{ item }">
 				<v-icon small @click="toggleExpand(item)">remove_red_eye</v-icon>
@@ -97,9 +99,10 @@
 </template>
 
 <script>
-import VueJsonPretty from 'vue-json-pretty';
-import DataManagementFilters from './filters/DataManagementFilters';
 import ConfigurationStatus from '../../configuration/ConfigurationStatus.vue';
+import DataManagementFilters from './filters/DataManagementFilters';
+import VueJsonPretty from 'vue-json-pretty';
+import RunStatusChip from '@/components/data-workflows/runs/RunStatusChip';
 
 import { mapState } from 'vuex';
 import { mapGetters } from 'vuex';
@@ -111,7 +114,7 @@ import { dagRunAirflowUrl } from '@/util/data-workflows/run';
 
 export default {
 	name: 'listing-component',
-	components: { VueJsonPretty, DataManagementFilters, ConfigurationStatus },
+	components: { ConfigurationStatus, DataManagementFilters, VueJsonPretty, RunStatusChip },
 	props: {
 		type: {
 			// Use RUNS or CONFIGURATIONS constants

@@ -83,6 +83,7 @@ export default class TablesToTablesRunsItemView extends Mixins(HeaderInfosMixin,
 				component: 'view-header',
 				props: {
 					item: this.item,
+					collection: this.moduleName,
 					activeHeader: true,
 					viewId: this.item.dag_id,
 					viewType: 'run',

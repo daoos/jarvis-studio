@@ -1,12 +1,10 @@
 import moment from 'moment';
 import { Module } from 'vuex';
-import { ConfActivatedFilter, FilterState, RootState } from '@/types';
+import { FilterState, RootState } from '@/types';
 
 import { getters } from '@/store/modules/filters/getters';
 import { actions } from '@/store/modules/filters/actions';
 import { mutations } from '@/store/modules/filters/mutations';
-import { getters as userGetters } from '@/store/modules/user/getters';
-import { SUPER_ADMIN } from '@/constants/user/roles';
 
 export const state: FilterState = {
 	accountFilterSelected: {
@@ -33,7 +31,8 @@ export const state: FilterState = {
 		{ label: 'All Status', value: 'ALL' },
 		{ label: 'Success', value: 'SUCCESS' },
 		{ label: 'Failed', value: 'FAILED' },
-		{ label: 'Running', value: 'RUNNING' }
+		{ label: 'Running', value: 'RUNNING' },
+		{ label: 'Checked', value: 'CHECKED' }
 	],
 	confActivatedFilterSelected: {
 		label: 'All Status',
