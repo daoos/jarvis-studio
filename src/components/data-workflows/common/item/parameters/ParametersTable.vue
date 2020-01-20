@@ -13,6 +13,7 @@
 			</h2>
 
 			<vue-good-table
+				class="word-break"
 				:columns="columns"
 				:rows="rows"
 				:filterable="filterable"
@@ -24,9 +25,13 @@
 
 				<template slot="table-row" slot-scope="props">
 					<component
-						v-if="props.column.field === 'actions'"
+						v-if="overriddenRow(props.column.field) && overriddenRow(props.column.field).name === props.column.field"
 						:is="overriddenRow(props.column.field).component"
-						v-bind="{ ...overriddenRow(props.column.field).props, index: props.index }"
+						v-bind="{
+							...overriddenRow(props.column.field).props,
+							index: props.index,
+							displayValue: props.formattedRow[props.column.field]
+						}"
 					/>
 					<span v-else>{{ props.formattedRow[props.column.field] }}</span>
 				</template>
@@ -38,12 +43,12 @@
 <script>
 import { VueGoodTable } from 'vue-good-table';
 import 'vue-good-table/dist/vue-good-table.css';
-import ActionsRow from './overridden-rows/ActionsRow';
+import TableName from './overridden-rows/TableName';
 
 export default {
 	name: 'parameters-table',
 	components: {
-		ActionsRow,
+		TableName,
 		VueGoodTable
 	},
 	props: {
@@ -93,3 +98,14 @@ export default {
 	}
 };
 </script>
+
+<style lang="scss">
+$start: 0;
+$end: 9;
+
+@for $i from $start through $end {
+	.word-break td {
+		word-break: break-all;
+	}
+}
+</style>

@@ -56,30 +56,22 @@ export default class StorageToTablesRunsItemView extends Mixins(HeaderInfosMixin
 					columns: [
 						{
 							label: 'Table Name',
-							field: 'table_name',
-							width: '200px'
+							field: 'table_name'
 						},
 						{
 							label: 'Filename Template',
-							field: 'filename_template',
-							width: '200px'
+							field: 'filename_template'
 						},
 						{
 							label: 'Description',
-							field: 'short_description',
-							width: '300px'
-						},
-						{
-							label: 'Actions',
-							field: 'actions',
-							width: 'auto'
+							field: 'short_description'
 						}
 					],
 					rows: this.getDestinationTables(),
 					overriddenRows: [
 						{
-							name: 'actions',
-							component: 'actions-row',
+							name: 'table_name',
+							component: 'TableName',
 							props: {
 								item: this.item,
 								destinations: this.item.configuration_context.destinations[0]

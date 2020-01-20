@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<v-btn color="primary" @click="showDetailsDialog = true">View details</v-btn>
+		<span class="table-name light-blue--text" @click="showDetailsDialog = true">{{ displayValue }}</span>
 
 		<v-dialog v-model="showDetailsDialog" max-width="65%">
 			<v-card>
@@ -59,10 +59,11 @@ import VueMarkdown from 'vue-markdown';
 		VueMarkdown
 	}
 })
-export default class ActionsRow extends Vue {
+export default class TableName extends Vue {
 	@Prop({ required: true }) item!: AnyObject;
 	@Prop({ required: true }) destinations!: AnyObject;
 	@Prop({ required: true }) index!: number;
+	@Prop({ required: true }) displayValue!: number;
 
 	showDetailsDialog: boolean = false;
 	tab: null = null;
@@ -142,3 +143,10 @@ export default class ActionsRow extends Vue {
 	}
 }
 </script>
+
+<style lang="scss" scoped>
+.table-name {
+	cursor: pointer;
+	text-decoration: underline;
+}
+</style>
