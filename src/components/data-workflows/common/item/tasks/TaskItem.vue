@@ -75,7 +75,7 @@
 						</v-card>
 					</v-dialog>
 
-					<v-dialog v-model="logsDialog" width="1000">
+					<v-dialog v-if="showLogs" v-model="logsDialog" width="1000">
 						<template v-slot:activator="{ on }">
 							<v-chip color="complementary" text-color="white" v-on="on">Logs</v-chip>
 						</template>
@@ -84,7 +84,13 @@
 							<v-card-title class="headline grey lighten-2" primary-title>Task logs: {{ task.id }}</v-card-title>
 
 							<v-card-text>
-								<logs-component :folder-path="getLogsProps.folderPath" :file-name="getLogsProps.fileName" />
+								<logs-component
+									:dag-id="getLogsProps.dagId"
+									:task-id="getLogsProps.taskId"
+									:dag-run-id="getLogsProps.dagRunId"
+									:dag-type="getLogsProps.dagType"
+									:dag-execution-date="getLogsProps.dagExecutionDate"
+								/>
 							</v-card-text>
 
 							<v-card-actions>
@@ -106,6 +112,7 @@ import Prism from 'vue-prismjs';
 import 'prismjs/themes/prism.css';
 import tableSchemaView from '@/components/data-workflows/common/item/schema/TableSchemaView.vue';
 import LogsComponent from '@/components/data-workflows/common/item/logs/LogsComponent';
+import { RUNS } from '@/constants/data-workflows/status';
 
 export default {
 	components: {
@@ -116,6 +123,10 @@ export default {
 		tableSchemaView
 	},
 	props: {
+		type: {
+			type: String,
+			required: true
+		},
 		task: {
 			type: Object,
 			default() {
@@ -153,11 +164,19 @@ export default {
 				};
 			}
 		},
-		configurationId: {
+		dagId: {
 			type: String,
 			required: true
 		},
-		runId: {
+		dagRunId: {
+			type: String,
+			required: true
+		},
+		dagType: {
+			type: String,
+			required: true
+		},
+		dagExecutionDate: {
 			type: String,
 			required: true
 		}
@@ -263,10 +282,16 @@ export default {
 			}
 			return communParams;
 		},
+		showLogs() {
+			return this.type === RUNS;
+		},
 		getLogsProps() {
 			return {
-				folderPath: `/${this.configurationId}/${this.task.id}/${this.runId}`,
-				fileName: '1.log'
+				dagId: this.dagId,
+				taskId: this.task.id,
+				dagRunId: this.dagRunId,
+				dagType: this.dagType,
+				dagExecutionDate: this.dagExecutionDate
 			};
 		}
 	}

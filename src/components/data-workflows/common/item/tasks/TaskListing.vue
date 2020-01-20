@@ -2,10 +2,13 @@
 	<v-container fluid>
 		<div v-for="task in tasksFull" :key="task.id">
 			<TablesToTablesConfTaskView
+				:type="type"
 				:task="task"
 				:dagContext="dagContext"
-				:configuration-id="configurationId"
-				:run-id="runId"
+				:dag-id="dagId"
+				:dag-run-id="dagRunId"
+				:dag-type="dagType"
+				:dag-execution-date="dagExecutionDate"
 			/>
 		</div>
 	</v-container>
@@ -20,11 +23,23 @@ export default {
 		TablesToTablesConfTaskView
 	},
 	props: {
-		configurationId: {
+		type: {
 			type: String,
 			required: true
 		},
-		runId: {
+		dagId: {
+			type: String,
+			required: true
+		},
+		dagRunId: {
+			type: String,
+			required: true
+		},
+		dagType: {
+			type: String,
+			required: true
+		},
+		dagExecutionDate: {
 			type: String,
 			required: true
 		},
