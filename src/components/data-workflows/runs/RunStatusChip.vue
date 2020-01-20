@@ -58,8 +58,8 @@ import { Getter } from 'vuex-class';
 
 @Component
 export default class RunStatusChip extends Vue {
-	@Prop({ required: true }) private docId!: string;
 	@Prop({ required: true }) private status!: RunStatus;
+	@Prop({ required: true }) private docId!: string;
 	@Prop({ required: true }) private collection!: string;
 	@Prop(Boolean) private isSmall!: boolean;
 	@Prop(Boolean) private isLabel!: boolean;
@@ -86,7 +86,6 @@ export default class RunStatusChip extends Vue {
 		if (this.isLoading) return 'blue-grey';
 
 		let statusColor;
-
 		switch (this.status) {
 			case 'SUCCESS':
 				statusColor = 'green';
