@@ -227,6 +227,7 @@ export default class StorageToStorageRunsItemView extends Mixins(HeaderInfosMixi
 				component: 'view-header',
 				props: {
 					item: this.item,
+					collection: this.moduleName,
 					activeHeader: true,
 					viewId: this.item.id,
 					viewType: 'run',

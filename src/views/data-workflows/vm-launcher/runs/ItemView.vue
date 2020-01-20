@@ -66,6 +66,7 @@ export default class VmLauncherRunsItemView extends Mixins(HeaderInfosMixin, Ite
 				component: 'view-header',
 				props: {
 					item: this.item,
+					collection: this.moduleName,
 					activeHeader: true,
 					viewId: this.item.id,
 					viewType: 'run',

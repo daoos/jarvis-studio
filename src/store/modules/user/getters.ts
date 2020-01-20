@@ -12,6 +12,9 @@ export const getters: GetterTree<UserState, RootState> = {
 	accounts(state) {
 		return state.user!.accounts;
 	},
+	role(state) {
+		return state.user!.studioRoles;
+	},
 	isSuperAdmin(state) {
 		return state.user!.studioRoles === SUPER_ADMIN.roleCode;
 	}

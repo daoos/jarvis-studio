@@ -14,6 +14,7 @@
 							<p class="mb-7">
 								A secure, intelligent, useful Big Data platform designed from scratch to address the fashion issues.
 							</p>
+
 							<v-form ref="form" v-model="valid" lazy-validation>
 								<v-text-field
 									name="login"
@@ -23,7 +24,7 @@
 									v-model="model.email"
 									:rules="emailRules"
 									required
-									data-cy="signinEmailField"
+									data-cy="signInEmailField"
 								>
 								</v-text-field>
 								<v-text-field
@@ -34,14 +35,20 @@
 									v-model="model.password"
 									:rules="passwordRules"
 									required
-									data-cy="signinPasswordField"
+									data-cy="signInPasswordField"
 								>
 								</v-text-field>
 							</v-form>
 
+							<v-alert v-if="userNotAuthorized" type="error" class="my-5">
+								Sorry, cannot authorize user
+							</v-alert>
+
 							<div class="d-flex justify-space-between align-center mt-5">
 								<router-link to="#" class="ma-0">Forgot password?</router-link>
-								<v-btn :disabled="!valid" :loading="loading" @click="signIn" color="primary">Sign in</v-btn>
+								<v-btn :disabled="!valid" :loading="loading" @click="signIn" color="primary">
+									Sign in
+								</v-btn>
 							</div>
 						</div>
 
@@ -85,6 +92,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { InputValidationRules } from 'vuetify';
+import { HOME } from '@/constants/router/routes-names';
 import { KEY } from '@/constants/store/vuex-persist';
 
 type Model = {
@@ -99,8 +107,8 @@ type Model = {
 })
 export default class SignIn extends Vue {
 	valid: boolean = false;
+	userNotAuthorized: boolean = false;
 	loading: boolean = false;
-	loadingGoogleSignIn: boolean = false;
 	model: Model = { email: '', password: '' };
 	emailRules: InputValidationRules = [v => !!v || 'E-mail is required', v => /.+@.+/.test(v) || 'E-mail must be valid'];
 	passwordRules: InputValidationRules = [
@@ -113,20 +121,36 @@ export default class SignIn extends Vue {
 	}
 
 	googleSignIn() {
-		this.loadingGoogleSignIn = true;
-		this.$store.dispatch('user/googleSignIn').then(() => {
-			this.$router.push('/');
-		});
+		this.userNotAuthorized = false;
+		this.loading = true;
+
+		this.$store
+			.dispatch('user/googleSignIn')
+			.then(() => {
+				this.loading = false;
+				this.$router.push({ name: HOME });
+			})
+			.catch(() => {
+				this.loading = false;
+				this.userNotAuthorized = true;
+			});
 	}
 
 	signIn() {
+		this.userNotAuthorized = false;
 		this.loading = true;
+
 		if ((this.$refs.form as Vue & { validate: () => boolean }).validate()) {
-			this.$store.dispatch('user/signIn', {
-				email: this.model.email,
-				password: this.model.password
-			});
-			this.loading = false;
+			this.$store
+				.dispatch('user/signIn', { email: this.model.email, password: this.model.password })
+				.then(() => {
+					this.loading = false;
+					this.$router.push({ name: HOME });
+				})
+				.catch(() => {
+					this.loading = false;
+					this.userNotAuthorized = true;
+				});
 		}
 	}
 }
