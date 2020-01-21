@@ -3,6 +3,7 @@ import { dataModels } from '@/store/modules/easy-firestore/data-models';
 import { dataTableDetails } from '@/store/modules/easy-firestore/data-table-details';
 import { dataTables } from '@/store/modules/easy-firestore/data-tables';
 import { gcpCloudFunctions } from '@/store/modules/easy-firestore/gcpCloudFunctions';
+import { getArchivedConfigurations } from '@/store/modules/easy-firestore/get-archived-configurations';
 import { getGbqToGbqConfs } from '@/store/modules/easy-firestore/get-gbq-to-gbq-confs';
 import { getGbqToGbqRuns } from '@/store/modules/easy-firestore/get-gbq-to-gbq-runs';
 import { getGbqToGcsConfs } from '@/store/modules/easy-firestore/get-gbq-to-gcs-confs';
@@ -29,6 +30,7 @@ import { workflowStatus } from '@/store/modules/easy-firestore/workflow-status';
 
 export default [
 	gcpCloudFunctions,
+	getArchivedConfigurations,
 	accounts,
 	schemas,
 	mirrorExcGcsToGcsRuns,

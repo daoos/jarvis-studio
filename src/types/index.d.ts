@@ -123,6 +123,11 @@ export type RunStatus = 'SUCCESS' | 'FAILED' | 'RUNNING' | 'CHECKED';
 export type AnyObject = { [index: string]: any };
 
 // DataWorkflows
+// Configuration
+export interface Configuration {
+	[key: string]: any;
+}
+
 // Filters
 // TODO: Define type
 export type WhereConfFilter = any;

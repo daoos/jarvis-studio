@@ -15,6 +15,8 @@
 			<v-col cols="12" offset="0">
 				<v-tabs v-model="activeTab" color="black" background-color="#E0E0E0" slider-color="primary" class="elevation-1">
 					<v-tab v-for="tab in tabsItems" :key="tab.label" :href="`#${tab.href}`" v-text="tab.label" ripple />
+					<v-spacer />
+					<history-component />
 
 					<v-tab-item v-for="tab in tabsItems" :key="tab.label" :value="tab.href">
 						<component :is="tab.component.name" v-bind="tab.component.props" />
@@ -25,33 +27,18 @@
 	</v-container>
 </template>
 
-<script>
-import CreateUpdateConfOverview from '@/components/data-workflows/configuration/CreateUpdateConfOverview';
-import OverviewComponent from './overview/OverviewComponent';
-import TableSchemaView from '@/components/data-workflows/common/item/schema/TableSchemaView';
-import TaskListing from '@/components/data-workflows/common/item/tasks/TaskListing';
-import ViewJson from './json/ViewJson';
-import ViewConversation from './conversation/ViewConversation';
+<script lang="ts">
+import { Component, Prop, Vue } from 'vue-property-decorator';
+import importedComponents from './imported-components';
 
-export default {
-	name: 'item-component',
-	components: { CreateUpdateConfOverview, OverviewComponent, TableSchemaView, TaskListing, ViewJson, ViewConversation },
-	props: {
-		tabsItems: {
-			type: Array,
-			required: true
-		},
-		isLoading: {
-			type: Boolean,
-			required: true
-		},
-		isNotFound: {
-			type: Boolean,
-			required: true
-		}
-	},
-	data: () => ({
-		activeTab: null
-	})
-};
+@Component({
+	components: { ...importedComponents }
+})
+export default class ItemComponent extends Vue {
+	@Prop({ required: true }) tabsItems!: object[];
+	@Prop({ required: true }) isLoading!: boolean;
+	@Prop({ required: true }) isNotFound!: boolean;
+
+	activeTab: null = null;
+}
 </script>
