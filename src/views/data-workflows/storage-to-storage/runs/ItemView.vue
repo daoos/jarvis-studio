@@ -385,6 +385,24 @@ export default class StorageToStorageRunsItemView extends Mixins(HeaderInfosMixi
 					lineNumbers: false,
 					searchOptionsEnabled: false
 				}
+			},
+			{
+				component: 'parameters-list',
+				props: {
+					groupTitle: 'Update information',
+					paramItems: [
+						{
+							id: 'updated_date',
+							label: 'Updated date',
+							value: this.item.configuration_context.update_date || this.item.configuration_context.updated_date
+						},
+						{
+							id: 'updated_by',
+							label: 'Updated by',
+							value: this.item.configuration_context.updated_by
+						}
+					]
+				}
 			}
 		];
 	}

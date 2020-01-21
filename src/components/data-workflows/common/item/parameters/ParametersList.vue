@@ -49,7 +49,7 @@ export default {
 		},
 		tooltip: {
 			type: Boolean,
-			default: true
+			default: false
 		},
 		paramItems: {
 			type: Array,
