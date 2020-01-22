@@ -16,7 +16,11 @@
 				<v-tabs v-model="activeTab" color="black" background-color="#E0E0E0" slider-color="primary" class="elevation-1">
 					<v-tab v-for="tab in tabsItems" :key="tab.label" :href="`#${tab.href}`" v-text="tab.label" ripple />
 					<v-spacer />
-					<history-component v-if="showHistoryComponent" />
+					<history-component
+						v-if="showHistoryComponent"
+						:email="updateInformation.updated_by"
+						:updated-date="updateInformation.update_date"
+					/>
 
 					<v-tab-item v-for="tab in tabsItems" :key="tab.label" :value="tab.href">
 						<component :is="tab.component.name" v-bind="tab.component.props" />
@@ -40,6 +44,7 @@ export default class ItemComponent extends Vue {
 	@Prop({ required: true }) tabsItems!: object[];
 	@Prop({ required: true }) isLoading!: boolean;
 	@Prop({ required: true }) isNotFound!: boolean;
+	@Prop() updateInformation?: string;
 
 	activeTab: null = null;
 
