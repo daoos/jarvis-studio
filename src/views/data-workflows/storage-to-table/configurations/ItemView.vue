@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<data-management-header :workflowName="workflowName" :tabsItems="tabsItems" />
-		<item-component :tabs-items="itemTabsItems" :is-loading="isLoading" :is-not-found="isNotFound" />
+		<item-component :type="type" :tabs-items="itemTabsItems" :is-loading="isLoading" :is-not-found="isNotFound" />
 	</div>
 </template>
 
@@ -11,6 +11,7 @@ import { State } from 'vuex-class';
 import HeaderInfosMixin from '../header-infos';
 import ItemMixin from '@/mixins/data-workflows/item-mixin';
 import store from '@/store';
+import { CONFIGURATIONS } from '@/constants/data-workflows/status';
 
 @Component
 export default class StorageToTableConfigurationsItemView extends Mixins(HeaderInfosMixin, ItemMixin) {
@@ -28,6 +29,10 @@ export default class StorageToTableConfigurationsItemView extends Mixins(HeaderI
 
 		this.item = this.storageToTableConf;
 		this.isLoading = false;
+	}
+
+	get type() {
+		return CONFIGURATIONS;
 	}
 
 	get itemId() {

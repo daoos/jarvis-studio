@@ -16,7 +16,7 @@
 				<v-tabs v-model="activeTab" color="black" background-color="#E0E0E0" slider-color="primary" class="elevation-1">
 					<v-tab v-for="tab in tabsItems" :key="tab.label" :href="`#${tab.href}`" v-text="tab.label" ripple />
 					<v-spacer />
-					<history-component />
+					<history-component v-if="showHistoryComponent" />
 
 					<v-tab-item v-for="tab in tabsItems" :key="tab.label" :value="tab.href">
 						<component :is="tab.component.name" v-bind="tab.component.props" />
@@ -30,15 +30,21 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import importedComponents from './imported-components';
+import { CONFIGURATIONS } from '@/constants/data-workflows/status';
 
 @Component({
 	components: { ...importedComponents }
 })
 export default class ItemComponent extends Vue {
+	@Prop({ required: true }) type!: string;
 	@Prop({ required: true }) tabsItems!: object[];
 	@Prop({ required: true }) isLoading!: boolean;
 	@Prop({ required: true }) isNotFound!: boolean;
 
 	activeTab: null = null;
+
+	get showHistoryComponent() {
+		return this.type === CONFIGURATIONS;
+	}
 }
 </script>

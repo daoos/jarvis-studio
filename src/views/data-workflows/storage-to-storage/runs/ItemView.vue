@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<data-management-header :workflowName="workflowName" :tabsItems="tabsItems" />
-		<item-component :tabs-items="itemTabsItems" :is-loading="isLoading" :is-not-found="isNotFound" />
+		<item-component :type="type" :tabs-items="itemTabsItems" :is-loading="isLoading" :is-not-found="isNotFound" />
 	</div>
 </template>
 
@@ -10,6 +10,7 @@ import { Component, Mixins } from 'vue-property-decorator';
 import { AnyObject, DestinationStorageRows } from '@/types';
 import HeaderInfosMixin from '../header-infos';
 import ItemMixin from '@/mixins/data-workflows/item-mixin';
+import { RUNS } from '@/constants/data-workflows/status';
 
 @Component
 export default class StorageToStorageRunsItemView extends Mixins(HeaderInfosMixin, ItemMixin) {
@@ -173,6 +174,10 @@ export default class StorageToStorageRunsItemView extends Mixins(HeaderInfosMixi
 		destinationStorageRows.s3 = s3DestinationStorageRows;
 		destinationStorageRows.sftp = sftpDestinationStorageRows;
 		return destinationStorageRows;
+	}
+
+	get type() {
+		return RUNS;
 	}
 
 	get itemTabsItems() {

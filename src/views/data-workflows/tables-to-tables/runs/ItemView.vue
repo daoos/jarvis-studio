@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<data-management-header :workflowName="workflowName" :tabsItems="tabsItems" />
-		<item-component :tabs-items="itemTabsItems" :is-loading="isLoading" :is-not-found="isNotFound" />
+		<item-component :type="type" :tabs-items="itemTabsItems" :is-loading="isLoading" :is-not-found="isNotFound" />
 	</div>
 </template>
 
@@ -14,6 +14,10 @@ import { RUNS } from '@/constants/data-workflows/status';
 @Component
 export default class TablesToTablesRunsItemView extends Mixins(HeaderInfosMixin, ItemMixin) {
 	moduleName: string = 'getGbqToGbqRuns';
+
+	get type() {
+		return RUNS;
+	}
 
 	get itemTabsItems() {
 		if (Object.keys(this.item).length === 0) return [];
