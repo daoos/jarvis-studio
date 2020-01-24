@@ -4,7 +4,7 @@
  */
 
 import { Component, Vue, Watch } from 'vue-property-decorator';
-import { AnyObject, DataWorkflowsType } from '@/types';
+import { AnyObject, DataWorkflowsType, ConfigurationProps } from '@/types';
 import { IPluginState } from 'vuex-easy-firestore/types/declarations';
 import DataManagementHeader from '@/components/data-workflows/common/DataManagementHeader.vue';
 import ItemComponent from '@/components/data-workflows/common/item/ItemComponent.vue';
@@ -23,6 +23,8 @@ import { mapState } from 'vuex';
 })
 export default class ItemMixin extends Vue {
 	private firestoreItem: any;
+	archivedConfsModuleName: any;
+	itemTabsItems: any;
 
 	// TODO: See if this watch decorator is removable
 	@Watch('firestoreItem')
@@ -57,7 +59,7 @@ export default class ItemMixin extends Vue {
 	get updateInformation() {
 		// TODO: Add UserSocialInfo
 		return {
-			update_date: this.item.update_date,
+			update_date: this.item.update_date || this.item.updated_date,
 			updated_by: this.item.updated_by
 		};
 	}
@@ -69,5 +71,18 @@ export default class ItemMixin extends Vue {
 	// Overridden by component
 	get type(): DataWorkflowsType {
 		return null;
+	}
+
+	get configurationProps(): ConfigurationProps {
+		return {
+			archivedConfsModuleName: this.archivedConfsModuleName,
+			docId: this.itemId,
+			isLoading: this.isLoading,
+			isNotFound: this.isNotFound,
+			moduleName: this.moduleName,
+			tabsItems: this.itemTabsItems,
+			type: this.type!,
+			updateInformation: this.updateInformation
+		};
 	}
 }
