@@ -170,6 +170,10 @@ export default {
 	mounted() {
 		this.getFirestoreData();
 	},
+	activated() {
+		// TODO: refetch without isLoading and removing all displayed data, and them when refetch is done
+		this.getFirestoreData();
+	},
 	methods: {
 		toggleExpand(item) {
 			const isAlreadyExpand = this.expanded.filter(expandedItem => expandedItem.id === item.id).length === 1;
