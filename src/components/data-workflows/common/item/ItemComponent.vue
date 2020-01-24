@@ -44,10 +44,10 @@ import { CONFIGURATIONS } from '@/constants/data-workflows/status';
 })
 export default class ItemComponent extends Vue {
 	@Prop({ required: true, type: String }) type!: string;
-	@Prop({ required: true, type: String }) docId!: string;
 	@Prop({ required: true, type: Array }) tabsItems!: object[];
 	@Prop({ required: true, type: Boolean }) isLoading!: boolean;
 	@Prop({ required: true, type: Boolean }) isNotFound!: boolean;
+	@Prop(String) docId?: string;
 	@Prop(Object) updateInformation?: Object;
 	@Prop(String) moduleName?: string;
 	@Prop(String) archivedConfsModuleName?: string;

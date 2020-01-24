@@ -1,27 +1,25 @@
 <template>
 	<div>
 		<data-management-header :workflowName="workflowName" :tabsItems="tabsItems" />
-		<item-component
-			:type="type"
-			:update-information="updateInformation"
-			:tabs-items="itemTabsItems"
-			:is-loading="isLoading"
-			:is-not-found="isNotFound"
-		/>
+		<item-component v-bind="configurationProps" />
 	</div>
 </template>
 
 <script lang="ts">
 import { Component, Mixins } from 'vue-property-decorator';
+import { DataWorkflowsType } from '@/types';
 import HeaderInfosMixin from '../header-infos';
 import ItemMixin from '@/mixins/data-workflows/item-mixin';
 import { CONFIGURATIONS } from '@/constants/data-workflows/status';
+import { workflowConfs } from '@/store/modules/easy-firestore/workflow-confs';
+import { workflowConfArchive } from '@/store/modules/easy-firestore/workflow-conf-archive';
 
 @Component
 export default class WorkflowConfigurationsItemView extends Mixins(HeaderInfosMixin, ItemMixin) {
-	moduleName: string = 'workflowConfs';
+	moduleName: string = workflowConfs.moduleName;
+	archivedConfsModuleName: string = workflowConfArchive.moduleName;
 
-	get type() {
+	get type(): DataWorkflowsType {
 		return CONFIGURATIONS;
 	}
 

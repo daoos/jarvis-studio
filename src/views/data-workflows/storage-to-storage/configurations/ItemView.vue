@@ -1,27 +1,29 @@
 <template>
 	<div>
 		<data-management-header :workflowName="workflowName" :tabsItems="tabsItems" />
-		<item-component
-			:type="type"
-			:update-information="updateInformation"
-			:tabs-items="itemTabsItems"
-			:is-loading="isLoading"
-			:is-not-found="isNotFound"
-		/>
+		<item-component v-bind="configurationProps" />
 	</div>
 </template>
 
 <script lang="ts">
 import { Component, Mixins } from 'vue-property-decorator';
-import { AnyObject, DestinationStorageRows } from '@/types';
+import { AnyObject, DataWorkflowsType, DestinationStorageRows } from '@/types';
 import HeaderInfosMixin from '../header-infos';
 import ItemMixin from '@/mixins/data-workflows/item-mixin';
 import { CONFIGURATIONS } from '@/constants/data-workflows/status';
+import { storageToStorageConfs } from '@/store/modules/easy-firestore/storage-to-storage-confs';
+import { storageToStorageConfsArchive } from '@/store/modules/easy-firestore/storage-to-storage-confs-archive';
 
 @Component
 export default class StorageToStorageConfigurationsItemView extends Mixins(HeaderInfosMixin, ItemMixin) {
-	moduleName: string = 'storageToStorageConfs';
+	moduleName: string = storageToStorageConfs.moduleName;
+	archivedConfsModuleName: string = storageToStorageConfsArchive.moduleName;
 
+	get type(): DataWorkflowsType {
+		return CONFIGURATIONS;
+	}
+
+	// TODO: Move to dedicated file all methods / computed below
 	getSourceStorageColumns() {
 		let sourceStorageColumns = {};
 
@@ -141,10 +143,6 @@ export default class StorageToStorageConfigurationsItemView extends Mixins(Heade
 		destinationStorageRows.s3 = s3DestinationStorageRows;
 		destinationStorageRows.sftp = sftpDestinationStorageRows;
 		return destinationStorageRows;
-	}
-
-	get type() {
-		return CONFIGURATIONS;
 	}
 
 	get itemTabsItems() {

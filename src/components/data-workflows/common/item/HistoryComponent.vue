@@ -11,7 +11,11 @@
 				</template>
 
 				<v-list max-height="40vh">
-					<template v-if="Object.keys(archivedConfigurations).length > 0">
+					<v-list-item v-if="isLoading" class="d-flex justify-center">
+						<v-progress-circular indeterminate size="32" color="primary" />
+					</v-list-item>
+
+					<template v-else-if="Object.keys(archivedConfigurations).length > 0">
 						<v-list-item
 							v-for="configuration in archivedConfigurations"
 							:key="configuration.id"
@@ -54,10 +58,11 @@ export default class HistoryComponent extends Vue {
 	@Prop({ required: true }) archivedConfsModuleName!: string;
 	@Prop({ required: true }) docId!: string;
 	// TODO: Replace with UserSocialInfo
-	@Prop({ required: true }) email!: string;
-	@Prop({ required: true }) updatedDate!: string;
+	@Prop({ required: true, default: 'No email' }) email!: string;
+	@Prop({ required: true, default: 'No updated date' }) updatedDate!: string;
 
 	showMenu: boolean = false;
+	isLoading: boolean = false;
 	isUpdated: boolean = false;
 
 	mounted() {
@@ -69,8 +74,12 @@ export default class HistoryComponent extends Vue {
 	}
 
 	fetchArchivedConfs() {
+		this.isLoading = true;
+
 		this.$store.dispatch(`${this.archivedConfsModuleName}/closeDBChannel`, { clearModule: true });
-		this.$store.dispatch(`${this.archivedConfsModuleName}/fetchAndAdd`, { id: this.docId });
+		this.$store.dispatch(`${this.archivedConfsModuleName}/fetchAndAdd`, { id: this.docId }).then(() => {
+			this.isLoading = false;
+		});
 	}
 
 	applyConfiguration(configuration: Configuration) {

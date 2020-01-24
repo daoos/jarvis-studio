@@ -1,30 +1,29 @@
 <template>
 	<div>
 		<data-management-header :workflowName="workflowName" :tabsItems="tabsItems" />
-		<item-component
-			:type="type"
-			:update-information="updateInformation"
-			:tabs-items="itemTabsItems"
-			:is-loading="isLoading"
-			:is-not-found="isNotFound"
-		/>
+		<item-component v-bind="configurationProps" />
 	</div>
 </template>
 
 <script lang="ts">
 import { Component, Mixins } from 'vue-property-decorator';
+import { DataWorkflowsType } from '@/types';
 import HeaderInfosMixin from '../header-infos';
 import ItemMixin from '@/mixins/data-workflows/item-mixin';
 import { CONFIGURATIONS } from '@/constants/data-workflows/status';
+import { getGbqToGcsConfs } from '@/store/modules/easy-firestore/get-gbq-to-gcs-confs';
+import { getGbqToGcsConfsArchive } from '@/store/modules/easy-firestore/get-gbq-to-gcs-confs-archive';
 
 @Component
 export default class GbqToGcsConfigurationsItemView extends Mixins(HeaderInfosMixin, ItemMixin) {
-	moduleName: string = 'getGbqToGcsConfs';
+	moduleName: string = getGbqToGcsConfs.moduleName;
+	archivedConfsModuleName: string = getGbqToGcsConfsArchive.moduleName;
 
-	get type() {
+	get type(): DataWorkflowsType {
 		return CONFIGURATIONS;
 	}
 
+	// TODO: Move to dedicated file all methods / computed below
 	get itemTabsItems() {
 		if (Object.keys(this.item).length === 0) return [];
 

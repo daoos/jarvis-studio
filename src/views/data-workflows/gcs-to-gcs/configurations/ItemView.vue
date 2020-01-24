@@ -1,13 +1,13 @@
 <template>
 	<div>
 		<data-management-header :workflowName="workflowName" :tabsItems="tabsItems" />
-		<item-component v-bind="itemComponentProps" />
+		<item-component v-bind="configurationProps" />
 	</div>
 </template>
 
 <script lang="ts">
 import { Component, Mixins } from 'vue-property-decorator';
-import { DataWorkflowsType, ItemComponentProps } from '@/types';
+import { DataWorkflowsType } from '@/types';
 import HeaderInfosMixin from '../header-infos';
 import ItemMixin from '@/mixins/data-workflows/item-mixin';
 import { CONFIGURATIONS } from '@/constants/data-workflows/status';
@@ -21,19 +21,6 @@ export default class GcsToGcsConfigurationsItemView extends Mixins(HeaderInfosMi
 
 	get type(): DataWorkflowsType {
 		return CONFIGURATIONS;
-	}
-
-	get itemComponentProps(): ItemComponentProps {
-		return {
-			archivedConfsModuleName: this.archivedConfsModuleName,
-			docId: this.itemId,
-			isLoading: this.isLoading,
-			isNotFound: this.isNotFound,
-			moduleName: this.moduleName,
-			tabsItems: this.itemTabsItems,
-			type: this.type!,
-			updateInformation: this.updateInformation
-		};
 	}
 
 	// TODO: Move to dedicated file all methods / computed below

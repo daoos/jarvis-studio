@@ -21,6 +21,7 @@ export interface RootState {
 	schemas: IPluginState;
 	mirrorExcGcsToGcsRuns: IPluginState;
 	mirrorExcGcsToGcsConfs: IPluginState;
+	mirrorExcGcsToGcsConfsArchive: IPluginState;
 	mirrorExcGcsToGbqRuns: IPluginState;
 	mirrorExcGcsToGbqConfs: IPluginState;
 	mirrorExcGcsToGbqConfDetails: IPluginState;
@@ -106,15 +107,15 @@ export interface User extends FirebaseUser {
 }
 
 // Vue App
-export interface ItemComponentProps {
+export interface ConfigurationProps {
 	type: string;
 	docId: string;
 	tabsItems: object[];
 	isLoading: boolean;
 	isNotFound: boolean;
-	updateInformation?: Object;
-	moduleName?: string;
-	archivedConfsModuleName?: string;
+	updateInformation: Object;
+	moduleName: string;
+	archivedConfsModuleName: string;
 }
 
 export interface Link {
