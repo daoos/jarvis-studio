@@ -173,7 +173,6 @@ export default class SignIn extends Vue {
 	background-size: cover;
 	background-position: right center;
 	background-repeat: no-repeat;
-	background-image: url('~@/assets/img/sign-in/background.jpg');
 
 	.logo {
 		width: 200px;
