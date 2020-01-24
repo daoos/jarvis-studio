@@ -18,6 +18,9 @@
 					<v-spacer />
 					<history-component
 						v-if="showHistoryComponent"
+						:doc-id="docId"
+						:module-name="moduleName"
+						:archived-confs-module-name="archivedConfsModuleName"
 						:email="updateInformation.updated_by"
 						:updated-date="updateInformation.update_date"
 					/>
@@ -40,11 +43,14 @@ import { CONFIGURATIONS } from '@/constants/data-workflows/status';
 	components: { ...importedComponents }
 })
 export default class ItemComponent extends Vue {
-	@Prop({ required: true }) type!: string;
-	@Prop({ required: true }) tabsItems!: object[];
-	@Prop({ required: true }) isLoading!: boolean;
-	@Prop({ required: true }) isNotFound!: boolean;
-	@Prop() updateInformation?: string;
+	@Prop({ required: true, type: String }) type!: string;
+	@Prop({ required: true, type: String }) docId!: string;
+	@Prop({ required: true, type: Array }) tabsItems!: object[];
+	@Prop({ required: true, type: Boolean }) isLoading!: boolean;
+	@Prop({ required: true, type: Boolean }) isNotFound!: boolean;
+	@Prop(Object) updateInformation?: Object;
+	@Prop(String) moduleName?: string;
+	@Prop(String) archivedConfsModuleName?: string;
 
 	activeTab: null = null;
 

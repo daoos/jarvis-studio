@@ -1,8 +1,8 @@
-type Status = string;
+import { DataWorkflowsType } from '@/types';
 
-export const RUNS: Status = 'runs';
-export const CONFIGURATIONS: Status = 'configurations';
-export const STATUS: Status = 'status';
+export const RUNS: DataWorkflowsType = 'runs';
+export const CONFIGURATIONS: DataWorkflowsType = 'configurations';
+export const STATUS: DataWorkflowsType = 'status';
 
 export default {
 	RUNS,

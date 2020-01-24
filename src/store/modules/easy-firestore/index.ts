@@ -3,7 +3,6 @@ import { dataModels } from '@/store/modules/easy-firestore/data-models';
 import { dataTableDetails } from '@/store/modules/easy-firestore/data-table-details';
 import { dataTables } from '@/store/modules/easy-firestore/data-tables';
 import { gcpCloudFunctions } from '@/store/modules/easy-firestore/gcpCloudFunctions';
-import { getArchivedConfigurations } from '@/store/modules/easy-firestore/get-archived-configurations';
 import { getGbqToGbqConfs } from '@/store/modules/easy-firestore/get-gbq-to-gbq-confs';
 import { getGbqToGbqRuns } from '@/store/modules/easy-firestore/get-gbq-to-gbq-runs';
 import { getGbqToGcsConfs } from '@/store/modules/easy-firestore/get-gbq-to-gcs-confs';
@@ -13,6 +12,7 @@ import { mirrorExcGcsToGbqConfs } from '@/store/modules/easy-firestore/mirror-ex
 import { mirrorExcGcsToGbqRuns } from '@/store/modules/easy-firestore/mirror-exc-gcs-to-gbq-runs';
 import { mirrorExcGcsToGcsConfs } from '@/store/modules/easy-firestore/mirror-exc-gcs-to-gcs-confs';
 import { mirrorExcGcsToGcsRuns } from '@/store/modules/easy-firestore/mirror-exc-gcs-to-gcs-runs';
+import { mirrorExcGcsToGcsConfsArchive } from '@/store/modules/easy-firestore/mirror-exc-gcs-to-gcs-confs-archive';
 import { schemas } from '@/store/modules/easy-firestore/schemas';
 import { storageToStorageConfs } from '@/store/modules/easy-firestore/storage-to-storage-confs';
 import { storageToStorageRuns } from '@/store/modules/easy-firestore/storage-to-storage-runs';
@@ -30,11 +30,11 @@ import { workflowStatus } from '@/store/modules/easy-firestore/workflow-status';
 
 export default [
 	gcpCloudFunctions,
-	getArchivedConfigurations,
 	accounts,
 	schemas,
 	mirrorExcGcsToGcsRuns,
 	mirrorExcGcsToGcsConfs,
+	mirrorExcGcsToGcsConfsArchive,
 	mirrorExcGcsToGbqRuns,
 	mirrorExcGcsToGbqConfs,
 	mirrorExcGcsToGbqConfDetails,

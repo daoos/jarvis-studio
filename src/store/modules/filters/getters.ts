@@ -1,5 +1,5 @@
 import { GetterTree } from 'vuex';
-import { Account, EnvFilter, FilterState, RootState } from '@/types';
+import { Account, DataWorkflowsType, EnvFilter, FilterState, RootState } from '@/types';
 import moment from 'moment';
 import { RUNS, STATUS } from '@/constants/data-workflows/status';
 
@@ -13,7 +13,7 @@ const getEnvFilterSelected = (envFilterSelected: EnvFilter) => {
 	return ['environment', '==', envFilterSelected.value];
 };
 
-const getMinDateFilter = (minDateFilter: string, type: string) => {
+const getMinDateFilter = (minDateFilter: string, type: DataWorkflowsType) => {
 	let field = type === RUNS ? 'dag_execution_date' : 'last_modified';
 	return minDateFilter ? [field, '>=', minDateFilter] : [field, '>=', '2019-01-01T00:00:00.000Z'];
 };

@@ -15,11 +15,10 @@ export default class AvatarComponent extends Vue {
 	@Prop() email!: string;
 
 	get initials() {
-		const splitedEmail = this.email.split('.');
+		const emailSplit = this.email.split('.');
 
-		console.log(splitedEmail.length);
-		if (splitedEmail.length === 1) return null;
-		return `${splitedEmail[0].charAt(0)}${splitedEmail[1].charAt(0)}`.toUpperCase();
+		if (emailSplit.length === 1) return null;
+		return `${emailSplit[0].charAt(0)}${emailSplit[1].charAt(0)}`.toUpperCase();
 	}
 }
 </script>

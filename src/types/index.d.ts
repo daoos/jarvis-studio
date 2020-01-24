@@ -106,6 +106,17 @@ export interface User extends FirebaseUser {
 }
 
 // Vue App
+export interface ItemComponentProps {
+	type: string;
+	docId: string;
+	tabsItems: object[];
+	isLoading: boolean;
+	isNotFound: boolean;
+	updateInformation?: Object;
+	moduleName?: string;
+	archivedConfsModuleName?: string;
+}
+
 export interface Link {
 	icon: string;
 	title: string;
@@ -123,6 +134,8 @@ export type RunStatus = 'SUCCESS' | 'FAILED' | 'RUNNING' | 'CHECKED';
 export type AnyObject = { [index: string]: any };
 
 // DataWorkflows
+export type DataWorkflowsType = 'runs' | 'configurations' | 'status' | null;
+
 // Configuration
 export interface Configuration {
 	[key: string]: any;
