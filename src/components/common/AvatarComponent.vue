@@ -12,11 +12,12 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 @Component
 export default class AvatarComponent extends Vue {
 	// TODO: Replace with UserSocialInfo
-	@Prop() email!: string;
+	@Prop(String) email!: string;
 
 	get initials() {
-		const emailSplit = this.email.split('.');
+		if (!this.email) return '';
 
+		const emailSplit = this.email.split('.');
 		if (emailSplit.length === 1) return null;
 		return `${emailSplit[0].charAt(0)}${emailSplit[1].charAt(0)}`.toUpperCase();
 	}
