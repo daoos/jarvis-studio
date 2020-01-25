@@ -18,7 +18,7 @@
 								A secure, intelligent, useful Big Data platform designed from scratch to address the fashion issues.
 							</p>
 
-							<v-form ref="form" v-model="valid" lazy-validation>
+							<v-form ref="form" v-model="valid">
 								<v-text-field
 									name="login"
 									label="Login"
