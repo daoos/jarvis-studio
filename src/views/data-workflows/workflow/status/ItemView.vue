@@ -8,16 +8,11 @@
 <script lang="ts">
 import { Component, Mixins } from 'vue-property-decorator';
 import HeaderInfosMixin from '../header-infos';
-import ItemMixin from '@/mixins/data-workflows/item-mixin';
-import { STATUS } from '@/constants/data-workflows/status';
+import StatusDocMixin from '@/mixins/data-workflows/status-doc-mixin';
 
 @Component
-export default class WorkflowStatusItemView extends Mixins(HeaderInfosMixin, ItemMixin) {
+export default class WorkflowStatusItemView extends Mixins(HeaderInfosMixin, StatusDocMixin) {
 	moduleName: string = 'workflowStatus';
-
-	get type() {
-		return STATUS;
-	}
 
 	get itemTabsItems() {
 		if (Object.keys(this.item).length === 0) return [];
