@@ -3,8 +3,11 @@
 		<v-content>
 			<v-container class="fill-height pa-0" fluid>
 				<v-row class="fill-height" no-gutters>
-					<v-col v-if="$vuetify.breakpoint.mdAndUp" class="infos-panel d-flex flex-column justify-space-between">
-						<!-- <h1 class="mt-8 ml-8">JARVIS</h1> -->
+					<v-col
+						v-if="$vuetify.breakpoint.mdAndUp"
+						class="infos-panel d-flex flex-column justify-space-between"
+						:style="{ backgroundImage: `url('${background}')` }"
+					>
 						<img src="@/assets/img/app/logo.png" alt="Jarvis Logo" class="logo mb-8 ml-8" />
 					</v-col>
 
@@ -95,6 +98,8 @@ import { InputValidationRules } from 'vuetify';
 import { HOME } from '@/constants/router/routes-names';
 import { KEY } from '@/constants/store/vuex-persist';
 
+import background from '@/assets/img/sign-in/background.jpg';
+
 type Model = {
 	email: string;
 	password: string;
@@ -115,6 +120,10 @@ export default class SignIn extends Vue {
 		v => !!v || 'Password is required',
 		v => v.length >= 6 || 'Password must be greater than 6 characters'
 	];
+
+	get background(): File {
+		return background;
+	}
 
 	mounted() {
 		localStorage.removeItem(KEY);
@@ -164,7 +173,6 @@ export default class SignIn extends Vue {
 	background-size: cover;
 	background-position: right center;
 	background-repeat: no-repeat;
-	background-image: url('../../assets/img/sign-in/background.jpg');
 
 	.logo {
 		width: 200px;
