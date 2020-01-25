@@ -45,8 +45,8 @@ import DataManagementHeader from '@/components/data-workflows/common/DataManagem
 import ListingComponent from '@/components/data-workflows/common/listing/ListingComponent.vue';
 
 import HeaderInfosMixin from '../header-infos';
+import StatusCollectionMixin from '@/mixins/data-workflows/status-collection-mixin';
 
-import { STATUS } from '@/constants/data-workflows/status';
 import { WORKFLOW_STATUS_ITEM } from '@/constants/router/routes-names';
 import {
 	ACTIONS,
@@ -60,7 +60,7 @@ import {
 @Component({
 	components: { DataManagementHeader, ListingComponent }
 })
-export default class WorkflowStatusListingView extends Mixins(HeaderInfosMixin) {
+export default class WorkflowStatusListingView extends Mixins(HeaderInfosMixin, StatusCollectionMixin) {
 	moduleName: string = 'workflowStatus';
 	overriddenColumns: string[] = [
 		'id',
@@ -69,10 +69,6 @@ export default class WorkflowStatusListingView extends Mixins(HeaderInfosMixin) 
 		'last_update_date_from_now',
 		'last_fire_date_from_now'
 	];
-
-	get listingType() {
-		return STATUS;
-	}
 
 	get routeName() {
 		return WORKFLOW_STATUS_ITEM;
