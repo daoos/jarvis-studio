@@ -22,21 +22,17 @@ import DataManagementHeader from '@/components/data-workflows/common/DataManagem
 import ListingComponent from '@/components/data-workflows/common/listing/ListingComponent.vue';
 
 import HeaderInfosMixin from '../header-infos';
+import ConfigurationCollectionMixin from '@/mixins/data-workflows/configuration-collection-mixin';
 
-import { CONFIGURATIONS } from '@/constants/data-workflows/status';
 import { GBQ_TO_GCS_CONFIGURATIONS_ITEM } from '@/constants/router/routes-names';
 import { ACCOUNT, ENVIRONMENT, ID, ACTIVATED, ACTIONS } from '@/constants/data-workflows/listing/header-items';
 
 @Component({
 	components: { DataManagementHeader, ListingComponent }
 })
-export default class GbqToGcsConfigurationsListingView extends Mixins(HeaderInfosMixin) {
+export default class GbqToGcsConfigurationsListingView extends Mixins(HeaderInfosMixin, ConfigurationCollectionMixin) {
 	moduleName: string = 'getGbqToGcsConfs';
 	overriddenColumns: string[] = ['id'];
-
-	get listingType() {
-		return CONFIGURATIONS;
-	}
 
 	get routeName() {
 		return GBQ_TO_GCS_CONFIGURATIONS_ITEM;

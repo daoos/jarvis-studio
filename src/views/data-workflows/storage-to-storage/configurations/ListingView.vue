@@ -23,8 +23,8 @@ import DataManagementHeader from '@/components/data-workflows/common/DataManagem
 import ListingComponent from '@/components/data-workflows/common/listing/ListingComponent.vue';
 
 import HeaderInfosMixin from '../header-infos';
+import ConfigurationCollectionMixin from '@/mixins/data-workflows/configuration-collection-mixin';
 
-import { CONFIGURATIONS } from '@/constants/data-workflows/status';
 import { STORAGE_TO_STORAGE_CONFIGURATIONS_ITEM } from '@/constants/router/routes-names';
 import {
 	ACCOUNT,
@@ -38,13 +38,12 @@ import {
 @Component({
 	components: { DataManagementHeader, ListingComponent }
 })
-export default class StorageToStorageConfigurationsListingView extends Mixins(HeaderInfosMixin) {
+export default class StorageToStorageConfigurationsListingView extends Mixins(
+	HeaderInfosMixin,
+	ConfigurationCollectionMixin
+) {
 	moduleName: string = 'storageToStorageConfs';
 	overriddenColumns: string[] = ['id'];
-
-	get listingType() {
-		return CONFIGURATIONS;
-	}
 
 	get routeName() {
 		return STORAGE_TO_STORAGE_CONFIGURATIONS_ITEM;
