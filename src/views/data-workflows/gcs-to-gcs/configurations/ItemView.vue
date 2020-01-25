@@ -1,19 +1,29 @@
 <template>
 	<div>
 		<data-management-header :workflowName="workflowName" :tabsItems="tabsItems" />
-		<item-component :tabs-items="itemTabsItems" :is-loading="isLoading" :is-not-found="isNotFound" />
+		<item-component v-bind="configurationProps" />
 	</div>
 </template>
 
 <script lang="ts">
 import { Component, Mixins } from 'vue-property-decorator';
+import { DataWorkflowsType } from '@/types';
 import HeaderInfosMixin from '../header-infos';
 import ItemMixin from '@/mixins/data-workflows/item-mixin';
+import { CONFIGURATIONS } from '@/constants/data-workflows/status';
+import { mirrorExcGcsToGcsConfs } from '@/store/modules/easy-firestore/mirror-exc-gcs-to-gcs-confs';
+import { mirrorExcGcsToGcsConfsArchive } from '@/store/modules/easy-firestore/mirror-exc-gcs-to-gcs-confs-archive';
 
 @Component
 export default class GcsToGcsConfigurationsItemView extends Mixins(HeaderInfosMixin, ItemMixin) {
-	moduleName: string = 'mirrorExcGcsToGcsConfs';
+	moduleName: string = mirrorExcGcsToGcsConfs.moduleName;
+	archivedConfsModuleName: string = mirrorExcGcsToGcsConfsArchive.moduleName;
 
+	get type(): DataWorkflowsType {
+		return CONFIGURATIONS;
+	}
+
+	// TODO: Move to dedicated file all methods / computed below
 	getDestinationStorageRows() {
 		let destinationStorageRows = [];
 

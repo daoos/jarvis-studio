@@ -15,6 +15,15 @@
 			<v-col cols="12" offset="0">
 				<v-tabs v-model="activeTab" color="black" background-color="#E0E0E0" slider-color="primary" class="elevation-1">
 					<v-tab v-for="tab in tabsItems" :key="tab.label" :href="`#${tab.href}`" v-text="tab.label" ripple />
+					<v-spacer />
+					<history-component
+						v-if="showHistoryComponent"
+						:doc-id="docId"
+						:module-name="moduleName"
+						:archived-confs-module-name="archivedConfsModuleName"
+						:email="updateInformation.updated_by"
+						:updated-date="updateInformation.update_date"
+					/>
 
 					<v-tab-item v-for="tab in tabsItems" :key="tab.label" :value="tab.href">
 						<component :is="tab.component.name" v-bind="tab.component.props" />
@@ -25,33 +34,28 @@
 	</v-container>
 </template>
 
-<script>
-import CreateUpdateConfOverview from '@/components/data-workflows/configuration/CreateUpdateConfOverview';
-import OverviewComponent from './overview/OverviewComponent';
-import TableSchemaView from '@/components/data-workflows/common/item/schema/TableSchemaView';
-import TaskListing from '@/components/data-workflows/common/item/tasks/TaskListing';
-import ViewJson from './json/ViewJson';
-import ViewConversation from './conversation/ViewConversation';
+<script lang="ts">
+import { Component, Prop, Vue } from 'vue-property-decorator';
+import importedComponents from './imported-components';
+import { CONFIGURATIONS } from '@/constants/data-workflows/status';
 
-export default {
-	name: 'item-component',
-	components: { CreateUpdateConfOverview, OverviewComponent, TableSchemaView, TaskListing, ViewJson, ViewConversation },
-	props: {
-		tabsItems: {
-			type: Array,
-			required: true
-		},
-		isLoading: {
-			type: Boolean,
-			required: true
-		},
-		isNotFound: {
-			type: Boolean,
-			required: true
-		}
-	},
-	data: () => ({
-		activeTab: null
-	})
-};
+@Component({
+	components: { ...importedComponents }
+})
+export default class ItemComponent extends Vue {
+	@Prop({ required: true, type: String }) type!: string;
+	@Prop({ required: true, type: Array }) tabsItems!: object[];
+	@Prop({ required: true, type: Boolean }) isLoading!: boolean;
+	@Prop({ required: true, type: Boolean }) isNotFound!: boolean;
+	@Prop(String) docId?: string;
+	@Prop(Object) updateInformation?: Object;
+	@Prop(String) moduleName?: string;
+	@Prop(String) archivedConfsModuleName?: string;
+
+	activeTab: null = null;
+
+	get showHistoryComponent() {
+		return this.type === CONFIGURATIONS;
+	}
+}
 </script>

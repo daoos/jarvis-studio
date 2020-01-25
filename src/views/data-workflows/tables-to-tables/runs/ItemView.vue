@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<data-management-header :workflowName="workflowName" :tabsItems="tabsItems" />
-		<item-component :tabs-items="itemTabsItems" :is-loading="isLoading" :is-not-found="isNotFound" />
+		<item-component :type="type" :tabs-items="itemTabsItems" :is-loading="isLoading" :is-not-found="isNotFound" />
 	</div>
 </template>
 
@@ -14,6 +14,10 @@ import { RUNS } from '@/constants/data-workflows/status';
 @Component
 export default class TablesToTablesRunsItemView extends Mixins(HeaderInfosMixin, ItemMixin) {
 	moduleName: string = 'getGbqToGbqRuns';
+
+	get type() {
+		return RUNS;
+	}
 
 	get itemTabsItems() {
 		if (Object.keys(this.item).length === 0) return [];
@@ -243,6 +247,24 @@ export default class TablesToTablesRunsItemView extends Mixins(HeaderInfosMixin,
 				props: {
 					dagId: this.item.configuration_context.configuration_id,
 					task_dependencies: this.item.configuration_context.configuration.task_dependencies
+				}
+			},
+			{
+				component: 'parameters-list',
+				props: {
+					groupTitle: 'Update information',
+					paramItems: [
+						{
+							id: 'updated_date',
+							label: 'Updated date',
+							value: this.item.configuration_context.update_date || this.item.configuration_context.updated_date
+						},
+						{
+							id: 'updated_by',
+							label: 'Updated by',
+							value: this.item.configuration_context.updated_by
+						}
+					]
 				}
 			}
 		];

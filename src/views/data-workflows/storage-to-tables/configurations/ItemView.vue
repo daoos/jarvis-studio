@@ -1,18 +1,29 @@
 <template>
 	<div>
 		<data-management-header :workflowName="workflowName" :tabsItems="tabsItems" />
-		<item-component :tabs-items="itemTabsItems" :is-loading="isLoading" :is-not-found="isNotFound" />
+		<item-component v-bind="configurationProps" />
 	</div>
 </template>
 
 <script lang="ts">
 import { Component, Mixins } from 'vue-property-decorator';
+import { DataWorkflowsType } from '@/types';
 import HeaderInfosMixin from '../header-infos';
 import ItemMixin from '@/mixins/data-workflows/item-mixin';
+import { CONFIGURATIONS } from '@/constants/data-workflows/status';
+import { storageToTablesConfs } from '@/store/modules/easy-firestore/storage-to-tables-confs';
+import { storageToTablesConfArchive } from '@/store/modules/easy-firestore/storage-to-tables-conf-archive';
 
 @Component
 export default class StorageToTablesConfigurationsItemView extends Mixins(HeaderInfosMixin, ItemMixin) {
-	moduleName: string = 'storageToTablesConfs';
+	moduleName: string = storageToTablesConfs.moduleName;
+	archivedConfsModuleName: string = storageToTablesConfArchive.moduleName;
+
+	get type(): DataWorkflowsType {
+		return CONFIGURATIONS;
+	}
+
+	// TODO: Move to dedicated file all methods / computed below
 	getDestinationTables() {
 		return this.item.destinations[0].tables;
 	}
@@ -282,9 +293,9 @@ export default class StorageToTablesConfigurationsItemView extends Mixins(Header
 			{
 				component: 'create-update-conf-overview',
 				props: {
-					creationDate: null,
+					creationDate: this.item.creation_date,
 					updateDate: this.item.update_date || this.item.updated_date,
-					createdBy: null,
+					createdBy: this.item.created_by,
 					updatedBy: this.item.updated_by
 				}
 			}

@@ -8,5 +8,12 @@ module.exports = {
 			warnings: true,
 			errors: true
 		}
+	},
+	css: {
+		loaderOptions: {
+			scss: {
+				prependData: `@import "@/scss/global/global.scss";`
+			}
+		}
 	}
 };

@@ -55,16 +55,18 @@ export default class StorageToTableConfigurationsListingView extends Mixins(Head
 		let items: AnyObject[] = [];
 
 		await this.$store.dispatch(`${this.moduleName}/closeDBChannel`, { clearModule: true });
-		await this.$store.dispatch(`${this.moduleName}/fetchAndAdd`, { where: this.whereConfFilter, limit: 1000 });
+		await this.$store.dispatch(`${this.moduleName}/fetchAndAdd`);
 
 		for (const item of Object.values(this.mirrorExcGcsToGbqConfs)) {
 			const bucketId = item.id;
 
 			await this.$store.dispatch('mirrorExcGcsToGbqConfDetails/closeDBChannel', { clearModule: true });
-			await this.$store.dispatch('mirrorExcGcsToGbqConfDetails/fetchAndAdd', { bucketId }).then(() => {
-				Object.values(this.mirrorExcGcsToGbqConfDetails).forEach(val => (val.bucket_id = bucketId));
-				items.push(Object.values(this.mirrorExcGcsToGbqConfDetails));
-			});
+			await this.$store
+				.dispatch('mirrorExcGcsToGbqConfDetails/fetchAndAdd', { bucketId, where: this.whereConfFilter })
+				.then(() => {
+					Object.values(this.mirrorExcGcsToGbqConfDetails).forEach(val => (val.bucket_id = bucketId));
+					items.push(Object.values(this.mirrorExcGcsToGbqConfDetails));
+				});
 		}
 
 		return items.flat();

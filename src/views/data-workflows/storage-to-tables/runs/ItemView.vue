@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<data-management-header :workflowName="workflowName" :tabsItems="tabsItems" />
-		<item-component :tabs-items="itemTabsItems" :is-loading="isLoading" :is-not-found="isNotFound" />
+		<item-component :type="type" :tabs-items="itemTabsItems" :is-loading="isLoading" :is-not-found="isNotFound" />
 	</div>
 </template>
 
@@ -9,6 +9,7 @@
 import { Component, Mixins } from 'vue-property-decorator';
 import HeaderInfosMixin from '../header-infos';
 import ItemMixin from '@/mixins/data-workflows/item-mixin';
+import { RUNS } from '@/constants/data-workflows/status';
 
 @Component
 export default class StorageToTablesRunsItemView extends Mixins(HeaderInfosMixin, ItemMixin) {
@@ -167,6 +168,10 @@ export default class StorageToTablesRunsItemView extends Mixins(HeaderInfosMixin
 				}
 			}
 		];
+	}
+
+	get type() {
+		return RUNS;
 	}
 
 	get itemTabsItems() {
@@ -392,12 +397,21 @@ export default class StorageToTablesRunsItemView extends Mixins(HeaderInfosMixin
 			},
 			...this.getDestinations(),
 			{
-				component: 'create-update-conf-overview',
+				component: 'parameters-list',
 				props: {
-					creationDate: this.item.configuration_context.creation_date,
-					updateDate: this.item.configuration_context.update_date || this.item.configuration_context.updated_date,
-					createdBy: this.item.configuration_context.created_by,
-					updatedBy: this.item.configuration_context.updated_by
+					groupTitle: 'Update information',
+					paramItems: [
+						{
+							id: 'updated_date',
+							label: 'Updated date',
+							value: this.item.configuration_context.update_date || this.item.configuration_context.updated_date
+						},
+						{
+							id: 'updated_by',
+							label: 'Updated by',
+							value: this.item.configuration_context.updated_by
+						}
+					]
 				}
 			}
 		];

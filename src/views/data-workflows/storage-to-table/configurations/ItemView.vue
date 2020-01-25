@@ -1,20 +1,25 @@
 <template>
 	<div>
 		<data-management-header :workflowName="workflowName" :tabsItems="tabsItems" />
-		<item-component :tabs-items="itemTabsItems" :is-loading="isLoading" :is-not-found="isNotFound" />
+		<item-component v-bind="configurationProps" />
 	</div>
 </template>
 
 <script lang="ts">
 import { Component, Mixins } from 'vue-property-decorator';
+import { DataWorkflowsType } from '@/types';
 import { State } from 'vuex-class';
 import HeaderInfosMixin from '../header-infos';
 import ItemMixin from '@/mixins/data-workflows/item-mixin';
 import store from '@/store';
+import { CONFIGURATIONS } from '@/constants/data-workflows/status';
+import { mirrorExcGcsToGbqConfs } from '@/store/modules/easy-firestore/mirror-exc-gcs-to-gbq-confs';
+import { mirrorExcGcsToGbqConfArchive } from '@/store/modules/easy-firestore/mirror-exc-gcs-to-gbq-conf-archive';
 
 @Component
 export default class StorageToTableConfigurationsItemView extends Mixins(HeaderInfosMixin, ItemMixin) {
-	moduleName: string = 'mirrorExcGcsToGbqConfs';
+	moduleName: string = mirrorExcGcsToGbqConfs.moduleName;
+	archivedConfsModuleName: string = mirrorExcGcsToGbqConfArchive.moduleName;
 
 	@State(state => state.storageToTableConf.data) storageToTableConf!: Object;
 
@@ -30,14 +35,15 @@ export default class StorageToTableConfigurationsItemView extends Mixins(HeaderI
 		this.isLoading = false;
 	}
 
-	get itemId() {
-		return this.$route.params.id;
+	get type(): DataWorkflowsType {
+		return CONFIGURATIONS;
 	}
 
 	get bucketIn() {
 		return this.$route.params.bucketId;
 	}
 
+	// TODO: Move to dedicated file all methods / computed below
 	get itemTabsItems() {
 		if (Object.keys(this.item).length === 0) return [];
 
