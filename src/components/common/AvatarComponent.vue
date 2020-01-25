@@ -1,5 +1,5 @@
 <template>
-	<v-avatar color="red" size="36">
+	<v-avatar color="contrast" size="36">
 		<!-- TODO: Add user img -->
 		<span v-if="initials" class="white--text">{{ initials }}</span>
 		<v-icon v-else dark>account_circle</v-icon>
