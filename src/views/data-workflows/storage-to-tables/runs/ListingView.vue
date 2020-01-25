@@ -30,20 +30,16 @@ import DataManagementHeader from '@/components/data-workflows/common/DataManagem
 import ListingComponent from '@/components/data-workflows/common/listing/ListingComponent.vue';
 
 import HeaderInfosMixin from '../header-infos';
+import RunCollectionMixin from '@/mixins/data-workflows/run-collection-mixin';
 
-import { RUNS } from '@/constants/data-workflows/status';
 import { STORAGE_TO_TABLES_RUNS_ITEM } from '@/constants/router/routes-names';
 
 @Component({
 	components: { DataManagementHeader, ListingComponent }
 })
-export default class StorageToTablesRunsListingView extends Mixins(HeaderInfosMixin) {
+export default class StorageToTablesRunsListingView extends Mixins(HeaderInfosMixin, RunCollectionMixin) {
 	moduleName: string = 'storageToTablesRuns';
 	overriddenColumns: string[] = ['id', 'configuration_context.source', 'dag_execution_date'];
-
-	get listingType() {
-		return RUNS;
-	}
 
 	get routeName() {
 		return STORAGE_TO_TABLES_RUNS_ITEM;

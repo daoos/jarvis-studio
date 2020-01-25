@@ -29,8 +29,8 @@ import DataManagementHeader from '@/components/data-workflows/common/DataManagem
 import ListingComponent from '@/components/data-workflows/common/listing/ListingComponent.vue';
 
 import HeaderInfosMixin from '../header-infos';
+import RunCollectionMixin from '@/mixins/data-workflows/run-collection-mixin';
 
-import { RUNS } from '@/constants/data-workflows/status';
 import { TABLES_TO_TABLES_RUNS_ITEM } from '@/constants/router/routes-names';
 import {
 	ACCOUNT,
@@ -45,13 +45,9 @@ import {
 @Component({
 	components: { DataManagementHeader, ListingComponent }
 })
-export default class TablesToTablesRunsListingView extends Mixins(HeaderInfosMixin) {
+export default class TablesToTablesRunsListingView extends Mixins(HeaderInfosMixin, RunCollectionMixin) {
 	moduleName: string = 'getGbqToGbqRuns';
 	overriddenColumns: string[] = ['dag_id', 'dag_execution_date'];
-
-	get listingType() {
-		return RUNS;
-	}
 
 	get routeName() {
 		return TABLES_TO_TABLES_RUNS_ITEM;

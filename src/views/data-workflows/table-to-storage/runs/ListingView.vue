@@ -29,8 +29,8 @@ import DataManagementHeader from '@/components/data-workflows/common/DataManagem
 import ListingComponent from '@/components/data-workflows/common/listing/ListingComponent.vue';
 
 import HeaderInfosMixin from '../header-infos';
+import RunCollectionMixin from '@/mixins/data-workflows/run-collection-mixin';
 
-import { RUNS } from '@/constants/data-workflows/status';
 import { TABLE_TO_STORAGE_RUNS_ITEM } from '@/constants/router/routes-names';
 import {
 	ACCOUNT,
@@ -46,13 +46,9 @@ import {
 @Component({
 	components: { DataManagementHeader, ListingComponent }
 })
-export default class TableToStorageRunsListingView extends Mixins(HeaderInfosMixin) {
+export default class TableToStorageRunsListingView extends Mixins(HeaderInfosMixin, RunCollectionMixin) {
 	moduleName: string = 'tableToStorageRuns';
 	overriddenColumns: string[] = ['firestore_conf_doc_id', 'dag_execution_date'];
-
-	get listingType() {
-		return RUNS;
-	}
 
 	get routeName() {
 		return TABLE_TO_STORAGE_RUNS_ITEM;

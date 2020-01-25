@@ -29,8 +29,8 @@ import DataManagementHeader from '@/components/data-workflows/common/DataManagem
 import ListingComponent from '@/components/data-workflows/common/listing/ListingComponent.vue';
 
 import HeaderInfosMixin from '../header-infos';
+import RunCollectionMixin from '@/mixins/data-workflows/run-collection-mixin';
 
-import { RUNS } from '@/constants/data-workflows/status';
 import { GBQ_TO_GCS_RUNS_ITEM } from '@/constants/router/routes-names';
 import {
 	ACCOUNT,
@@ -45,13 +45,9 @@ import {
 @Component({
 	components: { DataManagementHeader, ListingComponent }
 })
-export default class GbqToGcsRunsListingView extends Mixins(HeaderInfosMixin) {
+export default class GbqToGcsRunsListingView extends Mixins(HeaderInfosMixin, RunCollectionMixin) {
 	moduleName: string = 'getGbqToGcsRuns';
 	overriddenColumns: string[] = ['gcs_triggering_file', 'dag_execution_date'];
-
-	get listingType() {
-		return RUNS;
-	}
 
 	get routeName() {
 		return GBQ_TO_GCS_RUNS_ITEM;

@@ -26,8 +26,8 @@ import DataManagementHeader from '@/components/data-workflows/common/DataManagem
 import ListingComponent from '@/components/data-workflows/common/listing/ListingComponent.vue';
 
 import HeaderInfosMixin from '../header-infos';
+import RunCollectionMixin from '@/mixins/data-workflows/run-collection-mixin';
 
-import { RUNS } from '@/constants/data-workflows/status';
 import { STORAGE_TO_TABLE_RUNS_ITEM } from '@/constants/router/routes-names';
 import {
 	ACCOUNT,
@@ -42,13 +42,9 @@ import {
 @Component({
 	components: { DataManagementHeader, ListingComponent }
 })
-export default class StorageToTableRunsListingView extends Mixins(HeaderInfosMixin) {
+export default class StorageToTableRunsListingView extends Mixins(HeaderInfosMixin, RunCollectionMixin) {
 	moduleName: string = 'mirrorExcGcsToGbqRuns';
 	overriddenColumns: string[] = ['gcs_triggering_file', 'dag_execution_date'];
-
-	get listingType() {
-		return RUNS;
-	}
 
 	get routeName() {
 		return STORAGE_TO_TABLE_RUNS_ITEM;
