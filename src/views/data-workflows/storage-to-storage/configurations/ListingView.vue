@@ -24,6 +24,7 @@ import ListingComponent from '@/components/data-workflows/common/listing/Listing
 
 import HeaderInfosMixin from '../header-infos';
 
+import { storageToStorageConfs } from '@/store/modules/easy-firestore/storage-to-storage-confs';
 import { CONFIGURATIONS } from '@/constants/data-workflows/status';
 import { STORAGE_TO_STORAGE_CONFIGURATIONS_ITEM } from '@/constants/router/routes-names';
 import {
@@ -39,7 +40,7 @@ import {
 	components: { DataManagementHeader, ListingComponent }
 })
 export default class StorageToStorageConfigurationsListingView extends Mixins(HeaderInfosMixin) {
-	moduleName: string = 'storageToStorageConfs';
+	moduleName: string = storageToStorageConfs.moduleName;
 	overriddenColumns: string[] = ['id'];
 
 	get listingType() {

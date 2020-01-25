@@ -27,6 +27,7 @@ import ListingComponent from '@/components/data-workflows/common/listing/Listing
 
 import HeaderInfosMixin from '../header-infos';
 
+import { vmLauncherRuns } from '@/store/modules/easy-firestore/vm-launcher-runs';
 import { RUNS } from '@/constants/data-workflows/status';
 import { VM_LAUNCHER_RUNS_ITEM } from '@/constants/router/routes-names';
 import {
@@ -42,7 +43,7 @@ import {
 	components: { DataManagementHeader, ListingComponent }
 })
 export default class VmLauncherRunsListingView extends Mixins(HeaderInfosMixin) {
-	moduleName: string = 'vmLauncherRuns';
+	moduleName: string = vmLauncherRuns.moduleName;
 	overriddenColumns: string[] = ['dag_id', 'dag_execution_date'];
 
 	get listingType() {

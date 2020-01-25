@@ -46,6 +46,7 @@ import ListingComponent from '@/components/data-workflows/common/listing/Listing
 
 import HeaderInfosMixin from '../header-infos';
 
+import { workflowStatus } from '@/store/modules/easy-firestore/workflow-status';
 import { STATUS } from '@/constants/data-workflows/status';
 import { WORKFLOW_STATUS_ITEM } from '@/constants/router/routes-names';
 import {
@@ -61,7 +62,7 @@ import {
 	components: { DataManagementHeader, ListingComponent }
 })
 export default class WorkflowStatusListingView extends Mixins(HeaderInfosMixin) {
-	moduleName: string = 'workflowStatus';
+	moduleName: string = workflowStatus.moduleName;
 	overriddenColumns: string[] = [
 		'id',
 		'jobs',

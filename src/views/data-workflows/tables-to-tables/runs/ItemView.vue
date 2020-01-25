@@ -10,10 +10,11 @@ import { Component, Mixins } from 'vue-property-decorator';
 import HeaderInfosMixin from '../header-infos';
 import ItemMixin from '@/mixins/data-workflows/item-mixin';
 import { RUNS } from '@/constants/data-workflows/status';
+import { getGbqToGbqRuns } from '@/store/modules/easy-firestore/get-gbq-to-gbq-runs';
 
 @Component
 export default class TablesToTablesRunsItemView extends Mixins(HeaderInfosMixin, ItemMixin) {
-	moduleName: string = 'getGbqToGbqRuns';
+	moduleName: string = getGbqToGbqRuns.moduleName;
 
 	get type() {
 		return RUNS;

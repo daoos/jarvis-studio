@@ -23,6 +23,7 @@ import ListingComponent from '@/components/data-workflows/common/listing/Listing
 
 import HeaderInfosMixin from '../header-infos';
 
+import { getGbqToGcsConfs } from '@/store/modules/easy-firestore/get-gbq-to-gcs-confs';
 import { CONFIGURATIONS } from '@/constants/data-workflows/status';
 import { GBQ_TO_GCS_CONFIGURATIONS_ITEM } from '@/constants/router/routes-names';
 import { ACCOUNT, ENVIRONMENT, ID, ACTIVATED, ACTIONS } from '@/constants/data-workflows/listing/header-items';
@@ -31,7 +32,7 @@ import { ACCOUNT, ENVIRONMENT, ID, ACTIVATED, ACTIONS } from '@/constants/data-w
 	components: { DataManagementHeader, ListingComponent }
 })
 export default class GbqToGcsConfigurationsListingView extends Mixins(HeaderInfosMixin) {
-	moduleName: string = 'getGbqToGcsConfs';
+	moduleName: string = getGbqToGcsConfs.moduleName;
 	overriddenColumns: string[] = ['id'];
 
 	get listingType() {

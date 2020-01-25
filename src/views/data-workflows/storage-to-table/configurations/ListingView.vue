@@ -27,6 +27,7 @@ import ListingComponent from '@/components/data-workflows/common/listing/Listing
 
 import HeaderInfosMixin from '../header-infos';
 
+import { mirrorExcGcsToGbqConfs } from '@/store/modules/easy-firestore/mirror-exc-gcs-to-gbq-confs';
 import { CONFIGURATIONS } from '@/constants/data-workflows/status';
 import { STORAGE_TO_TABLE_CONFIGURATIONS_ITEM } from '@/constants/router/routes-names';
 import {
@@ -43,7 +44,7 @@ import {
 	components: { DataManagementHeader, ListingComponent }
 })
 export default class StorageToTableConfigurationsListingView extends Mixins(HeaderInfosMixin) {
-	moduleName: string = 'mirrorExcGcsToGbqConfs';
+	moduleName: string = mirrorExcGcsToGbqConfs.moduleName;
 	overriddenColumns: string[] = ['table_name'];
 
 	@State(state => state.mirrorExcGcsToGbqConfs.data) mirrorExcGcsToGbqConfs!: Object;

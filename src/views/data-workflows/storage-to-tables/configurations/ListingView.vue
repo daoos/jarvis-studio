@@ -27,6 +27,7 @@ import ListingComponent from '@/components/data-workflows/common/listing/Listing
 
 import HeaderInfosMixin from '../header-infos';
 
+import { storageToTablesConfs } from '@/store/modules/easy-firestore/storage-to-tables-confs';
 import { CONFIGURATIONS } from '@/constants/data-workflows/status';
 import { STORAGE_TO_TABLES_CONFIGURATIONS_ITEM } from '@/constants/router/routes-names';
 
@@ -34,7 +35,7 @@ import { STORAGE_TO_TABLES_CONFIGURATIONS_ITEM } from '@/constants/router/routes
 	components: { DataManagementHeader, ListingComponent }
 })
 export default class StorageToTablesConfigurationsListingView extends Mixins(HeaderInfosMixin) {
-	moduleName: string = 'storageToTablesConfs';
+	moduleName: string = storageToTablesConfs.moduleName;
 	overriddenColumns: string[] = ['id', 'source'];
 
 	get listingType() {
