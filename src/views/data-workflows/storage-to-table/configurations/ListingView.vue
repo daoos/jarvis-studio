@@ -22,8 +22,6 @@
 import { Component, Mixins } from 'vue-property-decorator';
 import { AnyObject, WhereConfFilter } from '@/types';
 import { Getter, State } from 'vuex-class';
-import DataManagementHeader from '@/components/data-workflows/common/DataManagementHeader.vue';
-import ListingComponent from '@/components/data-workflows/common/listing/ListingComponent.vue';
 
 import HeaderInfosMixin from '../header-infos';
 import ConfigurationCollectionMixin from '@/mixins/data-workflows/collection/configuration-collection-mixin';
@@ -39,9 +37,7 @@ import {
 	TABLE_NAME
 } from '@/constants/data-workflows/listing/header-items';
 
-@Component({
-	components: { DataManagementHeader, ListingComponent }
-})
+@Component
 export default class StorageToTableConfigurationsListingView extends Mixins(
 	HeaderInfosMixin,
 	ConfigurationCollectionMixin

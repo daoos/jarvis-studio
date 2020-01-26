@@ -1,10 +1,9 @@
-// TODO: Create common mixin & import components
-
-import { Component, Vue } from 'vue-property-decorator';
+import { Component } from 'vue-property-decorator';
+import CollectionMixin from './collection-mixin';
 import { CONFIGURATIONS } from '@/constants/data-workflows/status';
 
 @Component
-export default class ConfigurationCollectionMixin extends Vue {
+export default class ConfigurationCollectionMixin extends CollectionMixin {
 	get listingType() {
 		return CONFIGURATIONS;
 	}

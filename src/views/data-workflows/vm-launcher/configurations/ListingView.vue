@@ -21,8 +21,6 @@
 
 <script lang="ts">
 import { Component, Mixins } from 'vue-property-decorator';
-import DataManagementHeader from '@/components/data-workflows/common/DataManagementHeader.vue';
-import ListingComponent from '@/components/data-workflows/common/listing/ListingComponent.vue';
 
 import HeaderInfosMixin from '../header-infos';
 import ConfigurationCollectionMixin from '@/mixins/data-workflows/collection/configuration-collection-mixin';
@@ -38,9 +36,7 @@ import {
 	WORKING_DIR
 } from '@/constants/data-workflows/listing/header-items';
 
-@Component({
-	components: { DataManagementHeader, ListingComponent }
-})
+@Component
 export default class VmLauncherConfigurationsListingView extends Mixins(
 	HeaderInfosMixin,
 	ConfigurationCollectionMixin

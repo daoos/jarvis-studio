@@ -27,8 +27,6 @@
 
 <script lang="ts">
 import { Component, Mixins } from 'vue-property-decorator';
-import DataManagementHeader from '@/components/data-workflows/common/DataManagementHeader.vue';
-import ListingComponent from '@/components/data-workflows/common/listing/ListingComponent.vue';
 import ConfigurationStatus from '@/components/data-workflows/configuration/ConfigurationStatus.vue';
 
 import HeaderInfosMixin from '../header-infos';
@@ -46,7 +44,7 @@ import {
 import ConfigurationCollectionMixin from '@/mixins/data-workflows/collection/configuration-collection-mixin';
 
 @Component({
-	components: { DataManagementHeader, ListingComponent, ConfigurationStatus }
+	components: { ConfigurationStatus }
 })
 export default class TablesToTablesConfigurationsListingView extends Mixins(
 	HeaderInfosMixin,

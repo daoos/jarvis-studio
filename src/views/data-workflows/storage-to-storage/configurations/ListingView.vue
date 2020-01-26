@@ -19,8 +19,6 @@
 
 <script lang="ts">
 import { Component, Mixins } from 'vue-property-decorator';
-import DataManagementHeader from '@/components/data-workflows/common/DataManagementHeader.vue';
-import ListingComponent from '@/components/data-workflows/common/listing/ListingComponent.vue';
 
 import HeaderInfosMixin from '../header-infos';
 import ConfigurationCollectionMixin from '@/mixins/data-workflows/collection/configuration-collection-mixin';
@@ -35,9 +33,7 @@ import {
 	NB_FILENAME_TEMPLATES
 } from '@/constants/data-workflows/listing/header-items';
 
-@Component({
-	components: { DataManagementHeader, ListingComponent }
-})
+@Component
 export default class StorageToStorageConfigurationsListingView extends Mixins(
 	HeaderInfosMixin,
 	ConfigurationCollectionMixin

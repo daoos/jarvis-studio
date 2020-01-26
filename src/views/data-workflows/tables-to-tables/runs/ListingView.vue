@@ -25,8 +25,6 @@
 
 <script lang="ts">
 import { Component, Mixins } from 'vue-property-decorator';
-import DataManagementHeader from '@/components/data-workflows/common/DataManagementHeader.vue';
-import ListingComponent from '@/components/data-workflows/common/listing/ListingComponent.vue';
 
 import HeaderInfosMixin from '../header-infos';
 import RunCollectionMixin from '@/mixins/data-workflows/collection/run-collection-mixin';
@@ -42,9 +40,7 @@ import {
 	WORKFLOW_LENGTH
 } from '@/constants/data-workflows/listing/header-items';
 
-@Component({
-	components: { DataManagementHeader, ListingComponent }
-})
+@Component
 export default class TablesToTablesRunsListingView extends Mixins(HeaderInfosMixin, RunCollectionMixin) {
 	moduleName: string = 'getGbqToGbqRuns';
 	overriddenColumns: string[] = ['dag_id', 'dag_execution_date'];

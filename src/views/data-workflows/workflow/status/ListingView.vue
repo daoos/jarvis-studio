@@ -41,8 +41,6 @@
 
 <script lang="ts">
 import { Component, Mixins } from 'vue-property-decorator';
-import DataManagementHeader from '@/components/data-workflows/common/DataManagementHeader.vue';
-import ListingComponent from '@/components/data-workflows/common/listing/ListingComponent.vue';
 
 import HeaderInfosMixin from '../header-infos';
 import StatusCollectionMixin from '@/mixins/data-workflows/collection/status-collection-mixin';
@@ -57,9 +55,7 @@ import {
 	TRIGGERED_JOBS
 } from '@/constants/data-workflows/listing/header-items';
 
-@Component({
-	components: { DataManagementHeader, ListingComponent }
-})
+@Component
 export default class WorkflowStatusListingView extends Mixins(HeaderInfosMixin, StatusCollectionMixin) {
 	moduleName: string = 'workflowStatus';
 	overriddenColumns: string[] = [
