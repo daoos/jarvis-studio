@@ -8,11 +8,10 @@
 <script lang="ts">
 import { Component, Mixins } from 'vue-property-decorator';
 import HeaderInfosMixin from '../header-infos';
-import ItemMixin from '@/mixins/data-workflows/item-mixin';
-import { RUNS } from '@/constants/data-workflows/status';
+import RunDocMixin from '@/mixins/data-workflows/run-doc-mixin';
 
 @Component
-export default class StorageToTablesRunsItemView extends Mixins(HeaderInfosMixin, ItemMixin) {
+export default class StorageToTablesRunsItemView extends Mixins(HeaderInfosMixin, RunDocMixin) {
 	moduleName: string = 'storageToTablesRuns';
 
 	getDestinationTables() {
@@ -168,10 +167,6 @@ export default class StorageToTablesRunsItemView extends Mixins(HeaderInfosMixin
 				}
 			}
 		];
-	}
-
-	get type() {
-		return RUNS;
 	}
 
 	get itemTabsItems() {

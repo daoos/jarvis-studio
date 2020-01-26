@@ -8,16 +8,12 @@
 <script lang="ts">
 import { Component, Mixins } from 'vue-property-decorator';
 import HeaderInfosMixin from '../header-infos';
-import ItemMixin from '@/mixins/data-workflows/item-mixin';
+import RunDocMixin from '@/mixins/data-workflows/run-doc-mixin';
 import { RUNS } from '@/constants/data-workflows/status';
 
 @Component
-export default class TablesToTablesRunsItemView extends Mixins(HeaderInfosMixin, ItemMixin) {
+export default class TablesToTablesRunsItemView extends Mixins(HeaderInfosMixin, RunDocMixin) {
 	moduleName: string = 'getGbqToGbqRuns';
-
-	get type() {
-		return RUNS;
-	}
 
 	get itemTabsItems() {
 		if (Object.keys(this.item).length === 0) return [];

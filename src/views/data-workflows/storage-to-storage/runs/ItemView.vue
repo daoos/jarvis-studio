@@ -9,11 +9,10 @@
 import { Component, Mixins } from 'vue-property-decorator';
 import { AnyObject, DestinationStorageRows } from '@/types';
 import HeaderInfosMixin from '../header-infos';
-import ItemMixin from '@/mixins/data-workflows/item-mixin';
-import { RUNS } from '@/constants/data-workflows/status';
+import RunDocMixin from '@/mixins/data-workflows/run-doc-mixin';
 
 @Component
-export default class StorageToStorageRunsItemView extends Mixins(HeaderInfosMixin, ItemMixin) {
+export default class StorageToStorageRunsItemView extends Mixins(HeaderInfosMixin, RunDocMixin) {
 	moduleName: string = 'storageToStorageRuns';
 
 	getSourceStorageColumns() {
@@ -174,10 +173,6 @@ export default class StorageToStorageRunsItemView extends Mixins(HeaderInfosMixi
 		destinationStorageRows.s3 = s3DestinationStorageRows;
 		destinationStorageRows.sftp = sftpDestinationStorageRows;
 		return destinationStorageRows;
-	}
-
-	get type() {
-		return RUNS;
 	}
 
 	get itemTabsItems() {
