@@ -7,17 +7,16 @@
 
 <script lang="ts">
 import { Component, Mixins } from 'vue-property-decorator';
-import { DataWorkflowsType } from '@/types';
 import { State } from 'vuex-class';
+
 import HeaderInfosMixin from '../header-infos';
-import ItemMixin from '@/mixins/data-workflows/item-mixin';
-import store from '@/store';
-import { CONFIGURATIONS } from '@/constants/data-workflows/status';
+import ConfigurationDocMixin from '@/mixins/data-workflows/configuration-doc-mixin';
+
 import { mirrorExcGcsToGbqConfs } from '@/store/modules/easy-firestore/mirror-exc-gcs-to-gbq-confs';
 import { mirrorExcGcsToGbqConfArchive } from '@/store/modules/easy-firestore/mirror-exc-gcs-to-gbq-conf-archive';
 
 @Component
-export default class StorageToTableConfigurationsItemView extends Mixins(HeaderInfosMixin, ItemMixin) {
+export default class StorageToTableConfigurationsItemView extends Mixins(HeaderInfosMixin, ConfigurationDocMixin) {
 	moduleName: string = mirrorExcGcsToGbqConfs.moduleName;
 	archivedConfsModuleName: string = mirrorExcGcsToGbqConfArchive.moduleName;
 
@@ -25,18 +24,14 @@ export default class StorageToTableConfigurationsItemView extends Mixins(HeaderI
 
 	// Override of `getItem` method in ItemMixin to fetch item with custom firestore path
 	async getItem() {
-		await store.dispatch('storageToTableConf/closeDBChannel', { clearModule: true });
-		await store.dispatch('storageToTableConf/fetchAndAdd', {
+		await this.$store.dispatch('storageToTableConf/closeDBChannel', { clearModule: true });
+		await this.$store.dispatch('storageToTableConf/fetchAndAdd', {
 			sourceId: this.bucketIn,
 			itemId: this.itemId
 		});
 
 		this.item = this.storageToTableConf;
 		this.isLoading = false;
-	}
-
-	get type(): DataWorkflowsType {
-		return CONFIGURATIONS;
 	}
 
 	get bucketIn() {

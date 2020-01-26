@@ -7,21 +7,17 @@
 
 <script lang="ts">
 import { Component, Mixins } from 'vue-property-decorator';
-import { DataWorkflowsType } from '@/types';
+
 import HeaderInfosMixin from '../header-infos';
-import ItemMixin from '@/mixins/data-workflows/item-mixin';
-import { CONFIGURATIONS } from '@/constants/data-workflows/status';
+import ConfigurationDocMixin from '@/mixins/data-workflows/configuration-doc-mixin';
+
 import { vmLauncherConfs } from '@/store/modules/easy-firestore/vm-launcher-confs';
 import { vmLauncherConfArchive } from '@/store/modules/easy-firestore/vm-launcher-conf-archive';
 
 @Component
-export default class VmLauncherConfigurationsItemView extends Mixins(HeaderInfosMixin, ItemMixin) {
+export default class VmLauncherConfigurationsItemView extends Mixins(HeaderInfosMixin, ConfigurationDocMixin) {
 	moduleName: string = vmLauncherConfs.moduleName;
 	archivedConfsModuleName: string = vmLauncherConfArchive.moduleName;
-
-	get type(): DataWorkflowsType {
-		return CONFIGURATIONS;
-	}
 
 	get itemTabsItems() {
 		if (Object.keys(this.item).length === 0) return [];

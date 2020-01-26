@@ -7,21 +7,17 @@
 
 <script lang="ts">
 import { Component, Mixins } from 'vue-property-decorator';
-import { DataWorkflowsType } from '@/types';
+
 import HeaderInfosMixin from '../header-infos';
-import ItemMixin from '@/mixins/data-workflows/item-mixin';
-import { CONFIGURATIONS } from '@/constants/data-workflows/status';
+import ConfigurationDocMixin from '@/mixins/data-workflows/configuration-doc-mixin';
+
 import { mirrorExcGcsToGcsConfs } from '@/store/modules/easy-firestore/mirror-exc-gcs-to-gcs-confs';
 import { mirrorExcGcsToGcsConfsArchive } from '@/store/modules/easy-firestore/mirror-exc-gcs-to-gcs-confs-archive';
 
 @Component
-export default class GcsToGcsConfigurationsItemView extends Mixins(HeaderInfosMixin, ItemMixin) {
+export default class GcsToGcsConfigurationsItemView extends Mixins(HeaderInfosMixin, ConfigurationDocMixin) {
 	moduleName: string = mirrorExcGcsToGcsConfs.moduleName;
 	archivedConfsModuleName: string = mirrorExcGcsToGcsConfsArchive.moduleName;
-
-	get type(): DataWorkflowsType {
-		return CONFIGURATIONS;
-	}
 
 	// TODO: Move to dedicated file all methods / computed below
 	getDestinationStorageRows() {
