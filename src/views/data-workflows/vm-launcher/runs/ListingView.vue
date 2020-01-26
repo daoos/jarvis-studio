@@ -26,7 +26,7 @@ import DataManagementHeader from '@/components/data-workflows/common/DataManagem
 import ListingComponent from '@/components/data-workflows/common/listing/ListingComponent.vue';
 
 import HeaderInfosMixin from '../header-infos';
-import RunCollectionMixin from '@/mixins/data-workflows/run-collection-mixin';
+import RunCollectionMixin from '@/mixins/data-workflows/collection/run-collection-mixin';
 
 import { VM_LAUNCHER_RUNS_ITEM } from '@/constants/router/routes-names';
 import {

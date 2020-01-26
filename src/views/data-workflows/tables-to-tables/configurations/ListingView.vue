@@ -43,7 +43,7 @@ import {
 	ENVIRONMENT,
 	ID
 } from '@/constants/data-workflows/listing/header-items';
-import ConfigurationCollectionMixin from '@/mixins/data-workflows/configuration-collection-mixin';
+import ConfigurationCollectionMixin from '@/mixins/data-workflows/collection/configuration-collection-mixin';
 
 @Component({
 	components: { DataManagementHeader, ListingComponent, ConfigurationStatus }

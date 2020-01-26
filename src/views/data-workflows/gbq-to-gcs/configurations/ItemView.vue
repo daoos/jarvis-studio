@@ -9,7 +9,7 @@
 import { Component, Mixins } from 'vue-property-decorator';
 
 import HeaderInfosMixin from '../header-infos';
-import ConfigurationDocMixin from '@/mixins/data-workflows/configuration-doc-mixin';
+import ConfigurationDocMixin from '@/mixins/data-workflows/doc/configuration-doc-mixin';
 
 import { getGbqToGcsConfs } from '@/store/modules/easy-firestore/get-gbq-to-gcs-confs';
 import { getGbqToGcsConfsArchive } from '@/store/modules/easy-firestore/get-gbq-to-gcs-confs-archive';

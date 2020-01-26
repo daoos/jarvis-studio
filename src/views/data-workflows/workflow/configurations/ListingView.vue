@@ -22,7 +22,7 @@ import DataManagementHeader from '@/components/data-workflows/common/DataManagem
 import ListingComponent from '@/components/data-workflows/common/listing/ListingComponent.vue';
 
 import HeaderInfosMixin from '../header-infos';
-import ConfigurationCollectionMixin from '@/mixins/data-workflows/configuration-collection-mixin';
+import ConfigurationCollectionMixin from '@/mixins/data-workflows/collection/configuration-collection-mixin';
 
 import { WORKFLOW_CONFIGURATIONS_ITEM } from '@/constants/router/routes-names';
 import {

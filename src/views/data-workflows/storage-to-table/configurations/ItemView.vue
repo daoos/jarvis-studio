@@ -10,7 +10,7 @@ import { Component, Mixins } from 'vue-property-decorator';
 import { State } from 'vuex-class';
 
 import HeaderInfosMixin from '../header-infos';
-import ConfigurationDocMixin from '@/mixins/data-workflows/configuration-doc-mixin';
+import ConfigurationDocMixin from '@/mixins/data-workflows/doc/configuration-doc-mixin';
 
 import { mirrorExcGcsToGbqConfs } from '@/store/modules/easy-firestore/mirror-exc-gcs-to-gbq-confs';
 import { mirrorExcGcsToGbqConfArchive } from '@/store/modules/easy-firestore/mirror-exc-gcs-to-gbq-conf-archive';

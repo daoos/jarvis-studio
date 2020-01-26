@@ -10,7 +10,7 @@ import { Component, Mixins } from 'vue-property-decorator';
 import { AnyObject, DestinationStorageRows } from '@/types';
 
 import HeaderInfosMixin from '../header-infos';
-import ConfigurationDocMixin from '@/mixins/data-workflows/configuration-doc-mixin';
+import ConfigurationDocMixin from '@/mixins/data-workflows/doc/configuration-doc-mixin';
 
 import { storageToStorageConfs } from '@/store/modules/easy-firestore/storage-to-storage-confs';
 import { storageToStorageConfsArchive } from '@/store/modules/easy-firestore/storage-to-storage-confs-archive';

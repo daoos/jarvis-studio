@@ -45,7 +45,7 @@ import DataManagementHeader from '@/components/data-workflows/common/DataManagem
 import ListingComponent from '@/components/data-workflows/common/listing/ListingComponent.vue';
 
 import HeaderInfosMixin from '../header-infos';
-import StatusCollectionMixin from '@/mixins/data-workflows/status-collection-mixin';
+import StatusCollectionMixin from '@/mixins/data-workflows/collection/status-collection-mixin';
 
 import { WORKFLOW_STATUS_ITEM } from '@/constants/router/routes-names';
 import {

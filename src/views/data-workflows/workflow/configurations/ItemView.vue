@@ -9,7 +9,7 @@
 import { Component, Mixins } from 'vue-property-decorator';
 
 import HeaderInfosMixin from '../header-infos';
-import ConfigurationDocMixin from '@/mixins/data-workflows/configuration-doc-mixin';
+import ConfigurationDocMixin from '@/mixins/data-workflows/doc/configuration-doc-mixin';
 
 import { workflowConfs } from '@/store/modules/easy-firestore/workflow-confs';
 import { workflowConfArchive } from '@/store/modules/easy-firestore/workflow-conf-archive';

@@ -8,7 +8,7 @@
 <script lang="ts">
 import { Component, Mixins } from 'vue-property-decorator';
 import HeaderInfosMixin from '../header-infos';
-import RunDocMixin from '@/mixins/data-workflows/run-doc-mixin';
+import RunDocMixin from '@/mixins/data-workflows/doc/run-doc-mixin';
 
 @Component
 export default class TableToStorageRunsItemView extends Mixins(HeaderInfosMixin, RunDocMixin) {

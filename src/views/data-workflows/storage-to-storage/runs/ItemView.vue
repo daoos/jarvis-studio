@@ -9,7 +9,7 @@
 import { Component, Mixins } from 'vue-property-decorator';
 import { AnyObject, DestinationStorageRows } from '@/types';
 import HeaderInfosMixin from '../header-infos';
-import RunDocMixin from '@/mixins/data-workflows/run-doc-mixin';
+import RunDocMixin from '@/mixins/data-workflows/doc/run-doc-mixin';
 
 @Component
 export default class StorageToStorageRunsItemView extends Mixins(HeaderInfosMixin, RunDocMixin) {

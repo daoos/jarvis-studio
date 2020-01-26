@@ -9,7 +9,7 @@
 import { Component, Mixins } from 'vue-property-decorator';
 
 import HeaderInfosMixin from '../header-infos';
-import ConfigurationDocMixin from '@/mixins/data-workflows/configuration-doc-mixin';
+import ConfigurationDocMixin from '@/mixins/data-workflows/doc/configuration-doc-mixin';
 
 import { vmLauncherConfs } from '@/store/modules/easy-firestore/vm-launcher-confs';
 import { vmLauncherConfArchive } from '@/store/modules/easy-firestore/vm-launcher-conf-archive';

@@ -8,7 +8,7 @@
 <script lang="ts">
 import { Component, Mixins } from 'vue-property-decorator';
 import HeaderInfosMixin from '../header-infos';
-import StatusDocMixin from '@/mixins/data-workflows/status-doc-mixin';
+import StatusDocMixin from '@/mixins/data-workflows/doc/status-doc-mixin';
 
 @Component
 export default class WorkflowStatusItemView extends Mixins(HeaderInfosMixin, StatusDocMixin) {

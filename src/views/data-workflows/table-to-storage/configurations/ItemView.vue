@@ -9,7 +9,7 @@
 import { Component, Mixins } from 'vue-property-decorator';
 
 import HeaderInfosMixin from '../header-infos';
-import ConfigurationDocMixin from '@/mixins/data-workflows/configuration-doc-mixin';
+import ConfigurationDocMixin from '@/mixins/data-workflows/doc/configuration-doc-mixin';
 
 import { tableToStorageConfs } from '@/store/modules/easy-firestore/table-to-storage-confs';
 import { tableToStorageConfArchive } from '@/store/modules/easy-firestore/table-to-storage-conf-archive';
