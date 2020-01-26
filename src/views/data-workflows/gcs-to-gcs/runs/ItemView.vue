@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<data-management-header :workflow-name="workflowName" :tabsItems="tabsItems" />
-		<item-component :type="type" :tabs-items="itemTabsItems" :is-loading="isLoading" :is-not-found="isNotFound" />
+		<item-component v-bind="runProps" />
 	</div>
 </template>
 

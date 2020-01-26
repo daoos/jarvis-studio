@@ -118,6 +118,13 @@ export interface ConfigurationProps {
 	archivedConfsModuleName: string;
 }
 
+export interface RunProps {
+	type: string;
+	tabsItems: object[];
+	isLoading: boolean;
+	isNotFound: boolean;
+}
+
 export interface Link {
 	icon: string;
 	title: string;
