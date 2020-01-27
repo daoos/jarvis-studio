@@ -24,6 +24,7 @@ import ListingComponent from '@/components/data-workflows/common/listing/Listing
 
 import HeaderInfosMixin from '../header-infos';
 
+import { mirrorExcGcsToGcsConfs } from '@/store/modules/easy-firestore/mirror-exc-gcs-to-gcs-confs';
 import { CONFIGURATIONS } from '@/constants/data-workflows/status';
 import { GCS_TO_GCS_CONFIGURATIONS_ITEM } from '@/constants/router/routes-names';
 import {
@@ -41,7 +42,7 @@ import {
 	components: { DataManagementHeader, ListingComponent }
 })
 export default class GcsToGcsConfigurationsListingView extends Mixins(HeaderInfosMixin) {
-	moduleName: string = 'mirrorExcGcsToGcsConfs';
+	moduleName: string = mirrorExcGcsToGcsConfs.moduleName;
 	overriddenColumns: string[] = ['id'];
 
 	get listingType() {

@@ -31,6 +31,7 @@ import ListingComponent from '@/components/data-workflows/common/listing/Listing
 
 import HeaderInfosMixin from '../header-infos';
 
+import { storageToTablesRuns } from '@/store/modules/easy-firestore/storage-to-tables-runs';
 import { RUNS } from '@/constants/data-workflows/status';
 import { STORAGE_TO_TABLES_RUNS_ITEM } from '@/constants/router/routes-names';
 
@@ -38,7 +39,7 @@ import { STORAGE_TO_TABLES_RUNS_ITEM } from '@/constants/router/routes-names';
 	components: { DataManagementHeader, ListingComponent }
 })
 export default class StorageToTablesRunsListingView extends Mixins(HeaderInfosMixin) {
-	moduleName: string = 'storageToTablesRuns';
+	moduleName: string = storageToTablesRuns.moduleName;
 	overriddenColumns: string[] = ['id', 'configuration_context.source', 'dag_execution_date'];
 
 	get listingType() {

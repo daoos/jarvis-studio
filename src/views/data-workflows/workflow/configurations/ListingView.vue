@@ -23,6 +23,7 @@ import ListingComponent from '@/components/data-workflows/common/listing/Listing
 
 import HeaderInfosMixin from '../header-infos';
 
+import { workflowConfs } from '@/store/modules/easy-firestore/workflow-confs';
 import { CONFIGURATIONS } from '@/constants/data-workflows/status';
 import { WORKFLOW_CONFIGURATIONS_ITEM } from '@/constants/router/routes-names';
 import {
@@ -39,7 +40,7 @@ import {
 	components: { DataManagementHeader, ListingComponent }
 })
 export default class WorkflowConfigurationsListingView extends Mixins(HeaderInfosMixin) {
-	moduleName: string = 'workflowConfs';
+	moduleName: string = workflowConfs.moduleName;
 	overriddenColumns: string[] = ['id'];
 
 	get listingType() {

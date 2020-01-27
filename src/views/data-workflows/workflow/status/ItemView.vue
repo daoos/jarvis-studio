@@ -10,10 +10,11 @@ import { Component, Mixins } from 'vue-property-decorator';
 import HeaderInfosMixin from '../header-infos';
 import ItemMixin from '@/mixins/data-workflows/item-mixin';
 import { STATUS } from '@/constants/data-workflows/status';
+import { workflowStatus } from '@/store/modules/easy-firestore/workflow-status';
 
 @Component
 export default class WorkflowStatusItemView extends Mixins(HeaderInfosMixin, ItemMixin) {
-	moduleName: string = 'workflowStatus';
+	moduleName: string = workflowStatus.moduleName;
 
 	get type() {
 		return STATUS;

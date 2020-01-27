@@ -30,6 +30,7 @@ import ListingComponent from '@/components/data-workflows/common/listing/Listing
 
 import HeaderInfosMixin from '../header-infos';
 
+import { getGbqToGbqRuns } from '@/store/modules/easy-firestore/get-gbq-to-gbq-runs';
 import { RUNS } from '@/constants/data-workflows/status';
 import { TABLES_TO_TABLES_RUNS_ITEM } from '@/constants/router/routes-names';
 import {
@@ -46,7 +47,7 @@ import {
 	components: { DataManagementHeader, ListingComponent }
 })
 export default class TablesToTablesRunsListingView extends Mixins(HeaderInfosMixin) {
-	moduleName: string = 'getGbqToGbqRuns';
+	moduleName: string = getGbqToGbqRuns.moduleName;
 	overriddenColumns: string[] = ['dag_id', 'dag_execution_date'];
 
 	get listingType() {

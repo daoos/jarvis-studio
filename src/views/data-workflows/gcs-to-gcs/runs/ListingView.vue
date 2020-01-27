@@ -30,6 +30,7 @@ import ListingComponent from '@/components/data-workflows/common/listing/Listing
 
 import HeaderInfosMixin from '../header-infos';
 
+import { mirrorExcGcsToGcsRuns } from '@/store/modules/easy-firestore/mirror-exc-gcs-to-gcs-runs';
 import { RUNS } from '@/constants/data-workflows/status';
 import { GCS_TO_GCS_RUNS_ITEM } from '@/constants/router/routes-names';
 import {
@@ -46,7 +47,7 @@ import {
 	components: { DataManagementHeader, ListingComponent }
 })
 export default class GcsToGcsRunsListingView extends Mixins(HeaderInfosMixin) {
-	moduleName: string = 'mirrorExcGcsToGcsRuns';
+	moduleName: string = mirrorExcGcsToGcsRuns.moduleName;
 	overriddenColumns: string[] = ['gcs_triggering_file', 'dag_execution_date'];
 
 	get listingType() {

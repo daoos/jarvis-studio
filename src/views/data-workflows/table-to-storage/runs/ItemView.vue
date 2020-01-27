@@ -10,10 +10,11 @@ import { Component, Mixins } from 'vue-property-decorator';
 import HeaderInfosMixin from '../header-infos';
 import ItemMixin from '@/mixins/data-workflows/item-mixin';
 import { RUNS } from '@/constants/data-workflows/status';
+import { tableToStorageRuns } from '@/store/modules/easy-firestore/table-to-storage-runs';
 
 @Component
 export default class TableToStorageRunsItemView extends Mixins(HeaderInfosMixin, ItemMixin) {
-	moduleName: string = 'tableToStorageRuns';
+	moduleName: string = tableToStorageRuns.moduleName;
 
 	get type() {
 		return RUNS;

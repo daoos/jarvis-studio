@@ -11,10 +11,11 @@ import { AnyObject, DestinationStorageRows } from '@/types';
 import HeaderInfosMixin from '../header-infos';
 import ItemMixin from '@/mixins/data-workflows/item-mixin';
 import { RUNS } from '@/constants/data-workflows/status';
+import { storageToStorageRuns } from '@/store/modules/easy-firestore/storage-to-storage-runs';
 
 @Component
 export default class StorageToStorageRunsItemView extends Mixins(HeaderInfosMixin, ItemMixin) {
-	moduleName: string = 'storageToStorageRuns';
+	moduleName: string = storageToStorageRuns.moduleName;
 
 	getSourceStorageColumns() {
 		let sourceStorageColumns = {};

@@ -10,10 +10,11 @@ import { Component, Mixins } from 'vue-property-decorator';
 import HeaderInfosMixin from '../header-infos';
 import ItemMixin from '@/mixins/data-workflows/item-mixin';
 import { RUNS } from '@/constants/data-workflows/status';
+import { mirrorExcGcsToGbqRuns } from '@/store/modules/easy-firestore/mirror-exc-gcs-to-gbq-runs';
 
 @Component
 export default class StorageToTableRunsItemView extends Mixins(HeaderInfosMixin, ItemMixin) {
-	moduleName: string = 'mirrorExcGcsToGbqRuns';
+	moduleName: string = mirrorExcGcsToGbqRuns.moduleName;
 
 	get type() {
 		return RUNS;
