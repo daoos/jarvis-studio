@@ -19,6 +19,7 @@
 					<history-component
 						v-if="showHistoryComponent"
 						:doc-id="docId"
+						:current-configuration="currentConfiguration"
 						:module-name="moduleName"
 						:archived-confs-module-name="archivedConfsModuleName"
 						:email="updateInformation.updated_by"
@@ -36,6 +37,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Configuration } from '@/types';
 import importedComponents from './imported-components';
 import { CONFIGURATIONS } from '@/constants/data-workflows/status';
 
@@ -47,7 +49,9 @@ export default class ItemComponent extends Vue {
 	@Prop({ required: true, type: Array }) tabsItems!: object[];
 	@Prop({ required: true, type: Boolean }) isLoading!: boolean;
 	@Prop({ required: true, type: Boolean }) isNotFound!: boolean;
+	// Configuration Prop
 	@Prop(String) docId?: string;
+	@Prop(Object) currentConfiguration?: Configuration;
 	@Prop(Object) updateInformation?: Object;
 	@Prop(String) moduleName?: string;
 	@Prop(String) archivedConfsModuleName?: string;

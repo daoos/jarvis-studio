@@ -76,6 +76,7 @@ export default class ItemMixin extends Vue {
 	get configurationProps(): ConfigurationProps {
 		return {
 			archivedConfsModuleName: this.archivedConfsModuleName,
+			currentConfiguration: this.item,
 			docId: this.itemId,
 			isLoading: this.isLoading,
 			isNotFound: this.isNotFound,

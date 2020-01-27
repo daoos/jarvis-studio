@@ -109,6 +109,7 @@ export interface User extends FirebaseUser {
 // Vue App
 export interface ConfigurationProps {
 	type: string;
+	currentConfiguration: Configuration;
 	docId: string;
 	tabsItems: object[];
 	isLoading: boolean;
