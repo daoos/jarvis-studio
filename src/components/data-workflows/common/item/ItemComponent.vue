@@ -36,6 +36,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Configuration } from '@/types';
 import importedComponents from './imported-components';
 import { CONFIGURATIONS } from '@/constants/data-workflows/status';
 
@@ -47,6 +48,7 @@ export default class ItemComponent extends Vue {
 	@Prop({ required: true, type: Array }) tabsItems!: object[];
 	@Prop({ required: true, type: Boolean }) isLoading!: boolean;
 	@Prop({ required: true, type: Boolean }) isNotFound!: boolean;
+	// Configuration Prop
 	@Prop(String) docId?: string;
 	@Prop(Object) updateInformation?: Object;
 	@Prop(String) moduleName?: string;
