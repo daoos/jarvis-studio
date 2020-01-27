@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<data-management-header :workflowName="workflowName" :tabsItems="tabsItems" />
-		<item-component v-bind="runProps" />
+		<item-component v-bind="statusProps" />
 	</div>
 </template>
 

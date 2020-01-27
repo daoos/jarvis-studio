@@ -125,6 +125,8 @@ export interface RunProps {
 	isNotFound: boolean;
 }
 
+export interface StatusProps extends RunProps {}
+
 export interface Link {
 	icon: string;
 	title: string;
