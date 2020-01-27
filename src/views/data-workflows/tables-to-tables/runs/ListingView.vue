@@ -29,6 +29,7 @@ import { Component, Mixins } from 'vue-property-decorator';
 import HeaderInfosMixin from '../header-infos';
 import RunCollectionMixin from '@/mixins/data-workflows/collection/run-collection-mixin';
 
+import { getGbqToGbqRuns } from '@/store/modules/easy-firestore/get-gbq-to-gbq-runs';
 import { TABLES_TO_TABLES_RUNS_ITEM } from '@/constants/router/routes-names';
 import {
 	ACCOUNT,
@@ -42,7 +43,7 @@ import {
 
 @Component
 export default class TablesToTablesRunsListingView extends Mixins(HeaderInfosMixin, RunCollectionMixin) {
-	moduleName: string = 'getGbqToGbqRuns';
+	moduleName: string = getGbqToGbqRuns.moduleName;
 	overriddenColumns: string[] = ['dag_id', 'dag_execution_date'];
 
 	get routeName() {

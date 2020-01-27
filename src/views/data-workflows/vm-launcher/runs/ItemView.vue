@@ -9,10 +9,11 @@
 import { Component, Mixins } from 'vue-property-decorator';
 import HeaderInfosMixin from '../header-infos';
 import RunDocMixin from '@/mixins/data-workflows/doc/run-doc-mixin';
+import { vmLauncherRuns } from '@/store/modules/easy-firestore/vm-launcher-runs';
 
 @Component
 export default class VmLauncherRunsItemView extends Mixins(HeaderInfosMixin, RunDocMixin) {
-	moduleName: string = 'vmLauncherRuns';
+	moduleName: string = vmLauncherRuns.moduleName;
 
 	get itemTabsItems() {
 		if (Object.keys(this.item).length === 0) return [];

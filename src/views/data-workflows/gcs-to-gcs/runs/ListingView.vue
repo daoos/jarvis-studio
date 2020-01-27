@@ -29,6 +29,7 @@ import { Component, Mixins } from 'vue-property-decorator';
 import HeaderInfosMixin from '../header-infos';
 import RunCollectionMixin from '@/mixins/data-workflows/collection/run-collection-mixin';
 
+import { mirrorExcGcsToGcsRuns } from '@/store/modules/easy-firestore/mirror-exc-gcs-to-gcs-runs';
 import { GCS_TO_GCS_RUNS_ITEM } from '@/constants/router/routes-names';
 import {
 	ACCOUNT,
@@ -42,7 +43,7 @@ import {
 
 @Component
 export default class GcsToGcsRunsListingView extends Mixins(HeaderInfosMixin, RunCollectionMixin) {
-	moduleName: string = 'mirrorExcGcsToGcsRuns';
+	moduleName: string = mirrorExcGcsToGcsRuns.moduleName;
 	overriddenColumns: string[] = ['gcs_triggering_file', 'dag_execution_date'];
 
 	get routeName() {

@@ -23,6 +23,7 @@ import { Component, Mixins } from 'vue-property-decorator';
 import HeaderInfosMixin from '../header-infos';
 import ConfigurationCollectionMixin from '@/mixins/data-workflows/collection/configuration-collection-mixin';
 
+import { mirrorExcGcsToGcsConfs } from '@/store/modules/easy-firestore/mirror-exc-gcs-to-gcs-confs';
 import { GCS_TO_GCS_CONFIGURATIONS_ITEM } from '@/constants/router/routes-names';
 import {
 	ACCOUNT,
@@ -37,7 +38,7 @@ import {
 
 @Component
 export default class GcsToGcsConfigurationsListingView extends Mixins(HeaderInfosMixin, ConfigurationCollectionMixin) {
-	moduleName: string = 'mirrorExcGcsToGcsConfs';
+	moduleName: string = mirrorExcGcsToGcsConfs.moduleName;
 	overriddenColumns: string[] = ['id'];
 
 	get routeName() {

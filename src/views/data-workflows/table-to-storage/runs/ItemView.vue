@@ -9,10 +9,11 @@
 import { Component, Mixins } from 'vue-property-decorator';
 import HeaderInfosMixin from '../header-infos';
 import RunDocMixin from '@/mixins/data-workflows/doc/run-doc-mixin';
+import { tableToStorageRuns } from '@/store/modules/easy-firestore/table-to-storage-runs';
 
 @Component
 export default class TableToStorageRunsItemView extends Mixins(HeaderInfosMixin, RunDocMixin) {
-	moduleName: string = 'tableToStorageRuns';
+	moduleName: string = tableToStorageRuns.moduleName;
 
 	get itemTabsItems() {
 		if (Object.keys(this.item).length === 0) return [];

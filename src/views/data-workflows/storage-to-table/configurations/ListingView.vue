@@ -26,6 +26,7 @@ import { Getter, State } from 'vuex-class';
 import HeaderInfosMixin from '../header-infos';
 import ConfigurationCollectionMixin from '@/mixins/data-workflows/collection/configuration-collection-mixin';
 
+import { mirrorExcGcsToGbqConfs } from '@/store/modules/easy-firestore/mirror-exc-gcs-to-gbq-confs';
 import { STORAGE_TO_TABLE_CONFIGURATIONS_ITEM } from '@/constants/router/routes-names';
 import {
 	ACCOUNT,
@@ -42,7 +43,7 @@ export default class StorageToTableConfigurationsListingView extends Mixins(
 	HeaderInfosMixin,
 	ConfigurationCollectionMixin
 ) {
-	moduleName: string = 'mirrorExcGcsToGbqConfs';
+	moduleName: string = mirrorExcGcsToGbqConfs.moduleName;
 	overriddenColumns: string[] = ['table_name'];
 
 	@State(state => state.mirrorExcGcsToGbqConfs.data) mirrorExcGcsToGbqConfs!: Object;

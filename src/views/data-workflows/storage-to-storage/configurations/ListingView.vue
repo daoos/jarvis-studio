@@ -23,6 +23,7 @@ import { Component, Mixins } from 'vue-property-decorator';
 import HeaderInfosMixin from '../header-infos';
 import ConfigurationCollectionMixin from '@/mixins/data-workflows/collection/configuration-collection-mixin';
 
+import { storageToStorageConfs } from '@/store/modules/easy-firestore/storage-to-storage-confs';
 import { STORAGE_TO_STORAGE_CONFIGURATIONS_ITEM } from '@/constants/router/routes-names';
 import {
 	ACCOUNT,
@@ -38,7 +39,7 @@ export default class StorageToStorageConfigurationsListingView extends Mixins(
 	HeaderInfosMixin,
 	ConfigurationCollectionMixin
 ) {
-	moduleName: string = 'storageToStorageConfs';
+	moduleName: string = storageToStorageConfs.moduleName;
 	overriddenColumns: string[] = ['id'];
 
 	get routeName() {

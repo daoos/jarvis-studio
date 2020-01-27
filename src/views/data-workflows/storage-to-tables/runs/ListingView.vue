@@ -30,11 +30,12 @@ import { Component, Mixins } from 'vue-property-decorator';
 import HeaderInfosMixin from '../header-infos';
 import RunCollectionMixin from '@/mixins/data-workflows/collection/run-collection-mixin';
 
+import { storageToTablesRuns } from '@/store/modules/easy-firestore/storage-to-tables-runs';
 import { STORAGE_TO_TABLES_RUNS_ITEM } from '@/constants/router/routes-names';
 
 @Component
 export default class StorageToTablesRunsListingView extends Mixins(HeaderInfosMixin, RunCollectionMixin) {
-	moduleName: string = 'storageToTablesRuns';
+	moduleName: string = storageToTablesRuns.moduleName;
 	overriddenColumns: string[] = ['id', 'configuration_context.source', 'dag_execution_date'];
 
 	get routeName() {

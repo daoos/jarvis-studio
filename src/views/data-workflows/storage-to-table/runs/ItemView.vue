@@ -9,10 +9,11 @@
 import { Component, Mixins } from 'vue-property-decorator';
 import HeaderInfosMixin from '../header-infos';
 import RunDocMixin from '@/mixins/data-workflows/doc/run-doc-mixin';
+import { mirrorExcGcsToGbqRuns } from '@/store/modules/easy-firestore/mirror-exc-gcs-to-gbq-runs';
 
 @Component
 export default class StorageToTableRunsItemView extends Mixins(HeaderInfosMixin, RunDocMixin) {
-	moduleName: string = 'mirrorExcGcsToGbqRuns';
+	moduleName: string = mirrorExcGcsToGbqRuns.moduleName;
 
 	get itemTabsItems() {
 		if (Object.keys(this.item).length === 0) return [];

@@ -31,6 +31,7 @@ import ConfigurationStatus from '@/components/data-workflows/configuration/Confi
 
 import HeaderInfosMixin from '../header-infos';
 
+import { getGbqToGbqConfs } from '@/store/modules/easy-firestore/get-gbq-to-gbq-confs';
 import { TABLES_TO_TABLES_CONFIGURATIONS_ITEM } from '@/constants/router/routes-names';
 import {
 	ACCOUNT,
@@ -50,7 +51,7 @@ export default class TablesToTablesConfigurationsListingView extends Mixins(
 	HeaderInfosMixin,
 	ConfigurationCollectionMixin
 ) {
-	moduleName: string = 'getGbqToGbqConfs';
+	moduleName: string = getGbqToGbqConfs.moduleName;
 	overriddenColumns: string[] = ['id', 'activated'];
 
 	get routeName() {

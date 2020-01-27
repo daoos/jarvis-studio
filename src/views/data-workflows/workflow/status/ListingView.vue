@@ -45,6 +45,7 @@ import { Component, Mixins } from 'vue-property-decorator';
 import HeaderInfosMixin from '../header-infos';
 import StatusCollectionMixin from '@/mixins/data-workflows/collection/status-collection-mixin';
 
+import { workflowStatus } from '@/store/modules/easy-firestore/workflow-status';
 import { WORKFLOW_STATUS_ITEM } from '@/constants/router/routes-names';
 import {
 	ACTIONS,
@@ -57,7 +58,7 @@ import {
 
 @Component
 export default class WorkflowStatusListingView extends Mixins(HeaderInfosMixin, StatusCollectionMixin) {
-	moduleName: string = 'workflowStatus';
+	moduleName: string = workflowStatus.moduleName;
 	overriddenColumns: string[] = [
 		'id',
 		'jobs',

@@ -23,6 +23,7 @@ import { Component, Mixins } from 'vue-property-decorator';
 import HeaderInfosMixin from '../header-infos';
 import ConfigurationCollectionMixin from '@/mixins/data-workflows/collection/configuration-collection-mixin';
 
+import { tableToStorageConfs } from '@/store/modules/easy-firestore/table-to-storage-confs';
 import { TABLE_TO_STORAGE_CONFIGURATIONS_ITEM } from '@/constants/router/routes-names';
 import {
 	ACCOUNT,
@@ -40,7 +41,7 @@ export default class TableToStorageConfigurationsListingView extends Mixins(
 	HeaderInfosMixin,
 	ConfigurationCollectionMixin
 ) {
-	moduleName: string = 'tableToStorageConfs';
+	moduleName: string = tableToStorageConfs.moduleName;
 	overriddenColumns: string[] = ['id'];
 
 	get routeName() {

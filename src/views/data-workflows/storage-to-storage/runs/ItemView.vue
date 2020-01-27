@@ -10,10 +10,11 @@ import { Component, Mixins } from 'vue-property-decorator';
 import { AnyObject, DestinationStorageRows } from '@/types';
 import HeaderInfosMixin from '../header-infos';
 import RunDocMixin from '@/mixins/data-workflows/doc/run-doc-mixin';
+import { storageToStorageRuns } from '@/store/modules/easy-firestore/storage-to-storage-runs';
 
 @Component
 export default class StorageToStorageRunsItemView extends Mixins(HeaderInfosMixin, RunDocMixin) {
-	moduleName: string = 'storageToStorageRuns';
+	moduleName: string = storageToStorageRuns.moduleName;
 
 	getSourceStorageColumns() {
 		let sourceStorageColumns = {};

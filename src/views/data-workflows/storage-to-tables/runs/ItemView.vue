@@ -9,10 +9,11 @@
 import { Component, Mixins } from 'vue-property-decorator';
 import HeaderInfosMixin from '../header-infos';
 import RunDocMixin from '@/mixins/data-workflows/doc/run-doc-mixin';
+import { storageToTablesRuns } from '@/store/modules/easy-firestore/storage-to-tables-runs';
 
 @Component
 export default class StorageToTablesRunsItemView extends Mixins(HeaderInfosMixin, RunDocMixin) {
-	moduleName: string = 'storageToTablesRuns';
+	moduleName: string = storageToTablesRuns.moduleName;
 
 	getDestinationTables() {
 		return this.item.configuration_context.destinations[0].tables;

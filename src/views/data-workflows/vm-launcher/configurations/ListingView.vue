@@ -25,6 +25,7 @@ import { Component, Mixins } from 'vue-property-decorator';
 import HeaderInfosMixin from '../header-infos';
 import ConfigurationCollectionMixin from '@/mixins/data-workflows/collection/configuration-collection-mixin';
 
+import { vmLauncherConfs } from '@/store/modules/easy-firestore/vm-launcher-confs';
 import { VM_LAUNCHER_CONFIGURATIONS_ITEM } from '@/constants/router/routes-names';
 import {
 	ACCOUNT,
@@ -41,7 +42,7 @@ export default class VmLauncherConfigurationsListingView extends Mixins(
 	HeaderInfosMixin,
 	ConfigurationCollectionMixin
 ) {
-	moduleName: string = 'vmLauncherConfs';
+	moduleName: string = vmLauncherConfs.moduleName;
 	overriddenColumns: string[] = ['id'];
 
 	get routeName() {

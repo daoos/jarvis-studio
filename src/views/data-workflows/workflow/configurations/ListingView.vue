@@ -22,6 +22,7 @@ import { Component, Mixins } from 'vue-property-decorator';
 import HeaderInfosMixin from '../header-infos';
 import ConfigurationCollectionMixin from '@/mixins/data-workflows/collection/configuration-collection-mixin';
 
+import { workflowConfs } from '@/store/modules/easy-firestore/workflow-confs';
 import { WORKFLOW_CONFIGURATIONS_ITEM } from '@/constants/router/routes-names';
 import {
 	ACCOUNT,
@@ -35,7 +36,7 @@ import {
 
 @Component
 export default class WorkflowConfigurationsListingView extends Mixins(HeaderInfosMixin, ConfigurationCollectionMixin) {
-	moduleName: string = 'workflowConfs';
+	moduleName: string = workflowConfs.moduleName;
 	overriddenColumns: string[] = ['id'];
 
 	get routeName() {

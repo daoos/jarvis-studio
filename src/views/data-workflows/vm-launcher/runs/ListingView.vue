@@ -26,6 +26,7 @@ import { Component, Mixins } from 'vue-property-decorator';
 import HeaderInfosMixin from '../header-infos';
 import RunCollectionMixin from '@/mixins/data-workflows/collection/run-collection-mixin';
 
+import { vmLauncherRuns } from '@/store/modules/easy-firestore/vm-launcher-runs';
 import { VM_LAUNCHER_RUNS_ITEM } from '@/constants/router/routes-names';
 import {
 	ACCOUNT,
@@ -38,7 +39,7 @@ import {
 
 @Component
 export default class VmLauncherRunsListingView extends Mixins(HeaderInfosMixin, RunCollectionMixin) {
-	moduleName: string = 'vmLauncherRuns';
+	moduleName: string = vmLauncherRuns.moduleName;
 	overriddenColumns: string[] = ['dag_id', 'dag_execution_date'];
 
 	get routeName() {
