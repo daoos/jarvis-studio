@@ -22,7 +22,7 @@
 
 					<template v-else-if="Object.keys(archivedConfigurations).length > 0">
 						<v-list-item @click="resetConfiguration">
-							<v-list-item-title>Reset configuration</v-list-item-title>
+							<v-list-item-title>Current Configuration</v-list-item-title>
 						</v-list-item>
 
 						<v-list-item
