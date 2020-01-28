@@ -14,7 +14,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import { AnyObject, Doc, Run } from '@/types';
+import { AnyObject, Doc, ParametersTableColumn, Run } from '@/types';
 import { mapState } from 'vuex';
 import ParametersTable from '@/components/data-workflows/common/item/parameters/ParametersTable.vue';
 
@@ -49,6 +49,7 @@ export default class OtherRuns extends Vue {
 			{ label: 'Environment', field: 'environment' },
 			{ label: 'Dag_execution_date', field: 'dag_execution_date' },
 			{ label: 'Dag_run_id', field: 'dag_run_id' },
+			...this.additionalColumns,
 			{ label: 'Status', field: 'status' }
 		];
 	}
@@ -64,11 +65,36 @@ export default class OtherRuns extends Vue {
 				environment: run.environment,
 				dag_execution_date: run.dag_execution_date,
 				dag_run_id: run.dag_run_id,
+				...this.getAdditionalRows(run),
 				status: run.status
 			});
 		});
 
 		return rows;
+	}
+
+	get additionalColumns(): ParametersTableColumn[] {
+		if (!this.additionalFields) return [];
+
+		let additionalColumns: ParametersTableColumn[] = [];
+
+		this.additionalFields!.forEach((field: string) => {
+			additionalColumns.push({ label: field, field });
+		});
+
+		return additionalColumns;
+	}
+
+	getAdditionalRows(run: Run): AnyObject {
+		if (!this.additionalFields) return {};
+
+		let additionalRows: AnyObject = {};
+
+		this.additionalFields!.forEach((field: string) => {
+			additionalRows[field] = run[field];
+		});
+
+		return additionalRows;
 	}
 }
 </script>

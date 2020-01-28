@@ -175,6 +175,11 @@ export interface Tab {
 	};
 }
 
+export interface ParametersTableColumn {
+	label: string;
+	field: string;
+}
+
 // Filters
 // TODO: Define type
 export type WhereConfFilter = any;

@@ -26,8 +26,6 @@ export default class RunDocMixin extends ItemMixin {
 	}
 
 	getOtherRunsTab(additionalFields?: string[]): RunTab {
-		console.log(additionalFields);
-
 		return {
 			label: 'Other runs',
 			href: 'other-runs',
