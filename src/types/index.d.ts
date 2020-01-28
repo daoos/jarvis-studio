@@ -109,7 +109,6 @@ export interface User extends FirebaseUser {
 // Vue App
 export interface ConfigurationProps {
 	type: string;
-	currentConfiguration: Configuration;
 	docId: string;
 	tabsItems: object[];
 	isLoading: boolean;
@@ -118,6 +117,15 @@ export interface ConfigurationProps {
 	moduleName: string;
 	archivedConfsModuleName: string;
 }
+
+export interface RunProps {
+	type: string;
+	tabsItems: object[];
+	isLoading: boolean;
+	isNotFound: boolean;
+}
+
+export interface StatusProps extends RunProps {}
 
 export interface Link {
 	icon: string;

@@ -41,13 +41,11 @@
 
 <script lang="ts">
 import { Component, Mixins } from 'vue-property-decorator';
-import DataManagementHeader from '@/components/data-workflows/common/DataManagementHeader.vue';
-import ListingComponent from '@/components/data-workflows/common/listing/ListingComponent.vue';
 
 import HeaderInfosMixin from '../header-infos';
+import StatusCollectionMixin from '@/mixins/data-workflows/collection/status-collection-mixin';
 
 import { workflowStatus } from '@/store/modules/easy-firestore/workflow-status';
-import { STATUS } from '@/constants/data-workflows/status';
 import { WORKFLOW_STATUS_ITEM } from '@/constants/router/routes-names';
 import {
 	ACTIONS,
@@ -58,10 +56,8 @@ import {
 	TRIGGERED_JOBS
 } from '@/constants/data-workflows/listing/header-items';
 
-@Component({
-	components: { DataManagementHeader, ListingComponent }
-})
-export default class WorkflowStatusListingView extends Mixins(HeaderInfosMixin) {
+@Component
+export default class WorkflowStatusListingView extends Mixins(HeaderInfosMixin, StatusCollectionMixin) {
 	moduleName: string = workflowStatus.moduleName;
 	overriddenColumns: string[] = [
 		'id',
@@ -70,10 +66,6 @@ export default class WorkflowStatusListingView extends Mixins(HeaderInfosMixin) 
 		'last_update_date_from_now',
 		'last_fire_date_from_now'
 	];
-
-	get listingType() {
-		return STATUS;
-	}
 
 	get routeName() {
 		return WORKFLOW_STATUS_ITEM;

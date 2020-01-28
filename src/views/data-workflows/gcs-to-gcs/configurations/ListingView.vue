@@ -19,13 +19,11 @@
 
 <script lang="ts">
 import { Component, Mixins } from 'vue-property-decorator';
-import DataManagementHeader from '@/components/data-workflows/common/DataManagementHeader.vue';
-import ListingComponent from '@/components/data-workflows/common/listing/ListingComponent.vue';
 
 import HeaderInfosMixin from '../header-infos';
+import ConfigurationCollectionMixin from '@/mixins/data-workflows/collection/configuration-collection-mixin';
 
 import { mirrorExcGcsToGcsConfs } from '@/store/modules/easy-firestore/mirror-exc-gcs-to-gcs-confs';
-import { CONFIGURATIONS } from '@/constants/data-workflows/status';
 import { GCS_TO_GCS_CONFIGURATIONS_ITEM } from '@/constants/router/routes-names';
 import {
 	ACCOUNT,
@@ -38,16 +36,10 @@ import {
 	SOURCE_BUCKET
 } from '@/constants/data-workflows/listing/header-items';
 
-@Component({
-	components: { DataManagementHeader, ListingComponent }
-})
-export default class GcsToGcsConfigurationsListingView extends Mixins(HeaderInfosMixin) {
+@Component
+export default class GcsToGcsConfigurationsListingView extends Mixins(HeaderInfosMixin, ConfigurationCollectionMixin) {
 	moduleName: string = mirrorExcGcsToGcsConfs.moduleName;
 	overriddenColumns: string[] = ['id'];
-
-	get listingType() {
-		return CONFIGURATIONS;
-	}
 
 	get routeName() {
 		return GCS_TO_GCS_CONFIGURATIONS_ITEM;

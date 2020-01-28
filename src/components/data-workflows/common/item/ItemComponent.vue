@@ -19,7 +19,6 @@
 					<history-component
 						v-if="showHistoryComponent"
 						:doc-id="docId"
-						:current-configuration="currentConfiguration"
 						:module-name="moduleName"
 						:archived-confs-module-name="archivedConfsModuleName"
 						:email="updateInformation.updated_by"
@@ -51,7 +50,6 @@ export default class ItemComponent extends Vue {
 	@Prop({ required: true, type: Boolean }) isNotFound!: boolean;
 	// Configuration Prop
 	@Prop(String) docId?: string;
-	@Prop(Object) currentConfiguration?: Configuration;
 	@Prop(Object) updateInformation?: Object;
 	@Prop(String) moduleName?: string;
 	@Prop(String) archivedConfsModuleName?: string;

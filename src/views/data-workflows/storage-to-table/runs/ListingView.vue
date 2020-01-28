@@ -22,13 +22,11 @@
 
 <script lang="ts">
 import { Component, Mixins } from 'vue-property-decorator';
-import DataManagementHeader from '@/components/data-workflows/common/DataManagementHeader.vue';
-import ListingComponent from '@/components/data-workflows/common/listing/ListingComponent.vue';
 
 import HeaderInfosMixin from '../header-infos';
+import RunCollectionMixin from '@/mixins/data-workflows/collection/run-collection-mixin';
 
 import { mirrorExcGcsToGbqRuns } from '@/store/modules/easy-firestore/mirror-exc-gcs-to-gbq-runs';
-import { RUNS } from '@/constants/data-workflows/status';
 import { STORAGE_TO_TABLE_RUNS_ITEM } from '@/constants/router/routes-names';
 import {
 	ACCOUNT,
@@ -40,16 +38,10 @@ import {
 	STATUS
 } from '@/constants/data-workflows/listing/header-items';
 
-@Component({
-	components: { DataManagementHeader, ListingComponent }
-})
-export default class StorageToTableRunsListingView extends Mixins(HeaderInfosMixin) {
+@Component
+export default class StorageToTableRunsListingView extends Mixins(HeaderInfosMixin, RunCollectionMixin) {
 	moduleName: string = mirrorExcGcsToGbqRuns.moduleName;
 	overriddenColumns: string[] = ['gcs_triggering_file', 'dag_execution_date'];
-
-	get listingType() {
-		return RUNS;
-	}
 
 	get routeName() {
 		return STORAGE_TO_TABLE_RUNS_ITEM;

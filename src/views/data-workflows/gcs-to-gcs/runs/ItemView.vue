@@ -1,19 +1,18 @@
 <template>
 	<div>
 		<data-management-header :workflow-name="workflowName" :tabsItems="tabsItems" />
-		<item-component :type="type" :tabs-items="itemTabsItems" :is-loading="isLoading" :is-not-found="isNotFound" />
+		<item-component v-bind="runProps" />
 	</div>
 </template>
 
 <script lang="ts">
 import { Component, Mixins } from 'vue-property-decorator';
 import HeaderInfosMixin from '../header-infos';
-import ItemMixin from '@/mixins/data-workflows/item-mixin';
-import { RUNS } from '@/constants/data-workflows/status';
+import RunDocMixin from '@/mixins/data-workflows/doc/run-doc-mixin';
 import { mirrorExcGcsToGcsRuns } from '@/store/modules/easy-firestore/mirror-exc-gcs-to-gcs-runs';
 
 @Component
-export default class GcsToGcsRunsItemView extends Mixins(HeaderInfosMixin, ItemMixin) {
+export default class GcsToGcsRunsItemView extends Mixins(HeaderInfosMixin, RunDocMixin) {
 	moduleName: string = mirrorExcGcsToGcsRuns.moduleName;
 
 	getDestinationStorageRows() {
@@ -37,10 +36,6 @@ export default class GcsToGcsRunsItemView extends Mixins(HeaderInfosMixin, ItemM
 				filename_description: 'No Description'
 			};
 		});
-	}
-
-	get type() {
-		return RUNS;
 	}
 
 	get itemTabsItems() {

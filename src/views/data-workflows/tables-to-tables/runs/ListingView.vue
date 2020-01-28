@@ -25,13 +25,11 @@
 
 <script lang="ts">
 import { Component, Mixins } from 'vue-property-decorator';
-import DataManagementHeader from '@/components/data-workflows/common/DataManagementHeader.vue';
-import ListingComponent from '@/components/data-workflows/common/listing/ListingComponent.vue';
 
 import HeaderInfosMixin from '../header-infos';
+import RunCollectionMixin from '@/mixins/data-workflows/collection/run-collection-mixin';
 
 import { getGbqToGbqRuns } from '@/store/modules/easy-firestore/get-gbq-to-gbq-runs';
-import { RUNS } from '@/constants/data-workflows/status';
 import { TABLES_TO_TABLES_RUNS_ITEM } from '@/constants/router/routes-names';
 import {
 	ACCOUNT,
@@ -43,16 +41,10 @@ import {
 	WORKFLOW_LENGTH
 } from '@/constants/data-workflows/listing/header-items';
 
-@Component({
-	components: { DataManagementHeader, ListingComponent }
-})
-export default class TablesToTablesRunsListingView extends Mixins(HeaderInfosMixin) {
+@Component
+export default class TablesToTablesRunsListingView extends Mixins(HeaderInfosMixin, RunCollectionMixin) {
 	moduleName: string = getGbqToGbqRuns.moduleName;
 	overriddenColumns: string[] = ['dag_id', 'dag_execution_date'];
-
-	get listingType() {
-		return RUNS;
-	}
 
 	get routeName() {
 		return TABLES_TO_TABLES_RUNS_ITEM;

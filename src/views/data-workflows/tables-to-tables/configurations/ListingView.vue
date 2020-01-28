@@ -27,14 +27,11 @@
 
 <script lang="ts">
 import { Component, Mixins } from 'vue-property-decorator';
-import DataManagementHeader from '@/components/data-workflows/common/DataManagementHeader.vue';
-import ListingComponent from '@/components/data-workflows/common/listing/ListingComponent.vue';
 import ConfigurationStatus from '@/components/data-workflows/configuration/ConfigurationStatus.vue';
 
 import HeaderInfosMixin from '../header-infos';
 
 import { getGbqToGbqConfs } from '@/store/modules/easy-firestore/get-gbq-to-gbq-confs';
-import { CONFIGURATIONS } from '@/constants/data-workflows/status';
 import { TABLES_TO_TABLES_CONFIGURATIONS_ITEM } from '@/constants/router/routes-names';
 import {
 	ACCOUNT,
@@ -45,17 +42,17 @@ import {
 	ENVIRONMENT,
 	ID
 } from '@/constants/data-workflows/listing/header-items';
+import ConfigurationCollectionMixin from '@/mixins/data-workflows/collection/configuration-collection-mixin';
 
 @Component({
-	components: { DataManagementHeader, ListingComponent, ConfigurationStatus }
+	components: { ConfigurationStatus }
 })
-export default class TablesToTablesConfigurationsListingView extends Mixins(HeaderInfosMixin) {
+export default class TablesToTablesConfigurationsListingView extends Mixins(
+	HeaderInfosMixin,
+	ConfigurationCollectionMixin
+) {
 	moduleName: string = getGbqToGbqConfs.moduleName;
 	overriddenColumns: string[] = ['id', 'activated'];
-
-	get listingType() {
-		return CONFIGURATIONS;
-	}
 
 	get routeName() {
 		return TABLES_TO_TABLES_CONFIGURATIONS_ITEM;

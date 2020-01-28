@@ -1,24 +1,20 @@
 <template>
 	<div>
 		<data-management-header :workflowName="workflowName" :tabsItems="tabsItems" />
-		<item-component :type="type" :tabs-items="itemTabsItems" :is-loading="isLoading" :is-not-found="isNotFound" />
+		<item-component v-bind="runProps" />
 	</div>
 </template>
 
 <script lang="ts">
 import { Component, Mixins } from 'vue-property-decorator';
 import HeaderInfosMixin from '../header-infos';
-import ItemMixin from '@/mixins/data-workflows/item-mixin';
+import RunDocMixin from '@/mixins/data-workflows/doc/run-doc-mixin';
 import { RUNS } from '@/constants/data-workflows/status';
 import { getGbqToGbqRuns } from '@/store/modules/easy-firestore/get-gbq-to-gbq-runs';
 
 @Component
-export default class TablesToTablesRunsItemView extends Mixins(HeaderInfosMixin, ItemMixin) {
+export default class TablesToTablesRunsItemView extends Mixins(HeaderInfosMixin, RunDocMixin) {
 	moduleName: string = getGbqToGbqRuns.moduleName;
-
-	get type() {
-		return RUNS;
-	}
 
 	get itemTabsItems() {
 		if (Object.keys(this.item).length === 0) return [];

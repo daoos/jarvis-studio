@@ -21,13 +21,11 @@
 
 <script lang="ts">
 import { Component, Mixins } from 'vue-property-decorator';
-import DataManagementHeader from '@/components/data-workflows/common/DataManagementHeader.vue';
-import ListingComponent from '@/components/data-workflows/common/listing/ListingComponent.vue';
 
 import HeaderInfosMixin from '../header-infos';
+import ConfigurationCollectionMixin from '@/mixins/data-workflows/collection/configuration-collection-mixin';
 
 import { vmLauncherConfs } from '@/store/modules/easy-firestore/vm-launcher-confs';
-import { CONFIGURATIONS } from '@/constants/data-workflows/status';
 import { VM_LAUNCHER_CONFIGURATIONS_ITEM } from '@/constants/router/routes-names';
 import {
 	ACCOUNT,
@@ -39,16 +37,13 @@ import {
 	WORKING_DIR
 } from '@/constants/data-workflows/listing/header-items';
 
-@Component({
-	components: { DataManagementHeader, ListingComponent }
-})
-export default class VmLauncherConfigurationsListingView extends Mixins(HeaderInfosMixin) {
+@Component
+export default class VmLauncherConfigurationsListingView extends Mixins(
+	HeaderInfosMixin,
+	ConfigurationCollectionMixin
+) {
 	moduleName: string = vmLauncherConfs.moduleName;
 	overriddenColumns: string[] = ['id'];
-
-	get listingType() {
-		return CONFIGURATIONS;
-	}
 
 	get routeName() {
 		return VM_LAUNCHER_CONFIGURATIONS_ITEM;

@@ -22,13 +22,11 @@
 import { Component, Mixins } from 'vue-property-decorator';
 import { AnyObject, WhereConfFilter } from '@/types';
 import { Getter, State } from 'vuex-class';
-import DataManagementHeader from '@/components/data-workflows/common/DataManagementHeader.vue';
-import ListingComponent from '@/components/data-workflows/common/listing/ListingComponent.vue';
 
 import HeaderInfosMixin from '../header-infos';
+import ConfigurationCollectionMixin from '@/mixins/data-workflows/collection/configuration-collection-mixin';
 
 import { mirrorExcGcsToGbqConfs } from '@/store/modules/easy-firestore/mirror-exc-gcs-to-gbq-confs';
-import { CONFIGURATIONS } from '@/constants/data-workflows/status';
 import { STORAGE_TO_TABLE_CONFIGURATIONS_ITEM } from '@/constants/router/routes-names';
 import {
 	ACCOUNT,
@@ -40,10 +38,11 @@ import {
 	TABLE_NAME
 } from '@/constants/data-workflows/listing/header-items';
 
-@Component({
-	components: { DataManagementHeader, ListingComponent }
-})
-export default class StorageToTableConfigurationsListingView extends Mixins(HeaderInfosMixin) {
+@Component
+export default class StorageToTableConfigurationsListingView extends Mixins(
+	HeaderInfosMixin,
+	ConfigurationCollectionMixin
+) {
 	moduleName: string = mirrorExcGcsToGbqConfs.moduleName;
 	overriddenColumns: string[] = ['table_name'];
 
@@ -71,10 +70,6 @@ export default class StorageToTableConfigurationsListingView extends Mixins(Head
 		}
 
 		return items.flat();
-	}
-
-	get listingType() {
-		return CONFIGURATIONS;
 	}
 
 	get routeName() {

@@ -7,21 +7,18 @@
 
 <script lang="ts">
 import { Component, Mixins } from 'vue-property-decorator';
-import { DataWorkflowsType } from '@/types';
+
 import HeaderInfosMixin from '../header-infos';
-import ItemMixin from '@/mixins/data-workflows/item-mixin';
+import ConfigurationDocMixin from '@/mixins/data-workflows/doc/configuration-doc-mixin';
+
 import { CONFIGURATIONS } from '@/constants/data-workflows/status';
 import { getGbqToGbqConfs } from '@/store/modules/easy-firestore/get-gbq-to-gbq-confs';
 import { getGbqToGbqConfArchive } from '@/store/modules/easy-firestore/get-gbq-to-gbq-conf-archive';
 
 @Component
-export default class TablesToTablesConfigurationsItemView extends Mixins(HeaderInfosMixin, ItemMixin) {
+export default class TablesToTablesConfigurationsItemView extends Mixins(HeaderInfosMixin, ConfigurationDocMixin) {
 	moduleName: string = getGbqToGbqConfs.moduleName;
 	archivedConfsModuleName: string = getGbqToGbqConfArchive.moduleName;
-
-	get type(): DataWorkflowsType {
-		return CONFIGURATIONS;
-	}
 
 	get itemTabsItems() {
 		if (Object.keys(this.item).length === 0) return [];

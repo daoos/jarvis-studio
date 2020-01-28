@@ -1,19 +1,18 @@
 <template>
 	<div>
 		<data-management-header :workflowName="workflowName" :tabsItems="tabsItems" />
-		<item-component :type="type" :tabs-items="itemTabsItems" :is-loading="isLoading" :is-not-found="isNotFound" />
+		<item-component v-bind="runProps" />
 	</div>
 </template>
 
 <script lang="ts">
 import { Component, Mixins } from 'vue-property-decorator';
 import HeaderInfosMixin from '../header-infos';
-import ItemMixin from '@/mixins/data-workflows/item-mixin';
-import { RUNS } from '@/constants/data-workflows/status';
+import RunDocMixin from '@/mixins/data-workflows/doc/run-doc-mixin';
 import { storageToTablesRuns } from '@/store/modules/easy-firestore/storage-to-tables-runs';
 
 @Component
-export default class StorageToTablesRunsItemView extends Mixins(HeaderInfosMixin, ItemMixin) {
+export default class StorageToTablesRunsItemView extends Mixins(HeaderInfosMixin, RunDocMixin) {
 	moduleName: string = storageToTablesRuns.moduleName;
 
 	getDestinationTables() {
@@ -169,10 +168,6 @@ export default class StorageToTablesRunsItemView extends Mixins(HeaderInfosMixin
 				}
 			}
 		];
-	}
-
-	get type() {
-		return RUNS;
 	}
 
 	get itemTabsItems() {

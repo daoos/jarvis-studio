@@ -18,13 +18,11 @@
 
 <script lang="ts">
 import { Component, Mixins } from 'vue-property-decorator';
-import DataManagementHeader from '@/components/data-workflows/common/DataManagementHeader.vue';
-import ListingComponent from '@/components/data-workflows/common/listing/ListingComponent.vue';
 
 import HeaderInfosMixin from '../header-infos';
+import ConfigurationCollectionMixin from '@/mixins/data-workflows/collection/configuration-collection-mixin';
 
 import { workflowConfs } from '@/store/modules/easy-firestore/workflow-confs';
-import { CONFIGURATIONS } from '@/constants/data-workflows/status';
 import { WORKFLOW_CONFIGURATIONS_ITEM } from '@/constants/router/routes-names';
 import {
 	ACCOUNT,
@@ -36,16 +34,10 @@ import {
 	TARGET_DAG
 } from '@/constants/data-workflows/listing/header-items';
 
-@Component({
-	components: { DataManagementHeader, ListingComponent }
-})
-export default class WorkflowConfigurationsListingView extends Mixins(HeaderInfosMixin) {
+@Component
+export default class WorkflowConfigurationsListingView extends Mixins(HeaderInfosMixin, ConfigurationCollectionMixin) {
 	moduleName: string = workflowConfs.moduleName;
 	overriddenColumns: string[] = ['id'];
-
-	get listingType() {
-		return CONFIGURATIONS;
-	}
 
 	get routeName() {
 		return WORKFLOW_CONFIGURATIONS_ITEM;

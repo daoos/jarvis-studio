@@ -1,24 +1,19 @@
 <template>
 	<div>
 		<data-management-header :workflowName="workflowName" :tabsItems="tabsItems" />
-		<item-component :type="type" :tabs-items="itemTabsItems" :is-loading="isLoading" :is-not-found="isNotFound" />
+		<item-component v-bind="statusProps" />
 	</div>
 </template>
 
 <script lang="ts">
 import { Component, Mixins } from 'vue-property-decorator';
 import HeaderInfosMixin from '../header-infos';
-import ItemMixin from '@/mixins/data-workflows/item-mixin';
-import { STATUS } from '@/constants/data-workflows/status';
+import StatusDocMixin from '@/mixins/data-workflows/doc/status-doc-mixin';
 import { workflowStatus } from '@/store/modules/easy-firestore/workflow-status';
 
 @Component
-export default class WorkflowStatusItemView extends Mixins(HeaderInfosMixin, ItemMixin) {
+export default class WorkflowStatusItemView extends Mixins(HeaderInfosMixin, StatusDocMixin) {
 	moduleName: string = workflowStatus.moduleName;
-
-	get type() {
-		return STATUS;
-	}
 
 	get itemTabsItems() {
 		if (Object.keys(this.item).length === 0) return [];

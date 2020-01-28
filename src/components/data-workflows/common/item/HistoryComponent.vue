@@ -67,7 +67,6 @@ export default class HistoryComponent extends Vue {
 	@Prop({ required: true }) moduleName!: string;
 	@Prop({ required: true }) archivedConfsModuleName!: string;
 	@Prop({ required: true }) docId!: string;
-	@Prop({ required: true }) currentConfiguration!: Configuration;
 	// TODO: Replace with UserSocialInfo
 	@Prop({ required: true, default: 'No email' }) email!: string;
 	@Prop({ required: true, default: 'No updated date' }) updatedDate!: string;

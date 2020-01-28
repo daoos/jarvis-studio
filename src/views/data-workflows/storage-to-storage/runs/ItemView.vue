@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<data-management-header :workflowName="workflowName" :tabsItems="tabsItems" />
-		<item-component :type="type" :tabs-items="itemTabsItems" :is-loading="isLoading" :is-not-found="isNotFound" />
+		<item-component v-bind="runProps" />
 	</div>
 </template>
 
@@ -9,12 +9,11 @@
 import { Component, Mixins } from 'vue-property-decorator';
 import { AnyObject, DestinationStorageRows } from '@/types';
 import HeaderInfosMixin from '../header-infos';
-import ItemMixin from '@/mixins/data-workflows/item-mixin';
-import { RUNS } from '@/constants/data-workflows/status';
+import RunDocMixin from '@/mixins/data-workflows/doc/run-doc-mixin';
 import { storageToStorageRuns } from '@/store/modules/easy-firestore/storage-to-storage-runs';
 
 @Component
-export default class StorageToStorageRunsItemView extends Mixins(HeaderInfosMixin, ItemMixin) {
+export default class StorageToStorageRunsItemView extends Mixins(HeaderInfosMixin, RunDocMixin) {
 	moduleName: string = storageToStorageRuns.moduleName;
 
 	getSourceStorageColumns() {
@@ -175,10 +174,6 @@ export default class StorageToStorageRunsItemView extends Mixins(HeaderInfosMixi
 		destinationStorageRows.s3 = s3DestinationStorageRows;
 		destinationStorageRows.sftp = sftpDestinationStorageRows;
 		return destinationStorageRows;
-	}
-
-	get type() {
-		return RUNS;
 	}
 
 	get itemTabsItems() {

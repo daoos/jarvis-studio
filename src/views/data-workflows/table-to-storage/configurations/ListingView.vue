@@ -19,13 +19,11 @@
 
 <script lang="ts">
 import { Component, Mixins } from 'vue-property-decorator';
-import DataManagementHeader from '@/components/data-workflows/common/DataManagementHeader.vue';
-import ListingComponent from '@/components/data-workflows/common/listing/ListingComponent.vue';
 
 import HeaderInfosMixin from '../header-infos';
+import ConfigurationCollectionMixin from '@/mixins/data-workflows/collection/configuration-collection-mixin';
 
 import { tableToStorageConfs } from '@/store/modules/easy-firestore/table-to-storage-confs';
-import { CONFIGURATIONS } from '@/constants/data-workflows/status';
 import { TABLE_TO_STORAGE_CONFIGURATIONS_ITEM } from '@/constants/router/routes-names';
 import {
 	ACCOUNT,
@@ -38,16 +36,13 @@ import {
 	ID
 } from '@/constants/data-workflows/listing/header-items';
 
-@Component({
-	components: { DataManagementHeader, ListingComponent }
-})
-export default class TableToStorageConfigurationsListingView extends Mixins(HeaderInfosMixin) {
+@Component
+export default class TableToStorageConfigurationsListingView extends Mixins(
+	HeaderInfosMixin,
+	ConfigurationCollectionMixin
+) {
 	moduleName: string = tableToStorageConfs.moduleName;
 	overriddenColumns: string[] = ['id'];
-
-	get listingType() {
-		return CONFIGURATIONS;
-	}
 
 	get routeName() {
 		return TABLE_TO_STORAGE_CONFIGURATIONS_ITEM;

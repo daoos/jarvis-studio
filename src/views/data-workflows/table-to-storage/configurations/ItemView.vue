@@ -7,21 +7,17 @@
 
 <script lang="ts">
 import { Component, Mixins } from 'vue-property-decorator';
-import { DataWorkflowsType } from '@/types';
+
 import HeaderInfosMixin from '../header-infos';
-import ItemMixin from '@/mixins/data-workflows/item-mixin';
-import { CONFIGURATIONS } from '@/constants/data-workflows/status';
+import ConfigurationDocMixin from '@/mixins/data-workflows/doc/configuration-doc-mixin';
+
 import { tableToStorageConfs } from '@/store/modules/easy-firestore/table-to-storage-confs';
 import { tableToStorageConfArchive } from '@/store/modules/easy-firestore/table-to-storage-conf-archive';
 
 @Component
-export default class TableToStorageConfigurationsItemView extends Mixins(HeaderInfosMixin, ItemMixin) {
+export default class TableToStorageConfigurationsItemView extends Mixins(HeaderInfosMixin, ConfigurationDocMixin) {
 	moduleName: string = tableToStorageConfs.moduleName;
 	archivedConfsModuleName: string = tableToStorageConfArchive.moduleName;
-
-	get type(): DataWorkflowsType {
-		return CONFIGURATIONS;
-	}
 
 	get itemTabsItems() {
 		if (Object.keys(this.item).length === 0) return [];

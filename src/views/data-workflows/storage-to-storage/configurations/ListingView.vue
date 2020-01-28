@@ -19,13 +19,11 @@
 
 <script lang="ts">
 import { Component, Mixins } from 'vue-property-decorator';
-import DataManagementHeader from '@/components/data-workflows/common/DataManagementHeader.vue';
-import ListingComponent from '@/components/data-workflows/common/listing/ListingComponent.vue';
 
 import HeaderInfosMixin from '../header-infos';
+import ConfigurationCollectionMixin from '@/mixins/data-workflows/collection/configuration-collection-mixin';
 
 import { storageToStorageConfs } from '@/store/modules/easy-firestore/storage-to-storage-confs';
-import { CONFIGURATIONS } from '@/constants/data-workflows/status';
 import { STORAGE_TO_STORAGE_CONFIGURATIONS_ITEM } from '@/constants/router/routes-names';
 import {
 	ACCOUNT,
@@ -36,16 +34,13 @@ import {
 	NB_FILENAME_TEMPLATES
 } from '@/constants/data-workflows/listing/header-items';
 
-@Component({
-	components: { DataManagementHeader, ListingComponent }
-})
-export default class StorageToStorageConfigurationsListingView extends Mixins(HeaderInfosMixin) {
+@Component
+export default class StorageToStorageConfigurationsListingView extends Mixins(
+	HeaderInfosMixin,
+	ConfigurationCollectionMixin
+) {
 	moduleName: string = storageToStorageConfs.moduleName;
 	overriddenColumns: string[] = ['id'];
-
-	get listingType() {
-		return CONFIGURATIONS;
-	}
 
 	get routeName() {
 		return STORAGE_TO_STORAGE_CONFIGURATIONS_ITEM;
