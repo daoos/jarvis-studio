@@ -39,6 +39,7 @@ export default class StorageToTableRunsItemView extends Mixins(HeaderInfosMixin,
 					}
 				}
 			},
+			this.getOtherRunsTab(),
 			{
 				label: 'Schema',
 				href: 'schema',

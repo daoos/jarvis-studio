@@ -39,6 +39,7 @@ export default class GbqToGcsRunsItemView extends Mixins(HeaderInfosMixin, RunDo
 					}
 				}
 			},
+			this.getOtherRunsTab(),
 			{
 				label: 'Full Json',
 				href: 'full-json',

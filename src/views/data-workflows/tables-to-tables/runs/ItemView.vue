@@ -40,6 +40,7 @@ export default class TablesToTablesRunsItemView extends Mixins(HeaderInfosMixin,
 					}
 				}
 			},
+			this.getOtherRunsTab(),
 			{
 				label: 'Tasks',
 				href: 'tasks',

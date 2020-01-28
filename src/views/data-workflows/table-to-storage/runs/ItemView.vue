@@ -39,6 +39,7 @@ export default class TableToStorageRunsItemView extends Mixins(HeaderInfosMixin,
 					}
 				}
 			},
+			this.getOtherRunsTab(),
 			{
 				label: 'Full Json',
 				href: 'full-json',

@@ -31,6 +31,7 @@ import ParametersTable from '@/components/data-workflows/common/item/parameters/
 export default class OtherRuns extends Vue {
 	@Prop({ required: true }) private doc!: Doc;
 	@Prop({ required: true }) private moduleName!: string;
+	@Prop(Array) private additionalFields?: string[];
 
 	private otherRuns: any;
 	isLoading: boolean = false;

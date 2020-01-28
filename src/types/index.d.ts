@@ -130,6 +130,7 @@ export interface StatusProps extends RunProps {}
 export interface OtherRunsProps {
 	doc: Doc;
 	moduleName: string;
+	additionalFields?: string[];
 }
 
 export interface Doc {
