@@ -164,7 +164,7 @@ export default class TablesToTablesRunsItemView extends Mixins(HeaderInfosMixin,
 					collection: this.moduleName,
 					customKey: 'configuration_context.configuration',
 					activeHeader: false,
-					viewId: this.item.id,
+					viewId: this.item.dag_id,
 					viewType: 'conf'
 				}
 			},

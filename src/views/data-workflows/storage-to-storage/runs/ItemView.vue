@@ -301,7 +301,7 @@ export default class StorageToStorageRunsItemView extends Mixins(HeaderInfosMixi
 					item: this.item,
 					collection: this.moduleName,
 					activeHeader: false,
-					viewId: this.item.configuration_context.configuration_id,
+					viewId: this.item.configuration_id,
 					viewType: 'conf'
 				}
 			},
