@@ -1,5 +1,5 @@
 import { Component } from 'vue-property-decorator';
-import { DataWorkflowsType, RunProps } from '@/types';
+import { DataWorkflowsType, OtherRunsProps, RunProps, Tab } from '@/types';
 import ItemMixin from '@/mixins/data-workflows/doc/item-mixin';
 import { RUNS } from '@/constants/data-workflows/status';
 
@@ -15,6 +15,24 @@ export default class RunDocMixin extends ItemMixin {
 			tabsItems: this.itemTabsItems,
 			isLoading: this.isLoading,
 			isNotFound: this.isNotFound
+		};
+	}
+
+	get otherRunsTab(): Tab {
+		return {
+			label: 'Other runs',
+			href: 'other-runs',
+			component: {
+				name: 'other-runs',
+				props: this.otherRunsProps
+			}
+		};
+	}
+
+	get otherRunsProps(): OtherRunsProps {
+		return {
+			doc: this.item,
+			moduleName: this.moduleName
 		};
 	}
 }
