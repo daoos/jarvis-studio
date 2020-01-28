@@ -13,6 +13,8 @@
 			</h2>
 
 			<vue-good-table
+				fixed-header
+				max-height="75vh"
 				class="word-break"
 				:columns="columns"
 				:rows="rows"
