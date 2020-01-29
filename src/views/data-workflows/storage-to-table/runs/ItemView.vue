@@ -211,15 +211,6 @@ export default class StorageToTableRunsItemView extends Mixins(HeaderInfosMixin,
 		];
 	}
 
-	configurationViewId() {
-		// source_bucket/CONFIGURATION/configuration_context.sub_doc_id
-		this.$store.dispatch(`${mirrorExcGcsToGbqConfDetails.moduleName}/fetchAndAdd`, {
-			bucketId: this.item.source_bucket
-		});
-		console.log(this.mirrorExcGcsToGbqConfDetails[this.item.configuration_context.table_name]);
-		return 'test';
-	}
-
 	get configurationData() {
 		return [
 			{
@@ -228,7 +219,7 @@ export default class StorageToTableRunsItemView extends Mixins(HeaderInfosMixin,
 					item: this.item,
 					collection: this.moduleName,
 					activeHeader: false,
-					viewId: this.configurationViewId(),
+					viewId: `${this.item.source_bucket}/${this.item.configuration_context.filename_template}`,
 					viewType: 'conf',
 					description: this.item.configuration_context.table_description
 						? this.item.configuration_context.table_description
