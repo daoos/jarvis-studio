@@ -15,6 +15,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { AnyObject, Doc, ParametersTableColumn, Run } from '@/types';
+import moment from 'moment';
 import { mapState } from 'vuex';
 import ParametersTable from '@/components/data-workflows/common/item/parameters/ParametersTable.vue';
 
@@ -38,9 +39,23 @@ export default class OtherRuns extends Vue {
 
 	mounted() {
 		this.isLoading = true;
-		this.$store.dispatch(`${this.moduleName}/fetchAndAdd`, { where: [['job_id', '==', this.doc.job_id]] }).then(() => {
-			this.isLoading = false;
-		});
+
+		const minDate = moment()
+			.utc()
+			.startOf('day')
+			.subtract(1, 'month')
+			.toISOString();
+
+		this.$store
+			.dispatch(`${this.moduleName}/fetchAndAdd`, {
+				where: [
+					['dag_execution_date', '>=', minDate],
+					['job_id', '==', this.doc.job_id]
+				]
+			})
+			.then(() => {
+				this.isLoading = false;
+			});
 	}
 
 	get columns(): Object[] {
