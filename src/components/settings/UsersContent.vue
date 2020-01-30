@@ -102,13 +102,9 @@
 		>
 			<template v-slot:item.action="{ item }">
 				<div class="justify-center layout px-0">
-					<v-icon small class="mr-2" @click="editUser(item)">
-						edit
-					</v-icon>
-
-					<v-icon small @click="deleteUser(item)">
-						delete
-					</v-icon>
+					<v-icon small class="mr-2" @click="editUser(item)">edit</v-icon>
+					<v-icon small class="mr-2" @click="editUser(item)">{{ mdiPackageDown }}</v-icon>
+					<v-icon small @click="deleteUser(item)">delete</v-icon>
 				</div>
 			</template>
 
@@ -125,15 +121,16 @@
 </template>
 
 <script>
-import store from '@/store';
 import firebase from 'firebase';
 import { mapState } from 'vuex';
 import { mapGetters } from 'vuex';
 import _ from 'lodash';
+import { mdiPackageDown } from '@mdi/js';
 
 export default {
 	name: 'users-content',
 	data: () => ({
+		mdiPackageDown,
 		snackbarParam: { message: '', show: false, color: 'info' },
 		alertParam: { message: '', show: false, color: 'info', dismissible: true },
 		users: [],
@@ -259,9 +256,20 @@ export default {
 			}
 			this.dialog = true;
 		},
-		deleteUser(item) {
-			const index = this.users.indexOf(item);
-			confirm('Are you sure you want to delete this user?') && this.users.splice(index, 1);
+		deleteUser(user) {
+			const result = confirm('Are you sure you want to delete this user?');
+			const deleteUser = firebase.functions().httpsCallable('deleteUser');
+			const index = this.users.indexOf(user);
+
+			if (result) {
+				this.isFetchAndAdding = true;
+
+				deleteUser({ email: user.email }).then(res => {
+					// TODO: show snackBar
+					this.users.splice(index, 1);
+					this.isFetchAndAdding = false;
+				});
+			}
 		},
 		close() {
 			this.dialog = false;
