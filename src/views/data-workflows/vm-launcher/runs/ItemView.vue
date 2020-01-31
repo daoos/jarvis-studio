@@ -39,7 +39,6 @@ export default class VmLauncherRunsItemView extends Mixins(HeaderInfosMixin, Run
 					}
 				}
 			},
-			this.getOtherRunsTab(),
 			{
 				label: 'Full Json',
 				href: 'full-json',
@@ -51,6 +50,7 @@ export default class VmLauncherRunsItemView extends Mixins(HeaderInfosMixin, Run
 					}
 				}
 			},
+			this.getOtherRunsTab(),
 			{
 				label: 'Conversation',
 				href: 'conversation',

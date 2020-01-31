@@ -200,7 +200,6 @@ export default class StorageToStorageRunsItemView extends Mixins(HeaderInfosMixi
 					}
 				}
 			},
-			this.getOtherRunsTab(['triggering_file']),
 			{
 				label: 'Full Json',
 				href: 'full-json',
@@ -212,6 +211,7 @@ export default class StorageToStorageRunsItemView extends Mixins(HeaderInfosMixi
 					}
 				}
 			},
+			this.getOtherRunsTab(['triggering_file']),
 			{
 				label: 'Conversation',
 				href: 'conversation',
