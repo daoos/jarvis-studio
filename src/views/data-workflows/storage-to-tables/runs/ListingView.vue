@@ -7,12 +7,11 @@
 			:headers="headers"
 			:overridden-columns="overriddenColumns"
 		>
-			<template v-slot:id="{ item: { id } }">
+			<template v-slot:triggering_file="{ item: { id, triggering_file } }">
 				<router-link :to="{ name: routeName, params: { id } }">
-					<span class="font-weight-medium">{{ id }}</span>
+					<span class="font-weight-medium">{{ triggering_file }}</span>
 				</router-link>
 			</template>
-
 			<template v-slot:configuration_context.source="{ item: { configuration_context: { source } } }">
 				{{ source ? (source.type === 'gcs' ? source.gcs_source_bucket : source.sftp_host) : 'waiting...' }}
 			</template>
@@ -36,7 +35,7 @@ import { STORAGE_TO_TABLES_RUNS_ITEM } from '@/constants/router/routes-names';
 @Component
 export default class StorageToTablesRunsListingView extends Mixins(HeaderInfosMixin, RunCollectionMixin) {
 	moduleName: string = storageToTablesRuns.moduleName;
-	overriddenColumns: string[] = ['id', 'configuration_context.source', 'dag_execution_date'];
+	overriddenColumns: string[] = ['triggering_file', 'configuration_context.source', 'dag_execution_date'];
 
 	get routeName() {
 		return STORAGE_TO_TABLES_RUNS_ITEM;
@@ -60,7 +59,7 @@ export default class StorageToTablesRunsListingView extends Mixins(HeaderInfosMi
 				text: 'Triggering File',
 				align: 'left',
 				sortable: true,
-				value: 'id'
+				value: 'triggering_file'
 			},
 			{
 				text: 'Source Storage',
