@@ -3,11 +3,7 @@
 		<v-alert v-if="item.archive" type="warning">This configuration is archived.</v-alert>
 
 		<v-row v-if="activeHeader" class="pl-5 pt-4 pr-5">
-			<router-link v-if="link" :to="link" class="headline font-weight-black text-truncate complementary--text">
-				{{ viewId }}
-				<v-icon>{{ mdiOpenInNew }}</v-icon>
-			</router-link>
-			<span v-else class="headline font-weight-black text-truncate complementary--text">{{ viewId }}</span>
+			<span class="headline font-weight-black text-truncate complementary--text">{{ viewId }}</span>
 
 			<v-spacer />
 
@@ -67,11 +63,9 @@
 		</v-row>
 
 		<v-row v-else class="pl-5 pt-4 pr-5">
-			<router-link v-if="link" :to="link" class="headline font-weight-bold">
-				{{ viewId }}
-				<v-icon>{{ mdiOpenInNew }}</v-icon>
-			</router-link>
-			<span v-else class="headline font-weight-bold">{{ viewId }}</span>
+			<span class="headline font-weight-bold">{{ viewId }}</span>
+			<v-spacer />
+			<v-btn text v-if="link" @click="redirectToConfiguration" class="text--secondary">View current</v-btn>
 		</v-row>
 
 		<v-row v-if="description" class="pl-5 pr-5 pt-3 pb-3">
@@ -92,6 +86,7 @@ import { CONFIGURATIONS } from '@/constants/data-workflows/status';
 import { DATA_WORKFLOWS } from '@/constants/router/paths-prefixes';
 
 // TODO: Refactor viewType possible values with constants
+// TODO: Refactor by removing headerActive prop to be based on viewType
 
 @Component({
 	components: { ConfigurationStatus, RunStatusChip }
@@ -135,6 +130,10 @@ export default class ViewHeader extends Vue {
 			this.hideArchiveDialog();
 			this.isLoading = false;
 		});
+	}
+
+	redirectToConfiguration() {
+		this.$router.push(this.link);
 	}
 
 	get actionName(): string {
