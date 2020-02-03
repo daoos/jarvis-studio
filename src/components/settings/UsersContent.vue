@@ -103,7 +103,6 @@
 			<template v-slot:item.action="{ item }">
 				<div class="justify-center layout px-0">
 					<v-icon small class="mr-2" @click="editUser(item)">edit</v-icon>
-					<v-icon small class="mr-2" @click="editUser(item)">{{ mdiPackageDown }}</v-icon>
 					<v-icon small @click="deleteUser(item)">delete</v-icon>
 				</div>
 			</template>
@@ -125,12 +124,10 @@ import firebase from 'firebase';
 import { mapState } from 'vuex';
 import { mapGetters } from 'vuex';
 import _ from 'lodash';
-import { mdiPackageDown } from '@mdi/js';
 
 export default {
 	name: 'users-content',
 	data: () => ({
-		mdiPackageDown,
 		snackbarParam: { message: '', show: false, color: 'info' },
 		alertParam: { message: '', show: false, color: 'info', dismissible: true },
 		users: [],
