@@ -50,6 +50,7 @@ export default class TableToStorageRunsItemView extends Mixins(HeaderInfosMixin,
 					}
 				}
 			},
+			this.getOtherRunsTab(),
 			{
 				label: 'Conversation',
 				href: 'conversation',

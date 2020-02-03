@@ -29,13 +29,13 @@
 								<v-col cols="12">
 									<v-text-field
 										v-model="editedUser.password"
-										:append-icon="editedUser.showpassword ? 'visibility' : 'visibility_off'"
-										:type="editedUser.showpassword ? 'text' : 'password'"
+										:append-icon="editedUser.showPassword ? 'visibility' : 'visibility_off'"
+										:type="editedUser.showPassword ? 'text' : 'password'"
 										name="password"
 										label="Password"
 										hint="At least 8 characters"
 										counter
-										@click:append="editedUser.showpassword = !editedUser.showpassword"
+										@click:append="editedUser.showPassword = !editedUser.showPassword"
 									/>
 								</v-col>
 
@@ -123,7 +123,7 @@
 import firebase from 'firebase';
 import { mapState } from 'vuex';
 import { mapGetters } from 'vuex';
-import _ from 'lodash';
+import merge from 'lodash.merge';
 
 export default {
 	name: 'users-content',
@@ -134,30 +134,7 @@ export default {
 		selectedAccounts: [],
 		selectedRoles: 0,
 		dialog: false,
-		pagination: {
-			sortBy: 'email',
-			descending: false,
-			rowsPerPage: 50
-		},
-		headers: [
-			{
-				text: 'Email',
-				align: 'left',
-				sortable: true,
-				value: 'email'
-			},
-			{
-				text: 'Display Name',
-				align: 'left',
-				sortable: true,
-				value: 'displayName'
-			},
-			{ text: 'Email Verified', value: 'emailVerified' },
-			{ text: 'Disabled', value: 'disabled' },
-			{ text: 'Nb Accounts', value: 'nb_accounts' },
-			{ text: 'Roles', value: 'studioRolesIndex' },
-			{ text: 'Actions', value: 'action', sortable: false }
-		],
+		pagination: { sortBy: 'email', descending: false, rowsPerPage: 50 },
 		editedUserIndex: -1,
 		editedUser: {
 			email: '',
@@ -166,7 +143,7 @@ export default {
 			disabled: false,
 			creationTime: Date.now(),
 			password: '',
-			showpassword: false,
+			showPassword: false,
 			rules: {
 				//required: value => !!value || "Required.",
 				min: v => v.length >= 8 || 'Min 8 characters'
@@ -179,7 +156,7 @@ export default {
 			disabled: false,
 			creationTime: Date.now(),
 			password: '',
-			showpassword: false,
+			showPassword: false,
 			rules: {
 				//required: value => !!value || "Required.",
 				min: v => v.length >= 8 || 'Min 8 characters'
@@ -194,8 +171,7 @@ export default {
 			{ roleName: 'Super Admin', roleCode: 5 }
 		],
 		search: '',
-		isFetchAndAdding: false,
-		snackbarParam: { message: '', show: false, color: 'info' }
+		isFetchAndAdding: false
 	}),
 	mounted() {
 		this.listAllUsers();
@@ -226,7 +202,8 @@ export default {
 						studioRolesIndex: studioRolesIndex
 					};
 				});
-				this.users = _.merge(dataUsers, usersFormated);
+				console.log(dataUsers, usersFormated);
+				this.users = merge(dataUsers, usersFormated);
 				this.isFetchAndAdding = false;
 			});
 		},
@@ -324,6 +301,17 @@ export default {
 			accounts: state => state.accounts.data
 		}),
 		...mapGetters(['periodFiltered', 'filters/whereConfFilter']),
+		headers() {
+			return [
+				{ text: 'Email', align: 'left', sortable: true, value: 'email' },
+				{ text: 'Display Name', align: 'left', sortable: true, value: 'displayName' },
+				{ text: 'Email Verified', value: 'emailVerified' },
+				{ text: 'Disabled', value: 'disabled' },
+				{ text: 'Nb Accounts', value: 'nb_accounts' },
+				{ text: 'Roles', value: 'studioRolesIndex' },
+				{ text: 'Actions', value: 'action', sortable: false }
+			];
+		},
 		formTitle() {
 			return this.editedUserIndex === -1 ? 'New User' : 'Edit User';
 		},
