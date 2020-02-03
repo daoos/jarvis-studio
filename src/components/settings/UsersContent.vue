@@ -29,13 +29,13 @@
 								<v-col cols="12">
 									<v-text-field
 										v-model="editedUser.password"
-										:append-icon="editedUser.showPassword ? 'visibility' : 'visibility_off'"
-										:type="editedUser.showPassword ? 'text' : 'password'"
+										:append-icon="showPassword ? 'visibility' : 'visibility_off'"
+										:type="showPassword ? 'text' : 'password'"
 										name="password"
 										label="Password"
 										hint="At least 8 characters"
 										counter
-										@click:append="editedUser.showPassword = !editedUser.showPassword"
+										@click:append="showPassword = !showPassword"
 									/>
 								</v-col>
 
@@ -59,7 +59,7 @@
 									/>
 
 									<v-select
-										v-model="selectedRoles"
+										v-model="selectedStudioRoles"
 										:items="studioRoles"
 										label="Role"
 										single-line
@@ -84,9 +84,9 @@
 				</v-card>
 			</v-dialog>
 
-			<v-icon right @click="listAllUsers" v-if="!isFetchAndAdding">refresh</v-icon>
+			<v-icon right @click="listAllUsers" v-if="!isLoading">refresh</v-icon>
 
-			<v-progress-circular indeterminate size="20" color="primary" v-if="isFetchAndAdding" />
+			<v-progress-circular indeterminate size="20" color="primary" v-if="isLoading" />
 		</v-toolbar>
 
 		<v-data-table
@@ -94,9 +94,9 @@
 			:items="users"
 			class="elevation-1"
 			:search="search"
-			:loading="isFetchAndAdding"
+			:loading="isLoading"
 			:sort-by.sync="pagination.sortBy"
-			:sort-desc.sync="pagination.descending"
+			:sort-desc.sync="pagination.sortDesc"
 			item-key="key"
 			light
 		>
@@ -112,217 +112,208 @@
 			</template>
 		</v-data-table>
 
-		<v-snackbar v-model="snackbarParam.show" :color="snackbarParam.color" :timeout="3500">
+		<v-snackbar v-model="snackbarParam.isVisible" :color="snackbarParam.color" :timeout="3500">
 			{{ snackbarParam.message }}
-			<v-btn text @click="snackbarParam.show = false">Close</v-btn>
+			<v-btn text @click="snackbarParam.isVisible = false">Close</v-btn>
 		</v-snackbar>
 	</v-container>
 </template>
 
-<script>
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator';
 import firebase from 'firebase';
 import { mapState } from 'vuex';
 import { mapGetters } from 'vuex';
 import merge from 'lodash.merge';
+import { AnyObject, Role, Snackbar, User } from '@/types';
+import { SNACKBAR } from '@/constants/ui/snackbar';
 
-export default {
-	name: 'users-content',
-	data: () => ({
-		snackbarParam: { message: '', show: false, color: 'info' },
-		alertParam: { message: '', show: false, color: 'info', dismissible: true },
-		users: [],
-		selectedAccounts: [],
-		selectedRoles: 0,
-		dialog: false,
-		pagination: { sortBy: 'email', descending: false, rowsPerPage: 50 },
-		editedUserIndex: -1,
-		editedUser: {
-			email: '',
-			displayName: '',
-			emailVerified: false,
-			disabled: false,
-			creationTime: Date.now(),
-			password: '',
-			showPassword: false,
-			rules: {
-				//required: value => !!value || "Required.",
-				min: v => v.length >= 8 || 'Min 8 characters'
-			}
-		},
-		defaultUser: {
-			email: '',
-			displayName: '',
-			emailVerified: false,
-			disabled: false,
-			creationTime: Date.now(),
-			password: '',
-			showPassword: false,
-			rules: {
-				//required: value => !!value || "Required.",
-				min: v => v.length >= 8 || 'Min 8 characters'
-			}
-		},
-		studioRoles: [
-			{ roleName: 'Member', roleCode: 0 },
-			{ roleName: 'Viewer', roleCode: 1 },
-			{ roleName: 'User', roleCode: 2 },
-			{ roleName: 'Writer', roleCode: 3 },
-			{ roleName: 'Admin', roleCode: 4 },
-			{ roleName: 'Super Admin', roleCode: 5 }
-		],
-		search: '',
-		isFetchAndAdding: false
-	}),
+// TODO: Refactor component
+
+@Component({
+	computed: {
+		...mapState({ accounts: (state: any) => state.accounts.data }),
+		...mapGetters(['periodFiltered', 'filters/whereConfFilter'])
+	}
+})
+export default class UsersContent extends Vue {
+	accounts: any;
+	snackbarParam: Snackbar = { isVisible: false, timeout: SNACKBAR.TIMEOUT, message: '', color: 'info' };
+	users: AnyObject[] = [];
+	selectedAccounts: string[] = [];
+	selectedStudioRoles: number = 0;
+	dialog: boolean = false;
+	showPassword: boolean = false;
+	pagination = { sortBy: 'email', sortDesc: false }; // TODO: type
+	editedUserIndex: number = -1;
+	editedUser: AnyObject = {
+		email: '',
+		customClaims: {},
+		displayName: '',
+		emailVerified: false,
+		disabled: false,
+		creationTime: Date.now(),
+		password: ''
+	};
+	defaultUser: AnyObject = {
+		email: '',
+		customClaims: {},
+		displayName: '',
+		emailVerified: false,
+		disabled: false,
+		creationTime: Date.now(),
+		password: ''
+	};
+	studioRoles: Role[] = [
+		{ roleName: 'Member', roleCode: 0 },
+		{ roleName: 'Viewer', roleCode: 1 },
+		{ roleName: 'User', roleCode: 2 },
+		{ roleName: 'Writer', roleCode: 3 },
+		{ roleName: 'Admin', roleCode: 4 },
+		{ roleName: 'Super Admin', roleCode: 5 }
+	];
+	search: string = '';
+	isLoading: boolean = false;
+
 	mounted() {
 		this.listAllUsers();
-	},
-	methods: {
-		listAllUsers() {
-			this.isFetchAndAdding = true;
-			const listAllUsers = firebase.functions().httpsCallable('listAllUsers');
-			//list all email users
-			listAllUsers({}).then(res => {
-				// store the users list
-				const dataUsers = Object.values(res.data.users);
-				let usersFormated = res.data.users.map(function(data) {
-					let nb_accounts = 0;
-					try {
-						nb_accounts = data.customClaims.accounts.length;
-					} catch (error) {
-						nb_accounts = 0;
-					}
-					let studioRolesIndex = 0;
-					try {
-						studioRolesIndex = data.customClaims.studioRoles;
-					} catch (error) {
-						studioRolesIndex = 0;
-					}
-					return {
-						nb_accounts: nb_accounts,
-						studioRolesIndex: studioRolesIndex
-					};
-				});
-				console.log(dataUsers, usersFormated);
-				this.users = merge(dataUsers, usersFormated);
-				this.isFetchAndAdding = false;
+	}
+
+	listAllUsers() {
+		this.isLoading = true;
+
+		const listAllUsers = firebase.functions().httpsCallable('listAllUsers');
+		listAllUsers({}).then(res => {
+			const dataUsers = Object.values(res.data.users);
+
+			let usersFormatted = res.data.users.map(function(user: User) {
+				let nb_accounts = 0;
+				try {
+					nb_accounts = user.customClaims.accounts.length;
+				} catch (error) {
+					nb_accounts = 0;
+				}
+				let studioRolesIndex = 0;
+				try {
+					studioRolesIndex = user.customClaims.studioRoles;
+				} catch (error) {
+					studioRolesIndex = 0;
+				}
+				return {
+					nb_accounts: nb_accounts,
+					studioRolesIndex: studioRolesIndex
+				};
 			});
-		},
-		editUser(item) {
-			this.editedUserIndex = this.users.indexOf(item);
-			this.editedUser = Object.assign({}, item);
-			if (
-				this.editedUser.customClaims == null ||
-				typeof this.editedUser.customClaims.accounts === 'undefined' ||
-				this.editedUser.customClaims.accounts === null
-			) {
-				this.selectedAccounts = [];
-			} else {
-				this.selectedAccounts = this.editedUser.customClaims.accounts;
-			}
-			if (
-				this.editedUser.customClaims == null ||
-				typeof this.editedUser.customClaims.studioRoles === 'undefined' ||
-				this.editedUser.customClaims.studioRoles === null
-			) {
-				this.selectedRoles = 0;
-			} else {
-				this.selectedRoles = this.editedUser.customClaims.studioRoles;
-			}
-			this.dialog = true;
-		},
-		deleteUser(user) {
-			const result = confirm('Are you sure you want to delete this user?');
-			const deleteUser = firebase.functions().httpsCallable('deleteUser');
-			const index = this.users.indexOf(user);
 
-			if (result) {
-				this.isFetchAndAdding = true;
+			this.users = merge(dataUsers, usersFormatted);
+			this.isLoading = false;
+		});
+	}
 
-				deleteUser({ email: user.email }).then(res => {
-					// TODO: show snackBar
-					this.users.splice(index, 1);
-					this.isFetchAndAdding = false;
-				});
-			}
-		},
-		close() {
-			this.dialog = false;
-			setTimeout(() => {
-				this.editedUser = Object.assign({}, this.defaultUser);
-				//this.editedUserIndex = -1;
-			}, 300);
-		},
-		save() {
-			if (this.editedUserIndex > -1) {
-				Object.assign(this.users[this.editedUserIndex], this.editedUser);
-			} else {
-				this.users.push(this.editedUser);
-			}
-			this.close();
-		},
-		createUser() {
-			if (this.editedUserIndex > -1) {
-				const createUser = firebase.functions().httpsCallable('createUser');
-				createUser({
-					email: this.editedUser.email,
-					displayName: this.editedUser.displayName,
-					emailVerified: this.editedUser.emailVerified,
-					photoURL: 'https://raw.githubusercontent.com/mkfeuhrer/JarvisBot/master/images/JarvisBot.gif',
-					password: this.editedUser.password,
-					disabled: this.editedUser.disabled,
-					accounts: this.selectedAccounts,
-					studioRoles: this.selectedRoles
-				}).then(() => {
-					this.listAllUsers();
-				});
-			} else {
-				this.users.push(this.editedUser);
-			}
-			this.close();
-		},
-		addRolesAndAccounts() {
-			if (this.editedUserIndex > -1) {
-				const addRolesAndAccounts = firebase.functions().httpsCallable('addRolesAndAccounts');
-				addRolesAndAccounts({
-					email: this.editedUser.email,
-					accounts: this.selectedAccounts,
-					studioRoles: this.selectedRoles
-				}).then(() => {
-					this.listAllUsers();
-				});
-			} else {
-				this.users.push(this.editedUser);
-			}
-			this.close();
+	createUser() {
+		if (this.editedUserIndex > -1) {
+			const createUser = firebase.functions().httpsCallable('createUser');
+			createUser({
+				email: this.editedUser.email,
+				displayName: this.editedUser.displayName,
+				emailVerified: this.editedUser.emailVerified,
+				photoURL: 'https://raw.githubusercontent.com/mkfeuhrer/JarvisBot/master/images/JarvisBot.gif',
+				password: this.editedUser.password,
+				disabled: this.editedUser.disabled,
+				accounts: this.selectedAccounts,
+				studioRoles: this.selectedStudioRoles
+			}).then(() => {
+				this.listAllUsers();
+			});
+		} else {
+			this.users.push(this.editedUser);
 		}
-	},
-	computed: {
-		...mapState({
-			accounts: state => state.accounts.data
-		}),
-		...mapGetters(['periodFiltered', 'filters/whereConfFilter']),
-		headers() {
-			return [
-				{ text: 'Email', align: 'left', sortable: true, value: 'email' },
-				{ text: 'Display Name', align: 'left', sortable: true, value: 'displayName' },
-				{ text: 'Email Verified', value: 'emailVerified' },
-				{ text: 'Disabled', value: 'disabled' },
-				{ text: 'Nb Accounts', value: 'nb_accounts' },
-				{ text: 'Roles', value: 'studioRolesIndex' },
-				{ text: 'Actions', value: 'action', sortable: false }
-			];
-		},
-		formTitle() {
-			return this.editedUserIndex === -1 ? 'New User' : 'Edit User';
-		},
-		accountsFormatted() {
-			return Object.values(this.accounts);
+		this.close();
+	}
+
+	editUser(user: User) {
+		this.editedUserIndex = this.users.indexOf(user);
+		this.editedUser = Object.assign({}, user);
+		if (
+			this.editedUser.customClaims == null ||
+			typeof this.editedUser.customClaims.accounts === 'undefined' ||
+			this.editedUser.customClaims.accounts === null
+		) {
+			this.selectedAccounts = [];
+		} else {
+			this.selectedAccounts = this.editedUser.customClaims.accounts;
 		}
-	},
-	watch: {
-		dialog(val) {
-			val || this.close();
+		if (
+			this.editedUser.customClaims == null ||
+			typeof this.editedUser.customClaims.studioRoles === 'undefined' ||
+			this.editedUser.customClaims.studioRoles === null
+		) {
+			this.selectedStudioRoles = 0;
+		} else {
+			this.selectedStudioRoles = this.editedUser.customClaims.studioRoles;
+		}
+		this.dialog = true;
+	}
+
+	addRolesAndAccounts() {
+		if (this.editedUserIndex > -1) {
+			const addRolesAndAccounts = firebase.functions().httpsCallable('addRolesAndAccounts');
+			addRolesAndAccounts({
+				email: this.editedUser.email,
+				accounts: this.selectedAccounts,
+				studioRoles: this.selectedStudioRoles
+			}).then(() => {
+				this.listAllUsers();
+			});
+		} else {
+			this.users.push(this.editedUser);
+		}
+		this.close();
+	}
+
+	deleteUser(user: User) {
+		// TODO: show modal
+		const result = confirm('Are you sure you want to delete this user?');
+		const deleteUser = firebase.functions().httpsCallable('deleteUser');
+		const index = this.users.indexOf(user);
+
+		if (result) {
+			this.isLoading = true;
+
+			deleteUser({ email: user.email }).then(res => {
+				// TODO: show snackBar
+				this.users.splice(index, 1);
+				this.isLoading = false;
+			});
 		}
 	}
-};
+
+	close() {
+		this.dialog = false;
+		setTimeout(() => {
+			this.editedUser = Object.assign({}, this.defaultUser);
+			//this.editedUserIndex = -1;
+		}, 300);
+	}
+
+	get headers() {
+		return [
+			{ text: 'Email', align: 'left', sortable: true, value: 'email' },
+			{ text: 'Display Name', align: 'left', sortable: true, value: 'displayName' },
+			{ text: 'Email Verified', value: 'emailVerified' },
+			{ text: 'Disabled', value: 'disabled' },
+			{ text: 'Nb Accounts', value: 'nb_accounts' },
+			{ text: 'Roles', value: 'studioRolesIndex' },
+			{ text: 'Actions', value: 'action', sortable: false }
+		];
+	}
+
+	get formTitle() {
+		return this.editedUserIndex === -1 ? 'New User' : 'Edit User';
+	}
+
+	get accountsFormatted() {
+		return Object.values(this.accounts);
+	}
+}
 </script>

@@ -103,6 +103,8 @@ export interface Role {
 }
 export interface User extends FirebaseUser {
 	accounts: string[];
+	customClaims: AnyObject;
+	disabled: boolean;
 	studioRoles: RoleCode;
 }
 
@@ -144,9 +146,22 @@ export interface Link {
 	displayRule?(): boolean;
 }
 
-export interface Snackbar {
-	show: boolean;
+export interface Pagination {
+	sortBy: string;
+	descending: boolean;
+	rowsPerPage: number;
+}
+
+interface ScreenApparitionElement {
+	isVisible: boolean;
 	timeout: number;
+}
+
+export interface Dialog extends ScreenApparitionElement {}
+
+export interface Snackbar extends ScreenApparitionElement {
+	message: string;
+	color?: string;
 }
 
 export type RunStatus = 'SUCCESS' | 'FAILED' | 'RUNNING' | 'CHECKED';
