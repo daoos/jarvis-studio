@@ -211,6 +211,7 @@ export default class StorageToStorageRunsItemView extends Mixins(HeaderInfosMixi
 					}
 				}
 			},
+			this.getOtherRunsTab(['triggering_file']),
 			{
 				label: 'Conversation',
 				href: 'conversation',
