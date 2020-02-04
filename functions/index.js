@@ -2,8 +2,8 @@ const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 
 const listUsersHandler = require('./handlers/list-users');
-const updateUserHandler = require('./handlers/update-user');
 const createUserHandler = require('./handlers/create-user');
+const updateUserHandler = require('./handlers/update-user');
 const deleteUserHandler = require('./handlers/delete-user');
 
 admin.initializeApp();

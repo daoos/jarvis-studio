@@ -1,5 +1,13 @@
 const admin = require('firebase-admin');
 
+const applyValue = (key, data, user) => {
+	const dataValue = data[key];
+	const userValue = user[key];
+
+	if (typeof dataValue === 'undefined' || dataValue === null) return userValue;
+	return dataValue;
+};
+
 module.exports = (data, context) => {
 	// check request is made by an superAdmin
 	// if (
@@ -15,9 +23,10 @@ module.exports = (data, context) => {
 		.getUserByEmail(data.email)
 		.then(user => {
 			admin.auth().updateUser(user.uid, {
-				email: data.email ? data.email : user.email,
-				displayName: data.displayName ? data.displayName : user.displayName,
-				photoURL: data.photoURL ? data.photoURL : user.photoURL
+				email: applyValue('email', data, user),
+				disabled: applyValue('disabled', data, user),
+				displayName: applyValue('displayName', data, user),
+				photoURL: applyValue('photoURL', data, user)
 			});
 
 			admin.auth().setCustomUserClaims(user.uid, {

@@ -114,12 +114,9 @@
 			<template v-slot:item.action="{ item }">
 				<div class="justify-center layout px-0">
 					<v-icon small class="mr-2" @click="editUser(item)">edit</v-icon>
+					<v-icon small class="mr-2" @click="archiveUser(item)">{{ mdiPackageDown }}</v-icon>
 					<v-icon small @click="deleteUser(item)">delete</v-icon>
 				</div>
-			</template>
-
-			<template v-slot:no-data>
-				<v-btn color="primary" @click="listAllUsers">Reset</v-btn>
 			</template>
 		</v-data-table>
 
@@ -132,14 +129,15 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+import { AnyObject, FirestoreAccount, Role, Snackbar, User } from '@/types';
+import { DataTableHeader } from 'vuetify';
 import firebase from 'firebase';
 import { mapState } from 'vuex';
 import { mapGetters } from 'vuex';
 import merge from 'lodash.merge';
-import { AnyObject, FirestoreAccount, Role, Snackbar, User } from '@/types';
 import { SNACKBAR } from '@/constants/ui/snackbar';
 import { ADMIN, MEMBER, SUPER_ADMIN, USER, VIEWER, WRITER } from '@/constants/user/roles';
-import { DataTableHeader } from 'vuetify';
+import { mdiPackageDown } from '@mdi/js';
 
 @Component({
 	computed: {
@@ -148,6 +146,7 @@ import { DataTableHeader } from 'vuetify';
 	}
 })
 export default class UsersContent extends Vue {
+	mdiPackageDown: string = mdiPackageDown;
 	accounts: any;
 	snackbarParam: Snackbar = { isVisible: false, timeout: SNACKBAR.TIMEOUT, message: '', color: 'info' };
 	users: AnyObject[] = [];
@@ -268,6 +267,18 @@ export default class UsersContent extends Vue {
 			this.users.push(this.currentUser);
 		}
 		this.closeDialog();
+	}
+
+	archiveUser(user: User) {
+		const archiveUser = firebase.functions().httpsCallable('updateUser');
+		archiveUser({
+			email: user.email,
+			disabled: !user.disabled
+		}).then(() => {
+			// TODO: Show snackBar
+			const index = this.users.indexOf(user);
+			this.users[index].disabled = !user.disabled;
+		});
 	}
 
 	deleteUser(user: User) {
