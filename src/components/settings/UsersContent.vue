@@ -7,7 +7,7 @@
 
 			<v-dialog v-model="dialog" max-width="700px">
 				<template v-slot:activator="{ on }">
-					<v-btn color="primary" dark class="mb-2" v-on="on">New User</v-btn>
+					<v-btn @click="resetCurrentUser" color="primary" dark class="mb-2" v-on="on">New User</v-btn>
 				</template>
 
 				<v-card>
@@ -17,18 +17,31 @@
 
 					<v-card-text>
 						<v-container>
+							<v-row v-if="isEditing && (isUserDisabled || !isUserEmailVerified)">
+								<v-col cols="12">
+									<v-alert v-if="isUserDisabled" type="warning">
+										{{ currentUser.displayName }} has been disabled.
+									</v-alert>
+									<v-alert v-if="!isUserEmailVerified" type="warning">
+										{{ currentUser.displayName }} doesn't verified his email address.
+									</v-alert>
+								</v-col>
+							</v-row>
+
 							<v-row>
 								<v-col cols="12">
-									<v-text-field v-model="editedUser.email" label="Email" />
+									<v-text-field v-model="currentUser.email" label="Email" :disabled="isUserDisabled" />
+								</v-col>
+							</v-row>
+
+							<v-row>
+								<v-col cols="6">
+									<v-text-field v-model="currentUser.displayName" label="Display Name" :disabled="isUserDisabled" />
 								</v-col>
 
-								<v-col cols="12">
-									<v-text-field v-model="editedUser.displayName" label="Display Name" />
-								</v-col>
-
-								<v-col cols="12">
+								<v-col cols="6">
 									<v-text-field
-										v-model="editedUser.password"
+										v-model="currentUser.password"
 										:append-icon="showPassword ? 'visibility' : 'visibility_off'"
 										:type="showPassword ? 'text' : 'password'"
 										name="password"
@@ -38,14 +51,10 @@
 										@click:append="showPassword = !showPassword"
 									/>
 								</v-col>
+							</v-row>
 
-								<v-col cols="12">
-									<v-text-field v-model="editedUser.emailVerified" label="Email Verified" />
-								</v-col>
-
-								<v-col cols="12">
-									<v-text-field v-model="editedUser.disabled" label="Disabled" />
-
+							<v-row>
+								<v-col cols="6">
 									<v-select
 										v-model="selectedAccounts"
 										:items="accountsFormatted"
@@ -57,7 +66,9 @@
 										item-text="account_name"
 										item-value="id"
 									/>
+								</v-col>
 
+								<v-col cols="6">
 									<v-select
 										v-model="selectedStudioRoles"
 										:items="studioRoles"
@@ -77,9 +88,9 @@
 					<v-card-actions>
 						<v-spacer />
 
-						<v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
-						<v-btn color="blue darken-1" text @click="createUser">Create User</v-btn>
-						<v-btn color="blue darken-1" text @click="addRolesAndAccounts">Update User</v-btn>
+						<v-btn color="blue darken-1" text @click="closeDialog">Cancel</v-btn>
+						<v-btn v-if="isEditing" color="primary" @click="updateUser">Update User</v-btn>
+						<v-btn v-else color="primary" @click="createUser">Create User</v-btn>
 					</v-card-actions>
 				</v-card>
 			</v-dialog>
@@ -114,7 +125,7 @@
 
 		<v-snackbar v-model="snackbarParam.isVisible" :color="snackbarParam.color" :timeout="3500">
 			{{ snackbarParam.message }}
-			<v-btn text @click="snackbarParam.isVisible = false">Close</v-btn>
+			<v-btn text @click="snackbarParam.isVisible = false">closeDialog</v-btn>
 		</v-snackbar>
 	</v-container>
 </template>
@@ -125,10 +136,10 @@ import firebase from 'firebase';
 import { mapState } from 'vuex';
 import { mapGetters } from 'vuex';
 import merge from 'lodash.merge';
-import { AnyObject, Role, Snackbar, User } from '@/types';
+import { AnyObject, FirestoreAccount, Role, Snackbar, User } from '@/types';
 import { SNACKBAR } from '@/constants/ui/snackbar';
-
-// TODO: Refactor component
+import { ADMIN, MEMBER, SUPER_ADMIN, USER, VIEWER, WRITER } from '@/constants/user/roles';
+import { DataTableHeader } from 'vuetify';
 
 @Component({
 	computed: {
@@ -145,8 +156,7 @@ export default class UsersContent extends Vue {
 	dialog: boolean = false;
 	showPassword: boolean = false;
 	pagination = { sortBy: 'email', sortDesc: false }; // TODO: type
-	editedUserIndex: number = -1;
-	editedUser: AnyObject = {
+	currentUser: AnyObject = {
 		email: '',
 		customClaims: {},
 		displayName: '',
@@ -155,23 +165,8 @@ export default class UsersContent extends Vue {
 		creationTime: Date.now(),
 		password: ''
 	};
-	defaultUser: AnyObject = {
-		email: '',
-		customClaims: {},
-		displayName: '',
-		emailVerified: false,
-		disabled: false,
-		creationTime: Date.now(),
-		password: ''
-	};
-	studioRoles: Role[] = [
-		{ roleName: 'Member', roleCode: 0 },
-		{ roleName: 'Viewer', roleCode: 1 },
-		{ roleName: 'User', roleCode: 2 },
-		{ roleName: 'Writer', roleCode: 3 },
-		{ roleName: 'Admin', roleCode: 4 },
-		{ roleName: 'Super Admin', roleCode: 5 }
-	];
+	isEditing: boolean = false;
+	studioRoles: Role[] = [MEMBER, VIEWER, USER, WRITER, ADMIN, SUPER_ADMIN];
 	search: string = '';
 	isLoading: boolean = false;
 
@@ -179,10 +174,17 @@ export default class UsersContent extends Vue {
 		this.listAllUsers();
 	}
 
+	resetCurrentUser() {
+		this.isEditing = false;
+		this.currentUser = {};
+		this.selectedAccounts = [];
+		this.selectedStudioRoles = 0;
+	}
+
 	listAllUsers() {
 		this.isLoading = true;
 
-		const listAllUsers = firebase.functions().httpsCallable('listAllUsers');
+		const listAllUsers = firebase.functions().httpsCallable('listUsers');
 		listAllUsers({}).then(res => {
 			const dataUsers = Object.values(res.data.users);
 
@@ -211,64 +213,61 @@ export default class UsersContent extends Vue {
 	}
 
 	createUser() {
-		if (this.editedUserIndex > -1) {
-			const createUser = firebase.functions().httpsCallable('createUser');
-			createUser({
-				email: this.editedUser.email,
-				displayName: this.editedUser.displayName,
-				emailVerified: this.editedUser.emailVerified,
-				photoURL: 'https://raw.githubusercontent.com/mkfeuhrer/JarvisBot/master/images/JarvisBot.gif',
-				password: this.editedUser.password,
-				disabled: this.editedUser.disabled,
-				accounts: this.selectedAccounts,
-				studioRoles: this.selectedStudioRoles
-			}).then(() => {
-				this.listAllUsers();
-			});
-		} else {
-			this.users.push(this.editedUser);
-		}
-		this.close();
+		const createUser = firebase.functions().httpsCallable('createUser');
+		createUser({
+			email: this.currentUser.email,
+			displayName: this.currentUser.displayName,
+			emailVerified: this.currentUser.emailVerified,
+			photoURL: 'https://raw.githubusercontent.com/mkfeuhrer/JarvisBot/master/images/JarvisBot.gif',
+			password: this.currentUser.password,
+			disabled: this.currentUser.disabled,
+			accounts: this.selectedAccounts,
+			studioRoles: this.selectedStudioRoles
+		}).then(() => {
+			this.listAllUsers();
+			this.users.push(this.currentUser);
+			this.closeDialog();
+		});
 	}
 
 	editUser(user: User) {
-		this.editedUserIndex = this.users.indexOf(user);
-		this.editedUser = Object.assign({}, user);
+		this.isEditing = true;
+		this.currentUser = user;
 		if (
-			this.editedUser.customClaims == null ||
-			typeof this.editedUser.customClaims.accounts === 'undefined' ||
-			this.editedUser.customClaims.accounts === null
+			this.currentUser.customClaims == null ||
+			typeof this.currentUser.customClaims.accounts === 'undefined' ||
+			this.currentUser.customClaims.accounts === null
 		) {
 			this.selectedAccounts = [];
 		} else {
-			this.selectedAccounts = this.editedUser.customClaims.accounts;
+			this.selectedAccounts = this.currentUser.customClaims.accounts;
 		}
 		if (
-			this.editedUser.customClaims == null ||
-			typeof this.editedUser.customClaims.studioRoles === 'undefined' ||
-			this.editedUser.customClaims.studioRoles === null
+			this.currentUser.customClaims == null ||
+			typeof this.currentUser.customClaims.studioRoles === 'undefined' ||
+			this.currentUser.customClaims.studioRoles === null
 		) {
 			this.selectedStudioRoles = 0;
 		} else {
-			this.selectedStudioRoles = this.editedUser.customClaims.studioRoles;
+			this.selectedStudioRoles = this.currentUser.customClaims.studioRoles;
 		}
 		this.dialog = true;
 	}
 
-	addRolesAndAccounts() {
-		if (this.editedUserIndex > -1) {
-			const addRolesAndAccounts = firebase.functions().httpsCallable('addRolesAndAccounts');
+	updateUser() {
+		if (this.isEditing) {
+			const addRolesAndAccounts = firebase.functions().httpsCallable('updateUser');
 			addRolesAndAccounts({
-				email: this.editedUser.email,
 				accounts: this.selectedAccounts,
+				email: this.currentUser.email,
+				displayName: this.currentUser.displayName,
+				photoURL: this.currentUser.photoURL,
 				studioRoles: this.selectedStudioRoles
-			}).then(() => {
-				this.listAllUsers();
 			});
 		} else {
-			this.users.push(this.editedUser);
+			this.users.push(this.currentUser);
 		}
-		this.close();
+		this.closeDialog();
 	}
 
 	deleteUser(user: User) {
@@ -288,18 +287,14 @@ export default class UsersContent extends Vue {
 		}
 	}
 
-	close() {
+	closeDialog() {
 		this.dialog = false;
-		setTimeout(() => {
-			this.editedUser = Object.assign({}, this.defaultUser);
-			//this.editedUserIndex = -1;
-		}, 300);
 	}
 
-	get headers() {
+	get headers(): DataTableHeader[] {
 		return [
-			{ text: 'Email', align: 'left', sortable: true, value: 'email' },
-			{ text: 'Display Name', align: 'left', sortable: true, value: 'displayName' },
+			{ text: 'Email', sortable: true, value: 'email' },
+			{ text: 'Display Name', sortable: true, value: 'displayName' },
 			{ text: 'Email Verified', value: 'emailVerified' },
 			{ text: 'Disabled', value: 'disabled' },
 			{ text: 'Nb Accounts', value: 'nb_accounts' },
@@ -308,11 +303,19 @@ export default class UsersContent extends Vue {
 		];
 	}
 
-	get formTitle() {
-		return this.editedUserIndex === -1 ? 'New User' : 'Edit User';
+	get isUserDisabled(): boolean {
+		return this.currentUser.disabled;
 	}
 
-	get accountsFormatted() {
+	get isUserEmailVerified(): boolean {
+		return this.currentUser.emailVerified;
+	}
+
+	get formTitle(): string {
+		return this.isEditing ? 'Edit User' : 'New User';
+	}
+
+	get accountsFormatted(): FirestoreAccount[] {
 		return Object.values(this.accounts);
 	}
 }

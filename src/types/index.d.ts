@@ -212,3 +212,10 @@ export interface TableParameter {
 	label: string;
 	value: any;
 }
+
+// Firestore
+export interface FirestoreAccount extends Account {
+	dlk_gcp_id_project: string;
+	exc_gcp_id_project: string;
+	git_repo: string;
+}

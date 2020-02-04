@@ -13,25 +13,14 @@ module.exports = (data, context) => {
 		.auth()
 		.createUser({
 			email: data.email,
-			emailVerified: data.emailVerified,
+			emailVerified: false,
 			password: data.password,
 			displayName: data.displayName,
 			photoURL: data.photoURL,
-			disabled: data.disabled
+			disabled: false
 		})
-		.then(userRecord => {
-			// See the UserRecord reference doc for the contents of userRecord.
-			return admin.auth().setCustomUserClaims(userRecord.uid, {
-				studioRoles: data.studioRoles,
-				accounts: data.accounts
-			});
+		.then(user => {
+			return { data: user };
 		})
-		.then(() => {
-			return {
-				message: `Success! Accounts and roles have been  added to the new user ${data.email}.`
-			};
-		})
-		.catch(error => {
-			console.log('Error creating new user:', error);
-		});
+		.catch(error => error);
 };

@@ -9,18 +9,12 @@ module.exports = (data, context) => {
 	return admin
 		.auth()
 		.listUsers(1000, data.nextPageToken)
-		.then(listUsersResult => {
-			listUsersResult.users.forEach(users => {
-				console.log('user', users.toJSON());
-			});
+		.then(users => {
 			// if (listUsersResult.pageToken) {
 			//   // List next batch of users.
 			//   listAllUsers(listUsersResult.pageToken);
 			// }
-			return listUsersResult;
+			return users;
 		})
-		.catch(err => {
-			console.log('Error listing users:', error);
-			return err;
-		});
+		.catch(err => err);
 };

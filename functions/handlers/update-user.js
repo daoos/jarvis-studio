@@ -10,16 +10,21 @@ module.exports = (data, context) => {
 	// }
 
 	// get user and add Jarvis roles and accounts in custom claim
-	return admin
+	admin
 		.auth()
 		.getUserByEmail(data.email)
 		.then(user => {
-			return admin.auth().setCustomUserClaims(user.uid, {
+			admin.auth().updateUser(user.uid, {
+				email: data.email ? data.email : user.email,
+				displayName: data.displayName ? data.displayName : user.displayName,
+				photoURL: data.photoURL ? data.photoURL : user.photoURL
+			});
+
+			admin.auth().setCustomUserClaims(user.uid, {
 				studioRoles: data.studioRoles,
 				accounts: data.accounts
 			});
-		})
-		.then(() => {
+
 			return {
 				message: `Success! Accounts and roles have been  added to ${data.email}.`
 			};
