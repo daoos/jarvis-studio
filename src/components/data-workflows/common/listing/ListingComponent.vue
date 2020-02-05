@@ -107,7 +107,7 @@ import RunStatusChip from '@/components/data-workflows/runs/RunStatusChip';
 import { mapState } from 'vuex';
 import { mapGetters } from 'vuex';
 import store from '@/store';
-import _ from 'lodash';
+import merge from 'lodash.merge';
 import { CONFIGURATIONS, RUNS, STATUS } from '@/constants/data-workflows/status';
 import { getActiveConfColor } from '@/util/data-workflows/configuration';
 import { dagRunAirflowUrl } from '@/util/data-workflows/run';
@@ -258,7 +258,7 @@ export default {
 					activeConfColor: getActiveConfColor(data.activated)
 				};
 			});
-			return _.merge(dataArray, formattedData);
+			return merge(dataArray, formattedData);
 		}
 	},
 	watch: {

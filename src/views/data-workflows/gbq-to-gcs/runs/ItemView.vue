@@ -50,6 +50,7 @@ export default class GbqToGcsRunsItemView extends Mixins(HeaderInfosMixin, RunDo
 					}
 				}
 			},
+			this.getOtherRunsTab(),
 			{
 				label: 'Conversation',
 				href: 'conversation',

@@ -36,7 +36,6 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import { Configuration } from '@/types';
 import importedComponents from './imported-components';
 import { CONFIGURATIONS } from '@/constants/data-workflows/status';
 

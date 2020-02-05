@@ -127,6 +127,16 @@ export interface RunProps {
 
 export interface StatusProps extends RunProps {}
 
+export interface OtherRunsProps {
+	doc: Doc;
+	moduleName: string;
+	additionalFields?: string[];
+}
+
+export interface Doc {
+	[key: string]: any;
+}
+
 export interface Link {
 	icon: string;
 	title: string;
@@ -149,6 +159,25 @@ export type DataWorkflowsType = 'runs' | 'configurations' | 'status' | null;
 // Configuration
 export interface Configuration {
 	[key: string]: any;
+}
+
+// Run
+export interface Run {
+	[key: string]: any;
+}
+
+export interface Tab {
+	label: string;
+	href: string;
+	component: {
+		name: string;
+		props: AnyObject;
+	};
+}
+
+export interface ParametersTableColumn {
+	label: string;
+	field: string;
 }
 
 // Filters
