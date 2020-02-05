@@ -168,7 +168,7 @@ export default class GbqToGcsRunsItemView extends Mixins(HeaderInfosMixin, RunDo
 					collection: this.moduleName,
 					activeHeader: false,
 					viewId: this.item.firestore_conf_doc_id,
-					viewType: 'run',
+					viewType: 'conf',
 					description: null,
 					runStatus: this.item.status
 				}

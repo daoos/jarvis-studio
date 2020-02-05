@@ -35,7 +35,7 @@ import { STORAGE_TO_TABLES_RUNS_ITEM } from '@/constants/router/routes-names';
 @Component
 export default class StorageToTablesRunsListingView extends Mixins(HeaderInfosMixin, RunCollectionMixin) {
 	moduleName: string = storageToTablesRuns.moduleName;
-	overriddenColumns: string[] = ['id', 'triggering_file', 'configuration_context.source', 'dag_execution_date'];
+	overriddenColumns: string[] = ['triggering_file', 'configuration_context.source', 'dag_execution_date'];
 
 	get routeName() {
 		return STORAGE_TO_TABLES_RUNS_ITEM;

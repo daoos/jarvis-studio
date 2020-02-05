@@ -126,7 +126,7 @@ export default class VmLauncherRunsItemView extends Mixins(HeaderInfosMixin, Run
 					item: this.item,
 					collection: this.moduleName,
 					activeHeader: false,
-					viewId: this.item.id,
+					viewId: this.item.dag_id,
 					viewType: 'conf'
 				}
 			},

@@ -26,7 +26,7 @@ export default class StorageToTableConfigurationsItemView extends Mixins(HeaderI
 	async getItem() {
 		await this.$store.dispatch('storageToTableConf/closeDBChannel', { clearModule: true });
 		await this.$store.dispatch('storageToTableConf/fetchAndAdd', {
-			sourceId: this.bucketIn,
+			sourceId: this.bucketId,
 			itemId: this.itemId
 		});
 
@@ -34,7 +34,7 @@ export default class StorageToTableConfigurationsItemView extends Mixins(HeaderI
 		this.isLoading = false;
 	}
 
-	get bucketIn() {
+	get bucketId() {
 		return this.$route.params.bucketId;
 	}
 

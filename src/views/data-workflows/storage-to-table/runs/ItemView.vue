@@ -9,10 +9,14 @@
 import { Component, Mixins } from 'vue-property-decorator';
 import HeaderInfosMixin from '../header-infos';
 import RunDocMixin from '@/mixins/data-workflows/doc/run-doc-mixin';
+import { State } from 'vuex-class';
 import { mirrorExcGcsToGbqRuns } from '@/store/modules/easy-firestore/mirror-exc-gcs-to-gbq-runs';
+import { mirrorExcGcsToGbqConfDetails } from '@/store/modules/easy-firestore/mirror-exc-gcs-to-gbq-conf-details';
 
 @Component
 export default class StorageToTableRunsItemView extends Mixins(HeaderInfosMixin, RunDocMixin) {
+	@State(state => state.mirrorExcGcsToGbqConfDetails.data) mirrorExcGcsToGbqConfDetails!: Object;
+
 	moduleName: string = mirrorExcGcsToGbqRuns.moduleName;
 
 	get itemTabsItems() {
@@ -216,7 +220,7 @@ export default class StorageToTableRunsItemView extends Mixins(HeaderInfosMixin,
 					item: this.item,
 					collection: this.moduleName,
 					activeHeader: false,
-					viewId: this.item.configuration_context.table_name,
+					viewId: `${this.item.source_bucket}/${this.item.configuration_context.filename_template}`,
 					viewType: 'conf',
 					description: this.item.configuration_context.table_description
 						? this.item.configuration_context.table_description
