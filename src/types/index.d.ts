@@ -152,15 +152,10 @@ export interface Pagination {
 	rowsPerPage: number;
 }
 
-interface ScreenApparitionElement {
+export interface Snackbar {
 	isVisible: boolean;
+	text: string;
 	timeout: number;
-}
-
-export interface Dialog extends ScreenApparitionElement {}
-
-export interface Snackbar extends ScreenApparitionElement {
-	message: string;
 	color?: string;
 }
 

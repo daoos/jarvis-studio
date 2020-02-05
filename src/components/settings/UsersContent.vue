@@ -5,15 +5,13 @@
 
 			<v-spacer />
 
-			<v-dialog v-model="dialog" max-width="700px">
+			<v-dialog v-model="showFormDialog" max-width="700px">
 				<template v-slot:activator="{ on }">
 					<v-btn @click="resetCurrentUser" color="primary" dark class="mb-2" v-on="on">New User</v-btn>
 				</template>
 
 				<v-card>
-					<v-card-title>
-						<span class="headline">{{ formTitle }}</span>
-					</v-card-title>
+					<v-card-title class="headline">{{ formTitle }}</v-card-title>
 
 					<v-card-text>
 						<v-container>
@@ -88,16 +86,15 @@
 					<v-card-actions>
 						<v-spacer />
 
-						<v-btn color="blue darken-1" text @click="closeDialog">Cancel</v-btn>
+						<v-btn color="blue darken-1" text @click="closeFormDialog">Cancel</v-btn>
 						<v-btn v-if="isEditing" color="primary" @click="updateUser">Update User</v-btn>
 						<v-btn v-else color="primary" @click="createUser">Create User</v-btn>
 					</v-card-actions>
 				</v-card>
 			</v-dialog>
 
-			<v-icon right @click="listAllUsers" v-if="!isLoading">refresh</v-icon>
-
-			<v-progress-circular indeterminate size="20" color="primary" v-if="isLoading" />
+			<v-progress-circular v-if="isLoading" indeterminate size="20" color="primary" class="ml-2 mr-1" />
+			<v-icon v-else right @click="listAllUsers">refresh</v-icon>
 		</v-toolbar>
 
 		<v-data-table
@@ -111,18 +108,64 @@
 			item-key="key"
 			light
 		>
-			<template v-slot:item.action="{ item }">
-				<div class="justify-center layout px-0">
-					<v-icon small class="mr-2" @click="editUser(item)">edit</v-icon>
-					<v-icon small class="mr-2" @click="archiveUser(item)">{{ mdiPackageDown }}</v-icon>
-					<v-icon small @click="deleteUser(item)">delete</v-icon>
-				</div>
+			<template v-slot:item="{ item }">
+				<tr :class="{ 'grey--text lighten-4': item.disabled }">
+					<td v-if="item.disabled">
+						{{ item.email }} <v-chip small disabled color="grey lighten-2" class="ml-2">Disabled</v-chip>
+					</td>
+					<td v-else>{{ item.email }}</td>
+					<td>{{ item.displayName }}</td>
+					<td>{{ item.emailVerified }}</td>
+					<td>{{ item.disabled }}</td>
+					<td>{{ item.nb_accounts }}</td>
+					<td>{{ item.studioRolesIndex }}</td>
+					<td>
+						<v-tooltip top>
+							<template v-slot:activator="{ on }">
+								<v-icon v-on="on" small class="mr-2" @click="editUser(item)">edit</v-icon>
+							</template>
+							<span>Edit user</span>
+						</v-tooltip>
+
+						<v-tooltip top>
+							<template v-slot:activator="{ on }">
+								<v-icon v-on="on" small class="mr-2" @click="archiveUser(item)">
+									{{ item.disabled ? mdiPackageUp : mdiPackageDown }}
+								</v-icon>
+							</template>
+							<span>{{ item.disabled ? 'Enable' : 'Disable' }} user</span>
+						</v-tooltip>
+
+						<v-tooltip top>
+							<template v-slot:activator="{ on }">
+								<v-icon v-on="on" small @click="showDeleteDialog(item)">delete</v-icon>
+							</template>
+							<span>Delete user</span>
+						</v-tooltip>
+					</td>
+				</tr>
 			</template>
 		</v-data-table>
 
-		<v-snackbar v-model="snackbarParam.isVisible" :color="snackbarParam.color" :timeout="3500">
-			{{ snackbarParam.message }}
-			<v-btn text @click="snackbarParam.isVisible = false">closeDialog</v-btn>
+		<v-dialog v-model="showConfirmationDialog" max-width="700">
+			<v-card>
+				<v-card-title class="headline">Warning</v-card-title>
+				<v-card-text>
+					<p>
+						Are you sure you want to delete <span class="font-weight-bold">{{ this.currentUser.displayName }}</span> ?
+					</p>
+				</v-card-text>
+				<v-card-actions>
+					<v-spacer />
+					<v-btn text @click="showConfirmationDialog = false">Close</v-btn>
+					<v-btn text @click="deleteUser">Delete</v-btn>
+				</v-card-actions>
+			</v-card>
+		</v-dialog>
+
+		<v-snackbar v-model="snackbar.isVisible" :color="snackbar.color" :timeout="3500">
+			{{ snackbar.text }}
+			<v-btn text @click="snackbar.isVisible = false">Close</v-btn>
 		</v-snackbar>
 	</v-container>
 </template>
@@ -137,7 +180,9 @@ import { mapGetters } from 'vuex';
 import merge from 'lodash.merge';
 import { SNACKBAR } from '@/constants/ui/snackbar';
 import { ADMIN, MEMBER, SUPER_ADMIN, USER, VIEWER, WRITER } from '@/constants/user/roles';
-import { mdiPackageDown } from '@mdi/js';
+import { mdiPackageDown, mdiPackageUp } from '@mdi/js';
+
+// TODO: Split component
 
 @Component({
 	computed: {
@@ -147,14 +192,10 @@ import { mdiPackageDown } from '@mdi/js';
 })
 export default class UsersContent extends Vue {
 	mdiPackageDown: string = mdiPackageDown;
+	mdiPackageUp: string = mdiPackageUp;
 	accounts: any;
-	snackbarParam: Snackbar = { isVisible: false, timeout: SNACKBAR.TIMEOUT, message: '', color: 'info' };
-	users: AnyObject[] = [];
 	selectedAccounts: string[] = [];
-	selectedStudioRoles: number = 0;
-	dialog: boolean = false;
-	showPassword: boolean = false;
-	pagination = { sortBy: 'email', sortDesc: false }; // TODO: type
+	users: AnyObject[] = [];
 	currentUser: AnyObject = {
 		email: '',
 		customClaims: {},
@@ -164,8 +205,14 @@ export default class UsersContent extends Vue {
 		creationTime: Date.now(),
 		password: ''
 	};
-	isEditing: boolean = false;
+	selectedStudioRoles: number = 0;
 	studioRoles: Role[] = [MEMBER, VIEWER, USER, WRITER, ADMIN, SUPER_ADMIN];
+	showFormDialog: boolean = false;
+	showConfirmationDialog: boolean = false;
+	snackbar: Snackbar = { isVisible: false, timeout: SNACKBAR.TIMEOUT, text: '', color: 'complementary' };
+	pagination = { sortBy: 'email', sortDesc: false }; // TODO: type
+	showPassword: boolean = false;
+	isEditing: boolean = false;
 	search: string = '';
 	isLoading: boolean = false;
 
@@ -213,6 +260,9 @@ export default class UsersContent extends Vue {
 
 	createUser() {
 		const createUser = firebase.functions().httpsCallable('createUser');
+		this.closeFormDialog();
+		this.isLoading = true;
+
 		createUser({
 			email: this.currentUser.email,
 			displayName: this.currentUser.displayName,
@@ -224,8 +274,7 @@ export default class UsersContent extends Vue {
 			studioRoles: this.selectedStudioRoles
 		}).then(() => {
 			this.listAllUsers();
-			this.users.push(this.currentUser);
-			this.closeDialog();
+			this.showSnackbar('User has been created.', 'success');
 		});
 	}
 
@@ -250,56 +299,70 @@ export default class UsersContent extends Vue {
 		} else {
 			this.selectedStudioRoles = this.currentUser.customClaims.studioRoles;
 		}
-		this.dialog = true;
+		this.showFormDialog = true;
 	}
 
 	updateUser() {
-		if (this.isEditing) {
-			const addRolesAndAccounts = firebase.functions().httpsCallable('updateUser');
-			addRolesAndAccounts({
-				accounts: this.selectedAccounts,
-				email: this.currentUser.email,
-				displayName: this.currentUser.displayName,
-				photoURL: this.currentUser.photoURL,
-				studioRoles: this.selectedStudioRoles
-			});
-		} else {
-			this.users.push(this.currentUser);
-		}
-		this.closeDialog();
+		this.isLoading = true;
+		this.closeFormDialog();
+
+		const updateUser = firebase.functions().httpsCallable('updateUser');
+		updateUser({
+			accounts: this.selectedAccounts,
+			email: this.currentUser.email,
+			displayName: this.currentUser.displayName,
+			photoURL: this.currentUser.photoURL,
+			studioRoles: this.selectedStudioRoles
+		}).then(() => {
+			this.isLoading = false;
+			this.showSnackbar('User has been updated.', 'success');
+		});
 	}
 
 	archiveUser(user: User) {
+		this.isLoading = true;
+		this.currentUser = user;
+
 		const archiveUser = firebase.functions().httpsCallable('updateUser');
 		archiveUser({
 			email: user.email,
 			disabled: !user.disabled
 		}).then(() => {
-			// TODO: Show snackBar
 			const index = this.users.indexOf(user);
 			this.users[index].disabled = !user.disabled;
+
+			this.isLoading = false;
+			this.showSnackbar(`User has been ${this.currentUser.disabled ? 'disabled' : 'enabled'}.`, 'success');
 		});
 	}
 
-	deleteUser(user: User) {
-		// TODO: show modal
-		const result = confirm('Are you sure you want to delete this user?');
-		const deleteUser = firebase.functions().httpsCallable('deleteUser');
-		const index = this.users.indexOf(user);
-
-		if (result) {
-			this.isLoading = true;
-
-			deleteUser({ email: user.email }).then(res => {
-				// TODO: show snackBar
-				this.users.splice(index, 1);
-				this.isLoading = false;
-			});
-		}
+	showDeleteDialog(user: User) {
+		this.currentUser = user;
+		this.showConfirmationDialog = true;
 	}
 
-	closeDialog() {
-		this.dialog = false;
+	deleteUser() {
+		const deleteUser = firebase.functions().httpsCallable('deleteUser');
+		const index = this.users.indexOf(this.currentUser);
+
+		this.isLoading = true;
+		this.showConfirmationDialog = false;
+
+		deleteUser({ email: this.currentUser.email }).then(() => {
+			this.users.splice(index, 1);
+			this.isLoading = false;
+			this.showSnackbar('User has been deleted', 'success');
+		});
+	}
+
+	showSnackbar(text: string, color: string = this.snackbar.color!) {
+		this.snackbar.isVisible = true;
+		this.snackbar.text = text;
+		this.snackbar.color = color;
+	}
+
+	closeFormDialog() {
+		this.showFormDialog = false;
 	}
 
 	get headers(): DataTableHeader[] {

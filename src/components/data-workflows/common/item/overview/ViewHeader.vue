@@ -32,7 +32,7 @@
 					</v-list>
 				</v-menu>
 
-				<v-dialog v-model="archiveSnackbar.isVisible" persistent max-width="400">
+				<v-dialog v-model="showArchiveSnackbar" persistent max-width="400">
 					<v-card>
 						<v-card-title class="headline warning">Warning</v-card-title>
 						<v-card-text>
@@ -77,7 +77,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { Getter } from 'vuex-class';
-import { AnyObject, Dialog } from '@/types';
+import { AnyObject } from '@/types';
 import ConfigurationStatus from '../../../configuration/ConfigurationStatus.vue';
 import RunStatusChip from '../../../runs/RunStatusChip.vue';
 import store from '@/store';
@@ -103,18 +103,18 @@ export default class ViewHeader extends Vue {
 	@Getter('user/isSuperAdmin') isSuperAdmin!: number;
 
 	isLoading: boolean = false;
-	archiveSnackbar: Dialog = { isVisible: false, timeout: 10000 };
+	showArchiveSnackbar: boolean = false;
 
 	goBack() {
 		this.$router.go(-1);
 	}
 
 	showArchiveDialog() {
-		this.archiveSnackbar.isVisible = true;
+		this.showArchiveSnackbar = true;
 	}
 
 	hideArchiveDialog() {
-		this.archiveSnackbar.isVisible = false;
+		this.showArchiveSnackbar = false;
 	}
 
 	toggleArchiveConf() {
