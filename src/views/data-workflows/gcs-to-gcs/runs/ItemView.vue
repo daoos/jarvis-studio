@@ -232,7 +232,7 @@ export default class GcsToGcsRunsItemView extends Mixins(HeaderInfosMixin, RunDo
 				props: {
 					item: this.item,
 					activeHeader: false,
-					viewId: this.item.configuration_context.source_bucket,
+					viewId: this.item.cloud_function_triggered,
 					viewType: 'conf',
 					description: null
 				}

@@ -64,6 +64,8 @@
 
 		<v-row v-else class="pl-5 pt-4 pr-5">
 			<span class="headline font-weight-bold">{{ viewId }}</span>
+			<v-spacer />
+			<v-btn text v-if="link" @click="redirectToConfiguration" class="text--secondary">View current</v-btn>
 		</v-row>
 
 		<v-row v-if="description" class="pl-5 pr-5 pt-3 pb-3">
@@ -75,10 +77,15 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { Getter } from 'vuex-class';
-import { AnyObject, Dialog, Snackbar } from '@/types';
+import { AnyObject, Dialog } from '@/types';
 import ConfigurationStatus from '../../../configuration/ConfigurationStatus.vue';
 import RunStatusChip from '../../../runs/RunStatusChip.vue';
 import store from '@/store';
+import { CONFIGURATIONS } from '@/constants/data-workflows/status';
+import { DATA_WORKFLOWS } from '@/constants/router/paths-prefixes';
+
+// TODO: Refactor viewType possible values with constants
+// TODO: Refactor by removing headerActive prop to be based on viewType
 
 @Component({
 	components: { ConfigurationStatus, RunStatusChip }
@@ -123,8 +130,20 @@ export default class ViewHeader extends Vue {
 		});
 	}
 
+	redirectToConfiguration() {
+		this.$router.push(this.link);
+	}
+
 	get actionName(): string {
 		return this.item.archive ? 'Unarchive' : 'Archive';
+	}
+
+	get link(): string {
+		const workflowType = this.$route.path.split('/')[2];
+		const docType = this.$route.path.split('/')[3];
+
+		if (this.viewType !== 'conf' || docType === CONFIGURATIONS) return '';
+		return `/${DATA_WORKFLOWS}/${workflowType}/${CONFIGURATIONS}/${this.viewId}`;
 	}
 }
 </script>

@@ -10,7 +10,7 @@
 				'no-opacity': this.item.archive
 			}"
 			:label="isLabel"
-			:disabled="item.archive"
+			:disabled="item.archive || item.archived"
 			@click="changeActivatedStatus(item, collection)"
 		>
 			<v-progress-circular indeterminate size="20" color="primary" v-if="isLoading" />

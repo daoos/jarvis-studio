@@ -70,14 +70,14 @@ export const getters: GetterTree<FilterState, RootState> = {
 		if (envFilterSelected.value !== 'ALL') filters.push(getEnvFilterSelected(envFilterSelected));
 		if (confActivatedFilterSelected.value === 'ALL') {
 			// @ts-ignore
-			filters.push(['archive', '==', false]);
+			filters.push(['archived', '==', false]);
 		} else {
 			if (confActivatedFilterSelected.label === 'Archived') {
 				// @ts-ignore
-				filters.push(['archive', '==', confActivatedFilterSelected.value]);
+				filters.push(['archived', '==', confActivatedFilterSelected.value]);
 			} else {
 				// @ts-ignore
-				filters.push(['archive', '==', false]);
+				filters.push(['archived', '==', false]);
 				// @ts-ignore
 				filters.push(['activated', '==', confActivatedFilterSelected.value]);
 			}
