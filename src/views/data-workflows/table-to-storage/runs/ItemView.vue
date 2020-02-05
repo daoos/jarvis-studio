@@ -69,7 +69,7 @@ export default class TableToStorageRunsItemView extends Mixins(HeaderInfosMixin,
 					item: this.item,
 					collection: this.moduleName,
 					activeHeader: true,
-					viewId: this.item.id,
+					viewId: this.item.firestore_conf_doc_id,
 					viewType: 'run',
 					description: null,
 					runStatus: this.item.status
