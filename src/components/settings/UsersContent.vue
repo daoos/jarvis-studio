@@ -5,47 +5,54 @@
 
 			<v-spacer />
 
-			<v-dialog v-model="dialog" max-width="700px">
+			<v-dialog v-model="showFormDialog" max-width="700px">
 				<template v-slot:activator="{ on }">
-					<v-btn color="primary" dark class="mb-2" v-on="on">New User</v-btn>
+					<v-btn @click="resetCurrentUser" color="primary" dark class="mb-2" v-on="on">New User</v-btn>
 				</template>
 
 				<v-card>
-					<v-card-title>
-						<span class="headline">{{ formTitle }}</span>
-					</v-card-title>
+					<v-card-title class="headline">{{ formTitle }}</v-card-title>
 
 					<v-card-text>
 						<v-container>
+							<v-row v-if="isEditing && (isUserDisabled || !isUserEmailVerified)">
+								<v-col cols="12">
+									<v-alert v-if="isUserDisabled" type="warning">
+										{{ currentUser.displayName }} has been disabled.
+									</v-alert>
+									<v-alert v-if="!isUserEmailVerified" type="warning">
+										{{ currentUser.displayName }} doesn't verified his email address.
+									</v-alert>
+								</v-col>
+							</v-row>
+
 							<v-row>
 								<v-col cols="12">
-									<v-text-field v-model="editedUser.email" label="Email" />
+									<v-text-field v-model="currentUser.email" label="Email" :disabled="isUserDisabled" />
+								</v-col>
+							</v-row>
+
+							<v-row>
+								<v-col cols="6">
+									<v-text-field v-model="currentUser.displayName" label="Display Name" :disabled="isUserDisabled" />
 								</v-col>
 
-								<v-col cols="12">
-									<v-text-field v-model="editedUser.displayName" label="Display Name" />
-								</v-col>
-
-								<v-col cols="12">
+								<v-col cols="6">
 									<v-text-field
-										v-model="editedUser.password"
-										:append-icon="editedUser.showPassword ? 'visibility' : 'visibility_off'"
-										:type="editedUser.showPassword ? 'text' : 'password'"
+										v-model="currentUser.password"
+										:append-icon="showPassword ? 'visibility' : 'visibility_off'"
+										:type="showPassword ? 'text' : 'password'"
 										name="password"
 										label="Password"
 										hint="At least 8 characters"
 										counter
-										@click:append="editedUser.showPassword = !editedUser.showPassword"
+										@click:append="showPassword = !showPassword"
 									/>
 								</v-col>
+							</v-row>
 
-								<v-col cols="12">
-									<v-text-field v-model="editedUser.emailVerified" label="Email Verified" />
-								</v-col>
-
-								<v-col cols="12">
-									<v-text-field v-model="editedUser.disabled" label="Disabled" />
-
+							<v-row>
+								<v-col cols="6">
 									<v-select
 										v-model="selectedAccounts"
 										:items="accountsFormatted"
@@ -57,9 +64,11 @@
 										item-text="account_name"
 										item-value="id"
 									/>
+								</v-col>
 
+								<v-col cols="6">
 									<v-select
-										v-model="selectedRoles"
+										v-model="selectedStudioRoles"
 										:items="studioRoles"
 										label="Role"
 										single-line
@@ -77,16 +86,15 @@
 					<v-card-actions>
 						<v-spacer />
 
-						<v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
-						<v-btn color="blue darken-1" text @click="createUser">Create User</v-btn>
-						<v-btn color="blue darken-1" text @click="addRolesAndAccounts">Update User</v-btn>
+						<v-btn color="blue darken-1" text @click="closeFormDialog">Cancel</v-btn>
+						<v-btn v-if="isEditing" color="primary" @click="updateUser">Update User</v-btn>
+						<v-btn v-else color="primary" @click="createUser">Create User</v-btn>
 					</v-card-actions>
 				</v-card>
 			</v-dialog>
 
-			<v-icon right @click="listAllUsers" v-if="!isFetchAndAdding">refresh</v-icon>
-
-			<v-progress-circular indeterminate size="20" color="primary" v-if="isFetchAndAdding" />
+			<v-progress-circular v-if="isLoading" indeterminate size="20" color="primary" class="ml-2 mr-1" />
+			<v-icon v-else right @click="listAllUsers">refresh</v-icon>
 		</v-toolbar>
 
 		<v-data-table
@@ -94,229 +102,295 @@
 			:items="users"
 			class="elevation-1"
 			:search="search"
-			:loading="isFetchAndAdding"
+			:loading="isLoading"
 			:sort-by.sync="pagination.sortBy"
-			:sort-desc.sync="pagination.descending"
+			:sort-desc.sync="pagination.sortDesc"
 			item-key="key"
 			light
 		>
-			<template v-slot:item.action="{ item }">
-				<div class="justify-center layout px-0">
-					<v-icon small class="mr-2" @click="editUser(item)">
-						edit
-					</v-icon>
+			<template v-slot:item="{ item }">
+				<tr :class="{ 'grey--text lighten-4': item.disabled }">
+					<td v-if="item.disabled">
+						{{ item.email }} <v-chip small disabled color="grey lighten-2" class="ml-2">Disabled</v-chip>
+					</td>
+					<td v-else>{{ item.email }}</td>
+					<td>{{ item.displayName }}</td>
+					<td>{{ item.emailVerified }}</td>
+					<td>{{ item.disabled }}</td>
+					<td>{{ item.nb_accounts }}</td>
+					<td>{{ item.studioRolesIndex }}</td>
+					<td>
+						<v-tooltip top>
+							<template v-slot:activator="{ on }">
+								<v-icon v-on="on" small class="mr-2" @click="editUser(item)">edit</v-icon>
+							</template>
+							<span>Edit user</span>
+						</v-tooltip>
 
-					<v-icon small @click="deleteUser(item)">
-						delete
-					</v-icon>
-				</div>
-			</template>
+						<v-tooltip top>
+							<template v-slot:activator="{ on }">
+								<v-icon v-on="on" small class="mr-2" @click="archiveUser(item)">
+									{{ item.disabled ? mdiPackageUp : mdiPackageDown }}
+								</v-icon>
+							</template>
+							<span>{{ item.disabled ? 'Enable' : 'Disable' }} user</span>
+						</v-tooltip>
 
-			<template v-slot:no-data>
-				<v-btn color="primary" @click="listAllUsers">Reset</v-btn>
+						<v-tooltip top>
+							<template v-slot:activator="{ on }">
+								<v-icon v-on="on" small @click="showDeleteDialog(item)">delete</v-icon>
+							</template>
+							<span>Delete user</span>
+						</v-tooltip>
+					</td>
+				</tr>
 			</template>
 		</v-data-table>
 
-		<v-snackbar v-model="snackbarParam.show" :color="snackbarParam.color" :timeout="3500">
-			{{ snackbarParam.message }}
-			<v-btn text @click="snackbarParam.show = false">Close</v-btn>
+		<v-dialog v-model="showConfirmationDialog" max-width="700">
+			<v-card>
+				<v-card-title class="headline">Warning</v-card-title>
+				<v-card-text>
+					<p>
+						Are you sure you want to delete <span class="font-weight-bold">{{ this.currentUser.displayName }}</span> ?
+					</p>
+				</v-card-text>
+				<v-card-actions>
+					<v-spacer />
+					<v-btn text @click="showConfirmationDialog = false">Close</v-btn>
+					<v-btn text @click="deleteUser">Delete</v-btn>
+				</v-card-actions>
+			</v-card>
+		</v-dialog>
+
+		<v-snackbar v-model="snackbar.isVisible" :color="snackbar.color" :timeout="3500">
+			{{ snackbar.text }}
+			<v-btn text @click="snackbar.isVisible = false">Close</v-btn>
 		</v-snackbar>
 	</v-container>
 </template>
 
-<script>
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator';
+import { AnyObject, FirestoreAccount, Role, Snackbar, User } from '@/types';
+import { DataTableHeader } from 'vuetify';
 import firebase from 'firebase';
 import { mapState } from 'vuex';
 import { mapGetters } from 'vuex';
 import merge from 'lodash.merge';
+import { SNACKBAR } from '@/constants/ui/snackbar';
+import { ADMIN, MEMBER, SUPER_ADMIN, USER, VIEWER, WRITER } from '@/constants/user/roles';
+import { mdiPackageDown, mdiPackageUp } from '@mdi/js';
 
-export default {
-	name: 'users-content',
-	data: () => ({
-		snackbarParam: { message: '', show: false, color: 'info' },
-		alertParam: { message: '', show: false, color: 'info', dismissible: true },
-		users: [],
-		selectedAccounts: [],
-		selectedRoles: 0,
-		dialog: false,
-		pagination: { sortBy: 'email', descending: false, rowsPerPage: 50 },
-		editedUserIndex: -1,
-		editedUser: {
-			email: '',
-			displayName: '',
-			emailVerified: false,
-			disabled: false,
-			creationTime: Date.now(),
-			password: '',
-			showPassword: false,
-			rules: {
-				//required: value => !!value || "Required.",
-				min: v => v.length >= 8 || 'Min 8 characters'
-			}
-		},
-		defaultUser: {
-			email: '',
-			displayName: '',
-			emailVerified: false,
-			disabled: false,
-			creationTime: Date.now(),
-			password: '',
-			showPassword: false,
-			rules: {
-				//required: value => !!value || "Required.",
-				min: v => v.length >= 8 || 'Min 8 characters'
-			}
-		},
-		studioRoles: [
-			{ roleName: 'Member', roleCode: 0 },
-			{ roleName: 'Viewer', roleCode: 1 },
-			{ roleName: 'User', roleCode: 2 },
-			{ roleName: 'Writer', roleCode: 3 },
-			{ roleName: 'Admin', roleCode: 4 },
-			{ roleName: 'Super Admin', roleCode: 5 }
-		],
-		search: '',
-		isFetchAndAdding: false
-	}),
+// TODO: Split component
+
+@Component({
+	computed: {
+		...mapState({ accounts: (state: any) => state.accounts.data }),
+		...mapGetters(['periodFiltered', 'filters/whereConfFilter'])
+	}
+})
+export default class UsersContent extends Vue {
+	mdiPackageDown: string = mdiPackageDown;
+	mdiPackageUp: string = mdiPackageUp;
+	accounts: any;
+	selectedAccounts: string[] = [];
+	users: AnyObject[] = [];
+	currentUser: AnyObject = {
+		email: '',
+		customClaims: {},
+		displayName: '',
+		emailVerified: false,
+		disabled: false,
+		creationTime: Date.now(),
+		password: ''
+	};
+	selectedStudioRoles: number = 0;
+	studioRoles: Role[] = [MEMBER, VIEWER, USER, WRITER, ADMIN, SUPER_ADMIN];
+	showFormDialog: boolean = false;
+	showConfirmationDialog: boolean = false;
+	snackbar: Snackbar = { isVisible: false, timeout: SNACKBAR.TIMEOUT, text: '', color: 'complementary' };
+	pagination = { sortBy: 'email', sortDesc: false }; // TODO: type
+	showPassword: boolean = false;
+	isEditing: boolean = false;
+	search: string = '';
+	isLoading: boolean = false;
+
 	mounted() {
 		this.listAllUsers();
-	},
-	methods: {
-		listAllUsers() {
-			this.isFetchAndAdding = true;
-			const listAllUsers = firebase.functions().httpsCallable('listAllUsers');
-			//list all email users
-			listAllUsers({}).then(res => {
-				// store the users list
-				const dataUsers = Object.values(res.data.users);
-				let usersFormated = res.data.users.map(function(data) {
-					let nb_accounts = 0;
-					try {
-						nb_accounts = data.customClaims.accounts.length;
-					} catch (error) {
-						nb_accounts = 0;
-					}
-					let studioRolesIndex = 0;
-					try {
-						studioRolesIndex = data.customClaims.studioRoles;
-					} catch (error) {
-						studioRolesIndex = 0;
-					}
-					return {
-						nb_accounts: nb_accounts,
-						studioRolesIndex: studioRolesIndex
-					};
-				});
-				console.log(dataUsers, usersFormated);
-				this.users = merge(dataUsers, usersFormated);
-				this.isFetchAndAdding = false;
-			});
-		},
-		editUser(item) {
-			this.editedUserIndex = this.users.indexOf(item);
-			this.editedUser = Object.assign({}, item);
-			if (
-				this.editedUser.customClaims == null ||
-				typeof this.editedUser.customClaims.accounts === 'undefined' ||
-				this.editedUser.customClaims.accounts === null
-			) {
-				this.selectedAccounts = [];
-			} else {
-				this.selectedAccounts = this.editedUser.customClaims.accounts;
-			}
-			if (
-				this.editedUser.customClaims == null ||
-				typeof this.editedUser.customClaims.studioRoles === 'undefined' ||
-				this.editedUser.customClaims.studioRoles === null
-			) {
-				this.selectedRoles = 0;
-			} else {
-				this.selectedRoles = this.editedUser.customClaims.studioRoles;
-			}
-			this.dialog = true;
-		},
-		deleteUser(item) {
-			const index = this.users.indexOf(item);
-			confirm('Are you sure you want to delete this user?') && this.users.splice(index, 1);
-		},
-		close() {
-			this.dialog = false;
-			setTimeout(() => {
-				this.editedUser = Object.assign({}, this.defaultUser);
-				//this.editedUserIndex = -1;
-			}, 300);
-		},
-		save() {
-			if (this.editedUserIndex > -1) {
-				Object.assign(this.users[this.editedUserIndex], this.editedUser);
-			} else {
-				this.users.push(this.editedUser);
-			}
-			this.close();
-		},
-		createUser() {
-			if (this.editedUserIndex > -1) {
-				const createUser = firebase.functions().httpsCallable('createUser');
-				createUser({
-					email: this.editedUser.email,
-					displayName: this.editedUser.displayName,
-					emailVerified: this.editedUser.emailVerified,
-					photoURL: 'https://raw.githubusercontent.com/mkfeuhrer/JarvisBot/master/images/JarvisBot.gif',
-					password: this.editedUser.password,
-					disabled: this.editedUser.disabled,
-					accounts: this.selectedAccounts,
-					studioRoles: this.selectedRoles
-				}).then(() => {
-					this.listAllUsers();
-				});
-			} else {
-				this.users.push(this.editedUser);
-			}
-			this.close();
-		},
-		addRolesAndAccounts() {
-			if (this.editedUserIndex > -1) {
-				const addRolesAndAccounts = firebase.functions().httpsCallable('addRolesAndAccounts');
-				addRolesAndAccounts({
-					email: this.editedUser.email,
-					accounts: this.selectedAccounts,
-					studioRoles: this.selectedRoles
-				}).then(() => {
-					this.listAllUsers();
-				});
-			} else {
-				this.users.push(this.editedUser);
-			}
-			this.close();
-		}
-	},
-	computed: {
-		...mapState({
-			accounts: state => state.accounts.data
-		}),
-		...mapGetters(['periodFiltered', 'filters/whereConfFilter']),
-		headers() {
-			return [
-				{ text: 'Email', align: 'left', sortable: true, value: 'email' },
-				{ text: 'Display Name', align: 'left', sortable: true, value: 'displayName' },
-				{ text: 'Email Verified', value: 'emailVerified' },
-				{ text: 'Disabled', value: 'disabled' },
-				{ text: 'Nb Accounts', value: 'nb_accounts' },
-				{ text: 'Roles', value: 'studioRolesIndex' },
-				{ text: 'Actions', value: 'action', sortable: false }
-			];
-		},
-		formTitle() {
-			return this.editedUserIndex === -1 ? 'New User' : 'Edit User';
-		},
-		accountsFormatted() {
-			return Object.values(this.accounts);
-		}
-	},
-	watch: {
-		dialog(val) {
-			val || this.close();
-		}
 	}
-};
+
+	resetCurrentUser() {
+		this.isEditing = false;
+		this.currentUser = {};
+		this.selectedAccounts = [];
+		this.selectedStudioRoles = 0;
+	}
+
+	listAllUsers() {
+		this.isLoading = true;
+
+		const listAllUsers = firebase.functions().httpsCallable('listUsers');
+		listAllUsers({}).then(res => {
+			const dataUsers = Object.values(res.data.users);
+
+			let usersFormatted = res.data.users.map(function(user: User) {
+				let nb_accounts = 0;
+				try {
+					nb_accounts = user.customClaims.accounts.length;
+				} catch (error) {
+					nb_accounts = 0;
+				}
+				let studioRolesIndex = 0;
+				try {
+					studioRolesIndex = user.customClaims.studioRoles;
+				} catch (error) {
+					studioRolesIndex = 0;
+				}
+				return {
+					nb_accounts: nb_accounts,
+					studioRolesIndex: studioRolesIndex
+				};
+			});
+
+			this.users = merge(dataUsers, usersFormatted);
+			this.isLoading = false;
+		});
+	}
+
+	createUser() {
+		const createUser = firebase.functions().httpsCallable('createUser');
+		this.closeFormDialog();
+		this.isLoading = true;
+
+		createUser({
+			email: this.currentUser.email,
+			displayName: this.currentUser.displayName,
+			emailVerified: this.currentUser.emailVerified,
+			photoURL: 'https://raw.githubusercontent.com/mkfeuhrer/JarvisBot/master/images/JarvisBot.gif',
+			password: this.currentUser.password,
+			disabled: this.currentUser.disabled,
+			accounts: this.selectedAccounts,
+			studioRoles: this.selectedStudioRoles
+		}).then(() => {
+			this.listAllUsers();
+			this.showSnackbar('User has been created.', 'success');
+		});
+	}
+
+	editUser(user: User) {
+		this.isEditing = true;
+		this.currentUser = user;
+		if (
+			this.currentUser.customClaims == null ||
+			typeof this.currentUser.customClaims.accounts === 'undefined' ||
+			this.currentUser.customClaims.accounts === null
+		) {
+			this.selectedAccounts = [];
+		} else {
+			this.selectedAccounts = this.currentUser.customClaims.accounts;
+		}
+		if (
+			this.currentUser.customClaims == null ||
+			typeof this.currentUser.customClaims.studioRoles === 'undefined' ||
+			this.currentUser.customClaims.studioRoles === null
+		) {
+			this.selectedStudioRoles = 0;
+		} else {
+			this.selectedStudioRoles = this.currentUser.customClaims.studioRoles;
+		}
+		this.showFormDialog = true;
+	}
+
+	updateUser() {
+		this.isLoading = true;
+		this.closeFormDialog();
+
+		const updateUser = firebase.functions().httpsCallable('updateUser');
+		updateUser({
+			accounts: this.selectedAccounts,
+			email: this.currentUser.email,
+			displayName: this.currentUser.displayName,
+			photoURL: this.currentUser.photoURL,
+			studioRoles: this.selectedStudioRoles
+		}).then(() => {
+			this.isLoading = false;
+			this.showSnackbar('User has been updated.', 'success');
+		});
+	}
+
+	archiveUser(user: User) {
+		this.isLoading = true;
+		this.currentUser = user;
+
+		const archiveUser = firebase.functions().httpsCallable('updateUser');
+		archiveUser({
+			email: user.email,
+			disabled: !user.disabled
+		}).then(() => {
+			const index = this.users.indexOf(user);
+			this.users[index].disabled = !user.disabled;
+
+			this.isLoading = false;
+			this.showSnackbar(`User has been ${this.currentUser.disabled ? 'disabled' : 'enabled'}.`, 'success');
+		});
+	}
+
+	showDeleteDialog(user: User) {
+		this.currentUser = user;
+		this.showConfirmationDialog = true;
+	}
+
+	deleteUser() {
+		const deleteUser = firebase.functions().httpsCallable('deleteUser');
+		const index = this.users.indexOf(this.currentUser);
+
+		this.isLoading = true;
+		this.showConfirmationDialog = false;
+
+		deleteUser({ email: this.currentUser.email }).then(() => {
+			this.users.splice(index, 1);
+			this.isLoading = false;
+			this.showSnackbar('User has been deleted', 'success');
+		});
+	}
+
+	showSnackbar(text: string, color: string = this.snackbar.color!) {
+		this.snackbar.isVisible = true;
+		this.snackbar.text = text;
+		this.snackbar.color = color;
+	}
+
+	closeFormDialog() {
+		this.showFormDialog = false;
+	}
+
+	get headers(): DataTableHeader[] {
+		return [
+			{ text: 'Email', sortable: true, value: 'email' },
+			{ text: 'Display Name', sortable: true, value: 'displayName' },
+			{ text: 'Email Verified', value: 'emailVerified' },
+			{ text: 'Disabled', value: 'disabled' },
+			{ text: 'Nb Accounts', value: 'nb_accounts' },
+			{ text: 'Roles', value: 'studioRolesIndex' },
+			{ text: 'Actions', value: 'action', sortable: false }
+		];
+	}
+
+	get isUserDisabled(): boolean {
+		return this.currentUser.disabled;
+	}
+
+	get isUserEmailVerified(): boolean {
+		return this.currentUser.emailVerified;
+	}
+
+	get formTitle(): string {
+		return this.isEditing ? 'Edit User' : 'New User';
+	}
+
+	get accountsFormatted(): FirestoreAccount[] {
+		return Object.values(this.accounts);
+	}
+}
 </script>

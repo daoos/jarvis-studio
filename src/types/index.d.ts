@@ -103,6 +103,8 @@ export interface Role {
 }
 export interface User extends FirebaseUser {
 	accounts: string[];
+	customClaims: AnyObject;
+	disabled: boolean;
 	studioRoles: RoleCode;
 }
 
@@ -144,9 +146,17 @@ export interface Link {
 	displayRule?(): boolean;
 }
 
+export interface Pagination {
+	sortBy: string;
+	descending: boolean;
+	rowsPerPage: number;
+}
+
 export interface Snackbar {
-	show: boolean;
+	isVisible: boolean;
+	text: string;
 	timeout: number;
+	color?: string;
 }
 
 export type RunStatus = 'SUCCESS' | 'FAILED' | 'RUNNING' | 'CHECKED';
@@ -196,4 +206,11 @@ export interface TableParameter {
 	id: string;
 	label: string;
 	value: any;
+}
+
+// Firestore
+export interface FirestoreAccount extends Account {
+	dlk_gcp_id_project: string;
+	exc_gcp_id_project: string;
+	git_repo: string;
 }

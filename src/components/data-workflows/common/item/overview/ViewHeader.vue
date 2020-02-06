@@ -32,7 +32,7 @@
 					</v-list>
 				</v-menu>
 
-				<v-dialog v-model="archiveSnackbar.show" persistent max-width="400">
+				<v-dialog v-model="showArchiveSnackbar" persistent max-width="400">
 					<v-card>
 						<v-card-title class="headline warning">Warning</v-card-title>
 						<v-card-text>
@@ -77,11 +77,10 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { Getter } from 'vuex-class';
-import { AnyObject, Snackbar } from '@/types';
+import { AnyObject } from '@/types';
 import ConfigurationStatus from '../../../configuration/ConfigurationStatus.vue';
 import RunStatusChip from '../../../runs/RunStatusChip.vue';
 import store from '@/store';
-import { mdiOpenInNew } from '@mdi/js';
 import { CONFIGURATIONS } from '@/constants/data-workflows/status';
 import { DATA_WORKFLOWS } from '@/constants/router/paths-prefixes';
 
@@ -104,19 +103,18 @@ export default class ViewHeader extends Vue {
 	@Getter('user/isSuperAdmin') isSuperAdmin!: number;
 
 	isLoading: boolean = false;
-	archiveSnackbar: Snackbar = { show: false, timeout: 10000 };
-	mdiOpenInNew: string = mdiOpenInNew;
+	showArchiveSnackbar: boolean = false;
 
 	goBack() {
 		this.$router.go(-1);
 	}
 
 	showArchiveDialog() {
-		this.archiveSnackbar.show = true;
+		this.showArchiveSnackbar = true;
 	}
 
 	hideArchiveDialog() {
-		this.archiveSnackbar.show = false;
+		this.showArchiveSnackbar = false;
 	}
 
 	toggleArchiveConf() {
