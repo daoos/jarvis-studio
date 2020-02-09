@@ -1,6 +1,6 @@
 <template>
 	<v-toolbar dense tabs color="primary" dark>
-		<v-toolbar-title class="pl-2 display-1">Data Model</v-toolbar-title>
+		<v-toolbar-title class="pl-2 display-1">{{ title }}</v-toolbar-title>
 		<template v-slot:extension>
 			<v-breadcrumbs :items="tableItems" dark large>
 				<template v-slot:divider>
@@ -16,7 +16,8 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 
 @Component
 export default class DataModelHeader extends Vue {
-	@Prop({ required: true }) private tableItems!: [];
+	@Prop({ default: 'Data model', type: String }) private title!: [];
+	@Prop({ type: Array, required: true }) private tableItems!: [];
 }
 </script>
 

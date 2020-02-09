@@ -7,15 +7,15 @@
 			:items="items"
 			:open.sync="open"
 			:active.sync="active"
-			:load-children="fetchTables"
 			active-class="primary--text"
 			class="transparent"
 			open-on-click
 			transition
 			activatable
 		>
-			<template v-slot:prepend="{ item, active }">
-				<v-icon v-if="!item.children" :color="active ? 'primary' : 'white'">table_chart</v-icon>
+			<template v-slot:label="{ item, active }">
+				<v-icon v-if="!item.children.length" :color="active ? 'primary' : 'white'">table_chart</v-icon>
+				{{ item.name }}
 			</template>
 		</v-treeview>
 	</v-col>
@@ -23,7 +23,7 @@
 
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator';
-import { DATA_TABLE_DETAILS } from '@/constants/router/routes-names';
+import { TABLES_LISTING } from '@/constants/router/routes-names';
 import { mapState } from 'vuex';
 
 @Component({
@@ -47,8 +47,8 @@ export default class DataModelTreeView extends Vue {
 
 		const id = value[0];
 		this.$router.push({
-			name: DATA_TABLE_DETAILS,
-			params: { projectId: id.split('/')[0], datasetId: id.split('/')[1], tableId: id.split('/')[2] }
+			name: TABLES_LISTING,
+			params: { projectId: id.split('/')[0], datasetId: id.split('/')[1] }
 		});
 	}
 
@@ -82,39 +82,5 @@ export default class DataModelTreeView extends Vue {
 			this.isLoading = false;
 		});
 	}
-
-	fetchTables(item) {
-		this.$store.dispatch('dataTables/closeDBChannel', { clearModule: true });
-		return this.$store
-			.dispatch('dataTables/fetchAndAdd', {
-				projectId: item.projectId,
-				datasetId: item.name,
-				limit: 0
-			})
-			.then(querySnapshot => {
-				const dataTablesFormatted = querySnapshot.docs.map(data => ({
-					id: item.projectId.concat('/', item.name, '/', data.id),
-					name: data.id,
-					type: 'table'
-				}));
-				item.children.push(...dataTablesFormatted);
-			});
-	}
 }
 </script>
-
-<style>
-/* https://stackoverflow.com/questions/54119491/vuetify-treeview-cant-break-text-using-css/54119821#54119821 */
-/* https://github.com/vuetifyjs/vuetify/issues/7177 */
-.v-treeview-node__label {
-	flex-shrink: 1;
-	word-break: break-all;
-	font-size: 14px;
-}
-.v-treeview-node__root {
-	height: auto;
-}
-.v-treeview-node--leaf {
-	margin-left: 25px;
-}
-</style>

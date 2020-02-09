@@ -10,6 +10,7 @@ export const SIGN_IN: RouteName = 'SignIn';
 export const LOGOUT: RouteName = 'Logout';
 
 /* DATA MODELS */
+export const TABLES_LISTING: RouteName = 'TablesListing';
 export const DATA_TABLE_DETAILS: RouteName = 'DataTableDetails';
 
 /* DATA WORKFLOWS */
