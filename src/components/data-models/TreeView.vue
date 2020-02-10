@@ -39,7 +39,7 @@ interface TreeItem {
 		})
 	}
 })
-export default class DataModelTreeView extends Vue {
+export default class TreeView extends Vue {
 	private dataModels: any;
 
 	active: string[] = [];

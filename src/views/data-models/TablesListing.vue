@@ -23,12 +23,12 @@ import { DATA_TABLE_DETAILS } from '@/constants/router/routes-names';
 @Component({
 	components: { DataModelHeader }
 })
-export default class DataModelTreeView extends Vue {
+export default class TablesListing extends Vue {
 	isLoading: boolean = false;
 
 	@State(state => state.dataTables.data) tables!: Object;
 
-	mounted() {
+	activated() {
 		this.fetchTables();
 	}
 

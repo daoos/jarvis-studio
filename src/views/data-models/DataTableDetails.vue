@@ -1,13 +1,13 @@
 <template>
-	<DataTableDetailsContent />
+	<table-details-content />
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import DataTableDetailsContent from '@/components/data-models/DataTableDetails.vue';
+import TableDetailsContent from '@/components/data-models/TableDetails.vue';
 
 @Component({
-	components: { DataTableDetailsContent }
+	components: { TableDetailsContent }
 })
 export default class DataTableDetails extends Vue {}
 </script>

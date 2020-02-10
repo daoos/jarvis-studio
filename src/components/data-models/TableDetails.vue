@@ -20,7 +20,7 @@
 										<template v-slot:activator="{ on }">
 											<span v-on="on"> Last Update: {{ refreshedTimestamp.dateFromNow }} </span>
 										</template>
-										<span>{{ refreshedTimestamp.dateFormated }}</span>
+										<span>{{ refreshedTimestamp.dateFormatted }}</span>
 									</v-tooltip>
 
 									<v-btn @click="getDataTableDetails">Refresh</v-btn>
@@ -63,11 +63,11 @@
 
 								<v-row>
 									<v-col cols="3">
-										<v-text-field label="Row Number" :value="numRowsFormated" class="title" readonly outline />
+										<v-text-field label="Row Number" :value="numRowsFormatted" class="title" readonly outline />
 									</v-col>
 
 									<v-col cols="3">
-										<v-text-field label="Table Size" :value="numBytesFormated" class="title" readonly outline />
+										<v-text-field label="Table Size" :value="numBytesFormatted" class="title" readonly outline />
 									</v-col>
 
 									<v-col cols="3">
@@ -103,11 +103,7 @@
 										<v-spacer />
 									</v-card-title>
 									<v-card-text>
-										<vue-good-table
-											:columns="this.dataTableOverviewColumns"
-											:rows="this.dataTableOverviewRows"
-											styleClass="vgt-table condensed striped"
-										>
+										<vue-good-table :columns="this.columns" :rows="this.rows" styleClass="vgt-table condensed striped">
 											<template slot="table-row" slot-scope="props">
 												<span class="body-1">{{ props.formattedRow[props.column.field] }}</span>
 											</template>
@@ -232,18 +228,22 @@ import { mapState } from 'vuex';
 import VueJsonPretty from 'vue-json-pretty';
 import store from '@/store';
 import moment from 'moment';
-import JsonSchemaIsInvalid from './JsonSchemaIsInvalid.vue';
+import JsonSchemaIsInvalid from './InvalidSchema.vue';
 import DataModelHeader from './DataModelHeader.vue';
 import tableSchemaView from '@/components/data-workflows/common/item/schema/TableSchemaView.vue';
-import { VueGoodTable } from 'vue-good-table';
 // library to validate Object Json Schema from Firestore
-import Ajv from 'ajv';
+import Ajv, { ErrorObject } from 'ajv';
 // library to convert units (bite to Go ) and format number
-import * as convert from 'convert-units';
-import * as numeral from 'numeral';
+import convert from 'convert-units';
+import numeral from 'numeral';
 import VueMarkdown from 'vue-markdown';
 
 import 'vue-good-table/dist/vue-good-table.css';
+
+interface Column {
+	label: string;
+	field: string;
+}
 
 @Component({
 	components: {
@@ -251,7 +251,7 @@ import 'vue-good-table/dist/vue-good-table.css';
 		tableSchemaView,
 		JsonSchemaIsInvalid,
 		DataModelHeader,
-		VueGoodTable,
+		'vue-good-table': require('vue-good-table').VueGoodTable,
 		VueMarkdown
 	},
 	computed: {
@@ -266,13 +266,12 @@ export default class DataTableDetails extends Vue {
 	private schemas: any; // TODO: Type
 
 	isLoading: boolean = true;
-	fetchAndAddStatus: string = '';
-	dataTableOverviewColumns: [] = []; // TODO: Type
-	dataTableOverviewRows: [] = []; // TODO: Type
-	schemaRows: [] = []; // TODO: Type
+	columns: Column[] = [];
+	rows: never[] = [];
+	schemaRows: never[] = [];
 	activeTab: null = null;
-	isJsonValid: boolean = true;
-	jsonObjectErrors: Object = {};
+	isJsonValid: boolean | PromiseLike<any> = false;
+	jsonObjectErrors: ErrorObject[] | null | undefined = null;
 
 	async mounted() {
 		await this.getDataTableDetails();
@@ -281,43 +280,34 @@ export default class DataTableDetails extends Vue {
 	async getDataTableDetails() {
 		this.isLoading = true;
 		await this.getFirestoreData();
-		//Test the Json Schema
+
 		const ajv = new Ajv({ allErrors: true });
-		//Get Schema to apply
-		const testJson = ajv.compile(JSON.parse(this.schemas['gbq-table-preview-table'].schema));
-		//Test Json Schema
+		const schema = JSON.parse(this.schemas['gbq-table-preview-table'].schema);
+		const testJson = ajv.compile(schema);
+
 		this.isJsonValid = testJson(this.dataTableDetails);
 		this.jsonObjectErrors = testJson.errors;
+
 		if (this.isJsonValid) {
-			this.dataTableOverviewRows = Object.values(this.dataTableDetails.json);
-			const dataTableOverviewColumnsKey = Object.keys(this.dataTableOverviewRows[0]);
-			this.dataTableOverviewColumns = dataTableOverviewColumnsKey.map(function(data) {
-				return {
-					label: data,
-					field: data
-				};
-			});
+			this.rows = Object.values(this.dataTableDetails.json);
+			const dataTableOverviewColumnsKey = Object.keys(this.rows[0]);
+			this.columns = dataTableOverviewColumnsKey.map((data: string) => ({ label: data, field: data }));
 			this.schemaRows = Object.values(this.dataTableDetails.schema.fields);
 		}
+
 		this.isLoading = false;
 	}
 
 	async getFirestoreData() {
-		this.fetchAndAddStatus = 'Loading';
-		try {
-			await store.dispatch('dataTableDetails/closeDBChannel', {
-				clearModule: true
-			});
-			await store.dispatch('dataTableDetails/fetchAndAdd', {
-				projectId: this.projectId,
-				datasetId: this.datasetId,
-				tableId: this.tableId,
-				limit: 0
-			});
-			this.fetchAndAddStatus = 'Success';
-		} catch (e) {
-			this.fetchAndAddStatus = 'Error';
-		}
+		await store.dispatch('dataTableDetails/closeDBChannel', {
+			clearModule: true
+		});
+		await store.dispatch('dataTableDetails/fetchAndAdd', {
+			projectId: this.projectId,
+			datasetId: this.datasetId,
+			tableId: this.tableId,
+			limit: 0
+		});
 	}
 
 	queryInBigQuery() {
@@ -337,15 +327,14 @@ export default class DataTableDetails extends Vue {
 		return this.$route.params.projectId;
 	}
 
-	get numBytesFormated() {
+	get numBytesFormatted() {
 		const numBytesConverted = convert(Number(this.dataTableDetails.numBytes))
 			.from('b')
 			.toBest({ cutOffNumber: 1 });
-		const numBytesFormated = ''.concat(numeral(numBytesConverted.val).format('10,000.00'), ' ', numBytesConverted.unit);
-		return numBytesFormated;
+		return `${numeral(numBytesConverted.val).format('10,000.00')} ${numBytesConverted.unit}`;
 	}
 
-	get numRowsFormated() {
+	get numRowsFormatted() {
 		return numeral(this.dataTableDetails.numRows).format('10,000');
 	}
 
@@ -354,13 +343,12 @@ export default class DataTableDetails extends Vue {
 	}
 
 	get refreshedTimestamp() {
-		var dateFormated = moment(this.dataTableDetails.refreshed_timestamp).format('YYYY/MM/DD - HH:mm');
-		var dateFromNow = moment(this.dataTableDetails.refreshed_timestamp).fromNow();
-		const refreshedTimestamp = {
-			dateFormated: dateFormated,
+		const dateFormatted = moment(this.dataTableDetails.refreshed_timestamp).format('YYYY/MM/DD - HH:mm');
+		const dateFromNow = moment(this.dataTableDetails.refreshed_timestamp).fromNow();
+		return {
+			dateFormatted: dateFormatted,
 			dateFromNow: dateFromNow
 		};
-		return refreshedTimestamp;
 	}
 
 	get workflowLastModifiedTime() {
