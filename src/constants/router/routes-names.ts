@@ -11,7 +11,7 @@ export const LOGOUT: RouteName = 'Logout';
 
 /* DATA MODELS */
 export const TABLES_LISTING: RouteName = 'TablesListing';
-export const DATA_TABLE_DETAILS: RouteName = 'DataTableDetails';
+export const DATA_TABLE_DETAILS: RouteName = 'TableDetails.vue';
 
 /* DATA WORKFLOWS */
 export const GCS_TO_GCS_RUNS_LISTING: RouteName = 'GcsToGcsRuns';
