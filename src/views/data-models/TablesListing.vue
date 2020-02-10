@@ -7,6 +7,10 @@
 				<template v-slot:item.table_id="{ item }">
 					<router-link :to="getTableViewLink(item.id)">{{ item.table_id }}</router-link>
 				</template>
+
+				<template v-slot:item.query="{ item }">
+					<v-btn color="primary" @click="openInBigQuery(item.table_id)">Query</v-btn>
+				</template>
 			</v-data-table>
 		</v-container>
 	</div>
@@ -18,6 +22,7 @@ import { State } from 'vuex-class';
 
 import DataModelHeader from '@/components/data-models/DataModelHeader.vue';
 
+import { getQueryURL } from '@/util/data-models';
 import { DATA_TABLE_DETAILS } from '@/constants/router/routes-names';
 
 @Component({
@@ -54,6 +59,10 @@ export default class TablesListing extends Vue {
 		};
 	}
 
+	openInBigQuery(tableId: string) {
+		window.open(getQueryURL(this.projectId, this.datasetId, tableId), '_blank');
+	}
+
 	get headers() {
 		return [
 			{ text: 'Account', value: 'account' },
@@ -64,7 +73,7 @@ export default class TablesListing extends Vue {
 			{ text: 'Location', value: 'location' },
 			{ text: 'Time Partitioned', value: '' },
 			{ text: 'Last Update', value: 'lastModifiedTime' },
-			{ text: 'Query', value: '' }
+			{ text: 'Query', value: 'query' }
 		];
 	}
 

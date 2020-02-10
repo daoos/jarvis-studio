@@ -238,6 +238,9 @@ import convert from 'convert-units';
 import numeral from 'numeral';
 import VueMarkdown from 'vue-markdown';
 
+import { getQueryURL } from '@/util/data-models';
+import { BIG_QUERY_URL } from '@/constants/urls/external';
+
 import 'vue-good-table/dist/vue-good-table.css';
 
 interface Column {
@@ -311,8 +314,7 @@ export default class DataTableDetails extends Vue {
 	}
 
 	queryInBigQuery() {
-		const url = `https://console.cloud.google.com/bigquery?project=${this.projectId}&p=${this.projectId}&d=${this.datasetId}&t=${this.tableId}&page=table`;
-		window.open(url, '_blank');
+		window.open(getQueryURL(this.projectId, this.datasetId, this.tableId), '_blank');
 	}
 
 	get tableId() {
