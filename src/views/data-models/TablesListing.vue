@@ -18,7 +18,9 @@
 				:items="filterOnTimePartitioning ? timePartitioningTables : Object.values(tables)"
 				:loading="isLoading"
 				:search="search"
-				class="elevation-1"
+				:items-per-page="Number.POSITIVE_INFINITY"
+				hide-default-footer
+				class="elevation-1 mb-4"
 			>
 				<template v-slot:item.table_id="{ item }">
 					<router-link :to="getTableViewLink(item.id)">{{ getTableName(item.table_id) }}</router-link>
