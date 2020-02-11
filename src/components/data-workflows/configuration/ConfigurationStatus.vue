@@ -7,10 +7,10 @@
 			:class="{
 				'text-uppercase': isLabel,
 				'text-capitalize': !isLabel,
-				'no-opacity': this.item.archive
+				'no-opacity': this.item.archived
 			}"
 			:label="isLabel"
-			:disabled="item.archive || item.archived"
+			:disabled="item.archived"
 			@click="changeActivatedStatus(item, collection)"
 		>
 			<v-progress-circular indeterminate size="20" color="primary" v-if="isLoading" />
@@ -108,7 +108,7 @@ export default {
 	},
 	computed: {
 		color() {
-			return getActiveConfColor(this.isActivated, this.item.archive);
+			return getActiveConfColor(this.isActivated, this.item.archived);
 		},
 		label() {
 			return getActiveConfLabel(this.isActivated);
