@@ -95,18 +95,23 @@
 		<v-row v-if="description" class="pl-5 pr-5 pt-3 pb-3">
 			<span class="subheading">{{ description }}</span>
 		</v-row>
+
+		<v-snackbar v-model="launchSnackBar.isVisible" :color="launchSnackBar.color" :timeout="launchSnackBar.timeout">
+			{{ launchSnackBar.text }}
+		</v-snackbar>
 	</div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
+import { firebase } from '@/config/firebase';
 import { Getter } from 'vuex-class';
-import { AnyObject } from '@/types';
+import { AnyObject, Snackbar } from '@/types';
 import ConfigurationStatus from '../../../configuration/ConfigurationStatus.vue';
 import RunStatusChip from '../../../runs/RunStatusChip.vue';
-import store from '@/store';
 import { CONFIGURATIONS } from '@/constants/data-workflows/status';
 import { DATA_WORKFLOWS } from '@/constants/router/paths-prefixes';
+import { SNACKBAR } from '@/constants/ui/snackbar';
 
 // TODO: Refactor viewType possible values with constants
 // TODO: Refactor by removing headerActive prop to be based on viewType
@@ -128,6 +133,12 @@ export default class ViewHeader extends Vue {
 
 	isLoading: boolean = false;
 	showDagLaunchDialog: boolean = false;
+	launchSnackBar: Snackbar = {
+		color: '',
+		isVisible: false,
+		text: '',
+		timeout: SNACKBAR.TIMEOUT
+	};
 	isArchiveDialogVisible: boolean = false;
 
 	goBack() {
@@ -139,8 +150,21 @@ export default class ViewHeader extends Vue {
 	}
 
 	launchDag() {
-		console.log('Launch');
-		this.toggleDagLaunchDialog();
+		const manualDagTrigger = firebase.functions().httpsCallable('manual-dag-trigger');
+		// TODO: Add data in CF
+		manualDagTrigger({})
+			.then(() => {
+				this.toggleDagLaunchDialog();
+				this.launchSnackBar.isVisible = true;
+				this.launchSnackBar.color = 'success';
+				this.launchSnackBar.text = 'Dag will be launched in about 3min';
+			})
+			.catch(() => {
+				this.toggleDagLaunchDialog();
+				this.launchSnackBar.isVisible = true;
+				this.launchSnackBar.color = 'error';
+				this.launchSnackBar.text = 'Cannot launch dag';
+			});
 	}
 
 	showArchiveDialog() {
@@ -158,7 +182,7 @@ export default class ViewHeader extends Vue {
 
 		this.isLoading = true;
 
-		store.dispatch(`${this.collection}/patch`, payload).then(() => {
+		this.$store.dispatch(`${this.collection}/patch`, payload).then(() => {
 			this.hideArchiveDialog();
 			this.isLoading = false;
 		});
