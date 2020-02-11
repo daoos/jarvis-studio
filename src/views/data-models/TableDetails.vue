@@ -221,15 +221,15 @@
 </template>
 
 <script lang="ts">
-// TODO: Refactor component
+// TODO: Refactor view
 
 import { Component, Vue } from 'vue-property-decorator';
 import { mapState } from 'vuex';
 import VueJsonPretty from 'vue-json-pretty';
 import store from '@/store';
 import moment from 'moment';
-import JsonSchemaIsInvalid from './InvalidSchema.vue';
-import DataModelHeader from './DataModelHeader.vue';
+import JsonSchemaIsInvalid from '@/components/data-models/InvalidSchema.vue';
+import DataModelHeader from '@/components/data-models/DataModelHeader.vue';
 import tableSchemaView from '@/components/data-workflows/common/item/schema/TableSchemaView.vue';
 // library to validate Object Json Schema from Firestore
 import Ajv, { ErrorObject } from 'ajv';
@@ -239,7 +239,6 @@ import numeral from 'numeral';
 import VueMarkdown from 'vue-markdown';
 
 import { getQueryURL } from '@/util/data-models';
-import { BIG_QUERY_URL } from '@/constants/urls/external';
 
 import 'vue-good-table/dist/vue-good-table.css';
 

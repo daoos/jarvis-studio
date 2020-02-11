@@ -17,6 +17,6 @@ export const dataModelsRoutes: RouteConfig[] = [
 		name: DATA_TABLE_DETAILS,
 		meta: { middleware: [auth, hasAccount] },
 		component: () =>
-			import(/* webpackChunkName: "data-models/data-table-details" */ '@/views/data-models/DataTableDetails.vue')
+			import(/* webpackChunkName: "data-models/data-table-details" */ '@/views/data-models/TableDetails.vue')
 	}
 ];
