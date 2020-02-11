@@ -1,5 +1,5 @@
 <template>
-	<v-app-bar class="app-bar" app dark color="primary" elevate-on-scroll>
+	<v-app-bar app dark color="primary" elevate-on-scroll>
 		<v-app-bar-nav-icon v-if="!$vuetify.breakpoint.lgAndUp" @click="$emit('toggleNavigation')" />
 
 		<account-selector />
@@ -100,9 +100,3 @@ export default {
 	}
 };
 </script>
-
-<style lang="scss">
-.app-bar {
-	z-index: 100 !important;
-}
-</style>

@@ -1,7 +1,11 @@
 <template>
 	<v-app>
 		<template v-if="showLayout">
-			<app-bar @toggleNavigation="toggleNavigation" @toggleNotifications="toggleNotifications" />
+			<app-bar
+				class="elevate-content"
+				@toggleNavigation="toggleNavigation"
+				@toggleNotifications="toggleNotifications"
+			/>
 
 			<v-navigation-drawer
 				v-model="showNavigation"
@@ -24,7 +28,7 @@
 				<notification-content @closeNotifications="toggleNotifications" />
 			</v-navigation-drawer>
 
-			<v-footer class="menu" app dark>
+			<v-footer class="elevate-content menu" app dark>
 				<footer-content />
 			</v-footer>
 		</template>
@@ -99,4 +103,8 @@ export default class App extends Vue {
 
 <style lang="scss">
 @import 'scss/transitions/fade';
+
+.elevate-content {
+	z-index: 100 !important;
+}
 </style>
