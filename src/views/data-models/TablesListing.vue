@@ -8,13 +8,14 @@
 
 				<v-spacer />
 
-				<v-progress-circular indeterminate size="20" color="primary" v-if="isLoading" />
+				<v-checkbox v-model="filterOnTimePartitioning" label="Time partitioning" hide-details />
+				<v-progress-circular indeterminate size="20" color="primary" v-if="isLoading" class="ml-3" />
 				<v-icon right @click="fetchTables" v-else>refresh</v-icon>
 			</v-toolbar>
 
 			<v-data-table
 				:headers="headers"
-				:items="Object.values(tables)"
+				:items="filterOnTimePartitioning ? timePartitioningTables : Object.values(tables)"
 				:loading="isLoading"
 				:search="search"
 				class="elevation-1"
@@ -57,6 +58,7 @@ import { DATA_TABLE_DETAILS } from '@/constants/router/routes-names';
 export default class TablesListing extends Vue {
 	isLoading: boolean = false;
 	search: string = '';
+	filterOnTimePartitioning: boolean = false;
 
 	@State(state => state.dataTables.data) tables!: Object;
 
@@ -138,6 +140,10 @@ export default class TablesListing extends Vue {
 		];
 	}
 
+	get timePartitioningTables() {
+		return Object.values(this.tables).filter(table => table.timePartitioning);
+	}
+
 	get datasetId() {
 		return this.$route.params.datasetId;
 	}
@@ -147,3 +153,11 @@ export default class TablesListing extends Vue {
 	}
 }
 </script>
+
+<style lang="scss">
+.v-input__control {
+	.v-input__slot {
+		margin: 0;
+	}
+}
+</style>
