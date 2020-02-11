@@ -24,7 +24,7 @@
 				</template>
 
 				<template v-slot:item.time_partitioned="{ item }">
-					<p>{{ item.id }}</p>
+					<span>{{ item.timePartitioning !== undefined }}</span>
 				</template>
 
 				<template v-slot:item.refreshed_timestamp="{ item }">
@@ -44,6 +44,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { State } from 'vuex-class';
+import moment from 'moment';
 
 import DataModelHeader from '@/components/data-models/DataModelHeader.vue';
 
@@ -91,14 +92,17 @@ export default class TablesListing extends Vue {
 	}
 
 	getRefreshedTimestampColor(refreshedTimestamp: string) {
-		/**
-		 * TODO: Add color
-		 * Lower than 26 hours => green
-		 * Between than 26 hours and 36 hours => orange
-		 * More than 36 hours => red
-		 * More than 49 hours => black
-		 */
-		return 'green';
+		let color = 'green';
+
+		const now = moment(new Date());
+		const duration = moment.duration(now.diff(refreshedTimestamp)).asHours();
+		const hoursFromNow = Math.round((duration + Number.EPSILON) * 100) / 100;
+
+		if (hoursFromNow >= 26 && hoursFromNow < 36) color = 'orange';
+		else if (hoursFromNow >= 36 && hoursFromNow < 49) color = 'red';
+		else if (hoursFromNow >= 49) color = 'black';
+
+		return color;
 	}
 
 	openInBigQuery(tableId: string) {
