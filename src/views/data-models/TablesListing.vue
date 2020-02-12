@@ -37,7 +37,7 @@
 				</template>
 
 				<template v-slot:item.query="{ item }">
-					<v-btn small color="primary" @click="openInBigQuery(item.table_id)">Query</v-btn>
+					<v-btn small color="primary" @click="openInBigQuery(item.id)">Query</v-btn>
 				</template>
 			</v-data-table>
 		</v-container>
@@ -51,7 +51,7 @@ import moment from 'moment';
 
 import DataModelHeader from '@/components/data-models/DataModelHeader.vue';
 
-import { getQueryURL } from '@/util/data-models';
+import { getBigQueryURL } from '@/util/data-models';
 import { DATA_TABLE_DETAILS } from '@/constants/router/routes-names';
 
 @Component({
@@ -110,7 +110,7 @@ export default class TablesListing extends Vue {
 	}
 
 	openInBigQuery(tableId: string) {
-		window.open(getQueryURL(this.projectId, this.datasetId, tableId), '_blank');
+		window.open(getBigQueryURL(this.projectId, this.datasetId, tableId), '_blank');
 	}
 
 	get headers() {

@@ -238,7 +238,7 @@ import convert from 'convert-units';
 import numeral from 'numeral';
 import VueMarkdown from 'vue-markdown';
 
-import { getQueryURL } from '@/util/data-models';
+import { getBigQueryURL } from '@/util/data-models';
 
 import 'vue-good-table/dist/vue-good-table.css';
 
@@ -313,7 +313,7 @@ export default class DataTableDetails extends Vue {
 	}
 
 	queryInBigQuery() {
-		window.open(getQueryURL(this.projectId, this.datasetId, this.tableId), '_blank');
+		window.open(getBigQueryURL(this.projectId, this.datasetId, this.tableId), '_blank');
 	}
 
 	get tableId() {
