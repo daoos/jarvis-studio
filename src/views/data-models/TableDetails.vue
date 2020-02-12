@@ -275,7 +275,7 @@ export default class DataTableDetails extends Vue {
 	isJsonValid: boolean | PromiseLike<any> = false;
 	jsonObjectErrors: ErrorObject[] | null | undefined = null;
 
-	async mounted() {
+	async activated() {
 		await this.getDataTableDetails();
 	}
 
