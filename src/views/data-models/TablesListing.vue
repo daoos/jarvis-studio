@@ -15,7 +15,7 @@
 
 			<v-data-table
 				:headers="headers"
-				:items="filterOnTimePartitioning ? timePartitioningTables : Object.values(tables)"
+				:items="items"
 				:loading="isLoading"
 				:search="search"
 				:items-per-page="Number.POSITIVE_INFINITY"
@@ -24,6 +24,18 @@
 			>
 				<template v-slot:item.table_id="{ item }">
 					<router-link :to="getTableViewLink(item.id)">{{ getTableName(item.table_id) }}</router-link>
+				</template>
+
+				<template v-slot:item.numRows="{ item }">
+					<v-progress-linear :value="getPropertyPercent('numRows', item.numRows)" height="25">
+						<strong>{{ getPropertyPercent('numRows', item.numRows) }}%</strong>
+					</v-progress-linear>
+				</template>
+
+				<template v-slot:item.numBytes="{ item }">
+					<v-progress-linear :value="getPropertyPercent('numBytes', item.numBytes)" height="25">
+						<strong>{{ getPropertyPercent('numBytes', item.numBytes) }}%</strong>
+					</v-progress-linear>
 				</template>
 
 				<template v-slot:item.time_partitioned="{ item }">
@@ -61,6 +73,7 @@ export default class TablesListing extends Vue {
 	isLoading: boolean = false;
 	search: string = '';
 	filterOnTimePartitioning: boolean = false;
+	test: number = 0;
 
 	@State(state => state.dataTables.data) tables!: Object;
 
@@ -113,6 +126,16 @@ export default class TablesListing extends Vue {
 		window.open(getBigQueryURL(this.projectId, this.datasetId, tableId), '_blank');
 	}
 
+	getPropertyPercent(key: string, value: number) {
+		const maxPropertyValue = Math.max.apply(
+			Math,
+			Object.values(this.tables).map(table => table[key])
+		);
+		const percent = (value * 100) / maxPropertyValue;
+
+		return Math.round((percent + Number.EPSILON) * 100) / 100;
+	}
+
 	get headers() {
 		return [
 			{ text: 'Account', value: 'account' },
@@ -140,6 +163,10 @@ export default class TablesListing extends Vue {
 				href: ''
 			}
 		];
+	}
+
+	get items() {
+		return this.filterOnTimePartitioning ? this.timePartitioningTables : Object.values(this.tables);
 	}
 
 	get timePartitioningTables() {
