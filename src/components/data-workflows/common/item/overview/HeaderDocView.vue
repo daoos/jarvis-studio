@@ -37,8 +37,8 @@
 </template>
 
 <script>
-import ConfigurationStatus from '@/components/data-workflows/configuration/ConfigurationStatus.vue';
-import RunStatusChip from '@/components/data-workflows/runs/RunStatusChip.vue';
+import ConfigurationStatus from '@/components/data-workflows/common/configuration/ConfigurationStatus.vue';
+import RunStatusChip from '@/components/data-workflows/common/runs/RunStatusChip.vue';
 
 export default {
 	components: {

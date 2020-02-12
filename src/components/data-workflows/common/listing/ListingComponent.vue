@@ -99,10 +99,10 @@
 </template>
 
 <script>
-import ConfigurationStatus from '../../configuration/ConfigurationStatus.vue';
+import ConfigurationStatus from '../configuration/ConfigurationStatus.vue';
 import DataManagementFilters from './filters/DataManagementFilters';
 import VueJsonPretty from 'vue-json-pretty';
-import RunStatusChip from '@/components/data-workflows/runs/RunStatusChip';
+import RunStatusChip from '@/components/data-workflows/common/runs/RunStatusChip';
 
 import { mapState } from 'vuex';
 import { mapGetters } from 'vuex';

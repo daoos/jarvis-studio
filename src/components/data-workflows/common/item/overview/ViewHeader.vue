@@ -78,8 +78,8 @@
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { Getter } from 'vuex-class';
 import { AnyObject } from '@/types';
-import ConfigurationStatus from '../../../configuration/ConfigurationStatus.vue';
-import RunStatusChip from '../../../runs/RunStatusChip.vue';
+import ConfigurationStatus from '../../configuration/ConfigurationStatus.vue';
+import RunStatusChip from '../../runs/RunStatusChip.vue';
 import store from '@/store';
 import { CONFIGURATIONS } from '@/constants/data-workflows/status';
 import { DATA_WORKFLOWS } from '@/constants/router/paths-prefixes';
