@@ -238,7 +238,7 @@ import convert from 'convert-units';
 import numeral from 'numeral';
 import VueMarkdown from 'vue-markdown';
 
-import { getBigQueryURL } from '@/util/data-models';
+import { getBigQueryURL, getFormattedNumBytes, getFormattedNumRows } from '@/util/data-models';
 
 import 'vue-good-table/dist/vue-good-table.css';
 
@@ -329,14 +329,11 @@ export default class DataTableDetails extends Vue {
 	}
 
 	get numBytesFormatted() {
-		const numBytesConverted = convert(Number(this.dataTableDetails.numBytes))
-			.from('b')
-			.toBest({ cutOffNumber: 1 });
-		return `${numeral(numBytesConverted.val).format('10,000.00')} ${numBytesConverted.unit}`;
+		return getFormattedNumBytes(Number(this.dataTableDetails.numBytes));
 	}
 
 	get numRowsFormatted() {
-		return numeral(this.dataTableDetails.numRows).format('10,000');
+		return getFormattedNumRows(Number(this.dataTableDetails.numRows));
 	}
 
 	get isTimePartitioned() {

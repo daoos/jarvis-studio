@@ -27,14 +27,14 @@
 				</template>
 
 				<template v-slot:item.numRows="{ item }">
-					<v-progress-linear :value="getPropertyPercent('numRows', item.numRows)" height="25">
-						<strong>{{ getPropertyPercent('numRows', item.numRows) }}%</strong>
+					<v-progress-linear :value="getPropertyPercent('numRows', item.numRows)" height="25" style="width: 100px">
+						<strong>{{ getNumRowsFormatted(item.numRows) }}</strong>
 					</v-progress-linear>
 				</template>
 
 				<template v-slot:item.numBytes="{ item }">
-					<v-progress-linear :value="getPropertyPercent('numBytes', item.numBytes)" height="25">
-						<strong>{{ getPropertyPercent('numBytes', item.numBytes) }}%</strong>
+					<v-progress-linear :value="getPropertyPercent('numBytes', item.numBytes)" height="25" style="width: 100px">
+						<strong>{{ getNumBytesFormatted(item.numBytes) }}</strong>
 					</v-progress-linear>
 				</template>
 
@@ -63,7 +63,7 @@ import moment from 'moment';
 
 import DataModelHeader from '@/components/data-models/DataModelHeader.vue';
 
-import { getBigQueryURL } from '@/util/data-models';
+import { getBigQueryURL, getFormattedNumBytes, getFormattedNumRows } from '@/util/data-models';
 import { DATA_TABLE_DETAILS } from '@/constants/router/routes-names';
 
 @Component({
@@ -131,9 +131,17 @@ export default class TablesListing extends Vue {
 			Math,
 			Object.values(this.tables).map(table => table[key])
 		);
-		const percent = (value * 100) / maxPropertyValue;
+		const percent = (Number(value) * 100) / maxPropertyValue;
 
 		return Math.round((percent + Number.EPSILON) * 100) / 100;
+	}
+
+	getNumRowsFormatted(numRows: string) {
+		return getFormattedNumRows(Number(numRows));
+	}
+
+	getNumBytesFormatted(numBytes: string) {
+		return getFormattedNumBytes(Number(numBytes));
 	}
 
 	get headers() {
