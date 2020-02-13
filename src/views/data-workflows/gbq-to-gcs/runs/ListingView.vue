@@ -1,7 +1,7 @@
 <template>
 	<div>
-		<data-management-header :workflowName="workflowName" :tabsItems="tabsItems" />
-		<collection-listing />
+		<data-management-header :workflow-name="workflowName" :tabsItems="tabsItems" />
+		<gbq-to-gcs-runs-collection-listing />
 	</div>
 </template>
 
@@ -10,10 +10,10 @@ import { Component, Mixins } from 'vue-property-decorator';
 
 import HeaderInfosMixin from '../header-infos';
 import CollectionMixin from '@/mixins/data-workflows/collection/collection-mixin';
-import CollectionListing from '@/components/data-workflows/gbq-to-gcs/runs/CollectionListing.vue';
+import { GbqToGcsRunsCollectionListing } from '@/components/data-workflows/runs-collections-listings';
 
 @Component({
-	components: { CollectionListing }
+	components: { GbqToGcsRunsCollectionListing }
 })
 export default class GbqToGcsRunsListingView extends Mixins(HeaderInfosMixin, CollectionMixin) {}
 </script>
