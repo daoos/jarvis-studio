@@ -26,7 +26,7 @@
 					</template>
 
 					<v-list>
-						<v-list-item @click="toggleDagLaunchDialog">
+						<v-list-item v-if="showDagLaunch" @click="toggleDagLaunchDialog">
 							<v-list-item-title>Launch</v-list-item-title>
 						</v-list-item>
 
@@ -36,13 +36,68 @@
 					</v-list>
 				</v-menu>
 
-				<v-dialog v-model="showDagLaunchDialog" persistent max-width="400">
+				<v-dialog v-model="showDagLaunchDialog" persistent max-width="700">
 					<v-card>
 						<v-card-title class="headline warning">Warning</v-card-title>
 						<v-card-text>
 							<p class="mt-4">
-								Please confirm the launch of a new dag.
+								Please confirm the launch of a new dag with an optional <strong>execution date</strong>.
 							</p>
+
+							<v-row>
+								<v-col cols="6">
+									<v-menu
+										v-model="showDagExecutionDayMenu"
+										:close-on-content-click="false"
+										transition="scale-transition"
+										offset-y
+										max-width="290px"
+										min-width="290px"
+									>
+										<template v-slot:activator="{ on }">
+											<v-text-field
+												v-model="dagExecutionDay"
+												readonly
+												label="Day"
+												persistent-hint
+												prepend-icon="event"
+												v-on="on"
+											/>
+										</template>
+										<v-date-picker v-model="dagExecutionDay" no-title @input="showDagExecutionDayMenu = false" />
+									</v-menu>
+								</v-col>
+
+								<v-col cols="6">
+									<v-menu
+										ref="menu"
+										v-model="showDagExecutionTimeMenu"
+										readonly
+										:close-on-content-click="false"
+										:nudge-right="40"
+										:return-value.sync="dagExecutionTime"
+										transition="scale-transition"
+										offset-y
+										max-width="290px"
+										min-width="290px"
+									>
+										<template v-slot:activator="{ on }">
+											<v-text-field
+												v-on="on"
+												v-model="dagExecutionTime"
+												label="Time"
+												prepend-icon="access_time"
+												readonly
+											/>
+										</template>
+										<v-time-picker
+											v-model="dagExecutionTime"
+											full-width
+											@click:minute="$refs.menu.save(dagExecutionTime)"
+										/>
+									</v-menu>
+								</v-col>
+							</v-row>
 						</v-card-text>
 						<v-card-actions>
 							<v-spacer />
@@ -124,6 +179,7 @@ export default class ViewHeader extends Vue {
 	@Prop({ required: true }) readonly viewId!: string;
 	@Prop({ required: true }) readonly viewType!: string;
 	@Prop({ required: true }) readonly item!: AnyObject;
+	@Prop(Boolean) readonly showDagLaunch!: boolean;
 	@Prop(String) readonly collection: string | undefined;
 	@Prop(String) readonly runStatus: string | undefined;
 	@Prop(String) readonly description: string | undefined;
@@ -140,6 +196,10 @@ export default class ViewHeader extends Vue {
 		timeout: SNACKBAR.TIMEOUT
 	};
 	isArchiveDialogVisible: boolean = false;
+	dagExecutionDay: string = '';
+	showDagExecutionDayMenu: boolean = false;
+	dagExecutionTime: string = '';
+	showDagExecutionTimeMenu: boolean = false;
 
 	goBack() {
 		this.$router.go(-1);
@@ -150,20 +210,38 @@ export default class ViewHeader extends Vue {
 	}
 
 	launchDag() {
-		const manualDagTrigger = firebase.functions().httpsCallable('manual-dag-trigger');
-		// TODO: Add data in CF
-		manualDagTrigger({})
+		this.isLoading = true;
+
+		const callback = () => {
+			this.isLoading = false;
+			this.toggleDagLaunchDialog();
+		};
+
+		const manualDagTrigger = firebase.functions().httpsCallable('fd-io-api-composer-dag-trigger');
+		manualDagTrigger({
+			dagId: this.item.configuration_id,
+			// TODO: Add properties
+			dagConf: {},
+			dagExecutionDate:
+				this.dagExecutionDay && this.dagExecutionTime
+					? new Date(`${this.dagExecutionDay}:${this.dagExecutionTime}`).toISOString()
+					: ''
+		})
 			.then(() => {
 				this.toggleDagLaunchDialog();
 				this.launchSnackBar.isVisible = true;
 				this.launchSnackBar.color = 'success';
 				this.launchSnackBar.text = 'Dag will be launched in about 3min';
+
+				callback();
 			})
 			.catch(() => {
 				this.toggleDagLaunchDialog();
 				this.launchSnackBar.isVisible = true;
 				this.launchSnackBar.color = 'error';
 				this.launchSnackBar.text = 'Cannot launch dag';
+
+				callback();
 			});
 	}
 

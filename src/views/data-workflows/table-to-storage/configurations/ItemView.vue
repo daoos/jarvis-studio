@@ -63,6 +63,7 @@ export default class TableToStorageConfigurationsItemView extends Mixins(HeaderI
 					item: this.item,
 					collection: 'tableToStorageConfs',
 					activeHeader: true,
+					showDagLaunch: true,
 					viewId: this.itemId,
 					viewType: 'conf',
 					description: null
