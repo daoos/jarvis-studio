@@ -9,7 +9,7 @@ import VmLauncher from './vm-launcher/runs/CollectionListing.vue';
 
 export const GbqToGcsRunsCollectionListing = GbqToGcs;
 export const GcsToGcsRunsCollectionListing = GcsToGcs;
-export const StorageToStorageCollectionListing = StorageToStorage;
+export const StorageToStorageRunsCollectionListing = StorageToStorage;
 export const StorageToTableRunsCollectionListing = StorageToTable;
 export const StorageToTablesRunsCollectionListing = StorageToTables;
 export const TableToStorageRunsCollectionListing = TableToStorage;
