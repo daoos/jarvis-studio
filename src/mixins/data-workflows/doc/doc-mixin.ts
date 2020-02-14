@@ -21,7 +21,7 @@ import { mapState } from 'vuex';
 		})
 	}
 })
-export default class ItemMixin extends Vue {
+export default class DocMixin extends Vue {
 	private firestoreItem: any;
 	archivedConfsModuleName: any;
 	itemTabsItems: any;

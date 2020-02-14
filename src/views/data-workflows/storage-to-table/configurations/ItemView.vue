@@ -22,7 +22,7 @@ export default class StorageToTableConfigurationsItemView extends Mixins(HeaderI
 
 	@State(state => state.storageToTableConf.data) storageToTableConf!: Object;
 
-	// Override of `getItem` method in ItemMixin to fetch item with custom firestore path
+	// Override of `getItem` method in DocMixin to fetch item with custom firestore path
 	async getItem() {
 		await this.$store.dispatch('storageToTableConf/closeDBChannel', { clearModule: true });
 		await this.$store.dispatch('storageToTableConf/fetchAndAdd', {
