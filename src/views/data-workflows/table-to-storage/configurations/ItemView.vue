@@ -64,6 +64,9 @@ export default class TableToStorageConfigurationsItemView extends Mixins(HeaderI
 					collection: 'tableToStorageConfs',
 					activeHeader: true,
 					showDagLaunch: true,
+					dagConf: {
+						firestore_conf_doc_id: this.item.id
+					},
 					viewId: this.itemId,
 					viewType: 'conf',
 					description: null

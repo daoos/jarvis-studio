@@ -180,6 +180,7 @@ export default class ViewHeader extends Vue {
 	@Prop({ required: true }) readonly viewType!: string;
 	@Prop({ required: true }) readonly item!: AnyObject;
 	@Prop(Boolean) readonly showDagLaunch!: boolean;
+	@Prop(Object) readonly dagConf!: Object;
 	@Prop(String) readonly collection: string | undefined;
 	@Prop(String) readonly runStatus: string | undefined;
 	@Prop(String) readonly description: string | undefined;
@@ -220,8 +221,7 @@ export default class ViewHeader extends Vue {
 		const manualDagTrigger = firebase.functions().httpsCallable('fd-io-api-composer-dag-trigger');
 		manualDagTrigger({
 			dagId: this.item.configuration_id,
-			// TODO: Add properties
-			dagConf: {},
+			dagConf: this.dagConf ? this.dagConf : {},
 			dagExecutionDate:
 				this.dagExecutionDay && this.dagExecutionTime
 					? new Date(`${this.dagExecutionDay}:${this.dagExecutionTime}`).toISOString()
