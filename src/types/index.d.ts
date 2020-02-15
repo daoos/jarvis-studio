@@ -109,6 +109,25 @@ export interface User extends FirebaseUser {
 }
 
 // Vue App
+export interface HeaderItem {
+	text: string;
+	sortable: boolean;
+	value: string;
+}
+
+export interface ListingComponentProps {
+	type: DataWorkflowsType;
+	moduleName: string;
+	headers: HeaderItem[];
+	customDataFetching?: () => AnyObject[];
+	overriddenColumns?: string[];
+	sortBy?: string;
+	sortDesc?: boolean;
+	itemsPerPage?: number;
+	showAirflowAction?: boolean;
+	showDeleteAction?: boolean;
+}
+
 export interface ConfigurationProps {
 	type: string;
 	docId: string;
@@ -145,12 +164,6 @@ export interface Link {
 	displayRule?(): boolean;
 }
 
-export interface Pagination {
-	sortBy: string;
-	descending: boolean;
-	rowsPerPage: number;
-}
-
 export interface Snackbar {
 	isVisible: boolean;
 	text: string;
@@ -182,11 +195,6 @@ export interface Tab {
 		name: string;
 		props: AnyObject;
 	};
-}
-
-export interface ParametersTableColumn {
-	label: string;
-	field: string;
 }
 
 // Filters
