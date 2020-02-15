@@ -1,10 +1,5 @@
 <template>
-	<listing-component
-		:type="listingType"
-		:module-name="moduleName"
-		:headers="headers"
-		:overridden-columns="overriddenColumns"
-	>
+	<listing-component v-bind="listingComponentProps">
 		<template v-slot:triggering_file="{ item: { id, triggering_file } }">
 			<router-link :to="{ name: routeName, params: { id } }">
 				<span class="font-weight-medium">{{ triggering_file }}</span>
@@ -22,75 +17,54 @@
 
 <script lang="ts">
 import { Component, Mixins } from 'vue-property-decorator';
+import { ListingComponentProps } from '@/types';
 
 import RunCollectionMixin from '@/mixins/data-workflows/collection/run-collection-mixin';
 import ListingComponent from '@/components/data-workflows/common/listing/ListingComponent.vue';
 
 import { storageToTablesRuns } from '@/store/modules/easy-firestore/storage-to-tables-runs';
 import { STORAGE_TO_TABLES_RUNS_ITEM } from '@/constants/router/routes-names';
+import {
+	ACCOUNT,
+	ACTIONS,
+	DAG_EXECUTION_DATE,
+	ENVIRONMENT,
+	STATUS,
+	TRIGGERING_FILE
+} from '@/constants/data-workflows/listing/header-items';
 
 @Component({
 	components: { ListingComponent }
 })
 export default class TestCollectionListing extends Mixins(RunCollectionMixin) {
-	moduleName: string = storageToTablesRuns.moduleName;
-	overriddenColumns: string[] = ['triggering_file', 'configuration_context.source', 'dag_execution_date'];
+	get listingComponentProps(): ListingComponentProps {
+		return {
+			type: this.listingType,
+			moduleName: storageToTablesRuns.moduleName,
+			headers: [
+				ACCOUNT,
+				ENVIRONMENT,
+				TRIGGERING_FILE,
+				{
+					text: 'Source Storage',
+					sortable: true,
+					value: 'configuration_context.source'
+				},
+				{
+					text: 'Destinations',
+					sortable: true,
+					value: 'configuration_context.destinations.length'
+				},
+				STATUS,
+				DAG_EXECUTION_DATE,
+				ACTIONS
+			],
+			overriddenColumns: ['triggering_file', 'configuration_context.source', 'dag_execution_date']
+		};
+	}
 
 	get routeName() {
 		return STORAGE_TO_TABLES_RUNS_ITEM;
-	}
-
-	get headers() {
-		return [
-			{
-				text: 'Account ID',
-				align: 'left',
-				sortable: true,
-				value: 'account'
-			},
-			{
-				text: 'Environment',
-				align: 'left',
-				sortable: true,
-				value: 'environment'
-			},
-			{
-				text: 'Triggering File',
-				align: 'left',
-				sortable: true,
-				value: 'triggering_file'
-			},
-			{
-				text: 'Source Storage',
-				align: 'left',
-				sortable: true,
-				value: 'configuration_context.source'
-			},
-			{
-				text: 'Destinations',
-				align: 'left',
-				sortable: true,
-				value: 'configuration_context.destinations.length'
-			},
-			{
-				text: 'Status',
-				align: 'left',
-				sortable: true,
-				value: 'status'
-			},
-			{
-				text: 'Execution Date',
-				align: 'left',
-				sortable: true,
-				value: 'dag_execution_date'
-			},
-			{
-				text: 'Actions',
-				align: 'center',
-				sortable: false,
-				value: 'actions'
-			}
-		];
 	}
 }
 </script>

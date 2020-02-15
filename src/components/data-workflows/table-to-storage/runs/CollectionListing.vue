@@ -1,13 +1,5 @@
 <template>
-	<listing-component
-		:type="listingType"
-		:module-name="moduleName"
-		:headers="headers"
-		:overridden-columns="overriddenColumns"
-		sort-by="dag_execution_date"
-		:sort-desc="true"
-		show-airflow-action
-	>
+	<listing-component v-bind="listingComponentProps">
 		<template v-slot:firestore_conf_doc_id="{ item: { id, firestore_conf_doc_id } }">
 			<router-link :to="{ name: routeName, params: { id } }">
 				<span class="font-weight-medium">{{ firestore_conf_doc_id }}</span>
@@ -22,6 +14,7 @@
 
 <script lang="ts">
 import { Component, Mixins } from 'vue-property-decorator';
+import { ListingComponentProps } from '@/types';
 
 import RunCollectionMixin from '@/mixins/data-workflows/collection/run-collection-mixin';
 import ListingComponent from '@/components/data-workflows/common/listing/ListingComponent.vue';
@@ -43,24 +36,27 @@ import {
 	components: { ListingComponent }
 })
 export default class TestCollectionListing extends Mixins(RunCollectionMixin) {
-	moduleName: string = tableToStorageRuns.moduleName;
-	overriddenColumns: string[] = ['firestore_conf_doc_id', 'dag_execution_date'];
+	get listingComponentProps(): ListingComponentProps {
+		return {
+			type: this.listingType,
+			moduleName: tableToStorageRuns.moduleName,
+			headers: [
+				ACCOUNT,
+				ENVIRONMENT,
+				FIRESTORE_CONF_DOC_ID,
+				DESTINATION_BUCKET,
+				OUTPUT_FILENAME,
+				STATUS,
+				DAG_EXECUTION_DATE,
+				ACTIONS
+			],
+			overriddenColumns: ['firestore_conf_doc_id', 'dag_execution_date'],
+			showAirflowAction: true
+		};
+	}
 
 	get routeName() {
 		return TABLE_TO_STORAGE_RUNS_ITEM;
-	}
-
-	get headers() {
-		return [
-			ACCOUNT,
-			ENVIRONMENT,
-			FIRESTORE_CONF_DOC_ID,
-			DESTINATION_BUCKET,
-			OUTPUT_FILENAME,
-			STATUS,
-			DAG_EXECUTION_DATE,
-			ACTIONS
-		];
 	}
 }
 </script>

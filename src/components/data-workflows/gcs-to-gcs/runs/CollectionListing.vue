@@ -1,13 +1,5 @@
 <template>
-	<listing-component
-		:type="listingType"
-		:module-name="moduleName"
-		:headers="headers"
-		:overridden-columns="overriddenColumns"
-		sort-by="dag_execution_date"
-		:sort-desc="true"
-		show-airflow-action
-	>
+	<listing-component v-bind="listingComponentProps">
 		<template v-slot:gcs_triggering_file="{ item: { id, gcs_triggering_file } }">
 			<router-link :to="{ name: routeName, params: { id } }">
 				<span class="font-weight-medium">{{ gcs_triggering_file }}</span>
@@ -22,6 +14,7 @@
 
 <script lang="ts">
 import { Component, Mixins } from 'vue-property-decorator';
+import { ListingComponentProps } from '@/types';
 
 import RunCollectionMixin from '@/mixins/data-workflows/collection/run-collection-mixin';
 import ListingComponent from '@/components/data-workflows/common/listing/ListingComponent.vue';
@@ -42,15 +35,18 @@ import {
 	components: { ListingComponent }
 })
 export default class TestCollectionListing extends Mixins(RunCollectionMixin) {
-	moduleName: string = mirrorExcGcsToGcsRuns.moduleName;
-	overriddenColumns: string[] = ['gcs_triggering_file', 'dag_execution_date'];
+	get listingComponentProps(): ListingComponentProps {
+		return {
+			type: this.listingType,
+			moduleName: mirrorExcGcsToGcsRuns.moduleName,
+			headers: [ACCOUNT, ENVIRONMENT, SOURCE_BUCKET, GCS_TRIGGERING_FILE, STATUS, DAG_EXECUTION_DATE, ACTIONS],
+			overriddenColumns: ['gcs_triggering_file', 'dag_execution_date'],
+			showAirflowAction: true
+		};
+	}
 
 	get routeName() {
 		return GCS_TO_GCS_RUNS_ITEM;
-	}
-
-	get headers() {
-		return [ACCOUNT, ENVIRONMENT, SOURCE_BUCKET, GCS_TRIGGERING_FILE, STATUS, DAG_EXECUTION_DATE, ACTIONS];
 	}
 }
 </script>

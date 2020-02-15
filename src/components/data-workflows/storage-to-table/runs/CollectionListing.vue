@@ -1,10 +1,5 @@
 <template>
-	<listing-component
-		:type="listingType"
-		:module-name="moduleName"
-		:headers="headers"
-		:overridden-columns="overriddenColumns"
-	>
+	<listing-component v-bind="listingComponentProps">
 		<template v-slot:gcs_triggering_file="{ item: { id, gcs_triggering_file } }">
 			<router-link :to="{ name: routeName, params: { id } }">
 				<span class="font-weight-medium">{{ gcs_triggering_file }}</span>
@@ -19,6 +14,7 @@
 
 <script lang="ts">
 import { Component, Mixins } from 'vue-property-decorator';
+import { ListingComponentProps } from '@/types';
 
 import RunCollectionMixin from '@/mixins/data-workflows/collection/run-collection-mixin';
 import ListingComponent from '@/components/data-workflows/common/listing/ListingComponent.vue';
@@ -39,15 +35,17 @@ import {
 	components: { ListingComponent }
 })
 export default class TestCollectionListing extends Mixins(RunCollectionMixin) {
-	moduleName: string = mirrorExcGcsToGbqRuns.moduleName;
-	overriddenColumns: string[] = ['gcs_triggering_file', 'dag_execution_date'];
+	get listingComponentProps(): ListingComponentProps {
+		return {
+			type: this.listingType,
+			moduleName: mirrorExcGcsToGbqRuns.moduleName,
+			headers: [ACCOUNT, ENVIRONMENT, GBQ_TABLE_REFRESHED, GCS_TRIGGERING_FILE, STATUS, DAG_EXECUTION_DATE, ACTIONS],
+			overriddenColumns: ['gcs_triggering_file', 'dag_execution_date']
+		};
+	}
 
 	get routeName() {
 		return STORAGE_TO_TABLE_RUNS_ITEM;
-	}
-
-	get headers() {
-		return [ACCOUNT, ENVIRONMENT, GBQ_TABLE_REFRESHED, GCS_TRIGGERING_FILE, STATUS, DAG_EXECUTION_DATE, ACTIONS];
 	}
 }
 </script>

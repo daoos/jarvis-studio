@@ -1,13 +1,5 @@
 <template>
-	<listing-component
-		:type="listingType"
-		:module-name="moduleName"
-		:headers="headers"
-		:overridden-columns="overriddenColumns"
-		sort-by="dag_execution_date"
-		:sort-desc="true"
-		show-airflow-action
-	>
+	<listing-component v-bind="listingComponentProps">
 		<template v-slot:triggering_file="{ item: { id, triggering_file } }">
 			<router-link :to="{ name: routeName, params: { id } }">
 				<span class="font-weight-medium">{{ triggering_file }}</span>
@@ -22,6 +14,7 @@
 
 <script lang="ts">
 import { Component, Mixins } from 'vue-property-decorator';
+import { ListingComponentProps } from '@/types';
 
 import RunCollectionMixin from '@/mixins/data-workflows/collection/run-collection-mixin';
 import ListingComponent from '@/components/data-workflows/common/listing/ListingComponent.vue';
@@ -42,15 +35,18 @@ import {
 	components: { ListingComponent }
 })
 export default class TestCollectionListing extends Mixins(RunCollectionMixin) {
-	moduleName: string = storageToStorageRuns.moduleName;
-	overriddenColumns: string[] = ['triggering_file', 'dag_execution_date'];
+	get listingComponentProps(): ListingComponentProps {
+		return {
+			type: this.listingType,
+			moduleName: storageToStorageRuns.moduleName,
+			headers: [ACCOUNT, ENVIRONMENT, CONFIGURATION_ID, TRIGGERING_FILE, STATUS, DAG_EXECUTION_DATE, ACTIONS],
+			overriddenColumns: ['triggering_file', 'dag_execution_date'],
+			showAirflowAction: true
+		};
+	}
 
 	get routeName() {
 		return STORAGE_TO_STORAGE_RUNS_ITEM;
-	}
-
-	get headers() {
-		return [ACCOUNT, ENVIRONMENT, CONFIGURATION_ID, TRIGGERING_FILE, STATUS, DAG_EXECUTION_DATE, ACTIONS];
 	}
 }
 </script>

@@ -1,10 +1,5 @@
 <template>
-	<listing-component
-		:type="listingType"
-		:module-name="moduleName"
-		:headers="headers"
-		:overridden-columns="overriddenColumns"
-	>
+	<listing-component v-bind="listingComponentProps">
 		<template v-slot:dag_id="{ item: { id, dag_id } }">
 			<router-link :to="{ name: routeName, params: { id } }">
 				<span class="font-weight-medium">{{ dag_id }}</span>
@@ -19,6 +14,7 @@
 
 <script lang="ts">
 import { Component, Mixins } from 'vue-property-decorator';
+import { ListingComponentProps } from '@/types';
 
 import RunCollectionMixin from '@/mixins/data-workflows/collection/run-collection-mixin';
 import ListingComponent from '@/components/data-workflows/common/listing/ListingComponent.vue';
@@ -38,15 +34,17 @@ import {
 	components: { ListingComponent }
 })
 export default class TestCollectionListing extends Mixins(RunCollectionMixin) {
-	moduleName: string = vmLauncherRuns.moduleName;
-	overriddenColumns: string[] = ['dag_id', 'dag_execution_date'];
+	get listingComponentProps(): ListingComponentProps {
+		return {
+			type: this.listingType,
+			moduleName: vmLauncherRuns.moduleName,
+			headers: [ACCOUNT, ENVIRONMENT, DAG_ID, STATUS, DAG_EXECUTION_DATE, ACTIONS],
+			overriddenColumns: ['dag_id', 'dag_execution_date']
+		};
+	}
 
 	get routeName() {
 		return VM_LAUNCHER_RUNS_ITEM;
-	}
-
-	get headers() {
-		return [ACCOUNT, ENVIRONMENT, DAG_ID, STATUS, DAG_EXECUTION_DATE, ACTIONS];
 	}
 }
 </script>
