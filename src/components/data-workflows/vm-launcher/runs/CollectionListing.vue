@@ -13,7 +13,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Mixins } from 'vue-property-decorator';
+import { Component, Mixins, Prop } from 'vue-property-decorator';
 import { ListingComponentProps } from '@/types';
 
 import RunCollectionMixin from '@/mixins/data-workflows/collection/run-collection-mixin';
@@ -39,7 +39,9 @@ export default class TestCollectionListing extends Mixins(RunCollectionMixin) {
 			type: this.listingType,
 			moduleName: vmLauncherRuns.moduleName,
 			headers: [ACCOUNT, ENVIRONMENT, DAG_ID, STATUS, DAG_EXECUTION_DATE, ACTIONS],
-			overriddenColumns: ['dag_id', 'dag_execution_date']
+			overriddenColumns: ['dag_id', 'dag_execution_date'],
+			isOtherRunDisplay: this.isOtherRunDisplay,
+			jobId: this.jobId
 		};
 	}
 

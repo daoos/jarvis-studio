@@ -13,7 +13,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Mixins } from 'vue-property-decorator';
+import { Component, Mixins, Prop } from 'vue-property-decorator';
 import { ListingComponentProps } from '@/types';
 
 import RunCollectionMixin from '@/mixins/data-workflows/collection/run-collection-mixin';
@@ -41,6 +41,8 @@ export default class CollectionListing extends Mixins(RunCollectionMixin) {
 			moduleName: getGbqToGcsRuns.moduleName,
 			headers: [ACCOUNT, ENVIRONMENT, DESTINATION_BUCKET, GCS_TRIGGERING_FILE, STATUS, DAG_EXECUTION_DATE, ACTIONS],
 			overriddenColumns: ['gcs_triggering_file', 'dag_execution_date'],
+			isOtherRunDisplay: this.isOtherRunDisplay,
+			jobId: this.jobId,
 			showAirflowAction: true
 		};
 	}

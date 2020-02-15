@@ -124,6 +124,8 @@ export interface ListingComponentProps {
 	sortBy?: string;
 	sortDesc?: boolean;
 	itemsPerPage?: number;
+	isOtherRunDisplay?: boolean;
+	jobId?: string;
 	showAirflowAction?: boolean;
 	showDeleteAction?: boolean;
 }
