@@ -23,7 +23,9 @@
 				class="elevation-1 mb-4"
 			>
 				<template v-slot:item.table_id="{ item }">
-					<router-link :to="getTableViewLink(item.id)">{{ getTableName(item.table_id) }}</router-link>
+					<router-link :to="getTableViewLink(item.id)" :class="{ 'red--text': !item.table_id }">
+						{{ getTableName(item.table_id) }}
+					</router-link>
 				</template>
 
 				<template v-slot:item.numRows="{ item }">
@@ -104,8 +106,10 @@ export default class TablesListing extends Vue {
 	}
 
 	getTableName(tableId: string) {
+		if (!tableId) return 'Error in schema';
+
 		const splitId = tableId.split('.');
-		return splitId[splitId.length - 1];
+		return tableId ? splitId[splitId.length - 1] : 'Error in schema';
 	}
 
 	getRefreshedTimestampColor(refreshedTimestamp: string) {
