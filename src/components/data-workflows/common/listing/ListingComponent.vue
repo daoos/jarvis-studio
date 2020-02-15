@@ -5,7 +5,7 @@
 
 			<v-spacer />
 
-			<data-management-filters :type="type" />
+			<listing-filters :type="type" />
 			<v-icon right @click="getFirestoreData" v-if="!isLoading">refresh</v-icon>
 			<v-progress-circular indeterminate size="20" color="primary" v-if="isLoading" />
 		</v-toolbar>
@@ -100,7 +100,7 @@
 
 <script>
 import ConfigurationStatus from '../configuration/ConfigurationStatus.vue';
-import DataManagementFilters from './filters/DataManagementFilters';
+import ListingFilters from './ListingFilters';
 import VueJsonPretty from 'vue-json-pretty';
 import RunStatusChip from '@/components/data-workflows/common/runs/RunStatusChip';
 
@@ -114,7 +114,7 @@ import { dagRunAirflowUrl } from '@/util/data-workflows/run';
 
 export default {
 	name: 'listing-component',
-	components: { ConfigurationStatus, DataManagementFilters, VueJsonPretty, RunStatusChip },
+	components: { ConfigurationStatus, ListingFilters, VueJsonPretty, RunStatusChip },
 	props: {
 		type: {
 			// Use RUNS or CONFIGURATIONS constants
