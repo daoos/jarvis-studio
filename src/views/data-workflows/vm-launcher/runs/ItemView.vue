@@ -50,7 +50,7 @@ export default class VmLauncherRunsItemView extends Mixins(HeaderInfosMixin, Run
 					}
 				}
 			},
-			this.getOtherRunsTab(),
+			this.otherRunsTab,
 			{
 				label: 'Conversation',
 				href: 'conversation',

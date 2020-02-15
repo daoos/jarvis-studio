@@ -25,7 +25,7 @@ export default class RunDocMixin extends DocMixin {
 		};
 	}
 
-	getOtherRunsTab(additionalFields?: string[]): RunTab {
+	get otherRunsTab(): RunTab {
 		return {
 			label: 'Other runs',
 			href: 'other-runs',
@@ -33,8 +33,7 @@ export default class RunDocMixin extends DocMixin {
 				name: 'other-runs',
 				props: {
 					doc: this.item,
-					moduleName: this.moduleName,
-					additionalFields
+					moduleName: this.moduleName
 				}
 			}
 		};

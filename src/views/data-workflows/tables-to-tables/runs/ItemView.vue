@@ -68,7 +68,7 @@ export default class TablesToTablesRunsItemView extends Mixins(HeaderInfosMixin,
 					}
 				}
 			},
-			this.getOtherRunsTab(),
+			this.otherRunsTab,
 			{
 				label: 'Conversation',
 				href: 'conversation',

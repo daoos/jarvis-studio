@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<data-management-header :workflowName="workflowName" :tabsItems="tabsItems" />
-		<storage-to-storage-runs-collection-listing />
+		<storage-to-storage-collection-listing />
 	</div>
 </template>
 
@@ -10,10 +10,10 @@ import { Component, Mixins } from 'vue-property-decorator';
 
 import HeaderInfosMixin from '../header-infos';
 import CollectionMixin from '@/mixins/data-workflows/collection/collection-mixin';
-import { StorageToStorageRunsCollectionListing } from '@/components/data-workflows/runs-collections-listings';
+import { StorageToStorage } from '@/components/data-workflows/runs-collections';
 
 @Component({
-	components: { StorageToStorageRunsCollectionListing }
+	components: { StorageToStorageCollectionListing: StorageToStorage.collectionListing }
 })
 export default class StorageToStorageRunsListingView extends Mixins(HeaderInfosMixin, CollectionMixin) {}
 </script>

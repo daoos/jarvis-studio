@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<data-management-header :workflowName="workflowName" :tabsItems="tabsItems" />
-		<tables-to-tables-runs-collection-listing />
+		<tables-to-tables-collection-listing />
 	</div>
 </template>
 
@@ -10,10 +10,10 @@ import { Component, Mixins } from 'vue-property-decorator';
 
 import HeaderInfosMixin from '../header-infos';
 import CollectionMixin from '@/mixins/data-workflows/collection/collection-mixin';
-import { TablesToTablesRunsCollectionListing } from '@/components/data-workflows/runs-collections-listings';
+import { TablesToTables } from '@/components/data-workflows/runs-collections';
 
 @Component({
-	components: { TablesToTablesRunsCollectionListing }
+	components: { TablesToTablesCollectionListing: TablesToTables.collectionListing }
 })
 export default class TablesToTablesRunsListingView extends Mixins(HeaderInfosMixin, CollectionMixin) {}
 </script>
