@@ -38,11 +38,13 @@
 
 				<v-dialog v-model="showDagLaunchDialog" persistent max-width="700">
 					<v-card>
-						<v-card-title class="headline warning">Warning</v-card-title>
+						<v-card-title class="headline primary">Confirmation</v-card-title>
 						<v-card-text>
 							<p class="mt-4">
-								Please confirm the launch of a new dag with an optional <strong>execution date</strong>.
+								Please, confirm the launch of <strong>"{{ viewId }}"</strong> configuration.
 							</p>
+
+							<p>Specify an execution date:</p>
 
 							<v-row>
 								<v-col cols="6">
@@ -98,14 +100,16 @@
 									</v-menu>
 								</v-col>
 							</v-row>
+
+							<p v-if="dagLaunchErrorMsg" class="red--text">{{ dagLaunchErrorMsg }}</p>
 						</v-card-text>
 						<v-card-actions>
 							<v-spacer />
-							<v-btn color="primary" text @click="toggleDagLaunchDialog">Close</v-btn>
+							<v-btn color="primary" text @click="toggleDagLaunchDialog">Cancel</v-btn>
 
 							<transition name="fade" mode="out-in">
 								<v-progress-circular v-if="isLoading" indeterminate size="20" color="primary" />
-								<v-btn v-else color="primary" text @click="launchDag">Launch</v-btn>
+								<v-btn v-else color="primary" @click="launchDag">Launch</v-btn>
 							</transition>
 						</v-card-actions>
 					</v-card>
@@ -201,6 +205,7 @@ export default class ViewHeader extends Vue {
 	showDagExecutionDayMenu: boolean = false;
 	dagExecutionTime: string = '';
 	showDagExecutionTimeMenu: boolean = false;
+	dagLaunchErrorMsg: string = '';
 
 	goBack() {
 		this.$router.go(-1);
@@ -213,11 +218,6 @@ export default class ViewHeader extends Vue {
 	launchDag() {
 		this.isLoading = true;
 
-		const callback = () => {
-			this.isLoading = false;
-			this.toggleDagLaunchDialog();
-		};
-
 		const manualDagTrigger = firebase.functions().httpsCallable('fd-io-api-composer-dag-trigger');
 		manualDagTrigger({
 			dagId: this.item.configuration_id,
@@ -228,20 +228,16 @@ export default class ViewHeader extends Vue {
 					: ''
 		})
 			.then(() => {
+				this.isLoading = false;
 				this.toggleDagLaunchDialog();
 				this.launchSnackBar.isVisible = true;
 				this.launchSnackBar.color = 'success';
 				this.launchSnackBar.text = 'Dag will be launched in about 3min';
-
-				callback();
 			})
-			.catch(() => {
-				this.toggleDagLaunchDialog();
+			.catch(err => {
+				this.isLoading = false;
 				this.launchSnackBar.isVisible = true;
-				this.launchSnackBar.color = 'error';
-				this.launchSnackBar.text = 'Cannot launch dag';
-
-				callback();
+				this.dagLaunchErrorMsg = err;
 			});
 	}
 
