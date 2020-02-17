@@ -44,9 +44,9 @@
 								Please, confirm the launch of <strong>"{{ viewId }}"</strong> configuration.
 							</p>
 
-							<p>Specify an execution date:</p>
+							<v-switch v-model="showExecutionDateParams" label="Specify the execution date" />
 
-							<v-row>
+							<v-row v-if="showExecutionDateParams">
 								<v-col cols="6">
 									<v-menu
 										v-model="showDagExecutionDayMenu"
@@ -201,6 +201,7 @@ export default class ViewHeader extends Vue {
 		timeout: SNACKBAR.TIMEOUT
 	};
 	isArchiveDialogVisible: boolean = false;
+	showExecutionDateParams: boolean = false;
 	dagExecutionDay: string = '';
 	showDagExecutionDayMenu: boolean = false;
 	dagExecutionTime: string = '';
