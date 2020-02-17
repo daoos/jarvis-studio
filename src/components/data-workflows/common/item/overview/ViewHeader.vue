@@ -219,15 +219,16 @@ export default class ViewHeader extends Vue {
 	launchDag() {
 		this.isLoading = true;
 
+		let data: AnyObject = {
+			dagId: this.item.id,
+			dagConf: this.dagConf ? this.dagConf : {}
+		};
+
+		if (this.dagExecutionDay && this.dagExecutionTime)
+			data.dagExecutionDate = new Date(`${this.dagExecutionDay}:${this.dagExecutionTime}`).toISOString();
+
 		const manualDagTrigger = firebase.functions().httpsCallable('fd-io-api-composer-dag-trigger');
-		manualDagTrigger({
-			dagId: this.item.configuration_id,
-			dagConf: this.dagConf ? this.dagConf : {},
-			dagExecutionDate:
-				this.dagExecutionDay && this.dagExecutionTime
-					? new Date(`${this.dagExecutionDay}:${this.dagExecutionTime}`).toISOString()
-					: ''
-		})
+		manualDagTrigger(data)
 			.then(() => {
 				this.isLoading = false;
 				this.toggleDagLaunchDialog();
