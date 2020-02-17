@@ -24,7 +24,7 @@
 			>
 				<template v-slot:item.table_id="{ item }">
 					<router-link :to="getTableViewLink(item.id)" :class="{ 'red--text': !item.table_id }">
-						{{ getTableName(item.table_id) }}
+						<p class="subtitle-1">{{ getTableName(item.table_id) }}</p>
 					</router-link>
 				</template>
 
@@ -41,13 +41,18 @@
 				</template>
 
 				<template v-slot:item.time_partitioned="{ item }">
-					<span>{{ item.timePartitioning !== undefined }}</span>
+					<v-switch v-model="item.timePartitioning" readonly></v-switch>
 				</template>
 
 				<template v-slot:item.refreshed_timestamp="{ item }">
-					<v-chip :color="getRefreshedTimestampColor(item.refreshed_timestamp)" text-color="white" small>
-						{{ item.refreshed_timestamp | moment('YYYY/MM/DD - HH:mm:ss') }}
-					</v-chip>
+					<v-tooltip bottom>
+						<template v-slot:activator="{ on }">
+							<v-chip :color="getRefreshedTimestampColor(item.refreshed_timestamp)" text-color="white" small v-on="on">
+								{{ item.refreshed_timestamp | moment('from') }}
+							</v-chip>
+						</template>
+						<span>{{ item.refreshed_timestamp | moment('YYYY/MM/DD - HH:mm:ss') }}</span>
+					</v-tooltip>
 				</template>
 
 				<template v-slot:item.query="{ item }">
