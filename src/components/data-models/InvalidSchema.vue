@@ -5,26 +5,26 @@
 				<v-card>
 					<v-card-title>
 						<span class="display-1 font-weight-bold">{{ this.jsonObject.id }}</span>
-						<v-spacer></v-spacer>
+
+						<v-spacer />
+
 						<v-chip color="red" text-color="white">{{ this.jsonObjectErrors.length + ' errors' }}</v-chip>
 					</v-card-title>
 				</v-card>
 			</v-col>
+
 			<v-col cols="12" offset="0">
 				<v-card>
 					<v-tabs v-model="activeTab" color="grey lighten-3" slider-color="primary">
-						<v-tab ripple href="#jsonobject">
-							Json Object
-						</v-tab>
-						<v-tab ripple href="#jsonobjecterrors">
-							Json Errors
-						</v-tab>
+						<v-tab ripple href="#jsonobject">Json Object</v-tab>
+						<v-tab ripple href="#jsonobjecterrors">Json Errors</v-tab>
 						<v-tab-item value="jsonobject">
 							<v-card>
 								<v-card-title>
 									<span class="title">{{ this.jsonObject.id }}</span>
-									<v-spacer></v-spacer>
+									<v-spacer />
 								</v-card-title>
+
 								<v-card-text>
 									<vue-json-pretty
 										:data="this.jsonObject"
@@ -37,12 +37,14 @@
 								</v-card-text>
 							</v-card>
 						</v-tab-item>
+
 						<v-tab-item value="jsonobjecterrors">
 							<v-card>
 								<v-card-title>
 									<span class="title"> Json Schema Errors</span>
-									<v-spacer></v-spacer>
+									<v-spacer />
 								</v-card-title>
+
 								<v-card-text>
 									<vue-json-pretty
 										:data="this.jsonObjectErrors"
@@ -62,21 +64,17 @@
 	</v-container>
 </template>
 
-<script>
+<script lang="ts">
+import { Component, Prop, Vue } from 'vue-property-decorator';
 import VueJsonPretty from 'vue-json-pretty';
-// https://jsonschema.net/
 
-export default {
-	components: { VueJsonPretty },
-	props: {
-		jsonObject: Object,
-		jsonObjectErrors: Array
-	},
-	data: () => ({
-		activeTab: null
-	}),
-	created() {},
-	methods: {},
-	computed: {}
-};
+@Component({
+	components: { VueJsonPretty }
+})
+export default class InvalidSchema extends Vue {
+	@Prop({ type: Object, required: true }) private jsonObject!: Object;
+	@Prop({ type: Object, required: true }) private jsonObjectErrors!: [];
+
+	activeTab: number | null = null;
+}
 </script>
