@@ -80,7 +80,6 @@ export default class TablesListing extends Vue {
 	isLoading: boolean = false;
 	search: string = '';
 	filterOnTimePartitioning: boolean = false;
-	test: number = 0;
 
 	@State(state => state.dataTables.data) tables!: Object;
 
@@ -139,7 +138,7 @@ export default class TablesListing extends Vue {
 	getPropertyPercent(key: string, value: number) {
 		const maxPropertyValue = Math.max.apply(
 			Math,
-			Object.values(this.tables).map(table => table[key])
+			Object.values(this.tables).map(table => (table[key] ? table[key] : '0'))
 		);
 		const percent = (Number(value) * 100) / maxPropertyValue;
 
