@@ -121,7 +121,8 @@ export default class TablesListing extends Vue {
 
 		if (hoursFromNow >= 26 && hoursFromNow < 36) color = 'orange';
 		else if (hoursFromNow >= 36 && hoursFromNow < 49) color = 'red';
-		else if (hoursFromNow >= 49) color = 'black';
+		else if (hoursFromNow >= 36 && hoursFromNow < 170) color = 'purple';
+		else if (hoursFromNow >= 170) color = 'black';
 
 		return color;
 	}
