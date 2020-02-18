@@ -78,6 +78,7 @@ export default class TablesToTablesConfigurationsItemView extends Mixins(HeaderI
 					customKey: 'configuration',
 					collection: this.moduleName,
 					activeHeader: true,
+					showDagLaunch: true,
 					viewId: this.item.configuration.configuration_id
 						? this.item.configuration.configuration_id
 						: this.item.configuration.dag_name,

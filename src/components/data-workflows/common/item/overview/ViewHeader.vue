@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<v-alert v-if="item.archive" type="warning">This configuration is archived.</v-alert>
+		<v-alert v-if="item.archived" type="warning">This configuration is archived.</v-alert>
 
 		<v-row v-if="activeHeader" class="pl-5 pt-4 pr-5">
 			<span class="headline font-weight-black text-truncate complementary--text">{{ viewId }}</span>
@@ -20,19 +20,102 @@
 					:custom-key="customKey"
 				/>
 
-				<v-menu offset-y v-if="!item.archive || isSuperAdmin">
+				<v-menu offset-y v-if="!item.archived || isSuperAdmin">
 					<template v-slot:activator="{ on }">
 						<v-icon v-on="on">more_vert</v-icon>
 					</template>
 
 					<v-list>
-						<v-list-item @click="item.archive ? toggleArchiveConf() : showArchiveDialog()">
-							<v-list-item-title>{{ actionName }}</v-list-item-title>
+						<v-list-item v-if="showDagLaunch" @click="toggleDagLaunchDialog">
+							<v-list-item-title>Launch</v-list-item-title>
+						</v-list-item>
+
+						<v-list-item @click="item.archived ? toggleArchiveConf() : showArchiveDialog()">
+							<v-list-item-title>{{ archiveLabel }}</v-list-item-title>
 						</v-list-item>
 					</v-list>
 				</v-menu>
 
-				<v-dialog v-model="showArchiveSnackbar" persistent max-width="400">
+				<v-dialog v-model="showDagLaunchDialog" persistent max-width="700">
+					<v-card>
+						<v-card-title class="headline primary">Confirmation</v-card-title>
+						<v-card-text>
+							<p class="mt-4">
+								Please, confirm the launch of <strong>"{{ viewId }}"</strong> configuration.
+							</p>
+
+							<v-switch v-model="showExecutionDateParams" label="Specify the execution date" />
+
+							<v-row v-if="showExecutionDateParams">
+								<v-col cols="6">
+									<v-menu
+										v-model="showDagExecutionDayMenu"
+										:close-on-content-click="false"
+										transition="scale-transition"
+										offset-y
+										max-width="290px"
+										min-width="290px"
+									>
+										<template v-slot:activator="{ on }">
+											<v-text-field
+												v-model="dagExecutionDay"
+												readonly
+												label="Day"
+												persistent-hint
+												prepend-icon="event"
+												v-on="on"
+											/>
+										</template>
+										<v-date-picker v-model="dagExecutionDay" no-title @input="showDagExecutionDayMenu = false" />
+									</v-menu>
+								</v-col>
+
+								<v-col cols="6">
+									<v-menu
+										ref="menu"
+										v-model="showDagExecutionTimeMenu"
+										readonly
+										:close-on-content-click="false"
+										:nudge-right="40"
+										:return-value.sync="dagExecutionTime"
+										transition="scale-transition"
+										offset-y
+										max-width="290px"
+										min-width="290px"
+									>
+										<template v-slot:activator="{ on }">
+											<v-text-field
+												v-on="on"
+												v-model="dagExecutionTime"
+												label="Time"
+												prepend-icon="access_time"
+												readonly
+											/>
+										</template>
+										<v-time-picker
+											v-model="dagExecutionTime"
+											full-width
+											@click:minute="$refs.menu.save(dagExecutionTime)"
+										/>
+									</v-menu>
+								</v-col>
+							</v-row>
+
+							<p v-if="dagLaunchErrorMsg" class="red--text">{{ dagLaunchErrorMsg }}</p>
+						</v-card-text>
+						<v-card-actions>
+							<v-spacer />
+							<v-btn color="primary" text @click="toggleDagLaunchDialog">Cancel</v-btn>
+
+							<transition name="fade" mode="out-in">
+								<v-progress-circular v-if="isLoading" indeterminate size="20" color="primary" />
+								<v-btn v-else color="primary" @click="launchDag">Launch</v-btn>
+							</transition>
+						</v-card-actions>
+					</v-card>
+				</v-dialog>
+
+				<v-dialog v-model="isArchiveDialogVisible" persistent max-width="400">
 					<v-card>
 						<v-card-title class="headline warning">Warning</v-card-title>
 						<v-card-text>
@@ -71,18 +154,23 @@
 		<v-row v-if="description" class="pl-5 pr-5 pt-3 pb-3">
 			<span class="subheading">{{ description }}</span>
 		</v-row>
+
+		<v-snackbar v-model="launchSnackBar.isVisible" :color="launchSnackBar.color" :timeout="launchSnackBar.timeout">
+			{{ launchSnackBar.text }}
+		</v-snackbar>
 	</div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
+import { firebase } from '@/config/firebase';
 import { Getter } from 'vuex-class';
-import { AnyObject } from '@/types';
+import { AnyObject, Snackbar } from '@/types';
 import ConfigurationStatus from '../../../configuration/ConfigurationStatus.vue';
 import RunStatusChip from '../../../runs/RunStatusChip.vue';
-import store from '@/store';
 import { CONFIGURATIONS } from '@/constants/data-workflows/status';
 import { DATA_WORKFLOWS } from '@/constants/router/paths-prefixes';
+import { SNACKBAR } from '@/constants/ui/snackbar';
 
 // TODO: Refactor viewType possible values with constants
 // TODO: Refactor by removing headerActive prop to be based on viewType
@@ -95,6 +183,8 @@ export default class ViewHeader extends Vue {
 	@Prop({ required: true }) readonly viewId!: string;
 	@Prop({ required: true }) readonly viewType!: string;
 	@Prop({ required: true }) readonly item!: AnyObject;
+	@Prop(Boolean) readonly showDagLaunch!: boolean;
+	@Prop(Object) readonly dagConf!: Object;
 	@Prop(String) readonly collection: string | undefined;
 	@Prop(String) readonly runStatus: string | undefined;
 	@Prop(String) readonly description: string | undefined;
@@ -103,28 +193,72 @@ export default class ViewHeader extends Vue {
 	@Getter('user/isSuperAdmin') isSuperAdmin!: number;
 
 	isLoading: boolean = false;
-	showArchiveSnackbar: boolean = false;
+	showDagLaunchDialog: boolean = false;
+	launchSnackBar: Snackbar = {
+		color: '',
+		isVisible: false,
+		text: '',
+		timeout: SNACKBAR.TIMEOUT
+	};
+	isArchiveDialogVisible: boolean = false;
+	showExecutionDateParams: boolean = false;
+	dagExecutionDay: string = '';
+	showDagExecutionDayMenu: boolean = false;
+	dagExecutionTime: string = '';
+	showDagExecutionTimeMenu: boolean = false;
+	dagLaunchErrorMsg: string = '';
 
 	goBack() {
 		this.$router.go(-1);
 	}
 
+	toggleDagLaunchDialog() {
+		this.showDagLaunchDialog = !this.showDagLaunchDialog;
+	}
+
+	launchDag() {
+		this.isLoading = true;
+
+		let data: AnyObject = {
+			dagId: this.item.id,
+			dagConf: this.dagConf ? this.dagConf : {}
+		};
+
+		if (this.dagExecutionDay && this.dagExecutionTime)
+			data.dagExecutionDate = new Date(`${this.dagExecutionDay}:${this.dagExecutionTime}`).toISOString();
+
+		const manualDagTrigger = firebase.functions().httpsCallable('fd-io-api-composer-dag-trigger');
+		manualDagTrigger(data)
+			.then(() => {
+				this.isLoading = false;
+				this.toggleDagLaunchDialog();
+				this.launchSnackBar.isVisible = true;
+				this.launchSnackBar.color = 'success';
+				this.launchSnackBar.text = 'Dag will be launched in about 3min';
+			})
+			.catch(err => {
+				this.isLoading = false;
+				this.launchSnackBar.isVisible = true;
+				this.dagLaunchErrorMsg = err;
+			});
+	}
+
 	showArchiveDialog() {
-		this.showArchiveSnackbar = true;
+		this.isArchiveDialogVisible = true;
 	}
 
 	hideArchiveDialog() {
-		this.showArchiveSnackbar = false;
+		this.isArchiveDialogVisible = false;
 	}
 
 	toggleArchiveConf() {
-		const payload = this.item.archive
-			? { id: this.item.id, archive: !this.item.archive }
-			: { id: this.item.id, activated: false, archive: !this.item.archive };
+		const payload = this.item.archived
+			? { id: this.item.id, archived: !this.item.archived }
+			: { id: this.item.id, activated: false, archived: !this.item.archived };
 
 		this.isLoading = true;
 
-		store.dispatch(`${this.collection}/patch`, payload).then(() => {
+		this.$store.dispatch(`${this.collection}/patch`, payload).then(() => {
 			this.hideArchiveDialog();
 			this.isLoading = false;
 		});
@@ -134,8 +268,8 @@ export default class ViewHeader extends Vue {
 		this.$router.push(this.link);
 	}
 
-	get actionName(): string {
-		return this.item.archive ? 'Unarchive' : 'Archive';
+	get archiveLabel(): string {
+		return this.item.archived ? 'Unarchive' : 'Archive';
 	}
 
 	get link(): string {
