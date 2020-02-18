@@ -36,7 +36,7 @@
 
 		<v-list v-if="!drawer.mini" subheader>
 			<v-subheader class="text-uppercase">Data models</v-subheader>
-			<data-model-tree-view />
+			<tree-view />
 		</v-list>
 
 		<v-divider />
@@ -88,13 +88,13 @@
 </template>
 
 <script>
-import DataModelTreeView from '../data-models/DatamodelTreeview';
+import TreeView from '../data-models/TreeView';
 
 import packageJson from '../../../package';
 
 export default {
 	name: 'navigation-content',
-	components: { DataModelTreeView },
+	components: { TreeView },
 	props: {
 		drawer: {
 			type: Object,

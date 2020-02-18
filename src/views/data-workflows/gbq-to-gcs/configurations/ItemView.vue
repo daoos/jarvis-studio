@@ -105,7 +105,7 @@ export default class GbqToGcsConfigurationsItemView extends Mixins(HeaderInfosMi
 						{
 							id: 'archive',
 							label: 'Archive',
-							value: this.item.archive,
+							value: this.item.archived,
 							default: false
 						}
 					]
