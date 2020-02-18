@@ -5,7 +5,7 @@
 
 			<v-spacer />
 
-			<data-management-filters :type="type" />
+			<listing-filters v-if="!isOtherRunDisplay" :type="type" />
 			<v-icon right @click="getFirestoreData" v-if="!isLoading">refresh</v-icon>
 			<v-progress-circular indeterminate size="20" color="primary" v-if="isLoading" />
 		</v-toolbar>
@@ -99,22 +99,23 @@
 </template>
 
 <script>
-import ConfigurationStatus from '../../configuration/ConfigurationStatus.vue';
-import DataManagementFilters from './filters/DataManagementFilters';
+import ConfigurationStatus from '../configuration/ConfigurationStatus.vue';
+import ListingFilters from './ListingFilters';
 import VueJsonPretty from 'vue-json-pretty';
-import RunStatusChip from '@/components/data-workflows/runs/RunStatusChip';
+import RunStatusChip from '@/components/data-workflows/common/runs/RunStatusChip';
 
 import { mapState } from 'vuex';
 import { mapGetters } from 'vuex';
 import store from '@/store';
 import merge from 'lodash.merge';
+import moment from 'moment';
 import { CONFIGURATIONS, RUNS, STATUS } from '@/constants/data-workflows/status';
 import { getActiveConfColor } from '@/util/data-workflows/configuration';
 import { dagRunAirflowUrl } from '@/util/data-workflows/run';
 
 export default {
 	name: 'listing-component',
-	components: { ConfigurationStatus, DataManagementFilters, VueJsonPretty, RunStatusChip },
+	components: { ConfigurationStatus, ListingFilters, VueJsonPretty, RunStatusChip },
 	props: {
 		type: {
 			// Use RUNS or CONFIGURATIONS constants
@@ -131,6 +132,12 @@ export default {
 		},
 		customDataFetching: {
 			type: Function
+		},
+		isOtherRunDisplay: {
+			type: Boolean
+		},
+		jobId: {
+			type: String
 		},
 		overriddenColumns: {
 			type: Array
@@ -209,18 +216,31 @@ export default {
 		async getFirestoreData() {
 			let where;
 
-			switch (this.type) {
-				case RUNS:
-					where = this.whereRunsFilter;
-					break;
-				case CONFIGURATIONS:
-					where = this.whereConfFilter;
-					break;
-				case STATUS:
-					where = this.whereStatusFilter;
-					break;
-				default:
-					where = [];
+			if (this.isOtherRunDisplay) {
+				const minDate = moment()
+					.utc()
+					.startOf('day')
+					.subtract(1, 'month')
+					.toISOString();
+
+				where = [
+					['dag_execution_date', '>=', minDate],
+					['job_id', '==', this.jobId]
+				];
+			} else {
+				switch (this.type) {
+					case RUNS:
+						where = this.whereRunsFilter;
+						break;
+					case CONFIGURATIONS:
+						where = this.whereConfFilter;
+						break;
+					case STATUS:
+						where = this.whereStatusFilter;
+						break;
+					default:
+						where = [];
+				}
 			}
 
 			this.isLoading = true;

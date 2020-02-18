@@ -1,10 +1,10 @@
 import { Component } from 'vue-property-decorator';
 import { DataWorkflowsType, StatusProps } from '@/types';
-import ItemMixin from '@/mixins/data-workflows/doc/item-mixin';
+import DocMixin from '@/mixins/data-workflows/doc/doc-mixin';
 import { STATUS } from '@/constants/data-workflows/status';
 
 @Component
-export default class StatusDocMixin extends ItemMixin {
+export default class StatusDocMixin extends DocMixin {
 	get type(): DataWorkflowsType {
 		return STATUS;
 	}

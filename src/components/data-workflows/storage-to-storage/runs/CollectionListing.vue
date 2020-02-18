@@ -1,0 +1,54 @@
+<template>
+	<listing-component v-bind="listingComponentProps">
+		<template v-slot:triggering_file="{ item: { id, triggering_file } }">
+			<router-link :to="{ name: routeName, params: { id } }">
+				<span class="font-weight-medium">{{ triggering_file }}</span>
+			</router-link>
+		</template>
+
+		<template v-slot:dag_execution_date="{ item: { dag_execution_date } }">
+			{{ dag_execution_date | moment('YYYY/MM/DD - HH:mm') }}
+		</template>
+	</listing-component>
+</template>
+
+<script lang="ts">
+import { Component, Mixins, Prop } from 'vue-property-decorator';
+import { ListingComponentProps } from '@/types';
+
+import RunCollectionMixin from '@/mixins/data-workflows/collection/run-collection-mixin';
+import ListingComponent from '@/components/data-workflows/common/listing/ListingComponent.vue';
+
+import { storageToStorageRuns } from '@/store/modules/easy-firestore/storage-to-storage-runs';
+import { STORAGE_TO_STORAGE_RUNS_ITEM } from '@/constants/router/routes-names';
+import {
+	ACCOUNT,
+	ACTIONS,
+	CONFIGURATION_ID,
+	DAG_EXECUTION_DATE,
+	ENVIRONMENT,
+	STATUS,
+	TRIGGERING_FILE
+} from '@/constants/data-workflows/listing/header-items';
+
+@Component({
+	components: { ListingComponent }
+})
+export default class TestCollectionListing extends Mixins(RunCollectionMixin) {
+	get listingComponentProps(): ListingComponentProps {
+		return {
+			type: this.listingType,
+			moduleName: storageToStorageRuns.moduleName,
+			headers: [ACCOUNT, ENVIRONMENT, CONFIGURATION_ID, TRIGGERING_FILE, STATUS, DAG_EXECUTION_DATE, ACTIONS],
+			overriddenColumns: ['triggering_file', 'dag_execution_date'],
+			isOtherRunDisplay: this.isOtherRunDisplay,
+			jobId: this.jobId,
+			showAirflowAction: true
+		};
+	}
+
+	get routeName() {
+		return STORAGE_TO_STORAGE_RUNS_ITEM;
+	}
+}
+</script>

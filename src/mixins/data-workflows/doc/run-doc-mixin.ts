@@ -1,6 +1,6 @@
 import { Component } from 'vue-property-decorator';
 import { DataWorkflowsType, OtherRunsProps, RunProps, Tab } from '@/types';
-import ItemMixin from '@/mixins/data-workflows/doc/item-mixin';
+import DocMixin from '@/mixins/data-workflows/doc/doc-mixin';
 import { RUNS } from '@/constants/data-workflows/status';
 
 interface RunTab extends Tab {
@@ -11,7 +11,7 @@ interface RunTab extends Tab {
 }
 
 @Component
-export default class RunDocMixin extends ItemMixin {
+export default class RunDocMixin extends DocMixin {
 	get type(): DataWorkflowsType {
 		return RUNS;
 	}
@@ -25,7 +25,7 @@ export default class RunDocMixin extends ItemMixin {
 		};
 	}
 
-	getOtherRunsTab(additionalFields?: string[]): RunTab {
+	get otherRunsTab(): RunTab {
 		return {
 			label: 'Other runs',
 			href: 'other-runs',
@@ -33,8 +33,7 @@ export default class RunDocMixin extends ItemMixin {
 				name: 'other-runs',
 				props: {
 					doc: this.item,
-					moduleName: this.moduleName,
-					additionalFields
+					moduleName: this.moduleName
 				}
 			}
 		};

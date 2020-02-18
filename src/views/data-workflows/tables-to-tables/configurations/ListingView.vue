@@ -27,7 +27,7 @@
 
 <script lang="ts">
 import { Component, Mixins } from 'vue-property-decorator';
-import ConfigurationStatus from '@/components/data-workflows/configuration/ConfigurationStatus.vue';
+import ConfigurationStatus from '@/components/data-workflows/common/configuration/ConfigurationStatus.vue';
 
 import HeaderInfosMixin from '../header-infos';
 

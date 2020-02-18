@@ -73,7 +73,7 @@ export default class GcsToGcsRunsItemView extends Mixins(HeaderInfosMixin, RunDo
 					}
 				}
 			},
-			this.getOtherRunsTab(),
+			this.otherRunsTab,
 			{
 				label: 'Conversation',
 				href: 'conversation',
