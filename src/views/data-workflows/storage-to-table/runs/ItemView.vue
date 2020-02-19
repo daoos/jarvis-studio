@@ -9,40 +9,18 @@
 import { Component, Mixins } from 'vue-property-decorator';
 import HeaderInfosMixin from '../header-infos';
 import RunDocMixin from '@/mixins/data-workflows/doc/run-doc-mixin';
-import { State } from 'vuex-class';
 import { mirrorExcGcsToGbqRuns } from '@/store/modules/easy-firestore/mirror-exc-gcs-to-gbq-runs';
-import { mirrorExcGcsToGbqConfDetails } from '@/store/modules/easy-firestore/mirror-exc-gcs-to-gbq-conf-details';
 
 @Component
 export default class StorageToTableRunsItemView extends Mixins(HeaderInfosMixin, RunDocMixin) {
-	@State(state => state.mirrorExcGcsToGbqConfDetails.data) mirrorExcGcsToGbqConfDetails!: Object;
-
 	moduleName: string = mirrorExcGcsToGbqRuns.moduleName;
 
 	get itemTabsItems() {
 		if (Object.keys(this.item).length === 0) return [];
 
 		return [
-			{
-				label: 'Run Details',
-				href: 'run-details',
-				component: {
-					name: 'overview-component',
-					props: {
-						data: this.runDetailsData
-					}
-				}
-			},
-			{
-				label: 'Configuration',
-				href: 'configuration',
-				component: {
-					name: 'overview-component',
-					props: {
-						data: this.configurationData
-					}
-				}
-			},
+			this.runDetailsTab,
+			this.configurationTab,
 			{
 				label: 'Schema',
 				href: 'schema',
@@ -53,26 +31,9 @@ export default class StorageToTableRunsItemView extends Mixins(HeaderInfosMixin,
 					}
 				}
 			},
-			{
-				label: 'Full Json',
-				href: 'full-json',
-				component: {
-					name: 'view-json',
-					props: {
-						json: this.item,
-						jsonId: this.itemId
-					}
-				}
-			},
+			this.fullJSONTab,
 			this.otherRunsTab,
-			{
-				label: 'Conversation',
-				href: 'conversation',
-				component: {
-					name: 'view-conversation',
-					props: {}
-				}
-			}
+			this.conversationTab
 		];
 	}
 

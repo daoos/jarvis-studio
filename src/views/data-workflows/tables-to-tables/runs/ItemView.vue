@@ -20,26 +20,8 @@ export default class TablesToTablesRunsItemView extends Mixins(HeaderInfosMixin,
 		if (Object.keys(this.item).length === 0) return [];
 
 		return [
-			{
-				label: 'Run Details',
-				href: 'run-details',
-				component: {
-					name: 'overview-component',
-					props: {
-						data: this.runDetailsData
-					}
-				}
-			},
-			{
-				label: 'Configuration',
-				href: 'configuration',
-				component: {
-					name: 'overview-component',
-					props: {
-						data: this.configurationData
-					}
-				}
-			},
+			this.runDetailsTab,
+			this.configurationTab,
 			{
 				label: 'Tasks',
 				href: 'tasks',
@@ -57,26 +39,9 @@ export default class TablesToTablesRunsItemView extends Mixins(HeaderInfosMixin,
 					}
 				}
 			},
-			{
-				label: 'Full Json',
-				href: 'full-json',
-				component: {
-					name: 'view-json',
-					props: {
-						json: this.item,
-						jsonId: this.itemId
-					}
-				}
-			},
+			this.fullJSONTab,
 			this.otherRunsTab,
-			{
-				label: 'Conversation',
-				href: 'conversation',
-				component: {
-					name: 'view-conversation',
-					props: {}
-				}
-			}
+			this.conversationTab
 		];
 	}
 

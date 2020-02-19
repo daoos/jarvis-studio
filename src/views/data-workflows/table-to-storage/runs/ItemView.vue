@@ -15,53 +15,6 @@ import { tableToStorageRuns } from '@/store/modules/easy-firestore/table-to-stor
 export default class TableToStorageRunsItemView extends Mixins(HeaderInfosMixin, RunDocMixin) {
 	moduleName: string = tableToStorageRuns.moduleName;
 
-	get itemTabsItems() {
-		if (Object.keys(this.item).length === 0) return [];
-
-		return [
-			{
-				label: 'Run Details',
-				href: 'run-details',
-				component: {
-					name: 'overview-component',
-					props: {
-						data: this.runDetailsData
-					}
-				}
-			},
-			{
-				label: 'Configuration',
-				href: 'configuration',
-				component: {
-					name: 'overview-component',
-					props: {
-						data: this.configurationData
-					}
-				}
-			},
-			{
-				label: 'Full Json',
-				href: 'full-json',
-				component: {
-					name: 'view-json',
-					props: {
-						json: this.item,
-						jsonId: this.itemId
-					}
-				}
-			},
-			this.otherRunsTab,
-			{
-				label: 'Conversation',
-				href: 'conversation',
-				component: {
-					name: 'view-conversation',
-					props: {}
-				}
-			}
-		];
-	}
-
 	get runDetailsData() {
 		return [
 			{

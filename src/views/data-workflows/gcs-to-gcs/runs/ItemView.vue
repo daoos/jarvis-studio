@@ -38,53 +38,6 @@ export default class GcsToGcsRunsItemView extends Mixins(HeaderInfosMixin, RunDo
 		});
 	}
 
-	get itemTabsItems() {
-		if (Object.keys(this.item).length === 0) return [];
-
-		return [
-			{
-				label: 'Run Details',
-				href: 'run-details',
-				component: {
-					name: 'overview-component',
-					props: {
-						data: this.runDetailsData
-					}
-				}
-			},
-			{
-				label: 'Configuration',
-				href: 'configuration',
-				component: {
-					name: 'overview-component',
-					props: {
-						data: this.configurationData
-					}
-				}
-			},
-			{
-				label: 'Full Json',
-				href: 'full-json',
-				component: {
-					name: 'view-json',
-					props: {
-						json: this.item,
-						jsonId: this.itemId
-					}
-				}
-			},
-			this.otherRunsTab,
-			{
-				label: 'Conversation',
-				href: 'conversation',
-				component: {
-					name: 'view-conversation',
-					props: {}
-				}
-			}
-		];
-	}
-
 	get runDetailsData() {
 		return [
 			{
