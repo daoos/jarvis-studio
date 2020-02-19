@@ -1,9 +1,3 @@
-[comment]: [![Status](https://img.shields.io/badge/Status-READY-brightgreen.svg)]()
-[comment]: [![Status](https://img.shields.io/badge/Status-HOLD-inactive.svg)]()
-
-[![Status](https://img.shields.io/badge/Status-DEVELOPMENT-orange.svg)]()
-
-
 ## Description
 A few sentences describing the overall goals of the pull request's commits.
 
