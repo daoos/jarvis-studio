@@ -1,37 +1,14 @@
 import { Component } from 'vue-property-decorator';
-import { AnyObject, DataWorkflowsType, Doc, RunProps, Tab } from '@/types';
+import { DataWorkflowsType, Doc, RunProps, Tab } from '@/types';
+import { DataItem } from '@/mixins/data-workflows/doc/doc-mixin';
 import DocMixin from '@/mixins/data-workflows/doc/doc-mixin';
 import { RUNS } from '@/constants/data-workflows/status';
-
-interface DataItem {
-	component: string;
-	props: AnyObject;
-}
 
 interface RunDetailsTab extends Tab {
 	component: {
 		name: string;
 		props: {
 			data: DataItem[];
-		};
-	};
-}
-
-interface ConfigurationTab extends Tab {
-	component: {
-		name: string;
-		props: {
-			data: DataItem[];
-		};
-	};
-}
-
-interface FullJSONTab extends Tab {
-	component: {
-		name: string;
-		props: {
-			json: AnyObject;
-			jsonId: string;
 		};
 	};
 }
@@ -46,17 +23,9 @@ interface OtherRunTab extends Tab {
 	};
 }
 
-interface ConversationTab extends Tab {
-	component: {
-		name: string;
-		props: {};
-	};
-}
-
 @Component
 export default class RunDocMixin extends DocMixin {
 	runDetailsData!: DataItem[];
-	configurationData!: DataItem[];
 
 	get type(): DataWorkflowsType {
 		return RUNS;
@@ -89,33 +58,6 @@ export default class RunDocMixin extends DocMixin {
 		};
 	}
 
-	get configurationTab(): ConfigurationTab {
-		return {
-			label: 'Configuration',
-			href: 'configuration',
-			component: {
-				name: 'overview-component',
-				props: {
-					data: this.configurationData
-				}
-			}
-		};
-	}
-
-	get fullJSONTab(): FullJSONTab {
-		return {
-			label: 'Full Json',
-			href: 'full-json',
-			component: {
-				name: 'view-json',
-				props: {
-					json: this.item,
-					jsonId: this.itemId
-				}
-			}
-		};
-	}
-
 	get otherRunsTab(): OtherRunTab {
 		return {
 			label: 'Other runs',
@@ -126,17 +68,6 @@ export default class RunDocMixin extends DocMixin {
 					doc: this.item,
 					moduleName: this.moduleName
 				}
-			}
-		};
-	}
-
-	get conversationTab(): ConversationTab {
-		return {
-			label: 'Conversation',
-			href: 'conversation',
-			component: {
-				name: 'view-conversation',
-				props: {}
 			}
 		};
 	}

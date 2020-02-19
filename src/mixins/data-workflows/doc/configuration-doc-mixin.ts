@@ -29,4 +29,9 @@ export default class ConfigurationDocMixin extends DocMixin {
 			updateInformation: this.updateInformation
 		};
 	}
+
+	get itemTabsItems() {
+		if (Object.keys(this.item).length === 0) return [];
+		return [this.configurationTab, this.fullJSONTab, this.conversationTab];
+	}
 }
