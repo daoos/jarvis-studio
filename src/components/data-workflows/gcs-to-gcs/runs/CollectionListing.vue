@@ -34,7 +34,7 @@ import {
 @Component({
 	components: { ListingComponent }
 })
-export default class TestCollectionListing extends Mixins(RunCollectionMixin) {
+export default class CollectionListing extends Mixins(RunCollectionMixin) {
 	get listingComponentProps(): ListingComponentProps {
 		return {
 			type: this.listingType,
