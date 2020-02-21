@@ -24,7 +24,8 @@
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator';
 import { HOME, TABLES_LISTING } from '@/constants/router/routes-names';
-import { mapState } from 'vuex';
+import { mapGetters, mapState } from 'vuex';
+import { firebase } from '@/config/firebase';
 
 interface TreeItem {
 	id: string;
@@ -36,11 +37,15 @@ interface TreeItem {
 	computed: {
 		...mapState({
 			dataModels: (state: any) => state.dataModels.data
+		}),
+		...mapGetters({
+			userAccounts: 'user/accounts'
 		})
 	}
 })
 export default class TreeView extends Vue {
 	private dataModels: any;
+	private userAccounts: any;
 
 	active: string[] = [];
 	open: string[] = [];
@@ -66,8 +71,17 @@ export default class TreeView extends Vue {
 	}
 
 	getDataModel() {
+		// TODO: Remove vuex easy firestore module
+
+		const getDataModels = firebase.functions().httpsCallable('getDataModels');
+		// TODO: Bind accounts in data
+		getDataModels({ userAccounts: this.userAccounts }).then(res => {
+			console.log(res.data);
+		});
+
 		this.$store.dispatch('dataModels/fetchAndAdd', { limit: 0 }).then(() => {
 			const dataModels = Object.values(this.dataModels);
+
 			this.models = dataModels.map(
 				(data: any): TreeItem => {
 					let children: TreeItem[] = [];
