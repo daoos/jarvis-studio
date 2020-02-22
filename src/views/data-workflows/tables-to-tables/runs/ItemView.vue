@@ -41,7 +41,7 @@ export default class TablesToTablesRunsItemView extends Mixins(HeaderInfosMixin,
 			},
 			this.fullJSONTab,
 			this.otherRunsTab,
-			this.conversationTab
+			this.notesTab
 		];
 	}
 

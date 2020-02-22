@@ -35,7 +35,7 @@ interface FullJSONTab extends Tab {
 	};
 }
 
-interface ConversationTab extends Tab {
+interface NotesTab extends Tab {
 	component: {
 		name: string;
 		props: {};
@@ -124,12 +124,12 @@ export default class DocMixin extends Vue {
 		};
 	}
 
-	get conversationTab(): ConversationTab {
+	get notesTab(): NotesTab {
 		return {
-			label: 'Conversation',
-			href: 'conversation',
+			label: 'Notes',
+			href: 'notes',
 			component: {
-				name: 'view-conversation',
+				name: 'notes-component',
 				props: {}
 			}
 		};

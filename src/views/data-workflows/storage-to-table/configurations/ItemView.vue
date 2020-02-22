@@ -54,7 +54,7 @@ export default class StorageToTableConfigurationsItemView extends Mixins(HeaderI
 				}
 			},
 			this.fullJSONTab,
-			this.conversationTab
+			this.notesTab
 		];
 	}
 

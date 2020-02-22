@@ -39,7 +39,7 @@ export default class TablesToTablesConfigurationsItemView extends Mixins(HeaderI
 				}
 			},
 			this.fullJSONTab,
-			this.conversationTab
+			this.notesTab
 		];
 	}
 

@@ -4,6 +4,6 @@
 
 <script>
 export default {
-	name: 'view-conversation'
+	name: 'notes-component'
 };
 </script>

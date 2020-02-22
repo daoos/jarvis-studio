@@ -6,7 +6,7 @@ import OverviewComponent from './overview/OverviewComponent.vue';
 import TableSchemaView from '@/components/data-workflows/common/item/schema/TableSchemaView.vue';
 import TaskListing from '@/components/data-workflows/common/item/tasks/TaskListing.vue';
 import ViewJson from './json/ViewJson.vue';
-import ViewConversation from './conversation/ViewConversation.vue';
+import NotesComponent from './notes/NotesComponent.vue';
 
 export default {
 	AvatarComponent,
@@ -17,5 +17,5 @@ export default {
 	TableSchemaView,
 	TaskListing,
 	ViewJson,
-	ViewConversation
+	NotesComponent
 };

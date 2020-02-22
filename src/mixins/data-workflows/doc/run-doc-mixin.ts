@@ -42,7 +42,7 @@ export default class RunDocMixin extends DocMixin {
 
 	get itemTabsItems() {
 		if (Object.keys(this.item).length === 0) return [];
-		return [this.runDetailsTab, this.configurationTab, this.fullJSONTab, this.otherRunsTab, this.conversationTab];
+		return [this.runDetailsTab, this.configurationTab, this.fullJSONTab, this.otherRunsTab, this.notesTab];
 	}
 
 	get runDetailsTab(): RunDetailsTab {

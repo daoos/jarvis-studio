@@ -48,7 +48,7 @@ export default class WorkflowConfigurationsItemView extends Mixins(HeaderInfosMi
 				label: 'Conversation',
 				href: 'conversation',
 				component: {
-					name: 'view-conversation',
+					name: 'notes-component',
 					props: {}
 				}
 			}
