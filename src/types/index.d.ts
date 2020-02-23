@@ -161,6 +161,20 @@ export interface Link {
 	displayRule?(): boolean;
 }
 
+export interface UserSocialInformation {
+	displayName: string;
+	email: string;
+	photoURL: string;
+}
+
+export interface Note {
+	id: string;
+	text: string;
+	user: UserSocialInformation;
+	createdAt: any; // TODO: type
+	updatedAt: any; // TODO: type
+}
+
 export interface Snackbar {
 	isVisible: boolean;
 	text: string;

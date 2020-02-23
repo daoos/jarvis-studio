@@ -38,7 +38,10 @@ interface FullJSONTab extends Tab {
 interface NotesTab extends Tab {
 	component: {
 		name: string;
-		props: {};
+		props: {
+			relatedCollectionName: string;
+			relatedDocId: string;
+		};
 	};
 }
 
@@ -130,7 +133,10 @@ export default class DocMixin extends Vue {
 			href: 'notes',
 			component: {
 				name: 'notes-component',
-				props: {}
+				props: {
+					relatedCollectionName: this.moduleName,
+					relatedDocId: this.item.id
+				}
 			}
 		};
 	}
