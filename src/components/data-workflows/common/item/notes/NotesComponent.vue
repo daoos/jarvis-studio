@@ -2,7 +2,14 @@
 	<div>
 		<v-container class="mt-5">
 			<v-progress-circular v-if="isLoading" class="d-flex mx-auto my-0" indeterminate size="42" color="primary" />
-			<note-item v-else-if="Object.keys(notes).length > 0" v-for="note in notes" :key="note.id" :note="note" />
+			<note-item
+				v-else-if="Object.keys(notes).length > 0"
+				v-for="note in notes"
+				:key="note.id"
+				:note="note"
+				:related-collection-name="relatedCollectionName"
+				:related-doc-id="relatedDocId"
+			/>
 			<p v-else>Any note for the moment.</p>
 		</v-container>
 

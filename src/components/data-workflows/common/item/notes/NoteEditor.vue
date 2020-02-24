@@ -4,7 +4,9 @@
 			<v-row>
 				<v-col cols="12">
 					<tiptap-vuetify v-model="text" :extensions="extensions" class="editor my-4" />
-					<v-btn :disabled="isSaveButtonDisabled" color="primary" @click="insertNote">Save note</v-btn>
+					<v-btn :disabled="isSaveButtonDisabled" color="primary" @click="isEditing ? editNote() : insertNote()">
+						{{ buttonValue }}
+					</v-btn>
 				</v-col>
 			</v-row>
 		</v-container>
@@ -45,6 +47,9 @@ interface MenuBarItem {
 	components: { TiptapVuetify }
 })
 export default class NoteForm extends Vue {
+	@Prop(String) defaultText?: string;
+	@Prop(Boolean) isEditing?: boolean;
+	@Prop(String) noteId?: string;
 	@Prop({ type: String, required: true }) relatedCollectionName!: string;
 	@Prop({ type: String, required: true }) relatedDocId!: string;
 
@@ -74,9 +79,11 @@ export default class NoteForm extends Vue {
 		HardBreak
 	];
 
-	insertNote() {
-		if (!this.text) return;
+	mounted() {
+		if (this.defaultText) this.text = this.defaultText;
+	}
 
+	insertNote() {
 		const insertNote = firebase.functions().httpsCallable('insertNote');
 		insertNote({
 			relatedCollectionName: this.relatedCollectionName,
@@ -91,8 +98,28 @@ export default class NoteForm extends Vue {
 			});
 	}
 
+	editNote() {
+		const updateNote = firebase.functions().httpsCallable('updateNote');
+		updateNote({
+			noteId: this.noteId,
+			relatedCollectionName: this.relatedCollectionName,
+			relatedDocId: this.relatedDocId,
+			text: this.text
+		})
+			.then(() => {
+				this.$emit('noteEdited');
+			})
+			.catch(err => {
+				console.error(err);
+			});
+	}
+
 	get isSaveButtonDisabled(): boolean {
-		return this.text.length <= 7;
+		return this.isEditing ? this.text === this.defaultText : this.text.length <= 7;
+	}
+
+	get buttonValue(): string {
+		return this.isEditing ? 'Edit note' : 'Save note';
 	}
 }
 </script>
