@@ -5,10 +5,15 @@ import router from '@/router';
 import store from '@/store';
 import vuetify from '@/plugins/vuetify';
 import { firebase } from '@/config/firebase';
+import { TiptapVuetifyPlugin } from 'tiptap-vuetify';
 
 Vue.config.productionTip = false;
 
 Vue.use(vueMoment);
+Vue.use(TiptapVuetifyPlugin, {
+	vuetify,
+	iconsGroup: 'mdi'
+});
 
 let app: Vue;
 

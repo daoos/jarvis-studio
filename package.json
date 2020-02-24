@@ -26,6 +26,7 @@
     "release-it": "^12.4.3",
     "sass": "^1.23.6",
     "sass-loader": "^8.0.0",
+    "tiptap-vuetify": "^2.13.2",
     "vue": "^2.6.10",
     "vue-chartjs": "^3.4.2",
     "vue-class-component": "^7.0.2",

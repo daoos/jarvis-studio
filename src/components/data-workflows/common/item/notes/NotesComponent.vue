@@ -6,7 +6,7 @@
 			<p v-else>Any note for the moment.</p>
 		</v-container>
 
-		<note-form :related-collection-name="relatedCollectionName" :related-doc-id="relatedDocId" />
+		<note-editor :related-collection-name="relatedCollectionName" :related-doc-id="relatedDocId" />
 	</div>
 </template>
 
@@ -17,11 +17,11 @@ import { State } from 'vuex-class';
 import { notes as notesModule } from '@/store/modules/easy-firestore/notes';
 import moment from 'moment';
 
-import NoteForm from './NoteForm.vue';
+import NoteEditor from './NoteEditor.vue';
 import NoteItem from './NoteItem.vue';
 
 @Component({
-	components: { NoteForm, NoteItem }
+	components: { NoteEditor, NoteItem }
 })
 export default class NotesComponent extends Vue {
 	@Prop({ type: String, required: true }) relatedCollectionName!: string;

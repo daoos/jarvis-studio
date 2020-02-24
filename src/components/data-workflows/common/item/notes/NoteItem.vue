@@ -6,7 +6,8 @@
 			<span>{{ note.updatedAt ? note.updatedAt : note.createdAt }}</span>
 		</div>
 
-		<p class="ml-11">{{ note.text }}</p>
+		<!-- TODO: Use tiptap to edit content: https://tiptap.scrumpy.io/read-only -->
+		<div class="ml-11 text" v-html="note.text"></div>
 
 		<!-- TODO: Add edit btn -->
 		<!-- TODO: Add delete btn -->
@@ -25,3 +26,11 @@ export default class NoteItem extends Vue {
 	@Prop({ type: Object, required: true }) note!: Note;
 }
 </script>
+
+<style lang="scss">
+.text {
+	p {
+		margin: 0;
+	}
+}
+</style>
