@@ -7,7 +7,6 @@ const updateUserHandler = require('./handlers/user/update-user');
 const deleteUserHandler = require('./handlers/user/delete-user');
 
 const insertNoteHandler = require('./handlers/notes/insert-note');
-const updateNoteHandler = require('./handlers/notes/update-note');
 
 admin.initializeApp();
 
@@ -19,4 +18,3 @@ exports.deleteUser = functions.https.onCall((data, context) => deleteUserHandler
 
 // Notes
 exports.insertNote = functions.https.onCall((data, context) => insertNoteHandler(data, context));
-exports.updateNote = functions.https.onCall((data, context) => updateNoteHandler(data, context));

@@ -22,6 +22,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { firebase } from '@/config/firebase';
+import { notes as notesModule } from '@/store/modules/easy-firestore/notes';
 import {
 	TiptapVuetify,
 	Heading,
@@ -103,14 +104,14 @@ export default class NoteForm extends Vue {
 
 	editNote() {
 		this.isLoaging = true;
-
-		const updateNote = firebase.functions().httpsCallable('updateNote');
-		updateNote({
-			noteId: this.noteId,
-			moduleName: this.moduleName,
-			relatedDocId: this.relatedDocId,
-			text: this.text
-		})
+		this.$store
+			.dispatch(`${notesModule.moduleName}/patchBatch`, {
+				doc: {
+					text: this.text,
+					updatedAt: Date.now()
+				},
+				ids: [this.noteId]
+			})
 			.then(() => {
 				this.$emit('noteEdited');
 				this.isLoaging = false;
