@@ -1,7 +1,7 @@
 const admin = require('firebase-admin');
 
 module.exports = (data, context) => {
-	const { relatedCollectionName, relatedDocId, text } = data;
+	const { moduleName, relatedDocId, text } = data;
 	const note = {
 		text,
 		user: admin
@@ -15,7 +15,7 @@ module.exports = (data, context) => {
 	return admin
 		.firestore()
 		.collection('notes')
-		.doc(relatedCollectionName)
+		.doc(moduleName)
 		.collection(relatedDocId)
 		.add(note);
 };

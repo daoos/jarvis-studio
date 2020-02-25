@@ -24,7 +24,7 @@
 
 		<note-editor
 			v-if="isEditing"
-			:related-collection-name="relatedCollectionName"
+			:module-name="moduleName"
 			:related-doc-id="relatedDocId"
 			:default-text="note.text"
 			:is-editing="isEditing"
@@ -39,6 +39,7 @@
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { Note } from '@/types';
 import { firebase } from '@/config/firebase';
+import { notes as notesModule } from '@/store/modules/easy-firestore/notes';
 import AvatarComponent from '@/components/common/AvatarComponent.vue';
 import NoteEditor from './NoteEditor.vue';
 
@@ -47,7 +48,7 @@ import NoteEditor from './NoteEditor.vue';
 })
 export default class NoteItem extends Vue {
 	@Prop({ type: Object, required: true }) note!: Note;
-	@Prop({ type: String, required: true }) relatedCollectionName!: string;
+	@Prop({ type: String, required: true }) moduleName!: string;
 	@Prop({ type: String, required: true }) relatedDocId!: string;
 
 	isHovering: boolean = false;
@@ -65,17 +66,13 @@ export default class NoteItem extends Vue {
 	deleteNote() {
 		this.isDeleting = true;
 
-		const deleteNote = firebase.functions().httpsCallable('deleteNote');
-		deleteNote({
-			noteId: this.note.id,
-			relatedCollectionName: this.relatedCollectionName,
-			relatedDocId: this.relatedDocId
-		})
+		this.$store
+			.dispatch(`${notesModule.moduleName}/delete`, this.note.id)
 			.then(() => {
 				this.isDeleting = false;
 			})
 			.catch(err => {
-				console.error(err);
+				console.log(err);
 			});
 	}
 
