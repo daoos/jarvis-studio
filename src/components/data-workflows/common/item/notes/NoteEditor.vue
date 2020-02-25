@@ -105,12 +105,10 @@ export default class NoteForm extends Vue {
 	editNote() {
 		this.isLoaging = true;
 		this.$store
-			.dispatch(`${notesModule.moduleName}/patchBatch`, {
-				doc: {
-					text: this.text,
-					updatedAt: Date.now()
-				},
-				ids: [this.noteId]
+			.dispatch(`${notesModule.moduleName}/patch`, {
+				id: this.noteId,
+				text: this.text,
+				updatedAt: Date.now()
 			})
 			.then(() => {
 				this.$emit('noteEdited');

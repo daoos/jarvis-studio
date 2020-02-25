@@ -27,11 +27,10 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
+import { Component, Prop, Vue } from 'vue-property-decorator';
 import { AnyObject, Note, Snackbar } from '@/types';
 import { State } from 'vuex-class';
 import { notes as notesModule } from '@/store/modules/easy-firestore/notes';
-import moment from 'moment';
 
 import NoteEditor from './NoteEditor.vue';
 import NoteItem from './NoteItem.vue';
@@ -46,20 +45,6 @@ export default class NotesComponent extends Vue {
 	@Prop({ type: String, required: true }) relatedDocId!: string;
 
 	@State(state => state.notes.data) notes!: Note[];
-
-	@Watch('notes')
-	onActiveChange(updatedNotes: Note[]) {
-		const updatedNotesValues = Object.values(updatedNotes);
-		const lastUpdatedNote = updatedNotesValues[updatedNotesValues.length - 1];
-		const notesValues = Object.values(this.notes);
-		const lastNote = notesValues[notesValues.length - 1];
-
-		if (!lastNote) return;
-
-		lastUpdatedNote.user.get().then((res: any) => {
-			lastNote.user = res.data();
-		});
-	}
 
 	isLoading: boolean = true;
 	text: string = '';
@@ -83,16 +68,6 @@ export default class NotesComponent extends Vue {
 				orderBy: ['createdAt']
 			})
 			.then(() => {
-				Object.values(this.notes).map(note => {
-					note.createdAt = moment(note.createdAt).format('YYYY/MM/DD - HH:mm');
-					if (note.updatedAt) note.updatedAt = moment(note.updatedAt).format('YYYY/MM/DD - HH:mm');
-
-					note.user.get().then((res: any) => {
-						note.user = res.data();
-						return note;
-					});
-				});
-
 				this.isLoading = false;
 			});
 	}

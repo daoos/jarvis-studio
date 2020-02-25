@@ -8,8 +8,8 @@
 		<div class="d-flex align-center">
 			<avatar-component class="mr-2" :email="note.user.email" />
 			<span class="mr-2">{{ note.user.displayName }}</span>
-			<span class="mr-2">{{ note.createdAt }}</span>
-			<span v-if="note.updatedAt" class="mr-2">(edited {{ note.updatedAt }})</span>
+			<span class="mr-2">{{ note.createdAt | moment('YYYY/MM/DD - HH:mm') }}</span>
+			<span v-if="note.updatedAt" class="mr-2">(edited {{ note.updatedAt | moment('YYYY/MM/DD - HH:mm') }})</span>
 
 			<v-spacer />
 
