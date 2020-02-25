@@ -15,8 +15,6 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import { Note, UserSocialInformation } from '@/types';
-import { notes } from '@/store/modules/easy-firestore/notes';
 import { firebase } from '@/config/firebase';
 import {
 	TiptapVuetify,
@@ -36,12 +34,6 @@ import {
 	HorizontalRule,
 	History
 } from 'tiptap-vuetify';
-
-interface MenuBarItem {
-	classValidator: boolean;
-	clickAction: () => {};
-	icon: string;
-}
 
 @Component({
 	components: { TiptapVuetify }

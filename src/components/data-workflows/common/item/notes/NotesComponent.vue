@@ -52,7 +52,6 @@ export default class NotesComponent extends Vue {
 
 	isLoading: boolean = true;
 	text: string = '';
-	marker: boolean = false;
 
 	mounted() {
 		this.$store.dispatch(`${notesModule.moduleName}/closeDBChannel`, { clearModule: true });

@@ -4,46 +4,12 @@
  */
 
 import { Component, Vue, Watch } from 'vue-property-decorator';
-import { AnyObject, DataWorkflowsType, Tab } from '@/types';
+import { AnyObject, ConfigurationTab, DataItem, DataWorkflowsType, FullJSONTab, NotesTab } from '@/types';
 import { IPluginState } from 'vuex-easy-firestore/types/declarations';
 import DataManagementHeader from '@/components/data-workflows/common/DataManagementHeader.vue';
 import ItemComponent from '@/components/data-workflows/common/item/ItemComponent.vue';
 import store from '@/store';
 import { mapState } from 'vuex';
-
-export interface DataItem {
-	component: string;
-	props: AnyObject;
-}
-
-interface ConfigurationTab extends Tab {
-	component: {
-		name: string;
-		props: {
-			data: DataItem[];
-		};
-	};
-}
-
-interface FullJSONTab extends Tab {
-	component: {
-		name: string;
-		props: {
-			json: AnyObject;
-			jsonId: string;
-		};
-	};
-}
-
-interface NotesTab extends Tab {
-	component: {
-		name: string;
-		props: {
-			relatedCollectionName: string;
-			relatedDocId: string;
-		};
-	};
-}
 
 @Component({
 	components: { DataManagementHeader, ItemComponent },

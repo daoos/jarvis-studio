@@ -162,17 +162,19 @@ export interface Link {
 }
 
 export interface UserSocialInformation {
-	displayName: string;
-	email: string;
-	photoURL: string;
+	get: () => Promise<{
+		displayName: string;
+		email: string;
+		photoURL: string;
+	}>;
 }
 
 export interface Note {
 	id: string;
 	text: string;
 	user: UserSocialInformation;
-	createdAt: any; // TODO: type
-	updatedAt: any; // TODO: type
+	createdAt: string;
+	updatedAt: string;
 }
 
 export interface Snackbar {
@@ -199,12 +201,82 @@ export interface Run {
 	[key: string]: any;
 }
 
+// Tabs
 export interface Tab {
 	label: string;
 	href: string;
 	component: {
 		name: string;
 		props: AnyObject;
+	};
+}
+
+export interface DataItem {
+	component: string;
+	props: AnyObject;
+}
+
+export interface RunDetailsTab extends Tab {
+	component: {
+		name: string;
+		props: {
+			data: DataItem[];
+		};
+	};
+}
+
+export interface OtherRunTab extends Tab {
+	component: {
+		name: string;
+		props: {
+			doc: Doc;
+			moduleName: string;
+		};
+	};
+}
+
+export interface ConfigurationTab extends Tab {
+	component: {
+		name: string;
+		props: {
+			data: DataItem[];
+		};
+	};
+}
+
+export interface FullJSONTab extends Tab {
+	component: {
+		name: string;
+		props: {
+			json: AnyObject;
+			jsonId: string;
+		};
+	};
+}
+
+export interface NotesTab extends Tab {
+	component: {
+		name: string;
+		props: {
+			relatedCollectionName: string;
+			relatedDocId: string;
+		};
+	};
+}
+
+export interface TaskListingTab extends Tab {
+	component: {
+		name: string;
+		props: {
+			type: DataWorkflowsType;
+			dagId?: string;
+			dagRunId?: string;
+			dagType?: string;
+			dagExecutionDate?: string;
+			tasksConf: AnyObject[];
+			tasksSQL: AnyObject;
+			dagConf: AnyObject;
+		};
 	};
 }
 
