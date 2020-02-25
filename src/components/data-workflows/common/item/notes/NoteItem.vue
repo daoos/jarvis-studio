@@ -54,6 +54,10 @@ export default class NoteItem extends Vue {
 	isEditing: boolean = false;
 	isDeleting: boolean = false;
 
+	beforeDestroy() {
+		this.$emit('deletedNote');
+	}
+
 	toggleIsEditing() {
 		this.isEditing = !this.isEditing;
 	}
@@ -68,7 +72,6 @@ export default class NoteItem extends Vue {
 			relatedDocId: this.relatedDocId
 		})
 			.then(() => {
-				this.$emit('deletedNote');
 				this.isDeleting = false;
 			})
 			.catch(err => {
