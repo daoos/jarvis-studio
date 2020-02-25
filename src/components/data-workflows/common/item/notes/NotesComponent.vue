@@ -9,23 +9,34 @@
 				:note="note"
 				:related-collection-name="relatedCollectionName"
 				:related-doc-id="relatedDocId"
+				@deletedNote="deletionSnackBar.isVisible = true"
 			/>
 			<p v-else>Any note for the moment.</p>
 		</v-container>
 
 		<note-editor :related-collection-name="relatedCollectionName" :related-doc-id="relatedDocId" />
+
+		<v-snackbar
+			v-model="deletionSnackBar.isVisible"
+			:color="deletionSnackBar.color"
+			:timeout="deletionSnackBar.timeout"
+		>
+			{{ deletionSnackBar.text }}
+		</v-snackbar>
 	</div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
-import { AnyObject, Note } from '@/types';
+import { AnyObject, Note, Snackbar } from '@/types';
 import { State } from 'vuex-class';
 import { notes as notesModule } from '@/store/modules/easy-firestore/notes';
 import moment from 'moment';
 
 import NoteEditor from './NoteEditor.vue';
 import NoteItem from './NoteItem.vue';
+
+import { SNACKBAR } from '@/constants/ui/snackbar';
 
 @Component({
 	components: { NoteEditor, NoteItem }
@@ -52,6 +63,12 @@ export default class NotesComponent extends Vue {
 
 	isLoading: boolean = true;
 	text: string = '';
+	deletionSnackBar: Snackbar = {
+		color: 'success',
+		isVisible: false,
+		text: 'Deleted note successfully!',
+		timeout: SNACKBAR.TIMEOUT
+	};
 
 	mounted() {
 		this.$store.dispatch(`${notesModule.moduleName}/closeDBChannel`, { clearModule: true });

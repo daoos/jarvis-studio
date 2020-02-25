@@ -1,9 +1,9 @@
 <template>
 	<v-container
 		class="note-item transition-ease-in-out"
-		:class="{ 'grey lighten-3': isHovering }"
-		@mouseenter="toggleIsHovering"
-		@mouseleave="toggleIsHovering"
+		:class="{ 'grey lighten-3': isFocused }"
+		@mouseenter="isHovering = true"
+		@mouseleave="isHovering = false"
 	>
 		<div class="d-flex align-center">
 			<avatar-component class="mr-2" :email="note.user.email" />
@@ -13,11 +13,11 @@
 
 			<v-spacer />
 
-			<v-btn v-if="isHovering" x-small class="mr-2" @click="toggleIsEditing">
+			<v-btn v-if="isFocused" x-small class="mr-2" @click="toggleIsEditing">
 				<v-icon x-small>mdi-pencil</v-icon>
 			</v-btn>
 
-			<v-btn v-if="isHovering" x-small color="error" @click="deleteNote">
+			<v-btn v-if="isFocused" :loading="isDeleting" x-small color="error" @click="deleteNote">
 				<v-icon x-small>mdi-delete</v-icon>
 			</v-btn>
 		</div>
@@ -29,7 +29,7 @@
 			:default-text="note.text"
 			:is-editing="isEditing"
 			:note-id="note.id"
-			@noteEdited="isEditing = false"
+			@noteEdited="toggleIsEditing"
 		/>
 		<div v-else class="ml-11 text" v-html="note.text"></div>
 	</v-container>
@@ -52,16 +52,15 @@ export default class NoteItem extends Vue {
 
 	isHovering: boolean = false;
 	isEditing: boolean = false;
-
-	toggleIsHovering() {
-		this.isHovering = !this.isHovering;
-	}
+	isDeleting: boolean = false;
 
 	toggleIsEditing() {
 		this.isEditing = !this.isEditing;
 	}
 
 	deleteNote() {
+		this.isDeleting = true;
+
 		const deleteNote = firebase.functions().httpsCallable('deleteNote');
 		deleteNote({
 			noteId: this.note.id,
@@ -69,11 +68,16 @@ export default class NoteItem extends Vue {
 			relatedDocId: this.relatedDocId
 		})
 			.then(() => {
-				// TODO: Show snackBar
+				this.$emit('deletedNote');
+				this.isDeleting = false;
 			})
 			.catch(err => {
 				console.error(err);
 			});
+	}
+
+	get isFocused(): boolean {
+		return this.isEditing || this.isHovering;
 	}
 }
 </script>

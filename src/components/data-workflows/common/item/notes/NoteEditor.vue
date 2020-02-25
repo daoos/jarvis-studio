@@ -4,7 +4,13 @@
 			<v-row>
 				<v-col cols="12">
 					<tiptap-vuetify v-model="text" :extensions="extensions" class="editor my-4" />
-					<v-btn :disabled="isSaveButtonDisabled" color="primary" @click="isEditing ? editNote() : insertNote()">
+					<v-btn
+						:loading="isLoaging"
+						:disabled="isSaveButtonDisabled"
+						color="primary"
+						class="float-right"
+						@click="isEditing ? editNote() : insertNote()"
+					>
 						{{ buttonValue }}
 					</v-btn>
 				</v-col>
@@ -70,12 +76,15 @@ export default class NoteForm extends Vue {
 		Paragraph,
 		HardBreak
 	];
+	isLoaging: boolean = false;
 
 	mounted() {
 		if (this.defaultText) this.text = this.defaultText;
 	}
 
 	insertNote() {
+		this.isLoaging = true;
+
 		const insertNote = firebase.functions().httpsCallable('insertNote');
 		insertNote({
 			relatedCollectionName: this.relatedCollectionName,
@@ -84,13 +93,17 @@ export default class NoteForm extends Vue {
 		})
 			.then(() => {
 				this.text = '';
+				this.isLoaging = false;
 			})
 			.catch(err => {
 				console.error(err);
+				this.isLoaging = false;
 			});
 	}
 
 	editNote() {
+		this.isLoaging = true;
+
 		const updateNote = firebase.functions().httpsCallable('updateNote');
 		updateNote({
 			noteId: this.noteId,
@@ -100,9 +113,11 @@ export default class NoteForm extends Vue {
 		})
 			.then(() => {
 				this.$emit('noteEdited');
+				this.isLoaging = false;
 			})
 			.catch(err => {
 				console.error(err);
+				this.isLoaging = false;
 			});
 	}
 
