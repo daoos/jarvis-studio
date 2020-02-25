@@ -8,15 +8,18 @@
 		<div class="d-flex align-center">
 			<avatar-component class="mr-2" :email="note.user.email" />
 			<span class="mr-2">{{ note.user.displayName }}</span>
-			<span class="mr-2">{{ note.updatedAt ? note.updatedAt : note.createdAt }}</span>
+			<span class="mr-2">{{ note.createdAt }}</span>
+			<span v-if="note.updatedAt" class="mr-2">(edited {{ note.updatedAt }})</span>
 
 			<v-spacer />
 
-			<v-btn v-if="isHovering" x-small @click="toggleIsEditing">
+			<v-btn v-if="isHovering" x-small class="mr-2" @click="toggleIsEditing">
 				<v-icon x-small>mdi-pencil</v-icon>
 			</v-btn>
 
-			<!-- TODO: Add delete btn -->
+			<v-btn v-if="isHovering" x-small color="error" @click="deleteNote">
+				<v-icon x-small>mdi-delete</v-icon>
+			</v-btn>
 		</div>
 
 		<note-editor
@@ -35,6 +38,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { Note } from '@/types';
+import { firebase } from '@/config/firebase';
 import AvatarComponent from '@/components/common/AvatarComponent.vue';
 import NoteEditor from './NoteEditor.vue';
 
@@ -55,6 +59,21 @@ export default class NoteItem extends Vue {
 
 	toggleIsEditing() {
 		this.isEditing = !this.isEditing;
+	}
+
+	deleteNote() {
+		const deleteNote = firebase.functions().httpsCallable('deleteNote');
+		deleteNote({
+			noteId: this.note.id,
+			relatedCollectionName: this.relatedCollectionName,
+			relatedDocId: this.relatedDocId
+		})
+			.then(() => {
+				// TODO: Show snackBar
+			})
+			.catch(err => {
+				console.error(err);
+			});
 	}
 }
 </script>
