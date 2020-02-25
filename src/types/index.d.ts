@@ -258,7 +258,7 @@ export interface NotesTab extends Tab {
 	component: {
 		name: string;
 		props: {
-			relatedCollectionName: string;
+			moduleName: string;
 			relatedDocId: string;
 		};
 	};

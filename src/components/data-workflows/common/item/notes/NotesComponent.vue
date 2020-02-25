@@ -7,14 +7,14 @@
 				v-for="note in notes"
 				:key="note.id"
 				:note="note"
-				:related-collection-name="relatedCollectionName"
+				:module-name="moduleName"
 				:related-doc-id="relatedDocId"
 				@deletedNote="deletionSnackBar.isVisible = true"
 			/>
 			<p v-else>Any note for the moment.</p>
 		</v-container>
 
-		<note-editor :related-collection-name="relatedCollectionName" :related-doc-id="relatedDocId" />
+		<note-editor :module-name="moduleName" :related-doc-id="relatedDocId" />
 
 		<v-snackbar
 			v-model="deletionSnackBar.isVisible"
@@ -42,7 +42,7 @@ import { SNACKBAR } from '@/constants/ui/snackbar';
 	components: { NoteEditor, NoteItem }
 })
 export default class NotesComponent extends Vue {
-	@Prop({ type: String, required: true }) relatedCollectionName!: string;
+	@Prop({ type: String, required: true }) moduleName!: string;
 	@Prop({ type: String, required: true }) relatedDocId!: string;
 
 	@State(state => state.notes.data) notes!: Note[];
@@ -73,12 +73,12 @@ export default class NotesComponent extends Vue {
 	mounted() {
 		this.$store.dispatch(`${notesModule.moduleName}/closeDBChannel`, { clearModule: true });
 		this.$store.dispatch(`${notesModule.moduleName}/openDBChannel`, {
-			relatedCollectionName: this.relatedCollectionName,
+			moduleName: this.moduleName,
 			relatedDocId: this.relatedDocId
 		});
 		this.$store
 			.dispatch(`${notesModule.moduleName}/fetchAndAdd`, {
-				relatedCollectionName: this.relatedCollectionName,
+				moduleName: this.moduleName,
 				relatedDocId: this.relatedDocId,
 				orderBy: ['createdAt']
 			})

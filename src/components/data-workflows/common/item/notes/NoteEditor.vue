@@ -48,7 +48,7 @@ export default class NoteForm extends Vue {
 	@Prop(String) defaultText?: string;
 	@Prop(Boolean) isEditing?: boolean;
 	@Prop(String) noteId?: string;
-	@Prop({ type: String, required: true }) relatedCollectionName!: string;
+	@Prop({ type: String, required: true }) moduleName!: string;
 	@Prop({ type: String, required: true }) relatedDocId!: string;
 
 	text = '';
@@ -87,7 +87,7 @@ export default class NoteForm extends Vue {
 
 		const insertNote = firebase.functions().httpsCallable('insertNote');
 		insertNote({
-			relatedCollectionName: this.relatedCollectionName,
+			moduleName: this.moduleName,
 			relatedDocId: this.relatedDocId,
 			text: this.text
 		})
@@ -107,7 +107,7 @@ export default class NoteForm extends Vue {
 		const updateNote = firebase.functions().httpsCallable('updateNote');
 		updateNote({
 			noteId: this.noteId,
-			relatedCollectionName: this.relatedCollectionName,
+			moduleName: this.moduleName,
 			relatedDocId: this.relatedDocId,
 			text: this.text
 		})

@@ -100,7 +100,7 @@ export default class DocMixin extends Vue {
 			component: {
 				name: 'notes-component',
 				props: {
-					relatedCollectionName: this.moduleName,
+					moduleName: this.moduleName,
 					relatedDocId: this.item.id
 				}
 			}
