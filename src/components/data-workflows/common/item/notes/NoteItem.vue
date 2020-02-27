@@ -7,9 +7,9 @@
 	>
 		<div class="d-flex align-center">
 			<avatar-component class="mr-2" :email="note.user.email" />
-			<span class="mr-2">{{ note.user.displayName }}</span>
-			<span class="mr-2">{{ note.createdAt | moment('YYYY/MM/DD - HH:mm') }}</span>
-			<span v-if="note.updatedAt" class="mr-2">(edited {{ note.updatedAt | moment('YYYY/MM/DD - HH:mm') }})</span>
+			<span class="mr-2 font-weight-bold">{{ note.user.displayName }}</span>
+			<span class="mr-2">{{ getFormattedTimestamp(note.createdAt) }}</span>
+			<span v-if="note.updatedAt" class="mr-2">(edited {{ getFormattedTimestamp(note.updatedAt) }})</span>
 
 			<v-spacer />
 
@@ -40,6 +40,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 import { Note } from '@/types';
 import { firebase } from '@/config/firebase';
 import { notes as notesModule } from '@/store/modules/easy-firestore/notes';
+import moment from 'moment';
 import AvatarComponent from '@/components/common/AvatarComponent.vue';
 import NoteEditor from './NoteEditor.vue';
 
@@ -78,6 +79,16 @@ export default class NoteItem extends Vue {
 
 	get isFocused(): boolean {
 		return this.isEditing || this.isHovering;
+	}
+
+	getFormattedTimestamp(timestamp: string): string {
+		const now = moment(Date.now());
+		const reference = moment(timestamp);
+		const oneHourAfter = moment(timestamp).add(1, 'hours');
+		const oneDayAfter = moment(timestamp).add(1, 'day');
+
+		if (now.isAfter(oneDayAfter)) return reference.format('YYYY/MM/DD - HH:mm');
+		return now.isAfter(oneHourAfter) ? reference.format('HH:mm') : reference.fromNow();
 	}
 }
 </script>
