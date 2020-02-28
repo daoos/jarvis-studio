@@ -30,6 +30,7 @@ import { tableToStorageConfs } from '@/store/modules/easy-firestore/table-to-sto
 import { tableToStorageConfArchive } from '@/store/modules/easy-firestore/table-to-storage-conf-archive';
 import { tableToStorageRuns } from '@/store/modules/easy-firestore/table-to-storage-runs';
 import { tablesToTablesRun } from '@/store/modules/easy-firestore/tables-to-tables-run';
+import { usersSocialInformation } from '@/store/modules/easy-firestore/users-social-information';
 import { vmLauncherConfs } from '@/store/modules/easy-firestore/vm-launcher-confs';
 import { vmLauncherConfArchive } from '@/store/modules/easy-firestore/vm-launcher-conf-archive';
 import { vmLauncherRuns } from '@/store/modules/easy-firestore/vm-launcher-runs';
@@ -42,6 +43,7 @@ export default [
 	accounts,
 	schemas,
 	notes,
+	usersSocialInformation,
 	mirrorExcGcsToGcsRuns,
 	mirrorExcGcsToGcsConfs,
 	mirrorExcGcsToGcsConfsArchive,
