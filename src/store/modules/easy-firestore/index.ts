@@ -1,4 +1,5 @@
 import { accounts } from '@/store/modules/easy-firestore/accounts';
+import { connectionsHistory } from '@/store/modules/easy-firestore/connections-history';
 import { dataModels } from '@/store/modules/easy-firestore/data-models';
 import { dataTableDetails } from '@/store/modules/easy-firestore/data-table-details';
 import { dataTables } from '@/store/modules/easy-firestore/data-tables';
@@ -41,6 +42,7 @@ import { workflowStatus } from '@/store/modules/easy-firestore/workflow-status';
 export default [
 	gcpCloudFunctions,
 	accounts,
+	connectionsHistory,
 	schemas,
 	notes,
 	usersSocialInformation,

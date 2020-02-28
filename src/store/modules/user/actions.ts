@@ -5,6 +5,7 @@ import store from '@/store';
 import router from '@/router';
 import { HOME, SIGN_IN } from '@/constants/router/routes-names';
 import { usersSocialInformation } from '@/store/modules/easy-firestore/users-social-information';
+import { connectionsHistory } from '@/store/modules/easy-firestore/connections-history';
 
 const setSocialInformation = (user: User | null) => {
 	if (!user) return;
@@ -18,7 +19,10 @@ const setSocialInformation = (user: User | null) => {
 		email: user!.email
 	});
 
-	// TODO: Add connections collection => push timestamp
+	store.dispatch(`${connectionsHistory.moduleName}/insert`, {
+		userId: user!.uid,
+		date: firebase.firestore.Timestamp.now()
+	});
 };
 
 export const actions: ActionTree<UserState, RootState> = {
