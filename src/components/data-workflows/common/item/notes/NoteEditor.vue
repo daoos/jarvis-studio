@@ -25,6 +25,7 @@ import { User } from '@/types';
 import { Getter } from 'vuex-class';
 import { firebase } from '@/config/firebase';
 import { notes as notesModule } from '@/store/modules/easy-firestore/notes';
+import { usersSocialInformation } from '@/store/modules/easy-firestore/users-social-information';
 import {
 	TiptapVuetify,
 	Heading,
@@ -95,19 +96,23 @@ export default class NoteForm extends Vue {
 
 		const usersRef = firebase
 			.firestore()
-			.collection('users-social-information')
-			// TODO: User user uid => this.user.uid
-			.doc('test-user');
-		this.$store.dispatch(`${notesModule.moduleName}/insert`, {
-			account: this.account,
-			moduleName: this.moduleName,
-			// TODO: Rename relatedDocId => objectId
-			relatedDocId: this.relatedDocId,
-			text: this.text,
-			user: usersRef,
-			createdAt: Date.now(),
-			updatedAt: null
-		});
+			.collection(usersSocialInformation.firestorePath)
+			.doc(this.user.uid);
+		this.$store
+			.dispatch(`${notesModule.moduleName}/insert`, {
+				account: this.account,
+				moduleName: this.moduleName,
+				// TODO: Rename relatedDocId => objectId
+				relatedDocId: this.relatedDocId,
+				text: this.text,
+				user: usersRef,
+				createdAt: Date.now(),
+				updatedAt: null
+			})
+			.then(() => {
+				this.text = '';
+				this.isLoaging = false;
+			});
 	}
 
 	editNote() {
