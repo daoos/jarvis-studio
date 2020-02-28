@@ -14,7 +14,7 @@
 			<p v-else>Any note for the moment.</p>
 		</v-container>
 
-		<note-editor :module-name="moduleName" :related-doc-id="relatedDocId" />
+		<note-editor :module-name="moduleName" :related-doc-id="relatedDocId" :account="account" />
 
 		<v-snackbar
 			v-model="deletionSnackBar.isVisible"
@@ -43,6 +43,7 @@ import { SNACKBAR } from '@/constants/ui/snackbar';
 export default class NotesComponent extends Vue {
 	@Prop({ type: String, required: true }) moduleName!: string;
 	@Prop({ type: String, required: true }) relatedDocId!: string;
+	@Prop({ type: String, required: true }) account!: string;
 
 	@State(state => state.notes.data) notes!: Note[];
 
@@ -56,15 +57,24 @@ export default class NotesComponent extends Vue {
 	};
 
 	mounted() {
+		this.fetchNotes();
+	}
+
+	activated() {
+		this.fetchNotes();
+	}
+
+	fetchNotes() {
+		const where = [
+			['moduleName', '==', this.moduleName],
+			['relatedDocId', '==', this.relatedDocId]
+		];
+
 		this.$store.dispatch(`${notesModule.moduleName}/closeDBChannel`, { clearModule: true });
-		this.$store.dispatch(`${notesModule.moduleName}/openDBChannel`, {
-			moduleName: this.moduleName,
-			relatedDocId: this.relatedDocId
-		});
+		this.$store.dispatch(`${notesModule.moduleName}/openDBChannel`, { where });
 		this.$store
 			.dispatch(`${notesModule.moduleName}/fetchAndAdd`, {
-				moduleName: this.moduleName,
-				relatedDocId: this.relatedDocId,
+				where,
 				orderBy: ['createdAt']
 			})
 			.then(() => {

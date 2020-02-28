@@ -13,11 +13,11 @@
 
 			<v-spacer />
 
-			<v-btn v-if="isFocused" x-small class="mr-2" @click="toggleIsEditing">
+			<v-btn v-if="showActions" x-small class="mr-2" @click="toggleIsEditing">
 				<v-icon x-small>mdi-pencil</v-icon>
 			</v-btn>
 
-			<v-btn v-if="isFocused" :loading="isDeleting" x-small color="error" @click="deleteNote">
+			<v-btn v-if="showActions" :loading="isDeleting" x-small color="error" @click="deleteNote">
 				<v-icon x-small>mdi-delete</v-icon>
 			</v-btn>
 		</div>
@@ -37,7 +37,8 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import { Note } from '@/types';
+import { Getter } from 'vuex-class';
+import { Note, User } from '@/types';
 import { firebase } from '@/config/firebase';
 import { notes as notesModule } from '@/store/modules/easy-firestore/notes';
 import moment from 'moment';
@@ -51,6 +52,8 @@ export default class NoteItem extends Vue {
 	@Prop({ type: Object, required: true }) note!: Note;
 	@Prop({ type: String, required: true }) moduleName!: string;
 	@Prop({ type: String, required: true }) relatedDocId!: string;
+
+	@Getter('user/user') user!: User;
 
 	isHovering: boolean = false;
 	isEditing: boolean = false;
@@ -79,6 +82,10 @@ export default class NoteItem extends Vue {
 
 	get isFocused(): boolean {
 		return this.isEditing || this.isHovering;
+	}
+
+	get showActions(): boolean {
+		return this.isFocused && this.user.uid === this.note.created_by;
 	}
 
 	getFormattedTimestamp(timestamp: string): string {

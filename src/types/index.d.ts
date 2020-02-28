@@ -77,9 +77,12 @@ export interface ConfActivatedFilter {
 	label: ConfActivatedLabel;
 	value: ConfActivatedValue;
 }
+
+type AccountId = '000000' | '000010' | '000020' | '000040' | '000050' | '000060' | '000099';
+
 export interface Account {
 	account_name: 'All Accounts' | 'Jules' | 'Pimkie' | 'Grain de Malice' | 'Orsay' | 'RougeGorge' | 'jarvis-demo';
-	id: '000000' | '000010' | '000020' | '000040' | '000050' | '000060' | '000099';
+	id: AccountId;
 }
 export interface FilterState {
 	dateFilterSelected: DateFilter;
@@ -170,11 +173,15 @@ export interface UserSocialInformation {
 }
 
 export interface Note {
-	id: string;
-	text: string;
-	user: UserSocialInformation;
+	account: AccountId;
 	createdAt: string;
+	created_by: string;
+	id: string;
+	moduleName: string;
+	relatedDocId: string;
+	text: string;
 	updatedAt: string;
+	user: UserSocialInformation;
 }
 
 export interface Snackbar {
@@ -260,6 +267,7 @@ export interface NotesTab extends Tab {
 		props: {
 			moduleName: string;
 			relatedDocId: string;
+			account: AccountId;
 		};
 	};
 }
