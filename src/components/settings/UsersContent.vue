@@ -178,6 +178,7 @@ import firebase from 'firebase';
 import { mapState } from 'vuex';
 import { mapGetters } from 'vuex';
 import merge from 'lodash.merge';
+import { usersSocialInformation } from '@/store/modules/easy-firestore/users-social-information';
 import { SNACKBAR } from '@/constants/ui/snackbar';
 import { ADMIN, MEMBER, SUPER_ADMIN, USER, VIEWER, WRITER } from '@/constants/user/roles';
 import { mdiPackageDown, mdiPackageUp } from '@mdi/js';
@@ -258,7 +259,13 @@ export default class UsersContent extends Vue {
 		});
 	}
 
+	dispatchUserSocialInformation(action: 'set' | 'patch', data: AnyObject) {
+		if (!data.id) throw new Error('Id must be provided to save user social information');
+		this.$store.dispatch(`${usersSocialInformation.moduleName}/${action}`, data);
+	}
+
 	createUser() {
+		const photoURL = 'https://raw.githubusercontent.com/mkfeuhrer/JarvisBot/master/images/JarvisBot.gif';
 		const createUser = firebase.functions().httpsCallable('createUser');
 		this.closeFormDialog();
 		this.isLoading = true;
@@ -267,14 +274,23 @@ export default class UsersContent extends Vue {
 			email: this.currentUser.email,
 			displayName: this.currentUser.displayName,
 			emailVerified: this.currentUser.emailVerified,
-			photoURL: 'https://raw.githubusercontent.com/mkfeuhrer/JarvisBot/master/images/JarvisBot.gif',
+			photoURL,
 			password: this.currentUser.password,
 			disabled: this.currentUser.disabled,
 			accounts: this.selectedAccounts,
 			studioRoles: this.selectedStudioRoles
-		}).then(() => {
+		}).then(res => {
 			this.listAllUsers();
 			this.showSnackbar('User has been created.', 'success');
+
+			this.dispatchUserSocialInformation('set', {
+				id: res.data.data.uid,
+				disabled: false,
+				deleted: false,
+				displayName: this.currentUser.displayName,
+				email: this.currentUser.email,
+				photoURL
+			});
 		});
 	}
 
@@ -316,6 +332,12 @@ export default class UsersContent extends Vue {
 		}).then(() => {
 			this.isLoading = false;
 			this.showSnackbar('User has been updated.', 'success');
+
+			this.dispatchUserSocialInformation('patch', {
+				id: this.currentUser.uid,
+				displayName: this.currentUser.displayName,
+				email: this.currentUser.email
+			});
 		});
 	}
 
@@ -327,12 +349,18 @@ export default class UsersContent extends Vue {
 		archiveUser({
 			email: user.email,
 			disabled: !user.disabled
-		}).then(() => {
+		}).then(res => {
 			const index = this.users.indexOf(user);
-			this.users[index].disabled = !user.disabled;
+			const disabledValue = !user.disabled;
+			this.users[index].disabled = disabledValue;
 
 			this.isLoading = false;
 			this.showSnackbar(`User has been ${this.currentUser.disabled ? 'disabled' : 'enabled'}.`, 'success');
+
+			this.dispatchUserSocialInformation('patch', {
+				id: this.currentUser.uid,
+				disabled: disabledValue
+			});
 		});
 	}
 
@@ -352,6 +380,12 @@ export default class UsersContent extends Vue {
 			this.users.splice(index, 1);
 			this.isLoading = false;
 			this.showSnackbar('User has been deleted', 'success');
+
+			this.dispatchUserSocialInformation('patch', {
+				id: this.currentUser.uid,
+				disabled: true,
+				deleted: true
+			});
 		});
 	}
 

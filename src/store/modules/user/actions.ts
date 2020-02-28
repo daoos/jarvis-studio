@@ -11,6 +11,8 @@ const setSocialInformation = (user: User | null) => {
 
 	store.dispatch(`${usersSocialInformation.moduleName}/set`, {
 		id: user!.uid,
+		disabled: false,
+		deleted: false,
 		displayName: user!.displayName,
 		photoURL: user!.photoURL,
 		email: user!.email

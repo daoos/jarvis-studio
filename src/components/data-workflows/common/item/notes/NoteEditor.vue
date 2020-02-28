@@ -92,8 +92,6 @@ export default class NoteForm extends Vue {
 	insertNote() {
 		this.isLoaging = true;
 
-		// TODO: Use set to use insert & patch
-
 		const usersRef = firebase
 			.firestore()
 			.collection(usersSocialInformation.firestorePath)
