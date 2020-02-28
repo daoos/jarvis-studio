@@ -8,8 +8,8 @@
 		<div class="d-flex align-center">
 			<avatar-component class="mr-2" :email="note.user.email" />
 			<span class="mr-2 font-weight-bold">{{ note.user.displayName }}</span>
-			<span class="mr-2">{{ getFormattedTimestamp(note.createdAt) }}</span>
-			<span v-if="note.updatedAt" class="mr-2">(edited {{ getFormattedTimestamp(note.updatedAt) }})</span>
+			<span class="mr-2">{{ getFormattedTimestamp(note.createdAt.toDate()) }}</span>
+			<span v-if="note.updatedAt" class="mr-2">(edited {{ getFormattedTimestamp(note.updatedAt.toDate()) }})</span>
 
 			<v-spacer />
 

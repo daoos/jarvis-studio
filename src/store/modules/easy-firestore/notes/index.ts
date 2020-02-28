@@ -6,7 +6,18 @@ export const notes: IEasyFirestoreModule = {
 	firestoreRefType: COLLECTION_REF,
 	moduleName: 'notes',
 	statePropName: STATE_PROP_NAME,
-	sync: SYNC,
+	sync: {
+		...SYNC,
+		insertHook: function(updateStore, doc, store) {
+			const user = store.getters['user/user'];
+
+			doc.user.displayName = user.displayName;
+			doc.user.photoURL = user.photoURL;
+			doc.user.email = user.email;
+
+			updateStore(doc);
+		}
+	},
 	serverChange: {
 		addedHook: function(updateStore, note) {
 			note.user.get().then((res: any) => {

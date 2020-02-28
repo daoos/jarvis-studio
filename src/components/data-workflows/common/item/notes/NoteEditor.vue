@@ -48,7 +48,7 @@ import {
 @Component({
 	components: { TiptapVuetify }
 })
-export default class NoteForm extends Vue {
+export default class NoteEditor extends Vue {
 	@Prop(String) defaultText?: string;
 	@Prop(Boolean) isEditing?: boolean;
 	@Prop(String) noteId?: string;
@@ -104,7 +104,7 @@ export default class NoteForm extends Vue {
 				relatedDocId: this.relatedDocId,
 				text: this.text,
 				user: usersRef,
-				createdAt: Date.now(),
+				createdAt: firebase.firestore.Timestamp.now(),
 				updatedAt: null
 			})
 			.then(() => {
@@ -119,7 +119,7 @@ export default class NoteForm extends Vue {
 			.dispatch(`${notesModule.moduleName}/patch`, {
 				id: this.noteId,
 				text: this.text,
-				updatedAt: Date.now()
+				updatedAt: firebase.firestore.Timestamp.now()
 			})
 			.then(() => {
 				this.$emit('noteEdited');
