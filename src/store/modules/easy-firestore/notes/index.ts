@@ -8,6 +8,7 @@ export const notes: IEasyFirestoreModule = {
 	statePropName: STATE_PROP_NAME,
 	sync: {
 		...SYNC,
+		orderBy: ['createdAt'],
 		insertHook: function(updateStore, doc, store) {
 			const user = store.getters['user/user'];
 

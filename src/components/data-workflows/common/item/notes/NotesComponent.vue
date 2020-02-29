@@ -72,14 +72,9 @@ export default class NotesComponent extends Vue {
 
 		this.$store.dispatch(`${notesModule.moduleName}/closeDBChannel`, { clearModule: true });
 		this.$store.dispatch(`${notesModule.moduleName}/openDBChannel`, { where });
-		this.$store
-			.dispatch(`${notesModule.moduleName}/fetchAndAdd`, {
-				where,
-				orderBy: ['createdAt']
-			})
-			.then(() => {
-				this.isLoading = false;
-			});
+		this.$store.dispatch(`${notesModule.moduleName}/fetchAndAdd`, { where }).then(() => {
+			this.isLoading = false;
+		});
 	}
 }
 </script>
