@@ -103,9 +103,7 @@ export default class NoteEditor extends Vue {
 				// TODO: Rename relatedDocId => objectId
 				relatedDocId: this.relatedDocId,
 				text: this.text,
-				user: usersRef,
-				createdAt: firebase.firestore.Timestamp.now(),
-				updatedAt: null
+				user: usersRef
 			})
 			.then(() => {
 				this.text = '';
@@ -118,8 +116,7 @@ export default class NoteEditor extends Vue {
 		this.$store
 			.dispatch(`${notesModule.moduleName}/patch`, {
 				id: this.noteId,
-				text: this.text,
-				updatedAt: firebase.firestore.Timestamp.now()
+				text: this.text
 			})
 			.then(() => {
 				this.$emit('noteEdited');

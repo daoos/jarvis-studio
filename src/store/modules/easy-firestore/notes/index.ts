@@ -1,5 +1,5 @@
 import { IEasyFirestoreModule } from 'vuex-easy-firestore/types/declarations';
-import { COLLECTION_REF, STATE_PROP_NAME, SYNC } from '@/constants/store/easy-firestore';
+import { COLLECTION_REF, STATE_PROP_NAME } from '@/constants/store/easy-firestore';
 
 export const notes: IEasyFirestoreModule = {
 	firestorePath: 'notes',
@@ -7,8 +7,7 @@ export const notes: IEasyFirestoreModule = {
 	moduleName: 'notes',
 	statePropName: STATE_PROP_NAME,
 	sync: {
-		...SYNC,
-		orderBy: ['createdAt'],
+		orderBy: ['created_at'],
 		insertHook: function(updateStore, doc, store) {
 			const user = store.getters['user/user'];
 
@@ -31,6 +30,10 @@ export const notes: IEasyFirestoreModule = {
 				note.user = res.data();
 				updateStore(note);
 			});
+		},
+		convertTimestamps: {
+			created_at: '%convertTimestamp%',
+			updated_at: '%convertTimestamp%'
 		}
 	}
 };

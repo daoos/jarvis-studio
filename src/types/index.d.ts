@@ -174,13 +174,14 @@ export interface UserSocialInformation {
 
 export interface Note {
 	account: AccountId;
-	createdAt: string;
+	created_at: string;
 	created_by: string;
 	id: string;
 	moduleName: string;
 	relatedDocId: string;
 	text: string;
-	updatedAt: string;
+	updated_at: string;
+	updated_by: string;
 	user: UserSocialInformation;
 }
 
