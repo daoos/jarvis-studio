@@ -150,11 +150,6 @@ export interface RunProps {
 
 export interface StatusProps extends RunProps {}
 
-export interface OtherRunsProps {
-	doc: Doc;
-	moduleName: string;
-}
-
 export interface Doc {
 	[key: string]: any;
 }

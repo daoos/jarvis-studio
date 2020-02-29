@@ -24,16 +24,7 @@ export default class TablesToTablesConfigurationsItemView extends Mixins(HeaderI
 		if (Object.keys(this.item).length === 0) return [];
 
 		return [
-			{
-				label: 'Configuration',
-				href: 'configuration',
-				component: {
-					name: 'overview-component',
-					props: {
-						data: this.configurationData
-					}
-				}
-			},
+			this.configurationTab,
 			{
 				label: 'Tasks',
 				href: 'tasks',
@@ -47,25 +38,8 @@ export default class TablesToTablesConfigurationsItemView extends Mixins(HeaderI
 					}
 				}
 			},
-			{
-				label: 'Full Json',
-				href: 'full-json',
-				component: {
-					name: 'view-json',
-					props: {
-						json: this.item,
-						jsonId: this.itemId
-					}
-				}
-			},
-			{
-				label: 'Conversation',
-				href: 'conversation',
-				component: {
-					name: 'view-conversation',
-					props: {}
-				}
-			}
+			this.fullJSONTab,
+			this.conversationTab
 		];
 	}
 

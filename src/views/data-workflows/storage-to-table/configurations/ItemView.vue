@@ -38,21 +38,11 @@ export default class StorageToTableConfigurationsItemView extends Mixins(HeaderI
 		return this.$route.params.bucketId;
 	}
 
-	// TODO: Move to dedicated file all methods / computed below
 	get itemTabsItems() {
 		if (Object.keys(this.item).length === 0) return [];
 
 		return [
-			{
-				label: 'Configuration',
-				href: 'configuration',
-				component: {
-					name: 'overview-component',
-					props: {
-						data: this.configurationData
-					}
-				}
-			},
+			this.configurationTab,
 			{
 				label: 'Schema',
 				href: 'schema',
@@ -63,25 +53,8 @@ export default class StorageToTableConfigurationsItemView extends Mixins(HeaderI
 					}
 				}
 			},
-			{
-				label: 'Full Json',
-				href: 'full-json',
-				component: {
-					name: 'view-json',
-					props: {
-						json: this.item,
-						jsonId: this.itemId
-					}
-				}
-			},
-			{
-				label: 'Conversation',
-				href: 'conversation',
-				component: {
-					name: 'view-conversation',
-					props: {}
-				}
-			}
+			this.fullJSONTab,
+			this.conversationTab
 		];
 	}
 

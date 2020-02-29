@@ -19,42 +19,6 @@ export default class TableToStorageConfigurationsItemView extends Mixins(HeaderI
 	moduleName: string = tableToStorageConfs.moduleName;
 	archivedConfsModuleName: string = tableToStorageConfArchive.moduleName;
 
-	get itemTabsItems() {
-		if (Object.keys(this.item).length === 0) return [];
-
-		return [
-			{
-				label: 'Configuration',
-				href: 'configuration',
-				component: {
-					name: 'overview-component',
-					props: {
-						data: this.configurationData
-					}
-				}
-			},
-			{
-				label: 'Full Json',
-				href: 'full-json',
-				component: {
-					name: 'view-json',
-					props: {
-						json: this.item,
-						jsonId: this.itemId
-					}
-				}
-			},
-			{
-				label: 'Conversation',
-				href: 'conversation',
-				component: {
-					name: 'view-conversation',
-					props: {}
-				}
-			}
-		];
-	}
-
 	get configurationData() {
 		return [
 			{

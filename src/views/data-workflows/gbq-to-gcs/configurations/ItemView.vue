@@ -19,43 +19,6 @@ export default class GbqToGcsConfigurationsItemView extends Mixins(HeaderInfosMi
 	moduleName: string = getGbqToGcsConfs.moduleName;
 	archivedConfsModuleName: string = getGbqToGcsConfsArchive.moduleName;
 
-	// TODO: Move to dedicated file all methods / computed below
-	get itemTabsItems() {
-		if (Object.keys(this.item).length === 0) return [];
-
-		return [
-			{
-				label: 'Configuration',
-				href: 'configuration',
-				component: {
-					name: 'overview-component',
-					props: {
-						data: this.configurationData
-					}
-				}
-			},
-			{
-				label: 'Full Json',
-				href: 'full-json',
-				component: {
-					name: 'view-json',
-					props: {
-						json: this.item,
-						jsonId: this.itemId
-					}
-				}
-			},
-			{
-				label: 'Conversation',
-				href: 'conversation',
-				component: {
-					name: 'view-conversation',
-					props: {}
-				}
-			}
-		];
-	}
-
 	get configurationData() {
 		return [
 			{

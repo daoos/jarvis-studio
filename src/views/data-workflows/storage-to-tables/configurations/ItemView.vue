@@ -19,7 +19,6 @@ export default class StorageToTablesConfigurationsItemView extends Mixins(Header
 	moduleName: string = storageToTablesConfs.moduleName;
 	archivedConfsModuleName: string = storageToTablesConfArchive.moduleName;
 
-	// TODO: Move to dedicated file all methods / computed below
 	getDestinationTables() {
 		return this.item.destinations[0].tables;
 	}
@@ -160,42 +159,6 @@ export default class StorageToTablesConfigurationsItemView extends Mixins(Header
 							default: false
 						}
 					]
-				}
-			}
-		];
-	}
-
-	get itemTabsItems() {
-		if (Object.keys(this.item).length === 0) return [];
-
-		return [
-			{
-				label: 'Configuration',
-				href: 'configuration',
-				component: {
-					name: 'overview-component',
-					props: {
-						data: this.configurationData
-					}
-				}
-			},
-			{
-				label: 'Full Json',
-				href: 'full-json',
-				component: {
-					name: 'view-json',
-					props: {
-						json: this.item,
-						jsonId: this.itemId
-					}
-				}
-			},
-			{
-				label: 'Conversation',
-				href: 'conversation',
-				component: {
-					name: 'view-conversation',
-					props: {}
 				}
 			}
 		];
