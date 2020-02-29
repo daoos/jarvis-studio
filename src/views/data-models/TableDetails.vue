@@ -222,6 +222,7 @@
 										<notes-component
 											module-name="dataTableDetails"
 											:related-doc-id="`${projectId}-${datasetId}-${tableId}`"
+											:account="dataTableDetails.account"
 										/>
 									</v-card-text>
 								</v-card>
