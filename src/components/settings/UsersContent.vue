@@ -178,7 +178,7 @@ import firebase from 'firebase';
 import { mapState } from 'vuex';
 import { mapGetters } from 'vuex';
 import merge from 'lodash.merge';
-import { usersSocialInformation } from '@/store/modules/easy-firestore/users-social-information';
+import { users } from '@/store/modules/easy-firestore/users';
 import { SNACKBAR } from '@/constants/ui/snackbar';
 import { ADMIN, MEMBER, SUPER_ADMIN, USER, VIEWER, WRITER } from '@/constants/user/roles';
 import { mdiPackageDown, mdiPackageUp } from '@mdi/js';
@@ -259,9 +259,9 @@ export default class UsersContent extends Vue {
 		});
 	}
 
-	dispatchUserSocialInformation(action: 'set' | 'patch', data: AnyObject) {
-		if (!data.id) throw new Error('Id must be provided to save user social information');
-		this.$store.dispatch(`${usersSocialInformation.moduleName}/${action}`, data);
+	dispatchUser(action: 'set' | 'patch', data: AnyObject) {
+		if (!data.id) throw new Error('Id must be provided to save user information');
+		this.$store.dispatch(`${users.moduleName}/${action}`, data);
 	}
 
 	createUser() {
@@ -283,7 +283,7 @@ export default class UsersContent extends Vue {
 			this.listAllUsers();
 			this.showSnackbar('User has been created.', 'success');
 
-			this.dispatchUserSocialInformation('set', {
+			this.dispatchUser('set', {
 				id: res.data.data.uid,
 				disabled: false,
 				deleted: false,
@@ -333,7 +333,7 @@ export default class UsersContent extends Vue {
 			this.isLoading = false;
 			this.showSnackbar('User has been updated.', 'success');
 
-			this.dispatchUserSocialInformation('patch', {
+			this.dispatchUser('patch', {
 				id: this.currentUser.uid,
 				displayName: this.currentUser.displayName,
 				email: this.currentUser.email
@@ -357,7 +357,7 @@ export default class UsersContent extends Vue {
 			this.isLoading = false;
 			this.showSnackbar(`User has been ${this.currentUser.disabled ? 'disabled' : 'enabled'}.`, 'success');
 
-			this.dispatchUserSocialInformation('patch', {
+			this.dispatchUser('patch', {
 				id: this.currentUser.uid,
 				disabled: disabledValue
 			});
@@ -381,7 +381,7 @@ export default class UsersContent extends Vue {
 			this.isLoading = false;
 			this.showSnackbar('User has been deleted', 'success');
 
-			this.dispatchUserSocialInformation('patch', {
+			this.dispatchUser('patch', {
 				id: this.currentUser.uid,
 				disabled: true,
 				deleted: true

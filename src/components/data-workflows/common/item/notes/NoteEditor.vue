@@ -25,7 +25,7 @@ import { User } from '@/types';
 import { Getter } from 'vuex-class';
 import { firebase } from '@/config/firebase';
 import { notes as notesModule } from '@/store/modules/easy-firestore/notes';
-import { usersSocialInformation } from '@/store/modules/easy-firestore/users-social-information';
+import { users } from '@/store/modules/easy-firestore/users';
 import {
 	TiptapVuetify,
 	Heading,
@@ -94,7 +94,7 @@ export default class NoteEditor extends Vue {
 
 		const usersRef = firebase
 			.firestore()
-			.collection(usersSocialInformation.firestorePath)
+			.collection(users.firestorePath)
 			.doc(this.user.uid);
 		this.$store
 			.dispatch(`${notesModule.moduleName}/insert`, {

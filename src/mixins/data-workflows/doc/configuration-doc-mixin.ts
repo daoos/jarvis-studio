@@ -10,7 +10,7 @@ export default class ConfigurationDocMixin extends DocMixin {
 	}
 
 	get updateInformation() {
-		// TODO: Add UserSocialInfo
+		// TODO: Add User info
 		return {
 			update_date: this.item.update_date || this.item.updated_date,
 			updated_by: this.item.updated_by

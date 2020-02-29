@@ -164,14 +164,6 @@ export interface Link {
 	displayRule?(): boolean;
 }
 
-export interface UserSocialInformation {
-	get: () => Promise<{
-		displayName: string;
-		email: string;
-		photoURL: string;
-	}>;
-}
-
 export interface Note {
 	account: AccountId;
 	created_at: string;
@@ -182,7 +174,13 @@ export interface Note {
 	text: string;
 	updated_at: string;
 	updated_by: string;
-	user: UserSocialInformation;
+	user: {
+		get: () => Promise<{
+			displayName: string;
+			email: string;
+			photoURL: string;
+		}>;
+	};
 }
 
 export interface Snackbar {

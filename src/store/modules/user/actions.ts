@@ -4,13 +4,13 @@ import firebase, { User } from 'firebase';
 import store from '@/store';
 import router from '@/router';
 import { HOME, SIGN_IN } from '@/constants/router/routes-names';
-import { usersSocialInformation } from '@/store/modules/easy-firestore/users-social-information';
+import { users } from '@/store/modules/easy-firestore/users';
 import { connectionsHistory } from '@/store/modules/easy-firestore/connections-history';
 
-const setSocialInformation = (user: User | null) => {
+const dispatchUser = (user: User | null) => {
 	if (!user) return;
 
-	store.dispatch(`${usersSocialInformation.moduleName}/set`, {
+	store.dispatch(`${users.moduleName}/set`, {
 		id: user!.uid,
 		disabled: false,
 		deleted: false,
@@ -34,7 +34,7 @@ export const actions: ActionTree<UserState, RootState> = {
 				.then(user => {
 					commit('setUser', user.user);
 					commit('setIsAuthenticated', true);
-					setSocialInformation(user.user);
+					dispatchUser(user.user);
 					resolve(user.user);
 				})
 				.catch(e => {
@@ -52,7 +52,7 @@ export const actions: ActionTree<UserState, RootState> = {
 				.then(user => {
 					commit('setUser', user.user);
 					commit('setIsAuthenticated', true);
-					setSocialInformation(user.user);
+					dispatchUser(user.user);
 					resolve(user.user);
 				})
 				.catch(e => {
@@ -67,7 +67,7 @@ export const actions: ActionTree<UserState, RootState> = {
 			.then(user => {
 				commit('setUser', user.user);
 				commit('setIsAuthenticated', true);
-				setSocialInformation(user.user);
+				dispatchUser(user.user);
 				router.push({ name: HOME });
 			})
 			.catch(() => {
