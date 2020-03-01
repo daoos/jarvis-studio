@@ -22,7 +22,7 @@
 			:related-doc-id="relatedDocId"
 		/>
 		<p v-else>Start a thread.</p>
-		<note-editor :module-name="moduleName" :related-doc-id="relatedDocId" :account="account" />
+		<note-editor />
 	</div>
 </template>
 

@@ -28,12 +28,10 @@
 
 		<note-editor
 			v-if="isEditing"
-			:module-name="moduleName"
-			:related-doc-id="relatedDocId"
 			:default-text="note.text"
 			:is-editing="isEditing"
-			:note-id="note.id"
-			@noteEdited="toggleIsEditing"
+			:is-loading="isEditorLoading"
+			@onValidated="editNote"
 		/>
 
 		<div v-else class="ml-11 text" v-html="note.text"></div>
@@ -63,6 +61,7 @@ export default class NoteItem extends Vue {
 	@Getter('user/user') user!: User;
 
 	isHovering: boolean = false;
+	isEditorLoading: boolean = false;
 	isEditing: boolean = false;
 	isDeleting: boolean = false;
 
@@ -78,6 +77,23 @@ export default class NoteItem extends Vue {
 	openThread() {
 		// TODO: Use store
 		this.$emit('openThread', this.note);
+	}
+
+	editNote(text: string) {
+		this.isEditorLoading = true;
+		this.$store
+			.dispatch(`${notesModule.moduleName}/patch`, {
+				id: this.note.id,
+				text
+			})
+			.then(() => {
+				this.isEditorLoading = false;
+				this.toggleIsEditing();
+			})
+			.catch(err => {
+				console.error(err);
+				this.isEditorLoading = false;
+			});
 	}
 
 	deleteNote() {

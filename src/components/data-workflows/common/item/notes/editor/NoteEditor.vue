@@ -2,11 +2,11 @@
 	<div>
 		<tiptap-vuetify v-model="text" :extensions="extensions" class="editor my-4" />
 		<v-btn
-			:loading="isLoaging"
+			:loading="isLoading"
 			:disabled="isSaveButtonDisabled"
 			color="primary"
 			class="float-right"
-			@click="isEditing ? editNote() : insertNote()"
+			@click="onValidated"
 		>
 			{{ buttonValue }}
 		</v-btn>
@@ -30,60 +30,20 @@ import extenstions from './extenstions';
 export default class NoteEditor extends Vue {
 	@Prop(String) defaultText?: string;
 	@Prop(Boolean) isEditing?: boolean;
-	@Prop(String) noteId?: string;
-	@Prop({ type: String, required: true }) moduleName!: string;
-	@Prop({ type: String, required: true }) relatedDocId!: string;
-	@Prop({ type: String, required: true }) account!: string;
+	@Prop({ type: Boolean, required: true }) isLoading!: boolean;
 
 	@Getter('user/user') user!: User;
 
 	text = '';
 	extensions = extenstions;
-	isLoaging: boolean = false;
 
 	mounted() {
 		if (this.defaultText) this.text = this.defaultText;
 	}
 
-	// TODO: Externalize to parent component
-	insertNote() {
-		this.isLoaging = true;
-
-		const usersRef = firebase
-			.firestore()
-			.collection(users.firestorePath)
-			.doc(this.user.uid);
-		this.$store
-			.dispatch(`${notesModule.moduleName}/insert`, {
-				account: this.account,
-				moduleName: this.moduleName,
-				// TODO: Rename relatedDocId => objectId
-				relatedDocId: this.relatedDocId,
-				text: this.text,
-				user: usersRef
-			})
-			.then(() => {
-				this.text = '';
-				this.isLoaging = false;
-			});
-	}
-
-	// TODO: Externalize to parent component
-	editNote() {
-		this.isLoaging = true;
-		this.$store
-			.dispatch(`${notesModule.moduleName}/patch`, {
-				id: this.noteId,
-				text: this.text
-			})
-			.then(() => {
-				this.$emit('noteEdited');
-				this.isLoaging = false;
-			})
-			.catch(err => {
-				console.error(err);
-				this.isLoaging = false;
-			});
+	onValidated() {
+		this.$emit('onValidated', this.text);
+		this.text = '';
 	}
 
 	get isSaveButtonDisabled(): boolean {
