@@ -95,6 +95,7 @@
 							<v-tab ripple href="#workflow">Workflow</v-tab>
 							<v-tab ripple href="#documentation">Documentation</v-tab>
 							<v-tab ripple href="#fulljson">Full Json</v-tab>
+							<v-tab ripple href="#notes">Notes</v-tab>
 
 							<v-tab-item value="dataoverview">
 								<v-card>
@@ -210,6 +211,22 @@
 									</v-card-text>
 								</v-card>
 							</v-tab-item>
+
+							<v-tab-item value="notes">
+								<v-card>
+									<v-card-title>
+										<span class="title">Notes</span>
+										<v-spacer />
+									</v-card-title>
+									<v-card-text>
+										<notes-component
+											module-name="dataTableDetails"
+											:related-doc-id="`${projectId}-${datasetId}-${tableId}`"
+											:account="dataTableDetails.account"
+										/>
+									</v-card-text>
+								</v-card>
+							</v-tab-item>
 						</v-tabs>
 					</v-col>
 				</v-row>
@@ -231,6 +248,7 @@ import moment from 'moment';
 import JsonSchemaIsInvalid from '@/components/data-models/InvalidSchema.vue';
 import DataModelHeader from '@/components/data-models/DataModelHeader.vue';
 import tableSchemaView from '@/components/data-workflows/common/item/schema/TableSchemaView.vue';
+import NotesComponent from '@/components/data-workflows/common/item/notes/NotesComponent.vue';
 // library to validate Object Json Schema from Firestore
 import Ajv, { ErrorObject } from 'ajv';
 // library to convert units (bite to Go ) and format number
@@ -254,7 +272,8 @@ interface Column {
 		JsonSchemaIsInvalid,
 		DataModelHeader,
 		'vue-good-table': require('vue-good-table').VueGoodTable,
-		VueMarkdown
+		VueMarkdown,
+		NotesComponent
 	},
 	computed: {
 		...mapState({

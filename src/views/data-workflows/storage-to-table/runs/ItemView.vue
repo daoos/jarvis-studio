@@ -33,7 +33,7 @@ export default class StorageToTableRunsItemView extends Mixins(HeaderInfosMixin,
 			},
 			this.fullJSONTab,
 			this.otherRunsTab,
-			this.conversationTab
+			this.notesTab
 		];
 	}
 

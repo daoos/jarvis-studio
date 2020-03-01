@@ -1,27 +1,16 @@
 import { Component } from 'vue-property-decorator';
-import { DataWorkflowsType, Doc, RunProps, Tab } from '@/types';
-import { DataItem } from '@/mixins/data-workflows/doc/doc-mixin';
+import {
+	ConfigurationTab,
+	DataItem,
+	DataWorkflowsType,
+	FullJSONTab,
+	NotesTab,
+	OtherRunTab,
+	RunDetailsTab,
+	RunProps
+} from '@/types';
 import DocMixin from '@/mixins/data-workflows/doc/doc-mixin';
 import { RUNS } from '@/constants/data-workflows/status';
-
-interface RunDetailsTab extends Tab {
-	component: {
-		name: string;
-		props: {
-			data: DataItem[];
-		};
-	};
-}
-
-interface OtherRunTab extends Tab {
-	component: {
-		name: string;
-		props: {
-			doc: Doc;
-			moduleName: string;
-		};
-	};
-}
 
 @Component
 export default class RunDocMixin extends DocMixin {
@@ -40,9 +29,9 @@ export default class RunDocMixin extends DocMixin {
 		};
 	}
 
-	get itemTabsItems() {
+	get itemTabsItems(): any {
 		if (Object.keys(this.item).length === 0) return [];
-		return [this.runDetailsTab, this.configurationTab, this.fullJSONTab, this.otherRunsTab, this.conversationTab];
+		return [this.runDetailsTab, this.configurationTab, this.fullJSONTab, this.otherRunsTab, this.notesTab];
 	}
 
 	get runDetailsTab(): RunDetailsTab {

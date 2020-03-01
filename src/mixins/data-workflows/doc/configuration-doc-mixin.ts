@@ -1,5 +1,5 @@
 import { Component } from 'vue-property-decorator';
-import { ConfigurationProps, DataWorkflowsType } from '@/types';
+import { ConfigurationProps, ConfigurationTab, DataWorkflowsType, FullJSONTab, NotesTab } from '@/types';
 import DocMixin from '@/mixins/data-workflows/doc/doc-mixin';
 import { CONFIGURATIONS } from '@/constants/data-workflows/status';
 
@@ -10,7 +10,7 @@ export default class ConfigurationDocMixin extends DocMixin {
 	}
 
 	get updateInformation() {
-		// TODO: Add UserSocialInfo
+		// TODO: Add User info
 		return {
 			update_date: this.item.update_date || this.item.updated_date,
 			updated_by: this.item.updated_by
@@ -30,8 +30,8 @@ export default class ConfigurationDocMixin extends DocMixin {
 		};
 	}
 
-	get itemTabsItems() {
+	get itemTabsItems(): any {
 		if (Object.keys(this.item).length === 0) return [];
-		return [this.configurationTab, this.fullJSONTab, this.conversationTab];
+		return [this.configurationTab, this.fullJSONTab, this.notesTab];
 	}
 }

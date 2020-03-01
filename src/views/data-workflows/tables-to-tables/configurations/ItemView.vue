@@ -7,6 +7,18 @@
 
 <script lang="ts">
 import { Component, Mixins } from 'vue-property-decorator';
+import {
+	AnyObject,
+	ConfigurationTab,
+	DataItem,
+	DataWorkflowsType,
+	FullJSONTab,
+	NotesTab,
+	OtherRunTab,
+	RunDetailsTab,
+	Tab,
+	TaskListingTab
+} from '@/types';
 
 import HeaderInfosMixin from '../header-infos';
 import ConfigurationDocMixin from '@/mixins/data-workflows/doc/configuration-doc-mixin';
@@ -20,7 +32,7 @@ export default class TablesToTablesConfigurationsItemView extends Mixins(HeaderI
 	moduleName: string = getGbqToGbqConfs.moduleName;
 	archivedConfsModuleName: string = getGbqToGbqConfArchive.moduleName;
 
-	get itemTabsItems() {
+	get itemTabsItems(): [ConfigurationTab, TaskListingTab, FullJSONTab, NotesTab] | [] {
 		if (Object.keys(this.item).length === 0) return [];
 
 		return [
@@ -39,7 +51,7 @@ export default class TablesToTablesConfigurationsItemView extends Mixins(HeaderI
 				}
 			},
 			this.fullJSONTab,
-			this.conversationTab
+			this.notesTab
 		];
 	}
 

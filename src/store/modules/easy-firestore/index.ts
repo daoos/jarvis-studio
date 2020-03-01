@@ -1,4 +1,5 @@
 import { accounts } from '@/store/modules/easy-firestore/accounts';
+import { connectionsHistory } from '@/store/modules/easy-firestore/connections-history';
 import { dataModels } from '@/store/modules/easy-firestore/data-models';
 import { dataTableDetails } from '@/store/modules/easy-firestore/data-table-details';
 import { dataTables } from '@/store/modules/easy-firestore/data-tables';
@@ -16,6 +17,7 @@ import { mirrorExcGcsToGbqRuns } from '@/store/modules/easy-firestore/mirror-exc
 import { mirrorExcGcsToGcsConfs } from '@/store/modules/easy-firestore/mirror-exc-gcs-to-gcs-confs';
 import { mirrorExcGcsToGcsRuns } from '@/store/modules/easy-firestore/mirror-exc-gcs-to-gcs-runs';
 import { mirrorExcGcsToGcsConfsArchive } from '@/store/modules/easy-firestore/mirror-exc-gcs-to-gcs-confs-archive';
+import { notes } from '@/store/modules/easy-firestore/notes';
 import { schemas } from '@/store/modules/easy-firestore/schemas';
 import { storageToStorageConfs } from '@/store/modules/easy-firestore/storage-to-storage-confs';
 import { storageToStorageConfsArchive } from '@/store/modules/easy-firestore/storage-to-storage-confs-archive';
@@ -29,6 +31,7 @@ import { tableToStorageConfs } from '@/store/modules/easy-firestore/table-to-sto
 import { tableToStorageConfArchive } from '@/store/modules/easy-firestore/table-to-storage-conf-archive';
 import { tableToStorageRuns } from '@/store/modules/easy-firestore/table-to-storage-runs';
 import { tablesToTablesRun } from '@/store/modules/easy-firestore/tables-to-tables-run';
+import { users } from '@/store/modules/easy-firestore/users';
 import { vmLauncherConfs } from '@/store/modules/easy-firestore/vm-launcher-confs';
 import { vmLauncherConfArchive } from '@/store/modules/easy-firestore/vm-launcher-conf-archive';
 import { vmLauncherRuns } from '@/store/modules/easy-firestore/vm-launcher-runs';
@@ -39,7 +42,10 @@ import { workflowStatus } from '@/store/modules/easy-firestore/workflow-status';
 export default [
 	gcpCloudFunctions,
 	accounts,
+	connectionsHistory,
 	schemas,
+	notes,
+	users,
 	mirrorExcGcsToGcsRuns,
 	mirrorExcGcsToGcsConfs,
 	mirrorExcGcsToGcsConfsArchive,

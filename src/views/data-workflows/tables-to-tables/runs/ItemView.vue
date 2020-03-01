@@ -7,6 +7,18 @@
 
 <script lang="ts">
 import { Component, Mixins } from 'vue-property-decorator';
+import {
+	AnyObject,
+	ConfigurationTab,
+	DataItem,
+	DataWorkflowsType,
+	FullJSONTab,
+	NotesTab,
+	OtherRunTab,
+	RunDetailsTab,
+	Tab,
+	TaskListingTab
+} from '@/types';
 import HeaderInfosMixin from '../header-infos';
 import RunDocMixin from '@/mixins/data-workflows/doc/run-doc-mixin';
 import { RUNS } from '@/constants/data-workflows/status';
@@ -16,7 +28,7 @@ import { getGbqToGbqRuns } from '@/store/modules/easy-firestore/get-gbq-to-gbq-r
 export default class TablesToTablesRunsItemView extends Mixins(HeaderInfosMixin, RunDocMixin) {
 	moduleName: string = getGbqToGbqRuns.moduleName;
 
-	get itemTabsItems() {
+	get itemTabsItems(): [RunDetailsTab, ConfigurationTab, TaskListingTab, FullJSONTab, OtherRunTab, NotesTab] | [] {
 		if (Object.keys(this.item).length === 0) return [];
 
 		return [
@@ -41,7 +53,7 @@ export default class TablesToTablesRunsItemView extends Mixins(HeaderInfosMixin,
 			},
 			this.fullJSONTab,
 			this.otherRunsTab,
-			this.conversationTab
+			this.notesTab
 		];
 	}
 

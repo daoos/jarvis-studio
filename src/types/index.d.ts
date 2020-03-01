@@ -77,9 +77,12 @@ export interface ConfActivatedFilter {
 	label: ConfActivatedLabel;
 	value: ConfActivatedValue;
 }
+
+type AccountId = '000000' | '000010' | '000020' | '000040' | '000050' | '000060' | '000099';
+
 export interface Account {
 	account_name: 'All Accounts' | 'Jules' | 'Pimkie' | 'Grain de Malice' | 'Orsay' | 'RougeGorge' | 'jarvis-demo';
-	id: '000000' | '000010' | '000020' | '000040' | '000050' | '000060' | '000099';
+	id: AccountId;
 }
 export interface FilterState {
 	dateFilterSelected: DateFilter;
@@ -161,6 +164,25 @@ export interface Link {
 	displayRule?(): boolean;
 }
 
+export interface Note {
+	account: AccountId;
+	created_at: string;
+	created_by: string;
+	id: string;
+	moduleName: string;
+	relatedDocId: string;
+	text: string;
+	updated_at: string;
+	updated_by: string;
+	user: {
+		get: () => Promise<{
+			displayName: string;
+			email: string;
+			photoURL: string;
+		}>;
+	};
+}
+
 export interface Snackbar {
 	isVisible: boolean;
 	text: string;
@@ -185,12 +207,83 @@ export interface Run {
 	[key: string]: any;
 }
 
+// Tabs
 export interface Tab {
 	label: string;
 	href: string;
 	component: {
 		name: string;
 		props: AnyObject;
+	};
+}
+
+export interface DataItem {
+	component: string;
+	props: AnyObject;
+}
+
+export interface RunDetailsTab extends Tab {
+	component: {
+		name: string;
+		props: {
+			data: DataItem[];
+		};
+	};
+}
+
+export interface OtherRunTab extends Tab {
+	component: {
+		name: string;
+		props: {
+			doc: Doc;
+			moduleName: string;
+		};
+	};
+}
+
+export interface ConfigurationTab extends Tab {
+	component: {
+		name: string;
+		props: {
+			data: DataItem[];
+		};
+	};
+}
+
+export interface FullJSONTab extends Tab {
+	component: {
+		name: string;
+		props: {
+			json: AnyObject;
+			jsonId: string;
+		};
+	};
+}
+
+export interface NotesTab extends Tab {
+	component: {
+		name: string;
+		props: {
+			moduleName: string;
+			relatedDocId: string;
+			account: AccountId;
+		};
+	};
+}
+
+export interface TaskListingTab extends Tab {
+	component: {
+		name: string;
+		props: {
+			type: DataWorkflowsType;
+			dagId?: string;
+			dagRunId?: string;
+			dagType?: string;
+			dagExecutionDate?: string;
+			tasksConf: AnyObject[];
+			tasksSQL: AnyObject;
+			dagConf: AnyObject;
+		};
 	};
 }
 

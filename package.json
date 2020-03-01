@@ -26,6 +26,7 @@
     "release-it": "^12.4.3",
     "sass": "^1.23.6",
     "sass-loader": "^8.0.0",
+    "tiptap-vuetify": "^2.13.2",
     "vue": "^2.6.10",
     "vue-chartjs": "^3.4.2",
     "vue-class-component": "^7.0.2",
@@ -44,7 +45,7 @@
     "vuetify": "^2.1.10",
     "vuex": "^3.1.1",
     "vuex-class": "^0.3.2",
-    "vuex-easy-firestore": "^1.34.5",
+    "vuex-easy-firestore": "^1.35.3",
     "vuex-persist": "^2.2.0"
   },
   "devDependencies": {

@@ -1,8 +1,29 @@
 import { ActionTree } from 'vuex';
 import { RootState, UserState } from '@/types';
-import firebase from 'firebase';
+import firebase, { User } from 'firebase';
+import store from '@/store';
 import router from '@/router';
 import { HOME, SIGN_IN } from '@/constants/router/routes-names';
+import { users } from '@/store/modules/easy-firestore/users';
+import { connectionsHistory } from '@/store/modules/easy-firestore/connections-history';
+
+const dispatchUser = (user: User | null) => {
+	if (!user) return;
+
+	store.dispatch(`${users.moduleName}/set`, {
+		id: user!.uid,
+		disabled: false,
+		deleted: false,
+		displayName: user!.displayName,
+		photoURL: user!.photoURL,
+		email: user!.email
+	});
+
+	store.dispatch(`${connectionsHistory.moduleName}/insert`, {
+		userId: user!.uid,
+		date: firebase.firestore.Timestamp.now()
+	});
+};
 
 export const actions: ActionTree<UserState, RootState> = {
 	signIn({ commit }, { email, password }) {
@@ -13,6 +34,7 @@ export const actions: ActionTree<UserState, RootState> = {
 				.then(user => {
 					commit('setUser', user.user);
 					commit('setIsAuthenticated', true);
+					dispatchUser(user.user);
 					resolve(user.user);
 				})
 				.catch(e => {
@@ -30,6 +52,7 @@ export const actions: ActionTree<UserState, RootState> = {
 				.then(user => {
 					commit('setUser', user.user);
 					commit('setIsAuthenticated', true);
+					dispatchUser(user.user);
 					resolve(user.user);
 				})
 				.catch(e => {
@@ -44,6 +67,7 @@ export const actions: ActionTree<UserState, RootState> = {
 			.then(user => {
 				commit('setUser', user.user);
 				commit('setIsAuthenticated', true);
+				dispatchUser(user.user);
 				router.push({ name: HOME });
 			})
 			.catch(() => {
@@ -62,23 +86,4 @@ export const actions: ActionTree<UserState, RootState> = {
 		router.push({ name: SIGN_IN });
 		firebase.auth().signOut();
 	}
-	// userAddAdminRole({ commit }, email) {
-	//   const addAdminRole = firebase.functions().httpsCallable("addAdminRole");
-	//   addAdminRole({
-	//     email: "romain.chaumais@fashiondata.io",
-	//     accounts: ["000010", "000020"]
-	//   }).then(result => {
-	//     console.log(result);
-	//   });
-	// },
-	// userAddSuperAdminRole({ commit }, email) {
-	//   const addSuperAdminRole = firebase
-	//     .functions()
-	//     .httpsCallable("addSuperAdminRole");
-	//   addSuperAdminRole({ email: "romain.chaumais@fashiondata.io" }).then(
-	//     result => {
-	//       console.log(result);
-	//     }
-	//   );
-	// }
 };
