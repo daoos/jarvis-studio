@@ -1,22 +1,16 @@
 <template>
-	<v-form>
-		<v-container>
-			<v-row>
-				<v-col cols="12">
-					<tiptap-vuetify v-model="text" :extensions="extensions" class="editor my-4" />
-					<v-btn
-						:loading="isLoaging"
-						:disabled="isSaveButtonDisabled"
-						color="primary"
-						class="float-right"
-						@click="isEditing ? editNote() : insertNote()"
-					>
-						{{ buttonValue }}
-					</v-btn>
-				</v-col>
-			</v-row>
-		</v-container>
-	</v-form>
+	<div>
+		<tiptap-vuetify v-model="text" :extensions="extensions" class="editor my-4" />
+		<v-btn
+			:loading="isLoaging"
+			:disabled="isSaveButtonDisabled"
+			color="primary"
+			class="float-right"
+			@click="isEditing ? editNote() : insertNote()"
+		>
+			{{ buttonValue }}
+		</v-btn>
+	</div>
 </template>
 
 <script lang="ts">
@@ -26,24 +20,9 @@ import { Getter } from 'vuex-class';
 import { firebase } from '@/config/firebase';
 import { notes as notesModule } from '@/store/modules/easy-firestore/notes';
 import { users } from '@/store/modules/easy-firestore/users';
-import {
-	TiptapVuetify,
-	Heading,
-	Bold,
-	Italic,
-	Strike,
-	Underline,
-	Code,
-	Paragraph,
-	BulletList,
-	OrderedList,
-	ListItem,
-	Link,
-	Blockquote,
-	HardBreak,
-	HorizontalRule,
-	History
-} from 'tiptap-vuetify';
+import { TiptapVuetify } from 'tiptap-vuetify';
+
+import extenstions from './extenstions';
 
 @Component({
 	components: { TiptapVuetify }
@@ -59,36 +38,14 @@ export default class NoteEditor extends Vue {
 	@Getter('user/user') user!: User;
 
 	text = '';
-	extensions = [
-		History,
-		Blockquote,
-		Link,
-		Underline,
-		Strike,
-		Italic,
-		ListItem,
-		BulletList,
-		OrderedList,
-		[
-			Heading,
-			{
-				options: {
-					levels: [1, 2, 3]
-				}
-			}
-		],
-		Bold,
-		Code,
-		HorizontalRule,
-		Paragraph,
-		HardBreak
-	];
+	extensions = extenstions;
 	isLoaging: boolean = false;
 
 	mounted() {
 		if (this.defaultText) this.text = this.defaultText;
 	}
 
+	// TODO: Externalize to parent component
 	insertNote() {
 		this.isLoaging = true;
 
@@ -111,6 +68,7 @@ export default class NoteEditor extends Vue {
 			});
 	}
 
+	// TODO: Externalize to parent component
 	editNote() {
 		this.isLoaging = true;
 		this.$store

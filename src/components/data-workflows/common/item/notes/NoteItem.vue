@@ -17,6 +17,10 @@
 				<v-icon x-small>mdi-pencil</v-icon>
 			</v-btn>
 
+			<v-btn v-if="isFocused" x-small class="mr-2" @click="openThread">
+				<v-icon x-small>mdi-message-text</v-icon>
+			</v-btn>
+
 			<v-btn v-if="showActions" :loading="isDeleting" x-small color="error" @click="deleteNote">
 				<v-icon x-small>mdi-delete</v-icon>
 			</v-btn>
@@ -31,7 +35,10 @@
 			:note-id="note.id"
 			@noteEdited="toggleIsEditing"
 		/>
+
 		<div v-else class="ml-11 text" v-html="note.text"></div>
+
+		<!-- TODO: Add thread avatars + counter -->
 	</v-container>
 </template>
 
@@ -43,7 +50,7 @@ import { firebase } from '@/config/firebase';
 import { notes as notesModule } from '@/store/modules/easy-firestore/notes';
 import moment from 'moment';
 import AvatarComponent from '@/components/common/AvatarComponent.vue';
-import NoteEditor from './NoteEditor.vue';
+import NoteEditor from './editor/NoteEditor.vue';
 
 @Component({
 	components: { AvatarComponent, NoteEditor }
@@ -60,11 +67,17 @@ export default class NoteItem extends Vue {
 	isDeleting: boolean = false;
 
 	beforeDestroy() {
+		// TODO: Use store
 		this.$emit('deletedNote');
 	}
 
 	toggleIsEditing() {
 		this.isEditing = !this.isEditing;
+	}
+
+	openThread() {
+		// TODO: Use store
+		this.$emit('openThread', this.note);
 	}
 
 	deleteNote() {
@@ -80,14 +93,6 @@ export default class NoteItem extends Vue {
 			});
 	}
 
-	get isFocused(): boolean {
-		return this.isEditing || this.isHovering;
-	}
-
-	get showActions(): boolean {
-		return this.isFocused && this.user.uid === this.note.created_by;
-	}
-
 	getFormattedTimestamp(timestamp: string): string {
 		const now = moment(Date.now());
 		const reference = moment(timestamp);
@@ -96,6 +101,14 @@ export default class NoteItem extends Vue {
 
 		if (now.isAfter(oneDayAfter)) return reference.format('YYYY/MM/DD - HH:mm');
 		return now.isAfter(oneHourAfter) ? reference.format('HH:mm') : reference.fromNow();
+	}
+
+	get isFocused(): boolean {
+		return this.isEditing || this.isHovering;
+	}
+
+	get showActions(): boolean {
+		return this.isFocused && this.user.uid === this.note.created_by;
 	}
 }
 </script>

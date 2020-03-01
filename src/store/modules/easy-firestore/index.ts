@@ -17,6 +17,7 @@ import { mirrorExcGcsToGbqRuns } from '@/store/modules/easy-firestore/mirror-exc
 import { mirrorExcGcsToGcsConfs } from '@/store/modules/easy-firestore/mirror-exc-gcs-to-gcs-confs';
 import { mirrorExcGcsToGcsRuns } from '@/store/modules/easy-firestore/mirror-exc-gcs-to-gcs-runs';
 import { mirrorExcGcsToGcsConfsArchive } from '@/store/modules/easy-firestore/mirror-exc-gcs-to-gcs-confs-archive';
+import { notesThread } from '@/store/modules/easy-firestore/notes-thread';
 import { notes } from '@/store/modules/easy-firestore/notes';
 import { schemas } from '@/store/modules/easy-firestore/schemas';
 import { storageToStorageConfs } from '@/store/modules/easy-firestore/storage-to-storage-confs';
@@ -44,6 +45,7 @@ export default [
 	accounts,
 	connectionsHistory,
 	schemas,
+	notesThread,
 	notes,
 	users,
 	mirrorExcGcsToGcsRuns,
