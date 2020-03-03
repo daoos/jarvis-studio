@@ -17,7 +17,7 @@
 				<v-icon x-small>mdi-pencil</v-icon>
 			</v-btn>
 
-			<v-btn v-if="isFocused" x-small class="mr-2" @click="openThread">
+			<v-btn v-if="showThreadAction" x-small class="mr-2" @click="openThread">
 				<v-icon x-small>mdi-message-text</v-icon>
 			</v-btn>
 
@@ -46,6 +46,7 @@ import { Getter } from 'vuex-class';
 import { Note, User } from '@/types';
 import { firebase } from '@/config/firebase';
 import { notes as notesModule } from '@/store/modules/easy-firestore/notes';
+import { notesThread as notesThreadModule } from '@/store/modules/easy-firestore/notes-thread';
 import moment from 'moment';
 import AvatarComponent from '@/components/common/AvatarComponent.vue';
 import NoteEditor from './editor/NoteEditor.vue';
@@ -57,6 +58,7 @@ export default class NoteItem extends Vue {
 	@Prop({ type: Object, required: true }) note!: Note;
 	@Prop({ type: String, required: true }) moduleName!: string;
 	@Prop({ type: String, required: true }) relatedDocId!: string;
+	@Prop(Boolean) isThreadNote?: boolean;
 
 	@Getter('user/user') user!: User;
 
@@ -67,6 +69,7 @@ export default class NoteItem extends Vue {
 
 	beforeDestroy() {
 		// TODO: Use store
+		// TODO: Change beforeDestroy trigger
 		this.$emit('deletedNote');
 	}
 
@@ -82,7 +85,8 @@ export default class NoteItem extends Vue {
 	editNote(text: string) {
 		this.isEditorLoading = true;
 		this.$store
-			.dispatch(`${notesModule.moduleName}/patch`, {
+			// TODO: Use different module name for thread notes
+			.dispatch(`${this.notesModuleName}/patch`, {
 				id: this.note.id,
 				text
 			})
@@ -100,7 +104,8 @@ export default class NoteItem extends Vue {
 		this.isDeleting = true;
 
 		this.$store
-			.dispatch(`${notesModule.moduleName}/delete`, this.note.id)
+			// TODO: Use different module name for thread notes
+			.dispatch(`${this.notesModuleName}/delete`, this.note.id)
 			.then(() => {
 				this.isDeleting = false;
 			})
@@ -125,6 +130,14 @@ export default class NoteItem extends Vue {
 
 	get showActions(): boolean {
 		return this.isFocused && this.user.uid === this.note.created_by;
+	}
+
+	get showThreadAction(): boolean {
+		return !this.isThreadNote && this.isFocused;
+	}
+
+	get notesModuleName() {
+		return this.isThreadNote ? notesThreadModule.moduleName : notesModule.moduleName;
 	}
 }
 </script>

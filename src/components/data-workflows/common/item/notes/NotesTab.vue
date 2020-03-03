@@ -2,7 +2,7 @@
 	<div>
 		<v-container class="mt-5">
 			<v-row>
-				<v-col :cols="showThreadPanel ? 8 : 12">
+				<v-col :cols="showThreadPanel ? 7 : 12">
 					<notes-root
 						:module-name="moduleName"
 						:related-doc-id="relatedDocId"
@@ -11,7 +11,7 @@
 					/>
 				</v-col>
 
-				<v-col v-if="showThreadPanel" cols="4">
+				<v-col v-if="showThreadPanel" cols="5">
 					<note-thread
 						:module-name="moduleName"
 						:related-doc-id="relatedDocId"

@@ -20,42 +20,58 @@
 			:note="note"
 			:module-name="moduleName"
 			:related-doc-id="relatedDocId"
+			is-thread-note
+			@deletedNote="showDeletionSnackbar"
 		/>
 		<p v-else>Start a thread.</p>
-		<note-editor />
+		<note-editor :isLoading="isEditorLoading" @onValidated="insertNote" />
+
+		<v-snackbar
+			v-model="deletionSnackBar.isVisible"
+			:color="deletionSnackBar.color"
+			:timeout="deletionSnackBar.timeout"
+		>
+			{{ deletionSnackBar.text }}
+		</v-snackbar>
 	</div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Mixins, Prop } from 'vue-property-decorator';
 import { State } from 'vuex-class';
 import { AnyObject, Note, Snackbar } from '@/types';
 import { notesThread as notesThreadModule } from '@/store/modules/easy-firestore/notes-thread';
 
-import NoteEditor from '../editor/NoteEditor.vue';
-import NoteItem from '../NoteItem.vue';
+import NotesMixin from '../notes-mixin';
 
 import { SNACKBAR } from '@/constants/ui/snackbar';
 
-@Component({
-	components: { NoteEditor, NoteItem }
-})
-export default class NoteThread extends Vue {
-	@Prop({ type: String, required: true }) moduleName!: string;
-	@Prop({ type: String, required: true }) relatedDocId!: string;
-	@Prop({ type: String, required: true }) account!: string;
+@Component
+export default class NoteThread extends Mixins(NotesMixin) {
 	@Prop({ type: Object, required: true }) parentNote!: Note;
 
 	@State(state => state.notesThread.data) notesThread!: Note[];
 
-	isLoading: boolean = true;
+	notesModuleName: string = notesThreadModule.moduleName;
 
-	mounted() {
-		// this.$store.dispatch(`${noteThread.moduleName}/closeDBChannel`, { clearModule: true });
-		// this.$store.dispatch(`${noteThread.moduleName}/openDBChannel`);
-		this.$store.dispatch(`${notesThreadModule.moduleName}/fetchAndAdd`, { noteId: this.parentNote.id }).then(() => {
-			this.isLoading = false;
-		});
+	get where() {
+		return [
+			['isThreadNote', '==', true],
+			['parentNoteId', '==', this.parentNote.id],
+			['moduleName', '==', this.moduleName],
+			['relatedDocId', '==', this.relatedDocId]
+		];
+	}
+
+	get insertData() {
+		return {
+			account: this.account,
+			isThreadNote: true,
+			moduleName: this.moduleName,
+			relatedDocId: this.relatedDocId,
+			parentNoteId: this.parentNote.id,
+			user: this.userRef
+		};
 	}
 }
 </script>

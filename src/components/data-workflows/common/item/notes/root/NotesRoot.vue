@@ -9,7 +9,7 @@
 			:module-name="moduleName"
 			:related-doc-id="relatedDocId"
 			@openThread="openThread"
-			@deletedNote="deletionSnackBar.isVisible = true"
+			@deletedNote="showDeletionSnackbar"
 		/>
 		<p v-else>Any note for the moment.</p>
 
@@ -26,88 +26,40 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
-import { Note, Snackbar, User } from '@/types';
-import { Getter, State } from 'vuex-class';
-import { firebase } from '@/config/firebase';
+import { Component, Mixins } from 'vue-property-decorator';
+import { Note } from '@/types';
+import { State } from 'vuex-class';
 import { notes as notesModule } from '@/store/modules/easy-firestore/notes';
-import { users } from '@/store/modules/easy-firestore/users';
-import { SNACKBAR } from '@/constants/ui/snackbar';
 
-import NoteEditor from '../editor/NoteEditor.vue';
-import NoteItem from '../NoteItem.vue';
+import NotesMixin from '../notes-mixin';
 
-@Component({
-	components: { NoteEditor, NoteItem }
-})
-export default class NotesRoot extends Vue {
-	@Prop({ type: String, required: true }) moduleName!: string;
-	@Prop({ type: String, required: true }) relatedDocId!: string;
-	@Prop({ type: String, required: true }) account!: string;
-
+@Component
+export default class NotesRoot extends Mixins(NotesMixin) {
 	@State(state => state.notes.data) notes!: Note[];
 
-	@Getter('user/user') user!: User;
-
-	isLoading: boolean = true;
-	isEditorLoading: boolean = false;
-	deletionSnackBar: Snackbar = {
-		color: 'success',
-		isVisible: false,
-		text: 'Deleted note successfully!',
-		timeout: SNACKBAR.TIMEOUT
-	};
-
-	mounted() {
-		this.fetchNotes();
-	}
-
-	activated() {
-		this.fetchNotes();
-	}
-
-	fetchNotes() {
-		const where = [
-			// TODO: Add thread == false
-			['moduleName', '==', this.moduleName],
-			['relatedDocId', '==', this.relatedDocId]
-		];
-
-		this.$store.dispatch(`${notesModule.moduleName}/closeDBChannel`, { clearModule: true });
-		this.$store.dispatch(`${notesModule.moduleName}/openDBChannel`, { where });
-		this.$store.dispatch(`${notesModule.moduleName}/fetchAndAdd`, { where }).then(() => {
-			this.isLoading = false;
-		});
-	}
-
-	insertNote(text: string) {
-		this.isEditorLoading = true;
-
-		const usersRef = firebase
-			.firestore()
-			.collection(users.firestorePath)
-			.doc(this.user.uid);
-		this.$store
-			.dispatch(`${notesModule.moduleName}/insert`, {
-				account: this.account,
-				moduleName: this.moduleName,
-				// TODO: Rename relatedDocId => objectId
-				relatedDocId: this.relatedDocId,
-				text,
-				user: usersRef
-			})
-			.then(() => {
-				this.isEditorLoading = false;
-			})
-			.catch(err => {
-				console.error(err);
-				this.isEditorLoading = false;
-			});
-	}
+	notesModuleName: string = notesModule.moduleName;
 
 	openThread(parentNote: Note) {
 		// TODO: Use store
 		this.$emit('openThread', parentNote);
+	}
+
+	get where() {
+		return [
+			['isThreadNote', '==', false],
+			['moduleName', '==', this.moduleName],
+			['relatedDocId', '==', this.relatedDocId]
+		];
+	}
+
+	get insertData() {
+		return {
+			account: this.account,
+			isThreadNote: false,
+			moduleName: this.moduleName,
+			relatedDocId: this.relatedDocId,
+			user: this.userRef
+		};
 	}
 }
 </script>
