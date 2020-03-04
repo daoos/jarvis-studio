@@ -63,6 +63,7 @@ export default class NotesMixin extends Vue {
 	}
 
 	showDeletionSnackbar() {
+		// TODO: Use store to show this in `NotesTab` component
 		this.deletionSnackBar.isVisible = true;
 	}
 

@@ -26,6 +26,7 @@
 		<p v-else>Start a thread.</p>
 		<note-editor :isLoading="isEditorLoading" @onValidated="insertNote" />
 
+		<!-- TODO: Remove & use this one in `NotesTab` component -->
 		<v-snackbar
 			v-model="deletionSnackBar.isVisible"
 			:color="deletionSnackBar.color"
