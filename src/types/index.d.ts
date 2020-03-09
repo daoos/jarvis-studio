@@ -108,7 +108,12 @@ export interface User extends FirebaseUser {
 	accounts: string[];
 	customClaims: AnyObject;
 	disabled: boolean;
+	location: string;
+	phone: string;
+	skype: string;
 	studioRoles: RoleCode;
+	timezone: string;
+	title: string;
 }
 
 // Vue App
@@ -169,7 +174,9 @@ export interface Note {
 	created_at: string;
 	created_by: string;
 	id: string;
+	isThreadNote: boolean;
 	moduleName: string;
+	parentNoteId: string;
 	relatedDocId: string;
 	text: string;
 	updated_at: string;
