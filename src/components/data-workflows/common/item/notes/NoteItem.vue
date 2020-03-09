@@ -26,6 +26,7 @@
 			v-if="isEditing"
 			:module-name="moduleName"
 			:related-doc-id="relatedDocId"
+			:account="note.account"
 			:default-text="note.text"
 			:is-editing="isEditing"
 			:note-id="note.id"
