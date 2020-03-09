@@ -6,7 +6,7 @@
 		@mouseleave="isHovering = false"
 	>
 		<div class="d-flex align-center">
-			<avatar-component class="mr-2" :email="note.user.email" />
+			<avatar-component :user="note.user" class="mr-2" />
 			<span class="mr-2 font-weight-bold">{{ note.user.displayName }}</span>
 			<span class="mr-2">{{ getFormattedTimestamp(note.created_at) }}</span>
 			<span v-if="note.updated_at" class="mr-2">(edited {{ getFormattedTimestamp(note.updated_at) }})</span>
@@ -39,7 +39,6 @@
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { Getter } from 'vuex-class';
 import { Note, User } from '@/types';
-import { firebase } from '@/config/firebase';
 import { notes as notesModule } from '@/store/modules/easy-firestore/notes';
 import moment from 'moment';
 import AvatarComponent from '@/components/common/AvatarComponent.vue';
