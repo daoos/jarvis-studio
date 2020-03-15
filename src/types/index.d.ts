@@ -19,7 +19,7 @@ export interface RootState {
 	filters: FilterState;
 	accounts: IPluginState;
 	schemas: IPluginState;
-	notes: NotesState,
+	notes: NotesState;
 	mirrorExcGcsToGcsRuns: IPluginState;
 	mirrorExcGcsToGcsConfs: IPluginState;
 	mirrorExcGcsToGcsConfsArchive: IPluginState;
