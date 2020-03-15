@@ -17,9 +17,6 @@
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { User } from '@/types';
 import { Getter } from 'vuex-class';
-import { firebase } from '@/config/firebase';
-import { notes as notesModule } from '@/store/modules/easy-firestore/notes';
-import { users } from '@/store/modules/easy-firestore/users';
 import { TiptapVuetify } from 'tiptap-vuetify';
 
 import extenstions from './extenstions';

@@ -1,7 +1,7 @@
 <template>
 	<v-container
 		class="note-item transition-ease-in-out"
-		:class="{ 'grey lighten-3': isFocused || note.id === parentNoteId }"
+		:class="{ 'grey lighten-3': isFocused || note.id === parentNote.id }"
 		@mouseenter="isHovering = true"
 		@mouseleave="isHovering = false"
 	>
@@ -47,7 +47,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 import { Getter, State } from 'vuex-class';
 import { Note, User } from '@/types';
 import { notes as notesModule } from '@/store/modules/easy-firestore/notes';
-import moment from 'moment';
+import { oneDayLimit } from '@/util/dates';
 import AvatarComponent from '@/components/common/AvatarComponent.vue';
 import NoteEditor from './editor/NoteEditor.vue';
 
@@ -60,7 +60,9 @@ export default class NoteItem extends Vue {
 	@Prop({ type: String, required: true }) relatedDocId!: string;
 	@Prop(Boolean) isThreadNote?: boolean;
 
-	@State(state => state.notes.parentNoteId) parentNoteId!: string;
+	@State(state => state.notes.parentNote) parentNote!: Note;
+	@State(state => state.notes.threadNotes) threadNotes!: Note[];
+	@State(state => state.notes.showThreadPanel) showThreadPanel!: boolean;
 
 	@Getter('user/user') user!: User;
 
@@ -74,8 +76,7 @@ export default class NoteItem extends Vue {
 	}
 
 	openThread() {
-		// TODO: Use store
-		this.$emit('openThread', this.note);
+		this.$emit('openThread');
 	}
 
 	editNote(text: string) {
@@ -98,6 +99,9 @@ export default class NoteItem extends Vue {
 	deleteNote() {
 		this.isDeleting = true;
 
+		if (this.threadNotes.length === 0 && this.showThreadPanel && this.parentNote.id === this.note.id)
+			this.$store.commit('notes/CLOSE_THREAD_PANEL');
+
 		this.$store
 			.dispatch(`${notesModule.moduleName}/delete`, this.note.id)
 			.then(() => {
@@ -108,14 +112,8 @@ export default class NoteItem extends Vue {
 			});
 	}
 
-	getFormattedTimestamp(timestamp: string): string {
-		const now = moment(Date.now());
-		const reference = moment(timestamp);
-		const oneHourAfter = moment(timestamp).add(1, 'hours');
-		const oneDayAfter = moment(timestamp).add(1, 'day');
-
-		if (now.isAfter(oneDayAfter)) return reference.format('YYYY/MM/DD - HH:mm');
-		return now.isAfter(oneHourAfter) ? reference.format('HH:mm') : reference.fromNow();
+	getFormattedTimestamp(timestamp: string) {
+		return oneDayLimit(timestamp);
 	}
 
 	get isFocused(): boolean {

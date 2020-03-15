@@ -50,8 +50,8 @@ export interface RootState {
 }
 
 export interface NotesState {
-	parentNoteId: string | null;
-	threadNotes: Note[] | null;
+	parentNote: Note | {};
+	threadNotes: Note[] | [];
 	showThreadPanel: boolean;
 }
 
@@ -185,11 +185,10 @@ export interface Note {
 	updated_by: string;
 	user: {
 		id: string;
-		get: () => Promise<{
-			displayName: string;
-			email: string;
-			photoURL: string;
-		}>;
+		displayName: string;
+		email: string;
+		photoURL: string;
+		get: () => Promise<any>;
 	};
 }
 

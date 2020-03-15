@@ -20,7 +20,7 @@ export default class NotesMixin extends Vue {
 
 	isEditorLoading: boolean = false;
 
-	insertNote(text: string, ref: HTMLDivElement) {
+	insertNote(text: string, ref: any) {
 		if (Object.keys(this.insertData).length === 0) throw new Error('You must provide inserData');
 
 		this.isEditorLoading = true;

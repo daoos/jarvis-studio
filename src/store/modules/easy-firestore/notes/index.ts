@@ -8,26 +8,20 @@ export const notes: IEasyFirestoreModule = {
 	moduleName: 'notes',
 	statePropName: STATE_PROP_NAME,
 	state: {
-		parentNoteId: null,
+		parentNote: {},
 		threadNotes: [],
 		showThreadPanel: false
 	},
 	mutations: {
-		SET_PARENT_NOTE_ID(state: NotesState, parentNoteId: string) {
-			state.parentNoteId = parentNoteId;
-		},
-		SET_THREAD_NOTES(state: NotesState, threadNotes: Note[]) {
-			state.threadNotes = threadNotes;
-		},
-		OPEN_THREAD_PANEL(state: NotesState, { parentNoteId, threadNotes }: { parentNoteId: string; threadNotes: Note[] }) {
-			state.parentNoteId = parentNoteId;
+		OPEN_THREAD_PANEL(state: NotesState, { parentNote, threadNotes }: { parentNote: Note; threadNotes: Note[] }) {
+			state.parentNote = parentNote;
 			state.threadNotes = threadNotes;
 			state.showThreadPanel = true;
 		},
 		CLOSE_THREAD_PANEL(state: NotesState) {
 			state.showThreadPanel = false;
-			state.parentNoteId = null;
-			state.threadNotes = null;
+			state.parentNote = {};
+			state.threadNotes = [];
 		},
 		PUSH_NOTE_TO_THREAD(state: NotesState, note: Note) {
 			state.threadNotes = [...state.threadNotes!, note];

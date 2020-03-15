@@ -8,13 +8,13 @@
 				:note="parentNote"
 				:module-name="moduleName"
 				:related-doc-id="relatedDocId"
-				@openThread="openThread(parentNote.id)"
+				@openThread="openThread(parentNote)"
 			>
 				<template #thread-information>
 					<div
 						v-if="getThreadNotes(parentNote.id).length > 0"
 						class="d-flex align-center ml-8 mt-2 px-2 py-3 thread-information cursor--pointer"
-						@click="openThread(parentNote.id)"
+						@click="openThread(parentNote)"
 					>
 						<avatar-component
 							v-for="(user, index) in getInvolvedUsers(parentNote)"
@@ -24,8 +24,16 @@
 							class="mr-1"
 						/>
 
-						<span class="ml-2">{{ getThreadNotes(parentNote.id).length }} answers</span>
-						<!-- TODO: Show last reponse date with moment -->
+						<div>
+							<span class="ml-2 font-weight-bold">
+								{{ getThreadNotes(parentNote.id).length }}
+								{{ getThreadNotes(parentNote.id).length === 1 ? 'answer' : 'answers' }}
+							</span>
+							<span class="font-italic">
+								Last answer:
+								{{ getFormatedTimestamp(getThreadNotes(parentNote.id)) }}
+							</span>
+						</div>
 					</div>
 				</template>
 			</note-item>
@@ -40,10 +48,11 @@
 </template>
 
 <script lang="ts">
-import { Component, Mixins, Watch } from 'vue-property-decorator';
+import { Component, Mixins } from 'vue-property-decorator';
 import { Note } from '@/types';
 import { State } from 'vuex-class';
 import { notes as notesModule } from '@/store/modules/easy-firestore/notes';
+import { oneDayLimit } from '@/util/dates';
 
 import NotesMixin from '../notes-mixin';
 import AvatarComponent from '@/components/common/AvatarComponent.vue';
@@ -53,7 +62,7 @@ import AvatarComponent from '@/components/common/AvatarComponent.vue';
 })
 export default class NotesRoot extends Mixins(NotesMixin) {
 	@State(state => state.notes.data) notes!: Note[];
-	@State(state => state.notes.parentNoteId) parentNoteId!: string;
+	@State(state => state.notes.parentNote) parentNote!: Note;
 
 	isLoading: boolean = true;
 
@@ -75,13 +84,12 @@ export default class NotesRoot extends Mixins(NotesMixin) {
 		});
 	}
 
-	openThread(parentNoteId: string) {
-		this.parentNoteId === parentNoteId
+	openThread(parentNote: Note) {
+		this.parentNote.id === parentNote.id
 			? this.$store.commit('notes/CLOSE_THREAD_PANEL')
-			: this.$store.commit('notes/OPEN_THREAD_PANEL', { parentNoteId, threadNotes: this.getThreadNotes(parentNoteId) });
+			: this.$store.commit('notes/OPEN_THREAD_PANEL', { parentNote, threadNotes: this.getThreadNotes(parentNote.id) });
 	}
 
-	// TODO: Add this in store getter
 	getThreadNotes(parentNoteId: string) {
 		return Object.values(this.notes).filter((note: Note) => note.parentNoteId === parentNoteId);
 	}
@@ -92,6 +100,11 @@ export default class NotesRoot extends Mixins(NotesMixin) {
 		return users.filter((obj, pos, arr) => {
 			return arr.map(mapObj => mapObj.id).indexOf(obj.id) === pos;
 		});
+	}
+
+	getFormatedTimestamp(threadNotes: Note[]) {
+		const timestamp = threadNotes[threadNotes.length - 1].updated_at || threadNotes[threadNotes.length - 1].created_at;
+		return oneDayLimit(timestamp);
 	}
 
 	onValidated(text: string) {
@@ -105,7 +118,6 @@ export default class NotesRoot extends Mixins(NotesMixin) {
 		];
 	}
 
-	// TODO: Add this in store getter
 	get parentNotes() {
 		return Object.values(this.notes).filter((note: Note) => note.created_by === this.user.uid && !note.isThreadNote);
 	}
