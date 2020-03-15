@@ -19,6 +19,7 @@ export interface RootState {
 	filters: FilterState;
 	accounts: IPluginState;
 	schemas: IPluginState;
+	notes: NotesState,
 	mirrorExcGcsToGcsRuns: IPluginState;
 	mirrorExcGcsToGcsConfs: IPluginState;
 	mirrorExcGcsToGcsConfsArchive: IPluginState;
@@ -46,6 +47,12 @@ export interface RootState {
 	tablesToTablesRun: IPluginState;
 	tableToStorageConfs: IPluginState;
 	tableToStorageRuns: IPluginState;
+}
+
+export interface NotesState {
+	parentNoteId: string | null;
+	threadNotes: Note[] | null;
+	showThreadPanel: boolean;
 }
 
 export interface UserState {
@@ -169,12 +176,15 @@ export interface Note {
 	created_at: string;
 	created_by: string;
 	id: string;
+	isThreadNote: boolean;
 	moduleName: string;
+	parentNoteId: string;
 	relatedDocId: string;
 	text: string;
 	updated_at: string;
 	updated_by: string;
 	user: {
+		id: string;
 		get: () => Promise<{
 			displayName: string;
 			email: string;

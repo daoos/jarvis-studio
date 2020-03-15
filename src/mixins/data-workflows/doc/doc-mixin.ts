@@ -100,9 +100,9 @@ export default class DocMixin extends Vue {
 			component: {
 				name: 'notes-tab',
 				props: {
+					account: this.item.account,
 					moduleName: this.moduleName,
-					relatedDocId: this.item.id,
-					account: this.item.account
+					relatedDocId: this.item.id
 				}
 			}
 		};

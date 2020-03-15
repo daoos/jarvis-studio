@@ -1,29 +1,31 @@
 <template>
 	<v-container
 		class="note-item transition-ease-in-out"
-		:class="{ 'grey lighten-3': isFocused }"
+		:class="{ 'grey lighten-3': isFocused || note.id === parentNoteId }"
 		@mouseenter="isHovering = true"
 		@mouseleave="isHovering = false"
 	>
 		<div class="d-flex align-center">
-			<avatar-component class="mr-2" :email="note.user.email" />
+			<avatar-component class="mr-2" :user="note.user" />
 			<span class="mr-2 font-weight-bold">{{ note.user.displayName }}</span>
 			<span class="mr-2">{{ getFormattedTimestamp(note.created_at) }}</span>
 			<span v-if="note.updated_at" class="mr-2">(edited {{ getFormattedTimestamp(note.updated_at) }})</span>
 
 			<v-spacer />
 
-			<v-btn v-if="showActions" x-small class="mr-2" @click="toggleIsEditing">
-				<v-icon x-small>mdi-pencil</v-icon>
-			</v-btn>
+			<div v-if="showActions" class="actions pa-2 grey lighten-2">
+				<v-btn x-small class="mr-2" @click="toggleIsEditing">
+					<v-icon x-small>mdi-pencil</v-icon>
+				</v-btn>
 
-			<v-btn v-if="showThreadAction" x-small class="mr-2" @click="openThread">
-				<v-icon x-small>mdi-message-text</v-icon>
-			</v-btn>
+				<v-btn v-if="showThreadAction" x-small class="mr-2" @click="openThread">
+					<v-icon x-small>mdi-message-text</v-icon>
+				</v-btn>
 
-			<v-btn v-if="showActions" :loading="isDeleting" x-small color="error" @click="deleteNote">
-				<v-icon x-small>mdi-delete</v-icon>
-			</v-btn>
+				<v-btn :loading="isDeleting" x-small color="error" @click="deleteNote">
+					<v-icon x-small>mdi-delete</v-icon>
+				</v-btn>
+			</div>
 		</div>
 
 		<note-editor
@@ -36,17 +38,15 @@
 
 		<div v-else class="ml-11 text" v-html="note.text"></div>
 
-		<!-- TODO: Add thread avatars + counter -->
+		<slot name="thread-information" />
 	</v-container>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import { Getter } from 'vuex-class';
+import { Getter, State } from 'vuex-class';
 import { Note, User } from '@/types';
-import { firebase } from '@/config/firebase';
 import { notes as notesModule } from '@/store/modules/easy-firestore/notes';
-import { notesThread as notesThreadModule } from '@/store/modules/easy-firestore/notes-thread';
 import moment from 'moment';
 import AvatarComponent from '@/components/common/AvatarComponent.vue';
 import NoteEditor from './editor/NoteEditor.vue';
@@ -60,18 +60,14 @@ export default class NoteItem extends Vue {
 	@Prop({ type: String, required: true }) relatedDocId!: string;
 	@Prop(Boolean) isThreadNote?: boolean;
 
+	@State(state => state.notes.parentNoteId) parentNoteId!: string;
+
 	@Getter('user/user') user!: User;
 
 	isHovering: boolean = false;
 	isEditorLoading: boolean = false;
 	isEditing: boolean = false;
 	isDeleting: boolean = false;
-
-	beforeDestroy() {
-		// TODO: Use store
-		// TODO: Change beforeDestroy trigger
-		this.$emit('deletedNote');
-	}
 
 	toggleIsEditing() {
 		this.isEditing = !this.isEditing;
@@ -85,8 +81,7 @@ export default class NoteItem extends Vue {
 	editNote(text: string) {
 		this.isEditorLoading = true;
 		this.$store
-			// TODO: Use different module name for thread notes
-			.dispatch(`${this.notesModuleName}/patch`, {
+			.dispatch(`${notesModule.moduleName}/patch`, {
 				id: this.note.id,
 				text
 			})
@@ -104,8 +99,7 @@ export default class NoteItem extends Vue {
 		this.isDeleting = true;
 
 		this.$store
-			// TODO: Use different module name for thread notes
-			.dispatch(`${this.notesModuleName}/delete`, this.note.id)
+			.dispatch(`${notesModule.moduleName}/delete`, this.note.id)
 			.then(() => {
 				this.isDeleting = false;
 			})
@@ -135,16 +129,20 @@ export default class NoteItem extends Vue {
 	get showThreadAction(): boolean {
 		return !this.isThreadNote && this.isFocused;
 	}
-
-	get notesModuleName() {
-		return this.isThreadNote ? notesThreadModule.moduleName : notesModule.moduleName;
-	}
 }
 </script>
 
 <style lang="scss">
 .note-item {
-	border-radius: 6px;
+	position: relative;
+
+	.actions {
+		position: absolute;
+		top: 0;
+		right: 10px;
+		transform: translateY(-50%);
+		border-radius: 4px;
+	}
 
 	.text {
 		p {

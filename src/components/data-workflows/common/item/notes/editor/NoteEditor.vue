@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<v-container>
 		<tiptap-vuetify v-model="text" :extensions="extensions" class="editor my-4" />
 		<v-btn
 			:loading="isLoading"
@@ -10,7 +10,7 @@
 		>
 			{{ buttonValue }}
 		</v-btn>
-	</div>
+	</v-container>
 </template>
 
 <script lang="ts">

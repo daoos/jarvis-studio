@@ -1,71 +1,67 @@
 <template>
 	<div>
-		<v-container class="mt-5">
+		<v-container class="ma-0 pt-0">
 			<v-row>
-				<v-col :cols="showThreadPanel ? 7 : 12">
-					<notes-root
-						:module-name="moduleName"
-						:related-doc-id="relatedDocId"
-						:account="account"
-						@openThread="openThread"
-					/>
+				<v-col :cols="showThreadPanel ? 7 : 12" class="pa-0" :class="{ 'bordered-col': showThreadPanel }">
+					<notes-root v-bind="defaultProps" />
 				</v-col>
 
-				<v-col v-if="showThreadPanel" cols="5">
-					<note-thread
-						:module-name="moduleName"
-						:related-doc-id="relatedDocId"
-						:account="account"
-						:parentNote="parentNote"
-						@closeThread="toggleThreadPanel"
-					/>
-				</v-col>
+				<transition name="fade">
+					<v-col v-if="showThreadPanel" cols="5" class="pa-0">
+						<note-thread v-bind="defaultProps" />
+					</v-col>
+				</transition>
 			</v-row>
 		</v-container>
-
-		<v-snackbar
-			v-model="deletionSnackBar.isVisible"
-			:color="deletionSnackBar.color"
-			:timeout="deletionSnackBar.timeout"
-		>
-			{{ deletionSnackBar.text }}
-		</v-snackbar>
 	</div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import { Note, Snackbar } from '@/types';
+import { State } from 'vuex-class';
 
 import NotesRoot from './root/NotesRoot.vue';
 import NoteThread from './thread/NoteThread.vue';
 
-import { SNACKBAR } from '@/constants/ui/snackbar';
+interface DefaultProps {
+	moduleName: string;
+	relatedDocId: string;
+	account: string;
+}
 
 @Component({
 	components: { NotesRoot, NoteThread }
 })
 export default class NotesTab extends Vue {
+	@Prop({ type: String, required: true }) account!: string;
 	@Prop({ type: String, required: true }) moduleName!: string;
 	@Prop({ type: String, required: true }) relatedDocId!: string;
-	@Prop({ type: String, required: true }) account!: string;
 
-	showThreadPanel: boolean = false;
-	parentNote!: Note | null;
-	deletionSnackBar: Snackbar = {
-		color: 'success',
-		isVisible: false,
-		text: 'Deleted note successfully!',
-		timeout: SNACKBAR.TIMEOUT
-	};
+	@State(state => state.notes.showThreadPanel) showThreadPanel!: boolean;
 
-	toggleThreadPanel() {
-		this.showThreadPanel = !this.showThreadPanel;
-	}
-
-	openThread(note: Note) {
-		this.parentNote = note;
-		this.toggleThreadPanel();
+	get defaultProps(): DefaultProps {
+		return {
+			moduleName: this.moduleName,
+			relatedDocId: this.relatedDocId,
+			account: this.account
+		};
 	}
 }
 </script>
+
+<style lang="scss">
+.bordered-col {
+	position: relative;
+
+	&::before {
+		content: '';
+		z-index: 10;
+		position: absolute;
+		top: 0;
+		right: 0;
+		width: 1px;
+		height: calc(100% + 12px);
+		background-color: lightgrey;
+	}
+}
+</style>
