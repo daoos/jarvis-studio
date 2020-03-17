@@ -64,9 +64,6 @@ export default class AccountSelector extends Vue {
 	get getItems() {
 		let items: AccountId[] = [];
 
-		console.log(this.userAccounts);
-		console.log(this.accounts);
-
 		this.userAccounts.forEach((id: AccountId) => {
 			const element = this.accounts[id];
 			if (element) items.push(element);
