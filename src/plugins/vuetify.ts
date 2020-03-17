@@ -8,22 +8,22 @@ export default new Vuetify({
 	theme: {
 		themes: {
 			light: {
-				primary: '#03A9F4',
+				primary: '#668fd9',
 				secondary: '#0287C4',
 				complementary: '#F58702',
 				error: '#b71c1c',
-				menu: '#012738',
-				background: '#012F45',
+				menu: '#f4f7fa',
+				background: '#f4f7fa',
 				contrast: '#001A26'
 			},
 			// TODO: Create dark mode
 			dark: {
-				primary: '#03A9F4',
+				primary: '#668fd9',
 				secondary: '#0287C4',
 				complementary: '#F58702',
 				error: '#b71c1c',
-				menu: '#012738',
-				background: '#012F45',
+				menu: '#f4f7fa',
+				background: '#f4f7fa',
 				contrast: '#001A26'
 			}
 		}

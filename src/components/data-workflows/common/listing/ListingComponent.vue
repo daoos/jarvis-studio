@@ -1,6 +1,6 @@
 <template>
 	<v-container fluid>
-		<v-toolbar class="elevation-O" color="transparent">
+		<v-toolbar flat color="transparent">
 			<v-text-field v-model="search" append-icon="search" label="Search" single-line hide-details />
 
 			<v-spacer />

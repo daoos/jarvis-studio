@@ -18,8 +18,6 @@
 			</v-list-item>
 		</v-list>
 
-		<v-divider v-if="!drawer.mini" />
-
 		<v-list class="pa-0">
 			<v-list-item to="/" exact>
 				<v-list-item-action>
@@ -32,14 +30,10 @@
 			</v-list-item>
 		</v-list>
 
-		<v-divider />
-
 		<v-list v-if="!drawer.mini" subheader>
 			<v-subheader class="text-uppercase">Data models</v-subheader>
 			<tree-view />
 		</v-list>
-
-		<v-divider />
 
 		<v-list subheader>
 			<v-subheader v-if="!drawer.mini" class="text-uppercase">Data Workflows</v-subheader>
@@ -62,8 +56,6 @@
 				</v-list-item>
 			</v-tooltip>
 		</v-list>
-
-		<v-divider />
 
 		<v-list subheader>
 			<v-subheader v-if="!drawer.mini" class="text-uppercase">Settings</v-subheader>
