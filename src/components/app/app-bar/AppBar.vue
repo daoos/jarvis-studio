@@ -1,12 +1,12 @@
 <template>
-	<v-app-bar app dark color="primary" elevate-on-scroll>
+	<v-app-bar app flat color="background">
 		<v-app-bar-nav-icon v-if="!$vuetify.breakpoint.lgAndUp" @click="$emit('toggleNavigation')" />
-
-		<account-selector />
 
 		<v-spacer />
 
 		<search-menu v-if="$vuetify.breakpoint.smAndUp" />
+
+		<account-selector />
 
 		<v-btn icon @click="$emit('toggleNotifications')">
 			<v-badge color="red" overlap>
@@ -48,7 +48,7 @@
 			</v-list>
 		</v-menu>
 
-		<v-btn icon @click="toggleFullScreen">
+		<v-btn v-if="$vuetify.breakpoint.smAndUp" icon @click="toggleFullScreen">
 			<v-icon>fullscreen</v-icon>
 		</v-btn>
 	</v-app-bar>

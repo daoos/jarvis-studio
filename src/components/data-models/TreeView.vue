@@ -14,7 +14,7 @@
 			activatable
 		>
 			<template v-slot:label="{ item, active }">
-				<v-icon v-if="!item.children" :color="active ? 'primary' : 'white'">table_chart</v-icon>
+				<v-icon v-if="!item.children" :color="active ? 'primary' : ''">table_chart</v-icon>
 				{{ item.name }}
 			</template>
 		</v-treeview>

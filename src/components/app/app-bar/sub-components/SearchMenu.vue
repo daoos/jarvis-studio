@@ -12,7 +12,6 @@
 				label="Search"
 				hide-details
 				single-line
-				color="white"
 				@click:append="clearSearch"
 				@blur="clearSearch"
 			/>
@@ -20,23 +19,24 @@
 	</v-row>
 </template>
 
-<script>
-export default {
-	data: () => ({
-		searching: false,
-		search: ''
-	}),
-	methods: {
-		searchBegin() {
-			this.searching = true;
-			setTimeout(() => this.$refs.search.focus(), 200);
-		},
-		clearSearch() {
-			this.searching = false;
-			this.search = '';
-		}
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator';
+
+@Component
+export default class SearchMenu extends Vue {
+	searching: boolean = false;
+	search: string = '';
+
+	searchBegin() {
+		this.searching = true;
+		setTimeout(() => this.$refs.search.focus(), 200);
 	}
-};
+
+	clearSearch() {
+		this.searching = false;
+		this.search = '';
+	}
+}
 </script>
 
 <style scoped lang="scss">
@@ -46,6 +46,7 @@ export default {
 	width: 208px;
 	transition: $primary-transition;
 }
+
 .searching--closed {
 	width: 0;
 
