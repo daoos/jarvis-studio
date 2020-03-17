@@ -1,5 +1,5 @@
 <template>
-	<v-toolbar dense color="primary" dark extended extension-height="300" text>
+	<v-toolbar dense flat color="background" extended extension-height="300" text>
 		<v-toolbar-title class="mx-auto text-center" slot="extension">
 			<h2>{{ title }}</h2>
 			<span>{{ subTitle }}</span>

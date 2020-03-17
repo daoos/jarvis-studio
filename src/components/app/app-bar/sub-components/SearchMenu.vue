@@ -29,6 +29,7 @@ export default class SearchMenu extends Vue {
 
 	searchBegin() {
 		this.searching = true;
+		// @ts-ignore
 		setTimeout(() => this.$refs.search.focus(), 200);
 	}
 

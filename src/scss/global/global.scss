@@ -14,3 +14,7 @@ $default-animation-duration: 0.3s;
   @extend .cursor--pointer;
   @extend .underline;
 }
+
+.no-underline {
+  text-decoration: none;
+}

@@ -7,10 +7,9 @@
 				v-model="showNavigation"
 				:permanent="navigationDrawer.permanent"
 				:mini-variant="navigationDrawer.mini"
+				class="menu"
 				fixed
 				app
-				class="menu"
-				width="300"
 			>
 				<navigation-content
 					:drawer="navigationDrawer"
@@ -94,6 +93,10 @@ export default class App extends Vue {
 
 <style lang="scss">
 @import 'scss/transitions/fade';
+
+.v-navigation-drawer__border {
+	display: none;
+}
 
 .content {
 	background-color: #f4f7fa;

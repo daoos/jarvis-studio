@@ -1,5 +1,5 @@
 <template>
-	<v-app id="signin" dark>
+	<v-app id="signin">
 		<v-content>
 			<v-container class="fill-height pa-0" fluid>
 				<v-row class="fill-height" no-gutters>
@@ -182,11 +182,11 @@ export default class SignIn extends Vue {
 .form-panel {
 	.content {
 		margin: 0 auto;
-		max-width: 65%;
+		padding: 0 22.5%;
 		height: 80vh;
 
 		@media #{map-get($display-breakpoints, 'sm-and-down')} {
-			max-width: 85%;
+			max-width: 7.5%;
 		}
 	}
 
