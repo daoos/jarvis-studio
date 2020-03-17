@@ -1,5 +1,5 @@
 <template>
-	<v-col>
+	<div>
 		<v-progress-linear v-if="isLoading" color="complementary" indeterminate />
 
 		<v-treeview
@@ -12,13 +12,14 @@
 			open-on-click
 			transition
 			activatable
+			dense
 		>
 			<template v-slot:label="{ item, active }">
-				<v-icon v-if="!item.children" :color="active ? 'primary' : ''">table_chart</v-icon>
-				{{ item.name }}
+				<v-icon v-if="!item.children" :color="active ? 'primary' : ''" dense>table_chart</v-icon>
+				<span class="name">{{ item.name }}</span>
 			</template>
 		</v-treeview>
-	</v-col>
+	</div>
 </template>
 
 <script lang="ts">
@@ -85,3 +86,9 @@ export default class TreeView extends Vue {
 	}
 }
 </script>
+
+<style lang="scss">
+.name {
+	font-size: 0.8125rem;
+}
+</style>

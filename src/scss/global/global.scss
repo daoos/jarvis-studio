@@ -12,3 +12,7 @@
   @extend .cursor--pointer;
   @extend .underline;
 }
+
+.no-underline {
+  text-decoration: none;
+}

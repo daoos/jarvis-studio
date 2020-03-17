@@ -34,14 +34,14 @@
 
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator';
-import { Account } from '@/types';
+import { Account, AccountId } from '@/types';
 import { Getter, State } from 'vuex-class';
 import store from '@/store';
 
 @Component
 export default class AccountSelector extends Vue {
-	@State(state => state.accounts.data) accounts: Account[];
-	@Getter('user/accounts') userAccounts: Account[];
+	@State(state => state.accounts.data) accounts!: { [key: string]: AccountId };
+	@Getter('user/accounts') userAccounts!: AccountId[];
 
 	@Watch('selectedAccounts')
 	onSelectedAccountsChange(accounts: Account[]) {
@@ -53,6 +53,7 @@ export default class AccountSelector extends Vue {
 
 	focusAutocomplete() {
 		this.isFocused = true;
+		// @ts-ignore
 		setTimeout(() => this.$refs.autocomplete.focus(), 200);
 	}
 
@@ -61,9 +62,12 @@ export default class AccountSelector extends Vue {
 	}
 
 	get getItems() {
-		let items = [];
+		let items: AccountId[] = [];
 
-		this.userAccounts.forEach(id => {
+		console.log(this.userAccounts);
+		console.log(this.accounts);
+
+		this.userAccounts.forEach((id: AccountId) => {
 			const element = this.accounts[id];
 			if (element) items.push(element);
 		});

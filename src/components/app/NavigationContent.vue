@@ -4,7 +4,9 @@
 			<v-list-item>
 				<v-list-item-content v-if="!drawer.mini">
 					<v-list-item-title>
-						<h2 class="text-uppercase">{{ appName }}</h2>
+						<router-link to="/" class="no-underline">
+							<h2>{{ appName }}</h2>
+						</router-link>
 					</v-list-item-title>
 				</v-list-item-content>
 
@@ -18,24 +20,12 @@
 			</v-list-item>
 		</v-list>
 
-		<v-list class="pa-0">
-			<v-list-item to="/" exact>
-				<v-list-item-action>
-					<v-icon>home</v-icon>
-				</v-list-item-action>
-
-				<v-list-item-content>
-					<v-list-item-title>Project Overview</v-list-item-title>
-				</v-list-item-content>
-			</v-list-item>
-		</v-list>
-
-		<v-list v-if="!drawer.mini" subheader>
+		<v-list v-if="!drawer.mini" subheader dense>
 			<v-subheader class="text-uppercase">Data models</v-subheader>
 			<tree-view />
 		</v-list>
 
-		<v-list subheader>
+		<v-list subheader dense>
 			<v-subheader v-if="!drawer.mini" class="text-uppercase">Data Workflows</v-subheader>
 
 			<v-tooltip
@@ -45,9 +35,9 @@
 				:disabled="!drawer.mini"
 				right
 			>
-				<v-list-item :to="item.link" exact slot="activator">
+				<v-list-item :to="item.link" exact dense slot="activator">
 					<v-list-item-action>
-						<v-icon v-html="item.icon" />
+						<v-icon v-html="item.icon" dense />
 					</v-list-item-action>
 
 					<v-list-item-content>
@@ -57,7 +47,7 @@
 			</v-tooltip>
 		</v-list>
 
-		<v-list subheader>
+		<v-list subheader dense>
 			<v-subheader v-if="!drawer.mini" class="text-uppercase">Settings</v-subheader>
 
 			<template v-for="setting in settingsItems">
@@ -65,9 +55,10 @@
 					v-if="!setting.hasOwnProperty('displayRule') || setting.displayRule()"
 					:key="setting.title"
 					:to="setting.link"
+					dense
 				>
 					<v-list-item-action>
-						<v-icon v-html="setting.icon" />
+						<v-icon v-html="setting.icon" dense />
 					</v-list-item-action>
 
 					<v-list-item-content>
@@ -103,7 +94,8 @@ export default {
 	},
 	computed: {
 		appName() {
-			return packageJson.name.replace('-', ' ');
+			const appName = packageJson.name.replace('-', ' ');
+			return `${appName.charAt(0).toUpperCase()}${appName.slice(1)}`;
 		}
 	}
 };
