@@ -213,19 +213,11 @@
 							</v-tab-item>
 
 							<v-tab-item value="notes">
-								<v-card>
-									<v-card-title>
-										<span class="title">Notes</span>
-										<v-spacer />
-									</v-card-title>
-									<v-card-text>
-										<notes-tab
-											module-name="dataTableDetails"
-											:related-doc-id="`${projectId}-${datasetId}-${tableId}`"
-											:account="dataTableDetails.account"
-										/>
-									</v-card-text>
-								</v-card>
+								<notes-tab
+									module-name="dataTableDetails"
+									:related-doc-id="`${projectId}-${datasetId}-${tableId}`"
+									:account="dataTableDetails.account"
+								/>
 							</v-tab-item>
 						</v-tabs>
 					</v-col>
