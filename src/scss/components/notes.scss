@@ -1,0 +1,11 @@
+.notes-container {
+  display: flex;
+  flex-flow: column;
+  max-height: 80vh;
+
+  .notes-wrapper {
+    flex: 1;
+    overflow-y: scroll;
+    padding-top: 28px;
+  }
+}

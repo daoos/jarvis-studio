@@ -1,5 +1,5 @@
 <template>
-	<v-container>
+	<v-container class="pa-0">
 		<v-row>
 			<v-col cols="4" class="grey lighten-4">
 				<avatar-component :user="user" size="x-large" class="d-block mx-auto mb-5" />

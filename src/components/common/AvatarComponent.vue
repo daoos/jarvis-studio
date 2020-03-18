@@ -12,16 +12,14 @@ import { User } from '@/types';
 @Component
 export default class AvatarComponent extends Vue {
 	@Prop({ type: Object, required: true }) user!: User;
-	@Prop(String) size?: 'small' | 'x-large';
+	@Prop(String) size?: 'x-small' | 'small' | 'x-large';
 
 	get avatarSize(): number {
 		switch (this.size) {
-			case 'small':
-				return 36;
-
+			case 'x-small':
+				return 24;
 			case 'x-large':
 				return 180;
-
 			default:
 				return 36;
 		}
@@ -29,8 +27,8 @@ export default class AvatarComponent extends Vue {
 
 	get initials() {
 		if (!this.user.email) return;
-
 		const emailSplit = this.user.email.split('.');
+
 		if (emailSplit.length === 1) return;
 		return `${emailSplit[0].charAt(0)}${emailSplit[1].charAt(0)}`.toUpperCase();
 	}
