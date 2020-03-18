@@ -8,6 +8,9 @@
     "lint": "vue-cli-service lint",
     "format": "prettier --write \"src/**/*.vue\" \"src/**/*.js\""
   },
+  "resolutions": {
+    "prosemirror-model": "1.8.2"
+  },
   "dependencies": {
     "@babel/runtime": "^7.7.4",
     "ajv": "^6.10.2",

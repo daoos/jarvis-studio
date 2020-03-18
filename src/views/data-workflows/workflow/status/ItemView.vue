@@ -44,7 +44,7 @@ export default class WorkflowStatusItemView extends Mixins(HeaderInfosMixin, Sta
 				label: 'Conversation',
 				href: 'conversation',
 				component: {
-					name: 'notes-component',
+					name: 'notes-tab',
 					props: {}
 				}
 			}

@@ -1,24 +1,35 @@
 <template>
-	<v-avatar color="contrast" size="36">
-		<!-- TODO: Add user img -->
-		<span v-if="initials" class="white--text">{{ initials }}</span>
-		<v-icon v-else dark>account_circle</v-icon>
+	<v-avatar color="contrast" :size="avatarSize">
+		<img v-if="user.photoURL" :src="user.photoURL" alt="Avatar" />
+		<span v-else class="white--text">{{ initials }}</span>
 	</v-avatar>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
+import { User } from '@/types';
 
 @Component
 export default class AvatarComponent extends Vue {
-	// TODO: Replace with User info
-	@Prop(String) email!: string;
+	@Prop({ type: Object, required: true }) user!: User;
+	@Prop(String) size?: 'x-small' | 'small' | 'x-large';
+
+	get avatarSize(): number {
+		switch (this.size) {
+			case 'x-small':
+				return 24;
+			case 'x-large':
+				return 180;
+			default:
+				return 36;
+		}
+	}
 
 	get initials() {
-		if (!this.email) return '';
+		if (!this.user.email) return;
+		const emailSplit = this.user.email.split('.');
 
-		const emailSplit = this.email.split('.');
-		if (emailSplit.length === 1) return null;
+		if (emailSplit.length === 1) return;
 		return `${emailSplit[0].charAt(0)}${emailSplit[1].charAt(0)}`.toUpperCase();
 	}
 }

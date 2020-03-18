@@ -219,7 +219,7 @@
 										<v-spacer />
 									</v-card-title>
 									<v-card-text>
-										<notes-component
+										<notes-tab
 											module-name="dataTableDetails"
 											:related-doc-id="`${projectId}-${datasetId}-${tableId}`"
 											:account="dataTableDetails.account"
@@ -248,7 +248,7 @@ import moment from 'moment';
 import JsonSchemaIsInvalid from '@/components/data-models/InvalidSchema.vue';
 import DataModelHeader from '@/components/data-models/DataModelHeader.vue';
 import tableSchemaView from '@/components/data-workflows/common/item/schema/TableSchemaView.vue';
-import NotesComponent from '@/components/data-workflows/common/item/notes/NotesComponent.vue';
+import NotesTab from '@/components/data-workflows/common/item/notes/NotesTab.vue';
 // library to validate Object Json Schema from Firestore
 import Ajv, { ErrorObject } from 'ajv';
 // library to convert units (bite to Go ) and format number
@@ -273,7 +273,7 @@ interface Column {
 		DataModelHeader,
 		'vue-good-table': require('vue-good-table').VueGoodTable,
 		VueMarkdown,
-		NotesComponent
+		NotesTab
 	},
 	computed: {
 		...mapState({

@@ -1,49 +1,55 @@
 <template>
 	<v-container
 		class="note-item transition-ease-in-out"
-		:class="{ 'grey lighten-3': isFocused }"
+		:class="{ 'grey lighten-3': isFocused || note.id === parentNote.id }"
 		@mouseenter="isHovering = true"
 		@mouseleave="isHovering = false"
 	>
 		<div class="d-flex align-center">
-			<avatar-component class="mr-2" :email="note.user.email" />
+			<avatar-component class="mr-2" :user="note.user" />
 			<span class="mr-2 font-weight-bold">{{ note.user.displayName }}</span>
 			<span class="mr-2">{{ getFormattedTimestamp(note.created_at) }}</span>
 			<span v-if="note.updated_at" class="mr-2">(edited {{ getFormattedTimestamp(note.updated_at) }})</span>
 
 			<v-spacer />
 
-			<v-btn v-if="showActions" x-small class="mr-2" @click="toggleIsEditing">
-				<v-icon x-small>mdi-pencil</v-icon>
-			</v-btn>
+			<div v-if="showActions" class="actions pa-2 grey lighten-2">
+				<v-btn x-small class="mr-2" @click="toggleIsEditing">
+					<v-icon x-small>mdi-pencil</v-icon>
+				</v-btn>
 
-			<v-btn v-if="showActions" :loading="isDeleting" x-small color="error" @click="deleteNote">
-				<v-icon x-small>mdi-delete</v-icon>
-			</v-btn>
+				<v-btn v-if="showThreadAction" x-small class="mr-2" @click="openThread">
+					<v-icon x-small>mdi-message-text</v-icon>
+				</v-btn>
+
+				<v-btn :loading="isDeleting" x-small color="error" @click="deleteNote">
+					<v-icon x-small>mdi-delete</v-icon>
+				</v-btn>
+			</div>
 		</div>
 
 		<note-editor
 			v-if="isEditing"
-			:module-name="moduleName"
-			:related-doc-id="relatedDocId"
 			:default-text="note.text"
 			:is-editing="isEditing"
-			:note-id="note.id"
-			@noteEdited="toggleIsEditing"
+			:is-loading="isEditorLoading"
+			@onValidated="editNote"
 		/>
+
 		<div v-else class="ml-11 text" v-html="note.text"></div>
+
+		<slot name="thread-information" />
 	</v-container>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import { Getter } from 'vuex-class';
+import { Getter, State } from 'vuex-class';
 import { Note, User } from '@/types';
-import { firebase } from '@/config/firebase';
 import { notes as notesModule } from '@/store/modules/easy-firestore/notes';
-import moment from 'moment';
+import { oneDayLimit } from '@/util/dates';
 import AvatarComponent from '@/components/common/AvatarComponent.vue';
-import NoteEditor from './NoteEditor.vue';
+import NoteEditor from './editor/NoteEditor.vue';
 
 @Component({
 	components: { AvatarComponent, NoteEditor }
@@ -52,23 +58,49 @@ export default class NoteItem extends Vue {
 	@Prop({ type: Object, required: true }) note!: Note;
 	@Prop({ type: String, required: true }) moduleName!: string;
 	@Prop({ type: String, required: true }) relatedDocId!: string;
+	@Prop(Boolean) isThreadNote?: boolean;
+
+	@State(state => state.notes.parentNote) parentNote!: Note;
+	@State(state => state.notes.threadNotes) threadNotes!: Note[];
+	@State(state => state.notes.showThreadPanel) showThreadPanel!: boolean;
 
 	@Getter('user/user') user!: User;
 
 	isHovering: boolean = false;
+	isEditorLoading: boolean = false;
 	isEditing: boolean = false;
 	isDeleting: boolean = false;
-
-	beforeDestroy() {
-		this.$emit('deletedNote');
-	}
 
 	toggleIsEditing() {
 		this.isEditing = !this.isEditing;
 	}
 
+	openThread() {
+		this.$emit('openThread');
+	}
+
+	editNote(text: string) {
+		this.isEditorLoading = true;
+		this.$store
+			.dispatch(`${notesModule.moduleName}/patch`, {
+				id: this.note.id,
+				text
+			})
+			.then(() => {
+				this.isEditorLoading = false;
+				this.toggleIsEditing();
+			})
+			.catch(err => {
+				console.error(err);
+				this.isEditorLoading = false;
+			});
+	}
+
 	deleteNote() {
 		this.isDeleting = true;
+
+		if (this.threadNotes.length === 0 && this.showThreadPanel && this.parentNote.id === this.note.id)
+			this.$store.commit('notes/CLOSE_THREAD_PANEL');
 
 		this.$store
 			.dispatch(`${notesModule.moduleName}/delete`, this.note.id)
@@ -80,6 +112,10 @@ export default class NoteItem extends Vue {
 			});
 	}
 
+	getFormattedTimestamp(timestamp: string) {
+		return oneDayLimit(timestamp);
+	}
+
 	get isFocused(): boolean {
 		return this.isEditing || this.isHovering;
 	}
@@ -88,21 +124,23 @@ export default class NoteItem extends Vue {
 		return this.isFocused && this.user.uid === this.note.created_by;
 	}
 
-	getFormattedTimestamp(timestamp: string): string {
-		const now = moment(Date.now());
-		const reference = moment(timestamp);
-		const oneHourAfter = moment(timestamp).add(1, 'hours');
-		const oneDayAfter = moment(timestamp).add(1, 'day');
-
-		if (now.isAfter(oneDayAfter)) return reference.format('YYYY/MM/DD - HH:mm');
-		return now.isAfter(oneHourAfter) ? reference.format('HH:mm') : reference.fromNow();
+	get showThreadAction(): boolean {
+		return !this.isThreadNote && this.isFocused;
 	}
 }
 </script>
 
 <style lang="scss">
 .note-item {
-	border-radius: 6px;
+	position: relative;
+
+	.actions {
+		position: absolute;
+		top: 0;
+		right: 10px;
+		transform: translateY(-50%);
+		border-radius: 4px;
+	}
 
 	.text {
 		p {
