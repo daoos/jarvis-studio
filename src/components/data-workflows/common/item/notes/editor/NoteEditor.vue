@@ -1,5 +1,5 @@
 <template>
-	<v-container>
+	<v-container @keydown="handleCmdEnter($event)">
 		<tiptap-vuetify v-model="text" :extensions="extensions" class="editor my-4" />
 		<v-btn
 			:loading="isLoading"
@@ -37,6 +37,10 @@ export default class NoteEditor extends Vue {
 
 	mounted() {
 		if (this.defaultText) this.text = this.defaultText;
+	}
+
+	handleCmdEnter(e: KeyboardEvent) {
+		if ((e.metaKey || e.ctrlKey) && e.keyCode == 13) this.onValidated();
 	}
 
 	onValidated() {
