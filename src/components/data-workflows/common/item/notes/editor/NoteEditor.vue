@@ -8,7 +8,7 @@
 			class="float-right"
 			@click="onValidated"
 		>
-			{{ buttonValue }}
+			<v-icon>{{ icon }}</v-icon>
 		</v-btn>
 	</v-container>
 </template>
@@ -18,6 +18,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 import { User } from '@/types';
 import { Getter } from 'vuex-class';
 import { TiptapVuetify } from 'tiptap-vuetify';
+import { mdiPencil, mdiSend } from '@mdi/js';
 
 import extenstions from './extenstions';
 
@@ -47,8 +48,8 @@ export default class NoteEditor extends Vue {
 		return this.isEditing ? this.text === this.defaultText : this.text.length <= 7;
 	}
 
-	get buttonValue(): string {
-		return this.isEditing ? 'Edit note' : 'Save note';
+	get icon(): string {
+		return this.isEditing ? mdiPencil : mdiSend;
 	}
 }
 </script>
