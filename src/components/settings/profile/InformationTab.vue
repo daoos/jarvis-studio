@@ -1,12 +1,12 @@
 <template>
-	<v-container class="pa-0">
-		<v-row>
-			<v-col cols="4" class="grey lighten-4">
+	<v-container class="py-0">
+		<v-row class="px-6 py-12">
+			<v-col cols="4" class="pa-0">
 				<avatar-component :user="user" size="x-large" class="d-block mx-auto mb-5" />
 
-				<h2 class="headline mb-0">{{ user.displayName }}</h2>
-				<!-- TODO: Add organization name -->
-				<p>Organization name</p>
+				<div class="mb-6 text-center">
+					<h2 class="headline mb-0">{{ user.displayName }}</h2>
+				</div>
 
 				<div v-for="information in generalInformation" :key="information.label" class="d-flex align-center mb-2">
 					<v-icon color="primary" class="mr-3 pa-1 icon" small>{{ information.icon }}</v-icon>
@@ -30,7 +30,7 @@
 				</div>
 			</v-col>
 
-			<v-col cols="8">
+			<v-col cols="8" class="pa-0">
 				<v-card flat>
 					<ParametersList groupTitle="Identity" description="Identity of the user profile" :paramItems="userIdentity" />
 
@@ -146,7 +146,11 @@ export default class InformationTab extends Vue {
 	background-color: white;
 }
 
-.input::placeholder {
-	color: #bdbdbd !important;
+.input {
+	width: max-content;
+
+	&::placeholder {
+		color: #bdbdbd !important;
+	}
 }
 </style>
