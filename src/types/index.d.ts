@@ -72,8 +72,8 @@ export interface EnvFilter {
 	label: EnvLabel;
 	value: EnvId;
 }
-export type RunStatusLabel = 'All Status' | 'Success' | 'Failed' | 'Running' | 'Checked';
-export type RunStatusId = 'ALL' | 'SUCCESS' | 'FAILED' | 'RUNNING' | 'CHECKED';
+export type RunStatusLabel = 'All Status' | 'Success' | 'Failed' | 'Running' | 'No Match' | 'Checked';
+export type RunStatusId = 'ALL' | 'SUCCESS' | 'FAILED' | 'RUNNING' | 'NO_MATCH' | 'CHECKED';
 export interface RunStatusFilter {
 	label: RunStatusLabel;
 	value: RunStatusId;
