@@ -128,6 +128,7 @@ export default class NotesRoot extends Mixins(NotesMixin) {
 			isThreadNote: false,
 			moduleName: this.moduleName,
 			relatedDocId: this.relatedDocId,
+			routeName: this.$route.name,
 			user: this.userRef
 		};
 	}

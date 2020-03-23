@@ -185,6 +185,7 @@ export interface Note {
 	moduleName: string;
 	parentNoteId: string;
 	relatedDocId: string;
+	routeName: string;
 	text: string;
 	updated_at: string;
 	updated_by: string;
