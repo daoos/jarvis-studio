@@ -1,7 +1,7 @@
 <template>
 	<div class="d-flex justify-center align-center fill-height">
 		<div class="d-flex flex-column text-right body-2">
-			<span class="text--secondary">{{ email }}</span>
+			<span class="text--secondary">{{ updatedBy }}</span>
 
 			<v-menu v-model="showMenu" transition="slide-y-transition" offset-y>
 				<template v-slot:activator="{ on }">
@@ -41,17 +41,19 @@
 			</v-menu>
 		</div>
 
-		<!-- TODO: Bind user instead of initials -->
-		<avatar-component class="mx-2" :email="email" />
+		<v-progress-circular v-if="isUserLoading" indeterminate color="primary" size="20" class="mx-2" />
+		<avatar-component v-else-if="Object.values(users)[0]" class="mx-2" :user="Object.values(users)[0]" />
+		<avatar-component v-else class="mx-2" :user="{ email: updatedBy }" />
 	</div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import { Configuration } from '@/types';
+import { Configuration, User } from '@/types';
 import { mapState } from 'vuex';
+import { State } from 'vuex-class';
+import { users } from '@/store/modules/easy-firestore/users';
 import AvatarComponent from '@/components/common/AvatarComponent.vue';
-import store from '@/store';
 
 @Component({
 	components: { AvatarComponent },
@@ -67,14 +69,24 @@ export default class HistoryComponent extends Vue {
 	@Prop({ required: true }) moduleName!: string;
 	@Prop({ required: true }) archivedConfsModuleName!: string;
 	@Prop({ required: true }) docId!: string;
-	// TODO: Replace with User info
-	@Prop({ required: true, default: 'No email' }) email!: string;
+	@Prop({ required: true, default: 'No email' }) updatedBy!: string;
 	@Prop({ required: true, default: 'No updated date' }) updatedDate!: string;
+
+	@State(state => state.users.data) users!: User;
 
 	showMenu: boolean = false;
 	isLoading: boolean = false;
+	isUserLoading: boolean = true;
 	isFetched: boolean = false;
 	isUpdated: boolean = false;
+
+	mounted() {
+		this.isUserLoading = true;
+
+		this.$store.dispatch(`${users.moduleName}/fetchAndAdd`, { where: [['email', '==', this.updatedBy]] }).then(() => {
+			this.isUserLoading = false;
+		});
+	}
 
 	fetchArchivedConfs() {
 		if (this.isFetched) return;
@@ -99,8 +111,8 @@ export default class HistoryComponent extends Vue {
 
 	resetConfiguration() {
 		this.isUpdated = false;
-		store.dispatch(`${this.moduleName}/closeDBChannel`, { clearModule: true });
-		store.dispatch(`${this.moduleName}/fetchById`, this.docId);
+		this.$store.dispatch(`${this.moduleName}/closeDBChannel`, { clearModule: true });
+		this.$store.dispatch(`${this.moduleName}/fetchById`, this.docId);
 	}
 }
 </script>

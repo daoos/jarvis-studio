@@ -21,7 +21,7 @@
 						:doc-id="docId"
 						:module-name="moduleName"
 						:archived-confs-module-name="archivedConfsModuleName"
-						:email="updateInformation.updated_by"
+						:updatedBy="updateInformation.updated_by"
 						:updated-date="updateInformation.update_date"
 					/>
 
