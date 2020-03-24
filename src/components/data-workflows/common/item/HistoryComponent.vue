@@ -3,7 +3,7 @@
 		<div class="d-flex flex-column text-right body-2">
 			<span class="text--secondary">{{ updatedBy }}</span>
 
-			<v-menu v-model="showMenu" transition="slide-y-transition" offset-y>
+			<v-menu v-model="showMenu" transition="slide-y-transition" offset-y max-height="40vh" z-index="10">
 				<template v-slot:activator="{ on }">
 					<span
 						v-on="on"
@@ -15,13 +15,18 @@
 					</span>
 				</template>
 
-				<v-list max-height="40vh">
+				<v-list>
 					<v-list-item v-if="isLoading" class="d-flex justify-center">
 						<v-progress-circular indeterminate size="32" color="primary" />
 					</v-list-item>
 
 					<template v-else-if="Object.keys(archivedConfigurations).length > 0">
 						<v-list-item @click="resetConfiguration">
+							<v-list-item-icon>
+								<!-- TODO: Update Object.values(users)[0] that doesn't work -->
+								<avatar-component :user="Object.values(users)[0]" />
+							</v-list-item-icon>
+
 							<v-list-item-title>Current Configuration</v-list-item-title>
 						</v-list-item>
 
@@ -30,6 +35,10 @@
 							:key="getItemTitle(configuration)"
 							@click="applyConfiguration(configuration)"
 						>
+							<v-list-item-icon>
+								<avatar-component :user="{ email: configuration.updated_by }" />
+							</v-list-item-icon>
+
 							<v-list-item-title>{{ getItemTitle(configuration) | moment('YYYY/MM/DD - HH:mm:ss') }}</v-list-item-title>
 						</v-list-item>
 					</template>
@@ -42,6 +51,7 @@
 		</div>
 
 		<v-progress-circular v-if="isUserLoading" indeterminate color="primary" size="20" class="mx-2" />
+		<!-- TODO: Update Object.values(users)[0] that doesn't work -->
 		<avatar-component v-else-if="Object.values(users)[0]" class="mx-2" :user="Object.values(users)[0]" />
 		<avatar-component v-else class="mx-2" :user="{ email: updatedBy }" />
 	</div>
