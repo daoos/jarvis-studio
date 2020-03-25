@@ -11,7 +11,7 @@
 				<v-toolbar flat color="transparent">
 					<v-spacer />
 
-					<v-dialog v-model="dialogSql" max-width="1000" fullscreen v-if="task.task_type === 'sql'">
+					<v-dialog v-model="dialogSql" max-width="1000" fullscreen v-if="task.task_type === 'sql' && task.sql">
 						<template v-slot:activator="{ on }">
 							<v-chip color="orange" text-color="white" v-on="on" class="mr-2">VIEW SQL</v-chip>
 						</template>
