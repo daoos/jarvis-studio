@@ -12,7 +12,7 @@
 
 				<v-list-item-action>
 					<v-btn icon @click.stop="drawer.mini = !drawer.mini">
-						<v-icon large color="complementary">
+						<v-icon large color="secondary">
 							{{ drawer.mini ? 'keyboard_arrow_right' : 'keyboard_arrow_left' }}
 						</v-icon>
 					</v-btn>

@@ -1,5 +1,5 @@
 <template>
-	<v-row align="center" justify="end">
+	<div class="d-flex align-center">
 		<v-btn icon @click.native="searchBegin">
 			<v-icon>search</v-icon>
 		</v-btn>
@@ -16,7 +16,7 @@
 				@blur="clearSearch"
 			/>
 		</div>
-	</v-row>
+	</div>
 </template>
 
 <script lang="ts">
@@ -40,19 +40,19 @@ export default class SearchMenu extends Vue {
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 @import '../../../../../node_modules/vuetify/src/components/VBtn/variables';
 
 .searching {
 	width: 208px;
 	transition: $primary-transition;
-}
 
-.searching--closed {
-	width: 0;
+	&--closed {
+		width: 0;
 
-	& > * {
-		display: none;
+		& > * {
+			display: none;
+		}
 	}
 }
 </style>

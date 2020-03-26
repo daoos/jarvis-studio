@@ -8,9 +8,9 @@ export default new Vuetify({
 	theme: {
 		themes: {
 			light: {
-				primary: '#668fd9',
-				secondary: '#0287C4',
-				complementary: '#F58702',
+				primary: '#00B5B9',
+				secondary: '#55C6A9',
+				complementary: '#55C6A9',
 				error: '#b71c1c',
 				menu: '#f4f7fa',
 				background: '#f4f7fa',
@@ -18,9 +18,9 @@ export default new Vuetify({
 			},
 			// TODO: Create dark mode
 			dark: {
-				primary: '#668fd9',
-				secondary: '#0287C4',
-				complementary: '#F58702',
+				primary: '#00B5B9',
+				secondary: '#55C6A9',
+				complementary: '#55C6A9',
 				error: '#b71c1c',
 				menu: '#f4f7fa',
 				background: '#f4f7fa',

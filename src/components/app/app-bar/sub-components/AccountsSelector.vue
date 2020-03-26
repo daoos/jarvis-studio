@@ -1,34 +1,35 @@
 <template>
-	<div class="accounts-selector-wrapper">
+	<div class="d-flex align-center">
 		<v-btn icon @click.native="focusAutocomplete">
 			<v-badge color="secondary" overlap>
-				<span slot="badge">2</span>
+				<span slot="badge">{{ selectedAccounts.length === 0 ? userAccounts.length : selectedAccounts.length }}</span>
 				<v-icon>mdi-account-group</v-icon>
 			</v-badge>
 		</v-btn>
 
-		<v-autocomplete
-			v-if="isFocused"
-			v-model="selectedAccounts"
-			ref="autocomplete"
-			:items="getItems"
-			item-text="account_name"
-			return-object
-			:label="selectedAccounts.length === 0 ? 'All Accounts' : 'Accounts'"
-			no-data-text="No accounts available"
-			hide-details
-			small-chips
-			multiple
-			chips
-			class="searching"
-			:class="{ 'is-closed': !isFocused }"
-			@blur="blurAutocomplete"
-		>
-			<template v-slot:selection="{ index, item }">
-				<span v-if="index === 0">{{ item.account_name }}</span>
-				<span v-if="index === 1" class="other-accounts caption">(+{{ selectedAccounts.length - 1 }} others)</span>
-			</template>
-		</v-autocomplete>
+		<div class="selector" :class="{ 'selector--closed': !isFocused }">
+			<v-autocomplete
+				v-if="isFocused"
+				v-model="selectedAccounts"
+				ref="autocomplete"
+				:items="getItems"
+				item-text="account_name"
+				return-object
+				:label="selectedAccounts.length === 0 ? 'All Accounts' : 'Accounts'"
+				no-data-text="No accounts available"
+				single-line
+				hide-details
+				small-chips
+				multiple
+				chips
+				@blur="blurAutocomplete"
+			>
+				<template v-slot:selection="{ index, item }">
+					<span v-if="index === 0">{{ item.account_name }}</span>
+					<span v-if="index === 1" class="other-accounts caption">(+{{ selectedAccounts.length - 1 }} others)</span>
+				</template>
+			</v-autocomplete>
+		</div>
 	</div>
 </template>
 
@@ -74,27 +75,23 @@ export default class AccountSelector extends Vue {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import '../../../../../node_modules/vuetify/src/components/VBtn/variables';
 
-.accounts-selector-wrapper {
-	// width: 260px;
+.selector {
+	width: 208px;
+	transition: $primary-transition;
+
+	&--closed {
+		width: 0;
+
+		& > * {
+			display: none;
+		}
+	}
 
 	.other-accounts {
 		margin-left: 0.5em;
-	}
-}
-
-.searching {
-	width: 208px;
-	transition: $primary-transition;
-}
-
-.is-closed {
-	width: 0;
-
-	& > * {
-		display: none;
 	}
 }
 </style>

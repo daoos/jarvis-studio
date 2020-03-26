@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<v-progress-linear v-if="isLoading" color="complementary" indeterminate />
+		<v-progress-linear v-if="isLoading" color="primary" indeterminate />
 
 		<v-treeview
 			v-else

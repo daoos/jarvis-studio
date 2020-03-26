@@ -3,7 +3,7 @@
 		<v-alert v-if="item.archived" type="warning">This configuration is archived.</v-alert>
 
 		<v-row v-if="activeHeader" class="pl-5 pt-4 pr-5">
-			<span class="headline font-weight-black text-truncate complementary--text">{{ viewId }}</span>
+			<span class="headline font-weight-black text-truncate primary--text">{{ viewId }}</span>
 
 			<v-spacer />
 
